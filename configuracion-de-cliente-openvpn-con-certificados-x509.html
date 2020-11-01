@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Configuración de cliente OpenVPN con certificados X.509 | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Configuración de cliente OpenVPN con certificados X.509 Descripción Para poder acceder a la red local desde el exterior, existe una red...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="OpenVPN">
+        <meta name="tags" content="VPN">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/configuracion-de-cliente-openvpn-con-certificados-x509.html">
+	<meta property="og:title" content="Configuración de cliente OpenVPN con certificados X.509">
+	<meta property="article:published_time" content="2020-10-30 00:00:00+01:00">
+            <meta property="og:description" content="Configuración de cliente OpenVPN con certificados X.509 Descripción Para poder acceder a la red local desde el exterior, existe una red...">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
+</head>
+
+<body class="article-configuracion-de-cliente-openvpn-con-certificados-x509">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Configuración de cliente OpenVPN con certificados X.509</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el vie 30 octubre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Configuración de cliente OpenVPN con certificados X.509</h2>
+<h3>Descripción</h3>
+<p><strong>Para poder acceder a la red local desde el exterior, existe una red privada configurada con OpenVPN que utiliza certificados x509 para autenticar los usuarios y el servidor.</strong></p>
+<ul>
+<li><strong>Genera una clave privada RSA 4096</strong></li>
+<li><strong>Genera una solicitud de firma de certificado (fichero CSR) y súbelo a gestiona</strong></li>
+<li><strong>Descarga el certificado firmado cuando esté disponible</strong></li>
+<li><strong>Instala y configura apropiadamente el cliente openvpn y muestra los registros (logs) del sistema que demuestren que se ha establecido una conexión.</strong></li>
+<li><strong>Cuando hayas establecido la conexión VPN tendrás acceso a la red 172.22.0.0/16 a través de un túnel SSL. Compruébalo haciendo ping a 172.22.0.1</strong></li>
+</ul>
+<p>En este post voy a tratar el tema de como crear una <strong>VPN</strong> utilizando <strong>OpenVPN</strong> con certificados <strong>X.509</strong>.</p>
+<p>Lo primero sería crear nuestra clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <strong>openssl</strong>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
+<pre>
+root@debian:~# openssl genrsa 4096 > /etc/ssl/private/msi-debian-javierperezhidalgo.key
+Generating RSA private key, 4096 bit long modulus (2 primes)
+................................................................................++++
+.................++++
+e is 65537 (0x010001)
+</pre>
+
+<p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
+<p>Para generar nuestro archivo csr:</p>
+<pre>
+root@debian:~# openssl req -new -key /etc/ssl/private/msi-debian-javierperezhidalgo.key -out /root/msi-debian-javierperezhidalgo.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Sevilla
+Locality Name (eg, city) []:Dos Hermanas
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES Gonzalo Nazareno
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (e.g. server FQDN or YOUR name) []:msi-debian-javierperezhidalgo
+Email Address []:javierperezhidalgo01@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+root@debian:~# ls
+msi-debian-javierperezhidalgo.csr
+</pre>
+
+<p>Vemos que ya hemos generado nuestro certificado, así que ahora tenemos que enviárselo al Gonzalo Nazareno para que nos lo firme. Lo enviamos desde este <a href="https://dit.gonzalonazareno.org/gestiona/cert/">enlace</a>.</p>
+<p>Una vez tenemos descargado el certificado firmado, normalmente lo habremos descargado en <em>Descargas</em>, por tanto lo vamos a mover a la carpeta <code>/etc/openvpn</code> de nuestro usuario <em>root</em>.</p>
+<pre>
+root@debian:~# mv ../home/javier/Descargas/msi-debian-javierperezhidalgo.crt /etc/openvpn/
+</pre>
+
+<p>También hemos tenido que descargar el certificado de la entidad Gonzalo Nazareno. Por tanto lo vamos a mover a la ruta <code>/etc/ssl/certs/</code>:</p>
+<pre>
+root@debian:~# mv ../home/javier/Descargas/gonzalonazareno.csr /etc/ssl/certs/
+</pre>
+
+<p>Solo nos quedaría crear un fichero que configure OpenVPN. Este fichero tiene que tener una extensión <code>.conf</code>, y tiene que encontrarse en el directorio <code>/etc/openvpn</code>.</p>
+<pre>
+root@debian:/etc/openvpn# nano vpniesgn.conf
+</pre>
+
+<p>Dentro de él copiamos y pegamos las siguientes líneas:</p>
+<pre>
+dev tun
+remote sputnik.gonzalonazareno.org
+ifconfig 172.23.0.0 255.255.255.0
+pull
+proto tcp-client
+tls-client
+remote-cert-tls server
+ca /etc/ssl/certs/gonzalonazareno.crt <- Cambiar por la ruta al certificado de la CA Gonzalo Nazareno (el mismo que utilizamos para la moodle, redmine, etc.)
+cert /etc/openvpn/msi-debian-javierperezhidalgo.crt <- Cambiar por la ruta al certificado CRT firmado que nos han devuelto
+key /etc/ssl/private/msi-debian-javierperezhidalgo.key <- Cambiar por la ruta a la clave privada, aunque en ese directorio es donde debe estar y con permisos 600
+comp-lzo
+keepalive 10 60
+log /var/log/openvpn-sputnik.log
+verb 1
+</pre>
+
+<p>Reiniciamos el servicio y lo iniciamos:</p>
+<pre>
+systemctl restart openvpn.service
+systemctl start openvpn.service
+</pre>
+
+<p>Comprobamos que nos ha creado el túnel y que se nos ha añadido una IP y una regla de encaminamiento para acceder a la red <code>172.22.0.0/16</code>:</p>
+<pre>
+root@debian:~# ip a show tun0
+10: tun0: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none
+    inet 172.23.0.46 peer 172.23.0.45/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::3ed2:aec4:b737:ab2c/64 scope link stable-privacy
+       valid_lft forever preferred_lft forever
+
+root@debian:/etc/ssl/certs# ip r
+...
+172.22.0.0/16 via 172.23.0.45 dev tun0
+...
+</pre>
+
+<p>Comprobamos los mensajes del fichero <code>/var/log/openvpn-sputnik.log</code>:</p>
+<pre>
+root@debian:/etc/ssl/certs# cat /var/log/openvpn-sputnik.log
+Fri Oct 30 17:14:33 2020 OpenVPN 2.4.7 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Feb 20 2019
+Fri Oct 30 17:14:33 2020 library versions: OpenSSL 1.1.1d  10 Sep 2019, LZO 2.10
+Fri Oct 30 17:14:33 2020 WARNING: using --pull/--client and --ifconfig together is probably not what you want
+Fri Oct 30 17:14:33 2020 TCP/UDP: Preserving recently used remote address: [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:33 2020 Attempting to establish TCP connection with [AF_INET]92.222.86.77:1194 [nonblock]
+Fri Oct 30 17:14:34 2020 TCP connection established with [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:34 2020 TCP_CLIENT link local: (not bound)
+Fri Oct 30 17:14:34 2020 TCP_CLIENT link remote: [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:34 2020 [sputnik.gonzalonazareno.org] Peer Connection Initiated with [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:36 2020 TUN/TAP device tun0 opened
+Fri Oct 30 17:14:36 2020 /sbin/ip link set dev tun0 up mtu 1500
+Fri Oct 30 17:14:36 2020 /sbin/ip addr add dev tun0 local 172.23.0.46 peer 172.23.0.45
+Fri Oct 30 17:14:36 2020 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Fri Oct 30 17:14:36 2020 Initialization Sequence Completed
+</pre>
+
+<p><strong>Importante:</strong> Si no queremos que se levante el túnel VPN cada vez que encendemos el ordenador deshabilitamos el servicio:</p>
+<pre>
+systemctl disable openvpn.service
+</pre>
+
+<p>Para habilitar el túnel VPN cuando lo necesitemos:</p>
+<pre>
+systemctl start openvpn.service
+</pre>
+
+<p>Si queremos utilizar resolución estática de nombres de las máquinas del centro, <strong>jupiter</strong> y <strong>macaco</strong>, añadimos en nuestro fichero <code>/etc/hosts</code> las siguientes líneas:</p>
+<pre>
+172.22.222.1    jupiter
+172.22.0.1      macaco
+</pre>
+
+<p>Ya hemos terminado la configuración de nuestra VPN.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/openvpn.html">OpenVPN</a>, <a href="/tag/vpn.html">VPN</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

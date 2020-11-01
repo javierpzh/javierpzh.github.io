@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Compilación de un programa en C utilizando un Makefile | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Descripción Elige el programa escrito en C que prefieras y comprueba en las fuentes que exista un fichero Makefile para compilarlo....">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="compilar">
+        <meta name="tags" content="GCC">
+        <meta name="tags" content="C">
+        <meta name="tags" content="Makefile">
+        <meta name="tags" content="wget">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/compilacion-de-un-programa-en-c-utilizando-un-makefile.html">
+	<meta property="og:title" content="Compilación de un programa en C utilizando un Makefile">
+	<meta property="article:published_time" content="2020-10-24 00:00:00+02:00">
+            <meta property="og:description" content="Descripción Elige el programa escrito en C que prefieras y comprueba en las fuentes que exista un fichero Makefile para compilarlo....">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
+</head>
+
+<body class="article-compilacion-de-un-programa-en-c-utilizando-un-makefile">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Compilación de un programa en C utilizando un Makefile</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el sáb 24 octubre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Descripción</h2>
+<p><strong>Elige el programa escrito en C que prefieras y comprueba en las fuentes que exista un fichero Makefile para compilarlo.</strong></p>
+<p><strong>Realiza los pasos necesarios para compilarlo e instálalo en tu equipo en un directorio que no interfiera con tu sistema de paquetes (/opt, /usr/local, etc.)</strong></p>
+<p><strong>La corrección se hará en clase y deberás ser capaz de explicar qué son todos los ficheros que se hayan instalado y realizar una desinstalación limpia.</strong></p>
+<p>Como introducción, veo necesario explicar que significa la palabra <em>compilar</em> y en qué consiste el proceso que voy a realizar.</p>
+<p>Cuando nos referimos en términos informáticos a compilar un programa, a lo que nos estamos refiriendo, es a realizar una traducción del código fuente del programa, a un código ejecutable por un sistema. Esta traducción la lleva a cabo una herramienta de software llamada <strong>compilador</strong>.</p>
+<p><strong>¿Qué es el código fuente del programa?</strong> Pues son las líneas de código que forman el programa y están escritas en un lenguaje de programación. Este código escrito en un lenguaje de programación, no puede ser ejecutado por un sistema, ya que el sistema solo entiende su lenguaje binario.</p>
+<p><strong>¿Qué es un compilador?</strong> Es el programa encargado de hacer la traducción del código fuente de un programa, creado a través de un lenguaje de programación, a lenguaje de máquina o binario, que es el tipo de lenguaje que entienden los procesadores.</p>
+<p>He decidido elegir el programa <strong>wget</strong>, escrito en <strong>C</strong>, para compilarlo e instalarlo en mi equipo.</p>
+<p>El primer paso sería descargarlo. Para ello nos dirigimos a la <a href="https://www.debian.org/distrib/packages">página de Debian</a> y lo buscamos por su nombre. Si entramos en la <a href="https://packages.debian.org/buster/wget">información del paquete</a>, podemos ver en qué lenguaje está escrito, paquetes similares, paquetes relacionados, bugs, ...</p>
+<p>Para descargar el paquete, nos dirigimos al apartado de la <a href="https://packages.debian.org/source/buster/wget">fuente del paquete</a>, y aquí nos descargamos el archivo que prefiramos, en mi caso voy a descargar <a href="http://deb.debian.org/debian/pool/main/w/wget/wget_1.20.1.orig.tar.gz">este</a>.</p>
+<p>Es importante, descargarlo en la ruta <code>/usr/local/bin</code> para que no interfiera con el sistema de paquetes. Lo descomprimimos:</p>
+<pre>
+tar -xf wget_1.20.1.orig.tar.gz
+</pre>
+
+<p>Vemos que nos ha generado una serie de ficheros y directorios, entre los cuáles se encuentran los archivos <strong><em>README</em></strong> y <strong><em>INSTALL</em></strong>. Es bastante recomendable leerlos antes de saltar al siguiente paso, ya que contienen información e instrucciones que nos resultarán bastantes útiles. Si no me equivoco, pero digo desde ya que no estoy seguro, hay algunos paquetes que no contienen estos archivos, pero son una gran minoría.</p>
+<p>Es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Se trata de un paquete que contiene una lista informativa de los paquetes que se consideran esenciales para la creación de paquetes Debian. Para instalarlo:</p>
+<pre>
+apt install build-essential -y
+</pre>
+
+<p>Voy a instalar el paquete <code>pkg-config</code> que es un sistema para gestionar las opciones de compilación y enlazado de las bibliotecas, funciona con <em>automake</em> y <em>autoconf</em>. Su funcionamiento consiste en llamar a bibliotecas instaladas cuando se está compilando un programa a partir del código fuente.</p>
+<pre>
+apt install pkg-config -y
+</pre>
+
+<p>Por último vamos a instalar el paquete <code>libgnutls28-dev</code>. <strong>GnuTLS</strong> es una biblioteca portátil que implementa los protocolos <em>Transport Layer Security</em> y <em>Datagram Transport Layer Security</em>.</p>
+<pre>
+apt install libgnutls28-dev -y
+</pre>
+
+<p>En este punto, ya lo tenemos todo listo para empezar la compilación del paquete <code>wget</code> que queremos instalar. Ahora solo nos queda ejecutar el script <code>configure</code>, ejecutar el comando <code>make</code> que se encarga de la compilación y ejecutar el comando <code>make install</code> que instala la aplicación en el sistema.</p>
+<pre>
+./configure && make && make install
+</pre>
+
+<p>Siguiendo estos pasos ya habríamos instalado correctamente <code>wget</code> en nuestro equipo. Si quisiéramos desinstalarlo, tendríamos que dirigirnos al directorio donde hemos realizado la instalación, en mi caso <code>/usr/local/bin/wget-1.20.1</code> y una vez aquí, introducir el comando:</p>
+<pre>
+make uninstall
+</pre>
+
+<p>Con esto habríamos desinstalado el programa, pero no habríamos borrado todos los archivos binarios del programa y los archivos/objetos del directorio en el que se han creado durante la compilación.</p>
+<p>Si queremos borrar todos estos archivos, tenemos que ejecutar:</p>
+<pre>
+make clean
+</pre>
+
+<p>Y si queremos deshacernos también de de todos los ficheros de configuración:</p>
+<pre>
+make distclean
+</pre>
+
+<p>Antes de terminar, veo muy interesante comentar una herramienta que he encontrado mientras realizaba la práctica y buscaba información.</p>
+<p>Se trata del paquete <code>checkinstall</code>. Este paquete actualmente solo se encuentra disponible en repositorios de <em>Backports</em>. Esta herramienta lo que hace es crear un paquete <code>.deb</code> de forma que no sería necesario compilarlo más veces. Hay que decir no incluye la lista de dependencias. Los beneficios principales de <code>CheckInstall</code> a diferencia de ejecutar <code>make install</code>, es la habilidad de permitirnos desinstalar el paquete del sistema usando el <strong>Sistema de gestión de paquetes</strong>, además de poder instalar el paquete resultante en varios equipos. Eso sí, también encontramos una gran diferencia, y es que, si por ejemplo queremos probar una nueva versión que se ha lanzado de un paquete que actualmente tenemos instalado, si lo instalásemos con <code>make install</code>, se instalaría en ese directorio (se supone que en <code>/usr/local/bin</code>) sin pisar las instalaciones de <code>apt</code>. Es decir, podemos instalar la nueva versión sin machacar ni modificar la instalación existente que hicimos en su momento con <code>apt</code>. La herramienta <code>CheckInstall</code> no nos permite hacer esto, ya que sobrescribiría la antigua instalación.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/compilar.html">compilar</a>, <a href="/tag/gcc.html">GCC</a>, <a href="/tag/c.html">C</a>, <a href="/tag/makefile.html">Makefile</a>, <a href="/tag/wget.html">wget</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

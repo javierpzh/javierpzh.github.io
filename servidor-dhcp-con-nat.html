@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Servidor DHCP con NAT | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Teoría Tarea 1: Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico. Voy a...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="servidor">
+        <meta name="tags" content="DHCP">
+        <meta name="tags" content="NAT">
+        <meta name="tags" content="SNAT">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/servidor-dhcp-con-nat.html">
+	<meta property="og:title" content="Servidor DHCP con NAT">
+	<meta property="article:published_time" content="2020-10-19 00:00:00+02:00">
+            <meta property="og:description" content="Teoría Tarea 1: Lee el documento Teoría: Servidor DHCP y explica el funcionamiento del servidor DHCP resumido en este gráfico. Voy a...">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-servidor-dhcp-con-nat">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Servidor DHCP con NAT</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el lun 19 octubre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Teoría</h2>
+<p><strong>Tarea 1: Lee el documento <a href="https://fp.josedomingo.org/serviciosgs/u02/dhcp.html">Teoría: Servidor DHCP</a> y explica el funcionamiento del servidor DHCP resumido en este <a href="https://fp.josedomingo.org/serviciosgs/u02/img/dhcp.png">gráfico</a>.</strong></p>
+<p><img alt="." src="images/sri_servidor_dhcp_con_nat/dhcp.png"></p>
+<p>Voy a explicar este gráfico que define el funcionamiento de un servidor DHCP.</p>
+<p>Primeramente se inicia el cliente DHCP, y se encuentra en su estado inicial (<strong>INIT</strong>), ya que aún no posee ningún tipo de información. Acto seguido envía un <strong>DHCPDISCOVER</strong> al puerto 67 del servidor, este mensaje usa la dirección IP de broadcast la red (255.255.255.255). Si no existe un servidor DHCP en la red local, el router deberá tener un agente <strong>DHCP relay</strong> para la retransmisión de esta petición hacia las otras subredes.
+El mensaje DHCPDISCOVER, se envía tras esperar de 1 a 10 segundos para evitar una posible colisión con otros clientes DHCP.</p>
+<p>Una vez enviado este mensaje, el cliente pasa a un estado llamado <strong>SELECTING</strong>, donde va a recibir los mensajes <strong>DHCPOFFER</strong> del servidor DHCP, configurados para atender a este cliente. En el caso de que el cliente reciba más de un mensaje DHCPOFFER, escogerá uno. Como respuesta, el cliente DHCP enviará un mensaje <strong>DHCPREQUEST</strong> para elegir un servidor DHCP, el que contestará con un <strong>DHCPACK</strong>, que contendrá la configuración de red para el cliente.
+En este punto, como opción, el cliente envía una petición <strong>ARP</strong> con la dirección IP que le ha asignado el servidor, para comprobar que dicha dirección no esté duplicada. Si lo estuviera, el DHCPACK del servidor se ignora y se envía un <strong>DHCPDECLINE</strong> y el cliente regresaría al estado inicial. Si la dirección es únicamente utilizada por el cliente, éste pasaría a estado <strong>BOUND</strong>.</p>
+<p>En dicho estado, se colocan tres valores de temporización, que pueden ser especificados en el servidor:</p>
+<ul>
+<li>
+<p><strong>T1:</strong> tiempo de renovación del alquiler. Si no se especifica su valor, se recurre esta fórmula, <strong>T3 x 0'5</strong>.</p>
+</li>
+<li>
+<p><strong>T2:</strong> tiempo de reenganche. Si no se especifica su valor, se recurre esta fórmula, <strong>T3 x 0'875</strong>.</p>
+</li>
+<li>
+<p><strong>T3:</strong> tiempo de duración del alquiler. Este valor se debe indicar en el servidor de manera indispensable.</p>
+</li>
+</ul>
+<p>Cuando <strong>T1</strong> expira, el cliente cambia de estado a <strong>RENEWING</strong>, y negocia con el servidor un nuevo alquiler. Si el servidor decide no renovarle el alquiler, le envía un mensaje <strong>DHCPNACK</strong> y el cliente pasará a estado <strong>INIT</strong>. Si por el contrario, el servidor decide renovarle el alquiler, le enviará un mensaje <strong>DHCPACK</strong> que contendrá la nueva duración del alquiler, y el cliente pasará a estado <strong>BOUND</strong>.</p>
+<p>También existe la posibilidad de que al cliente, mientras está esperando la respuesta del servidor, le expire el <strong>T2</strong>, en este caso, se moverá al estado <strong>REBINDING</strong>.
+Cuando ocurre esto, el cliente tiene que buscar otra alternativa, por tanto, se decide a intentar contactar con cualquier servidor DHCP que se encuentre en la red, a través de un <strong>DHCPREQUEST</strong>:</p>
+<ul>
+<li>
+<p>Si un servidor le responde con un <strong>DHCPACK</strong>, el cliente renueva su alquiler, y vuelve al estado <strong>BOUND</strong>.</p>
+</li>
+<li>
+<p>Si ningún servidor le responde, y el <strong>T3</strong> expira, el alquiler caduca y pasa al estado <strong>INIT</strong>, eliminando toda la configuración de red.</p>
+</li>
+</ul>
+<p>Hay que decir que el cliente no siempre debe esperar a que termine su tiempo de concesión para devolver la IP que le han asignado, sino que también puede renunciar a esta dirección voluntariamente cuando ya no le sea necesaria.
+Al hacer esto, el cliente le envía un mensaje <strong>DHCPRELEASE</strong> al servidor para cancelar el alquiler, y esta dirección IP volverá estar disponible para otro cliente.</p>
+<h2>DHCPv4</h2>
+<h4>Preparación del escenario</h4>
+<p><strong>Crea un escenario usando Vagrant que defina las siguientes máquinas:</strong></p>
+<ul>
+<li><strong>Servidor:</strong> Tiene dos tarjetas de red: una pública y una privada que se conectan a la red local.</li>
+<li><strong>nodo_lan1:</strong> Un cliente conectado a la red local.</li>
+</ul>
+<h4>Servidor DHCP</h4>
+<p><strong>Instala un servidor dhcp en el ordenador “servidor” que de servicio a los ordenadores de red local, teniendo en cuenta que el tiempo de concesión sea 12 horas y que la red local tiene el direccionamiento <code>192.168.100.0/24</code>.</strong></p>
+<p><strong>Tarea 2: Entrega el fichero <code>Vagrantfile</code> que define el escenario.</strong></p>
+<p>He creado este fichero Vagrantfile para definir el escenario.</p>
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define :servidor do |servidor|
+        servidor.vm.box="debian/buster64"
+        servidor.vm.hostname="servidordhcp"
+        servidor.vm.network :public_network, :bridge=>"wlo"
+        servidor.vm.network :private_network, ip: "192.168.100.1", virtualbox__intnet: "red1"
+  end
+
+  config.vm.define :nodolan1 do |nodolan1|
+        nodolan1.vm.box="debian/buster64"
+        nodolan1.vm.hostname="nodolan1"
+        nodolan1.vm.network :private_network, virtualbox__intnet: "red1", type: "dhcp"
+  end
+
+end
+</pre>
+
+<p>En este fichero de configuración hemos especificado que cree una primera máquina, que actuará de servidor, la cual está conectada en modo puente a nuestra máquina física. También hemos creado una red privada.
+La segunda máquina es la que actuará como cliente, a la que también le asignamos una red privada.</p>
+<p><strong>Tarea 3: Muestra el fichero de configuración del servidor, la lista de concesiones, la modificación en la configuración que has hecho en el cliente para que tome la configuración de forma automática y muestra la salida del comando <code>ip address</code>.</strong></p>
+<p>Una vez creado el Vagrantfile, ejecutamos estos comandos y nos conectamos a la máquina servidor para realizar las configuraciones necesarias.</p>
+<pre>
+vagrant up servidor
+vagrant ssh servidor
+</pre>
+
+<p>Primeramente vamos a comprobar que tenemos las interfaces de red:</p>
+<pre>
+vagrant@servidordhcp:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 86376sec preferred_lft 86376sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:94:f6:bc brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.36/24 brd 192.168.0.255 scope global dynamic eth1
+       valid_lft 86382sec preferred_lft 86382sec
+    inet6 fe80::a00:27ff:fe94:f6bc/64 scope link
+       valid_lft forever preferred_lft forever
+4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:d8:2f:9b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.1/24 brd 192.168.100.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fed8:2f9b/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos que efectivamente tenemos las interfaces que deseábamos:</p>
+<ul>
+<li>
+<p><strong>eth0:</strong> Se genera automáticamente por VirtualBox.</p>
+</li>
+<li>
+<p><strong>eth1:</strong> Es la interfaz en la que hemos creado nuestra red pública en modo puente a nuestra máquina física, con la que poseemos una IP pública, <strong>192.168.0.36</strong>.</p>
+</li>
+<li>
+<p><strong>eth2:</strong> Es la interfaz en la que hemos creado nuestra red privada, <strong>192.168.100.1</strong>.</p>
+</li>
+</ul>
+<pre>
+vagrant@servidordhcp:~$ ip r
+default via 10.0.2.2 dev eth0
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.36
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+
+vagrant@servidordhcp:~$ sudo ip r replace default via 192.168.0.1
+
+vagrant@servidordhcp:~$ ip r
+default via 192.168.0.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.36
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+</pre>
+
+<p>He cambiado la puerta de enlace y he especificado que utilice la puerta de enlace de mi <strong>router físico</strong>.</p>
+<p>Ahora instalamos los paquetes necesarios para instalar el servidor dhcp. También es recomendable actualizar los paquetes instalados, ya que la box que estoy utilizando no es de la última versión de Debian.</p>
+<pre>
+apt update && apt upgrade -y && apt autoremove -y && apt install isc-dhcp-server -y
+</pre>
+
+<p>Una vez instalado, tenemos que editar estos dos ficheros:</p>
+<p>Primero en el <code>/etc/default/isc-dhcp-server</code>, modificamos la línea <code>INTERFACESv4</code> para que quede así:</p>
+<pre>
+INTERFACESv4="eth2"
+</pre>
+
+<p>Y segundo, en el <code>/etc/dhcp/dhcpd.conf</code>, tenemos que realizar esta configuración, que por defecto viene comentada:</p>
+<pre>
+# A slightly different configuration for an internal subnet.
+subnet 192.168.100.0 netmask 255.255.255.0 {
+  range 192.168.100.7 192.168.100.220;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+  option routers 192.168.100.1;
+  default-lease-time 43200;
+  max-lease-time 43200;
+}
+</pre>
+
+<p>Le hemos especificado que nuestra red es la <strong>192.168.100.0/24</strong>, de ahí la máscara puesta, <strong>/24</strong>, el rango de direcciones va <strong>desde la 7 hasta la 220</strong>, le indicamos que la puerta de enlace sea la <strong>192.168.100.1</strong>. Le he puesto un tiempo de concesión por defecto y un tiempo de concesión máximo de <strong>12 horas</strong> (43200 segundos). Vamos a utilizar el <strong>DNS de Google (8.8.8.8)</strong> y el <strong>8.8.4.4</strong>.</p>
+<p>Y una vez hecho esto, si realizamos un <code>systemctl restart isc-dhcp-server.service</code>, y reiniciamos el servidor dhcp, al arrancar la máquina cliente, debería recibir automáticamente una dirección IP dentro del rango que hemos puesto.</p>
+<pre>
+root@servidordhcp:/home/vagrant# systemctl restart isc-dhcp-server.service
+</pre>
+
+<p>Iniciamos el cliente y nos conectamos a él:</p>
+<pre>
+javier@debian:~/Vagrant/Deb10-ServidorDHCP$ vagrant up nodolan1
+
+javier@debian:~/Vagrant/Deb10-ServidorDHCP$ vagrant ssh nodolan1
+Linux nodolan1 4.19.0-9-amd64 #1 SMP Debian 4.19.118-2 (2020-04-29) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+vagrant@nodolan1:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 86311sec preferred_lft 86311sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.7/24 brd 192.168.100.255 scope global dynamic eth1
+       valid_lft 43115sec preferred_lft 43115sec
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Podemos ver que efectivamente nos ha asignado la primera dirección dentro del rango que hemos puesto.
+Si nos vamos a la máquina servidor y miramos la lista de concesiones, podremos ver la concesión de esta dirección.</p>
+<pre>
+root@servidordhcp:/home/vagrant# cat /var/lib/dhcp/dhcpd.leases
+# The format of this file is documented in the dhcpd.leases(5) manual page.
+# This lease file was written by isc-dhcp-4.4.1
+
+# authoring-byte-order entry is generated, DO NOT DELETE
+authoring-byte-order little-endian;
+
+server-duid "\000\001\000\001'\037.\355\010\000'\330/\233";
+
+lease 192.168.100.7 {
+  starts 0 2020/10/18 16:51:43;
+  ends 1 2020/10/19 04:51:43;
+  cltt 0 2020/10/18 16:51:43;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 08:00:27:aa:c6:76;
+  uid "\377'\252\306v\000\001\000\001'\037/\034\010\000'\252\306v";
+  client-hostname "nodolan1";
+}
+</pre>
+
+<p>Vemos que en la lista de concesiones del servidor, que es la <code>/var/lib/dhcp/dhcpd.leases</code> nos aparece como que ha dado la IP <strong>192.168.100.7</strong> al cliente <strong>nodolan1</strong>. Si nos fijamos, podemos apreciar que la concesión se inició a las <strong>16:51</strong> y terminará a las <strong>04:51</strong>, lo que serían doce horas, como hemos establecido en el tiempo de concesión máximo.</p>
+<p><strong>Tarea 4: Configura el servidor para que funcione como router y NAT, de esta forma los clientes tengan internet. Muestra las rutas por defecto del servidor y el cliente. Realiza una prueba de funcionamiento para comprobar que el cliente tiene acceso a internet (utiliza nombres, para comprobar que tiene resolución DNS).</strong></p>
+<p>Ahora lo que tenemos que hacer es cambiar la puerta de enlace para que el cliente tenga acceso a internet.</p>
+<p>Al servidor anteriormente le hemos puesto la <strong>192.168.0.1</strong>, que es la ruta de enlace del router de mi casa. Ahora tendríamos que cambiar la puerta de enlace del cliente.</p>
+<p>Al cliente le vamos a poner la <strong>192.168.100.1</strong>, que es la puerta de enlace que pertenece al servidor web, de esta manera el cliente se conecta al servidor dhcp (que está conectado con el equipo principal) y sale por su puerta de enlace hacia el equipo principal que es el que está conectado al router del proveedor de internet:</p>
+<pre>
+vagrant@nodolan1:~$ ip r
+default via 10.0.2.2 dev eth0
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.7
+
+vagrant@nodolan1:~$ sudo ip r replace default via 192.168.100.1
+
+vagrant@nodolan1:~$ ip r
+default via 192.168.100.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.7
+</pre>
+
+<p>Llegados a este punto solo nos faltaría tener un router que soporte el protocolo <strong>NAT</strong> para que los equipos de la red interna, salgan al exterior mediante la IP pública (que realmente no es pública) del router.
+Ahora debemos activar el <code>bit de forward</code> en la máquina que va a actuar como servidor. Esto va a permitir que funcione como router, o más concretamente en este caso como dispositivo de NAT.
+Se puede activar con el siguiente comando:</p>
+<pre>
+echo 1 > /proc/sys/net/ipv4/ip_forward
+</pre>
+
+<p>Este comando lo que hace es poner a '1' el valor del bit de forward, por tanto lo activa.
+Pero esta activación se borra cuando se apaga el equipo. Para que dicha activación permanezca debemos definirla en el fichero <code>/etc/sysctl.conf</code>, descomentando esta línea que por defecto viene desactivada:</p>
+<pre>
+net.ipv4.ip_forward=1
+</pre>
+
+<p>Y ejecutando el siguiente comando para guardar la configuración;</p>
+<pre>
+sysctl -p /etc/sysctl.conf
+</pre>
+
+<p>Es el momento de crear una nueva regla de <code>iptables</code>, que es el responsable de permitirnos hacer NAT.</p>
+<pre>
+iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth1 -j MASQUERADE
+</pre>
+
+<p>Ahora sí, vamos a comprobar que el cliente posee realmente conexión haciéndole un ping al <strong>servidor DNS de Google</strong> <code>8.8.8.8.</code> y luego a <code>www.google.es</code>, para comprobar también que nos realiza la resolución de nombres:</p>
+<pre>
+vagrant@nodolan1:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=116 time=17.4 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=116 time=17.7 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=116 time=19.7 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 17.410/18.279/19.726/1.035 ms
+
+vagrant@nodolan1:~$ ping www.google.com
+PING www.google.com (172.217.168.164) 56(84) bytes of data.
+64 bytes from mad07s10-in-f4.1e100.net (172.217.168.164): icmp_seq=1 ttl=116 time=17.4 ms
+64 bytes from mad07s10-in-f4.1e100.net (172.217.168.164): icmp_seq=2 ttl=116 time=16.4 ms
+64 bytes from mad07s10-in-f4.1e100.net (172.217.168.164): icmp_seq=3 ttl=116 time=19.8 ms
+^C
+--- www.google.com ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 7ms
+rtt min/avg/max/mdev = 16.366/17.853/19.820/1.458 ms
+</pre>
+
+<p>Vemos que hace ping correctamente, por tanto ya tenemos conexión en nuestro cliente.</p>
+<p><strong>Tarea 5: Realizar una captura, desde el servidor usando <code>tcpdump</code>, de los cuatro paquetes que corresponden a una concesión: <code>DISCOVER</code>, <code>OFFER</code>, <code>REQUEST</code>, <code>ACK</code>.</strong></p>
+<p>Para realizar una captura con la utilidad <code>tcpdump</code>, antes debemos instalar el paquete:</p>
+<pre>
+apt update && apt install tcpdump -y
+</pre>
+
+<p>Antes de realizar la captura, obviamente debemos deshacernos de la dirección que ya tenemos concedida, para luego solicitar una nueva.</p>
+<pre>
+vagrant@nodolan1:~$ sudo ip a del 192.168.100.7/24 dev eth1
+
+vagrant@nodolan1:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 83577sec preferred_lft 83577sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Ya hemos eliminado la dirección asignada anteriormente, es el momento de iniciar la captura de los paquetes. La opción <code>-vv</code> es para que nos muestre la información detallada, la opción <code>-i</code> para especificar la interfaz de red donde queremos realizar la captura del tráfico, y la opción <code>port</code> para capturar solamente el tráfico de los puertos <strong>67</strong> y <strong>68</strong> que son los que utiliza DHCP.</p>
+<pre>
+tcpdump -vv -i eth2 port 67 and 68
+</pre>
+
+<p>Desde el cliente vamos a pedirle la concesión de una dirección al servidor DHCP:</p>
+<pre>
+sudo dhclient eth1
+</pre>
+
+<p>Automáticamente el cliente recibe una dirección IP del servidor, en este caso la <strong>192.168.100.8</strong>:</p>
+<pre>
+vagrant@nodolan1:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 82815sec preferred_lft 82815sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.8/24 brd 192.168.100.255 scope global dynamic eth1
+       valid_lft 43072sec preferred_lft 43072sec
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos como efectivamente, <code>tcpdump</code> nos ha capturado el tráfico:</p>
+<pre>
+root@servidordhcp:/home/vagrant# tcpdump -vv -i eth2 port 67 and 68
+tcpdump: listening on eth2, link-type EN10MB (Ethernet), capture size 262144 bytes
+17:49:15.650780 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)
+    0.0.0.0.bootpc > 255.255.255.255.bootps: [udp sum ok] BOOTP/DHCP, Request from 08:00:27:aa:c6:76 (oui Unknown), length 300, xid 0x440e3325, Flags [none] (0x0000)
+      Client-Ethernet-Address 08:00:27:aa:c6:76 (oui Unknown)
+      Vendor-rfc1048 Extensions
+        Magic Cookie 0x63825363
+        DHCP-Message Option 53, length 1: Discover
+        Hostname Option 12, length 8: "nodolan1"
+        Parameter-Request Option 55, length 13:
+          Subnet-Mask, BR, Time-Zone, Default-Gateway
+          Domain-Name, Domain-Name-Server, Option 119, Hostname
+          Netbios-Name-Server, Netbios-Scope, MTU, Classless-Static-Route
+          NTP
+17:49:16.652685 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)
+    192.168.100.1.bootps > 192.168.100.8.bootpc: [udp sum ok] BOOTP/DHCP, Reply, length 300, xid 0x440e3325, Flags [none] (0x0000)
+      Your-IP 192.168.100.8
+      Client-Ethernet-Address 08:00:27:aa:c6:76 (oui Unknown)
+      Vendor-rfc1048 Extensions
+        Magic Cookie 0x63825363
+        DHCP-Message Option 53, length 1: Offer
+        Server-ID Option 54, length 4: 192.168.100.1
+        Lease-Time Option 51, length 4: 43200
+        Subnet-Mask Option 1, length 4: 255.255.255.0
+        Default-Gateway Option 3, length 4: 192.168.100.1
+        Domain-Name Option 15, length 11: "example.org"
+        Domain-Name-Server Option 6, length 8: dns.google,dns.google
+17:49:16.654052 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)
+    0.0.0.0.bootpc > 255.255.255.255.bootps: [udp sum ok] BOOTP/DHCP, Request from 08:00:27:aa:c6:76 (oui Unknown), length 300, xid 0x440e3325, Flags [none] (0x0000)
+      Client-Ethernet-Address 08:00:27:aa:c6:76 (oui Unknown)
+      Vendor-rfc1048 Extensions
+        Magic Cookie 0x63825363
+        DHCP-Message Option 53, length 1: Request
+        Server-ID Option 54, length 4: 192.168.100.1
+        Requested-IP Option 50, length 4: 192.168.100.8
+        Hostname Option 12, length 8: "nodolan1"
+        Parameter-Request Option 55, length 13:
+          Subnet-Mask, BR, Time-Zone, Default-Gateway
+          Domain-Name, Domain-Name-Server, Option 119, Hostname
+          Netbios-Name-Server, Netbios-Scope, MTU, Classless-Static-Route
+          NTP
+17:49:16.656379 IP (tos 0x10, ttl 128, id 0, offset 0, flags [none], proto UDP (17), length 328)
+    192.168.100.1.bootps > 192.168.100.8.bootpc: [udp sum ok] BOOTP/DHCP, Reply, length 300, xid 0x440e3325, Flags [none] (0x0000)
+      Your-IP 192.168.100.8
+      Client-Ethernet-Address 08:00:27:aa:c6:76 (oui Unknown)
+      Vendor-rfc1048 Extensions
+        Magic Cookie 0x63825363
+        DHCP-Message Option 53, length 1: ACK
+        Server-ID Option 54, length 4: 192.168.100.1
+        Lease-Time Option 51, length 4: 43200
+        Subnet-Mask Option 1, length 4: 255.255.255.0
+        Default-Gateway Option 3, length 4: 192.168.100.1
+        Domain-Name Option 15, length 11: "example.org"
+        Domain-Name-Server Option 6, length 8: dns.google,dns.google
+^C
+4 packets captured
+4 packets received by filter
+0 packets dropped by kernel
+</pre>
+
+<p>En la captura podemos encontrar los paquetes: <strong>DISCOVER, OFFER, REQUEST</strong> y <strong>ACK</strong>.</p>
+<h4>Funcionamiento del DHCP</h4>
+<p><strong>Vamos a comprobar que ocurre con la configuración de los clientes en determinadas circunstancias, para ello vamos a poner un tiempo de concesión muy bajo.</strong></p>
+<p><strong>Tarea 6: Los clientes toman una configuración, y a continuación apagamos el servidor dhcp. ¿qué ocurre con el cliente windows? ¿Y con el cliente linux?</strong></p>
+<p>Puedes ver el vídeo <a href="https://www.youtube.com/watch?v=FR5I2eHsJxc">aquí</a></p>
+<p><strong>Tarea 7: Los clientes toman una configuración, y a continuación cambiamos la configuración del servidor dhcp (por ejemplo el rango). ¿qué ocurriría con un cliente windows? ¿Y con el cliente linux?</strong></p>
+<p>Puedes ver el vídeo <a href="https://www.youtube.com/watch?v=b-qLm7r5uzw">aquí</a></p>
+<h4>Reservas</h4>
+<p><strong>Crea una reserva para el que el cliente tome siempre la dirección <code>192.168.100.100</code>.</strong></p>
+<p><strong>Tarea 8: Indica las modificaciones realizadas en los ficheros de configuración y entrega una comprobación de que el cliente ha tomado esa dirección.</strong></p>
+<p>Para configurar una <strong>reserva</strong>, tendremos que especificarla en el fichero de configuración principal del servidor DHCP. Para editar este fichero:</p>
+<pre>
+nano /etc/dhcp/dhcpd.conf
+</pre>
+
+<p>En este archivo de configuración, antes, establecimos la red, sus parámetros, los tiempos, ...
+Si nos situamos dos párrafos más abajo de esta configuración, nos encontramos con unas líneas que componen la <strong>sección de host</strong>, que vienen comentadas y vamos a descomentar y adaptar a nuestro gusto. En mi caso:</p>
+<pre>
+host nodolan1 {
+  hardware ethernet 08:00:27:aa:c6:76;
+  fixed-address 192.168.100.100;
+}
+</pre>
+
+<p>Vemos que hemos establecido un nombre, en este caso <strong>nodolan1</strong>, su dirección MAC, <strong>08:00:27:aa:c6:76</strong>, y la IP estática que le deseámos reservar, la <strong>192.168.100.100</strong>.</p>
+<p>Después de editar el fichero, reiniciamos el servicio <code>systemctl restart isc-dhcp-server.service</code>, y reiniciamos el cliente para que vuelva a hacer la petición DHCP al servidor, y en este caso, debería darle la dirección que acabamos de reservarle.</p>
+<pre>
+vagrant@nodolan1:~$ ip a show dev eth1
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.10/24 brd 192.168.100.255 scope global dynamic eth1
+       valid_lft 6sec preferred_lft 6sec
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+
+vagrant@nodolan1:~$ sudo reboot
+Connection to 127.0.0.1 closed by remote host.
+Connection to 127.0.0.1 closed.
+
+javier@debian:~/Vagrant/Deb10-ServidorDHCP$ vagrant ssh nodolan1
+Linux nodolan1 4.19.0-9-amd64 #1 SMP Debian 4.19.118-2 (2020-04-29) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Oct 19 09:57:41 2020 from 10.0.2.2
+
+vagrant@nodolan1:~$ ip a show dev eth1
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.100/24 brd 192.168.100.255 scope global dynamic eth1
+       valid_lft 8sec preferred_lft 8sec
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos que el cliente <strong>nodolan1</strong>, que antes tenía la dirección 192.168.100.10, ha recibido ahora la dirección <strong>192.168.100.100</strong>.</p>
+<h4>Uso de varios ámbitos</h4>
+<p><strong>Modifica el escenario Vagrant para añadir una nueva red local y un nuevo nodo:</strong></p>
+<ul>
+<li><strong>Servidor:</strong> En el servidor hay que crear una nueva interfaz.</li>
+<li><strong>nodo_lan2:</strong> Un cliente conectado a la segunda red local.</li>
+</ul>
+<p><strong>Configura el servidor dhcp en el ordenador “servidor” para que de servicio a los ordenadores de la nueva red local, teniendo en cuenta que el tiempo de concesión sea 24 horas y que la red local tiene el direccionamiento 192.168.200.0/24.</strong></p>
+<p><strong>Tarea 9: Entrega el nuevo fichero Vagrantfile que define el escenario.</strong></p>
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define :servidor do |servidor|
+        servidor.vm.box="debian/buster64"
+        servidor.vm.hostname="servidordhcp"
+        servidor.vm.network :public_network, :bridge=>"wlo"
+        servidor.vm.network :private_network, ip: "192.168.100.1", virtualbox__intnet: "red1"
+        servidor.vm.network :private_network, ip: "192.168.200.1", virtualbox__intnet: "red2"
+  end
+
+  config.vm.define :nodolan1 do |nodolan1|
+        nodolan1.vm.box="debian/buster64"
+        nodolan1.vm.hostname="nodolan1"
+        nodolan1.vm.network :private_network, virtualbox__intnet: "red1", type: "dhcp"
+  end
+
+  config.vm.define :nodolan2 do |nodolan2|
+        nodolan2.vm.box="debian/buster64"
+        nodolan2.vm.hostname="nodolan2"
+        nodolan2.vm.network :private_network, virtualbox__intnet: "red2", type: "dhcp"
+  end
+
+end
+</pre>
+
+<p><strong>Tarea 10: Explica las modificaciones que has hecho en los distintos ficheros de configuración. Entrega las comprobaciones necesarias de que los dos ámbitos están funcionando.</strong></p>
+<p>Este proceso es el mismo que hemos seguido al principio de la práctica con la <strong>red1</strong>, pero en este caso lo haremos con la <strong>red2</strong>.
+Primeramente, en la máquina servidor vamos a verificar que nos ha asignado de manera correcta la nueva interfaz de red:</p>
+<pre>
+vagrant@servidordhcp:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 85781sec preferred_lft 85781sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:94:f6:bc brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.36/24 brd 192.168.0.255 scope global dynamic eth1
+       valid_lft 85802sec preferred_lft 85802sec
+    inet6 fe80::a00:27ff:fe94:f6bc/64 scope link
+       valid_lft forever preferred_lft forever
+4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:d8:2f:9b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.1/24 brd 192.168.100.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fed8:2f9b/64 scope link
+       valid_lft forever preferred_lft forever
+5: eth3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:99:f1:0b brd ff:ff:ff:ff:ff:ff
+    inet 192.168.200.1/24 brd 192.168.200.255 scope global eth3
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe99:f10b/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos como nos ha creado una nueva interfaz, <strong>eth3</strong> que contiene la dirección <strong>192.168.200.1</strong>.</p>
+<p>Tenemos que cambiar la puerta de enlace ya que si nos fijamos, nos ha añadido la regla de la nueva interfaz, pero como pasaba al crear la primera red, tenemos que reemplazar la ruta de enlace predeterminada:</p>
+<pre>
+vagrant@servidordhcp:~$ ip r
+default via 10.0.2.2 dev eth0
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.36
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+192.168.200.0/24 dev eth3 proto kernel scope link src 192.168.200.1
+
+vagrant@servidordhcp:~$ sudo ip r replace default via 192.168.0.1
+
+vagrant@servidordhcp:~$ ip r
+default via 192.168.0.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.36
+192.168.100.0/24 dev eth2 proto kernel scope link src 192.168.100.1
+192.168.200.0/24 dev eth3 proto kernel scope link src 192.168.200.1
+</pre>
+
+<p>Volvemos a asignar como predeterminada, la ruta de enlace de nuestro router doméstico.</p>
+<p>Ahora nos dirigimos a editar el fichero <code>/etc/default/isc-dhcp-server</code>, en el que tenemos que cambiar la línea <code>INTERFACESv4</code> y asignarle el valor <code>eth3</code>, de manera que quede así:</p>
+<pre>
+INTERFACESv4="eth2 eth3"
+</pre>
+
+<p>Es <strong>importante</strong> no quitar la interfaz <strong>eth2</strong> ya que es la que pertenece a la <strong>red1</strong>, y si la quitamos estaríamos perdiendo esta configuración DHCP.</p>
+<p>Es el momento de modificar el archivo principal de configuración del servidor DHCP, el <code>/etc/dhcp/dhcpd.conf</code>. Quedaría de esta forma:</p>
+<pre>
+# A slightly different configuration for an internal subnet.
+subnet 192.168.200.0 netmask 255.255.255.0 {
+  range 192.168.200.10 192.168.200.220;
+  option domain-name-servers 8.8.8.8, 8.8.4.4;
+  option routers 192.168.200.1;
+  default-lease-time 86400;
+  max-lease-time 86400;
+}
+</pre>
+
+<p>Le hemos especificado que nuestra red es la <strong>192.168.200.0/24</strong>, de ahí la máscara puesta, <strong>/24</strong>, el rango de direcciones va <strong>desde la 10 hasta la 220</strong>, le indicamos que la puerta de enlace sea la <strong>192.168.200.1</strong>. Le he puesto un tiempo de concesión por defecto y un tiempo de concesión máximo de <strong>24 horas</strong> (86400 segundos). Vamos a utilizar el <strong>DNS de Google (8.8.8.8)</strong> y el <strong>8.8.4.4</strong>.</p>
+<p>Al igual que antes, es <strong>importante</strong> que no quitemos la configuración de la <strong>red1</strong>. Simplemente esta configuración la podemos realizar debajo.</p>
+<p>Ya hemos realizado todos los cambios necesarios en el servidor, por tanto reiniciamos el servicio, <code>systemctl restart isc-dhcp-server.service</code>.</p>
+<p>En la máquina servidor solo nos quedaría activar el <code>bit de forward</code> y crear de nuevo la regla de <code>iptables</code>:</p>
+<pre>
+echo 1 > /proc/sys/net/ipv4/ip_forward
+iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth1 -j MASQUERADE
+</pre>
+
+<p>Iniciamos los clientes, y vamos a comprobar que tanto el cliente <strong>nodolan1</strong>, tanto el cliente <strong>nodolan2</strong>, poseen una dirección IP correspondiente a su red.</p>
+<p>Cliente <strong>nodolan1</strong>:</p>
+<pre>
+javier@debian:~/Vagrant/Deb10-ServidorDHCP$ vagrant ssh nodolan1
+Linux nodolan1 4.19.0-9-amd64 #1 SMP Debian 4.19.118-2 (2020-04-29) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Oct 19 11:03:41 2020 from 10.0.2.2
+
+vagrant@nodolan1:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 86254sec preferred_lft 86254sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:aa:c6:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.100.100/24 brd 192.168.100.255 scope global dynamic eth1
+       valid_lft 43055sec preferred_lft 43055sec
+    inet6 fe80::a00:27ff:feaa:c676/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos como este cliente posee la dirección <strong>192.168.100.100</strong>, la que le asignamos antes mediante una reserva.
+Le cambiamos la puerta de enlace:</p>
+<pre>
+vagrant@nodolan1:~$ sudo ip r replace default via 192.168.100.1
+
+vagrant@nodolan1:~$ ip r
+default via 192.168.100.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.100.0/24 dev eth1 proto kernel scope link src 192.168.100.100
+</pre>
+
+<p>Y hacemos un ping a <code>www.google.es</code>:</p>
+<pre>
+vagrant@nodolan1:~$ ping www.google.es
+PING www.google.es (216.58.209.67) 56(84) bytes of data.
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=1 ttl=117 time=17.3 ms
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=2 ttl=117 time=43.3 ms
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=3 ttl=117 time=100 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 152ms
+rtt min/avg/max/mdev = 17.294/53.574/100.180/34.617 ms
+</pre>
+
+<p>Y ya tendríamos conexión hacia el exterior en el primer cliente.</p>
+<p>Cliente <strong>nodolan2</strong>:</p>
+<pre>
+javier@debian:~/Vagrant/Deb10-ServidorDHCP$ vagrant ssh nodolan2
+Linux nodolan2 4.19.0-9-amd64 #1 SMP Debian 4.19.118-2 (2020-04-29) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Oct 19 11:03:50 2020 from 10.0.2.2
+
+vagrant@nodolan2:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 86247sec preferred_lft 86247sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:13:18:76 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.200.10/24 brd 192.168.200.255 scope global dynamic eth1
+       valid_lft 86248sec preferred_lft 86248sec
+    inet6 fe80::a00:27ff:fe13:1876/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos como a este cliente se le ha asignado la dirección <strong>192.168.200.10</strong>, la primera del rango que le hemos asignado a esta red.</p>
+<p><strong>Tarea 11: Realiza las modificaciones necesarias para que los clientes de la segunda red local tengan acceso a internet. Entrega las comprobaciones necesarias.</strong></p>
+<p>Por último, vamos a configurar el servidor y el cliente <strong>nodolan2</strong>, para que éste tenga conectividad.</p>
+<p>Para ello, al igual que para el cliente 1, debemos añadir en el servidor una nueva regla de <code>iptables</code>.</p>
+<pre>
+iptables -t nat -A POSTROUTING -s 192.168.200.0/24 -o eth1 -j MASQUERADE
+</pre>
+
+<p>Ya solo nos quedaría cambiar la puerta de enlace del cliente:</p>
+<pre>
+vagrant@nodolan2:~$ sudo ip r replace default via 192.168.200.1
+
+vagrant@nodolan2:~$ ip r
+default via 192.168.200.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.200.0/24 dev eth1 proto kernel scope link src 192.168.200.10
+</pre>
+
+<p>Y hacemos un ping a <code>www.google.es</code>:</p>
+<pre>
+vagrant@nodolan2:~$ ping www.google.es
+PING www.google.es (216.58.209.67) 56(84) bytes of data.
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=1 ttl=117 time=16.9 ms
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=2 ttl=117 time=22.1 ms
+64 bytes from waw02s06-in-f67.1e100.net (216.58.209.67): icmp_seq=3 ttl=117 time=18.2 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 169ms
+rtt min/avg/max/mdev = 16.862/19.061/22.079/2.212 ms
+vagrant@nodolan2:~$
+</pre>
+
+<p>Observamos como también tenemos conexión en este segundo cliente.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/servidor.html">servidor</a>, <a href="/tag/dhcp.html">DHCP</a>, <a href="/tag/nat.html">NAT</a>, <a href="/tag/snat.html">SNAT</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

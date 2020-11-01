@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Instalación Debian 10 | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Introducción Antes de empezar a explicar el proceso que he seguido yo para la instalación del sistema operativo, voy a dar unos detalles...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Debian">
+        <meta name="tags" content="install">
+        <meta name="tags" content="LVM">
+        <meta name="tags" content="Nvidia">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/instalacion-debian-10.html">
+	<meta property="og:title" content="Instalación Debian 10">
+	<meta property="article:published_time" content="2020-10-05 00:00:00+02:00">
+            <meta property="og:description" content="Introducción Antes de empezar a explicar el proceso que he seguido yo para la instalación del sistema operativo, voy a dar unos detalles...">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
+</head>
+
+<body class="article-instalacion-debian-10">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Instalación Debian 10</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el lun 05 octubre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Introducción</h2>
+<p>Antes de empezar a explicar el proceso que he seguido yo para la instalación del sistema operativo, voy a dar unos detalles para hacernos a la idea y colocarnos en la situación en la que se produce la instalación.
+Yo poseo un portátil <strong>MSI</strong> que apenas se lanzó hace un año, esto lo comento ya que estos portátiles no son los que están más pensados para instalar estos sistemas y para realizar los tipos de tareas que requiere el grado, sino que están más pensados para un uso de gaming. Con esto lo que quiero decir, es que suelen presentar más problemas o más impedimentos a la hora de la instalación.
+Ahora que ya estamos puestos en situación, solo queda decir que <strong>Debian va a convivir con Windows 10</strong> en el disco sólido, algo que no va a influir en nada, pero lo comento también.</p>
+<h2>Proceso de instalación</h2>
+<p>Lo primero obviamente sería <strong>descargarnos la iso de Debian</strong> que queremos instalar, en mi caso utilicé la última versión estable. Con esta iso y el programa <strong>Rufus</strong>, que sirve para programar arranques, es decir, para preparar medios para la instalación de sistemas operativos, ya terminé todo lo que necesitaba y comencé el proceso. En mi caso dispongo de <strong>160GB más o menos</strong> libre en el disco, que es lo que vamos a utilizar para Debian, aunque no todo en una solo partición simple, lo veremos más adelante.
+Iniciamos el asistente del proceso y vamos introduciendo el nuevo usuario, contraseñas, ...
+Hasta que llegamos a la parte que nos interesa, a la hora de indicar dónde, en que lugar del disco queremos instalar el sistema.
+Indicamos que lo queremos particionar manualmente, y aquí veremos todas las particiones ya creadas y que utiliza Windows, y vemos que hay una con 160GB de espacio libre que es la que seleccionamos, y le creamos una tabla de particiones nueva. Ahora en el menú debe aparecernos una opción que dice <code>Configurar el Gestor de Volúmenes Lógicos (LVM)</code> , esto es lo que nos interesa.
+Vamos a proceder a configurar nuestro <strong>LVM</strong>, aceptamos que queremos escribir los cambios en el disco y configurar LVM, ahora nos indica los volúmenes físicos libres, los volúmenes físicos en uso, los grupos de volúmenes y los volúmenes lógicos. Aún no tenemos nada, ya que lo acabamos de crear, así que vamos a empezar a darle forma creando el grupo de volúmenes que es la primera capa, le asignamos el nombre que nosotros queramos, y en el siguiente paso nos pide que incluyamos los dispositivos físicos que queramos que formen parte del grupo que estamos creando, yo añado el único dispositivo del que dispongo, aceptamos los cambios, y ahora en el menú de LVM nos aparece que ya disponemos de un volumen físico en uso, que es el que acabamos de añadir y también nos aparece que hay un grupo de volúmenes.
+Ahora vamos a crear el volumen lógico que deseo, seleccionamos el grupo de volúmenes donde queremos crearlo, y le asignamos un nombre y el espacio correspondiente a nuestras necesidades, yo le voy a poner 100GB ya que voy a tener que utilizar bastantes máquinas virtuales y no quiero estar cada poco tiempo añadiendo espacio al volumen, de forma que me quedarían sin asignar unos 60GB que podría añadirle en cualquier momento si me fuese necesario. Aceptamos todos los cambios y salimos del menú de LVM, y podemos ver reflejado en el menú de particiones el LVM que acabamos de crear, ya solo nos quedaría seleccionar el volumen lógico de 100GB que es el que vamos a utilizar para instalar el sistema y proporcionarle un sistema de ficheros, en mi caso voy a indicarle uno de tipo <strong>XFS</strong>, ya que tiene la ventaja que permite las redimensiones en caliente garantizando la integridad de los datos. En el apartado del punto de montaje indicamos el sistema raíz y terminamos de definir la partición.
+Ya lo tendríamos todo listo, así que finalizamos el particionado. En mi caso no me es necesario un área de intercambio (SWAP) ya que dispongo de 16GB de RAM, pero eso ya depende del equipo de cada uno.
+Ya solo queda seleccionar el gestor de ventanas que deseemos (si deseamos alguno), yo uso GNOME por tanto lo selecciono y espero que termine de instalarse. El <strong>grub</strong> lo instalamos junto al sistema y habríamos terminado la instalación de Debian10.</p>
+<h2>Primer inicio e instalación de drivers</h2>
+<p>Como dije antes los MSI suelen dar bastantes problemas o suelen ser más difíciles a la hora de funcionar con estos sistemas, pero en mi caso, el sistema desde el principio y simplemente con la instalación básica me funciona perfectamente, a diferencia de mis compañeros que también disponen de equipos de esta marca.
+Lo único que no me funciona es el <strong>Wi-Fi</strong> y el <strong>Bluetooth</strong>, pero para el Wi-Fi simplemente he buscado el driver de mi tarjeta de red, la cuál es <em>Intel Corporation Wireless-AC 9560</em>, desde la propia web de Intel nos proporcionan el driver necesario, lo instalamos y ya funciona. Y el dispositivo Bluetooth lo reconoce pero no me deja encenderlo ni hacer nada con él. He instalado el paquete <code>firmware-iwlwifi</code> y ya me funciona correctamente. Por todo lo demás el sistema corre perfectamente, funcionan tanto las teclas, especiales, como las asignaciones de subir/bajar el brillo, el touchpad, teclas de sonido, todas las entradas a dispositivos, desde USBs a HDMI, auriculares, ...</p>
+<h2>Instalación drivers GPU</h2>
+<p>Dispongo de una GPU <strong><em>Nvidia GTX1650 Max-Q</em></strong>, la cual la reconoce el sistema pero no la utiliza por defecto ya que obviamente no tiene instalados los drivers.
+Antes de explicar el proceso que he seguido, voy a decir que todavía no he conseguido instalarla y sigo utilizando los gráficos integrados de mi CPU.
+En primer lugar me descargue una utilidad que proporciona Nvidia para detectar el paquete que necesitamos dependiendo de nuestra tarjeta gráfica, ya que hay varios paquetes para los diferentes modelos.
+La utilidad es muy simple de descargar y lo único que hace es decirte el nombre del paquete recomendado para el modelo de tu tarjeta. El paquete se llama <code>nvidia-detect</code>, y simplemente lo instalamos y lo ejecutamos.
+En mi caso me recomendaba instalar el paquete llamado <code>nvidia-driver</code>. Ya sabía que paquete tenía que instalar y configurar pero antes de proceder a instalarlo, para evitar conflictos con los controladores libres nouveau, procedí a crear una lista negra:</p>
+<pre>
+sudo nano /etc/modprobe.d/blacklist-nouveau.conf
+</pre>
+
+<p>En este fichero escribí lo siguiente:</p>
+<pre>
+blacklist nouveau
+
+blacklist lbm-nouveau
+
+options nouveau modeset=0
+
+alias nouveau off
+
+alias lbm-nouveau off
+</pre>
+
+<p>Si no realizas este paso, al instalar los drivers de Nvidia y al reiniciar el equipo, no llega a iniciar el sistema y se queda la pantalla en negra sin poder abrir ni siquiera una tty.
+Reinicié y el sistema arrancó perfecto, pero aún no estaba utilizando la GPU dedicada, ya que aún no la había configurado. Aquí llegó mi problema, ya que me aparecía el propio programa de configuración de Nvidia incluso como aplicación gráfica, pero no sé porque no iniciaba. Intenté configurarlo desde la terminal:</p>
+<pre>
+nvidia-settings
+</pre>
+
+<p>Pero no me dejaba tampoco y me reportaba que no encontraba ningún dispositivo, sinceramente ahí ya estaba un poco perdido. Investigué un poco por ahí y leí que necesitaba instalar los siguientes paquetes para poder configurar la tarjeta gráfica:</p>
+<pre>
+apt install nvidia-xconfig
+apt install nvidia-glx
+</pre>
+
+<p>Después de instalar estos paquetes reinicié pero esta vez el sistema no arrancó, se quedó la pantalla en negro, sin poder abrir una tty, pero al menos pude recurrir al <em>reisub</em> y no tuve que tirar de botonazo.
+En este punto no podía hacer otra cosa, así que decidí entrar en <em>modo recovery</em> y desinstalar los paquetes relacionados con Nvidia con el siguiente comando:</p>
+<pre>
+apt-get purge nvidia.
+</pre>
+
+<p>Y volví a la configuración predeterminada, volví a reiniciar y el sistema arrancó.
+A día de hoy trabajo con los gráficos integrados y sigo investigando pero de momento no encuentro nada, pero al menos quería comentar mi experiencia con este tema.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/debian.html">Debian</a>, <a href="/tag/install.html">install</a>, <a href="/tag/lvm.html">LVM</a>, <a href="/tag/nvidia.html">Nvidia</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

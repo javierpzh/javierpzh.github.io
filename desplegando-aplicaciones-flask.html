@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Desplegando aplicaciones flask | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Desplegando aplicaciones flask Despliegue en el entorno de desarrollo Vamos a trabajar con la aplicación flask_temperaturas que puedes...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="virtualenv">
+        <meta name="tags" content="Apache">
+        <meta name="tags" content="python3">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/desplegando-aplicaciones-flask.html">
+	<meta property="og:title" content="Desplegando aplicaciones flask">
+	<meta property="article:published_time" content="2020-10-29 00:00:00+01:00">
+            <meta property="og:description" content="Desplegando aplicaciones flask Despliegue en el entorno de desarrollo Vamos a trabajar con la aplicación flask_temperaturas que puedes...">
+
+            <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
+</head>
+
+<body class="article-desplegando-aplicaciones-flask">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-aplicacionesweb.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Desplegando aplicaciones flask</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el jue 29 octubre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Desplegando aplicaciones flask</h2>
+<h3>Despliegue en el entorno de desarrollo</h3>
+<p>Vamos a trabajar con la aplicación flask_temperaturas que puedes encontrar en el siguiente enlace: <a href="https://github.com/josedom24/flask_temperaturas">https://github.com/josedom24/flask_temperaturas</a>.</p>
+<p>Clona el repositorio en tu equipo, mira las versiones de los paquetes necesarios para que la aplicación funcione en el fichero <code>requirements.txt</code> y responde las siguientes preguntas:</p>
+<p><strong>1. ¿Podríamos instalar estos paquetes con <code>apt</code>?</strong></p>
+<p>Podríamos instalar estos paquetes con <em>apt</em> pero con diferentes versiones, ya que los paquetes de los repositorios Debian no poseen las últimas versiones de muchos paquetes.</p>
+<p><strong>2. ¿Sería buena idea instalar como root estos paquetes en el sistema con <code>pip</code>?</strong></p>
+<p><strong>3. ¿Cómo sería la mejor manera de instalar estos paquetes?</strong></p>
+<p>En un entorno virtual creado con <strong>Python</strong>, para que no interfiera con la paquetería instalada en el equipo.</p>
+<h4>Trabajamos con entornos virtuales</h4>
+<p><strong>Crea un entorno virtual con el módulo <code>venv</code> e instala en él los paquetes necesarios para que el programa funcione. Una vez instalado, ejecuta la aplicación con el servidor de desarrollo y comprueba que funciona.</strong></p>
+<p>Para crear un entorno virtual con <em>python3</em>:</p>
+<pre>
+python3 -m venv desplegandoaplicacionflask
+</pre>
+
+<p>Vamos a actualizar el paquete <code>pip</code> para evitar problemas al instalar paquetes:</p>
+<pre>
+pip install --upgrade pip
+</pre>
+
+<p>Como hemos clonado el repositorio que contiene el archivo <code>requirements.txt</code>, podemos hacer una instalación de todos esos paquetes con un solo comando:</p>
+<pre>
+pip install -r requirements.txt
+</pre>
+
+<h3>Despliegue en el entrono de producción</h3>
+<p>¿Cómo podemos hacer que un servidor web como apache2 sea capaz de servir una aplicación escrita en python? Para ello se utiliza un protocolo que nos permite comunicar al servidor web con la aplicación web: <strong>WSGI (Web Server Gateway Interface)</strong>.</p>
+<p>Es decir, el protocolo WSGI define las reglas para que el servidor web se comunique con la aplicación web. Cuando al servidor llega una petición que tenemos que mandar a la aplicación web python tenemos al menos dos cosas que tener en cuenta:</p>
+<ul>
+<li>Tenemos un fichero de entrada, es decir la petición siempre se debe enviar un único fichero., Este fichero se llama fichero WSGI.</li>
+<li>La aplicación web python con la que se comunica el servidor web utilizando el protocolo WSGI se debe llama <code>application</code>. Por lo tanto el fichero WSGI entre otras cosas debe nombrar a la aplicación de esta manera.</li>
+</ul>
+<h4>Configuración de apache2 para servir una aplicación web flask</h4>
+<p>Lo primero que tenemos que hacer es instalar el módulo de apache2, <code>wsgi</code>:</p>
+<pre>
+apt install libapache2-mod-wsgi-py3
+</pre>
+
+<ul>
+<li>Suponemos que tenemos un servidor web apache2 con el módulo wsgi activado.</li>
+<li>Suponemos que nuestra aplicación se encuentra en <code>/var/www/html/flask_temperatura</code>.</li>
+<li>Suponemos que hemos creado un entorno virtual con los paquetes instalados en <code>/home/debian/venv/flask</code>.</li>
+</ul>
+<h4>Creación del fichero wsgi</h4>
+<p>Lo primero que vamos a hacer es crear el fichero WSGI, que vamos a llamar app.wsgi estará en <code>/var/www/html/flask_temperatura</code> y tendrá el siguiente contenido:</p>
+<pre>
+from app import app as application
+</pre>
+
+<p>Veamos:</p>
+<ul>
+<li>El primer <code>app</code> corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama <code>app.py</code>.</li>
+<li>El segundo <code>app</code> corresponde a la aplicación flask creada en <code>app.py: app = Flask(__name__)</code>.</li>
+<li>Importamos la aplicación flask, pero la llamamos <code>application</code> necesario para que el servidor web pueda enviarle peticiones.</li>
+</ul>
+<h4>Configuración de apache2</h4>
+<p>Yo he utilizado el virtualhost por defecto, si usamos otro virtualhost esta configuración ira en el fichero correspondiente:</p>
+<pre>
+#ServerName www.example.org
+DocumentRoot /var/www/html/flask_temperaturas
+WSGIDaemonProcess flask_temp user=www-data group=www-data processes=1 threads=5 python-path=/var/www/html/flask_temperaturas:/home/debian/venv/flask/lib/python3.7/site-packages
+WSGIScriptAlias / /var/www/html/flask_temperaturas/app.wsgi
+
+<Directory /var/www/html/flask_temperaturas>
+        WSGIProcessGroup flask_temp
+        WSGIApplicationGroup %{GLOBAL}
+        Require all granted
+<\/Directory>
+</pre>
+
+<p>Vamos a explicar la configuración:</p>
+<ul>
+<li>En el <code>DocumentRoot</code> se indica el directorio donde está la aplicación. Realmente el servidor web siempre va a llamar al fichero WSGI <code>app.wsgi</code>, pero el DocumentRoot es necesario por si hay contenido estático.</li>
+<li>La línea <strong>WSGIDaemonProcess</strong>: Se define un grupo de procesos que se van a encargar de ejecutar la aplicación (servidor de aplicaciones). A estos procesos se le ponen un nombre (<code>flask_temp</code>), se indican el usuario y el grupo que van a utilizar (en este caso el mismo que el del servidor web), se indica el número de procesos (<code>process</code>) e hilos (<code>threads</code>) que va a tener cada proceso, y finalmente se indica los directorios donde se encuentran la aplicación y los paquetes necesarios (<code>python-path</code>), como puedes observar se pone el directorio donde esta la aplicación y el directorio donde se encuentran los paquetes en el entorno virtual, separados por dos puntos.</li>
+<li>La directiva <code>WSGIScriptAlias</code> nos permite indicar que programa se va a ejecutar (el fichero WSGI: <code>/var/www/html/flask_temperaturas/app.wsgi</code>) cuando se haga una petición a la url <code>/</code>.</li>
+<li>La sección <code>Directory</code> nos permite asignar el proceso creado anteriormente (<code>WSGIProcessGroup flask_temp</code>) al directorio donde tenemos la aplicación.</li>
+</ul>
+<p>Reinicia el servicio web y prueba el funcionamiento. Si te da algún error <em>500</em> puedes ver los errores, en <code>/var/log/apache2/error.log</code>.</p>
+<p><strong>Realiza la configuración de apache2 para que sirva la aplicación con la que estamos trabajando en un virtualhost <code>python.iesgn.org</code>.</strong></p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/virtualenv.html">virtualenv</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/python3.html">python3</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>RAID5: Gestión del almacenamiento de la información | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Ejercicio: RAID 5 Vamos a crear una máquina virtual con un sistema operativo Linux. En esta máquina, queremos crear un raid 5 de 2 GB,...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="raid">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/raid5-gestion-del-almacenamiento-de-la-informacion.html">
+	<meta property="og:title" content="RAID5: Gestión del almacenamiento de la información">
+	<meta property="article:published_time" content="2020-09-30 00:00:00+02:00">
+            <meta property="og:description" content="Ejercicio: RAID 5 Vamos a crear una máquina virtual con un sistema operativo Linux. En esta máquina, queremos crear un raid 5 de 2 GB,...">
+
+            <meta property="og:image" content="theme/images/banner-seguridad.jpg">
+</head>
+
+<body class="article-raid5-gestion-del-almacenamiento-de-la-informacion">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-seguridad.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>RAID5: Gestión del almacenamiento de la información</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el mié 30 septiembre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Ejercicio: RAID 5</h2>
+<p><strong>Vamos a crear una máquina virtual con un sistema operativo Linux. En esta máquina, queremos crear un raid 5 de 2 GB, para ello vamos a utilizar discos virtuales de 1 GB. Crea un fichero Vagrantfile para crear la máquina.</strong></p>
+<p><strong>Tarea 1: Crea una raid llamado md5 con los discos que hemos conectado a la máquina. ¿Cuántos discos tienes que conectar? ¿Qué diferencia existe entre el RAID 5 y el RAID1?</strong></p>
+<p>Antes de nada tenemos que crear la mv, por tanto hay que configurar el fichero Vagrantfile, en mi caso he añadido 3 discos para crear el RAID5 y uno más que actuará como hot spare, es decir como disco de repuesto.
+Lo primero sería instalar la utilidad 'mdadm', que normalmente no viene instalada por defecto. Esto lo hacemos con el siguiente comando:</p>
+<pre>
+apt update && apt install mdadm
+</pre>
+
+<p>Antes de empezar, una forma de asegurarnos de evitar problemas con sistemas de ficheros existentes, puedes ser llenar de ceros los discos que se van a incluir en el RAID.
+Con el siguiente comando:</p>
+<pre>
+mdadm --zero-superblock /dev/sdb /dev/sdc /dev/sdd
+</pre>
+
+<p>En mi caso como acabo de añadir los discos y son totalmente nuevos, pues no haría falta. Porcedereíamos directamente a crear el RAID5. Lo creamos con el comando:</p>
+<pre>
+mdadm -C /dev/md5 --level=raid5 --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd
+</pre>
+
+<p>Aquí vemos que se ha creado correctamente:</p>
+<p><img alt="." src="images/sad_raid5/raid5.png"></p>
+<p>Hay que decir que aquí no he añadido un hot spare, es decir un disco de repuesto, por lo que si alguno de los 3 discos se estropeara, tendríamos que sacarlo y añadir uno nuevo manualmente. Si quisiéramos añadirlo desde un principio, que sería lo mejor, es tan simple como añadir un dispositivo más en el comando para crear el RAID.</p>
+<p>Las diferencias que hay entre un RAID1 y un RAID5 principalmente son que el RAID1 necesita como mínimo 2 discos, donde los 2 van a contener la misma información y se replican entre ellos, y en RAID5 es necesario tener 3 o + discos y te ofrece redundancia de datos y con menos espacio perdido cosa que con RAID1 pierdes la mitad del disco. Ambos ofrecen que en caso del fallo de un disco, el sistema sigue funcionando, no se para, y también podemos sustituir discos en caliente.</p>
+<p><strong>Tarea 2: Comprueba las características del RAID. Comprueba el estado del RAID. ¿Qué capacidad tiene el RAID que hemos creado?</strong></p>
+<p>En la siguiente imagen podemos ver el estado del RAID, la cantidad de discos que lo componen (3), la capacidad ocupada, libre y total del RAID (2GB), nos muestra los dispositivos que presentan algún fallo (0), si disponemos de discos de repuesto...</p>
+<p><img alt="." src="images/sad_raid5/informacionraid5.png"></p>
+<p>Si queremos mirar solo el estado del RAID, también podemos hacerlo con este comando:</p>
+<pre>
+cat /proc/mdstat
+</pre>
+
+<p><img alt="." src="images/sad_raid5/comprobarestadoraid.png"></p>
+<p><strong>Tarea 3: Crea un volumen lógico (LVM) de 500Mb en el raid 5.</strong></p>
+<p>Lo primero para utlizar LVM, debemos instalar el siguiente paquete:</p>
+<pre>
+apt install lvm2
+</pre>
+
+<p>Ahora tenemos que tener claro que para crear un volumen lógico, antes debemos crear un volumen físico y un grupo de volúmenes.
+Para crear un volumen físico:</p>
+<pre>
+pvcreate /dev/md5
+</pre>
+
+<p><img alt="." src="images/sad_raid5/crearvolfisico.png"></p>
+<p>Ahora tendríamos que crear el grupo de volúmenes al que va a pertenecer:</p>
+<pre>
+vgcreate testing /dev/md5
+</pre>
+
+<p><img alt="." src="images/sad_raid5/creargrupodevol.png"></p>
+<p>Y ahora sí, podemos crear el volumen lógico de 500MB que deseábamos:</p>
+<pre>
+lvcreate testing -L 500M -n vollogico1
+</pre>
+
+<p>El parámetro <code>-L</code> indica la cantidad de almacenamiento y el parámetro <code>-n</code> el nombre o identificación.</p>
+<p><img alt="." src="images/sad_raid5/crearvollogico_lsblk.png"></p>
+<p><strong>Tarea 4: Formatea ese volumen con un sistema de archivos xfs.</strong></p>
+<p>Antes de nada, para formatear el volumen con este tipo de sistema de archivos necesitamos instalar el paquete 'xfsprogs'.</p>
+<pre>
+apt install xfsprogs
+</pre>
+
+<p>Ahora con la utilidad mkfs, seguido del sistema de archivos que queremos que posea, formateamos el volumen. Este sería el comando:</p>
+<pre>
+mkfs.xfs /dev/testing/vollogico1
+</pre>
+
+<p>Podemos comprobar que se ha establecido el sistema de archivos XFS, haciendo un <code>lsblk -f</code>.</p>
+<p><img alt="." src="images/sad_raid5/comprobarsisarchxfs.png"></p>
+<p><strong>Tarea 5: Monta el volumen en el directorio /mnt/raid5 y crea un fichero. ¿Qué tendríamos que hacer para que este punto de montaje sea permanente?</strong></p>
+<p>Antes debemos crear el directorio raid5 dentro de la carpeta /mnt . Para ello:</p>
+<pre>
+mkdir /mnt/raid5
+</pre>
+
+<p>Ahora ya si podemos montar el volumen en este directorio, lo cuál lo hacemos con la utilidad 'mount':</p>
+<pre>
+mount -t xfs /dev/testing/vollogico1 /mnt/raid5
+</pre>
+
+<p>Haciendo un <code>lsblk</code> podemos ver como se ha montado correctamente:</p>
+<p><img alt="." src="images/sad_raid5/montarvolumen.png"></p>
+<p>Ahora vamos a crear un fichero para mostrar que está bien montado y nos deja utilizarlo.</p>
+<p><img alt="." src="images/sad_raid5/crearfichero.png"></p>
+<p>Para hacer que se monte automáticamente y de manera permanente, hay que modificar el archivo 'fstab', hay que añadir una línea con estos datos:</p>
+<p><img alt="." src="images/sad_raid5/fstab.png"></p>
+<p>Ahora que hemos modificado y guardado el archivo 'fstab', vamos a reiniciar la máquina y comprobar que se monta automáticamente.</p>
+<p><img alt="." src="images/sad_raid5/rebootlsblk.png"></p>
+<p>Vemos que funciona como queremos y se monta de manera automática en el directorio /mnt/raid5 .</p>
+<p><strong>Tarea 6: Marca un disco como estropeado. Muestra el estado del raid para comprobar que un disco falla. ¿Podemos acceder al fichero?</strong></p>
+<p>Vamos a marcar un disco como estropeado. En mi caso voy a marcar el tercer disco, que se identifica como /dev/sdd . Lo realizamos con este comando:</p>
+<pre>
+mdadm --manage /dev/md5 --fail /dev/sdd
+</pre>
+
+<p>Aquí muestro el estado del RAID y como efectivamente, el disco aparece estropeado(f).</p>
+<p><img alt="." src="images/sad_raid5/fallodisco.png"></p>
+<p>Respondiendo a la pregunta de si podemos acceder al fichero, antes de enseñarlo, ya respondo que sí, ya que en el RAID 5, si se estropea un disco, al haber paridad y redundancia de datos, no perdemos el acceso al sistema, lo único que perdemos es la seguridad ante el posible fallo de un segundo disco.
+Aquí vemos como podemos acceder al fichero (que no muestra nada porque está vacío):</p>
+<p><img alt="." src="images/sad_raid5/fichero.png"></p>
+<p><strong>Tarea 7: Una vez marcado como estropeado, lo tenemos que retirar del raid.</strong></p>
+<p>Para retirar un disco del RAID, lo único que debemos especificar es el RAID al que pertenece y el nombre del dispositivo en sí, junto con la orden <code>remove</code>, tal que así:</p>
+<pre>
+mdadm -r /dev/md5 /dev/sdd
+</pre>
+
+<p>Comprobamos que se ha retirado y así es.</p>
+<p><img alt="." src="images/sad_raid5/retirardisco.png"></p>
+<p><strong>Tarea 8: Imaginemos que lo cambiamos por un nuevo disco nuevo (el dispositivo de bloque se llama igual), añádelo al array y comprueba como se sincroniza con el anterior.</strong></p>
+<p>Para añadir un disco, en este caso el /dev/sde , el comando es igual que el anterior pero cambiando la orden, <code>remove</code> por <code>add</code>.</p>
+<pre>
+mdadm -a /dev/md5 /dev/sde
+</pre>
+
+<p><img alt="." src="images/sad_raid5/sincronizacion.png"></p>
+<p>Aquí vemos como lo hemos añadido exitosamente y como de manera instantánea empieza a sincronizarse con los otros discos, este proceso dura apenas unos segundos, obviamente no tenemos datos para que tarde más, tardará dependiendo el almacenamiento a sincronizar.</p>
+<p><img alt="." src="images/sad_raid5/postsincronizacion.png"></p>
+<p>Ya ha terminado la sincronización y está actuando como un disco normal, el reemplazamiento ha sido exitoso.</p>
+<p><strong>Tarea 9: Añade otro disco como reserva. Vuelve a simular el fallo de un disco y comprueba como automática se realiza la sincronización con el disco de reserva.</strong></p>
+<p>Vamos a añadir un nuevo disco que se identifica como /dev/sdf . Este disco va a actuar como disco de repuesto, ya que ahora mismo el RAID funciona correctamente, y solo se utilizará y se pondrá en funcionamiento cuando en algunos de los discos principales se produzca un fallo.</p>
+<pre>
+mdadm -a /dev/md5 /dev/sdf
+</pre>
+
+<p><img alt="." src="images/sad_raid5/hotspare.png"></p>
+<p>Vemos como se configura como hot spare.
+Producimos un fallo en un disco para ver como actúa en caso de emergencia.</p>
+<pre>
+mdadm --manage /dev/md5 --fail /dev/sde
+</pre>
+
+<p><img alt="." src="images/sad_raid5/actuacionhotspare.png"></p>
+<p>Vemos que sin tener que indicar nada, él automáticamente empieza a sincronizarse con los discos principales.</p>
+<p><img alt="." src="images/sad_raid5/hotsparesincronizado.png"></p>
+<p>Ya ha terminado la sincronización y ha reemplazado al disco estropeado.</p>
+<p><strong>Tarea 10: Redimensiona el volumen y el sistema de archivos de 500Mb al tamaño del raid.</strong></p>
+<p>Lo primero que debemos hacer es agrandar el volumen lógico. Como nos dice que lo agrandemos al tamaño del RAID, el cuál es de 2GB, en el comando vamos a especificar que coja todo el espacio que haya libre. El comando sería:</p>
+<pre>
+lvresize -l +100%FREE /dev/testing/vollogico1
+</pre>
+
+<p><img alt="." src="images/sad_raid5/agrandandovollogico1.png"></p>
+<p>Nos manda un mensaje que nos dice que ahora poseemos prácticamente 2GB de espacio, por tanto solo nos quedaría extender el sistema de archivos.
+Y ahora viene lo que de verdad es realmente ventajoso por parte de este sistema de archivos. Si nos acordamos, anteriormente, configuramos el fichero 'fstab' para que montara automáticamente el volumen, por tanto el volumen ahora mismo está montado. Otros sistemas de archivos no permiten extender el espacio sin desmontar el volumen, pero XFS a diferencia de éstos, no solo nos permite extenderlo en caliente, sino que también nos garantiza la integridad de los datos.
+Para redimensionar el sistema de archivos utilizamos el siguiente comando:</p>
+<pre>
+xfs_growfs /mnt/raid5/
+</pre>
+
+<p><img alt="." src="images/sad_raid5/agrandandoxfs.png"></p>
+<p>Comprobamos que se ha extendido y que ahora el espacio total es de 2GB.</p>
+<p><strong>Configuración Vagrantfile</strong></p>
+<p>A continuación voy a mostrar la configuración que he hecho en el fichero Vagrantfile para añadir a esta mv los discos utilizados.</p>
+<pre>
+  disk1 = "./disk1.vdi"
+  disk2 = "./disk2.vdi"
+  disk3 = "./disk3.vdi"
+  disk4 = "./disk4.vdi"
+  disk5 = "./disk5.vdi"
+
+  config.vm.provider "virtualbox" do |vb|
+  unless File.exist?(disk1)
+  vb.customize ['createhd', '--filename', disk1, '--size', 1 * 1024]
+  end
+  vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', disk1]
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+  unless File.exist?(disk2)
+  vb.customize ['createhd', '--filename', disk2, '--size', 1 * 1024]
+  end
+  vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', disk2]
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+  unless File.exist?(disk3)
+  vb.customize ['createhd', '--filename', disk3, '--size', 1 * 1024]
+  end
+  vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 3, '--device', 0, '--type', 'hdd', '--medium', disk3]
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+  unless File.exist?(disk4)
+  vb.customize ['createhd', '--filename', disk4, '--size', 1 * 1024]
+  end
+  vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 4, '--device', 0, '--type', 'hdd', '--medium', disk4]
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+  unless File.exist?(disk5)
+  vb.customize ['createhd', '--filename', disk5, '--size', 1 * 1024]
+  end
+  vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 5, '--device', 0, '--type', 'hdd', '--medium', disk5]
+  end
+</pre>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/raid.html">raid</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
