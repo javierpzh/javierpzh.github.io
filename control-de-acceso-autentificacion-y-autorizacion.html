@@ -505,6 +505,10 @@ systemctl restart apache2
 <li>No iniciamos sesión o de manera incorrecta:</li>
 </ul>
 <p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacionfallida.png"></p>
+<p>A primera vista podemos creer que este método de autenticación es segura, pero aún no he comentado el gran fallo que tiene. ¿Qué es lo último que deseamos cuando nos <em>logueamos</em> en una web? Exacto, que nuestras credenciales y nuestros datos no se conozcan y sean seguros, pues la <strong>autenticación básica</strong> no cuida esto, sino que envía nuestras contraseñas sin ningún tipo de cifrado y al descubierto, por lo que estamos totalmente expuestos.</p>
+<p>He hecho una prueba capturando el tráfico, en la que podemos ver como cualquiera que esté escuchando el tráfico de la red, podría ver nuestros datos.</p>
+<p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticacionbasica.png"></p>
+<p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como nos muestra la contraseña.</p>
 <p><strong>3. Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo <code>digest</code>, y sólo sea accesible a los usuarios pertenecientes al grupo <code>directivos</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</strong></p>
 <p>(Me he equivocado y he añadido los usuarios al grupo <strong>gruposecreto</strong> en vez de <strong>directivos</strong>).</p>
 <p>Para llevar a cabo una autenticación de tipo <strong>Digest</strong>, antes debemos habilitar su módulo:</p>
