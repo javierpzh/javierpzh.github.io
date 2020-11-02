@@ -557,7 +557,7 @@ systemctl restart apache2
 <p>He hecho una prueba capturando el tráfico.</p>
 <p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticaciondigest.png"></p>
 <p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como no nos muestra la contraseña como pasaba anteriormente.</p>
-<h3>4. Vamos a combinar el control de acceso (tarea 6) y la autenticación (tareas 7 y 8), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autenticación. Muestra el resultado al profesor.</h3>
+<h4>4. Vamos a combinar el control de acceso (tarea 6) y la autenticación (tareas 7 y 8), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autenticación. Muestra el resultado al profesor.</h4>
 <p>Si queremos que los equipos conectados a la red local, es decir, los que posean una IP <strong>192.168.150.X</strong>, accedan de manera directa a la URL <code>departamentos.iesgn.org/secreto</code>, pero los demás equipos tengan que iniciar sesión y validarse para acceder, debemos editar el fichero <code>/etc/apache2/sites-available/departamentos.conf</code> de manera que tenga este aspecto:</p>
 <pre>
 <\Directory /srv/departamentos/secreto \>
