@@ -138,11 +138,30 @@ Options +Indexes
 <p><strong>2. Crea una redirección permanente: cuando entremos en <code>ttp://host.dominio/google</code> salte a <code>www.google.es</code>.</strong></p>
 <p>En el fichero <code>.htaccess</code> de <code>public_html</code> introducimos la siguiente línea para que nos haga la redirección:</p>
 <pre>
-Redirect /google www.google.es
+Redirect /google https://www.google.es
 </pre>
 
-<p>De esta manera, cuando accedamos a la dirección <a href="https://javierperezhidalgoapache.000webhostapp.com/google">https://javierperezhidalgoapache.000webhostapp.com/google</a> nos va a redirigir automáticamente a la dirección <a href="https://www.google.es/">https://www.google.es/</a>.</p>
+<p>De esta manera, cuando accedamos a la dirección <a href="https://javierperezhidalgoapache.000webhostapp.com/google">https://javierperezhidalgoapache.000webhostapp.com/google</a> nos va a redirigir automáticamente a la dirección <a href="https://www.google.es">https://www.google.es</a>.</p>
 <p><strong>3. Pedir autentificación para entrar en la URL <code>http://host.dominio/prohibido</code>. (No la hagas si has elegido como proveedor CDMON, en la plataforma de prueba, no funciona.)</strong></p>
+<p>Voy a utilizar una autenticación de tipo <strong>Digest</strong>.</p>
+<p>Vamos a crear un fichero donde vamos a guardar las credenciales, que deben estar seguras. Por esta razón no podemos guardar este fichero dentro de <code>public_html</code>, ya que lo que se encuentra en él, es todo lo que muestra la página, así que este fichero lo crearemos a su mismo nivel.</p>
+<p>Generamos las credenciales:</p>
+<pre>
+root@servidor:~# htdigest -c ./htdigest prohibido javier
+Adding password for javier in realm prohibido.
+New password:
+Re-type new password:
+
+root@servidor:~# cat htdigest
+javier:prohibido:fa09dc88b5d3c47ca6c0b51b3fb54d4c
+</pre>
+
+<p>Y ahora vamos a copiar la línea que hemos generado y las incluiremos dentro de nuestro fichero de contraseñas, que se llamará <code>htdigest</code>.</p>
+<p>Creo el fichero</p>
+<p>Creamos el directorio <code>prohibido</code> dentro de <code>public_html</code>, y dentro de este directorio un nuevo <code>.htaccess</code>, con estas líneas:</p>
+<pre>
+
+</pre>
     </article>
 
         <div class="tags">

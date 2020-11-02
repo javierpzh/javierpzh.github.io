@@ -528,10 +528,10 @@ Re-type new password:
 <p>Si quisiéramos añadir un nuevo usuario, deberíamos introducir el mismo comando pero sin la opción <code>-c</code>, ya que sino, nos crearía un nuevo un archivo machacando el ya existente.</p>
 <p>Nos quedaría especificar en el <code>/etc/apache2/sites-available/departamentos.conf</code> esta configuración de autenticación básica. Debemos añadir algo así:</p>
 <pre>
-<\Directory /var/www/departamentos/secreto \>
+<\Directory /srv/departamentos/secreto \>
  AuthType Digest
  AuthName "gruposecreto"
- AuthUserFile /var/www/departamentos/secreto/.htdigest
+ AuthUserFile /srv/departamentos/secreto/.htdigest
  Require valid-user
 <\/Directory\>
 </pre>
