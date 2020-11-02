@@ -228,7 +228,7 @@ Authorization   Digest username="jose",
 </ul>
 <p>Una vez que lo recibe el servidor, puede hacer la misma operación y comprobar si la información que se ha enviado es válida, con lo que se permitiría el acceso.</p>
 <h2>Ejercicios</h2>
-<h5>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red pública, y una privada y un cliente conectado a la red privada. Crea un host virtual <code>departamentos.iesgn.org</code>.</h5>
+<p><strong>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red pública, y una privada y un cliente conectado a la red privada. Crea un host virtual <code>departamentos.iesgn.org</code>.</strong></p>
 <p>He creado este fichero Vagrantfile para definir el escenario:</p>
 <pre>
 # -*- mode: ruby -*-
@@ -387,7 +387,7 @@ systemctl restart apache2
 192.168.150.1    departamentos.iesgn.org
 </pre>
 
-<h5>1. A la URL <code>departamentos.iesgn.org/intranet</code> sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL <code>departamentos.iesgn.org/internet</code>, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</h5>
+<p><strong>1. A la URL <code>departamentos.iesgn.org/intranet</code> sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL <code>departamentos.iesgn.org/internet</code>, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</strong></p>
 <p>Lo primero sería crear en <code>/srv/departamentos</code> dos carpetas: una para <strong>intranet</strong> y otra para <strong>internet</strong>, y dentro de ellas crear un fichero <code>index.html</code>:</p>
 <pre>
 root@servidor:srv/departamentos# mkdir intranet
@@ -456,7 +456,7 @@ systemctl restart apache2
 <p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/mvintranet.png"></p>
 </li>
 </ul>
-<h5>2. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo se manda la contraseña entre el cliente y el servidor?. Entrega una breve explicación del ejercicio.</h5>
+<p><strong>2. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo se manda la contraseña entre el cliente y el servidor?. Entrega una breve explicación del ejercicio.</strong></p>
 <p>Lo primero sería crear en <code>/srv/departamentos</code> la carpeta <strong>secreto</strong> y dentro de ella crear un fichero <code>index.html</code>:</p>
 <pre>
 root@servidor:/srv/departamentos# mkdir secreto
@@ -509,7 +509,7 @@ systemctl restart apache2
 <p>He hecho una prueba capturando el tráfico, en la que podemos ver como cualquiera que esté escuchando el tráfico de la red, podría ver nuestros datos.</p>
 <p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticacionbasica.png"></p>
 <p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como nos muestra la contraseña.</p>
-<h5>3. Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo <code>digest</code>, y sólo sea accesible a los usuarios pertenecientes al grupo <code>directivos</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</h5>
+<p><strong>3. Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo <code>digest</code>, y sólo sea accesible a los usuarios pertenecientes al grupo <code>directivos</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</strong></p>
 <p>(Me he equivocado y he añadido los usuarios al grupo <strong>gruposecreto</strong> en vez de <strong>directivos</strong>).</p>
 <p>Para llevar a cabo una autenticación de tipo <strong>Digest</strong>, antes debemos habilitar su módulo:</p>
 <pre>
@@ -557,7 +557,7 @@ systemctl restart apache2
 <p>He hecho una prueba capturando el tráfico.</p>
 <p><img alt="." src="images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticaciondigest.png"></p>
 <p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como no nos muestra la contraseña como pasaba anteriormente.</p>
-<h5>4. Vamos a combinar el control de acceso (tarea 6) y la autenticación (tareas 7 y 8), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autenticación. Muestra el resultado al profesor.</h5>
+<p><strong>4. Vamos a combinar el control de acceso (tarea 6) y la autenticación (tareas 7 y 8), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autenticación. Muestra el resultado al profesor.</strong></p>
 <p>Si queremos que los equipos conectados a la red local, es decir, los que posean una IP <strong>192.168.150.X</strong>, accedan de manera directa a la URL <code>departamentos.iesgn.org/secreto</code>, pero los demás equipos tengan que iniciar sesión y validarse para acceder, debemos editar el fichero <code>/etc/apache2/sites-available/departamentos.conf</code> de manera que tenga este aspecto:</p>
 <pre>
 <\Directory /srv/departamentos/secreto \>
