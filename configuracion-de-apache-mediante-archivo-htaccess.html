@@ -114,25 +114,25 @@
 <h4>Ejercicios</h4>
 <p><strong>Date de alta en un <em>proveedor de hosting</em>. ¿Si necesitamos configurar el servidor web que han configurado los administradores del proveedor?, ¿qué podemos hacer? Explica la directiva <code>AllowOverride</code> de apache2. Utilizando archivos <code>.htaccess</code> realiza las siguientes configuraciones:</strong></p>
 <p>Es importante asegurarnos de que el proveedor de hosting que vamos a utilizar tiene habilitada la directiva <code>AllowOverride</code>, ya que sino los cambios y configuraciones que hagamos en los ficheros <code>.htaccess</code> no van a tener ningún efecto.</p>
-<p>En mi caso voy a utilizar <a href="https://www.000webhost.com/">000webhost</a>, para ello me he registrado previamente y he creado un sitio web al que se accede mediante <a href="https://javierperezhidalgo-apache.000webhostapp.com">https://javierperezhidalgo-apache.000webhostapp.com</a>.</p>
+<p>En mi caso voy a utilizar <a href="https://www.000webhost.com/">000webhost</a>, para ello me he registrado previamente y he creado un sitio web al que se accede mediante <a href="https://javierperezhidalgoapache.000webhostapp.com">https://javierperezhidalgoapache.000webhostapp.com</a>.</p>
 <p><strong>1. Habilita el listado de ficheros en la URL <code>http://host.dominio/nas</code>.</strong></p>
 <p>Nos dirigimos al gestor de archivos de nuestra página, en este caso de <em>000webhost</em>, y desde aquí vamos a realizar las configuraciones y los cambios en los archivos <code>.htaccess</code>, utilizo el plural porque ya adelante que vamos a tener que utilizar más de uno.</p>
 <p>Vamos a crear la carpeta <code>nas</code> dentro de <code>public_html</code> y vamos a crear un archivo de prueba.</p>
-<p>Si probamos a acceder a la dirección <a href="https://javierperezhidalgo-apache.000webhostapp.com/nas/">https://javierperezhidalgo-apache.000webhostapp.com/nas/</a> podemos ver como efectivamente nos muestra el listado de ficheros:</p>
+<p>Si probamos a acceder a la dirección <a href="https://javierperezhidalgoapache.000webhostapp.com/nas/">https://javierperezhidalgoapache.000webhostapp.com/nas/</a> podemos ver como efectivamente nos muestra el listado de ficheros:</p>
 <p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/naspordefecto.png"></p>
 <p>Pero esto nos lo muestra porque por defecto viene habilitada la opción <code>Indexes</code> para todos los directorios hijos de <code>public_html</code>, por tanto no tendría ningún misterio hacerlo así. Por eso he decidido quitar esta opción y volver a configurarla de manera manual. Para ello, en el <code>.htaccess</code> que se encuentra en <code>public_html</code> he introducido la siguiente línea:</p>
 <pre>
 Options -Indexes
 </pre>
 
-<p>Si accedemos ahora a <a href="https://javierperezhidalgo-apache.000webhostapp.com/nas/">https://javierperezhidalgo-apache.000webhostapp.com/nas/</a>:</p>
+<p>Si accedemos ahora a <a href="https://javierperezhidalgoapache.000webhostapp.com/nas/">https://javierperezhidalgoapache.000webhostapp.com/nas/</a>:</p>
 <p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/nasdeshabilitada.png"></p>
 <p>Vemos como ya no nos muestra el listado de ficheros, entonces ahora voy a configurar esta opción en el <code>.htaccess</code> que he creado en la carpeta <code>/nas</code> y voy a introducir la siguiente línea:</p>
 <pre>
 Options +Indexes
 </pre>
 
-<p>Accedemos de nuevo a <a href="https://javierperezhidalgo-apache.000webhostapp.com/nas/">https://javierperezhidalgo-apache.000webhostapp.com/nas/</a>:</p>
+<p>Accedemos de nuevo a <a href="https://javierperezhidalgoapache.000webhostapp.com/nas/">https://javierperezhidalgoapache.000webhostapp.com/nas/</a>:</p>
 <p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/nashabilitada.png"></p>
 <p>Ahora sí hemos realizo la configuración de manera correcta.</p>
 <p><strong>2. Crea una redirección permanente: cuando entremos en <code>ttp://host.dominio/google</code> salte a <code>www.google.es</code>.</strong></p>
@@ -141,7 +141,7 @@ Options +Indexes
 Redirect /google www.google.es
 </pre>
 
-<p>De esta manera, cuando accedamos a la dirección <a href="https://javierperezhidalgo-apache.000webhostapp.com/google">https://javierperezhidalgo-apache.000webhostapp.com/google</a> nos va a redirigir automáticamente a la dirección <a href="https://www.google.es/">https://www.google.es/</a>.</p>
+<p>De esta manera, cuando accedamos a la dirección <a href="https://javierperezhidalgoapache.000webhostapp.com/google">https://javierperezhidalgoapache.000webhostapp.com/google</a> nos va a redirigir automáticamente a la dirección <a href="https://www.google.es/">https://www.google.es/</a>.</p>
 <p><strong>3. Pedir autentificación para entrar en la URL <code>http://host.dominio/prohibido</code>. (No la hagas si has elegido como proveedor CDMON, en la plataforma de prueba, no funciona.)</strong></p>
     </article>
 
