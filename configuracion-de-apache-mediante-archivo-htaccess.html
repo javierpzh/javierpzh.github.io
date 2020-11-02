@@ -119,21 +119,21 @@
 <p>Nos dirigimos al gestor de archivos de nuestra página, en este caso de <em>000webhost</em>, y desde aquí vamos a realizar las configuraciones y los cambios en los archivos <code>.htaccess</code>, utilizo el plural porque ya adelante que vamos a tener que utilizar más de uno.</p>
 <p>Vamos a crear la carpeta <code>nas</code> dentro de <code>public_html</code> y vamos a crear un archivo de prueba.</p>
 <p>Si probamos a acceder a la dirección <code>https://javierperezhidalgo-apache.000webhostapp.com/nas/</code> podemos ver como efectivamente nos muestra el listado de ficheros:</p>
-<p><img alt="." src="theme/images/sri_configuracion_de_apache_mediante_archivo_htaccess/naspordefecto.png"></p>
+<p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/naspordefecto.png"></p>
 <p>Pero esto nos lo muestra porque por defecto viene habilitada la opción <code>Indexes</code> para todos los directorios hijos de <code>public_html</code>, por tanto no tendría ningún misterio hacerlo así. Por eso he decidido quitar esta opción y volver a configurarla de manera manual. Para ello, en el <code>.htaccess</code> que se encuentra en <code>public_html</code> he introducido la siguiente línea:</p>
 <pre>
 Options -Indexes
 </pre>
 
 <p>Si accedemos ahora a <code>https://javierperezhidalgo-apache.000webhostapp.com/nas/</code>:</p>
-<p><img alt="." src="theme/images/sri_configuracion_de_apache_mediante_archivo_htaccess/nasdeshabilitada.png"></p>
+<p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/nasdeshabilitada.png"></p>
 <p>Vemos como ya no nos muestra el listado de ficheros, entonces ahora voy a configurar esta opción en el <code>.htaccess</code> que he creado en la carpeta <code>/nas</code> y voy a introducir la siguiente línea:</p>
 <pre>
 Options +Indexes
 </pre>
 
 <p>Accedemos de nuevo a <code>https://javierperezhidalgo-apache.000webhostapp.com/nas/</code>:</p>
-<p><img alt="." src="theme/images/sri_configuracion_de_apache_mediante_archivo_htaccess/nashabilitada.png"></p>
+<p><img alt="." src="images/sri_configuracion_de_apache_mediante_archivo_htaccess/nashabilitada.png"></p>
 <p>Ahora sí hemos realizo la configuración de manera correcta.</p>
 <p><strong>2. Crea una redirección permanente: cuando entremos en <code>ttp://host.dominio/google</code> salte a <code>www.google.es</code>.</strong></p>
 <p>En el fichero <code>.htaccess</code> de <code>public_html</code> introducimos la siguiente línea para que nos haga la redirección:</p>
@@ -141,6 +141,7 @@ Options +Indexes
 Redirect /google www.google.es
 </pre>
 
+<p>De esta manera, cuando accedamos a la dirección <code>https://javierperezhidalgo-apache.000webhostapp.com/google</code> nos va a redirigir automáticamente a la dirección <code>https://www.google.es/</code>.</p>
 <p><strong>3. Pedir autentificación para entrar en la URL <code>http://host.dominio/prohibido</code>. (No la hagas si has elegido como proveedor CDMON, en la plataforma de prueba, no funciona.)</strong></p>
     </article>
 
