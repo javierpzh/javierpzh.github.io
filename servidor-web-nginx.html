@@ -136,18 +136,14 @@
 </ul>
 <p><strong>2. Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</strong></p>
 <h4>Mapeo de URL</h4>
-<p>Cambia la configuración del sitio web www.iesgn.org para que se comporte de la siguiente forma:</p>
-<div class="highlight"><pre><span></span><code><span class="err">Tarea 3 (1 punto)(Obligatorio): Cuando se entre a la dirección www.iesgn.org se redireccionará automáticamente a www.iesgn.org/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</span>
-<span class="err">Tarea 4 (1 punto)(Obligatorio): Si accedes a la página www.iesgn.org/principal/documentos se visualizarán los documentos que hay en /srv/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</span>
-<span class="err">Tarea 5 (1 punto): En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</span>
-</code></pre></div>
-
-
-<p>Autentificación, Autorización, y Control de AccesoPermalink</p>
-<div class="highlight"><pre><span></span><code><span class="err">Tarea 6 (1 punto)(Obligatorio): Añade al escenario otra máquina conectada por una red interna al servidor. A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL departamentos.iesgn.org/internet, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</span>
-<span class="err">Tarea 7 (1 punto): Autentificación básica. Limita el acceso a la URL departamentos.iesgn.org/secreto. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</span>
-<span class="err">Tarea 8 (2 punto): Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL departamentos.iesgn.org/secreto se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</span>
-</code></pre></div>
+<p><strong>Cambia la configuración del sitio web <code>www.iesgn.org</code> para que se comporte de la siguiente forma:</strong></p>
+<p><strong>3. Cuando se entre a la dirección <code>www.iesgn.org</code> se redireccionará automáticamente a <code>www.iesgn.org/principal</code>, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</strong></p>
+<p><strong>4. Si accedes a la página <code>www.iesgn.org/principal/documentos</code> se visualizarán los documentos que hay en <code>/srv/doc</code>. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</strong></p>
+<p><strong>5. En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</strong></p>
+<h4>Autentificación, Autorización, y Control de Acceso</h4>
+<p><strong>6. Añade al escenario otra máquina conectada por una red interna al servidor. A la URL <code>departamentos.iesgn.org/intranet</code> sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL <code>departamentos.iesgn.org/internet</code>, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</strong></p>
+<p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
+<p><strong>8. Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</strong></p>
     </article>
 
         <div class="tags">
