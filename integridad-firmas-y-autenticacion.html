@@ -271,6 +271,34 @@ sig          3E0DA17912B9A4F8 2020-10-13  Álvaro Vaca Ferreras <avacaferreras@g
 
 <p>Observamos como se ha añadido una nueva firma, en este caso la mía. Por tanto, ahora simplemente nos faltaría exportar esta clave de Álvaro y hacérsela llegar para que él pueda actualizar su clave pública que ahora también posee mi firma.</p>
 <p>Me he encargado de pasar mi clave a tres compañeros para que me la firmen.</p>
+<p>En este caso, voy a mostrar como importo mi clave pública que recientemente me la ha enviado Álvaro firmada por él para actualizar mi lista de firmas:</p>
+<pre>
+javier@debian:~/Descargas$ ls
+Imágenes  javi.asc
+
+javier@debian:~/Descargas$ gpg --import javi.asc
+gpg: clave 6F7A456BC67662D3: "Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>" 1 firma nueva
+gpg: Cantidad total procesada: 1
+gpg:         nuevas firmas: 1
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   1  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   1  firmada:   1  confianza: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2022-10-07
+javier@debian:~/Descargas$ gpg --list-sig
+/home/javier/.gnupg/pubring.kbx
+-------------------------------
+pub   rsa3072 2020-10-21 [SC] [caduca: 2022-10-21]
+      76270D5E766E0F22D70466BE6F7A456BC67662D3
+uid        [  absoluta ] Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+sig 3        6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+sig          15E1B16E8352B9BB 2020-10-27  Juan Luis Millan Hidalgo <juanluismillanhidalgo@gmail.com>
+sig          3E0DA17912B9A4F8 2020-11-03  Álvaro Vaca Ferreras <avacaferreras@gmail.com>
+sub   rsa3072 2020-10-21 [E] [caduca: 2022-10-21]
+sig          6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+
+...
+</pre>
+
 <p><strong>4. Muestra las firmas que tiene tu clave pública.</strong></p>
 <pre>
 gpg --list-sign
