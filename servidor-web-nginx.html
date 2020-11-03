@@ -108,22 +108,34 @@
     <!-- Post Content -->
     <article>
         <h2>Servidor Web Nginx</h2>
-<p><strong>1. Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.</strong>
-    <strong>- Entrega la ip flotante de la máquina para que el profesor pueda acceder a ella.</strong>
-    <strong>- Entrega una captura de pantalla accediendo a ella.</strong></p>
+<p><strong>1. Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.</strong></p>
+<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="o">**</span><span class="n">Entrega</span> <span class="n">la</span> <span class="n">ip</span> <span class="n">flotante</span> <span class="n">de</span> <span class="n">la</span> <span class="n">máquina</span> <span class="n">para</span> <span class="n">que</span> <span class="n">el</span> <span class="n">profesor</span> <span class="n">pueda</span> <span class="n">acceder</span> <span class="n">a</span> <span class="n">ella</span><span class="p">.</span><span class="o">**</span>
+
+<span class="o">-</span> <span class="o">**</span><span class="n">Entrega</span> <span class="n">una</span> <span class="n">captura</span> <span class="n">de</span> <span class="n">pantalla</span> <span class="n">accediendo</span> <span class="n">a</span> <span class="n">ella</span><span class="p">.</span><span class="o">**</span>
+</code></pre></div>
+
+
 <h4>Virtual Hosting</h4>
 <p><strong>Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</strong></p>
-<p><strong>- Cada sitio web tendrá nombres distintos.</strong>
-- <strong>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</strong></p>
+<ul>
+<li>
+<p><strong>Cada sitio web tendrá nombres distintos.</strong></p>
+</li>
+<li>
+<p><strong>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</strong></p>
+</li>
+</ul>
 <p><strong>Los dos sitios web tendrán las siguientes características:</strong></p>
 <ul>
 <li>
-<p><strong>El nombre de dominio del primero será www.iesgn.org, su directorio base será /srv/www/iesgn y contendrá una página llamada index.html, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</strong>
-    En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será departamentos.iesgn.org, y su directorio base será /srv/www/departamentos. En este sitio sólo tendremos una página inicial index.html, dando la bienvenida a la página de los departamentos del instituto.</p>
-<p>Tarea 2 (2 punto)(Obligatorio): Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</p>
+<p><strong>El nombre de dominio del primero será <code>www.iesgn.org</code>, su directorio base será <code>/srv/www/iesgn</code> y contendrá una página llamada <code>index.html</code>, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</strong></p>
+</li>
+<li>
+<p><strong>En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será <code>departamentos.iesgn.org</code>, y su directorio base será <code>/srv/www/departamentos</code>. En este sitio sólo tendremos una página inicial <code>index.html</code>, dando la bienvenida a la página de los departamentos del instituto.</strong></p>
 </li>
 </ul>
-<p>Mapeo de URLPermalink</p>
+<p><strong>2. Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</strong></p>
+<h4>Mapeo de URL</h4>
 <p>Cambia la configuración del sitio web www.iesgn.org para que se comporte de la siguiente forma:</p>
 <div class="highlight"><pre><span></span><code><span class="err">Tarea 3 (1 punto)(Obligatorio): Cuando se entre a la dirección www.iesgn.org se redireccionará automáticamente a www.iesgn.org/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</span>
 <span class="err">Tarea 4 (1 punto)(Obligatorio): Si accedes a la página www.iesgn.org/principal/documentos se visualizarán los documentos que hay en /srv/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</span>
