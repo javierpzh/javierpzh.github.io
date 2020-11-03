@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Servidor Web Nginx | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Práctica: Servidor Web Nginx Tarea 1 (1 punto)(Obligatorio): Crea una máquina del cloud con una red pública. Añade la clave pública del...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="web">
+        <meta name="tags" content="Nginx">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/servidor-web-nginx.html">
+	<meta property="og:title" content="Servidor Web Nginx">
+	<meta property="article:published_time" content="2020-11-03 00:00:00+01:00">
+            <meta property="og:description" content="Práctica: Servidor Web Nginx Tarea 1 (1 punto)(Obligatorio): Crea una máquina del cloud con una red pública. Añade la clave pública del...">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-servidor-web-nginx">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Servidor Web Nginx</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el mar 03 noviembre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <p>Práctica: Servidor Web Nginx</p>
+<div class="highlight"><pre><span></span><code><span class="err">Tarea 1 (1 punto)(Obligatorio): Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el servidor web nginx en la máquina. Modifica la página index.html que viene por defecto y accede a ella desde un navegador.</span>
+<span class="err">    Entrega la ip flotante de la máquina para que el profesor pueda acceder a ella.</span>
+<span class="err">    Entrega una captura de pantalla accediendo a ella.</span>
+</code></pre></div>
+
+
+<p>Virtual HostingPermalink</p>
+<p>Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="err">Cada sitio web tendrá nombres distintos.</span>
+<span class="err">Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</span>
+</code></pre></div>
+
+
+<p>Los dos sitios web tendrán las siguientes características:</p>
+<div class="highlight"><pre><span></span><code><span class="n">El</span> <span class="n">nombre</span> <span class="n">de</span> <span class="n">dominio</span> <span class="n">del</span> <span class="n">primero</span> <span class="n">será</span> <span class="n">www</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="p">,</span> <span class="n">su</span> <span class="n">directorio</span> <span class="n">base</span> <span class="n">será</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">iesgn</span> <span class="n">y</span> <span class="n">contendrá</span> <span class="n">una</span> <span class="n">página</span> <span class="n">llamada</span> <span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="p">,</span> <span class="n">donde</span> <span class="n">sólo</span> <span class="n">se</span> <span class="n">verá</span> <span class="n">una</span> <span class="n">bienvenida</span> <span class="n">a</span> <span class="n">la</span> <span class="n">página</span> <span class="n">del</span> <span class="n">Instituto</span> <span class="n">Gonzalo</span> <span class="n">Nazareno</span><span class="p">.</span>
+<span class="n">En</span> <span class="n">el</span> <span class="n">segundo</span> <span class="n">sitio</span> <span class="n">vamos</span> <span class="n">a</span> <span class="n">crear</span> <span class="n">una</span> <span class="n">página</span> <span class="n">donde</span> <span class="n">se</span> <span class="n">pondrán</span> <span class="n">noticias</span> <span class="n">por</span> <span class="n">parte</span> <span class="n">de</span> <span class="n">los</span> <span class="n">departamento</span><span class="p">,</span> <span class="n">el</span> <span class="n">nombre</span> <span class="n">de</span> <span class="n">este</span> <span class="n">sitio</span> <span class="n">será</span> <span class="n">departamentos</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="p">,</span> <span class="n">y</span> <span class="n">su</span> <span class="n">directorio</span> <span class="n">base</span> <span class="n">será</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">departamentos</span><span class="p">.</span> <span class="n">En</span> <span class="n">este</span> <span class="n">sitio</span> <span class="n">sólo</span> <span class="n">tendremos</span> <span class="n">una</span> <span class="n">página</span> <span class="n">inicial</span> <span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="p">,</span> <span class="n">dando</span> <span class="n">la</span> <span class="n">bienvenida</span> <span class="n">a</span> <span class="n">la</span> <span class="n">página</span> <span class="n">de</span> <span class="n">los</span> <span class="n">departamentos</span> <span class="n">del</span> <span class="n">instituto</span><span class="p">.</span>
+
+<span class="n">Tarea</span> <span class="mi">2</span> <span class="p">(</span><span class="mi">2</span> <span class="n">punto</span><span class="p">)(</span><span class="n">Obligatorio</span><span class="p">):</span> <span class="n">Configura</span> <span class="n">la</span> <span class="n">resolución</span> <span class="n">estática</span> <span class="n">en</span> <span class="n">los</span> <span class="n">clientes</span> <span class="n">y</span> <span class="n">muestra</span> <span class="n">el</span> <span class="n">acceso</span> <span class="n">a</span> <span class="n">cada</span> <span class="n">una</span> <span class="n">de</span> <span class="n">las</span> <span class="n">páginas</span><span class="p">.</span>
+</code></pre></div>
+
+
+<p>Mapeo de URLPermalink</p>
+<p>Cambia la configuración del sitio web www.iesgn.org para que se comporte de la siguiente forma:</p>
+<div class="highlight"><pre><span></span><code><span class="err">Tarea 3 (1 punto)(Obligatorio): Cuando se entre a la dirección www.iesgn.org se redireccionará automáticamente a www.iesgn.org/principal, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</span>
+<span class="err">Tarea 4 (1 punto)(Obligatorio): Si accedes a la página www.iesgn.org/principal/documentos se visualizarán los documentos que hay en /srv/doc. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</span>
+<span class="err">Tarea 5 (1 punto): En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para el ello se crearan dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</span>
+</code></pre></div>
+
+
+<p>Autentificación, Autorización, y Control de AccesoPermalink</p>
+<div class="highlight"><pre><span></span><code><span class="err">Tarea 6 (1 punto)(Obligatorio): Añade al escenario otra máquina conectada por una red interna al servidor. A la URL departamentos.iesgn.org/intranet sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL departamentos.iesgn.org/internet, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</span>
+<span class="err">Tarea 7 (1 punto): Autentificación básica. Limita el acceso a la URL departamentos.iesgn.org/secreto. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</span>
+<span class="err">Tarea 8 (2 punto): Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL departamentos.iesgn.org/secreto se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</span>
+</code></pre></div>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/web.html">web</a>, <a href="/tag/nginx.html">Nginx</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
