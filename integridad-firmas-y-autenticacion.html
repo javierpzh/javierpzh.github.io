@@ -449,7 +449,18 @@ sig          6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhida
 <p>Ya tendría mi clave pública firmada por tres compañeros, Juanlu, Álvaro y Fran.</p>
 <p><strong>4. Muestra las firmas que tiene tu clave pública.</strong></p>
 <pre>
-gpg --list-sign
+javier@debian:~/Descargas$ gpg --list-sig
+/home/javier/.gnupg/pubring.kbx
+-------------------------------
+pub   rsa3072 2020-10-21 [SC] [caduca: 2022-10-21]
+      76270D5E766E0F22D70466BE6F7A456BC67662D3
+uid        [  absoluta ] Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+sig 3        6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+sig          15E1B16E8352B9BB 2020-10-27  Juan Luis Millan Hidalgo <juanluismillanhidalgo@gmail.com>
+sig          3E0DA17912B9A4F8 2020-11-03  Álvaro Vaca Ferreras <avacaferreras@gmail.com>
+sig          BEAECEA4DC2F7A96 2020-11-03  Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sub   rsa3072 2020-10-21 [E] [caduca: 2022-10-21]
+sig          6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
 </pre>
 
 <p><strong>5. Comprueba que ya puedes verificar sin “problemas” una firma recibida por una persona en la que confías.</strong></p>
