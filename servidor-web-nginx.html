@@ -144,6 +144,12 @@ echo `cat ./id_rsa.pub` >> .ssh/authorized_keys
 <ul>
 <li><strong>Entrega una captura de pantalla accediendo a ella.</strong></li>
 </ul>
+<p>He creado esta instancia con una imagen del <em>cloud</em> llamada <em>Debian Buster 10.6</em> y un sabor llamado <em>m1.mini</em>.</p>
+<p>Antes de instalar el servidor <strong>Nginx</strong>, voy a realizar una actualización de los repositorios, es decir, un <code>apt update</code>, pero si intentamos realizarlo, nos da un error que sinceramente desconozco el por qué, pero que he solventado comentando las líneas <code>src</code> en el fichero <code>/etc/apt/sources.list</code>.</p>
+<pre>
+apt update && apt install nginx -y
+</pre>
+
 <h4>Virtual Hosting</h4>
 <p><strong>Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</strong></p>
 <ul>
