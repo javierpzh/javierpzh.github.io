@@ -276,6 +276,11 @@ sig          3E0DA17912B9A4F8 2020-10-13  Álvaro Vaca Ferreras <avacaferreras@g
 </pre>
 
 <p>Observamos como se ha añadido una nueva firma, en este caso la mía. Por tanto, ahora simplemente nos faltaría exportar esta clave de Álvaro y hacérsela llegar para que él pueda actualizar su clave pública que ahora también posee mi firma.</p>
+<pre>
+gpg --export 12B9A4F8 > alvaro.asc
+</pre>
+
+<p>Se la paso por correo.</p>
 <p>Me he encargado de pasar mi clave a tres compañeros para que me la firmen.</p>
 <p>En este caso, voy a mostrar como importo mi clave pública, que recientemente me la ha enviado Álvaro firmada por él, para actualizar mi lista de firmas:</p>
 <pre>
@@ -303,6 +308,119 @@ sub   rsa3072 2020-10-21 [E] [caduca: 2022-10-21]
 sig          6F7A456BC67662D3 2020-10-21  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
 
 ...
+</pre>
+
+<p>Voy a repetir el proceso con mi compañero <a href="https://www.instagram.com/thetrolleator/">Fran</a>:</p>
+<p>Primero importo su clave:</p>
+<pre>
+javier@debian:~/Descargas$ gpg --import firma-fran.key
+gpg: key BEAECEA4DC2F7A96: 1 firma no comprobada por falta de una clave
+gpg: clave BEAECEA4DC2F7A96: clave pública "Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>" importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   1  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   1  firmada:   2  confianza: 1-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2022-10-07
+
+javier@debian:~/Descargas$ gpg --list-key
+/home/javier/.gnupg/pubring.kbx
+-------------------------------
+...
+
+pub   rsa3072 2020-10-07 [SC] [caduca: 2022-10-07]
+      D6BE9BF1C7D6A435BF1B9D38BEAECEA4DC2F7A96
+uid        [no definida] Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sub   rsa3072 2020-10-07 [E] [caduca: 2022-10-07]
+
+...
+
+javier@debian:~/Descargas$ gpg --list-sign
+/home/javier/.gnupg/pubring.kbx
+-------------------------------
+...
+
+pub   rsa3072 2020-10-07 [SC] [caduca: 2022-10-07]
+      D6BE9BF1C7D6A435BF1B9D38BEAECEA4DC2F7A96
+uid        [no definida] Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sig 3        BEAECEA4DC2F7A96 2020-10-07  Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sig          3E0DA17912B9A4F8 2020-10-21  Álvaro Vaca Ferreras <avacaferreras@gmail.com>
+sig          73986F40D4BB0593 2020-10-21  [ID de usuario no encontrado]
+sig          15E1B16E8352B9BB 2020-10-27  Juan Luis Millan Hidalgo <juanluismillanhidalgo@gmail.com>
+sub   rsa3072 2020-10-07 [E] [caduca: 2022-10-07]
+sig          BEAECEA4DC2F7A96 2020-10-07  Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+
+...
+</pre>
+
+<p>Vemos como la he importado y nos aparecen las firmas que él posee, entre las que se encuentran las de Álvaro y Juanlu.</p>
+<p>Le firmo la clave:</p>
+<pre>
+javier@debian:~/Descargas$ gpg --edit-key DC2F7A96
+gpg (GnuPG) 2.2.12; Copyright (C) 2018 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+pub  rsa3072/BEAECEA4DC2F7A96
+     creado: 2020-10-07  caduca: 2022-10-07  uso: SC  
+     confianza: desconocido   validez: no definido
+sub  rsa3072/B9026374C5B1C2EE
+     creado: 2020-10-07  caduca: 2022-10-07  uso: E   
+[no definida] (1). Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+
+gpg> sign
+
+pub  rsa3072/BEAECEA4DC2F7A96
+     creado: 2020-10-07  caduca: 2022-10-07  uso: SC  
+     confianza: desconocido   validez: no definido
+ Huella clave primaria: D6BE 9BF1 C7D6 A435 BF1B  9D38 BEAE CEA4 DC2F 7A96
+
+     Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+
+Esta clave expirará el 2022-10-07.
+¿Está realmente seguro de querer firmar esta clave
+con su clave: "Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>" (6F7A456BC67662D3)?
+
+¿Firmar de verdad? (s/N) s
+
+gpg> save
+javier@debian:~/Descargas$ gpg --list-sig
+gpg: comprobando base de datos de confianza
+gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+gpg: nivel: 0  validez:   1  firmada:   2  confianza: 0-, 0q, 0n, 0m, 0f, 1u
+gpg: nivel: 1  validez:   2  firmada:   1  confianza: 2-, 0q, 0n, 0m, 0f, 0u
+gpg: siguiente comprobación de base de datos de confianza el: 2022-10-07
+/home/javier/.gnupg/pubring.kbx
+-------------------------------
+...
+
+pub   rsa3072 2020-10-07 [SC] [caduca: 2022-10-07]
+      D6BE9BF1C7D6A435BF1B9D38BEAECEA4DC2F7A96
+uid        [   total   ] Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sig 3        BEAECEA4DC2F7A96 2020-10-07  Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+sig          3E0DA17912B9A4F8 2020-10-21  Álvaro Vaca Ferreras <avacaferreras@gmail.com>
+sig          73986F40D4BB0593 2020-10-21  [ID de usuario no encontrado]
+sig          15E1B16E8352B9BB 2020-10-27  Juan Luis Millan Hidalgo <juanluismillanhidalgo@gmail.com>
+sig          6F7A456BC67662D3 2020-11-03  Javier Pérez Hidalgo <javierperezhidalgo01@gmail.com>
+sub   rsa3072 2020-10-07 [E] [caduca: 2022-10-07]
+sig          BEAECEA4DC2F7A96 2020-10-07  Francisco Javier Martín Núñez <franjaviermn17100@gmail.com>
+
+...
+</pre>
+
+<p>Exporto la clave de Fran, firmada por mí y se la paso:</p>
+<pre>
+gpg --export DC2F7A96 > fran.asc
+</pre>
+
+<p>También exporto mi clave para que él me la firme:</p>
+<pre>
+gpg --export C67662D3 > clavejavi.asc
+</pre>
+
+<p>Cuando he recibido mi clave firmada por Fran, la importo a mi anillo:</p>
+<pre>
+
 </pre>
 
 <p><strong>4. Muestra las firmas que tiene tu clave pública.</strong></p>
