@@ -576,6 +576,17 @@ wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.6.0-amd
 <p><strong>5. Explica el proceso por el cual el sistema nos asegura que los ficheros que estamos descargando son legítimos.</strong></p>
 <p>Cuando realizamos un <code>apt update</code>, <em>apt</em> siempre realiza una descarga de los ficheros <code>Release.gpg</code> cuando estamos realizando la descarga de ficheros <code>Release</code>. Si no encuentra, la firma está mal, o no puede descargar el fichero <code>Release.gpg</code>, nos reportará un error adviertiéndonos de que el paquete, y todo su contenido, al que hace referencia ese fichero <code>Release</code>, son de una fuente sin autentificar.</p>
 <p><strong>6. Añade de forma correcta el repositorio de <em>Virtualbox</em> añadiendo la clave pública de Virtualbox como se indica en la <a href="https://www.virtualbox.org/wiki/Linux_Downloads">documentación</a>.</strong></p>
+<p>Para añadir el repositorio de Virtualbox con su clave pública, primeramente debemos añadir el repositorio a nuestro fichero <code>/etc/apt/sources.list</code>:</p>
+<pre>
+deb https://download.virtualbox.org/virtualbox/debian buster contrib
+</pre>
+
+<p>Y luego añadimos la clave pública:</p>
+<pre>
+wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+</pre>
+
+<p>Ejecutaríamos un <code>apt update</code> y listo.</p>
 <h2>Tarea 5: Autentificación: ejemplo SSH</h2>
 <p><strong>Vamos a estudiar como la criptografía nos ayuda a cifrar las comunicaciones que hacemos utilizando el protocolo ssh, y cómo nos puede servir también para conseguir que un cliente se autentifique contra el servidor. Responde las siguientes cuestiones:</strong></p>
 <p><strong>1. Explica los pasos que se producen entre el cliente y el servidor para que el protocolo cifre la información que se transmite? ¿Para qué se utiliza la criptografía simétrica? ¿Y la asimétrica?</strong></p>
