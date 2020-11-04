@@ -571,7 +571,10 @@ wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.6.0-amd
 <p><strong>3.¿En qué fichero se guarda el anillo de claves que guarda la herramienta <code>apt-key</code>?</strong></p>
 <p>El anillo de claves de <em>apt</em> se guarda en el fichero <code>/etc/apt/trusted.gpg</code>.</p>
 <p><strong>4. ¿Qué contiene el archivo <code>Release</code> de un repositorio de paquetes?. ¿Y el archivo <code>Release.gpg</code>?. Puedes ver estos archivos en el repositorio <code>http://ftp.debian.org/debian/dists/Debian10.1/</code>. Estos archivos se descargan cuando hacemos un <code>apt update</code>.</strong></p>
+<p>El archivo <code>Release</code> es el que está firmado por Debian y contiene una lista de los archivos junto con sus <em>hashes</em> para asegurarnos que los archivos no han sido modificados.</p>
+<p>El archivo <code>Release.gpg</code> se utiliza para comprobar criptograficamente la integridad del archivo <code>Release</code>.</p>
 <p><strong>5. Explica el proceso por el cual el sistema nos asegura que los ficheros que estamos descargando son legítimos.</strong></p>
+<p>Cuando realizamos un <code>apt update</code>, <em>apt</em> siempre realiza una descarga de los ficheros <code>Release.gpg</code> cuando estamos realizando la descarga de ficheros <code>Release</code>. Si no encuentra, la firma está mal, o no puede descargar el fichero <code>Release.gpg</code>, nos reportará un error adviertiéndonos de que el paquete, y todo su contenido, al que hace referencia ese fichero <code>Release</code>, son de una fuente sin autentificar.</p>
 <p><strong>6. Añade de forma correcta el repositorio de <em>Virtualbox</em> añadiendo la clave pública de Virtualbox como se indica en la <a href="https://www.virtualbox.org/wiki/Linux_Downloads">documentación</a>.</strong></p>
 <h2>Tarea 5: Autentificación: ejemplo SSH</h2>
 <p><strong>Vamos a estudiar como la criptografía nos ayuda a cifrar las comunicaciones que hacemos utilizando el protocolo ssh, y cómo nos puede servir también para conseguir que un cliente se autentifique contra el servidor. Responde las siguientes cuestiones:</strong></p>
