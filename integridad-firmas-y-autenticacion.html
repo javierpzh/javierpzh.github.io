@@ -607,7 +607,7 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 <p><strong>Autentificación mediante par de claves:</strong> este método de autentificación es bastante cómodo y práctico a la hora de acceder de manera habitual a máquinas remotas. Consiste en utilizar nuestras claves públicas-privadas para autentificarnos en la máquina sin necesidad de introducir ningún tipo de credenciales. Para realizar conexiones <em>ssh</em> de este tipo, necesitaremos introducir nuestra clave pública en la máquina remota a la que deseamos acceder, de manera que la próxima vez que accedamos, estaremos utilizando nuestra clave privada y nuestra clave pública para verificar que somos la persona autorizada a entrar en el sistema. Nuestra clave pública tendremos que añadirla en el fichero <code>.ssh/authorized_keys</code> del equipo remoto.</p>
 </li>
 </ul>
-<p><strong>3. En el cliente para que sirve el contenido que se guarda en el fichero <code>~/.ssh/know_hosts</code>?</strong></p>
+<p><strong>3. En el cliente para que sirve el contenido que se guarda en el fichero <code>~/.ssh/known_hosts</code>?</strong></p>
 <p><strong>4. ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?</strong></p>
 <pre>
 $ ssh debian@172.22.200.74
