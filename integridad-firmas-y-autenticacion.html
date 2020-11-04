@@ -600,7 +600,12 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 </ul>
 <p><strong>2. Explica los dos métodos principales de autentificación: por contraseña y utilizando un par de claves públicas y privadas.</strong></p>
 <ul>
-<li><strong>Autentificación por contraseña:</strong> </li>
+<li>
+<p><strong>Autentificación por contraseña:</strong> este método es bastante sencillo y no tiene ningún tipo de misterio, simplemente si queremos realizar una conexión <em>ssh</em> por ejemplo al usuario <em>usuario1</em> de la máquina <em>100.100.100.100</em>, al introducir el comando <code>ssh usuario1@100.100.100.100</code> nos pedirá la contraseña del <em>usuario1</em> definido en esa máquina. Iniciamos sesión y ya habríamos realizado la conexión.</p>
+</li>
+<li>
+<p><strong>Autentificación por par de claves:</strong> este método de autentificación es bastante cómodo y práctica a la hora de acceder de manera habitual a máquinas remotas. Consiste en utilizar nuestras claves públicas-privadas para autentificarnos en la máquina sin necesidad de introducir ningún tipo de credenciales. Para realizar conexiones <em>ssh</em> de este tipo, necesitaremos introducir nuestra clave pública en la máquina remota a la que deseamos acceder, de manera que la próxima vez que accedamos, estaremos utilizando nuestra clave privada y nuestra clave pública para verificar que somos la persona autorizada a entrar en el sistema.</p>
+</li>
 </ul>
 <p><strong>3. En el cliente para que sirve el contenido que se guarda en el fichero <code>~/.ssh/know_hosts</code>?</strong></p>
 <p><strong>4. ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?</strong></p>
