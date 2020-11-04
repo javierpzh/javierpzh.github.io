@@ -555,13 +555,21 @@ gpg: Firma correcta de "Adrián Rodríguez Povea <arodriguezpovea@gmail.com>" [t
 <p><strong>Vamos a descargarnos la ISO de debian, y posteriormente vamos a comprobar su integridad.</strong></p>
 <p><strong>Puedes encontrar la ISO en la dirección: <a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/">https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/</a>.</strong></p>
 <p><strong>1. Para validar el contenido de la imagen CD, solo asegúrese de usar la herramienta apropiada para sumas de verificación. Para cada versión publicada existen archivos de suma de comprobación con algoritmos fuertes (SHA256 y SHA512); debería usar las herramientas sha256sum o sha512sum para trabajar con ellos.</strong></p>
+<p>Nos descargamos la ISO de Debian, para ello:</p>
+<pre>
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.6.0-amd64-netinst.iso
+</pre>
+
 <p><strong>2. Verifica que el contenido del hash que has utilizado no ha sido manipulado, usando la firma digital que encontrarás en el repositorio. Puedes encontrar una guía para realizarlo en este artículo: <a href="https://linuxconfig.org/how-to-verify-an-authenticity-of-downloaded-debian-iso-images">How to verify an authenticity of downloaded Debian ISO images</a></strong></p>
 <h2>Tarea 4: Integridad y autenticidad (apt secure)</h2>
 <p><strong>Cuando nos instalamos un paquete en nuestra distribución linux tenemos que asegurarnos que ese paquete es legítimo. Para conseguir este objetivo se utiliza criptografía asimétrica, y en el caso de Debian a este sistema se llama apt secure. Esto lo debemos tener en cuenta al utilizar los repositorios oficiales. Cuando añadamos nuevos repositorios tendremos que añadir las firmas necesarias para confiar en que los paquetes son legítimos y no han sido modificados.</strong></p>
 <p><strong>Busca información sobre <code>apt secure</code> y responde las siguientes preguntas:</strong></p>
 <p><strong>1.¿Qué software utiliza <code>apt secure</code> para realizar la criptografía asimétrica?</strong></p>
+<p><strong>apt secure</strong> utiliza GnuPG para realizar la criptografía asimétrica.</p>
 <p><strong>2.¿Para que sirve el comando <code>apt-key</code>? ¿Qué muestra el comando <code>apt-key list</code>?</strong></p>
+<p><strong>apt-key</strong> es una herramienta que se usa para gestionar el anillo de claves de GPG de las claves de <em>apt</em>. El comando <code>apt-key list</code> muestra las claves públicas que tenemos en nuestro anillo de claves de confianza.</p>
 <p><strong>3.¿En qué fichero se guarda el anillo de claves que guarda la herramienta <code>apt-key</code>?</strong></p>
+<p>El anillo de claves de <em>apt</em> se guarda en el fichero <code>/etc/apt/trusted.gpg</code>.</p>
 <p><strong>4. ¿Qué contiene el archivo <code>Release</code> de un repositorio de paquetes?. ¿Y el archivo <code>Release.gpg</code>?. Puedes ver estos archivos en el repositorio <code>http://ftp.debian.org/debian/dists/Debian10.1/</code>. Estos archivos se descargan cuando hacemos un <code>apt update</code>.</strong></p>
 <p><strong>5. Explica el proceso por el cual el sistema nos asegura que los ficheros que estamos descargando son legítimos.</strong></p>
 <p><strong>6. Añade de forma correcta el repositorio de <em>Virtualbox</em> añadiendo la clave pública de Virtualbox como se indica en la <a href="https://www.virtualbox.org/wiki/Linux_Downloads">documentación</a>.</strong></p>
