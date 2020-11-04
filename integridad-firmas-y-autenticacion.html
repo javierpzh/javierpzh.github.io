@@ -525,7 +525,31 @@ gpg: Firma correcta de "Adrián Rodríguez Povea <arodriguezpovea@gmail.com>" [t
 <h2>Tarea 2: Correo seguro con evolution/thunderbird</h2>
 <p><strong>Ahora vamos a configurar nuestro cliente de correo electrónico para poder mandar correos cifrados, para ello:</strong></p>
 <p><strong>1. Configura el cliente de correo evolution con tu cuenta de correo habitual</strong></p>
+<p>He añadido y sincronizado mi cuenta de correo electrónico <code>javierperezhidalgo01@gmail.com</code> en el cliente <strong>Evolution</strong>. No tiene ningún misterio por tanto no voy a explicar el proceso.</p>
 <p><strong>2. Añade a la cuenta las opciones de seguridad para poder enviar correos firmados con tu clave privada o cifrar los mensajes para otros destinatarios</strong></p>
+<p>Para asociar nuestra clave a esta cuenta de correo, nos desplazamos hasta las opciones de seguridad. Para ello, en la pestaña <strong>Editar</strong>, entramos en <strong>Preferencias</strong>, seleccionamos nuestra cuenta de correo y hacemos click en <strong>Editar</strong> y se nos abrirá un menú como este, en el que introduciremos nuestra clave:</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/clavecorreo.png"></p>
+<p>Vemos que debajo del campo de la clave, nos aparecen estos dos apartados:</p>
+<ul>
+<li>
+<p><em>Firmar siempre los mensajes salientes cuando se use esta cuenta</em></p>
+</li>
+<li>
+<p><em>Cifrar siempre los mensajes salientes cuando se use esta cuenta</em></p>
+</li>
+</ul>
+<p>Si queremos enviar correos firmados, seleccionamos la primera opción, y si queremos enviar correos cifrados, seleccionamos la segunda opción.</p>
+<p>Ya habríamos configurado el cliente para enviar correos firmados y cifrados.</p>
+<p>Voy a realizar una prueba de enviar un correo firmado. Previamente he marcado la primera opción mencionada antes.</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/verificacioncorreofirmado.png"></p>
+<p>Nos pide la verificación de la clave:</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/correofirmado.png"></p>
+<p>Se lo he enviado a mi compañero Álvaro, y este es el resultado que ha recibido él:</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/.png"></p>
+<p>Voy a realizar una prueba de enviar un correo cifrado. Previamente he marcado la segunda opción mencionada antes.</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/correocifrado.png"></p>
+<p>Se lo he enviado a mi compañero Álvaro, y este es el resultado que ha recibido él:</p>
+<p><img alt="." src="images/sad_integridad_firmas_y_autenticacion/.png"></p>
 <p><strong>3. Envía y recibe varios mensajes con tus compañeros y comprueba el funcionamiento adecuado de GPG</strong></p>
 <h2>Tarea 3: Integridad de ficheros</h2>
 <p><strong>Vamos a descargarnos la ISO de debian, y posteriormente vamos a comprobar su integridad.</strong></p>
