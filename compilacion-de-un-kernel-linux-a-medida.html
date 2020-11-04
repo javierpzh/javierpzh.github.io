@@ -116,12 +116,16 @@
 <p>Voy a instalar el paquete <code>linux-image-4.19.0-12-amd64</code> que corresponde al kérnel <strong>4.19.0-12</strong>.</p>
 <p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-image-4.19.0-12-amd64">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux-signed-amd64/linux-image-4.19.0-12-amd64_4.19.152-1_amd64.deb">enlace</a>.</p>
 <p><strong>2. Crea un directorio de trabajo (p.ej. mkdir ~/Linux)</strong></p>
+<pre>
+mkdir ~/kernelLinux/
+</pre>
+
 <p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
 <pre>
 tar xf /usr/src/linux-source-... ~/Linux/
 </pre>
 
-<p>Descargo y decomprimo el kérnel:</p>
+<p>Descargo y descomprimo el kérnel:</p>
 <pre>
 
 root@buster:~# wget http://security.debian.org/debian-security/pool/updates/main/l/linux-signed-amd64/linux-image-4.19.0-12-amd64_4.19.152-1_amd64.deb
