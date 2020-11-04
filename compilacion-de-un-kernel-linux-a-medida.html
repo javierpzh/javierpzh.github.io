@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>compilar | Javier Pérez Hidalgocompilar</title>
+        <title>Compilación de un kérnel linux a medida | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +31,29 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="compilar">
+        <meta name="tags" content="kernel">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/compilacion-de-un-kernel-linux-a-medida.html">
+	<meta property="og:title" content="Compilación de un kérnel linux a medida">
+	<meta property="article:published_time" content="2020-11-04 00:00:00+01:00">
+            <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
 
-<body class="tag-compilar">
+<body class="article-compilacion-de-un-kernel-linux-a-medida">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -65,12 +83,18 @@
         <!-- /.container -->
     </nav>
 
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>tag - compilar</h1>
+                        <h1>Compilación de un kérnel linux a medida</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el mié 04 noviembre 2020
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -81,34 +105,62 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/compilacion-de-un-kernel-linux-a-medida.html" rel="bookmark" title="Permalink to Compilación de un kérnel linux a medida">
-                <h2 class="post-title">
-                    Compilación de un kérnel linux a medida
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mié 04 noviembre 2020
-            </p>
+    <!-- Post Content -->
+    <article>
+        <h2>Compilación de un kérnel linux a medida</h2>
+<p><strong>Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo. Además, esta tarea a priori compleja, es más sencilla de lo que parece gracias a las herramientas disponibles.</strong></p>
+<p><strong>En esta tarea debes tratar de compilar un kérnel completamente funcional que reconozca todo el hardware básico de tu equipo y que sea a la vez lo más pequeño posible, es decir que incluya un vmlinuz lo más pequeño posible y que incorpore sólo los módulos imprescindibles. Para ello utiliza el método explicado en clase y entrega finalmente el fichero <code>deb</code> con el kérnel compilado por ti.</strong></p>
+<p><strong>El hardware básico incluye como mínimo el teclado, la interfaz de red y la consola gráfica (texto).</strong></p>
+<h3>Procedimiento a seguir</h3>
+<p><strong>1. Instala el paquete linux-source correspondiente al núcleo que estés usando en tu máquina</strong></p>
+<p>Voy a instalar el paquete <code>linux-image-4.19.0-12-amd64</code> que corresponde al kérnel <strong>4.19.0-12</strong>.</p>
+<p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-image-4.19.0-12-amd64">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux-signed-amd64/linux-image-4.19.0-12-amd64_4.19.152-1_amd64.deb">enlace</a>.</p>
+<p><strong>2. Crea un directorio de trabajo (p.ej. mkdir ~/Linux)</strong></p>
+<p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
+<pre>
+tar xf /usr/src/linux-source-... ~/Linux/
+</pre>
+
+<p><strong>4. Utiliza como punto de partida la configuración actual del núcleo:</strong></p>
+<pre>
+make oldconfig
+</pre>
+
+<p><strong>5. Cuenta el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p><strong>6. Configura el núcleo en función de los módulos que está utilizando tu equipo (para no incluir en la compilación muchos controladores de dispositivos que no utiliza el equipo):</strong></p>
+<pre>
+make localmodconfig
+</pre>
+
+<p><strong>7. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p><strong>8. Realiza la primera compilación:</strong></p>
+<pre>
+make -j <número de hilos> bindeb-pkg
+</pre>
+
+<p><strong>9. Instala el núcleo resultando de la compilación, reinicia el equipo y comprueba que funciona adecuadamente.</strong></p>
+<p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
+<pre>
+cp /boot/config-... .config
+make clean
+make xconfig
+</pre>
+
+<p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p><strong>12. Vuelve a compilar:</strong></p>
+<pre>
+make -j <número de hilos> bindeb-pkg
+</pre>
+
+<p><strong>13. Si se produce un error en la compilación, vuelve al paso de configuración, si la compilación termina correctamente, instala el nuevo núcleo y comprueba el arranque.</strong></p>
+<p><strong>14. Continuamos reiterando el proceso poco a poco hasta conseguir el núcleo lo más pequeño posible que pueda arrancar en nuestro equipo.</strong></p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/compilar.html">compilar</a>, <a href="/tag/kernel.html">kernel</a></p>
         </div>
-        <div class="post-preview">
-            <a href="/compilacion-de-un-programa-en-c-utilizando-un-makefile.html" rel="bookmark" title="Permalink to Compilación de un programa en C utilizando un Makefile">
-                <h2 class="post-title">
-                    Compilación de un programa en C utilizando un Makefile
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Descripción Elige el programa escrito en C que prefieras y comprueba en las fuentes que exista un fichero Makefile para compilarlo....
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el sáb 24 octubre 2020
-            </p>
-        </div>
+
+    <hr>
 
             </div>
         </div>
