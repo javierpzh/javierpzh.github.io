@@ -622,6 +622,7 @@ ECDSA key fingerprint is SHA256:7ZoNZPCbQTnDso1meVSNoKszn38ZwUI4i6saebbfL4M.
 Are you sure you want to continue connecting (yes/no)?
 </pre>
 
+<p>Este mensaje nos aparece cuando intentamos conectarnos a un servidor que no conocemos. Si respondemos que <em>sí</em>, se copiara en el fichero <code>.ssh/known_hosts</code> del cliente, la clave pública de ese servidor, de forma que en conexiones posteriores podremos verificar la identidad del servidor, y si no es el mismo, el cliente rechazará la conexión.</p>
 <p><strong>5. En ocasiones cuando estamos trabajando en el cloud, y reutilizamos una ip flotante nos aparece este mensaje:</strong></p>
 <pre>
 $ ssh debian@172.22.200.74
