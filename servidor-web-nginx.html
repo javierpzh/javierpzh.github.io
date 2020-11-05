@@ -160,6 +160,27 @@ Last login: Tue Nov  3 17:54:49 2020 from 172.23.0.46
 debian@deb10-servidornginx:~$
 </pre>
 
+<p>Hemos accedido a la instancia.</p>
+<h4>Virtual Hosting</h4>
+<p><strong>Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</strong></p>
+<ul>
+<li>
+<p><strong>Cada sitio web tendrá nombres distintos.</strong></p>
+</li>
+<li>
+<p><strong>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</strong></p>
+</li>
+</ul>
+<p><strong>Los dos sitios web tendrán las siguientes características:</strong></p>
+<ul>
+<li>
+<p><strong>El nombre de dominio del primero será <code>www.iesgn.org</code>, su directorio base será <code>/srv/www/iesgn</code> y contendrá una página llamada <code>index.html</code>, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</strong></p>
+</li>
+<li>
+<p><strong>En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será <code>departamentos.iesgn.org</code>, y su directorio base será <code>/srv/www/departamentos</code>. En este sitio sólo tendremos una página inicial <code>index.html</code>, dando la bienvenida a la página de los departamentos del instituto.</strong></p>
+</li>
+</ul>
+<p><strong>2. Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</strong></p>
 <p>Antes de instalar el servidor <strong>Nginx</strong>, voy a realizar una actualización de los repositorios, es decir, un <code>apt update</code>, pero si intentamos realizarlo, nos da un error que sinceramente desconozco el por qué, pero que he solventado comentando las líneas <code>src</code> en el fichero <code>/etc/apt/sources.list</code>.</p>
 <pre>
 apt update && apt install nginx -y
@@ -197,26 +218,6 @@ server {
 ln -s /etc/nginx/sites-available/iesgn.conf /etc/nginx/sites-enabled/
 </pre>
 
-<h4>Virtual Hosting</h4>
-<p><strong>Queremos que nuestro servidor web ofrezca dos sitios web, teniendo en cuenta lo siguiente:</strong></p>
-<ul>
-<li>
-<p><strong>Cada sitio web tendrá nombres distintos.</strong></p>
-</li>
-<li>
-<p><strong>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</strong></p>
-</li>
-</ul>
-<p><strong>Los dos sitios web tendrán las siguientes características:</strong></p>
-<ul>
-<li>
-<p><strong>El nombre de dominio del primero será <code>www.iesgn.org</code>, su directorio base será <code>/srv/www/iesgn</code> y contendrá una página llamada <code>index.html</code>, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</strong></p>
-</li>
-<li>
-<p><strong>En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será <code>departamentos.iesgn.org</code>, y su directorio base será <code>/srv/www/departamentos</code>. En este sitio sólo tendremos una página inicial <code>index.html</code>, dando la bienvenida a la página de los departamentos del instituto.</strong></p>
-</li>
-</ul>
-<p><strong>2. Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</strong></p>
 <h4>Mapeo de URL</h4>
 <p><strong>Cambia la configuración del sitio web <code>www.iesgn.org</code> para que se comporte de la siguiente forma:</strong></p>
 <p><strong>3. Cuando se entre a la dirección <code>www.iesgn.org</code> se redireccionará automáticamente a <code>www.iesgn.org/principal</code>, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</strong></p>
