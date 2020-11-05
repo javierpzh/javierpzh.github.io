@@ -561,17 +561,55 @@ gpg: Firma correcta de "Adrián Rodríguez Povea <arodriguezpovea@gmail.com>" [t
 <p><strong>Vamos a descargarnos la ISO de debian, y posteriormente vamos a comprobar su integridad.</strong></p>
 <p><strong>Puedes encontrar la ISO en la dirección: <a href="https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/">https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/</a>.</strong></p>
 <p><strong>1. Para validar el contenido de la imagen CD, solo asegúrese de usar la herramienta apropiada para sumas de verificación. Para cada versión publicada existen archivos de suma de comprobación con algoritmos fuertes (SHA256 y SHA512); debería usar las herramientas <code>sha256sum</code> o <code>sha512sum</code> para trabajar con ellos.</strong></p>
+<p><strong>2. Verifica que el contenido del hash que has utilizado no ha sido manipulado, usando la firma digital que encontrarás en el repositorio. Puedes encontrar una guía para realizarlo en este artículo: <a href="https://linuxconfig.org/how-to-verify-an-authenticity-of-downloaded-debian-iso-images">How to verify an authenticity of downloaded Debian ISO images</a></strong></p>
 <p>Nos descargamos la ISO de Debian, para ello:</p>
 <pre>
 wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-10.6.0-amd64-netinst.iso
 </pre>
 
-<p><a href="https://www.debian.org/CD/verify.es.html">clave pública de Debian</a>:</p>
+<p>También he descargado los archivos <code>SHA256SUMS</code>, <code>SHA256SUMS.sign</code>, <code>SHA512SUMS</code> y <code>SHA512SUMS.sign</code> para comprobar la integridad de la ISO descargada, así evitaremos y nos aseguraremos que no está manipulada.</p>
+<p>He agregado la <a href="https://www.debian.org/CD/verify.es.html">clave pública de Debian</a> a mi anillo de claves:</p>
 <pre>
-gpg --keyserver keyring.debian.org --recv-keys 09EA8AC3
+javier@debian:~/Descargas$ gpg --keyserver keyring.debian.org --recv-keys 6294BE9B
+gpg: clave DA87E80D6294BE9B: clave pública "Debian CD signing key <debian-cd@lists.debian.org>" importada
+gpg: Cantidad total procesada: 1
+gpg:               importadas: 1
 </pre>
 
-<p><strong>2. Verifica que el contenido del hash que has utilizado no ha sido manipulado, usando la firma digital que encontrarás en el repositorio. Puedes encontrar una guía para realizarlo en este artículo: <a href="https://linuxconfig.org/how-to-verify-an-authenticity-of-downloaded-debian-iso-images">How to verify an authenticity of downloaded Debian ISO images</a></strong></p>
+<p>Verificando los ficheros <code>SHA256SUMS.sign</code> y <code>SHA512SUMS.sign</code>, automáticamente nos dice que asume que los ficheros a los que hacemos referencia y donde se encuentran los datos firmados son <code>SHA256SUMS</code> y <code>SHA512SUMS</code>:</p>
+<pre>
+javier@debian:~/Descargas$ gpg --verify SHA256SUMS.sign
+gpg: asumiendo que los datos firmados están en 'SHA256SUMS'
+gpg: Firmado el dom 27 sep 2020 02:24:23 CEST
+gpg:                usando RSA clave DF9B9C49EAA9298432589D76DA87E80D6294BE9B
+gpg: Firma correcta de "Debian CD signing key <debian-cd@lists.debian.org>" [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: DF9B 9C49 EAA9 2984 3258  9D76 DA87 E80D 6294 BE9B
+
+javier@debian:~/Descargas$ gpg --verify SHA512SUMS.sign
+gpg: asumiendo que los datos firmados están en 'SHA512SUMS'
+gpg: Firmado el dom 27 sep 2020 02:24:23 CEST
+gpg:                usando RSA clave DF9B9C49EAA9298432589D76DA87E80D6294BE9B
+gpg: Firma correcta de "Debian CD signing key <debian-cd@lists.debian.org>" [desconocido]
+gpg: ATENCIÓN: ¡Esta clave no está certificada por una firma de confianza!
+gpg:          No hay indicios de que la firma pertenezca al propietario.
+Huellas dactilares de la clave primaria: DF9B 9C49 EAA9 2984 3258  9D76 DA87 E80D 6294 BE9B
+</pre>
+
+<p>Nos dice que están firmados correctamente con la clave pública de Debian que anteriormente añadimos a nuestro anillo de claves, por tanto estos ficheros son auténticos.</p>
+<p>Si ahora utilizamos las herramientas <code>sha256sum</code> y <code>sha512sum</code> para verificar que la ISO es correcta, ahora que sabemos que los archivos <code>SHA256SUMS</code> y <code>SHA512SUMS</code> son los auténticos:</p>
+<pre>
+javier@debian:~/Descargas$ sha256sum -c SHA256SUMS
+debian-10.6.0-amd64-netinst.iso: La suma coincide
+...
+
+javier@debian:~/Descargas$ sha512sum -c SHA512SUMS
+debian-10.6.0-amd64-netinst.iso: La suma coincide
+...
+</pre>
+
+<p>Vemos que nos indica que la ISO que hemos descargado no ha sido manipulada, y por tanto es la ISO auténtica de Debian.</p>
 <h2>Tarea 4: Integridad y autenticidad (apt secure)</h2>
 <p><strong>Cuando nos instalamos un paquete en nuestra distribución linux tenemos que asegurarnos que ese paquete es legítimo. Para conseguir este objetivo se utiliza criptografía asimétrica, y en el caso de Debian a este sistema se llama apt secure. Esto lo debemos tener en cuenta al utilizar los repositorios oficiales. Cuando añadamos nuevos repositorios tendremos que añadir las firmas necesarias para confiar en que los paquetes son legítimos y no han sido modificados.</strong></p>
 <p><strong>Busca información sobre <code>apt secure</code> y responde las siguientes preguntas:</strong></p>
