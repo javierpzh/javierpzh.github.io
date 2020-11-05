@@ -181,7 +181,9 @@ debian@deb10-servidornginx:~$
 </li>
 </ul>
 <p><strong>2. Configura la resolución estática en los clientes y muestra el acceso a cada una de las páginas.</strong></p>
-<p>Antes de instalar el servidor <strong>Nginx</strong>, voy a realizar una actualización de los repositorios, es decir, un <code>apt update</code>, pero si intentamos realizarlo, nos da un error que sinceramente desconozco el por qué, pero que he solventado comentando las líneas <code>src</code> en el fichero <code>/etc/apt/sources.list</code>.</p>
+<p>Antes de instalar el servidor web, en nuestro administrador de instancias, en mi caso, estoy utilizando una instancia del servicio de <em>cloud</em> de mi instituto, debemos abrir el <strong>puerto 80 (HTTP)</strong>, ya que sino no nos va a dejar acceder a las páginas que configuremos.</p>
+<p><img alt="." src="images/sri_servidor_web_nginx/puerto80.png"></p>
+<p>Para instalar el servidor <strong>Nginx</strong>, voy a realizar una actualización de los repositorios, es decir, un <code>apt update</code>, pero si intentamos realizarlo, nos da un error que sinceramente desconozco el por qué, pero que he solventado comentando las líneas <code>src</code> en el fichero <code>/etc/apt/sources.list</code>.</p>
 <pre>
 apt update && apt install nginx -y
 </pre>
@@ -265,6 +267,12 @@ index.html
 index.html
 </pre>
 
+<p>En este punto, solo nos faltaría reiniciar el servicio:</p>
+<pre>
+systemctl restart nginx
+</pre>
+
+<p>Si queremos visualizar las páginas en nuestra máquina anfitriona, añadimos estas líneas al fichero <code>/etc/hosts</code>:</p>
 <pre>
 172.22.200.116  www.iesgn.org
 172.22.200.116  departamentos.iesgn.org
