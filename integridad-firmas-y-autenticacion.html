@@ -607,7 +607,8 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 <p><strong>Autentificación mediante par de claves:</strong> este método de autentificación es bastante cómodo y práctico a la hora de acceder de manera habitual a máquinas remotas. Consiste en utilizar nuestras claves públicas-privadas para autentificarnos en la máquina sin necesidad de introducir ningún tipo de credenciales. Para realizar conexiones <em>ssh</em> de este tipo, necesitaremos introducir nuestra clave pública en la máquina remota a la que deseamos acceder, de manera que la próxima vez que accedamos, estaremos utilizando nuestra clave privada y nuestra clave pública para verificar que somos la persona autorizada a entrar en el sistema. Nuestra clave pública tendremos que añadirla en el fichero <code>.ssh/authorized_keys</code> del equipo remoto.</p>
 </li>
 </ul>
-<p><strong>3. En el cliente para que sirve el contenido que se guarda en el fichero <code>~/.ssh/known_hosts</code>?</strong></p>
+<p><strong>3. En el cliente, ¿para qué sirve el contenido que se guarda en el fichero <code>~/.ssh/known_hosts</code>?</strong></p>
+<p>El fichero <code>.ssh/known_hosts</code> almacena las claves públicas de los servidores a los que se conecta un equipo, de modo que cuando nos volvemos a conectar, verifica si el servidor es quién dice ser y no se trata de un imitador.</p>
 <p><strong>4. ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?</strong></p>
 <pre>
 $ ssh debian@172.22.200.74
@@ -636,6 +637,7 @@ ECDSA host key for 172.22.200.74 has changed and you have requested strict check
 </pre>
 
 <p><strong>6.¿Qué guardamos y para qué sirve el fichero en el servidor <code>~/.ssh/authorized_keys</code>?</strong></p>
+<p>El fichero <code>.ssh/authorized_keys</code> en un servidor, almacena las claves públicas de los clientes que se pueden conectar a él mediante su clave privada. De esta manera, al introducir una clave pública en este fichero, la próxima vez que intentemos conectarnos, nos ahorraremos escribir la contraseña del usuario del servidor con el que queremos establecer la conexión.</p>
     </article>
 
         <div class="tags">
