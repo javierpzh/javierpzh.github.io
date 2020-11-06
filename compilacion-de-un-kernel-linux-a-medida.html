@@ -604,9 +604,31 @@ dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 
 <p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
 <pre>
-cp /boot/config-... .config
+cp /boot/config-4.19.152 .config
 make clean
 make xconfig
+</pre>
+
+<pre>
+apt install pkg-config -y
+</pre>
+
+<pre>
+apt install qt4-dev-tools -y
+</pre>
+
+<pre>
+root@debian:~# mv kernelLinux/ /home/javier/
+</pre>
+
+<pre>
+javier@debian:~$ sudo chown -R javier:javier kernelLinux/
+
+javier@debian:~/kernelLinux$ cd kernelLinux/linux-4.19.152/
+
+javier@debian:~/kernelLinux/linux-4.19.152$ make xconfig
+scripts/kconfig/qconf  Kconfig
+Gtk-Message: 12:47:43.343: Failed to load module "canberra-gtk-module"
 </pre>
 
 <p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
