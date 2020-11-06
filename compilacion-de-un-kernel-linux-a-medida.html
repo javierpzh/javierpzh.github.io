@@ -420,6 +420,170 @@ root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 make -j <número de hilos> bindeb-pkg
 </pre>
 
+<p>Primer intento de compilación:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+  UPD     include/config/kernel.release
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root <root@debian>
+dpkg-buildpackage: información: arquitectura del sistema amd64
+dpkg-buildpackage: aviso: «debian/rules» no es un fichero ejecutable, reparando
+ dpkg-source --before-build .
+dpkg-checkbuilddeps: fallo: Unmet build dependencies: bc
+dpkg-buildpackage: aviso: Las dependencias y conflictos de construcción no están satisfechas, interrumpiendo
+dpkg-buildpackage: aviso: (Use la opción «-d» para anularlo.)
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 3
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<pre>
+apt install bc -y
+</pre>
+
+<p>Segundo intento de compilación:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root <root@debian>
+dpkg-buildpackage: información: arquitectura del sistema amd64
+ dpkg-source --before-build .
+ debian/rules build
+make KERNELRELEASE=4.19.152 ARCH=x86    KBUILD_BUILD_VERSION=1 KBUILD_SRC=
+  SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
+  WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
+  UPD     include/generated/uapi/linux/version.h
+  WRAP    arch/x86/include/generated/uapi/asm/poll.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
+error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
+  SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
+  HYPERCALLS arch/x86/include/generated/asm/xen-hypercalls.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+make[3]: *** [Makefile:1142: prepare-objtool] Error 1
+make[3]: *** Se espera a que terminen otras tareas....
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+make[2]: *** [debian/rules:4: build] Error 2
+dpkg-buildpackage: fallo: debian/rules build subprocess returned exit status 2
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 2
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<pre>
+apt install libelf-dev -y
+</pre>
+
+<p>Tercer intento de compilación:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root <root@debian>
+dpkg-buildpackage: información: arquitectura del sistema amd64
+ dpkg-source --before-build .
+ debian/rules build
+make KERNELRELEASE=4.19.152 ARCH=x86    KBUILD_BUILD_VERSION=1 KBUILD_SRC=
+  DESCEND  objtool
+  HOSTCC   /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep.o
+  HOSTCC  arch/x86/tools/relocs_32.o
+  WRAP    arch/x86/include/generated/asm/dma-contiguous.h
+  WRAP    arch/x86/include/generated/asm/early_ioremap.h
+  WRAP    arch/x86/include/generated/asm/export.h
+  UPD     include/generated/utsrelease.h
+  WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/x86/include/generated/asm/mm-arch-hooks.h
+  HOSTCC  arch/x86/tools/relocs_64.o
+  HOSTCC  arch/x86/tools/relocs_common.o
+  HOSTLD   /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep-in.o
+  HOSTCC  scripts/genksyms/genksyms.o
+  LINK     /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/mod/mk_elfconfig
+  YACC    scripts/genksyms/parse.tab.c
+  LEX     scripts/genksyms/lex.lex.c
+  YACC    scripts/genksyms/parse.tab.h
+  HOSTCC  scripts/selinux/genheaders/genheaders
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/exec-cmd.o
+  CC      scripts/mod/devicetable-offsets.s
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/help.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/pager.o
+  MKELF   scripts/mod/elfconfig.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/genksyms/parse.tab.o
+  HOSTCC  scripts/genksyms/lex.lex.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/parse-options.o
+  HOSTLD  arch/x86/tools/relocs
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/run-command.o
+  HOSTCC  scripts/selinux/mdp/mdp
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/sigchain.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/subcmd-config.o
+  CC      kernel/bounds.s
+  UPD     include/generated/timeconst.h
+  HOSTCC  scripts/bin2c
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/mod/file2alias.o
+  UPD     include/generated/bounds.h
+  CC      arch/x86/kernel/asm-offsets.s
+  GEN      /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/lib/inat-tables.c
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/builtin-check.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/decode.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/builtin-orc.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/check.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/orc_gen.o
+  HOSTCC  scripts/kallsyms
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/orc_dump.o
+  HOSTCC  scripts/conmakehash
+  HOSTCC  scripts/recordmcount
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/libsubcmd-in.o
+  AR       /root/kernelLinux/linux-4.19.152/tools/objtool/libsubcmd.a
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/elf.o
+  HOSTLD  scripts/genksyms/genksyms
+  UPD     include/generated/asm-offsets.h
+  CALL    scripts/checksyscalls.sh
+  HOSTCC  scripts/sortextable
+  HOSTCC  scripts/asn1_compiler
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/objtool-in.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/special.o
+  HOSTCC  scripts/sign-file
+scripts/sign-file.c:25:10: fatal error: openssl/opensslv.h: No existe el fichero o el directorio
+ #include <openssl/opensslv.h>
+          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[4]: *** [scripts/Makefile.host:90: scripts/sign-file] Error 1
+make[4]: *** Se espera a que terminen otras tareas....
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/objtool.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/libstring.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/str_error_r.o
+  HOSTLD  scripts/mod/modpost
+make[3]: *** [Makefile:1089: scripts] Error 2
+make[3]: *** Se espera a que terminen otras tareas....
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/objtool-in.o
+  LINK     /root/kernelLinux/linux-4.19.152/tools/objtool/objtool
+make[2]: *** [debian/rules:4: build] Error 2
+dpkg-buildpackage: fallo: debian/rules build subprocess returned exit status 2
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 2
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<pre>
+apt install libssl-dev -y
+</pre>
+
 <p><strong>9. Instala el núcleo resultando de la compilación, reinicia el equipo y comprueba que funciona adecuadamente.</strong></p>
 <p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
 <pre>
