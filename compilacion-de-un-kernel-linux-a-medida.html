@@ -123,55 +123,298 @@ mkdir ~/kernelLinux/
 <p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
 <p>Descargo y descomprimo el kérnel:</p>
 <pre>
-root@buster:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
---2020-11-04 08:23:20--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
-Resolving security.debian.org (security.debian.org)... 151.101.64.204, 151.101.128.204, 151.101.192.204, ...
-Connecting to security.debian.org (security.debian.org)|151.101.64.204|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 107539124 (103M) [application/x-xz]
-Saving to: ‘linux_4.19.152.orig.tar.xz’
+root@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
+--2020-11-06 10:26:31--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
+Resolviendo security.debian.org (security.debian.org)... 151.101.128.204, 151.101.0.204, 151.101.64.204, ...
+Conectando con security.debian.org (security.debian.org)[151.101.128.204]:80... conectado.
+Petición HTTP enviada, esperando respuesta... 200 OK
+Longitud: 107539124 (103M) [application/x-xz]
+Grabando a: “linux_4.19.152.orig.tar.xz”
 
-linux_4.19.152.orig.tar.x 100%[=====================================>] 102.56M  3.95MB/s    in 21s     
+linux_4.19.152.orig.tar.x 100%[=====================================>] 102,56M  3,67MB/s    en 12s     
 
-2020-11-04 08:23:41 (4.78 MB/s) - ‘linux_4.19.152.orig.tar.xz’ saved [107539124/107539124]
+2020-11-06 10:26:44 (8,41 MB/s) - “linux_4.19.152.orig.tar.xz” guardado [107539124/107539124]
 
-root@buster:/usr/src# ls
-linux_4.19.152.orig.tar.xz
+root@debian:/usr/src# ls
+linux_4.19.152.orig.tar.xz  linux-headers-4.19.0-12-amd64   vboxhost-6.0.24
+linux-headers-4.19.0-11-amd64   linux-headers-4.19.0-12-common
+linux-headers-4.19.0-11-common  linux-kbuild-4.19
 
-root@buster:/usr/src# cd
+root@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
 
-root@buster:~# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
+root@debian:/usr/src# cd ~/kernelLinux/
 
-root@buster:~# cd kernelLinux/
-
-root@buster:~/kernelLinux# ls
+root@debian:~/kernelLinux# ls
 linux-4.19.152
 
-root@buster:~/kernelLinux# cd linux-4.19.152/
+root@debian:~/kernelLinux# cd linux-4.19.152/
 
-root@buster:~/kernelLinux/linux-4.19.152# ls
+root@debian:~/kernelLinux/linux-4.19.152# ls
 arch   COPYING  Documentation  fs   ipc  kernel    MAINTAINERS  net  scripts   tools
 block  CREDITS  drivers        include  Kbuild   lib       Makefile README   security  usr
 certs  crypto   firmware       init Kconfig  LICENSES  mm       samples  sound     virt
 </pre>
 
 <p><strong>4. Utiliza como punto de partida la configuración actual del núcleo:</strong></p>
-<pre>
-make oldconfig
-</pre>
-
 <p>Es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Para instalarlo:</p>
 <pre>
 apt install build-essential -y
 </pre>
 
+<p>Si ejecutamos este comando:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+  YACC    scripts/kconfig/zconf.tab.c
+/bin/sh: 1: bison: not found
+make[1]: *** [scripts/Makefile.lib:196: scripts/kconfig/zconf.tab.c] Error 127
+make: *** [Makefile:554: oldconfig] Error 2
+</pre>
+
+<p>Observamos como no nos realiza el <code>make oldconfig</code> deseado. He estado leyendo y he encontrado que en Debian, el paquete <code>build-essential</code> no incluye <code>bison</code> ni <code>flex</code>, que son necesarios para la compilación del kérnel. Los instalamos:</p>
+<pre>
+apt install bison flex -y
+</pre>
+
+<p>Probamos de nuevo a ejecutar el comando <code>make oldconfig</code> y ahora sí realiza el proceso correctamente.</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+  YACC    scripts/kconfig/zconf.tab.c
+  LEX     scripts/kconfig/zconf.lex.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --oldconfig Kconfig
+#
+# using defaults found in /boot/config-4.19.0-12-amd64
+#
+/boot/config-4.19.0-12-amd64:6949:warning: symbol value 'm' invalid for ASHMEM
+/boot/config-4.19.0-12-amd64:7577:warning: symbol value 'm' invalid for ANDROID_BINDER_IPC
+*
+* Restart config...
+*
+*
+* Support for frame buffer devices
+*
+Support for frame buffer devices (FB) [Y/m/?] y
+  Enable firmware EDID (FIRMWARE_EDID) [Y/n/?] y
+  Enable Video Mode Handling Helpers (FB_MODE_HELPERS) [Y/?] y
+  Enable Tile Blitting Support (FB_TILEBLITTING) [Y/?] y
+  *
+  * Frame buffer hardware drivers
+  *
+  Cirrus Logic support (FB_CIRRUS) [M/n/y/?] m
+  Permedia2 support (FB_PM2) [M/n/y/?] m
+    enable FIFO disconnect feature (FB_PM2_FIFO_DISCONNECT) [Y/n/?] y
+  CyberPro 2000/2010/5000 support (FB_CYBER2000) [M/n/y/?] m
+    DDC for CyberPro support (FB_CYBER2000_DDC) [Y/n/?] y
+  Arc Monochrome LCD board support (FB_ARC) [M/n/y/?] m
+  Asiliant (Chips) 69000 display support (FB_ASILIANT) [N/y/?] n
+  IMS Twin Turbo display support (FB_IMSTT) [N/y/?] n
+  VGA 16-color graphics support (FB_VGA16) [M/n/y/?] m
+  Userspace VESA VGA graphics support (FB_UVESA) [M/n/y/?] m
+  VESA VGA graphics support (FB_VESA) [Y/n/?] y
+  EFI-based Framebuffer Support (FB_EFI) [Y/n/?] y
+  N411 Apollo/Hecuba devkit support (FB_N411) [M/n/y/?] m
+  Hercules mono graphics support (FB_HGA) [M/n/y/?] m
+  OpenCores VGA/LCD core 2.0 framebuffer support (FB_OPENCORES) [N/m/y/?] n
+  Epson S1D13XXX framebuffer support (FB_S1D13XXX) [N/m/y/?] n
+  nVidia Framebuffer Support (FB_NVIDIA) [N/m/y/?] (NEW) n
+  nVidia Riva support (FB_RIVA) [N/m/y/?] (NEW) n
+  Intel740 support (FB_I740) [N/m/y/?] n
+  Intel LE80578 (Vermilion) support (FB_LE80578) [M/n/y/?] m
+    Intel Carillo Ranch support (FB_CARILLO_RANCH) [M/n/?] m
+  Intel 830M/845G/852GM/855GM/865G/915G/945G/945GM/965G/965GM support (FB_INTEL) [N/m/?] n
+  Matrox acceleration (FB_MATROX) [M/n/y/?] m
+    Millennium I/II support (FB_MATROX_MILLENIUM) [Y/n/?] y
+    Mystique support (FB_MATROX_MYSTIQUE) [Y/n/?] y
+    G100/G200/G400/G450/G550 support (FB_MATROX_G) [Y/n/?] y
+    Matrox I2C support (FB_MATROX_I2C) [M/n/?] m
+      G400 second head support (FB_MATROX_MAVEN) [M/n/?] m
+  ATI Radeon display support (FB_RADEON) [M/n/y/?] m
+    DDC/I2C for ATI Radeon support (FB_RADEON_I2C) [Y/n/?] y
+    Support for backlight control (FB_RADEON_BACKLIGHT) [Y/n/?] y
+    Lots of debug output from Radeon driver (FB_RADEON_DEBUG) [N/y/?] n
+  ATI Rage128 display support (FB_ATY128) [M/n/y/?] m
+    Support for backlight control (FB_ATY128_BACKLIGHT) [Y/n/?] y
+  ATI Mach64 display support (FB_ATY) [M/n/y/?] m
+    Mach64 CT/VT/GT/LT (incl. 3D RAGE) support (FB_ATY_CT) [Y/n/?] y
+      Mach64 generic LCD support (FB_ATY_GENERIC_LCD) [N/y/?] n
+    Mach64 GX support (FB_ATY_GX) [Y/n/?] y
+    Support for backlight control (FB_ATY_BACKLIGHT) [Y/n/?] y
+  S3 Trio/Virge support (FB_S3) [M/n/y/?] m
+    DDC for S3 support (FB_S3_DDC) [Y/n/?] y
+  S3 Savage support (FB_SAVAGE) [M/n/y/?] m
+    Enable DDC2 Support (FB_SAVAGE_I2C) [N/y/?] n
+    Enable Console Acceleration (FB_SAVAGE_ACCEL) [N/y/?] n
+  SiS/XGI display support (FB_SIS) [M/n/y/?] m
+    SiS 300 series support (FB_SIS_300) [Y/n/?] y
+    SiS 315/330/340 series and XGI support (FB_SIS_315) [Y/n/?] y
+  VIA UniChrome (Pro) and Chrome9 display support (FB_VIA) [M/n/y/?] m
+    direct hardware access via procfs (DEPRECATED)(DANGEROUS) (FB_VIA_DIRECT_PROCFS) [N/y/?] n
+    X server compatibility (FB_VIA_X_COMPATIBILITY) [Y/n/?] y
+  NeoMagic display support (FB_NEOMAGIC) [M/n/y/?] m
+  IMG Kyro support (FB_KYRO) [M/n/y/?] m
+  3Dfx Banshee/Voodoo3/Voodoo5 display support (FB_3DFX) [M/n/y/?] m
+    3Dfx Acceleration functions (FB_3DFX_ACCEL) [N/y/?] n
+    Enable DDC/I2C support (FB_3DFX_I2C) [Y/n/?] y
+  3Dfx Voodoo Graphics (sst1) support (FB_VOODOO1) [M/n/y/?] m
+  VIA VT8623 support (FB_VT8623) [M/n/y/?] m
+  Trident/CyberXXX/CyberBlade support (FB_TRIDENT) [M/n/y/?] m
+  ARK 2000PV support (FB_ARK) [M/n/y/?] m
+  Permedia3 support (FB_PM3) [M/n/y/?] m
+  Fujitsu carmine frame buffer support (FB_CARMINE) [N/m/y/?] n
+  SMSC UFX6000/7000 USB Framebuffer support (FB_SMSCUFX) [M/n/?] m
+  Displaylink USB Framebuffer support (FB_UDL) [M/n/?] m
+  Framebuffer support for IBM GXT4000P/4500P/6000P/6500P adaptors (FB_IBM_GXT4500) [N/m/y/?] n
+  Virtual Frame Buffer support (ONLY FOR TESTING!) (FB_VIRTUAL) [M/n/y/?] m
+  Xen virtual frame buffer support (XEN_FBDEV_FRONTEND) [Y/n/m/?] y
+  E-Ink Metronome/8track controller support (FB_METRONOME) [N/m/y/?] n
+  Fujitsu MB862xx GDC support (FB_MB862XX) [M/n/y/?] m
+    GDC variant
+    > 1. Carmine/Coral-P(A) GDC (FB_MB862XX_PCI_GDC)
+    choice[1]: 1
+    Support I2C bus on MB862XX GDC (FB_MB862XX_I2C) [Y/n/?] y
+  E-Ink Broadsheet/Epson S1D13521 controller support (FB_BROADSHEET) [N/m/y/?] n
+  Microsoft Hyper-V Synthetic Video support (FB_HYPERV) [M/n/?] m
+  Simple framebuffer support (FB_SIMPLE) [N/y/?] n
+  Silicon Motion SM712 framebuffer support (FB_SM712) [N/m/y/?] n
+*
+* Android
+*
+Enable the Anonymous Shared Memory Subsystem (ASHMEM) [N/y/?] (NEW) n
+Android Virtual SoC support (ANDROID_VSOC) [N/m/y/?] n
+*
+* Android
+*
+Android Drivers (ANDROID) [Y/n/?] y
+  Android Binder IPC Driver (ANDROID_BINDER_IPC) [N/y/?] (NEW) n
+*
+* DOS/FAT/NT Filesystems
+*
+MSDOS fs support (MSDOS_FS) [M/n/y/?] m
+VFAT (Windows-95) fs support (VFAT_FS) [M/n/y/?] m
+  Default codepage for FAT (FAT_DEFAULT_CODEPAGE) [437] 437
+  Default iocharset for FAT (FAT_DEFAULT_IOCHARSET) [ascii] ascii
+  Enable FAT UTF-8 option by default (FAT_DEFAULT_UTF8) [Y/n/?] y
+NTFS file system support (NTFS_FS) [N/m/y/?] (NEW) n
+#
+# configuration written to .config
+#
+</pre>
+
 <p><strong>5. Cuenta el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p>Módulos:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+3378
+
+root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+2008
+</pre>
+
 <p><strong>6. Configura el núcleo en función de los módulos que está utilizando tu equipo (para no incluir en la compilación muchos controladores de dispositivos que no utiliza el equipo):</strong></p>
 <pre>
-make localmodconfig
+root@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
+using config: '.config'
+vboxnetadp config not found!!
+vboxdrv config not found!!
+vboxnetflt config not found!!
+System keyring enabled but keys "debian/certs/debian-uefi-certs.pem" not found. Resetting keys to default value.
+*
+* Restart config...
+*
+*
+* PCI GPIO expanders
+*
+AMD 8111 GPIO driver (GPIO_AMD8111) [N/m/y/?] n
+BT8XX GPIO abuser (GPIO_BT8XX) [N/m/y/?] (NEW) n
+OKI SEMICONDUCTOR ML7213 IOH GPIO support (GPIO_ML_IOH) [N/m/y/?] n
+ACCES PCI-IDIO-16 GPIO support (GPIO_PCI_IDIO_16) [N/m/y/?] n
+ACCES PCIe-IDIO-24 GPIO support (GPIO_PCIE_IDIO_24) [N/m/y/?] n
+RDC R-321x GPIO support (GPIO_RDC321X) [N/m/y/?] n
+*
+* PCI sound devices
+*
+PCI sound devices (SND_PCI) [Y/n/?] y
+  Analog Devices AD1889 (SND_AD1889) [N/m/?] n
+  Avance Logic ALS300/ALS300+ (SND_ALS300) [N/m/?] n
+  Avance Logic ALS4000 (SND_ALS4000) [N/m/?] n
+  ALi M5451 PCI Audio Controller (SND_ALI5451) [N/m/?] n
+  AudioScience ASIxxxx (SND_ASIHPI) [N/m/?] n
+  ATI IXP AC97 Controller (SND_ATIIXP) [N/m/?] n
+  ATI IXP Modem (SND_ATIIXP_MODEM) [N/m/?] n
+  Aureal Advantage (SND_AU8810) [N/m/?] n
+  Aureal Vortex (SND_AU8820) [N/m/?] n
+  Aureal Vortex 2 (SND_AU8830) [N/m/?] n
+  Emagic Audiowerk 2 (SND_AW2) [N/m/?] n
+  Aztech AZF3328 / PCI168 (SND_AZT3328) [N/m/?] n
+  Bt87x Audio Capture (SND_BT87X) [N/m/?] n
+  SB Audigy LS / Live 24bit (SND_CA0106) [N/m/?] n
+  C-Media 8338, 8738, 8768, 8770 (SND_CMIPCI) [N/m/?] n
+  C-Media 8786, 8787, 8788 (Oxygen) (SND_OXYGEN) [N/m/?] n
+  Cirrus Logic (Sound Fusion) CS4281 (SND_CS4281) [N/m/?] n
+  Cirrus Logic (Sound Fusion) CS4280/CS461x/CS462x/CS463x (SND_CS46XX) [N/m/?] n
+  Creative Sound Blaster X-Fi (SND_CTXFI) [N/m/?] n
+  (Echoaudio) Darla20 (SND_DARLA20) [N/m/?] n
+  (Echoaudio) Gina20 (SND_GINA20) [N/m/?] n
+  (Echoaudio) Layla20 (SND_LAYLA20) [N/m/?] n
+  (Echoaudio) Darla24 (SND_DARLA24) [N/m/?] n
+  (Echoaudio) Gina24 (SND_GINA24) [N/m/?] n
+  (Echoaudio) Layla24 (SND_LAYLA24) [N/m/?] n
+  (Echoaudio) Mona (SND_MONA) [N/m/?] n
+  (Echoaudio) Mia (SND_MIA) [N/m/?] n
+  (Echoaudio) 3G cards (SND_ECHO3G) [N/m/?] n
+  (Echoaudio) Indigo (SND_INDIGO) [N/m/?] n
+  (Echoaudio) Indigo IO (SND_INDIGOIO) [N/m/?] n
+  (Echoaudio) Indigo DJ (SND_INDIGODJ) [N/m/?] n
+  (Echoaudio) Indigo IOx (SND_INDIGOIOX) [N/m/?] n
+  (Echoaudio) Indigo DJx (SND_INDIGODJX) [N/m/?] n
+  Emu10k1 (SB Live!, Audigy, E-mu APS) (SND_EMU10K1) [N/m/?] n
+  Emu10k1X (Dell OEM Version) (SND_EMU10K1X) [N/m/?] n
+  (Creative) Ensoniq AudioPCI 1370 (SND_ENS1370) [N/m/?] n
+  (Creative) Ensoniq AudioPCI 1371/1373 (SND_ENS1371) [N/m/?] n
+  ESS ES1938/1946/1969 (Solo-1) (SND_ES1938) [N/m/?] n
+  ESS ES1968/1978 (Maestro-1/2/2E) (SND_ES1968) [N/m/?] n
+  ForteMedia FM801 (SND_FM801) [N/m/?] n
+  RME Hammerfall DSP Audio (SND_HDSP) [N/m/?] n
+  RME Hammerfall DSP MADI/RayDAT/AIO (SND_HDSPM) [N/m/?] n
+  ICEnsemble ICE1712 (Envy24) (SND_ICE1712) [N/m/?] n
+  ICE/VT1724/1720 (Envy24HT/PT) (SND_ICE1724) [N/m/?] n
+  Intel/SiS/nVidia/AMD/ALi AC97 Controller (SND_INTEL8X0) [N/m/?] n
+  Intel/SiS/nVidia/AMD MC97 Modem (SND_INTEL8X0M) [N/m/?] n
+  Korg 1212 IO (SND_KORG1212) [N/m/?] n
+  Digigram Lola (SND_LOLA) [N/m/?] n
+  Digigram LX6464ES (SND_LX6464ES) [N/m/?] n
+  ESS Allegro/Maestro3 (SND_MAESTRO3) [N/m/?] n
+  Digigram miXart (SND_MIXART) [N/m/?] n
+  NeoMagic NM256AV/ZX (SND_NM256) [N/m/?] n
+  Digigram PCXHR (SND_PCXHR) [N/m/?] n
+  Conexant Riptide (SND_RIPTIDE) [N/m/?] n
+  RME Digi32, 32/8, 32 PRO (SND_RME32) [N/m/?] n
+  RME Digi96, 96/8, 96/8 PRO (SND_RME96) [N/m/?] n
+  RME Digi9652 (Hammerfall) (SND_RME9652) [N/m/?] n
+  Studio Evolution SE6X (SND_SE6X) [N/m/?] (NEW) n
+  S3 SonicVibes (SND_SONICVIBES) [N/m/?] n
+  Trident 4D-Wave DX/NX; SiS 7018 (SND_TRIDENT) [N/m/?] n
+  VIA 82C686A/B, 8233/8235 AC97 Controller (SND_VIA82XX) [N/m/?] n
+  VIA 82C686A/B, 8233 based Modems (SND_VIA82XX_MODEM) [N/m/?] n
+  Asus Virtuoso 66/100/200 (Xonar) (SND_VIRTUOSO) [N/m/?] n
+  Digigram VX222 (SND_VX222) [N/m/?] n
+  Yamaha YMF724/740/744/754 (SND_YMFPCI) [N/m/?] n
+#
+# configuration written to .config
+#
 </pre>
 
 <p><strong>7. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p>Módulos:</p>
+<pre>
+root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+170
+
+root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+1423
+</pre>
+
 <p><strong>8. Realiza la primera compilación:</strong></p>
 <pre>
 make -j <número de hilos> bindeb-pkg
