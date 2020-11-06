@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/compilacion-de-un-kernel-linux-a-medida.html">
 	<meta property="og:title" content="Compilación de un kérnel linux a medida">
-	<meta property="article:published_time" content="2020-11-04 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-11-06 00:00:00+01:00">
             <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
@@ -92,7 +92,7 @@
                         <h1>Compilación de un kérnel linux a medida</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el mié 04 noviembre 2020
+                             el vie 06 noviembre 2020
                         </span>
                         
                     </div>
@@ -116,12 +116,14 @@
 <p>Voy a instalar el paquete <code>linux-source-4.19 (4.19.152-1)</code> que corresponde al kérnel <strong>4.19</strong>.</p>
 <p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-source-4.19">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz">enlace</a>.</p>
 <p><strong>2. Crea un directorio de trabajo (p.ej. mkdir ~/Linux)</strong></p>
+<p>Creamos el directorio de trabajo.</p>
+<p><strong>Importante:</strong> hay que crear el directorio con nuestro usuario personal, es decir, no como <em>root</em>. Yo lo he hecho con el usuario <em>root</em> y esto es algo que no debemos hacer. Para ello, luego muevo el directorio de trabajo a mi usuario.</p>
 <pre>
 mkdir ~/kernelLinux/
 </pre>
 
 <p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
-<p>Descargo y descomprimo el kérnel:</p>
+<p>Descargo y descomprimo el kérnel en el directorio de trabajo que hemos creado previamente:</p>
 <pre>
 root@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
 --2020-11-06 10:26:31--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
@@ -141,7 +143,10 @@ linux-headers-4.19.0-11-amd64   linux-headers-4.19.0-12-common
 linux-headers-4.19.0-11-common  linux-kbuild-4.19
 
 root@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
+</pre>
 
+<p>Nos movemos al directorio <code>~/kernelLinux</code>, que va a ser nuestro área de trabajo:</p>
+<pre>
 root@debian:/usr/src# cd ~/kernelLinux/
 
 root@debian:~/kernelLinux# ls
@@ -302,7 +307,7 @@ NTFS file system support (NTFS_FS) [N/m/y/?] (NEW) n
 </pre>
 
 <p><strong>5. Cuenta el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p>Módulos:</p>
+<p>Vamos a contar el número de componentes que se van a incluir como módulos en el proceso de compilación y el número de componentes que se van a incluir en la parte estática:</p>
 <pre>
 root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 3378
@@ -311,7 +316,11 @@ root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 2008
 </pre>
 
+<p>Vemos que si realizáramos la compilación incluiríamos 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
+<p>Son muchísimos componentes, por tanto vamos a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de la máquina, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
 <p><strong>6. Configura el núcleo en función de los módulos que está utilizando tu equipo (para no incluir en la compilación muchos controladores de dispositivos que no utiliza el equipo):</strong></p>
+<p>Vamos a realizar el primer proceso de eliminación de componentes, que nos va a reducir en una enorme cantidad el número de componentes que se van a incluir en nuestro fichero <code>.config</code>, que es el fichero sobre el que luego vamos a realizar la compilación.</p>
+<p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code>.config</code>, es decir vamos a copiar todos los módulos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
 <pre>
 root@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
 using config: '.config'
@@ -406,7 +415,7 @@ PCI sound devices (SND_PCI) [Y/n/?] y
 </pre>
 
 <p><strong>7. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p>Módulos:</p>
+<p>Si miramos de nuevo cuantos módulos y componentes de vmlinuz se incluirían ahora en el fichero <code>.config</code>:</p>
 <pre>
 root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 170
@@ -415,11 +424,9 @@ root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 1423
 </pre>
 
+<p>Observamos que hemos eliminado 3200 módulos y casi 600 componentes enlazados estáticamente.</p>
 <p><strong>8. Realiza la primera compilación:</strong></p>
-<pre>
-make -j <número de hilos> bindeb-pkg
-</pre>
-
+<p>Una vez tenemos el fichero <code>.config</code> reducido, vamos a realizar la compilación generando un un paquete Debian, el cuál podremos instalar con la herramienta <code>dpkg -i</code>.</p>
 <p>Primer intento de compilación:</p>
 <pre>
 root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
