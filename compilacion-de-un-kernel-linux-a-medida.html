@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/compilacion-de-un-kernel-linux-a-medida.html">
 	<meta property="og:title" content="Compilación de un kérnel linux a medida">
-	<meta property="article:published_time" content="2020-11-06 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-11-07 00:00:00+01:00">
             <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
@@ -92,7 +92,7 @@
                         <h1>Compilación de un kérnel linux a medida</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el vie 06 noviembre 2020
+                             el sáb 07 noviembre 2020
                         </span>
                         
                     </div>
@@ -644,31 +644,85 @@ make xconfig
 </pre>
 
 <p>Quito:</p>
-<p><strong>Compiler: gcc</strong>
-enable process_vm_readv/writev syscalls
-uselib syscall
-m_kernel.config support
+<p><strong>General setup</strong>
 memory placement aware NUMA scheduler
 checkpoint/restore support
-initial RAM fylesystem and RAM disk (initramfs/initrd) support
 enable VM event counters for /proc/vmstat
-enable SLUB debugging support
 allow slab caches to be merged
 SLAB freelist randomization
 Harden slab freelist metadata
-SLUB per cpu
 profiling support
-<strong>Timers subsystem</strong>
-high resolution timer support
-<strong>CPU/Task time and stats accounting</strong>
-BSD process accounting
-export task/process statistics through netlink</p>
+  <strong>Timers subsystem</strong>
+  high resolution timer support
+  <strong>CPU/Task time and stats accounting</strong>
+  BSD process accounting
+  export task/process statistics through netlink
+  <strong>Control Group support</strong>
+  swap controller
+  RDMA controller
+  freezer controller
+  cpuset controller
+<strong>Processor type and features</strong>
+AMD ACPI2Platform devices support
+old AMD GART IOMMU support
+IBM Calgary IOMMU support
+  <strong>machine check/overheating reporting</strong>
+  AMD MCE features
+enable vsyscall emulation
+  <strong>CPU microcode loading support</strong>
+  AMD microcode loading support
+  <strong>linux guest support</strong> entero
+<strong>Power management and ACPI options</strong>
+suspend to RAM and standby
+hibernation
+device power management core functionality
+power management timer support
+SFI (Simple Firmware Interface) Support
+<strong>Firmware Drivers</strong>
+Apple device properties
+virtualization
+<strong>General architecture-dependent options</strong>
+kprobes
+optimize very unlikely/likely branches
+stack protector buffer overflow detection
+use a virtually-mapped stack
+perform full reference count validation at the expense of speed
+<strong>enable the block layer</strong>
+  <strong>partition types</strong>
+  acorn partition support
+  alpha OSF partition support
+  amiga partition table support
+  atari partition table support
+  macintosh partition map support
+  <strong>PC BIOS (MSDOS partition tables) support</strong>
+    Solarix (x86) partition table support
+  sun partition tables support
+  karma partition support
+<strong>Networking support</strong>
+Network packet filtering framework
+QoS and/or fair queueing
+m_Bluetooth subsystem support
+RF switch subsystem support
+<strong>Device Drivers</strong>
+Macintosh device drivers
+Wireless LAN
+Wan interfaces support
+m_Hardware Monitoring support
+m_Sound card support
+Virtualization drivers
+<strong>File systems</strong>
+<strong>Cryptographic API</strong>
+Hardware crypto devices (Support for AMD secure processor)
+  <strong>Asymmetric</strong>
+  Support for PE file signature verification
+  <strong>Certificates for signature checking</strong>
+  Provide system-wide ring of blacklisted keys</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-166
+145
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-1373
+1215
 </pre>
 
 <pre>
@@ -676,7 +730,7 @@ make -j 12 bindeb-pkg
 </pre>
 
 <pre>
-sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
+sudo dpkg -i linux-image-4.19.152_4.19.152-10_amd64.deb
 </pre>
 
 <p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
