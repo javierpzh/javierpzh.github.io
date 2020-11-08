@@ -94,7 +94,9 @@
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
                              el sáb 07 noviembre 2020
                         </span>
-                        
+                        Translations:
+<a href="/compilacion-de-un-kernel-linux-a-medida.html" hreflang="es">es</a>
+
                     </div>
                 </div>
             </div>
@@ -644,24 +646,26 @@ make xconfig
 </pre>
 
 <p>Quito:</p>
-<p><strong>General setup</strong>
-memory placement aware NUMA scheduler
-checkpoint/restore support
-enable VM event counters for /proc/vmstat
-allow slab caches to be merged
-SLAB freelist randomization
-Harden slab freelist metadata
-profiling support
-  <strong>Timers subsystem</strong>
-  high resolution timer support
-  <strong>CPU/Task time and stats accounting</strong>
-  BSD process accounting
-  export task/process statistics through netlink
-  <strong>Control Group support</strong>
-  swap controller
-  RDMA controller
-  freezer controller
-  cpuset controller
+<ul>
+<li><strong>General setup</strong><ul>
+<li>memory placement aware NUMA scheduler</li>
+<li>checkpoint/restore support</li>
+<li>enable VM event counters for /proc/vmstat</li>
+<li>allow slab caches to be merged</li>
+<li>SLAB freelist randomization</li>
+<li>Harden slab freelist metadata</li>
+<li>profiling support<ul>
+<li><strong>Timers subsystem</strong></li>
+<li>high resolution timer support</li>
+<li><strong>CPU/Task time and stats accounting</strong></li>
+<li>BSD process accounting</li>
+<li>export task/process statistics through netlink</li>
+<li><strong>Control Group support</strong></li>
+<li>swap controller</li>
+<li>RDMA controller</li>
+<li>freezer controller</li>
+<li>cpuset controller</li>
+<li>Namespaces support
 <strong>Processor type and features</strong>
 AMD ACPI2Platform devices support
 old AMD GART IOMMU support
@@ -677,6 +681,7 @@ suspend to RAM and standby
 hibernation
 device power management core functionality
 power management timer support
+  <strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero
 SFI (Simple Firmware Interface) Support
 <strong>Firmware Drivers</strong>
 Apple device properties
@@ -687,42 +692,118 @@ optimize very unlikely/likely branches
 stack protector buffer overflow detection
 use a virtually-mapped stack
 perform full reference count validation at the expense of speed
-<strong>enable the block layer</strong>
+<strong>Enable the block layer</strong>
   <strong>partition types</strong>
   acorn partition support
   alpha OSF partition support
   amiga partition table support
   atari partition table support
   macintosh partition map support
-  <strong>PC BIOS (MSDOS partition tables) support</strong>
-    Solarix (x86) partition table support
+<strong>PC BIOS (MSDOS partition tables) support</strong>
+Solarix (x86) partition table support
+  SGI partition support
+  Ultrix partition table support
   sun partition tables support
   karma partition support
+  <strong>Memory Management options</strong>
+  Allow for memory hot-add
+  Enable frontswap to cache swap pages if tmem is present
 <strong>Networking support</strong>
 Network packet filtering framework
 QoS and/or fair queueing
+Amateur Radio support
+Wireless
 m_Bluetooth subsystem support
 RF switch subsystem support
 <strong>Device Drivers</strong>
-Macintosh device drivers
-Wireless LAN
-Wan interfaces support
-m_Hardware Monitoring support
-m_Sound card support
+  <strong>Misc devices</strong>
+  m_Intel Management Engine Interface
+  m_ME Enabled Intel Chipsets
+  <strong>SCSI device support</strong>
+<strong>SCSI Transports</strong>
+SCSI low-level drivers
+<strong>Multiple devices driver support (RAID and LVM)</strong>
+m_RAID support
+  Fusion MPT device support
+  Macintosh device drivers
+  <strong>Network device support</strong>
+  Wireless LAN
+  Wan interfaces support
+  ISDN support
+  <strong>Input device support</strong>
+  Mouse interface
+  m_Joystick interface
+  m_Event interface
+  Joysticks/Gamepads
+  Tablets
+  Touchscreens
+  <strong>GPIO Support</strong>
+  m_Hardware Monitoring support
+  Generic Thermal sysfs driver
+  Watchdog Timer Support
+  <strong>Graphics support</strong>
+  VGA Arbitration
+  Laptop Hybrid Graphics - GPU switching support
+  Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support
+  m_Nouveau  (NVIDIA) cards
+<strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong>
+Enable capturing GPU state following a hang
+Always enable userptr support
+<strong>/dev/agpart (AGP Support)</strong>
+AMD Opteron/Athlon64 on-CPU GART support
+  /dev/agpgart (AGP support)
+  m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia
+<strong>Frame buffer Devices</strong>
+Support for frame buffer devices
+Backlight &amp; LCD device support
+  <strong>Console display driver support</strong>
+VGA text console
+  m_Sound card support
+  <strong>HID Support</strong>
+<strong>USB support</strong> entero
+LED Support
+Accessibility support
 Virtualization drivers
+Staging Drivers
+Platform support for Chrome hardware
 <strong>File systems</strong>
+Network File Systems
+  <strong>Security options</strong>
+  NSA SELinux Support
 <strong>Cryptographic API</strong>
 Hardware crypto devices (Support for AMD secure processor)
   <strong>Asymmetric</strong>
   Support for PE file signature verification
   <strong>Certificates for signature checking</strong>
-  Provide system-wide ring of blacklisted keys</p>
+  Provide a keyring to which extra trustable keys may be added
+  Provide system-wide ring of blacklisted keys
+  <strong>Library routines</strong>
+  m_CRC16 functions
+<strong>XZ decompression support</strong>
+x86 BCJ filter decoder
+  IRQ polling library
+<strong>Kernel hacking</strong>
+Collect scheduler debbuging info
+Collect scheduler statistics
+Detect stack corruption on calls to schedule
+Allow gcc to uninline functions marked 'inline'
+  <strong>printk and dmesg options</strong>
+  Enable dynamic printk() support
+  <strong>Compile-time checks and compiler options</strong>
+  Compile the kernel with debug info
+  <strong>Memory Debugging</strong>
+  Debug memory initialisation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-145
+87
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-1215
+969
 </pre>
 
 <pre>
