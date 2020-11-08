@@ -804,28 +804,34 @@ make xconfig
 <li>NSA SELinux Support</li>
 </ul>
 <h5>Cryptographic API</h5>
-<p>Hardware crypto devices (Support for AMD secure processor)
-  <strong>Asymmetric</strong>
-  Support for PE file signature verification
-  <strong>Certificates for signature checking</strong>
-  Provide a keyring to which extra trustable keys may be added
-  Provide system-wide ring of blacklisted keys
-  <strong>Library routines</strong>
-  m_CRC16 functions
-    <strong>XZ decompression support</strong>
-    x86 BCJ filter decoder
-  IRQ polling library</p>
+<ul>
+<li>Hardware crypto devices (Support for AMD secure processor)</li>
+<li><strong>Asymmetric</strong></li>
+<li>Support for PE file signature verification</li>
+<li><strong>Certificates for signature checking</strong></li>
+<li>Provide a keyring to which extra trustable keys may be added</li>
+<li>Provide system-wide ring of blacklisted keys</li>
+<li><strong>Library routines</strong></li>
+<li>m_CRC16 functions<ul>
+<li><strong>XZ decompression support</strong></li>
+<li>x86 BCJ filter decoder</li>
+</ul>
+</li>
+<li>IRQ polling library</li>
+</ul>
 <h5>Kernel hacking</h5>
-<p>Collect scheduler debbuging info
-Collect scheduler statistics
-Detect stack corruption on calls to schedule
-Allow gcc to uninline functions marked 'inline'
-  <strong>printk and dmesg options</strong>
-  Enable dynamic printk() support
-  <strong>Compile-time checks and compiler options</strong>
-  Compile the kernel with debug info
-  <strong>Memory Debugging</strong>
-  Debug memory initialisation</p>
+<ul>
+<li>Collect scheduler debbuging info</li>
+<li>Collect scheduler statistics</li>
+<li>Detect stack corruption on calls to schedule</li>
+<li>Allow gcc to uninline functions marked 'inline'</li>
+<li><strong>printk and dmesg options</strong></li>
+<li>Enable dynamic printk() support</li>
+<li><strong>Compile-time checks and compiler options</strong></li>
+<li>Compile the kernel with debug info</li>
+<li><strong>Memory Debugging</strong></li>
+<li>Debug memory initialisation</li>
+</ul>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
 87
