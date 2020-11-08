@@ -520,6 +520,11 @@ debian@deb10-servidornginx2:~$
 </pre>
 
 <p>Ya habríamos resuelto el principal problema.</p>
+<p>Para visualizar la web en esta máquina debemos añadir al fichero <code>/etc/hosts</code> la línea:</p>
+<pre>
+172.22.200.116  departamentos.iesgn.org
+</pre>
+
 <p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
 <p>Vamos a crear la página <code>departamentos.iesgn.org/secreto</code>. Creamos el directorio <code>/srv/www/departamentos/secreto</code> y su respectivo <code>index.html</code>:</p>
 <pre>
