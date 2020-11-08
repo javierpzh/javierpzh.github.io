@@ -654,7 +654,7 @@ make -j 12 bindeb-pkg
 <p>La opción <code>-j</code> indica el número de hilos de nuestro procesador que van a llevar a cabo el proceso, si no la indicamos, por defecto utilizará 1. Esto reducirá en gran cantidad el tiempo de la compilación. En mi caso, he indicado que utilice 12 hilos, ya que mi procesador consta de 6 núcleos y 12 hilos, pero esto obviamente variará de la máquina de cada uno. Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
 <p>Para instalar el paquete resultante <code>.deb</code>:</p>
 <pre>
-sudo dpkg -i linux-image-4.19.152_4.19.152_amd64.deb
+sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </pre>
 
 <p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
