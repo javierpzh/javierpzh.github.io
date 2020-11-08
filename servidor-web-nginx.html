@@ -300,7 +300,7 @@ root@deb10-servidornginx:/srv/www/iesgn# mkdir principal
 rewrite ^/$ /principal permanent;
 </pre>
 
-<p>Para que no se permita ver la lista de ficheros, ni se sigan los enlaces simbólicos, como nos pide el ejercicio, introducimos el siguiente bloque <em>location</em>:</p>
+<p>Para que no se permita ver la lista de ficheros, ni se sigan los enlaces simbólicos, como nos pide el ejercicio, introducimos el siguiente bloque <em>location</em> en <code>/etc/nginx/sites-available/iesgn.conf</code>:</p>
 <pre>
 location /principal {
                 autoindex off;
