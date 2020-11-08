@@ -525,6 +525,27 @@ debian@deb10-servidornginx2:~$
 172.22.200.116  departamentos.iesgn.org
 </pre>
 
+<p>Instalamos la herramiento <code>lynx</code> para poder tener una especie de navegador en la terminal:</p>
+<pre>
+apt update && apt install lynx -y
+</pre>
+
+<p>Accedemos a las URL:</p>
+<pre>
+lynx departamentos.iesgn.org/internet
+lynx departamentos.iesgn.org/intranet
+</pre>
+
+<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">Accedemos</span> <span class="n">a</span> <span class="o">`</span><span class="n">departamentos</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">internet</span><span class="o">`</span><span class="p">:</span>
+
+<span class="o">!</span><span class="p">[.](</span><span class="n">images</span><span class="o">/</span><span class="n">sri_servidor_web_nginx</span><span class="o">/</span><span class="n">redlocalinternet</span><span class="p">.</span><span class="n">png</span><span class="p">)</span>
+
+<span class="o">-</span> <span class="n">Accedemos</span> <span class="n">a</span> <span class="o">`</span><span class="n">departamentos</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">intranet</span><span class="o">`</span><span class="p">:</span>
+
+<span class="o">!</span><span class="p">[.](</span><span class="n">images</span><span class="o">/</span><span class="n">sri_servidor_web_nginx</span><span class="o">/</span><span class="n">redlocalintranet</span><span class="p">.</span><span class="n">png</span><span class="p">)</span>
+</code></pre></div>
+
+
 <p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
 <p>Vamos a crear la página <code>departamentos.iesgn.org/secreto</code>. Creamos el directorio <code>/srv/www/departamentos/secreto</code> y su respectivo <code>index.html</code>:</p>
 <pre>
