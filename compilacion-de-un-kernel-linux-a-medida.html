@@ -626,11 +626,9 @@ dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 
 <p>Reinicio el sistema arrancando con este nueva kérnel y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
 <p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
-<p>Copiamos la configuración del kérnel reducido ya una vez, para seguir reduciendo su tamaño.</p>
+<p>Copiamos la configuración del kérnel reducido ya una vez, de esta manera estaremos generando una copia de seguridad por si durante las pruebas tocamos algún módulo imprescindible y deseamos volver un paso atrás, ya que vamos a seguir reduciendo su tamaño. En mi caso simplemente cuando compruebo que he conseguido reducir un poco más el kérnel, copio el archivo <code>.config</code> a un directorio cualquiera, y si me es necesario, luego lo vuelvo a trasladar al área de trabajo.</p>
 <pre>
-cp /boot/config-4.19.152 .config
-make clean
-make xconfig
+cp .config /home/javier/Documentos
 </pre>
 
 <p>Instalamos los paquetes <code>pkg-config</code> y <code>qt4-dev-tools</code>, que son necesarios para ejecutar la herramienta gráfica (la cual utiliza las bibliotecas gráficas <em>Qt</em>) que vamos a utilizar para seguir con la configuración de nuestro núcleo. <code>pkg-config</code> es un sistema para gestionar las opciones de compilación y enlazado de las bibliotecas, funciona con <em>automake</em> y <em>autoconf</em>.</p>
@@ -638,12 +636,32 @@ make xconfig
 apt install pkg-config qt4-dev-tools -y
 </pre>
 
-<p>Abrimos esta herramienta gráfica con el comando:  </p>
+<p>Cada vez que queramos realizar una nueva compilación, debemos limpiar el rastro del proceso anterior, para ello empleamos el comando:</p>
+<pre>
+make clean
+</pre>
+
+<p>Ahora sí podemos volver a iniciar el proceso de reducción del núcleo, y por tanto, abrimos la herramienta gráfica con el comando:  </p>
 <pre>
 make xconfig
 </pre>
 
-<p>Quito:</p>
+<p>Para empezar el proceso de compilación, ejecutamos el siguiente comando:</p>
+<pre>
+make -j 12 bindeb-pkg
+</pre>
+
+<p>La opción <code>-j</code> indica el número de hilos de nuestro procesador que van a llevar a cabo el proceso, si no la indicamos, por defecto utilizará 1. Esto reducirá en gran cantidad el tiempo de la compilación. En mi caso, he indicado que utilice 12 hilos, ya que mi procesador consta de 6 núcleos y 12 hilos, pero esto obviamente variará de la máquina de cada uno. Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
+<p>Para instalar el paquete resultante <code>.deb</code>:</p>
+<pre>
+sudo dpkg -i linux-image-4.19.152_4.19.152_amd64.deb
+</pre>
+
+<p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
+<p><strong>12. Vuelve a compilar:</strong></p>
+<p><strong>13. Si se produce un error en la compilación, vuelve al paso de configuración, si la compilación termina correctamente, instala el nuevo núcleo y comprueba el arranque.</strong></p>
+<p><strong>14. Continuamos reiterando el proceso poco a poco hasta conseguir el núcleo lo más pequeño posible que pueda arrancar en nuestro equipo.</strong></p>
+<p>En mi caso, esto es lo máximo que he podido reducir el kérnel. A continuación dejo una lista de todos los componentes eliminados. Si empieza por <em>m_</em> indica que se trata de un módulo:</p>
 <h5>General setup</h5>
 <ul>
 <li>memory placement aware NUMA scheduler</li>
@@ -832,6 +850,7 @@ make xconfig
 <li><strong>Memory Debugging</strong></li>
 <li>Debug memory initialisation</li>
 </ul>
+<p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
 87
@@ -840,22 +859,7 @@ javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
 969
 </pre>
 
-<pre>
-make -j 12 bindeb-pkg
-</pre>
-
-<pre>
-sudo dpkg -i linux-image-4.19.152_4.19.152-10_amd64.deb
-</pre>
-
-<p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p><strong>12. Vuelve a compilar:</strong></p>
-<pre>
-make -j <número de hilos> bindeb-pkg
-</pre>
-
-<p><strong>13. Si se produce un error en la compilación, vuelve al paso de configuración, si la compilación termina correctamente, instala el nuevo núcleo y comprueba el arranque.</strong></p>
-<p><strong>14. Continuamos reiterando el proceso poco a poco hasta conseguir el núcleo lo más pequeño posible que pueda arrancar en nuestro equipo.</strong></p>
+<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido a la mitad y he eliminado alrededor de 600 enlaces que se incluirán en <em>vmlinuz</em>.</p>
     </article>
 
         <div class="tags">
