@@ -460,7 +460,7 @@ systemctl restart nginx
 
 <ul>
 <li>
-<p><strong>Máquina anfitriona:</strong></p>
+<p><strong>Máquina anfitriona conectada a internet:</strong></p>
 <ul>
 <li>Accedemos a <code>departamentos.iesgn.org/internet</code>:</li>
 </ul>
@@ -469,6 +469,9 @@ systemctl restart nginx
 <li>Accedemos a <code>departamentos.iesgn.org/intranet</code>:</li>
 </ul>
 <p><img alt="." src="images/sri_servidor_web_nginx/anfitrionaintranet.png"></p>
+</li>
+<li>
+<p><strong>Máquina conectada a la red local:</strong></p>
 </li>
 </ul>
 <p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
@@ -520,6 +523,27 @@ systemctl restart nginx
 <p><img alt="." src="images/sri_servidor_web_nginx/trafico.png"></p>
 <p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como nos muestra la contraseña.</p>
 <p><strong>8. Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</strong></p>
+<p>Para combinar el control de acceso y que desde la <code>intranet</code> se acceda de manera automática a <code>departamentos.iesgn.org/secreto</code>, pero desde <code>internet</code> compruebe si somos un usuario autorizado, tenemos que incluir en el fichero <code>/etc/nginx/sites-available/departamentos.conf</code> esta directiva:</p>
+<pre>
+location /secreto {
+                satisfy any;
+
+                allow 10.0.0.0/24;
+                deny all;
+
+                auth_basic "Introduzca sus datos";
+                auth_basic_user_file /srv/www/departamentos/secreto/.htpasswd;
+}
+</pre>
+
+<p>La opción <strong>satisfy any</strong> indica que debe cumplirse al menos un bloque para acceder a la web. De manera, que primero se comprobará si el cliente pertenece a la red <strong>10.0.0.0/24</strong>, si es así, accederá automáticamente, y sino, le pedirá que se <em>loguee</em>, y si los datos introducidos son correctos, se accederá a la página, si los datos no son correctos, devolverá un error 403.</p>
+<ul>
+<li><strong>Máquina anfitriona conectada a internet:</strong></li>
+</ul>
+<p><img alt="." src="images/sri_servidor_web_nginx/autentificacion.png"></p>
+<ul>
+<li><strong>Máquina conectada a la red local:</strong></li>
+</ul>
     </article>
 
         <div class="tags">
