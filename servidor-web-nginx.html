@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/servidor-web-nginx.html">
 	<meta property="og:title" content="Servidor Web Nginx">
-	<meta property="article:published_time" content="2020-11-03 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-11-08 00:00:00+01:00">
             <meta property="og:description" content="Servidor Web Nginx 1. Crea una máquina del cloud con una red pública. Añade la clave pública del profesor a la máquina. Instala el...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
@@ -92,7 +92,7 @@
                         <h1>Servidor Web Nginx</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el mar 03 noviembre 2020
+                             el dom 08 noviembre 2020
                         </span>
                         
                     </div>
@@ -290,11 +290,9 @@ systemctl restart nginx
 <h4>Mapeo de URL</h4>
 <p><strong>Cambia la configuración del sitio web <code>www.iesgn.org</code> para que se comporte de la siguiente forma:</strong></p>
 <p><strong>3. Cuando se entre a la dirección <code>www.iesgn.org</code> se redireccionará automáticamente a <code>www.iesgn.org/principal</code>, donde se mostrará el mensaje de bienvenida. En el directorio principal no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento.</strong></p>
-<p>Creamos el directorio <code>principal</code> y copiamos el <code>index.html</code>:</p>
+<p>Creamos el directorio <code>principal</code>:</p>
 <pre>
 root@deb10-servidornginx:/srv/www/iesgn# mkdir principal
-
-root@deb10-servidornginx:/srv/www/iesgn# cp index.html ./principal/
 </pre>
 
 <p>Al crear un nuevo directorio se crea con el usuario que hemos ejecutado el comando, por tanto, tendremos que cambiar el propietario de este directorio. Yo recurro de nuevo el comando utilizado anteriormente ya que lo aplica a los subdirectorios hijos:</p>
@@ -302,12 +300,59 @@ root@deb10-servidornginx:/srv/www/iesgn# cp index.html ./principal/
 chown -R www-data:www-data /srv/www
 </pre>
 
-<p>Creamos la redirección permanente, con la siguiente línea en el fichero de configuración <code>/etc/nginx/sites-available/iesgn.conf</code>:</p>
+<p>Creamos la redirección, en este caso permanente, con la siguiente línea en el fichero de configuración <code>/etc/nginx/sites-available/iesgn.conf</code>:</p>
 <pre>
 rewrite ^/$ /principal permanent;
 </pre>
 
-<p>Si ahora accedemos a la ruta <code>www.iesgn.org</code> nos redirigirá automáticamente a <code>www.iesgn.org/principal</code>.</p>
+<p>Para que no se permita ver la lista de ficheros, ni se sigan los enlaces simbólicos, como nos pide el ejercicio, introducimos el siguiente bloque <em>location</em>:</p>
+<pre>
+location /principal {
+                autoindex off;
+                disable_symlinks on;
+}
+</pre>
+
+<p>Antes de crear el <code>index.html</code>, vamos a comprobar que estas opciones están funcionando correctamente.</p>
+<p>Para comprobar que no se muestra el listado de ficheros, vamos a crear un archivo <code>.txt</code> y vamos a crear un enlace simbólico sobre este archivo, así también comprobaremos que no se siguen los enlaces simbólicos.</p>
+<p>Creamos el fichero de prueba y el enlace simbólico:</p>
+<pre>
+touch /home/debian/ejemplo1.txt
+ln -s /home/debian/ejemplo1.txt /srv/www/iesgn/principal/
+</pre>
+
+<p>Vemos que hemos creado el enlace simbólico en <code>/srv/www/iesgn/principal</code>:</p>
+<pre>
+root@deb10-servidornginx:/srv/www# ls -R
+.:
+departamentos  iesgn
+
+./departamentos:
+index.html
+
+./iesgn:
+index.html  principal
+
+./iesgn/principal:
+ejemplo1.txt
+</pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre>
+systemctl restart nginx
+</pre>
+
+<p>Vamos a acceder a la página <code>www.iesgn.org</code>:</p>
+<p><img alt="." src="images/sri_servidor_web_nginx/nolistado.png"></p>
+<p>Vemos como además de redirigirnos automáticamente a <code>www.iesgn.org/principal</code>, no nos muestra el listado de ficheros. Si probamos a acceder a <code>www.iesgn.org/principal/ejemplo1.txt</code>, para ver si nos permite seguir el enlace simbólico:</p>
+<p><img alt="." src="images/sri_servidor_web_nginx/noenlacessimbolicos.png"></p>
+<p>Vemos que tampoco nos deja, por tanto tendríamos la página bien configurada. Ahora vamos a añadir un <code>index.html</code>:</p>
+<pre>
+root@deb10-servidornginx:/srv/www/iesgn# cp index.html ./principal/
+</pre>
+
+<p>Si ahora accedemos a la ruta <code>www.iesgn.org</code> nos redirigirá automáticamente a <code>www.iesgn.org/principal</code> y nos mostrará está página:</p>
+<p><img alt="." src="images/sri_servidor_web_nginx/paginaprincipal.png"></p>
 <p><strong>4. Si accedes a la página <code>www.iesgn.org/principal/documentos</code> se visualizarán los documentos que hay en <code>/srv/doc</code>. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que sean a ficheros o directorios cuyo dueño sea el usuario. Muestra al profesor el funcionamiento.</strong></p>
 <p>Creamos el directorio <code>doc</code> y creamos algunos documentos, no copio el <code>index.html</code> para que así nos muestre el listado de ficheros. Establecemos de nuevo como propietario <code>www-data</code>:</p>
 <pre>
@@ -330,7 +375,7 @@ root@deb10-servidornginx:/srv# chown -R www-data:www-data /srv/doc/
 location /principal/documentos {
                 alias /srv/doc;
                 autoindex on;
-        }
+}
 </pre>
 
 <p>Accedemos a <code>www.iesgn.org/principal/documentos</code>:</p>
