@@ -425,7 +425,7 @@ systemctl restart nginx
 <p>Vamos a crear una nueva <em>mv</em>, en mi caso voy a crear una nueva instancia en <em>Openstack</em>, pero a esta instancia no le voy a asignar ninguna IP pública, de manera que solo estará conectada a la red interna.</p>
 <p>Aquí vemos el resultado:</p>
 <p><img alt="." src="images/sri_servidor_web_nginx/instancia2.png"></p>
-<p>Ahora vamos a crear las páginas <code>departamentos.iesgn.org/intranet</code> y <code>departamentos.iesgn.org/internet</code>:</p>
+<p>Ahora vamos a crear las páginas <code>departamentos.iesgn.org/intranet</code> y <code>departamentos.iesgn.org/internet</code>, para ello creamos los directorios <code>/srv/www/departamentos/intranet</code> y <code>/srv/www/departamentos/internet</code>, y sus respectivos <code>index.html</code>:</p>
 <pre>
 root@deb10-servidornginx:/srv/www/departamentos# mkdir intranet internet
 
@@ -435,6 +435,8 @@ index.html  internet  intranet
 root@deb10-servidornginx:/srv/www/departamentos# cp index.html ./intranet/
 
 root@deb10-servidornginx:/srv/www/departamentos# cp index.html ./internet/
+
+root@deb10-servidornginx:/srv/www/departamentos# chown -R www-data:www-data /srv/
 </pre>
 
 <p>En el fichero de configuración <code>/etc/nginx/sites-available/departamentos.conf</code> introducimos las siguientes líneas:</p>
@@ -456,11 +458,31 @@ location /internet {
 systemctl restart nginx
 </pre>
 
-<p>Si ahora accedemos a <code>departamentos.iesgn.org/internet</code>:</p>
+<ul>
+<li>
+<p><strong>Máquina anfitriona:</strong></p>
+<ul>
+<li>Accedemos a <code>departamentos.iesgn.org/internet</code>:</li>
+</ul>
+</li>
+</ul>
 <p><img alt="." src="images/sri_servidor_web_nginx/anfitrionainternet.png"></p>
-<p>Si ahora accedemos a <code>departamentos.iesgn.org/intranet</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="err">- Accedemos a `departamentos.iesgn.org/intranet`:</span>
+</code></pre></div>
+
+
 <p><img alt="." src="images/sri_servidor_web_nginx/anfitrionaintranet.png"></p>
 <p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
+<pre>
+root@deb10-servidornginx:/srv/www/departamentos# mkdir secreto
+
+root@deb10-servidornginx:/srv/www/departamentos# cp index.html ./secreto/
+
+root@deb10-servidornginx:/srv/www/departamentos# cd secreto/
+
+root@deb10-servidornginx:/srv/www/departamentos/secreto# nano index.html
+</pre>
+
 <p><strong>8. Vamos a combinar el control de acceso (tarea 6) y la autentificación (tarea 7), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code>departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autentificación. Muestra el resultado al profesor.</strong></p>
     </article>
 
