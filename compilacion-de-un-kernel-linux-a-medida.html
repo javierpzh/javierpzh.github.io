@@ -737,57 +737,61 @@ make xconfig
 <li>RF switch subsystem support</li>
 </ul>
 </li>
-<li><strong>Device Drivers</strong>
-  <strong>Misc devices</strong>
-  m_Intel Management Engine Interface
-  m_ME Enabled Intel Chipsets
-  <strong>SCSI device support</strong>
-    <strong>SCSI Transports</strong>
-    SCSI low-level drivers
-    <strong>Multiple devices driver support (RAID and LVM)</strong>
-    m_RAID support
-  Fusion MPT device support
-  Macintosh device drivers
-  <strong>Network device support</strong>
-  Wireless LAN
-  Wan interfaces support
-  ISDN support
-  <strong>Input device support</strong>
-  Mouse interface
-  m_Joystick interface
-  m_Event interface
-  Joysticks/Gamepads
-  Tablets
-  Touchscreens
-  <strong>GPIO Support</strong>
-  m_Hardware Monitoring support
-  Generic Thermal sysfs driver
-  Watchdog Timer Support
-  <strong>Graphics support</strong>
-  VGA Arbitration
-  Laptop Hybrid Graphics - GPU switching support
-  Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support
-  m_Nouveau  (NVIDIA) cards
-    <strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong>
-    Enable capturing GPU state following a hang
-    Always enable userptr support
-    <strong>/dev/agpart (AGP Support)</strong>
-    AMD Opteron/Athlon64 on-CPU GART support
-  /dev/agpgart (AGP support)
-  m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia
-    <strong>Frame buffer Devices</strong>
-    Support for frame buffer devices
-    Backlight &amp; LCD device support
-      <strong>Console display driver support</strong>
-        VGA text console
-  m_Sound card support
+<li><strong>Device Drivers</strong><ul>
+<li><strong>Misc devices</strong></li>
+<li>m_Intel Management Engine Interface</li>
+<li>m_ME Enabled Intel Chipsets</li>
+<li><strong>SCSI device support</strong></li>
+<li><strong>SCSI Transports</strong></li>
+<li>SCSI low-level drivers</li>
+<li><strong>Multiple devices driver support (RAID and LVM)</strong></li>
+<li>m_RAID support</li>
+<li>Fusion MPT device support</li>
+<li>Macintosh device drivers</li>
+<li><strong>Network device support</strong></li>
+<li>Wireless LAN</li>
+<li>Wan interfaces support</li>
+<li>ISDN support</li>
+<li><strong>Input device support</strong></li>
+<li>Mouse interface</li>
+<li>m_Joystick interface</li>
+<li>m_Event interface</li>
+<li>Joysticks/Gamepads</li>
+<li>Tablets</li>
+<li>Touchscreens</li>
+<li><strong>GPIO Support</strong></li>
+<li>m_Hardware Monitoring support</li>
+<li>Generic Thermal sysfs driver</li>
+<li>Watchdog Timer Support</li>
+<li><strong>Graphics support</strong></li>
+<li>VGA Arbitration</li>
+<li>Laptop Hybrid Graphics - GPU switching support</li>
+<li>Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support</li>
+<li>m_Nouveau  (NVIDIA) cards<ul>
+<li><strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong></li>
+<li>Enable capturing GPU state following a hang</li>
+<li>Always enable userptr support</li>
+<li><strong>/dev/agpart (AGP Support)</strong></li>
+<li>AMD Opteron/Athlon64 on-CPU GART support</li>
+</ul>
+</li>
+<li>/dev/agpgart (AGP support)</li>
+<li>m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia<ul>
+<li><strong>Frame buffer Devices</strong></li>
+<li>Support for frame buffer devices</li>
+</ul>
+</li>
+<li>Backlight &amp; LCD device support</li>
+<li><strong>Console display driver support</strong></li>
+<li>VGA text console</li>
+<li>m_Sound card support
   <strong>HID Support</strong>
-    <strong>USB support</strong> entero
-    LED Support
-    Accessibility support
-    Virtualization drivers
-    Staging Drivers
-    Platform support for Chrome hardware
+<strong>USB support</strong> entero
+LED Support
+Accessibility support
+Virtualization drivers
+Staging Drivers
+Platform support for Chrome hardware
 <strong>File systems</strong>
 Network File Systems
   <strong>Security options</strong>
@@ -801,8 +805,8 @@ Hardware crypto devices (Support for AMD secure processor)
   Provide system-wide ring of blacklisted keys
   <strong>Library routines</strong>
   m_CRC16 functions
-    <strong>XZ decompression support</strong>
-    x86 BCJ filter decoder
+<strong>XZ decompression support</strong>
+x86 BCJ filter decoder
   IRQ polling library
 <strong>Kernel hacking</strong>
 Collect scheduler debbuging info
@@ -815,6 +819,8 @@ Allow gcc to uninline functions marked 'inline'
   Compile the kernel with debug info
   <strong>Memory Debugging</strong>
   Debug memory initialisation</li>
+</ul>
+</li>
 </ul>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
