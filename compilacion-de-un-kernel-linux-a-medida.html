@@ -697,22 +697,26 @@ make xconfig
 </li>
 <li><strong>Firmware Drivers</strong><ul>
 <li>Apple device properties</li>
-<li>virtualization
-<strong>General architecture-dependent options</strong>
-kprobes
-optimize very unlikely/likely branches
-stack protector buffer overflow detection
-use a virtually-mapped stack
-perform full reference count validation at the expense of speed
-<strong>Enable the block layer</strong>
+<li>virtualization</li>
+</ul>
+</li>
+<li><strong>General architecture-dependent options</strong><ul>
+<li>kprobes</li>
+<li>optimize very unlikely/likely branches</li>
+<li>stack protector buffer overflow detection</li>
+<li>use a virtually-mapped stack</li>
+<li>perform full reference count validation at the expense of speed</li>
+</ul>
+</li>
+<li><strong>Enable the block layer</strong>
   <strong>partition types</strong>
   acorn partition support
   alpha OSF partition support
   amiga partition table support
   atari partition table support
   macintosh partition map support
-<strong>PC BIOS (MSDOS partition tables) support</strong>
-Solarix (x86) partition table support
+    <strong>PC BIOS (MSDOS partition tables) support</strong>
+    Solarix (x86) partition table support
   SGI partition support
   Ultrix partition table support
   sun partition tables support
@@ -732,10 +736,10 @@ RF switch subsystem support
   m_Intel Management Engine Interface
   m_ME Enabled Intel Chipsets
   <strong>SCSI device support</strong>
-<strong>SCSI Transports</strong>
-SCSI low-level drivers
-<strong>Multiple devices driver support (RAID and LVM)</strong>
-m_RAID support
+    <strong>SCSI Transports</strong>
+    SCSI low-level drivers
+    <strong>Multiple devices driver support (RAID and LVM)</strong>
+    m_RAID support
   Fusion MPT device support
   Macintosh device drivers
   <strong>Network device support</strong>
@@ -758,26 +762,26 @@ m_RAID support
   Laptop Hybrid Graphics - GPU switching support
   Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support
   m_Nouveau  (NVIDIA) cards
-<strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong>
-Enable capturing GPU state following a hang
-Always enable userptr support
-<strong>/dev/agpart (AGP Support)</strong>
-AMD Opteron/Athlon64 on-CPU GART support
+    <strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong>
+    Enable capturing GPU state following a hang
+    Always enable userptr support
+    <strong>/dev/agpart (AGP Support)</strong>
+    AMD Opteron/Athlon64 on-CPU GART support
   /dev/agpgart (AGP support)
   m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia
-<strong>Frame buffer Devices</strong>
-Support for frame buffer devices
-Backlight &amp; LCD device support
-  <strong>Console display driver support</strong>
-    VGA text console
+    <strong>Frame buffer Devices</strong>
+    Support for frame buffer devices
+    Backlight &amp; LCD device support
+      <strong>Console display driver support</strong>
+        VGA text console
   m_Sound card support
   <strong>HID Support</strong>
-<strong>USB support</strong> entero
-LED Support
-Accessibility support
-Virtualization drivers
-Staging Drivers
-Platform support for Chrome hardware
+    <strong>USB support</strong> entero
+    LED Support
+    Accessibility support
+    Virtualization drivers
+    Staging Drivers
+    Platform support for Chrome hardware
 <strong>File systems</strong>
 Network File Systems
   <strong>Security options</strong>
@@ -791,8 +795,8 @@ Hardware crypto devices (Support for AMD secure processor)
   Provide system-wide ring of blacklisted keys
   <strong>Library routines</strong>
   m_CRC16 functions
-<strong>XZ decompression support</strong>
-x86 BCJ filter decoder
+    <strong>XZ decompression support</strong>
+    x86 BCJ filter decoder
   IRQ polling library
 <strong>Kernel hacking</strong>
 Collect scheduler debbuging info
@@ -805,8 +809,6 @@ Allow gcc to uninline functions marked 'inline'
   Compile the kernel with debug info
   <strong>Memory Debugging</strong>
   Debug memory initialisation</li>
-</ul>
-</li>
 </ul>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
