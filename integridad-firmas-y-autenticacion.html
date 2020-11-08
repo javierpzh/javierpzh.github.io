@@ -120,6 +120,17 @@
 </ul>
 <h4>GPG</h4>
 <p><strong>1. Manda un documento y la firma electrónica del mismo a un compañero. Verifica la firma que tu has recibido.</strong></p>
+<p>Previamente <a href="https://www.instagram.com/whosalvr/">Álvaro</a> y yo nos hemos pasado nuestras claves públicas.</p>
+<p>Voy mandarle un documento y la firma de este a mi compañero Álvaro para que él realice también el ejercicio:</p>
+<pre>
+javier@debian:~$ gpg --detach-sign practica.py
+
+javier@debian:~$ ls | grep 'practica'
+practica.py
+practica.py.sig
+</pre>
+
+<p>Le envío estos archivos y él verifica la firma.</p>
 <p><strong>2. ¿Qué significa el mensaje que aparece en el momento de verificar la firma?</strong></p>
 <pre>
 gpg: Firma correcta de "Pepe D <josedom24@gmail.com>" [desconocido]
@@ -170,7 +181,7 @@ gpg --export C67662D3 > javi.asc
 </pre>
 
 <p>Cuando nos firmen la clave debemos importarla para actualizar la lista de firmas de la clave, y posteriormente volver a exportarla para que posea todas las firmas.</p>
-<p>Voy a importar la clave de mi compañero <a href="https://www.instagram.com/whosalvr/">Álvaro</a> que previamente me ha pasado por correo electrónico y he descargado:</p>
+<p>Voy a importar la clave de mi compañero Álvaro que previamente me ha pasado por correo electrónico y he descargado:</p>
 <pre>
 javier@debian:~/Descargas$ ls
 clave.asc  Imágenes
