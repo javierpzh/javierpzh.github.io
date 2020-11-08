@@ -644,164 +644,155 @@ make xconfig
 </pre>
 
 <p>Quito:</p>
-<ul>
-<li><strong>General setup</strong><ul>
-<li>memory placement aware NUMA scheduler</li>
-<li>checkpoint/restore support</li>
-<li>enable VM event counters for /proc/vmstat</li>
-<li>allow slab caches to be merged</li>
-<li>SLAB freelist randomization</li>
-<li>Harden slab freelist metadata</li>
-<li>profiling support<ul>
-<li><strong>Timers subsystem</strong></li>
-<li>high resolution timer support</li>
-<li><strong>CPU/Task time and stats accounting</strong></li>
-<li>BSD process accounting</li>
-<li>export task/process statistics through netlink</li>
-<li><strong>Control Group support</strong></li>
-<li>swap controller</li>
-<li>RDMA controller</li>
-<li>freezer controller</li>
-<li>cpuset controller</li>
-<li>Namespaces support</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>Processor type and features</strong><ul>
-<li>AMD ACPI2Platform devices support</li>
-<li>old AMD GART IOMMU support</li>
-<li>IBM Calgary IOMMU support<ul>
-<li><strong>machine check/overheating reporting</strong></li>
-<li>AMD MCE features</li>
-</ul>
-</li>
-<li>enable vsyscall emulation<ul>
-<li><strong>CPU microcode loading support</strong></li>
-<li>AMD microcode loading support</li>
-<li><strong>linux guest support</strong> entero</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><strong>Power management and ACPI options</strong><ul>
-<li>suspend to RAM and standby</li>
-<li>hibernation</li>
-<li>device power management core functionality</li>
-<li>power management timer support<ul>
-<li><strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero</li>
-</ul>
-</li>
-<li>SFI (Simple Firmware Interface) Support</li>
-</ul>
-</li>
-<li><strong>Firmware Drivers</strong><ul>
-<li>Apple device properties</li>
-<li>virtualization</li>
-</ul>
-</li>
-<li><strong>General architecture-dependent options</strong><ul>
-<li>kprobes</li>
-<li>optimize very unlikely/likely branches</li>
-<li>stack protector buffer overflow detection</li>
-<li>use a virtually-mapped stack</li>
-<li>perform full reference count validation at the expense of speed</li>
-</ul>
-</li>
-<li><strong>Enable the block layer</strong><ul>
-<li><strong>partition types</strong></li>
-<li>acorn partition support</li>
-<li>alpha OSF partition support</li>
-<li>amiga partition table support</li>
-<li>atari partition table support</li>
-<li>macintosh partition map support<ul>
-<li><strong>PC BIOS (MSDOS partition tables) support</strong></li>
-<li>Solarix (x86) partition table support</li>
-</ul>
-</li>
-<li>SGI partition support</li>
-<li>Ultrix partition table support</li>
-<li>sun partition tables support</li>
-<li>karma partition support</li>
-<li><strong>Memory Management options</strong></li>
-<li>Allow for memory hot-add</li>
-<li>Enable frontswap to cache swap pages if tmem is present</li>
-</ul>
-</li>
-<li><strong>Networking support</strong><ul>
-<li>Network packet filtering framework</li>
-<li>QoS and/or fair queueing</li>
-<li>Amateur Radio support</li>
-<li>Wireless</li>
-<li>m_Bluetooth subsystem support</li>
-<li>RF switch subsystem support</li>
-</ul>
-</li>
-<li><strong>Device Drivers</strong><ul>
-<li><strong>Misc devices</strong><ul>
-<li>m_Intel Management Engine Interface</li>
-<li>m_ME Enabled Intel Chipsets</li>
-</ul>
-</li>
-<li><strong>SCSI device support</strong>
-        - <strong>SCSI Transports</strong>
-        - SCSI low-level drivers<ul>
-<li><strong>Multiple devices driver support (RAID and LVM)</strong></li>
-<li>m_RAID support</li>
-<li>Fusion MPT device support</li>
-<li>Macintosh device drivers</li>
-</ul>
-</li>
-<li><strong>Network device support</strong></li>
-<li>Wireless LAN</li>
-<li>Wan interfaces support</li>
-<li>ISDN support</li>
-<li><strong>Input device support</strong></li>
-<li>Mouse interface</li>
-<li>m_Joystick interface</li>
-<li>m_Event interface</li>
-<li>Joysticks/Gamepads</li>
-<li>Tablets</li>
-<li>Touchscreens</li>
-<li><strong>GPIO Support</strong></li>
-<li>m_Hardware Monitoring support</li>
-<li>Generic Thermal sysfs driver</li>
-<li>Watchdog Timer Support</li>
-<li><strong>Graphics support</strong></li>
-<li>VGA Arbitration</li>
-<li>Laptop Hybrid Graphics - GPU switching support</li>
-<li>Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support</li>
-<li>m_Nouveau  (NVIDIA) cards<ul>
-<li><strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong></li>
-<li>Enable capturing GPU state following a hang</li>
-<li>Always enable userptr support</li>
-<li><strong>/dev/agpart (AGP Support)</strong></li>
-<li>AMD Opteron/Athlon64 on-CPU GART support</li>
-</ul>
-</li>
-<li>/dev/agpgart (AGP support)</li>
-<li>m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia<ul>
-<li><strong>Frame buffer Devices</strong></li>
-<li>Support for frame buffer devices</li>
-</ul>
-</li>
-<li>Backlight &amp; LCD device support</li>
-<li><strong>Console display driver support</strong></li>
-<li>VGA text console</li>
-<li>m_Sound card support</li>
-<li><strong>HID Support</strong><ul>
-<li><strong>USB support</strong> entero</li>
-<li>LED Support</li>
-<li>Accessibility support</li>
-<li>Virtualization drivers</li>
-<li>Staging Drivers</li>
-<li>Platform support for Chrome hardware
-<strong>File systems</strong>
-Network File Systems
+<h5>General setup</h5>
+<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">memory</span> <span class="n">placement</span> <span class="n">aware</span> <span class="n">NUMA</span> <span class="n">scheduler</span>
+<span class="o">-</span> <span class="n">checkpoint</span><span class="o">/</span><span class="n">restore</span> <span class="n">support</span>
+<span class="o">-</span> <span class="n">enable</span> <span class="n">VM</span> <span class="n">event</span> <span class="n">counters</span> <span class="k">for</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">vmstat</span>
+<span class="o">-</span> <span class="n">allow</span> <span class="n">slab</span> <span class="n">caches</span> <span class="n">to</span> <span class="n">be</span> <span class="n">merged</span>
+<span class="o">-</span> <span class="n">SLAB</span> <span class="n">freelist</span> <span class="n">randomization</span>
+<span class="o">-</span> <span class="n">Harden</span> <span class="n">slab</span> <span class="n">freelist</span> <span class="n">metadata</span>
+<span class="o">-</span> <span class="n">profiling</span> <span class="n">support</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">Timers</span> <span class="n">subsystem</span><span class="o">**</span>
+    <span class="o">-</span>   <span class="n">high</span> <span class="n">resolution</span> <span class="n">timer</span> <span class="n">support</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">CPU</span><span class="o">/</span><span class="n">Task</span> <span class="n">time</span> <span class="ow">and</span> <span class="n">stats</span> <span class="n">accounting</span><span class="o">**</span>
+    <span class="o">-</span>   <span class="n">BSD</span> <span class="n">process</span> <span class="n">accounting</span>
+    <span class="o">-</span>   <span class="k">export</span> <span class="n">task</span><span class="o">/</span><span class="n">process</span> <span class="n">statistics</span> <span class="n">through</span> <span class="n">netlink</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">Control</span> <span class="n">Group</span> <span class="n">support</span><span class="o">**</span>
+    <span class="o">-</span>   <span class="n">swap</span> <span class="n">controller</span>
+    <span class="o">-</span>   <span class="n">RDMA</span> <span class="n">controller</span>
+    <span class="o">-</span>   <span class="n">freezer</span> <span class="n">controller</span>
+    <span class="o">-</span>   <span class="n">cpuset</span> <span class="n">controller</span>
+    <span class="o">-</span>   <span class="n">Namespaces</span> <span class="n">support</span>
+</code></pre></div>
+
+
+<h5>Processor type and features</h5>
+<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">AMD</span> <span class="n">ACPI2Platform</span> <span class="n">devices</span> <span class="n">support</span>
+<span class="o">-</span> <span class="n">old</span> <span class="n">AMD</span> <span class="n">GART</span> <span class="n">IOMMU</span> <span class="n">support</span>
+<span class="o">-</span> <span class="n">IBM</span> <span class="n">Calgary</span> <span class="n">IOMMU</span> <span class="n">support</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">machine</span> <span class="n">check</span><span class="o">/</span><span class="n">overheating</span> <span class="n">reporting</span><span class="o">**</span>
+    <span class="o">-</span>   <span class="n">AMD</span> <span class="n">MCE</span> <span class="n">features</span>
+<span class="o">-</span> <span class="n">enable</span> <span class="n">vsyscall</span> <span class="n">emulation</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">CPU</span> <span class="n">microcode</span> <span class="n">loading</span> <span class="n">support</span><span class="o">**</span>
+    <span class="o">-</span>   <span class="n">AMD</span> <span class="n">microcode</span> <span class="n">loading</span> <span class="n">support</span>
+    <span class="o">-</span>   <span class="o">**</span><span class="n">linux</span> <span class="n">guest</span> <span class="n">support</span><span class="o">**</span> <span class="n">entero</span>
+</code></pre></div>
+
+
+<h5>Power management and ACPI options</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- suspend to RAM and standby</span>
+<span class="err">- hibernation</span>
+<span class="err">- device power management core functionality</span>
+<span class="err">- power management timer support</span>
+<span class="err">    -   **ACPI (Advanced Configuration and Power Interface) Support** entero</span>
+<span class="err">- SFI (Simple Firmware Interface) Support</span>
+</code></pre></div>
+
+
+<h5>Firmware Drivers</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- Apple device properties</span>
+<span class="err">- virtualization</span>
+</code></pre></div>
+
+
+<h5>General architecture-dependent options</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- kprobes</span>
+<span class="err">- optimize very unlikely/likely branches</span>
+<span class="err">- stack protector buffer overflow detection</span>
+<span class="err">- use a virtually-mapped stack</span>
+<span class="err">- perform full reference count validation at the expense of speed</span>
+</code></pre></div>
+
+
+<h5>Enable the block layer</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- **partition types**</span>
+<span class="err">- acorn partition support</span>
+<span class="err">- alpha OSF partition support</span>
+<span class="err">- amiga partition table support</span>
+<span class="err">- atari partition table support</span>
+<span class="err">- macintosh partition map support</span>
+<span class="err">    - **PC BIOS (MSDOS partition tables) support**</span>
+<span class="err">    - Solarix (x86) partition table support</span>
+<span class="err">- SGI partition support</span>
+<span class="err">- Ultrix partition table support</span>
+<span class="err">- sun partition tables support</span>
+<span class="err">- karma partition support</span>
+<span class="err">- **Memory Management options**</span>
+<span class="err">- Allow for memory hot-add</span>
+<span class="err">- Enable frontswap to cache swap pages if tmem is present</span>
+</code></pre></div>
+
+
+<h5>Networking support</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- Network packet filtering framework</span>
+<span class="err">- QoS and/or fair queueing</span>
+<span class="err">- Amateur Radio support</span>
+<span class="err">- Wireless</span>
+<span class="err">- m_Bluetooth subsystem support</span>
+<span class="err">- RF switch subsystem support</span>
+</code></pre></div>
+
+
+<h5>Device Drivers</h5>
+<div class="highlight"><pre><span></span><code><span class="err">- **Misc devices**</span>
+<span class="err">    - m_Intel Management Engine Interface</span>
+<span class="err">    - m_ME Enabled Intel Chipsets</span>
+<span class="err">- **SCSI device support**</span>
+<span class="err">    - **SCSI Transports**</span>
+<span class="err">    - SCSI low-level drivers</span>
+<span class="err">  - **Multiple devices driver support (RAID and LVM)**</span>
+<span class="err">  - m_RAID support</span>
+<span class="err">  - Fusion MPT device support</span>
+<span class="err">  - Macintosh device drivers</span>
+<span class="err">- **Network device support**</span>
+<span class="err">- Wireless LAN</span>
+<span class="err">- Wan interfaces support</span>
+<span class="err">- ISDN support</span>
+<span class="err">- **Input device support**</span>
+<span class="err">- Mouse interface</span>
+<span class="err">- m_Joystick interface</span>
+<span class="err">- m_Event interface</span>
+<span class="err">- Joysticks/Gamepads</span>
+<span class="err">- Tablets</span>
+<span class="err">- Touchscreens</span>
+<span class="err">- **GPIO Support**</span>
+<span class="err">- m_Hardware Monitoring support</span>
+<span class="err">- Generic Thermal sysfs driver</span>
+<span class="err">- Watchdog Timer Support</span>
+<span class="err">- **Graphics support**</span>
+<span class="err">- VGA Arbitration</span>
+<span class="err">- Laptop Hybrid Graphics - GPU switching support</span>
+<span class="err">- Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support</span>
+<span class="err">- m_Nouveau  (NVIDIA) cards</span>
+<span class="err">    - **Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)**</span>
+<span class="err">    - Enable capturing GPU state following a hang</span>
+<span class="err">    - Always enable userptr support</span>
+<span class="err">    - **/dev/agpart (AGP Support)**</span>
+<span class="err">    - AMD Opteron/Athlon64 on-CPU GART support</span>
+<span class="err">- /dev/agpgart (AGP support)</span>
+<span class="err">- m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia</span>
+<span class="err">    - **Frame buffer Devices**</span>
+<span class="err">    - Support for frame buffer devices</span>
+<span class="err">- Backlight &amp; LCD device support</span>
+<span class="err">- **Console display driver support**</span>
+<span class="err">- VGA text console</span>
+<span class="err">- m_Sound card support</span>
+<span class="err">- **HID Support**</span>
+<span class="err">    - **USB support** entero</span>
+<span class="err">    - LED Support</span>
+<span class="err">    - Accessibility support</span>
+<span class="err">    - Virtualization drivers</span>
+<span class="err">    - Staging Drivers</span>
+<span class="err">    - Platform support for Chrome hardware</span>
+</code></pre></div>
+
+
+<h5>File systems</h5>
+<p>Network File Systems
   <strong>Security options</strong>
-  NSA SELinux Support
-<strong>Cryptographic API</strong>
-Hardware crypto devices (Support for AMD secure processor)
+  NSA SELinux Support</p>
+<h5>Cryptographic API</h5>
+<p>Hardware crypto devices (Support for AMD secure processor)
   <strong>Asymmetric</strong>
   Support for PE file signature verification
   <strong>Certificates for signature checking</strong>
@@ -809,11 +800,11 @@ Hardware crypto devices (Support for AMD secure processor)
   Provide system-wide ring of blacklisted keys
   <strong>Library routines</strong>
   m_CRC16 functions
-<strong>XZ decompression support</strong>
-x86 BCJ filter decoder
-  IRQ polling library
-<strong>Kernel hacking</strong>
-Collect scheduler debbuging info
+    <strong>XZ decompression support</strong>
+    x86 BCJ filter decoder
+  IRQ polling library</p>
+<h5>Kernel hacking</h5>
+<p>Collect scheduler debbuging info
 Collect scheduler statistics
 Detect stack corruption on calls to schedule
 Allow gcc to uninline functions marked 'inline'
@@ -822,12 +813,7 @@ Allow gcc to uninline functions marked 'inline'
   <strong>Compile-time checks and compiler options</strong>
   Compile the kernel with debug info
   <strong>Memory Debugging</strong>
-  Debug memory initialisation</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+  Debug memory initialisation</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
 87
