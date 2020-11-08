@@ -536,16 +536,19 @@ lynx departamentos.iesgn.org/internet
 lynx departamentos.iesgn.org/intranet
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">Accedemos</span> <span class="n">a</span> <span class="o">`</span><span class="n">departamentos</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">internet</span><span class="o">`</span><span class="p">:</span>
-
-<span class="o">!</span><span class="p">[.](</span><span class="n">images</span><span class="o">/</span><span class="n">sri_servidor_web_nginx</span><span class="o">/</span><span class="n">redlocalinternet</span><span class="p">.</span><span class="n">png</span><span class="p">)</span>
-
-<span class="o">-</span> <span class="n">Accedemos</span> <span class="n">a</span> <span class="o">`</span><span class="n">departamentos</span><span class="p">.</span><span class="n">iesgn</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">intranet</span><span class="o">`</span><span class="p">:</span>
-
-<span class="o">!</span><span class="p">[.](</span><span class="n">images</span><span class="o">/</span><span class="n">sri_servidor_web_nginx</span><span class="o">/</span><span class="n">redlocalintranet</span><span class="p">.</span><span class="n">png</span><span class="p">)</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p><strong>Máquina conectada a la red local:</strong></p>
+<ul>
+<li>Accedemos a <code>departamentos.iesgn.org/internet</code>:</li>
+</ul>
+<p><img alt="." src="images/sri_servidor_web_nginx/redlocalinternet.png"></p>
+<ul>
+<li>Accedemos a <code>departamentos.iesgn.org/intranet</code>:</li>
+</ul>
+<p><img alt="." src="images/sri_servidor_web_nginx/redlocalintranet.png"></p>
+</li>
+</ul>
 <p>Vemos como nos deja acceder a la web <code>/intranet</code> pero no a la web <code>/internet</code>.</p>
 <p><strong>7. Autentificación básica. Limita el acceso a la URL <code>departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente.</strong></p>
 <p>Vamos a crear la página <code>departamentos.iesgn.org/secreto</code>. Creamos el directorio <code>/srv/www/departamentos/secreto</code> y su respectivo <code>index.html</code>:</p>
