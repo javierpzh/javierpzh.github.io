@@ -295,11 +295,6 @@ systemctl restart nginx
 root@deb10-servidornginx:/srv/www/iesgn# mkdir principal
 </pre>
 
-<p>Al crear un nuevo directorio se crea con el usuario que hemos ejecutado el comando, por tanto, tendremos que cambiar el propietario de este directorio. Yo recurro de nuevo el comando utilizado anteriormente ya que lo aplica a los subdirectorios hijos:</p>
-<pre>
-chown -R www-data:www-data /srv/www
-</pre>
-
 <p>Creamos la redirección, en este caso permanente, con la siguiente línea en el fichero de configuración <code>/etc/nginx/sites-available/iesgn.conf</code>:</p>
 <pre>
 rewrite ^/$ /principal permanent;
@@ -337,6 +332,11 @@ index.html  principal
 ejemplo1.txt
 </pre>
 
+<p>Tendremos que cambiar el propietario de este enlace simbólico. Yo recurro de nuevo el comando utilizado anteriormente ya que lo aplica a los subdirectorios y archivos hijos:</p>
+<pre>
+chown -R www-data:www-data /srv/www
+</pre>
+
 <p>Reiniciamos el servicio:</p>
 <pre>
 systemctl restart nginx
@@ -349,6 +349,8 @@ systemctl restart nginx
 <p>Vemos que tampoco nos deja, por tanto tendríamos la página bien configurada. Ahora vamos a añadir un <code>index.html</code>:</p>
 <pre>
 root@deb10-servidornginx:/srv/www/iesgn# cp index.html ./principal/
+
+root@deb10-servidornginx:/srv/www/iesgn# chown -R www-data:www-data /srv/www
 </pre>
 
 <p>Si ahora accedemos a la ruta <code>www.iesgn.org</code> nos redirigirá automáticamente a <code>www.iesgn.org/principal</code> y nos mostrará está página:</p>
