@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx 2. Instala un...">
+        <meta name="description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx apt update && apt...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -53,7 +53,7 @@
 	<meta property="og:url" content="/instalacion-de-un-servidor-lemp.html">
 	<meta property="og:title" content="Instalación de un servidor LEMP">
 	<meta property="article:published_time" content="2020-11-09 00:00:00+01:00">
-            <meta property="og:description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx 2. Instala un...">
+            <meta property="og:description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx apt update && apt...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
 </head>
@@ -115,8 +115,87 @@
         <h2>Instalación de un servidor LEMP</h2>
 <p><strong>Esta tarea la vamos a realizar sobre el servidor OVH</strong></p>
 <p><strong>1. Instala un servidor web nginx</strong></p>
+<pre>
+apt update && apt install nginx -y
+</pre>
+
 <p><strong>2. Instala un servidor de base de datos MariaDB. Ejecuta el programa necesario para asegurar el servicio, ya que lo vamos a tener corriendo en el entorno de producción.</strong></p>
+<pre>
+apt install mariadb-server mariadb-client -y
+</pre>
+
+<p>Una vez lo hemos instalado, vamos a configurar una serie de opciones con el comando <code>mysql_secure_installation</code>. Vamos a especificarle una <strong>contraseña de root</strong>, vamos a <strong>eliminar los usuarios anónimos</strong>, vamos a <strong>desactivar el acceso remoto</strong> a la base de datos, en resumen, vamos a restablecer la base de datos, con nuestras preferencias. Esta es una manera de asegurar el servicio. Aquí muestro el proceso:</p>
+<pre>
+root@vpsjavierpzh:~# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user.  If you've just installed MariaDB, and
+you haven't set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none):
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MariaDB
+root user without the proper authorisation.
+
+You already have a root password set, so you can safely answer 'n'.
+
+Change the root password? [Y/n] Y
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] Y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] Y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] Y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] Y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</pre>
+
 <p><strong>3. Instala un servidor de aplicaciones <code>php</code> <code>php-fpm</code>.</strong></p>
+<pre>
+apt install php php-fpm -y
+</pre>
+
 <p><strong>4. Crea un virtualhost al que vamos acceder con el nombre <code>www.iesgnXX.es</code>. Recuerda que tendrás que crear un registro <code>CNAME</code> en la zona DNS.</strong></p>
 <p><strong>5. Cuando se acceda al virtualhost por defecto <code>default</code> nos tiene que redirigir al virtualhost que hemos creado en el punto anterior.</strong></p>
 <p><strong>6. Cuando se acceda a <code>www.iesgnXX.es</code> se nos redigirá a la página <code>www.iesgnXX.es/principal</code></strong></p>
