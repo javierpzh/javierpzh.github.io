@@ -396,27 +396,13 @@ chown -R www-data:www-data /srv/
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/wwwiesgn15es.png"></p>
 <p>Además de visualizar la nueva web, es importante fijarse en la URL y apreciar que nos ha realizado la redirección a la página <code>/principal</code>, como configuramos en el paso anterior.</p>
 <p><strong>8. Configura el nuevo virtualhost, para que pueda ejecutar PHP. Determina que configuración tiene por defecto <code>php-fpm</code> (socket unix o socket TCP) para configurar nginx de forma adecuada.</strong></p>
+<p>Si queremos configurar este virtualhost para que ejecute <em>PHP</em>, debemos antes nada, instalar el paquete que se me ha olvidado instalar antes, y no es menos, que el paquete que nos permite que <em>PHP</em> funcione con <em>MySQL</em>:</p>
 <pre>
 apt install php-mysql -y
 </pre>
 
-<p>Buscamos en <code>/etc/php/7.3/fpm/php.ini</code>:</p>
-<pre>
-;cgi.discard_path=1
-</pre>
-
-<p>Sustituimos por:</p>
-<pre>
-cgi.fix_pathinfo=0
-</pre>
-
-<p>Reiniciamos el servicio:</p>
-<pre>
-systemctl restart php7.3-fpm
-</pre>
-
-<p>Configuración <em>Nginx</em> para PHP:</p>
-<p><code>/etc/nginx/sites-available/aplicacionesiesgn.conf</code>:</p>
+<p>Ahora sí, debemos dirigirnos a la configuración de este virtualhost de <em>Nginx</em>, es decir, al fichero <code>/etc/nginx/sites-available/aplicacionesiesgn.conf</code>, y añadirle las siguientes líneas para que ejecute PHP.</p>
+<p>De manera que el fichero de configuración quedaría con este aspecto:</p>
 <pre>
 server {
         listen 80;
@@ -447,7 +433,7 @@ server {
 <p>Agregamos <code>index.php</code> como primer valor de nuestra directiva índice.</p>
 </li>
 <li>
-<p>Agregamos un bloque que se va a encargar de descomentar las líneas <strong>include</strong> y <strong>fastcgi_pass</strong> de todos los ficheros <strong>.php</strong>. Esto es necesario para llevar a cabo el procesamiento real de PHP, ya que estas líneas manejan las solicitudes PHP.</p>
+<p>Agregamos un bloque que se va a encargar de descomentar las líneas <strong>include</strong> y <strong>fastcgi_pass</strong> de todos los ficheros <strong>.php</strong>. Esto es necesario para llevar a cabo el procesamiento real de PHP, ya que estas líneas son las que manejan las solicitudes PHP.</p>
 </li>
 </ul>
 <p>Reiniciamos el servicio:</p>
@@ -455,6 +441,7 @@ server {
 systemctl restart nginx
 </pre>
 
+<p>Ya hemos configurado nuestro virtualhost para que funcione con <em>PHP</em>.</p>
 <p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
 <pre>
 root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano info.php
