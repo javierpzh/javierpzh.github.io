@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx apt update && apt...">
+        <meta name="description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH En esta práctica vamos a montar un servidor LEMP,...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -53,7 +53,7 @@
 	<meta property="og:url" content="/instalacion-de-un-servidor-lemp.html">
 	<meta property="og:title" content="Instalación de un servidor LEMP">
 	<meta property="article:published_time" content="2020-11-09 00:00:00+01:00">
-            <meta property="og:description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH 1. Instala un servidor web nginx apt update && apt...">
+            <meta property="og:description" content="Instalación de un servidor LEMP Esta tarea la vamos a realizar sobre el servidor OVH En esta práctica vamos a montar un servidor LEMP,...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
 </head>
@@ -114,7 +114,28 @@
     <article>
         <h2>Instalación de un servidor LEMP</h2>
 <p><strong>Esta tarea la vamos a realizar sobre el servidor OVH</strong></p>
+<p>En esta práctica vamos a montar un <strong>servidor LEMP</strong>, que hace referencia a:</p>
+<ul>
+<li>
+<p><strong>L</strong>inux, el sistema operativo</p>
+</li>
+<li>
+<p><strong>(E)</strong> Nginx, el servidor web</p>
+</li>
+<li>
+<p><strong>M</strong>ySQL/MariaDB, el gestor de bases de datos</p>
+</li>
+<li>
+<p><strong>P</strong>HP, el lenguaje de programación</p>
+</li>
+</ul>
 <p><strong>1. Instala un servidor web nginx</strong></p>
+<p>Antes de proceder a instalar algún paquete cuando creamos una nueva máquina, en este caso una instancia, es muy recomendable actualizar el estado de la máquina, ya que generalmente estamos utilizando imágenes que puede que estén desactualizadas, por tanto, vamos a realizar una actualización de nuestros repositorios y paquetes, y vamos a deshacernos de todo aquello que ya no nos sea necesario:</p>
+<pre>
+apt update && apt upgrade -y && apt autoremove -y && apt autoclean
+</pre>
+
+<p>Ahora sí instalamos el podemos instalar el paquete de <em>Nginx</em>:</p>
 <pre>
 apt update && apt install nginx -y
 </pre>
