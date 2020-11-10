@@ -327,6 +327,10 @@ components.html  index.html  main.bc58148c.js.gz  main.d8e0d294.css  sample
 root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano index.html
 </pre>
 
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
 <p>Accedo a la <a href="http://www.iesgn15.es">página</a></p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/wwwiesgn15es.png"></p>
 <p><strong>8. Configura el nuevo virtualhost, para que pueda ejecutar PHP. Determina que configuración tiene por defecto <code>php-fpm</code> (socket unix o socket TCP) para configurar nginx de forma adecuada.</strong></p>
@@ -342,6 +346,62 @@ apt install php-mysql -y
 <p>Sustituimos por:</p>
 <pre>
 cgi.fix_pathinfo=0
+</pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre>
+systemctl restart php7.3-fpm
+</pre>
+
+<p>Configuración <em>Nginx</em> para PHP:</p>
+<p><code>/etc/nginx/sites-available/aplicacionesiesgn.conf</code>:</p>
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+}
+</pre>
+
+<p>Vemos los cambios que hemos introducido:</p>
+<ul>
+<li>
+<p>Agregamos <code>index.php</code> como primer valor de nuestra directiva índice.</p>
+</li>
+<li>
+<p>Agregamos un bloque que se va a encargar de descomentar las líneas <strong>include</strong> y <strong>fastcgi_pass</strong> de todos los ficheros <strong>.php</strong>. Esto es necesario para llevar a cabo el procesamiento real de PHP, ya que estas líneas manejan las solicitudes PHP.</p>
+</li>
+</ul>
+<p>Reiniciamos el servicio:</p>
+<pre>
+systemctl restart nginx
+</pre>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano info.php
+</pre>
+
+<p>Escribimos dentro:</p>
+<pre>
+<?php phpinfo(); ?>
+</pre>
+
+<pre>
+chown -R www-data:www-data /srv/
 </pre>
 
 <p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
