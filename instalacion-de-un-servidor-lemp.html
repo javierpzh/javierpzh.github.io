@@ -225,10 +225,13 @@ apt install php php-fpm -y
 <p>Vamos a crear un nuevo sitio web al que se accederá mediante la dirección <code>www.iesgn15.es</code>. Antes de empezar la configuración de <em>Nginx</em>, vamos a añadir un registro <strong>CNAME</strong> en nuestra <strong>nuestra zona DNS de OVH</strong>.
 Para realizar este paso, nos dirigimos a nuestra zona DNS de OVH:</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/zonadnsovh.png"></p>
-<p>Una vez aquí, antes de crear el nuevo registro</p>
+<p>Una vez aquí, antes de crear el nuevo registro tenemos que eliminar el registro existente que hace uso del subdominio <code>www.iesgn15.es</code>. Este registro no lo he creado yo, sino que venía por defecto, y además es un registro de tipo <strong>TXT</strong>, es decir que no es importante y no afectará a ningún servicio, por tanto lo eliminamos:</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/borrartxtpordefecto.png"></p>
+<p>Una vez tenemos el subdominio que queremos libre y utilizable, procedemos a crear el nuevo registro como se puede ver en la siguiente imagen:</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/cnameconfiguracion.png"></p>
+<p>Vemos como nos avisa que vamos a crear un registro de tipo <strong>CNAME</strong>, cuyo dominio será <strong>www.iesgn15.es</strong> y su destino va a ser <strong>vpsjavierpzh.iesgn15.es.</strong>. Es importante no olvidar este último punto final si queremos utilizar la notación absoluta.</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/cnamecrear.png"></p>
+<p>sss</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/cnamecreado.png"></p>
 <p>Creamos el virtualhost en <code>/srv/www/aplicacionesiesgn</code>:</p>
 <pre>
