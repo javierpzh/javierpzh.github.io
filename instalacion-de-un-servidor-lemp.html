@@ -234,7 +234,7 @@ Para realizar este paso, nos dirigimos a nuestra zona DNS de OVH:</p>
 <p>Ya hemos creado el nuevo registro:</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/cnamecreado.png"></p>
 <p>Una vez hemos realizado las modificaciones necesarias en la configuración del servidor, podemos pasar a configurar <em>Nginx</em>.</p>
-<p>Creamos el virtualhost en <code>/srv/www/aplicacionesiesgn</code>:</p>
+<p>Lo primero sería crear el nuevo virtualhost, en mi caso lo voy a crear en la ruta <code>/srv/www/aplicacionesiesgn</code>:</p>
 <pre>
 root@vpsjavierpzh:/srv# mkdir www
 
@@ -243,12 +243,12 @@ root@vpsjavierpzh:/srv# cd www/
 root@vpsjavierpzh:/srv/www# mkdir aplicacionesiesgn
 </pre>
 
-<p>Creamos el fichero de configuración de la nueva web que vamos a crear:</p>
+<p>Creamos el fichero de configuración de la nueva web que vamos a crear, lo he llamado <code>aplicacionesiesgn.conf</code>. Recodemos que todos los ficheros de configuración deben estar en la ruta <code>/etc/nginx/sites-available</code>.</p>
 <pre>
 root@vpsjavierpzh:/etc/nginx/sites-available# nano aplicacionesiesgn.conf
 </pre>
 
-<p>Y dentro escribimos las siguientes líneas:</p>
+<p>Y dentro de este archivo escribimos las siguientes líneas:</p>
 <pre>
 server {
         listen 80;
@@ -271,7 +271,7 @@ server {
 ln -s /etc/nginx/sites-available/aplicacionesiesgn.conf /etc/nginx/sites-enabled/
 </pre>
 
-<p>Vemos que nos lo ha creado bien:</p>
+<p>Comprobamos que lo hemos creado bien:</p>
 <pre>
 root@vpsjavierpzh:/etc/nginx/sites-available# ls -l /etc/nginx/sites-enabled/
 total 0
