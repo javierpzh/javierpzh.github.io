@@ -288,7 +288,7 @@ lrwxrwxrwx 1 root root 34 Nov  9 12:09 default -> /etc/nginx/sites-available/def
 <p>Recordemos que el fichero de configuración del virtualhost por defecto, se encuentra en <code>/etc/nginx/sites-available</code> con el nombre <code>default</code>.</p>
 <p>En este archivo crearemos la redirección permanente del virtualhost por defecto a este nuevo virtualhost. Para ello añadimos la siguiente línea:</p>
 <pre>
-rewrite ^/$ /srv/www/aplicacionesiesgn permanent;
+rewrite ^/$ "http://www.iesgn15.es" permanent;
 </pre>
 
 <p><strong>6. Cuando se acceda a <code>www.iesgnXX.es</code> se nos redigirá a la página <code>www.iesgnXX.es/principal</code></strong></p>
