@@ -443,14 +443,20 @@ systemctl restart nginx
 
 <p>Ya hemos configurado nuestro virtualhost para que funcione con <em>PHP</em>.</p>
 <p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
+<p>Para ver que como efectivamente hemos configurado <em>PHP</em> en nuestra web servida por <em>Nginx</em>, vamos a crear un archivo llamado <code>info.php</code>:</p>
 <pre>
 root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano info.php
 </pre>
 
-<p>Escribimos dentro: <code>&lt;?php phpinfo(); ?&gt;</code>.</p>
+<p>Dentro de este archivo vamos a introducir la siguiente línea: <code>&lt;?php phpinfo(); ?&gt;</code>.</p>
+<p>Cambiamos de nuevo el propietario de este fichero y de todos los demás archivo y directorios que se encuentran dentro de <code>/srv</code> al usuario <code>www:data</code>.</p>
 <pre>
 chown -R www-data:www-data /srv/
 </pre>
+
+<p>Si nos dirigimos a la página <code>www.iesgn15.es/principal/info.php</code>:</p>
+<p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/infophp.png"></p>
+<p>Esto significa que hemos configurado correctamente <em>PHP</em>.</p>
     </article>
 
         <div class="tags">
