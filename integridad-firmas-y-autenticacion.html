@@ -681,7 +681,8 @@ wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-
 </li>
 </ul>
 <p><strong>3. En el cliente, ¿para qué sirve el contenido que se guarda en el fichero <code>~/.ssh/known_hosts</code>?</strong></p>
-<p>El fichero <code>.ssh/known_hosts</code> en el cliente, almacena las claves públicas de los servidores a los que se conecta este cliente, de modo que cuando nos volvemos a conectar, verifica si el servidor es quién dice ser y no se trata de un imitador.</p>
+<p>Cada servidor SSH dispone de un único ID secreto que se denomina <em>host key</em> que utiliza para identificarse ante los clientes. La primera vez que nos conectamos a una máquina remota el cliente obtiene y almacena la parte pública del <em>host key</em> en su fichero <code>.ssh/known_hosts</code>.</p>
+<p>El fichero <code>.ssh/known_hosts</code> en el cliente, almacena estas claves (<em>host keys</em>) de los servidores a los que se conecta este cliente, de modo que cuando nos volvemos a conectar, verifica si el servidor es quién dice ser y no se trata de un imitador.</p>
 <p><strong>4. ¿Qué significa este mensaje que aparece la primera vez que nos conectamos a un servidor?</strong></p>
 <pre>
 $ ssh debian@172.22.200.74
@@ -690,7 +691,7 @@ ECDSA key fingerprint is SHA256:7ZoNZPCbQTnDso1meVSNoKszn38ZwUI4i6saebbfL4M.
 Are you sure you want to continue connecting (yes/no)?
 </pre>
 
-<p>Este mensaje nos aparece cuando intentamos conectarnos a un servidor que no conocemos. Si respondemos que <em>sí</em>, se copiara en el fichero <code>.ssh/known_hosts</code> del cliente, la clave pública de ese servidor, de forma que en conexiones posteriores podremos verificar la identidad del servidor, y si no es el mismo, el cliente rechazará la conexión.</p>
+<p>Este mensaje nos aparece cuando intentamos conectarnos a un servidor que no conocemos. Si respondemos que <em>sí</em>, se copiara en el fichero <code>.ssh/known_hosts</code> del cliente, el <em>host key</em> de ese servidor, de forma que en conexiones posteriores podremos verificar la identidad del servidor, y si no es el mismo, el cliente rechazará la conexión.</p>
 <p><strong>5. En ocasiones cuando estamos trabajando en el cloud, y reutilizamos una ip flotante nos aparece este mensaje:</strong></p>
 <pre>
 $ ssh debian@172.22.200.74
@@ -710,7 +711,7 @@ Offending ECDSA key in /home/jose/.ssh/known_hosts:103
 ECDSA host key for 172.22.200.74 has changed and you have requested strict checking.
 </pre>
 
-<p>Este mensaje aparece cuando intentamos conectarnos a un equipo remoto al que anteriormente nos habíamos conectado y habíamos guardado en nuestro fichero <code>.ssh/known_hosts</code>, y detectamos que ha cambiado su IP, por lo tanto nos avisa que el equipo guardado en nuestro fichero <code>.ssh/known_hosts</code> no coincide con el equipo al que estamos intentando conectarnos.</p>
+<p>Este mensaje aparece cuando intentamos conectarnos a un equipo remoto al que anteriormente nos habíamos conectado y habíamos guardado su <em>host key</em> en nuestro fichero <code>.ssh/known_hosts</code>. Al intentar realizar la conexión, se detecta que esta IP que ya teníamos guardada en nuestro fichero, junto con el <em>host key</em> del anterior servidor, no coinciden con el nuevo <em>host key</em> de la nueva máquina, por lo tanto nos avisa que el equipo guardado en nuestro fichero <code>.ssh/known_hosts</code> no coincide con el equipo al que estamos intentando conectarnos.</p>
 <p><strong>6.¿Qué guardamos y para qué sirve el fichero en el servidor <code>~/.ssh/authorized_keys</code>?</strong></p>
 <p>El fichero <code>.ssh/authorized_keys</code> en un servidor, almacena las claves públicas de los clientes que se pueden conectar a él mediante su clave privada. De esta manera, al introducir una clave pública en este fichero, la próxima vez que intentemos conectarnos, nos ahorraremos escribir la contraseña del usuario del servidor con el que queremos establecer la conexión.</p>
     </article>
