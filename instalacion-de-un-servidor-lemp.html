@@ -334,6 +334,16 @@ root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano index.html
 apt install php-mysql -y
 </pre>
 
+<p>Buscamos en <code>/etc/php/7.3/fpm/php.ini</code>:</p>
+<pre>
+;cgi.discard_path=1
+</pre>
+
+<p>Sustituimos por:</p>
+<pre>
+cgi.fix_pathinfo=0
+</pre>
+
 <p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
     </article>
 
