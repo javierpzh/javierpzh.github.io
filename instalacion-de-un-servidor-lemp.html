@@ -220,8 +220,10 @@ Thanks for using MariaDB!
 apt install php php-fpm -y
 </pre>
 
+<p>Ya tendríamos instalado nuestro servidor de aplicaciones <em>PHP</em>.</p>
 <p><strong>4. Crea un virtualhost al que vamos acceder con el nombre <code>www.iesgnXX.es</code>. Recuerda que tendrás que crear un registro <code>CNAME</code> en la zona DNS.</strong></p>
-<p>Para realizar este paso, nos dirigimos a <strong>nuestra zona DNS de OVH</strong>:</p>
+<p>Vamos a crear un nuevo sitio web al que se accederá mediante la dirección <code>www.iesgn15.es</code>. Antes de empezar la configuración de <em>Nginx</em>, vamos a añadir un registro <strong>CNAME</strong> en nuestra <strong>nuestra zona DNS de OVH</strong>.
+Para realizar este paso, nos dirigimos a nuestra zona DNS de OVH:</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/zonadnsovh.png"></p>
 <p>Una vez aquí, antes de crear el nuevo registro</p>
 <p><img alt="." src="images/sri_instalacion_de_un_servidor_LEMP/borrartxtpordefecto.png"></p>
