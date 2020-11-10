@@ -261,6 +261,27 @@ rewrite ^/$ /srv/www/aplicacionesiesgn permanent;
 rewrite ^/$ /principal permanent;
 </pre>
 
+<p>Queda así:</p>
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        rewrite ^/$ /principal permanent;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+}
+</pre>
+
+<p>Reiniciamos el servicio:</p>
 <pre>
 systemctl restart nginx
 </pre>
@@ -366,6 +387,8 @@ server {
 
         server_name www.iesgn15.es;
 
+        rewrite ^/$ /principal permanent;
+
         location / {
                  try_files $uri $uri/ =404;
         }
@@ -391,6 +414,7 @@ server {
 systemctl restart nginx
 </pre>
 
+<p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
 <pre>
 root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano info.php
 </pre>
@@ -403,8 +427,6 @@ root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano info.php
 <pre>
 chown -R www-data:www-data /srv/
 </pre>
-
-<p><strong>9. Crea un fichero <code>info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
     </article>
 
         <div class="tags">
