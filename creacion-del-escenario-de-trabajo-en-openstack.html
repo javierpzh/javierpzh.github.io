@@ -276,6 +276,25 @@ passwd: all authentication tokens updated successfully.
 </pre>
 
 <p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de dulcinea) Ver este <a href="https://youtu.be/jqfILWzHrS0">vídeo</a>.</strong></p>
+<pre>
+apt install python-virtualenv python3-pip -y
+</pre>
+
+<p>Creamos un entorno virtual:</p>
+<pre>
+javier@debian:~/openstack$ python3 -m venv openstack
+
+javier@debian:~/openstack$ source openstack/bin/activate
+
+(openstack) javier@debian:~/openstack$
+</pre>
+
+<pre>
+(openstack) javier@debian:~/openstack$ pip install --upgrade pip
+
+(openstack) javier@debian:~/openstack$ pip install python-openstackclient
+</pre>
+
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
 <p>Dulcinea:</p>
 <pre>
