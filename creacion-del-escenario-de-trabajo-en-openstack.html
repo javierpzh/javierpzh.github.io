@@ -183,6 +183,59 @@ passwd: password updated successfully
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenSanchocreado.png"></p>
 <p>Instancia:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/sanchocreada.png"></p>
+<pre>
+debian@dulcinea:~$ ssh ubuntu@10.0.1.8
+The authenticity of host '10.0.1.8 (10.0.1.8)' can't be established.
+ECDSA key fingerprint is SHA256:pI1VfiGw672VL++WhAu5C2J7VPK4SHPdD6PJWXP5l8Q.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.1.8' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-48-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Thu Nov 12 11:21:33 UTC 2020
+
+  System load:  0.68              Processes:             101
+  Usage of /:   12.8% of 9.52GB   Users logged in:       0
+  Memory usage: 36%               IPv4 address for ens3: 10.0.1.8
+  Swap usage:   0%
+
+1 update can be installed immediately.
+0 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+To run a command as administrator (user "root"), use "sudo <command>".
+See "man sudo_root" for details.
+
+ubuntu@sancho:~$
+</pre>
+
+<pre>
+root@sancho:/home/ubuntu# passwd ubuntu
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@sancho:/home/ubuntu# passwd root
+New password:
+Retype new password:
+passwd: password updated successfully
+</pre>
+
 <ul>
 <li>
 <p><strong>Quijote:</strong></p>
@@ -198,9 +251,83 @@ passwd: password updated successfully
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenQuijotecreado.png"></p>
 <p>Instancia:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/quijotecreada.png"></p>
-<p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de dulcinea) [[https://youtu.be/jqfILWzHrS0]]</strong></p>
+<pre>
+debian@dulcinea:~$ ssh centos@10.0.1.4
+The authenticity of host '10.0.1.4 (10.0.1.4)' can't be established.
+ECDSA key fingerprint is SHA256:M40LvGOKlrafavtqmYPTSfp5QATqqRYGitJjqhGIzBI.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.1.4' (ECDSA) to the list of known hosts.
+
+[centos@quijote ~]$
+</pre>
+
+<pre>
+[root@quijote centos]# passwd centos
+Changing password for user centos.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+[root@quijote centos]# passwd root
+Changing password for user root.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+</pre>
+
+<p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de dulcinea) Ver este <a href="https://youtu.be/jqfILWzHrS0">vídeo</a></strong></p>
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
+<p>Dulcinea:</p>
+<pre>
+root@dulcinea:/home/debian# passwd debian
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@dulcinea:/home/debian# passwd root
+New password:
+Retype new password:
+passwd: password updated successfully
+</pre>
+
+<p>Sancho:</p>
+<pre>
+root@sancho:/home/ubuntu# passwd ubuntu
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@sancho:/home/ubuntu# passwd root
+New password:
+Retype new password:
+passwd: password updated successfully
+</pre>
+
+<p>Quijote:</p>
+<pre>
+[root@quijote centos]# passwd centos
+Changing password for user centos.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+
+[root@quijote centos]# passwd root
+Changing password for user root.
+New password:
+Retype new password:
+passwd: all authentication tokens updated successfully.
+</pre>
+
 <p><strong>5. Modificación de las instancias sancho y quijote para que usen direccionamiento estático y dulcinea como puerta de enlace</strong></p>
+<pre>
+root@dulcinea:~# nano /etc/sysctl.conf
+
+root@dulcinea:~# sysctl -p /etc/sysctl.conf
+net.ipv4.ip_forward = 1
+
+root@dulcinea:~# iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth1 -j MASQUERADE
+</pre>
+
 <p><strong>6. Modificación de la subred de la red interna, deshabilitando el servidor DHCP</strong></p>
 <p><strong>7. Utilización de ssh-agent para acceder a las instancias</strong></p>
 <p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña</strong></p>
