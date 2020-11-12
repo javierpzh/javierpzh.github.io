@@ -641,6 +641,30 @@ apt install pkg-config qt4-dev-tools -y
 make clean
 </pre>
 
+<p>Esta es una salida de un <code>make clean</code>:</p>
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152$ make clean
+  CLEAN   .
+  CLEAN   arch/x86/entry/vdso
+  CLEAN   arch/x86/kernel/cpu
+  CLEAN   arch/x86/kernel
+  CLEAN   arch/x86/purgatory
+  CLEAN   arch/x86/realmode/rm
+  CLEAN   arch/x86/lib
+  CLEAN   certs
+  CLEAN   drivers/scsi
+  CLEAN   drivers/tty/vt
+  CLEAN   lib/raid6
+  CLEAN   lib
+  CLEAN   security/apparmor
+  CLEAN   security/tomoyo
+  CLEAN   usr
+  CLEAN   arch/x86/boot/compressed
+  CLEAN   arch/x86/boot
+  CLEAN   arch/x86/tools
+  CLEAN   .tmp_versions
+</pre>
+
 <p>Ahora sí podemos volver a iniciar el proceso de reducción del núcleo, y por tanto, abrimos la herramienta gráfica con el comando:  </p>
 <pre>
 make xconfig
@@ -664,13 +688,16 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <p>En mi caso, esto es lo máximo que he podido reducir el kérnel. A continuación dejo una lista de todos los componentes eliminados. Si empieza por <em>m_</em> indica que se trata de un módulo:</p>
 <h5>General setup</h5>
 <ul>
+<li>Support for paging of anonymous memory (swap)</li>
+<li>m_Kernel .config support</li>
+<li>Automatic process group scheduling</li>
 <li>memory placement aware NUMA scheduler</li>
 <li>checkpoint/restore support</li>
 <li>enable VM event counters for /proc/vmstat</li>
 <li>allow slab caches to be merged</li>
 <li>SLAB freelist randomization</li>
 <li>Harden slab freelist metadata</li>
-<li>profiling support<ul>
+<li>profiling support</li>
 <li><strong>Timers subsystem</strong></li>
 <li>high resolution timer support</li>
 <li><strong>CPU/Task time and stats accounting</strong></li>
@@ -683,34 +710,40 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>cpuset controller</li>
 <li>Namespaces support</li>
 </ul>
-</li>
-</ul>
 <h5>Processor type and features</h5>
 <ul>
 <li>AMD ACPI2Platform devices support</li>
 <li>old AMD GART IOMMU support</li>
-<li>IBM Calgary IOMMU support<ul>
-<li><strong>machine check/overheating reporting</strong></li>
+<li>IBM Calgary IOMMU support</li>
+<li>x86 architectural random number generator</li>
+<li><strong>machine check/overheating reporting</strong><ul>
 <li>AMD MCE features</li>
 </ul>
 </li>
-<li>enable vsyscall emulation<ul>
-<li><strong>CPU microcode loading support</strong></li>
+<li>enable vsyscall emulation</li>
+<li><strong>CPU microcode loading support</strong><ul>
 <li>AMD microcode loading support</li>
-<li><strong>linux guest support</strong> entero</li>
 </ul>
 </li>
+<li><strong>Numa Memory Allocation and Scheduler Support</strong></li>
+<li><strong>linux guest support</strong> entero</li>
 </ul>
 <h5>Power management and ACPI options</h5>
 <ul>
 <li>suspend to RAM and standby</li>
 <li>hibernation</li>
 <li>device power management core functionality</li>
-<li>power management timer support<ul>
+<li>power management timer support</li>
 <li><strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero</li>
+<li><strong>SFI (Simple Firmware Interface) Support</strong></li>
 </ul>
-</li>
-<li>SFI (Simple Firmware Interface) Support</li>
+<h5>Bus Options (PCI etc.)</h5>
+<ul>
+<li>PCI IOV support</li>
+<li>PCI PRI support</li>
+<li>PCI PASID support</li>
+<li>ISA-style DMA support</li>
+<li><strong>Support for PCI Hotplug</strong></li>
 </ul>
 <h5>Firmware Drivers</h5>
 <ul>
@@ -747,8 +780,11 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 <h5>Networking support</h5>
 <ul>
+<li><strong>Networking options</strong><ul>
 <li>Network packet filtering framework</li>
 <li>QoS and/or fair queueing</li>
+</ul>
+</li>
 <li>Amateur Radio support</li>
 <li>Wireless</li>
 <li>m_Bluetooth subsystem support</li>
@@ -756,6 +792,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 <h5>Device Drivers</h5>
 <ul>
+<li><strong>Generic Driver Options</strong><ul>
+<li>Connector - unified userspace &lt;-&gt; kernelspace linker</li>
+</ul>
+</li>
 <li><strong>Misc devices</strong></li>
 <li>m_Intel Management Engine Interface</li>
 <li>m_ME Enabled Intel Chipsets</li>
@@ -773,13 +813,17 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Wan interfaces support</li>
 <li>ISDN support</li>
 <li><strong>Input device support</strong></li>
-<li>Mouse interface</li>
+<li>m_Mouse interface</li>
 <li>m_Joystick interface</li>
-<li>m_Event interface</li>
 <li>Joysticks/Gamepads</li>
 <li>Tablets</li>
 <li>Touchscreens</li>
-<li><strong>GPIO Support</strong></li>
+<li><strong>Character devices</strong><ul>
+<li><strong>Serial drivers</strong></li>
+<li>m_Hardware Random Number Generator Core support</li>
+</ul>
+</li>
+<li>SPI support</li>
 <li>m_Hardware Monitoring support</li>
 <li>Generic Thermal sysfs driver</li>
 <li>Watchdog Timer Support</li>
@@ -794,7 +838,7 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Always enable userptr support</li>
 </ul>
 </li>
-<li>m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) 115modulos copia<ul>
+<li>m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)<ul>
 <li><strong>Frame buffer Devices</strong></li>
 <li>Support for frame buffer devices</li>
 </ul>
@@ -824,30 +868,26 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 <h5>Cryptographic API</h5>
 <ul>
-<li>FIPS 200 compilance ppppppppppppppppppppppppppppp</li>
-<li>m_ECDH algorithm ppppppppppppppppppppppppppppp</li>
-<li>m_GF(2^128) multiplication functions ppppppppppppppppppppppppppppp</li>
-<li>m_Null algorithms ppppppppppppppppppppppppppppp</li>
-<li>m_Software async crypto daemon ppppppppppppppppppppppppppppp</li>
-<li>m_CCM support ppppppppppppppppppppppppppppp</li>
-<li>m_GCM/GMAC support ppppppppppppppppppppppppppppp</li>
-<li>m_Sequence Number IV Generator ppppppppppppppppppppppppppppp</li>
-<li>m_CTR support ppppppppppppppppppppppppppppp</li>
-<li>m_ECB support ppppppppppppppppppppppppppppp</li>
-<li>m_CMAC support ppppppppppppppppppppppppppppp</li>
-<li>m_CRC32 PCLMULQDQ hardware acceleration ppppppppppppppppppppppppppppp</li>
-<li>m_CRCT10DIF PCLMULQDQ hardware acceleration ppppppppppppppppppppppppppppp</li>
-<li>m_GHASH digest algorithm ppppppppppppppppppppppppppppp</li>
-<li>m_GHASH digest algorithm (CLMNUL-NI accelerated) ppppppppppppppppppppppppppppp</li>
-<li>m_GHASH digest algorithm ppppppppppppppppppppppppppppp</li>
-<li>m_AES cipher algorithms (AES-NI) ppppppppppppppppppppppppppppp</li>
-<li>m_ARC4 cipher algorithm ppppppppppppppppppppppppppppp</li>
-<li>
-<p>LZO compression algorithm ppppppppppppppppppppppppppppp</p>
-</li>
-<li>
-<p>m_NIST SP800-90A DRBG ppppppppppppppppppppppppppppp</p>
-</li>
+<li>FIPS 200 compilance</li>
+<li>m_ECDH algorithm</li>
+<li>m_GF(2^128) multiplication functions</li>
+<li>m_Null algorithms</li>
+<li>m_Software async crypto daemon</li>
+<li>m_CCM support</li>
+<li>m_GCM/GMAC support</li>
+<li>m_Sequence Number IV Generator</li>
+<li>m_CTR support</li>
+<li>m_ECB support</li>
+<li>m_CMAC support</li>
+<li>m_CRC32 PCLMULQDQ hardware acceleration</li>
+<li>m_CRCT10DIF PCLMULQDQ hardware acceleration</li>
+<li>m_GHASH digest algorithm</li>
+<li>m_GHASH digest algorithm (CLMNUL-NI accelerated)</li>
+<li>m_GHASH digest algorithm</li>
+<li>m_AES cipher algorithms (AES-NI)</li>
+<li>m_ARC4 cipher algorithm</li>
+<li>LZO compression algorithm</li>
+<li>m_NIST SP800-90A DRBG</li>
 <li>Hardware crypto devices (Support for AMD secure processor)</li>
 <li><strong>Asymmetric</strong></li>
 <li>Support for PE file signature verification</li>
@@ -856,7 +896,7 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Provide system-wide ring of blacklisted keys</li>
 <li><strong>Library routines</strong></li>
 <li>m_CRC16 functions</li>
-<li>m_CRC32c (Castagnoli, et al) Cyclic Redundancy-Check ppppppppppppppppppppppppppppp<ul>
+<li>m_CRC32c (Castagnoli, et al) Cyclic Redundancy-Check<ul>
 <li><strong>XZ decompression support</strong></li>
 <li>x86 BCJ filter decoder</li>
 </ul>
@@ -879,10 +919,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-87
+61
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-969
+947
 </pre>
 
 <p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido a la mitad y he eliminado alrededor de 600 enlaces que se incluirán en <em>vmlinuz</em>.</p>
