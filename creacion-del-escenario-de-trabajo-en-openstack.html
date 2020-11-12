@@ -156,6 +156,18 @@ Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
 permitted by applicable law.
 </pre>
 
+<pre>
+root@dulcinea:/home/debian# passwd debian
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@dulcinea:/home/debian# passwd root
+New password:
+Retype new password:
+passwd: password updated successfully
+</pre>
+
 <ul>
 <li>
 <p><strong>Sancho:</strong></p>
@@ -165,6 +177,13 @@ permitted by applicable law.
 <li><strong>Accesible indirectamente a través de dulcinea</strong></li>
 </ul>
 </li>
+</ul>
+<p>Vamos a repetir el mismo proceso que con <strong>Dulcinea</strong>.</p>
+<p>Creamos el volumen:</p>
+<p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenSanchocreado.png"></p>
+<p>Instancia:</p>
+<p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/sanchocreada.png"></p>
+<ul>
 <li>
 <p><strong>Quijote:</strong></p>
 <ul>
@@ -174,6 +193,11 @@ permitted by applicable law.
 </ul>
 </li>
 </ul>
+<p>Y por último repetimos el proceso para crear a <strong>Quijote</strong>.</p>
+<p>Creamos el volumen:</p>
+<p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenQuijotecreado.png"></p>
+<p>Instancia:</p>
+<p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/quijotecreada.png"></p>
 <p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de dulcinea) [[https://youtu.be/jqfILWzHrS0]]</strong></p>
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
 <p><strong>5. Modificación de las instancias sancho y quijote para que usen direccionamiento estático y dulcinea como puerta de enlace</strong></p>
