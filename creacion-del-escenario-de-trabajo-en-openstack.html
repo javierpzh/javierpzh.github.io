@@ -33,6 +33,7 @@
 
 
 
+        <meta name="description" content="1. Creación de la red interna: Nombre red interna de 10.0.1.0/24 2. Creación de las instancias: Dulcinea: Debian Buster sobre volumen de...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -46,6 +47,7 @@
 	<meta property="og:url" content="/creacion-del-escenario-de-trabajo-en-openstack.html">
 	<meta property="og:title" content="Creación del escenario de trabajo en OpenStack">
 	<meta property="article:published_time" content="2020-11-12 00:00:00+01:00">
+            <meta property="og:description" content="1. Creación de la red interna: Nombre red interna de 10.0.1.0/24 2. Creación de las instancias: Dulcinea: Debian Buster sobre volumen de...">
 
             <meta property="og:image" content="theme/images/banner-hlc.jpg">
 </head>
@@ -104,7 +106,49 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        
+        <p><strong>1. Creación de la red interna:</strong></p>
+<ul>
+<li><strong>Nombre red interna de <nombre de usuario></strong></li>
+<li><strong>10.0.1.0/24</strong></li>
+</ul>
+<p><strong>2. Creación de las instancias:</strong></p>
+<ul>
+<li>
+<p><strong>Dulcinea:</strong></p>
+<ul>
+<li><strong>Debian Buster sobre volumen de 10GB con sabor m1.mini</strong></li>
+<li><strong>Accesible directamente a través de la red externa y con una IP flotante</strong></li>
+<li><strong>Conectada a la red interna, de la que será la puerta de enlace</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Sancho:</strong></p>
+<ul>
+<li><strong>Ubuntu 20.04 sobre volumen de 10GB con sabor m1.mini</strong></li>
+<li><strong>Conectada a la red interna</strong></li>
+<li><strong>Accesible indirectamente a través de dulcinea</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Quijote:</strong></p>
+<ul>
+<li><strong>CentOS 7 sobre volumen de 10GB con sabor m1.mini</strong></li>
+<li><strong>Conectada a la red interna</strong></li>
+<li><strong>Accesible indirectamente a través de dulcinea</strong></li>
+</ul>
+</li>
+</ul>
+<p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de dulcinea) [[https://youtu.be/jqfILWzHrS0]]</strong></p>
+<p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
+<p><strong>5. Modificación de las instancias sancho y quijote para que usen direccionamiento estático y dulcinea como puerta de enlace</strong></p>
+<p><strong>6. Modificación de la subred de la red interna, deshabilitando el servidor DHCP</strong></p>
+<p><strong>7. Utilización de ssh-agent para acceder a las instancias</strong></p>
+<p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña</strong></p>
+<p><strong>9. Copia de las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor</strong></p>
+<p><strong>10. Realiza una actualización completa de todos los servidores</strong></p>
+<p><strong>11. Configura el servidor con el nombre de dominio <nombre-usuario>.gonzalonazareno.org</strong></p>
+<p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname</strong></p>
+<p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo</strong></p>
     </article>
 
         <div class="tags">
