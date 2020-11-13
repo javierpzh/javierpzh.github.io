@@ -417,7 +417,8 @@ Please enter your OpenStack Password for project Proyecto de javier.perezh as us
 </pre>
 
 <p>Podemos apreciar como ya no nos muestra el apartado <strong>security_groups</strong> ya que no posee ningún grupo de seguridad, lo que significa por tanto, que lo hemos eliminado.</p>
-<p>Si intentamos hacer un ping, o conectarnos mediante <em>SSH</em>:</p>
+<p>Al eliminar el grupo de seguridad, se habilita un cortafuegos por defecto de <em>OpenStack</em>, que es la seguridad del puerto, que no permite el tráfico.</p>
+<p>Por tanto, si ahora intentamos hacer un ping, o conectarnos mediante <em>SSH</em>:</p>
 <pre>
 (openstack) javier@debian:~/openstack$ ping 172.22.200.174
 PING 172.22.200.174 (172.22.200.174) 56(84) bytes of data.
@@ -430,6 +431,17 @@ PING 172.22.200.174 (172.22.200.174) 56(84) bytes of data.
 </pre>
 
 <p>Ya no responde y por tanto hemos perdido la conectividad a ella.</p>
+<p>Si miramos el puertos de esta máquina, que nos lo mostrará mediante su IP fija, (en caso de <strong>Dulcinea</strong> la IP fija es la <strong>10.0.0.10</strong>) podemos apreciar el <strong>ID</strong> del puerto, la <strong>MAC</strong>, ...
+Nos interesa el <strong>ID</strong> del puerto, ya que necesitamos utilizar el siguiente comando para deshabilitar la seguridad del puerto:</p>
+<pre>
+(openstack) javier@debian:~/openstack$ openstack port set --disable-port-security ff9e0846-8ba8-42ec-b7be-bdb2b6279b1d
+</pre>
+
+<p>Una vez hemos deshabilitado el cortafuegos que establece la seguridad del puerto, </p>
+<pre>
+
+</pre>
+
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
 <p>Dulcinea:</p>
 <pre>
