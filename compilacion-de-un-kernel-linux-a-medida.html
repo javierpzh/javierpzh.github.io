@@ -713,6 +713,7 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <h5>Processor type and features</h5>
 <ul>
 <li>AMD ACPI2Platform devices support</li>
+<li>Intel SoC IOSF Sideband support for SoC platforms</li>
 <li>old AMD GART IOMMU support</li>
 <li>IBM Calgary IOMMU support</li>
 <li>x86 architectural random number generator</li>
@@ -727,6 +728,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </li>
 <li><strong>Numa Memory Allocation and Scheduler Support</strong></li>
 <li><strong>linux guest support</strong> entero</li>
+<li><strong>Performance monitoring</strong></li>
+<li>m_Intel uncore performance events</li>
+<li>m_Intel rapl performance events</li>
+<li>m_Intel cstate performance events</li>
 </ul>
 <h5>Power management and ACPI options</h5>
 <ul>
@@ -736,6 +741,17 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>power management timer support</li>
 <li><strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero</li>
 <li><strong>SFI (Simple Firmware Interface) Support</strong></li>
+<li><strong>CPU Frequency scaling</strong><ul>
+<li><strong>CPU Frequency scaling</strong><ul>
+<li><strong>CPU frequency transition statistics</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>CPU Idle</strong><ul>
+<li><strong>CPU idle PM support</strong> entero</li>
+</ul>
+</li>
 </ul>
 <h5>Bus Options (PCI etc.)</h5>
 <ul>
@@ -744,6 +760,11 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>PCI PASID support</li>
 <li>ISA-style DMA support</li>
 <li><strong>Support for PCI Hotplug</strong></li>
+<li><strong>Binary Emulations</strong><ul>
+<li><strong>IA32 Emulation</strong></li>
+<li>x32 ABI for 64-bit mode</li>
+</ul>
+</li>
 </ul>
 <h5>Firmware Drivers</h5>
 <ul>
@@ -767,7 +788,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>atari partition table support</li>
 <li>macintosh partition map support<ul>
 <li><strong>PC BIOS (MSDOS partition tables) support</strong></li>
+<li>Minix subpartition support</li>
 <li>Solarix (x86) partition table support</li>
+<li>Unixware slices support</li>
+<li><strong>Windows Logical Disk Manager (Dynamic Disk) support</strong></li>
 </ul>
 </li>
 <li>SGI partition support</li>
@@ -780,7 +804,11 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 <h5>Networking support</h5>
 <ul>
-<li><strong>Networking options</strong><ul>
+<li><strong>Networking options</strong>
+        - <strong>Packet socket</strong>
+        - <strong>Unix domain sockets</strong>
+        - Data Center Bridging support
+        - L3 Master device support<ul>
 <li>Network packet filtering framework</li>
 <li>QoS and/or fair queueing</li>
 </ul>
@@ -813,20 +841,46 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Wan interfaces support</li>
 <li>ISDN support</li>
 <li><strong>Input device support</strong></li>
+<li>m_Sparse keymap support library</li>
 <li>m_Mouse interface</li>
 <li>m_Joystick interface</li>
 <li>Joysticks/Gamepads</li>
 <li>Tablets</li>
-<li>Touchscreens</li>
+<li>Touchscreens<ul>
+<li><strong>Hardware I/O ports</strong></li>
+<li>m_Raw accedd to serio ports</li>
+</ul>
+</li>
 <li><strong>Character devices</strong><ul>
+<li><strong>Enable TTY</strong><ul>
+<li><strong>Virtual terminal</strong><ul>
+<li>Support for console on virtual terminal</li>
+<li>Support for binding and unbinding console drivers</li>
+</ul>
+</li>
+<li><strong>Non-standard serial port support</strong></li>
+<li>Automatically load TTY Line Disciplines</li>
+</ul>
+</li>
+<li><strong>I2C support</strong> entero</li>
 <li><strong>Serial drivers</strong></li>
+<li>Support for sharing serial interrupts</li>
+<li>Support RSA serial ports</li>
+<li>Support for Synopsys DesignWare 8250 quirks</li>
+<li>Support for serial ports in Intel MID platforms</li>
 <li>m_Hardware Random Number Generator Core support</li>
 </ul>
 </li>
 <li>SPI support</li>
+<li>PPS support<ul>
+<li><strong>PTP clock support</strong></li>
+<li>PTP clock support</li>
+</ul>
+</li>
 <li>m_Hardware Monitoring support</li>
 <li>Generic Thermal sysfs driver</li>
 <li>Watchdog Timer Support</li>
+<li>Voltage and Current Regulator Support</li>
 <li><strong>Graphics support</strong></li>
 <li>VGA Arbitration</li>
 <li>Laptop Hybrid Graphics - GPU switching support</li>
@@ -850,21 +904,46 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>VGA text console</li>
 <li>m_Sound card support</li>
 <li><strong>HID Support</strong><ul>
+<li><strong>HID bus support</strong></li>
+<li>m_Generic HID driver<ul>
+<li><strong>Special HID drivers</strong></li>
+<li>m_HID Multitouch panels</li>
+</ul>
+</li>
 <li><strong>USB support</strong></li>
 </ul>
 </li>
 <li>LED Support</li>
 <li>Accessibility support</li>
+<li>EDAC (Error Detection And Correction) reporting</li>
+<li>Real Time Clock</li>
+<li>DMA Engine support</li>
 <li>Virtualization drivers</li>
 <li>Virtio drivers</li>
 <li>Staging Drivers</li>
 <li>Platform support for Chrome hardware</li>
+<li>Mailbox Hardware Support</li>
+<li>IOMMU Hardware Support</li>
+<li><strong>Generic Dynamic Voltage and Frequency Scaling (DVFS)</strong></li>
+<li>Pulse-Width Modulation (PWM) Support</li>
+<li>Generic powercap sysfs driver</li>
 </ul>
 <h5>File systems</h5>
 <ul>
+<li>m_Btrfs filesystems support</li>
+<li>Quota support</li>
+<li>Report quota messages through netlink interface</li>
+<li>m_Kernel automonter support (supports v3, v4 and v5)</li>
+<li>m_FUSE (Filesystem in Userspace) support</li>
+<li><strong>Miscellaneius filesystems</strong></li>
 <li><strong>Network File Systems</strong></li>
 <li><strong>Security options</strong></li>
-<li>NSA SELinux Support</li>
+<li>NSA SELinux Support<ul>
+<li><strong>TOMOYO Linux Support</strong></li>
+<li><strong>AppArmor support</strong></li>
+<li><strong>Yama support</strong></li>
+</ul>
+</li>
 </ul>
 <h5>Cryptographic API</h5>
 <ul>
@@ -879,14 +958,17 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>m_CTR support</li>
 <li>m_ECB support</li>
 <li>m_CMAC support</li>
+<li>m_CRC32 INTEL hardware acceleration</li>
 <li>m_CRC32 PCLMULQDQ hardware acceleration</li>
 <li>m_CRCT10DIF PCLMULQDQ hardware acceleration</li>
 <li>m_GHASH digest algorithm</li>
 <li>m_GHASH digest algorithm (CLMNUL-NI accelerated)</li>
 <li>m_GHASH digest algorithm</li>
+<li>m_AES cipher algorithms (x86_64)</li>
 <li>m_AES cipher algorithms (AES-NI)</li>
 <li>m_ARC4 cipher algorithm</li>
 <li>LZO compression algorithm</li>
+<li>m_Pseudo Random Number Generation for Cryptographic modules</li>
 <li>m_NIST SP800-90A DRBG</li>
 <li>Hardware crypto devices (Support for AMD secure processor)</li>
 <li><strong>Asymmetric</strong></li>
@@ -908,21 +990,52 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Collect scheduler debbuging info</li>
 <li>Collect scheduler statistics</li>
 <li>Detect stack corruption on calls to schedule</li>
+<li>Stack backtrace support</li>
+<li>Verbose BUG() reporting (addds 70K)</li>
+<li>Debug linked list manipulation</li>
+<li>Memtest</li>
+<li>Tigger a BUG when data corruption is detected</li>
+<li><strong>Early printk</strong></li>
+<li>Warn on W+X mappings at boot</li>
+<li>Enable doublefault exception handler</li>
 <li>Allow gcc to uninline functions marked 'inline'</li>
-<li><strong>printk and dmesg options</strong></li>
+<li>Debug the x86 FPU code</li>
+<li><strong>printk and dmesg options</strong><ul>
+<li>Show timing information on printks</li>
+<li>Delay each boot printk message by N milliseconds</li>
 <li>Enable dynamic printk() support</li>
-<li><strong>Compile-time checks and compiler options</strong></li>
+</ul>
+</li>
+<li><strong>Compile-time checks and compiler options</strong><ul>
 <li>Compile the kernel with debug info</li>
-<li><strong>Memory Debugging</strong></li>
+<li>Enable __must_check logic</li>
+<li>Strip assembler-generated symbols during link</li>
+<li>Debug Filesystems</li>
+<li>Make section mismatch errors non-fatal</li>
+</ul>
+</li>
+<li><strong>Memory Debugging</strong><ul>
+<li>Extend memmap on extra space for more information on page</li>
+<li>Poison pages after freeing</li>
 <li>Debug memory initialisation</li>
+</ul>
+</li>
+<li><strong>Debug Lockups and Hangs</strong><ul>
+<li>Detect Soft Lockups</li>
+<li>Detect Hard Lockups</li>
+<li>Detect Hung Tasks</li>
+</ul>
+</li>
+<li>Tracers</li>
+<li>Runtime Testing</li>
 </ul>
 <p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-61
+35
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-947
+792
 </pre>
 
 <p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido a la mitad y he eliminado alrededor de 600 enlaces que se incluirán en <em>vmlinuz</em>.</p>
