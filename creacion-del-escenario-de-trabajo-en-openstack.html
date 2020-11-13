@@ -337,7 +337,47 @@ Please enter your OpenStack Password for project Proyecto de javier.perezh as us
 +--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
 </pre>
 
-<p>Vemos como nos muestra las instancias creadas, entre las cuáles se encuentran las tres que formarán el escenario, <strong>Quijote</strong>, <strong>Sancho</strong> y <strong>Dulcinea</strong>. </p>
+<p>Vemos como nos muestra las instancias creadas, entre las cuáles se encuentran las tres que formarán el escenario, <strong>Quijote</strong>, <strong>Sancho</strong> y <strong>Dulcinea</strong>.</p>
+<p>Antes estuvimos realizando las comprobaciones de que efectivamente nos podíamos conectar a estas máquinas, esto se debe a que tiene un grupo de seguridad asociado, llamado <code>default</code>, que por defecto se asocia a las instancias que lanzamos, y que permite esta opción, entre otras.</p>
+<p>Lo que vamos a hacer es eliminar este grupo de seguridad a <strong>Dulcinea</strong>, por tanto, ya no podríamos conectarnos a ella, pero luego vamos a deshabilitar la seguridad de puertos, y ya de nuevo, sería accesible mediante <em>SSH</em>.</p>
+<p>Primeramente. vamos a ver los detalles de esta instancia:</p>
+<pre>
+(openstack) javier@debian:~/openstack$ openstack server show Dulcinea
++-----------------------------+---------------------------------------------------------------------------------------+
+| Field                       | Value                                                                                 |
++-----------------------------+---------------------------------------------------------------------------------------+
+| OS-DCF:diskConfig           | AUTO                                                                                  |
+| OS-EXT-AZ:availability_zone | nova                                                                                  |
+| OS-EXT-STS:power_state      | Running                                                                               |
+| OS-EXT-STS:task_state       | None                                                                                  |
+| OS-EXT-STS:vm_state         | active                                                                                |
+| OS-SRV-USG:launched_at      | 2020-11-12T11:02:24.000000                                                            |
+| OS-SRV-USG:terminated_at    | None                                                                                  |
+| accessIPv4                  |                                                                                       |
+| accessIPv6                  |                                                                                       |
+| addresses                   | red de javier.perezh=10.0.0.10, 172.22.200.174; red interna de javier.perezh=10.0.1.5 |
+| config_drive                |                                                                                       |
+| created                     | 2020-11-12T11:02:01Z                                                                  |
+| flavor                      | m1.mini (12)                                                                          |
+| hostId                      | 1cd650c7bff842c92682e8bc3d0d184f4ddcc2e41fc41ae8487eeb6a                              |
+| id                          | 1e501c2a-69dd-40ea-9d89-8fb97a355b27                                                  |
+| image                       | N/A (booted from volume)                                                              |
+| key_name                    | msi_debian_clave_publica                                                              |
+| name                        | Dulcinea                                                                              |
+| progress                    | 0                                                                                     |
+| project_id                  | 678e0304a62c445ba78d3b825cb4f1ab                                                      |
+| properties                  |                                                                                       |
+| security_groups             | name='default'                                                                        |
+|                             | name='default'                                                                        |
+| status                      | ACTIVE                                                                                |
+| updated                     | 2020-11-12T11:02:24Z                                                                  |
+| user_id                     | fc6228f3de9b2e4abfc00a526192e37c323cde31412ffd98d1bf7c584915f35a                      |
+| volumes_attached            | id='9bd08310-3e86-4146-b70f-68950c86749f'                                             |
++-----------------------------+---------------------------------------------------------------------------------------+
+</pre>
+
+<p>Vemos como efectivamente posee el grupo de seguridad <code>default</code> comentando anteriormente.</p>
+<p>Procedemos a eliminar este grupo de seguridad:</p>
 <pre>
 
 </pre>
