@@ -299,6 +299,27 @@ javier@debian:~/openstack$ source openstack/bin/activate
 export OS_CACERT=/etc/ssl/certs/gonzalonazareno.crt
 </pre>
 
+<pre>
+(openstack) javier@debian:~/openstack$ sudo systemctl start openvpn.service
+[sudo] password for javier:
+(openstack) javier@debian:~/openstack$ source 'Proyecto de javier.perezh-openrc.sh'
+Please enter your OpenStack Password for project Proyecto de javier.perezh as user javier.perezh:
+(openstack) javier@debian:~/openstack$ openstack server list
++--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
+| ID                                   | Name                 | Status | Networks                                                                              | Image                    | Flavor  |
++--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
+| c7f6c834-1eeb-402a-9ed2-5ce1cb1246a2 | Quijote              | ACTIVE | red interna de javier.perezh=10.0.1.4                                                 | N/A (booted from volume) | m1.mini |
+| bff8a1d9-01d8-4835-9513-fb49290f11ed | Sancho               | ACTIVE | red interna de javier.perezh=10.0.1.8                                                 | N/A (booted from volume) | m1.mini |
+| 1e501c2a-69dd-40ea-9d89-8fb97a355b27 | Dulcinea             | ACTIVE | red de javier.perezh=10.0.0.10, 172.22.200.174; red interna de javier.perezh=10.0.1.5 | N/A (booted from volume) | m1.mini |
+| 1228132f-73ae-4ccf-9216-bf17fab31d12 | Deb10-ServidorNginx2 | ACTIVE | red de javier.perezh=10.0.0.9                                                         | N/A (booted from volume) | m1.mini |
+| 70264938-6486-4db0-af71-89d0037f3d54 | Deb10-ServidorNginx  | ACTIVE | red de javier.perezh=10.0.0.3, 172.22.200.116                                         | N/A (booted from volume) | m1.mini |
++--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
+</pre>
+
+<pre>
+
+</pre>
+
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
 <p>Dulcinea:</p>
 <pre>
