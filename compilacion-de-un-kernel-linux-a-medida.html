@@ -689,12 +689,16 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <h5>General setup</h5>
 <ul>
 <li>Support for paging of anonymous memory (swap)</li>
+<li>POSIX Message Queues</li>
+<li>CPU isolation</li>
+<li>Kernel-&gt;user space relay support (formerly relayfs)</li>
 <li>m_Kernel .config support</li>
 <li>Automatic process group scheduling</li>
 <li>memory placement aware NUMA scheduler</li>
-<li>checkpoint/restore support</li>
-<li>enable VM event counters for /proc/vmstat</li>
-<li>allow slab caches to be merged</li>
+<li>Checkpoint/restore support</li>
+<li>Enable VM event counters for /proc/vmstat</li>
+<li>Enable SLUB debugging support</li>
+<li>Allow slab caches to be merged</li>
 <li>SLAB freelist randomization</li>
 <li>Harden slab freelist metadata</li>
 <li>profiling support</li>
@@ -703,35 +707,55 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li><strong>CPU/Task time and stats accounting</strong></li>
 <li>BSD process accounting</li>
 <li>export task/process statistics through netlink</li>
-<li><strong>Control Group support</strong></li>
-<li>swap controller</li>
+<li><strong>Control Group support</strong><ul>
+<li>Swap controller</li>
 <li>RDMA controller</li>
-<li>freezer controller</li>
-<li>cpuset controller</li>
-<li>Namespaces support</li>
+<li>Freezer controller</li>
+<li>Cpuset controller</li>
+<li>Support for eBPF programs attached to cgroups</li>
+</ul>
+</li>
+<li><strong>Namespaces support</strong> entero</li>
 </ul>
 <h5>Processor type and features</h5>
 <ul>
 <li>AMD ACPI2Platform devices support</li>
 <li>Intel SoC IOSF Sideband support for SoC platforms</li>
+<li>Single-depth WCHAN output</li>
+<li>Enable DMI scannning</li>
+<li><strong>Multi-core scheduler support</strong> entero</li>
+<li>Reroute for broken boot IRQs</li>
+<li>Machine Check / overheating reporting</li>
 <li>old AMD GART IOMMU support</li>
 <li>IBM Calgary IOMMU support</li>
-<li>x86 architectural random number generator</li>
-<li><strong>machine check/overheating reporting</strong><ul>
+<li><strong>Machine Check/overheating reporting</strong><ul>
 <li>AMD MCE features</li>
 </ul>
 </li>
-<li>enable vsyscall emulation</li>
-<li><strong>CPU microcode loading support</strong><ul>
-<li>AMD microcode loading support</li>
-</ul>
-</li>
+<li>Enable vsyscall emulation</li>
+<li><strong>CPU microcode loading support</strong> entero</li>
 <li><strong>Numa Memory Allocation and Scheduler Support</strong></li>
-<li><strong>linux guest support</strong> entero</li>
-<li><strong>Performance monitoring</strong></li>
+<li>x86 architectural random number generator</li>
+<li>Supervisor Mode Access Prevention</li>
+<li>Intel User Mode Instruction Prevention</li>
+<li>Intel MPX (Memory Protection Extensions)</li>
+<li>Intel Memory Protection Keys</li>
+<li>Enable seccomp to safely compute untrusted bytecode</li>
+<li>kexec system call</li>
+<li>kexec file based system call</li>
+<li>Verify kernel signature during kexec_file_load() syscall</li>
+<li>kernel crash dumps</li>
+<li><strong>Build a relocatable kernel</strong></li>
+<li>Enable the LDT (local descriptor table)<ul>
+<li><strong>Linux guest support</strong> entero</li>
+<li><strong>Performance monitoring</strong><ul>
 <li>m_Intel uncore performance events</li>
 <li>m_Intel rapl performance events</li>
 <li>m_Intel cstate performance events</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h5>Power management and ACPI options</h5>
 <ul>
@@ -746,6 +770,8 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li><strong>CPU frequency transition statistics</strong></li>
 </ul>
 </li>
+<li>'schedutil' cpufreq policy governor</li>
+<li>Intel P state control</li>
 </ul>
 </li>
 <li><strong>CPU Idle</strong><ul>
@@ -755,6 +781,9 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 <h5>Bus Options (PCI etc.)</h5>
 <ul>
+<li><strong>PCI Express Port Bus support</strong> entero</li>
+<li>Message Signaled Interrupts (MSI and MSI-X)</li>
+<li>Enable PCI quirk workarounds</li>
 <li>PCI IOV support</li>
 <li>PCI PRI support</li>
 <li>PCI PASID support</li>
@@ -778,10 +807,21 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>stack protector buffer overflow detection</li>
 <li>use a virtually-mapped stack</li>
 <li>perform full reference count validation at the expense of speed</li>
+<li><strong>Enable loadable modulo support</strong><ul>
+<li>Module versioning support</li>
+</ul>
+</li>
 </ul>
 <h5>Enable the block layer</h5>
 <ul>
-<li><strong>partition types</strong></li>
+<li>Block layer SG support v4</li>
+<li>Block layer SG support v4 helper lib</li>
+<li>Block layer data integrity support</li>
+<li>Zoned block device support</li>
+<li>Block layer bio throttling support</li>
+<li>Enable support for block device writeback throttling</li>
+<li>Logic for interfacing with Opal enabled SEDs</li>
+<li><strong>Partition Types</strong></li>
 <li>acorn partition support</li>
 <li>alpha OSF partition support</li>
 <li>amiga partition table support</li>
@@ -799,18 +839,26 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>sun partition tables support</li>
 <li>karma partition support</li>
 <li><strong>Memory Management options</strong></li>
+<li>Sparse Memory virtual memmap</li>
 <li>Allow for memory hot-add</li>
+<li>Allow for memory compaction</li>
+<li><strong>Transparent Hugepage Support</strong> entero</li>
 <li>Enable frontswap to cache swap pages if tmem is present</li>
 </ul>
 <h5>Networking support</h5>
 <ul>
-<li><strong>Networking options</strong>
-        - <strong>Packet socket</strong>
-        - <strong>Unix domain sockets</strong>
-        - Data Center Bridging support
-        - L3 Master device support<ul>
+<li><strong>Networking options</strong><ul>
+<li>Transformation sub policy support</li>
+<li>Transformation migrate database</li>
+<li>Security Marking</li>
+<li>Data Center Bridging support</li>
+<li>L3 Master device support</li>
 <li>Network packet filtering framework</li>
 <li>QoS and/or fair queueing</li>
+<li>Network priority cgroup</li>
+<li>Network classid cgroup</li>
+<li>enable BPF Just In Time compiler</li>
+<li>enable BPF STREAM_PARSER</li>
 </ul>
 </li>
 <li>Amateur Radio support</li>
@@ -822,24 +870,45 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <ul>
 <li><strong>Generic Driver Options</strong><ul>
 <li>Connector - unified userspace &lt;-&gt; kernelspace linker</li>
+<li><strong>NVME Support</strong></li>
+<li>NVMe multipath support</li>
 </ul>
 </li>
 <li><strong>Misc devices</strong></li>
 <li>m_Intel Management Engine Interface</li>
 <li>m_ME Enabled Intel Chipsets</li>
 <li><strong>SCSI device support</strong><ul>
+<li>SCSI device support</li>
+<li>Verbose SCSI error reporting (kernel size += 36K)</li>
+<li>SCSI logging facility</li>
+<li>Asynchronous SCSI sacnning<ul>
 <li><strong>SCSI Transports</strong></li>
-<li>SCSI low-level drivers</li>
+<li><strong>SCSI low-level drivers</strong></li>
+<li><strong>SCSI Device Handlers</strong></li>
+</ul>
+</li>
+<li><strong>Serial ATA and Parallel ATA drivers (libata)</strong> entero<ul>
+<li>Verbose ATA error reporting</li>
+<li><strong>ATA SFF support (for legacy IDE and PATA)</strong></li>
+</ul>
+</li>
 <li><strong>Multiple devices driver support (RAID and LVM)</strong></li>
 <li>m_RAID support</li>
 <li>Fusion MPT device support</li>
 <li>Macintosh device drivers</li>
 </ul>
 </li>
-<li><strong>Network device support</strong></li>
+<li><strong>Network device support</strong><ul>
+<li><strong>Network core driver support</strong> entero</li>
+<li><strong>FDDI driver support</strong> entero</li>
+<li><strong>HIPPI driver support</strong> entero</li>
+<li><strong>m_MDIO bus device drivers</strong> entero</li>
+<li><strong>m_PHY Device support and infrastructure</strong> entero</li>
 <li>Wireless LAN</li>
 <li>Wan interfaces support</li>
 <li>ISDN support</li>
+</ul>
+</li>
 <li><strong>Input device support</strong></li>
 <li>m_Sparse keymap support library</li>
 <li>m_Mouse interface</li>
@@ -869,6 +938,8 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Support for Synopsys DesignWare 8250 quirks</li>
 <li>Support for serial ports in Intel MID platforms</li>
 <li>m_Hardware Random Number Generator Core support</li>
+<li><strong>m_IPMI top-level message handler</strong> entero</li>
+<li><strong>m_TPM Hardware Support</strong> entero</li>
 </ul>
 </li>
 <li>SPI support</li>
@@ -881,6 +952,13 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Generic Thermal sysfs driver</li>
 <li>Watchdog Timer Support</li>
 <li>Voltage and Current Regulator Support</li>
+<li><strong>GPIO Support</strong><ul>
+<li><strong>Multifunction device drivers</strong><ul>
+<li>m_Intel Low Power Subsystem support in PCI mode</li>
+</ul>
+</li>
+</ul>
+</li>
 <li><strong>Graphics support</strong></li>
 <li>VGA Arbitration</li>
 <li>Laptop Hybrid Graphics - GPU switching support</li>
@@ -904,13 +982,13 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>VGA text console</li>
 <li>m_Sound card support</li>
 <li><strong>HID Support</strong><ul>
-<li><strong>HID bus support</strong></li>
-<li>m_Generic HID driver<ul>
-<li><strong>Special HID drivers</strong></li>
-<li>m_HID Multitouch panels</li>
+<li><strong>HID bus support</strong> entero</li>
+<li><strong>USB support</strong> entero</li>
+<li><strong>DMABUF options</strong><ul>
+<li>Explicit Syncrhonization Framework</li>
 </ul>
 </li>
-<li><strong>USB support</strong></li>
+<li>X86 Platform Specific Device Drivers</li>
 </ul>
 </li>
 <li>LED Support</li>
@@ -924,9 +1002,22 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Platform support for Chrome hardware</li>
 <li>Mailbox Hardware Support</li>
 <li>IOMMU Hardware Support</li>
-<li><strong>Generic Dynamic Voltage and Frequency Scaling (DVFS)</strong></li>
+<li><strong>SOC (System On Chip) specific Drivers</strong><ul>
+<li><strong>Generic Dynamic Voltage and Frequency Scaling (DVFS)</strong><ul>
 <li>Pulse-Width Modulation (PWM) Support</li>
 <li>Generic powercap sysfs driver</li>
+</ul>
+</li>
+<li><strong>PHY Subsystem</strong><ul>
+<li>PHY Core</li>
+</ul>
+</li>
+<li><strong>Android</strong><ul>
+<li><strong>Android Drivers</strong></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h5>File systems</h5>
 <ul>
@@ -967,8 +1058,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>m_AES cipher algorithms (x86_64)</li>
 <li>m_AES cipher algorithms (AES-NI)</li>
 <li>m_ARC4 cipher algorithm</li>
+<li>Deflate compression algorithm ppppppppppppppppppppppppp</li>
 <li>LZO compression algorithm</li>
 <li>m_Pseudo Random Number Generation for Cryptographic modules</li>
+<li>Jitterentropy Non-Deterministic Random Number Generator ppppppppppppppppppppppppp</li>
 <li>m_NIST SP800-90A DRBG</li>
 <li>Hardware crypto devices (Support for AMD secure processor)</li>
 <li><strong>Asymmetric</strong></li>
@@ -1032,10 +1125,10 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-35
+17
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-792
+676
 </pre>
 
 <p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido a la mitad y he eliminado alrededor de 600 enlaces que se incluirán en <em>vmlinuz</em>.</p>
