@@ -117,7 +117,7 @@
 <p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-source-4.19">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz">enlace</a>.</p>
 <p><strong>2. Crea un directorio de trabajo (p.ej. mkdir ~/Linux)</strong></p>
 <p>Creamos el directorio de trabajo.</p>
-<p><strong>Importante:</strong> hay que crear el directorio con nuestro usuario personal, es decir, no como <em>root</em>. Yo lo he hecho con el usuario <em>root</em> y esto es algo que no debemos hacer. Para ello, luego muevo el directorio de trabajo a mi usuario.</p>
+<p><strong>Importante:</strong> hay que crear el directorio con nuestro usuario personal, es decir, no como <em>root</em>.</p>
 <pre>
 mkdir ~/kernelLinux/
 </pre>
@@ -125,7 +125,7 @@ mkdir ~/kernelLinux/
 <p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
 <p>Descargo y descomprimo el kérnel en el directorio de trabajo que hemos creado previamente:</p>
 <pre>
-root@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
+javier@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
 --2020-11-06 10:26:31--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
 Resolviendo security.debian.org (security.debian.org)... 151.101.128.204, 151.101.0.204, 151.101.64.204, ...
 Conectando con security.debian.org (security.debian.org)[151.101.128.204]:80... conectado.
@@ -137,24 +137,24 @@ linux_4.19.152.orig.tar.x 100%[=====================================>] 102,56M  
 
 2020-11-06 10:26:44 (8,41 MB/s) - “linux_4.19.152.orig.tar.xz” guardado [107539124/107539124]
 
-root@debian:/usr/src# ls
+javier@debian:/usr/src# ls
 linux_4.19.152.orig.tar.xz  linux-headers-4.19.0-12-amd64   vboxhost-6.0.24
 linux-headers-4.19.0-11-amd64   linux-headers-4.19.0-12-common
 linux-headers-4.19.0-11-common  linux-kbuild-4.19
 
-root@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
+javier@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
 </pre>
 
 <p>Nos movemos al directorio <code>~/kernelLinux</code>, que va a ser nuestro área de trabajo:</p>
 <pre>
-root@debian:/usr/src# cd ~/kernelLinux/
+javier@debian:/usr/src# cd ~/kernelLinux/
 
-root@debian:~/kernelLinux# ls
+javier@debian:~/kernelLinux# ls
 linux-4.19.152
 
-root@debian:~/kernelLinux# cd linux-4.19.152/
+javier@debian:~/kernelLinux# cd linux-4.19.152/
 
-root@debian:~/kernelLinux/linux-4.19.152# ls
+javier@debian:~/kernelLinux/linux-4.19.152# ls
 arch   COPYING  Documentation  fs   ipc  kernel    MAINTAINERS  net  scripts   tools
 block  CREDITS  drivers        include  Kbuild   lib       Makefile README   security  usr
 certs  crypto   firmware       init Kconfig  LICENSES  mm       samples  sound     virt
@@ -168,7 +168,7 @@ apt install build-essential -y
 
 <p>Si ejecutamos este comando:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+javier@debian:~/kernelLinux/linux-4.19.152# make oldconfig
   YACC    scripts/kconfig/zconf.tab.c
 /bin/sh: 1: bison: not found
 make[1]: *** [scripts/Makefile.lib:196: scripts/kconfig/zconf.tab.c] Error 127
@@ -182,7 +182,7 @@ apt install bison flex -y
 
 <p>Probamos de nuevo a ejecutar el comando <code>make oldconfig</code> y ahora sí realiza el proceso correctamente.</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+javier@debian:~/kernelLinux/linux-4.19.152# make oldconfig
   YACC    scripts/kconfig/zconf.tab.c
   LEX     scripts/kconfig/zconf.lex.c
   HOSTCC  scripts/kconfig/zconf.tab.o
@@ -309,10 +309,10 @@ NTFS file system support (NTFS_FS) [N/m/y/?] (NEW) n
 <p><strong>5. Cuenta el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
 <p>Vamos a contar el número de componentes que se van a incluir como módulos en el proceso de compilación y el número de componentes que se van a incluir en la parte estática:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 3378
 
-root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 2008
 </pre>
 
@@ -322,7 +322,7 @@ root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 <p>Vamos a realizar el primer proceso de eliminación de componentes, que nos va a reducir en una enorme cantidad el número de componentes que se van a incluir en nuestro fichero <code>.config</code>, que es el fichero sobre el que luego vamos a realizar la compilación.</p>
 <p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code>.config</code>, es decir vamos a copiar todos los módulos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
+javier@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
 using config: '.config'
 vboxnetadp config not found!!
 vboxdrv config not found!!
@@ -417,10 +417,10 @@ PCI sound devices (SND_PCI) [Y/n/?] y
 <p><strong>7. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
 <p>Si miramos de nuevo cuantos módulos y componentes de vmlinuz se incluirían ahora en el fichero <code>.config</code>:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 170
 
-root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 1423
 </pre>
 
@@ -428,13 +428,13 @@ root@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 <p><strong>8. Realiza la primera compilación:</strong></p>
 <p>Una vez tenemos el fichero <code>.config</code> reducido, vamos a realizar la compilación generando un un paquete Debian, el cuál podremos instalar con la herramienta <code>dpkg -i</code>.</p>
 <p>El comando para realizar esta compilación es <code>make bindep-pkg</code>, pero esto nos realizaría la compilación con un solo hilo. Es decir, utilizaría un hilo en vez de todos los posibles que podría utilizar en función de cada procesador. En mi caso poseo de un <strong>i7-9750H</strong> que posee 6 núcleos y 12 hilos, por lo que estaría compilando con un solo hilo pudiendo realizar el proceso con 12 hilos, lo que disminuiría en una barbaridad el tiempo de compilación. Para establecer el número de hilos que van a llevar a cabo el proceso, introducimos la opción <code>-j</code> y el número de hilos.</p>
+<p>Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
 <p>Voy a realizar el primer intento de compilación con 11 hilos:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
   UPD     include/config/kernel.release
 /bin/bash ./scripts/package/mkdebian
 dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
-dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
 dpkg-buildpackage: información: paquete fuente linux-4.19.152
 dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
 dpkg-buildpackage: información: distribución de las fuentes buster
@@ -456,10 +456,9 @@ apt install bc -y
 
 <p>Segundo intento de compilación:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
 /bin/bash ./scripts/package/mkdebian
 dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
-dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
 dpkg-buildpackage: información: paquete fuente linux-4.19.152
 dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
 dpkg-buildpackage: información: distribución de las fuentes buster
@@ -495,10 +494,9 @@ apt install libelf-dev -y
 
 <p>Tercer intento de compilación:</p>
 <pre>
-root@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
 /bin/bash ./scripts/package/mkdebian
 dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
-dpkg-buildpackage: aviso: está usando una orden para convertirse en administrador («gain-root-command»), a pesar de que ya es el administrador
 dpkg-buildpackage: información: paquete fuente linux-4.19.152
 dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
 dpkg-buildpackage: información: distribución de las fuentes buster
@@ -611,14 +609,6 @@ dpkg-buildpackage: información: subida sólo de binarios (no se incluye ninguna
 
 <p>Vemos como nos ha creado correctamente una serie de archivos <code>.deb</code>, entre los cuáles se encuentra el llamado <code>linux-image-4.19.152_4.19.152-1_amd64.deb</code>, que es el que posteriormente vamos a instalar con <code>dpkg -i</code>.</p>
 <p><strong>9. Instala el núcleo resultando de la compilación, reinicia el equipo y comprueba que funciona adecuadamente.</strong></p>
-<p>Antes de instalar en mi equipo el paquete generado que contiene el kérnel, voy a mover el área de trabajo a mi usuario <code>javier</code>, donde debería haber estado desde el principio de la práctica, pero bueno, mejor darse cuenta de los fallos un poco tarde, pero corrigiéndolos y aprendiendo de ellos.</p>
-<pre>
-root@debian:~# mv kernelLinux/ /home/javier/
-
-javier@debian:~$ sudo chown -R javier:javier kernelLinux/
-</pre>
-
-<p>Muevo el directorio y cambio tanto su propietario, como su grupo a <code>javier</code>, lo que afectará a todos los subdirectorios y archivos que se encuentran dentro de <code>kernelLinux</code>.</p>
 <p>Instalo el nuevo kérnel:</p>
 <pre>
 dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
@@ -675,7 +665,6 @@ make xconfig
 make -j 12 bindeb-pkg
 </pre>
 
-<p>La opción <code>-j</code> indica el número de hilos de nuestro procesador que van a llevar a cabo el proceso, si no la indicamos, por defecto utilizará 1. Esto reducirá en gran cantidad el tiempo de la compilación. En mi caso, he indicado que utilice 12 hilos, ya que mi procesador consta de 6 núcleos y 12 hilos, pero esto obviamente variará de la máquina de cada uno. Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
 <p>Para instalar el paquete resultante <code>.deb</code>:</p>
 <pre>
 sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
@@ -1131,7 +1120,7 @@ javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
 676
 </pre>
 
-<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido a la mitad y he eliminado alrededor de 600 enlaces que se incluirán en <em>vmlinuz</em>.</p>
+<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 17, es decir, 10 veces menos y he eliminado alrededor de 800 enlaces que se incluirán en <em>vmlinuz</em>.</p>
     </article>
 
         <div class="tags">
