@@ -437,11 +437,33 @@ Nos interesa el <strong>ID</strong> del puerto, ya que necesitamos utilizar el s
 (openstack) javier@debian:~/openstack$ openstack port set --disable-port-security ff9e0846-8ba8-42ec-b7be-bdb2b6279b1d
 </pre>
 
-<p>Una vez hemos deshabilitado el cortafuegos que establece la seguridad del puerto, </p>
+<p>Una vez hemos deshabilitado el cortafuegos que establece la seguridad del puerto, la máquina vuelve a estar accesible, ya que ahora la máquina tiene abiertos todo el rango de puertos completo, porque ahora no posee ningún cortafuegos.</p>
+<p>Obviamente esto, no es recomendable en situaciones donde la máquina no se encuentre en un entorno que tengamos controlado, yo lo hago porque <strong>Dulcinea</strong> se encuentra en una nube privada, además de que vamos a establecer un cortafuegos desde dentro de la instancia.</p>
+<p>Si volvemos a hacerle ping y a intentar una conexión mediante <em>SSH</em>:</p>
 <pre>
+(openstack) javier@debian:~/openstack$ ping 172.22.200.174
+PING 172.22.200.174 (172.22.200.174) 56(84) bytes of data.
+64 bytes from 172.22.200.174: icmp_seq=1 ttl=61 time=80.5 ms
+64 bytes from 172.22.200.174: icmp_seq=2 ttl=61 time=117 ms
+64 bytes from 172.22.200.174: icmp_seq=3 ttl=61 time=77.7 ms
+^C
+--- 172.22.200.174 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 77.683/91.631/116.705/17.768 ms
+(openstack) javier@debian:~/openstack$ ssh debian@172.22.200.174
+Linux dulcinea 4.19.0-11-cloud-amd64 #1 SMP Debian 4.19.146-1 (2020-09-17) x86_64
 
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Nov 12 11:26:50 2020 from 172.23.0.46
+debian@dulcinea:~$
 </pre>
 
+<p>Vemos que <strong>Dulcinea</strong> es completamente accesible.</p>
 <p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
 <p>Dulcinea:</p>
 <pre>
