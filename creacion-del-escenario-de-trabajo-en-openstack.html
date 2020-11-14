@@ -258,7 +258,7 @@ Warning: Permanently added '10.0.1.7' (ECDSA) to the list of known hosts.
 </pre>
 
 <p><strong>3. Configuración de NAT en Dulcinea (Es necesario deshabilitar la seguridad en todos los puertos de Dulcinea) Ver este <a href="https://youtu.be/jqfILWzHrS0">vídeo</a>.</strong></p>
-<p>Para hacer NAT en <strong>Dulcinea</strong> hacia <strong>Quijote</strong> y <strong>Sancho</strong>, tenemos que modificar el grupo de seguridad de <strong>Dulcinea</strong> y deshabilitar la seguridad de todos sus puertos, es decir, quitarle las reglas de cortafuegos, para luego añadirle nuestra propia regla de <code>iptables</code>.</p>
+<p>Para hacer NAT en <strong>Dulcinea</strong> y que así <strong>Quijote</strong> y <strong>Sancho</strong> tengan acceso a internet, tenemos que modificar el grupo de seguridad de <strong>Dulcinea</strong> y deshabilitar la seguridad de todos sus puertos, es decir, quitarle las reglas de cortafuegos, para luego añadirle nuestra propia regla de <code>iptables</code>.</p>
 <p>Para ello tenemos que configurar <em>OpenStack</em> para administrar nuestro proyecto desde la línea de comandos, que es desde donde vamos a realizar este proceso.</p>
 <p>Vamos a crear un entorno virtual y trabajaremos desde aquí. Es necesario instalar estos paquetes:</p>
 <pre>
