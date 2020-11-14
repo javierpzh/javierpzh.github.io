@@ -140,16 +140,22 @@ systemctl start openvpn.service
 </ul>
 </li>
 </ul>
-<p>Creación de <strong>Dulcinea</strong>:</p>
-<p>Creamos el volumen:</p>
+<p>Vamos a realizar el proceso de la creación de <strong>Dulcinea</strong>. Esta máquina hará de puerta de enlace para el resto de máquinas de la red <em>10.0.1.0/24</em>.</p>
+<p>Vamos a crear las instancias a partir de un volumen con una imagen, por tanto, creamos el volumen:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenDulcinea.png"></p>
+<p><em>Dulcinea</em> incorporará un sistema <strong>Debian Buster 10.6</strong></p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenDulcineacreado.png"></p>
-<p>Instancia:</p>
+<p>Una vez hemos creado el volumen, podemos crear la instancia a partir de éste. Asignamos un nombre a la instancia:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineanombre.png"></p>
+<p>Establecemos que el origen de arranque sea el volumen creado previamente:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineaasociovolumen.png"></p>
+<p>Como <strong>Sabor</strong> indicamos que tenga un <strong>m1.mini</strong>.</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineasabor.png"></p>
+<p>Y por último, le asignamos las redes a las que va a pertenecer esta máquina.</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineared.png"></p>
+<p><em>Dulcinea</em> necesita de conectividad al exterior, ya que con ella vamos a hacer NAT, por tanto le asignamos una IP flotante. El resultado de la máquina creada sería este:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineacreada.png"></p>
+<p>Comprobamos que nos podemos conectar a <em>Dulcinea</em> mediante nuestro par de claves, ya que tengo configurado para que todas las instancias que se creen posean mi clave pública, para así yo poder identificarme con mi clave privada. Introduzco la opción <code>-A</code>, que sirve para que la máquina <em>Dulcinea</em>, nos herede las claves de la primera, de forma que así podremos establecer una conexión mediante el par de claves con las máquinas <em>Sancho</em> y <em>Quijote</em>.</p>
 <pre>
 javier@debian:~$ ssh -A debian@172.22.200.183
 The authenticity of host '172.22.200.183 (172.22.200.183)' can't be established.
@@ -181,8 +187,9 @@ debian@dulcinea:~$
 <p>Vamos a repetir el mismo proceso que con <strong>Dulcinea</strong>.</p>
 <p>Creamos el volumen:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenSanchocreado.png"></p>
-<p>Instancia:</p>
+<p>El resultado de la instancia creada sería este:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/sanchocreada.png"></p>
+<p>Comprobamos que desde <em>Dulcinea</em> nos podemos conectar a esta nueva máquina:</p>
 <pre>
 debian@dulcinea:~$ ssh ubuntu@10.0.1.8
 The authenticity of host '10.0.1.8 (10.0.1.8)' can't be established.
@@ -237,8 +244,9 @@ ubuntu@sancho:~$
 <p>Y por último repetimos el proceso para crear a <strong>Quijote</strong>.</p>
 <p>Creamos el volumen:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/volumenQuijotecreado.png"></p>
-<p>Instancia:</p>
+<p>El resultado de la instancia creada sería este:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/quijotecreada.png"></p>
+<p>Comprobamos que desde <em>Dulcinea</em> nos podemos conectar a esta nueva máquina:</p>
 <pre>
 debian@dulcinea:~$ ssh centos@10.0.1.7
 The authenticity of host '10.0.1.7 (10.0.1.7)' can't be established.
