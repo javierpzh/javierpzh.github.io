@@ -561,7 +561,15 @@ address 10.0.1.11
 netmask 255.255.255.0
 </pre>
 
-<p>En este bloque indicamos que la interfaz <strong>eth1</strong> que es la que se conecta a nuestra red interna, posea una dirección IP estática, le estamos asignando la <strong>10.0.1.5</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>.</p>
+<p>En este bloque indicamos que:</p>
+<ul>
+<li>
+<p>La interfaz <strong>eth0</strong> que es la que se conecta a la red <strong>10.0.0.0/24</strong>, posea una dirección IP estática, le estamos asignando la que se nos ha establecido por DHCP, la <strong>10.0.0.8</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>, y cuya puerta de salida es la <strong>10.0.0.1</strong>.</p>
+</li>
+<li>
+<p>La interfaz <strong>eth1</strong> que es la que se conecta a nuestra red interna, posea una dirección IP estática, le estamos asignando la que se nos ha establecido por DHCP, la <strong>10.0.1.11</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>.</p>
+</li>
+</ul>
 <p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
 <pre>
 systemctl restart networking
