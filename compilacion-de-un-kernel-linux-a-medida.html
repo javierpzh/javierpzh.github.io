@@ -1142,8 +1142,14 @@ javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
 615
 </pre>
 
-<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 16, es decir, más de 10 veces menos y he eliminado más de 800 enlaces que se incluirán en <em>vmlinuz</em>.</p>
-<p>Puedes descargar el fichero <code>.deb</code> <a href="images/aso_compilacion_de_un_kernel_linux_a_medida/linux-image-4.19.152_4.19.152-103_amd64.deb">aquí</a>.</p>
+<p>Si observamos cuanto ocupa ahora el paquete <em>.deb</em>:</p>
+<pre>
+javier@debian:~/kernelLinux$ du -hs * | grep 'linux-image'
+3,0M    linux-image-4.19.152_4.19.152-103_amd64.deb
+</pre>
+
+<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 16, es decir, más de 10 veces menos y he eliminado más de 800 enlaces que se incluirán en <em>vmlinuz</em>. A consecuencia de esto, el peso del paquete <em>.deb</em> resultante es de 3.0 MB.</p>
+<p>Puedes descargar el paquete <em>.deb</em> <a href="images/aso_compilacion_de_un_kernel_linux_a_medida/linux-image-4.19.152_4.19.152-103_amd64.deb">aquí</a>.</p>
     </article>
 
         <div class="tags">
