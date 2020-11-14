@@ -856,6 +856,18 @@ Processing triggers for ntp (1:4.2.8p12+dfsg-4) ...
 Processing triggers for libc-bin (2.28-10) ...
 </pre>
 
+<p><strong>Sancho:</strong></p>
+<pre>
+apt update && apt upgrade -y
+</pre>
+
+<p><strong>Quijote:</strong></p>
+<p>Recordemos que en <em>CentOS</em> no se utiliza por defecto <code>apt</code>, sino que se sustituye por <code>yum</code>.</p>
+<pre>
+yum update
+</pre>
+
+<p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
 <p><strong>11. Configura el servidor con el nombre de dominio <nombre-usuario>.gonzalonazareno.org</strong></p>
 <p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname</strong></p>
 <p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo</strong></p>
