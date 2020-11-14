@@ -728,6 +728,7 @@ rtt min/avg/max/mdev = 42.997/43.144/43.313/0.129 ms
 <p><strong>7. Utilización de ssh-agent para acceder a las instancias</strong></p>
 <p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña</strong></p>
 <p><strong>Dulcinea:</strong></p>
+<p>Para crear un usuario en <em>Debian</em>, tenemos que hacer uso del comando <code>useradd</code>, pero bien, si queremos que en el nuevo usuario se creen las carpetas automáticamente en el directorio <code>/home</code> debemos introducir la opción <code>-m</code>:</p>
 <pre>
 root@dulcinea:~# useradd -m profesor
 
@@ -740,7 +741,9 @@ root@dulcinea:~# ls /home/
 debian  profesor
 </pre>
 
+<p>También le he asignando una contraseña que es <strong>profesor</strong>, por si alguna vez nos es necesaria, aunque normalmente no nos hará falta ya que accederemos mediante claves públicas-privadas.</p>
 <p><strong>Sancho:</strong></p>
+<p>Para crear un usuario en <em>Ubuntu</em>, seguimos el mismo proceso que para <em>Debian</em>.</p>
 <pre>
 root@sancho:~# useradd -m profesor
 
@@ -754,6 +757,7 @@ profesor  ubuntu
 </pre>
 
 <p><strong>Quijote:</strong></p>
+<p>Para crear un usuario en <em>CentOS</em>, hacemos uso del comando <code>adduser</code>, que a diferencia de <code>useradd</code>, sí nos crea las carpetas automáticamente en el directorio <code>/home</code>:</p>
 <pre>
 [root@quijote ~]# adduser profesor
 
@@ -768,7 +772,21 @@ passwd: all authentication tokens updated successfully.
 centos  profesor
 </pre>
 
-<p><strong>9. Copia de las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor</strong></p>
+<p>Bien, ya habríamos creado todos los usuarios <strong>profesor</strong> en todas las instancias, y solo nos quedaría configurarlas para que este usuario pueda hacer uso de <code>sudo</code> sin tener que introducir la contraseña.</p>
+<p>Este proceso va a ser el mismo en todos los sistemas.</p>
+<p>Editamos el fichero <code>/etc/sudoers</code>:</p>
+<pre>
+nano /etc/sudoers
+</pre>
+
+<p>Recordemos que en <em>CentOS</em> no está instalado por defecto <code>nano</code>, por tanto o lo descargamos o utilizamos <code>vi</code>.</p>
+<p>Debajo de la línea <code>root ALL=(ALL) ALL</code>, introducimos la siguiente línea:</p>
+<pre>
+profesor ALL=(ALL) NOPASSWD: ALL
+</pre>
+
+<p>Y fin, esto hará que cuando el usuario <em>profesor</em> haga uso de <code>sudo</code>, no le pida contraseña alguna.</p>
+<p><strong>9. Copia las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor</strong></p>
 <p><strong>10. Realiza una actualización completa de todos los servidores</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
