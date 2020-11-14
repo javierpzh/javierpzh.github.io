@@ -153,7 +153,7 @@ systemctl start openvpn.service
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineasabor.png"></p>
 <p>Y por último, le asignamos las redes a las que va a pertenecer esta máquina.</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineared.png"></p>
-<p><em>Dulcinea</em> necesita de conectividad al exterior, ya que con ella vamos a hacer NAT, por tanto le asignamos una IP flotante. El resultado de la máquina creada sería este:</p>
+<p><em>Dulcinea</em> necesita conectividad al exterior, ya que con ella vamos a hacer NAT, por tanto le asignamos una IP flotante. El resultado de la máquina creada sería este:</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dulcineacreada.png"></p>
 <p>Comprobamos que nos podemos conectar a <em>Dulcinea</em> mediante nuestro par de claves, ya que tengo configurado para que todas las instancias que se creen posean mi clave pública, para así yo poder identificarme con mi clave privada. Introduzco la opción <code>-A</code>, que sirve para que la máquina <em>Dulcinea</em>, nos herede las claves de la primera, de forma que así podremos establecer una conexión mediante el par de claves con las máquinas <em>Sancho</em> y <em>Quijote</em>.</p>
 <pre>
