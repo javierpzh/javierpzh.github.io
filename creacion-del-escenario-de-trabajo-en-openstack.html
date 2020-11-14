@@ -450,7 +450,7 @@ debian@dulcinea:~$
 </pre>
 
 <p>Vemos que <strong>Dulcinea</strong> es completamente accesible.</p>
-<p><strong>4.Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario)</strong></p>
+<p><strong>4. Definición de contraseña en todas las instancias (para poder modificarla desde consola en caso necesario).</strong></p>
 <p>Vamos a establecerle contraseñas a los usuarios, tanto al usuario sin privilegios como a <em>root</em>, de las tres instancias. Normalmente no nos va a ser necesario ya que accedemos mediante el par de claves, pero es muy recomendable para poder acceder a ellas si fuera necesario mediante la consola. Para ello vamos a utilizar la herramienta <code>passwd</code>.</p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
@@ -493,7 +493,7 @@ Retype new password:
 passwd: all authentication tokens updated successfully.
 </pre>
 
-<p><strong>5. Modificación de las instancias sancho y quijote para que usen direccionamiento estático y dulcinea como puerta de enlace</strong></p>
+<p><strong>5. Modificación de las instancias sancho y quijote para que usen direccionamiento estático y dulcinea como puerta de enlace.</strong></p>
 <p>Para realizar este paso, en <strong>Dulcinea</strong> debemos habilitar el <strong>bit de forward</strong> y añadir la regla de <code>iptables</code> necesaria.</p>
 <p>Para habilitar el <strong>bit de forward</strong> de manera permanente necesitamos editar el siguiente fichero de configuración:</p>
 <pre>
@@ -733,7 +733,7 @@ rtt min/avg/max/mdev = 43.142/43.386/43.550/0.244 ms
 </pre>
 
 <p>Podemos ver como efectivamente nos ha aplicado la configuración, poseemos una IP estática y la puerta de enlace es la IP de <em>Dulcinea</em>, y además comprobamos que poseemos conectividad al exterior, y podemos disfrutar de una resolución de nombres satisfactoria.</p>
-<p><strong>6. Modificación de la subred de la red interna, deshabilitando el servidor DHCP</strong></p>
+<p><strong>6. Modificación de la subred de la red interna, deshabilitando el servidor DHCP.</strong></p>
 <p>Esta modificación, la podemos llevar a cabo en nuestro gestor de proyectos de <em>OpenStack</em> desde el navegador, pero como ya tenemos configurada el administrador de <em>OpenStack</em> desde la terminal, vamos a probar a hacerlo desde aquí.</p>
 <p>Listamos todas nuestra redes:</p>
 <pre>
@@ -789,8 +789,8 @@ rtt min/avg/max/mdev = 43.142/43.386/43.550/0.244 ms
 <p>Seleccionamos la opción <strong>Editar subred</strong>, y se nos abrirá esta ventana en la que tendremos que desmarcar la opción llamada <strong>Habilitar DHCP</strong>.</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dhcpdesactivado.png"></p>
 <p>Guardamos los cambios y ya tendríamos deshabilitado el servidor DHCP de nuestra red interna.</p>
-<p><strong>7. Utilización de ssh-agent para acceder a las instancias</strong></p>
-<p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña</strong></p>
+<p><strong>7. Utilización de <code>ssh-agent</code> para acceder a las instancias.</strong></p>
+<p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <p>Para crear un usuario en <em>Debian</em>, tenemos que hacer uso del comando <code>useradd</code>, pero bien, si queremos que en el nuevo usuario se creen las carpetas automáticamente en el directorio <code>/home</code> debemos introducir la opción <code>-m</code>:</p>
 <pre>
@@ -850,9 +850,9 @@ profesor ALL=(ALL) NOPASSWD: ALL
 </pre>
 
 <p>Y fin, esto hará que cuando el usuario <em>profesor</em> haga uso de <code>sudo</code>, no le pida contraseña alguna.</p>
-<p><strong>9. Copia las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor</strong></p>
+<p><strong>9. Copia las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor.</strong></p>
 <p>He copiado todas las claves públicas de los profesores al fichero <code>.ssh/authorized_keys</code> del usuario <em>profesor</em>.</p>
-<p><strong>10. Realiza una actualización completa de todos los servidores</strong></p>
+<p><strong>10. Realiza una actualización completa de todos los servidores.</strong></p>
 <p>Para realizar una actualización de todos los paquetes instalados en cada sistema, empleamos estos comandos:</p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
@@ -871,7 +871,7 @@ yum update
 </pre>
 
 <p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
-<p><strong>11. Configura el servidor con el nombre de dominio <nombre-usuario>.gonzalonazareno.org</strong></p>
+<p><strong>11. Configura el servidor con el nombre de dominio <em><nombre-usuario>.gonzalonazareno.org</em>.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
 hostnamectl set-hostname dulcinea.javierpzh.gonzalonazareno.org
@@ -887,8 +887,8 @@ hostnamectl set-hostname sancho.javierpzh.gonzalonazareno.org
 hostnamectl set-hostname quijote.javierpzh.gonzalonazareno.org
 </pre>
 
-<p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname</strong></p>
-<p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo</strong></p>
+<p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname.</strong></p>
+<p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
 dpkg-reconfigure tzdata
