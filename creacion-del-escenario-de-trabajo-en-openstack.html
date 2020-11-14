@@ -536,6 +536,7 @@ iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE
 </pre>
 
 <p>Hemos habilitado el <strong>bit de forward</strong> y hemos añadido la regla de <code>iptables</code> que necesitamos para que todo el tráfico que provenga de la red <strong>10.0.1.0/24</strong>, salga por la interfaz <strong>eth0</strong>, que es la red que se conecta con el exterior, por tanto ya habríamos configurado lo necesario en <strong>Dulcinea</strong>.</p>
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente.</p>
 <p><strong>Dulcinea</strong></p>
 <p>Vamos a establecerle una IP estática. Como se trata de un sistema operativo <em>Debian</em>, debemos editar el fichero <code>/etc/network/interfaces</code>.</p>
 <pre>
@@ -873,17 +874,29 @@ hostnamectl set-hostname quijote.javierpzh.gonzalonazareno.org
 <p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
-apt install ntp
+dpkg-reconfigure tzdata
+</pre>
+
+<pre>
+apt install ntpdate
 </pre>
 
 <p><strong>Sancho:</strong></p>
 <pre>
-apt install ntp
+dpkg-reconfigure tzdata
+</pre>
+
+<pre>
+apt install ntpdate
 </pre>
 
 <p><strong>Quijote:</strong></p>
 <pre>
 yum install ntp
+</pre>
+
+<pre>
+dpkg-reconfigure tzdata
 </pre>
     </article>
 
