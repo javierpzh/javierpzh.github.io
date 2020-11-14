@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/compilacion-de-un-kernel-linux-a-medida.html">
 	<meta property="og:title" content="Compilación de un kérnel linux a medida">
-	<meta property="article:published_time" content="2020-11-07 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-11-14 00:00:00+01:00">
             <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
@@ -92,7 +92,7 @@
                         <h1>Compilación de un kérnel linux a medida</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el sáb 07 noviembre 2020
+                             el sáb 14 noviembre 2020
                         </span>
                         
                     </div>
@@ -679,14 +679,16 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <ul>
 <li>Support for paging of anonymous memory (swap)</li>
 <li>POSIX Message Queues</li>
+<li>Auditing support</li>
 <li>CPU isolation</li>
 <li>Kernel-&gt;user space relay support (formerly relayfs)</li>
 <li>m_Kernel .config support</li>
 <li>Automatic process group scheduling</li>
 <li>memory placement aware NUMA scheduler</li>
 <li>Checkpoint/restore support</li>
+<li>Enable bpf() system call</li>
+<li>Enable rseq() system call</li>
 <li>Enable VM event counters for /proc/vmstat</li>
-<li>Enable SLUB debugging support</li>
 <li>Allow slab caches to be merged</li>
 <li>SLAB freelist randomization</li>
 <li>Harden slab freelist metadata</li>
@@ -705,9 +707,17 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </ul>
 </li>
 <li><strong>Namespaces support</strong> entero</li>
+<li><strong>Configure standard kernel features (expert users)</strong><ul>
+<li>BUG() support</li>
+<li>Enable PC-Speaker suport</li>
+</ul>
+</li>
 </ul>
 <h5>Processor type and features</h5>
 <ul>
+<li>DMA memory allocation support</li>
+<li>Symmetric multi-processing support</li>
+<li>Avoid speculative indirect branches in kernel</li>
 <li>AMD ACPI2Platform devices support</li>
 <li>Intel SoC IOSF Sideband support for SoC platforms</li>
 <li>Single-depth WCHAN output</li>
@@ -755,10 +765,7 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li><strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero</li>
 <li><strong>SFI (Simple Firmware Interface) Support</strong></li>
 <li><strong>CPU Frequency scaling</strong><ul>
-<li><strong>CPU Frequency scaling</strong><ul>
-<li><strong>CPU frequency transition statistics</strong></li>
-</ul>
-</li>
+<li><strong>CPU Frequency scaling</strong> entero</li>
 <li>'schedutil' cpufreq policy governor</li>
 <li>Intel P state control</li>
 </ul>
@@ -827,11 +834,18 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Ultrix partition table support</li>
 <li>sun partition tables support</li>
 <li>karma partition support</li>
+<li><strong>IO Schedulers</strong></li>
+<li>MQ deadline I/O scheduler</li>
+<li><strong>Executable file formats</strong></li>
+<li>Enable core dump support</li>
 <li><strong>Memory Management options</strong></li>
 <li>Sparse Memory virtual memmap</li>
 <li>Allow for memory hot-add</li>
-<li>Allow for memory compaction</li>
+<li>Allow for memory compaction<ul>
 <li><strong>Transparent Hugepage Support</strong> entero</li>
+</ul>
+</li>
+<li>Low (Up to 2x) density storage for compressed pages</li>
 <li>Enable frontswap to cache swap pages if tmem is present</li>
 </ul>
 <h5>Networking support</h5>
@@ -844,6 +858,7 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>L3 Master device support</li>
 <li>Network packet filtering framework</li>
 <li>QoS and/or fair queueing</li>
+<li>MultiProtocol Label Switching</li>
 <li>Network priority cgroup</li>
 <li>Network classid cgroup</li>
 <li>enable BPF Just In Time compiler</li>
@@ -1015,9 +1030,16 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <li>Report quota messages through netlink interface</li>
 <li>m_Kernel automonter support (supports v3, v4 and v5)</li>
 <li>m_FUSE (Filesystem in Userspace) support</li>
+<li><strong>Pseudo filesystems</strong><ul>
+<li>Include /proc/<pid>/task/<tid>/children file</li>
+<li>HugeTLB file system support</li>
+</ul>
+</li>
 <li><strong>Miscellaneius filesystems</strong></li>
 <li><strong>Network File Systems</strong></li>
 <li><strong>Security options</strong></li>
+<li>Restrict unprivileged access to the kernel syslog</li>
+<li>Enable different security models</li>
 <li>NSA SELinux Support<ul>
 <li><strong>TOMOYO Linux Support</strong></li>
 <li><strong>AppArmor support</strong></li>
@@ -1114,13 +1136,13 @@ sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 <p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
-17
+16
 
 javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
-676
+615
 </pre>
 
-<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 17, es decir, 10 veces menos y he eliminado alrededor de 800 enlaces que se incluirán en <em>vmlinuz</em>.</p>
+<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 16, es decir, más de 10 veces menos y he eliminado más de 800 enlaces que se incluirán en <em>vmlinuz</em>.</p>
     </article>
 
         <div class="tags">

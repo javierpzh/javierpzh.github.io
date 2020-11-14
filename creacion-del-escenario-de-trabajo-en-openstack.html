@@ -878,12 +878,22 @@ dpkg-reconfigure tzdata
 </pre>
 
 <pre>
+root@dulcinea:~# date
+Sat 14 Nov 2020 08:51:41 PM CET
+</pre>
+
+<pre>
 apt install ntpdate
 </pre>
 
 <p><strong>Sancho:</strong></p>
 <pre>
 dpkg-reconfigure tzdata
+</pre>
+
+<pre>
+root@sancho:~# date
+Sat Nov 14 20:51:44 CET 2020
 </pre>
 
 <pre>
@@ -896,7 +906,7 @@ yum install ntp
 </pre>
 
 <pre>
-dpkg-reconfigure tzdata
+tzselect
 </pre>
     </article>
 
