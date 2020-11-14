@@ -492,11 +492,95 @@ root@dulcinea:~# iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth1 -j MASQUE
 nano /etc/network/interfaces
 </pre>
 
-<p>En este archivo tendremos que asignar una dirección IP fija en la interfaz de red ****, que es la que está utilizando esta máquina.</p>
+<p>En este archivo tendremos que asignar una dirección IP fija en la interfaz de red <strong>eth0</strong>, que es la que está utilizando esta máquina.</p>
+<pre>
+auto ens3
+iface ens3 inet static
+address 10.0.1.8
+netmask 255.255.255.0
+network 10.0.1.0
+broadcast 10.0.1.255
+gateway 10.0.1.5
+</pre>
+
+<pre>
+root@dulcinea:~# apt-get download ifupdown
+
+root@dulcinea:~# ls
+ifupdown_0.8.35_amd64.deb
+
+root@dulcinea:~# mv ifupdown_0.8.35_amd64.deb /home/debian/
+
+root@dulcinea:~# exit
+logout
+
+debian@dulcinea:~$ ls
+ifupdown_0.8.35_amd64.deb
+
+debian@dulcinea:~$ scp ifupdown_0.8.35_amd64.deb ubuntu@10.0.1.8:/home/ubuntu/
+ifupdown_0.8.35_amd64.deb                                             100%   80KB  15.6MB/s   00:00    
+
+debian@dulcinea:~$ ssh ubuntu@10.0.1.8
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-48-generic x86_64)
+
+...
+
+Last login: Sat Nov 14 00:13:26 2020 from 10.0.1.5
+
+ubuntu@sancho:~$ su -
+Password:
+
+root@sancho:~# cd /home/ubuntu/
+
+root@sancho:/home/ubuntu# dpkg -i ifupdown_0.8.35_amd64.deb
+</pre>
+
+<pre>
+root@dulcinea:~# apt download net-tools
+
+root@dulcinea:~# ls
+net-tools_1.60+git20180626.aebd88e-1_amd64.deb
+
+root@dulcinea:~# mv net-tools_1.60+git20180626.aebd88e-1_amd64.deb /home/debian/
+
+root@dulcinea:~# exit
+logout
+
+debian@dulcinea:~$ ls
+ifupdown_0.8.35_amd64.deb  net-tools_1.60+git20180626.aebd88e-1_amd64.deb
+
+debian@dulcinea:~$ scp net-tools_1.60+git20180626.aebd88e-1_amd64.deb ubuntu@10.0.1.8:/home/ubuntu/
+net-tools_1.60+git20180626.aebd88e-1_amd64.deb                        100%  242KB  36.9MB/s   00:00    
+
+debian@dulcinea:~$ ssh ubuntu@10.0.1.8
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.4.0-48-generic x86_64)
+
+...
+
+Last login: Sat Nov 14 00:13:59 2020 from 10.0.1.5
+
+ubuntu@sancho:~$ ls
+ifupdown_0.8.35_amd64.deb  net-tools_1.60+git20180626.aebd88e-1_amd64.deb
+
+ubuntu@sancho:~$ su -
+Password:
+
+root@sancho:~# cd /home/ubuntu/
+
+root@sancho:/home/ubuntu# dpkg -i net-tools_1.60+git20180626.aebd88e-1_amd64.deb
+</pre>
+
+<p><strong>Quijote</strong></p>
+<p>Para establecer el direccionamiento estático debemos editar el fichero <code>/etc/network/interfaces</code>.</p>
+<pre>
+less /etc/sysconfig/network-scripts/
+</pre>
+
+<p>En este archivo tendremos que asignar una dirección IP fija en la interfaz de red <strong>eth0</strong>, que es la que está utilizando esta máquina.</p>
 <pre>
 auto eth0
 iface eth0 inet static
-address 10.0.1.8
+address 10.0.1.4
 netmask 255.255.255.0
 network 10.0.1.0
 broadcast 10.0.1.255
@@ -510,6 +594,74 @@ gateway 10.0.1.5
 <p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña</strong></p>
 <p><strong>9. Copia de las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor</strong></p>
 <p><strong>10. Realiza una actualización completa de todos los servidores</strong></p>
+<p><strong>Dulcinea:</strong></p>
+<pre>
+root@dulcinea:~# apt update
+Hit:1 http://deb.debian.org/debian buster InRelease                                     
+Get:2 http://security.debian.org/debian-security buster/updates InRelease [65.4 kB]
+Get:3 http://deb.debian.org/debian buster-updates InRelease [51.9 kB]
+Get:4 http://security.debian.org/debian-security buster/updates/main amd64 Packages [248 kB]
+Get:5 http://security.debian.org/debian-security buster/updates/main Translation-en [135 kB]
+Fetched 501 kB in 4s (122 kB/s)         
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+3 packages can be upgraded. Run 'apt list --upgradable' to see them.
+
+root@dulcinea:~# apt upgrade
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Calculating upgrade... Done
+The following NEW packages will be installed:
+  linux-image-4.19.0-12-cloud-amd64
+The following packages will be upgraded:
+  libfreetype6 linux-image-cloud-amd64 tzdata
+3 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 17.0 MB of archives.
+After this operation, 73.7 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:1 http://security.debian.org/debian-security buster/updates/main amd64 libfreetype6 amd64 2.9.1-3+deb10u2 [380 kB]
+Get:2 http://deb.debian.org/debian buster-updates/main amd64 tzdata all 2020d-0+deb10u1 [264 kB]
+Get:3 http://security.debian.org/debian-security buster/updates/main amd64 linux-image-4.19.0-12-cloud-amd64 amd64 4.19.152-1 [16.4 MB]
+Get:4 http://security.debian.org/debian-security buster/updates/main amd64 linux-image-cloud-amd64 amd64 4.19+105+deb10u7 [8,228 B]
+Fetched 17.0 MB in 2s (8,069 kB/s)            
+Preconfiguring packages ...
+(Reading database ... 27036 files and directories currently installed.)
+Preparing to unpack .../tzdata_2020d-0+deb10u1_all.deb ...
+Unpacking tzdata (2020d-0+deb10u1) over (2020a-0+deb10u1) ...
+Preparing to unpack .../libfreetype6_2.9.1-3+deb10u2_amd64.deb ...
+Unpacking libfreetype6:amd64 (2.9.1-3+deb10u2) over (2.9.1-3+deb10u1) ...
+Selecting previously unselected package linux-image-4.19.0-12-cloud-amd64.
+Preparing to unpack .../linux-image-4.19.0-12-cloud-amd64_4.19.152-1_amd64.deb ...
+Unpacking linux-image-4.19.0-12-cloud-amd64 (4.19.152-1) ...
+Preparing to unpack .../linux-image-cloud-amd64_4.19+105+deb10u7_amd64.deb ...
+Unpacking linux-image-cloud-amd64 (4.19+105+deb10u7) over (4.19+105+deb10u6) ...
+Setting up tzdata (2020d-0+deb10u1) ...
+
+Current default time zone: 'Etc/UTC'
+Local time is now:      Sat Nov 14 00:03:00 UTC 2020.
+Universal Time is now:  Sat Nov 14 00:03:00 UTC 2020.
+Run 'dpkg-reconfigure tzdata' if you wish to change it.
+
+Setting up libfreetype6:amd64 (2.9.1-3+deb10u2) ...
+Setting up linux-image-4.19.0-12-cloud-amd64 (4.19.152-1) ...
+I: /vmlinuz is now a symlink to boot/vmlinuz-4.19.0-12-cloud-amd64
+I: /initrd.img is now a symlink to boot/initrd.img-4.19.0-12-cloud-amd64
+/etc/kernel/postinst.d/initramfs-tools:
+update-initramfs: Generating /boot/initrd.img-4.19.0-12-cloud-amd64
+/etc/kernel/postinst.d/zz-update-grub:
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-4.19.0-12-cloud-amd64
+Found initrd image: /boot/initrd.img-4.19.0-12-cloud-amd64
+Found linux image: /boot/vmlinuz-4.19.0-11-cloud-amd64
+Found initrd image: /boot/initrd.img-4.19.0-11-cloud-amd64
+done
+Setting up linux-image-cloud-amd64 (4.19+105+deb10u7) ...
+Processing triggers for ntp (1:4.2.8p12+dfsg-4) ...
+Processing triggers for libc-bin (2.28-10) ...
+</pre>
+
 <p><strong>11. Configura el servidor con el nombre de dominio <nombre-usuario>.gonzalonazareno.org</strong></p>
 <p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname</strong></p>
 <p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo</strong></p>
