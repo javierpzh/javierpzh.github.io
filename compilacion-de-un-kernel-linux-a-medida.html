@@ -316,11 +316,11 @@ javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 2008
 </pre>
 
-<p>Vemos que si realizáramos la compilación incluiríamos 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
-<p>Son muchísimos componentes, por tanto vamos a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de la máquina, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
+<p>Vemos que si realizáramos la compilación, incluiríamos 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
+<p>Son muchísimos componentes, por tanto vamos a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de la máquina y la conexión a internet, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
 <p><strong>6. Configura el núcleo en función de los módulos que está utilizando tu equipo (para no incluir en la compilación muchos controladores de dispositivos que no utiliza el equipo):</strong></p>
-<p>Vamos a realizar el primer proceso de eliminación de componentes, que nos va a reducir en una enorme cantidad el número de componentes que se van a incluir en nuestro fichero <code>.config</code>, que es el fichero sobre el que luego vamos a realizar la compilación.</p>
-<p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code>.config</code>, es decir vamos a copiar todos los módulos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
+<p>Vamos a realizar el primer proceso de eliminación de componentes, que nos va a reducir en una enorme cantidad el número de componentes que se van a incluir en nuestro fichero <code>.config</code>, que es el fichero que luego vamos a utilizar para realizar la compilación, ya que en él se indican todos los componentes que se van a incluir a la hora de compilar el núcleo.</p>
+<p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code>.config</code>, es decir vamos a copiar todos los módulos y enlaces estáticos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
 using config: '.config'
@@ -426,7 +426,7 @@ javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 
 <p>Observamos que hemos eliminado 3200 módulos y casi 600 componentes enlazados estáticamente.</p>
 <p><strong>8. Realiza la primera compilación:</strong></p>
-<p>Una vez tenemos el fichero <code>.config</code> reducido, vamos a realizar la compilación generando un un paquete Debian, el cuál podremos instalar con la herramienta <code>dpkg -i</code>.</p>
+<p>Una vez tenemos el fichero <code>.config</code> reducido, vamos a realizar la compilación generando un paquete Debian (<code>.deb</code>), el cuál podremos instalar con la herramienta <code>dpkg -i</code>.</p>
 <p>El comando para realizar esta compilación es <code>make bindep-pkg</code>, pero esto nos realizaría la compilación con un solo hilo. Es decir, utilizaría un hilo en vez de todos los posibles que podría utilizar en función de cada procesador. En mi caso poseo de un <strong>i7-9750H</strong> que posee 6 núcleos y 12 hilos, por lo que estaría compilando con un solo hilo pudiendo realizar el proceso con 12 hilos, lo que disminuiría en una barbaridad el tiempo de compilación. Para establecer el número de hilos que van a llevar a cabo el proceso, introducimos la opción <code>-j</code> y el número de hilos.</p>
 <p>Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
 <p>Voy a realizar el primer intento de compilación con 11 hilos:</p>
@@ -594,7 +594,7 @@ make: *** [Makefile:1393: bindeb-pkg] Error 2
 apt install libssl-dev -y
 </pre>
 
-<p>Esta vez ya sí completaría el proceso de compilación del fichero <code>.config</code>. Las últimas líneas tendrían este aspecto:</p>
+<p>Esta vez ya sí completaría el proceso de compilación de los componentes que están incluidos en el fichero <code>.config</code>. Las últimas líneas tendrían este aspecto:</p>
 <pre>
 dpkg-deb: construyendo el paquete `linux-headers-4.19.152' en `../linux-headers-4.19.152_4.19.152-1_amd64.deb'.
 dpkg-deb: construyendo el paquete `linux-libc-dev' en `../linux-libc-dev_4.19.152-1_amd64.deb'.
@@ -614,7 +614,7 @@ dpkg-buildpackage: información: subida sólo de binarios (no se incluye ninguna
 dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </pre>
 
-<p>Reinicio el sistema arrancando con este nueva kérnel y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
+<p>Reinicio el sistema arrancando con este nuevo kérnel y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
 <p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
 <p>Copiamos la configuración del kérnel reducido ya una vez, de esta manera estaremos generando una copia de seguridad por si durante las pruebas tocamos algún módulo imprescindible y deseamos volver un paso atrás, ya que vamos a seguir reduciendo su tamaño. En mi caso simplemente cuando compruebo que he conseguido reducir un poco más el kérnel, copio el archivo <code>.config</code> a un directorio cualquiera, y si me es necesario, luego lo vuelvo a trasladar al área de trabajo.</p>
 <pre>
