@@ -909,6 +909,45 @@ hostnamectl set-hostname quijote.javierpzh.gonzalonazareno.org
 </pre>
 
 <p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname.</strong></p>
+<p><strong>Dulcinea:</strong></p>
+<p>Para configurar la resolución estática de las instancias, debemos modificar el fichero <code>/etc/hosts</code> y añadir estas líneas:</p>
+<pre>
+127.0.1.1 dulcinea.javierpzh.gonzalonazareno.org dulcinea dulcinea.novalocal
+127.0.0.1 localhost
+
+10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
+10.0.1.7 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>Me he dado cuenta de una cosa al reiniciar la máquina <em>Dulcinea</em>, y es que en cada inicio se restablece el fichero <code>/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code>/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
+<pre>
+manage_etc_hosts: true
+</pre>
+
+<p>Le cambiamos el valor a <em>false</em>:</p>
+<pre>
+manage_etc_hosts: false
+</pre>
+
+<p>Y ya habríamos configurado la resolución estática en <em>Dulcinea</em>.</p>
+<p><strong>Sancho:</strong></p>
+<p>Para configurar la resolución estática de las instancias, debemos modificar el fichero <code>/etc/hosts</code> y añadir estas líneas:</p>
+<pre>
+127.0.1.1 sancho.javierpzh.gonzalonazareno.org sancho
+127.0.0.1 localhost
+
+10.0.1.3 dulcinea.javierpzh.gonzalonazareno.org dulcinea
+10.0.1.7 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p><strong>Quijote:</strong></p>
+<p>Para configurar la resolución estática de las instancias, debemos modificar el fichero <code>/etc/hosts</code> y añadir estas líneas:</p>
+<pre>
+127.0.1.1 quijote.javierpzh.gonzalonazareno.org quijote
+10.0.1.3 dulcinea.javierpzh.gonzalonazareno.org dulcinea
+10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
+</pre>
+
 <p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
