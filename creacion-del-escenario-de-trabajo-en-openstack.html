@@ -810,8 +810,7 @@ rtt min/avg/max/mdev = 43.254/43.695/43.971/0.397 ms
 <p>Seleccionamos la opción <strong>Editar subred</strong>, y se nos abrirá esta ventana en la que tendremos que desmarcar la opción llamada <strong>Habilitar DHCP</strong>.</p>
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/dhcpdesactivado.png"></p>
 <p>Guardamos los cambios y ya tendríamos deshabilitado el servidor DHCP de nuestra red interna.</p>
-<p><strong>7. Utilización de <code>ssh-agent</code> para acceder a las instancias.</strong></p>
-<p><strong>8. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña.</strong></p>
+<p><strong>7. Creación del usuario profesor en todas las instancias. Usuario que puede utilizar sudo sin contraseña.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <p>Para crear un usuario en <em>Debian</em>, tenemos que hacer uso del comando <code>useradd</code>, pero bien, si queremos que en el nuevo usuario se creen las carpetas automáticamente en el directorio <code>/home</code> debemos introducir la opción <code>-m</code>:</p>
 <pre>
@@ -871,9 +870,9 @@ profesor ALL=(ALL) NOPASSWD: ALL
 </pre>
 
 <p>Y fin, esto hará que cuando el usuario <em>profesor</em> haga uso de <code>sudo</code>, no le pida contraseña alguna.</p>
-<p><strong>9. Copia las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor.</strong></p>
+<p><strong>8. Copia las claves públicas de todos los profesores en las instancias para que puedan acceder con el usuario profesor.</strong></p>
 <p>He copiado todas las claves públicas de los profesores al fichero <code>.ssh/authorized_keys</code> del usuario <em>profesor</em>.</p>
-<p><strong>10. Realiza una actualización completa de todos los servidores.</strong></p>
+<p><strong>9. Realiza una actualización completa de todos los servidores.</strong></p>
 <p>Para realizar una actualización de todos los paquetes instalados en cada sistema, empleamos estos comandos:</p>
 <p><strong>Dulcinea:</strong></p>
 <pre>
@@ -892,23 +891,7 @@ yum update
 </pre>
 
 <p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
-<p><strong>11. Configura el servidor con el nombre de dominio <em>nombre-usuario.gonzalonazareno.org</em>.</strong></p>
-<p><strong>Dulcinea:</strong></p>
-<pre>
-hostnamectl set-hostname dulcinea.javierpzh.gonzalonazareno.org
-</pre>
-
-<p><strong>Sancho:</strong></p>
-<pre>
-hostnamectl set-hostname sancho.javierpzh.gonzalonazareno.org
-</pre>
-
-<p><strong>Quijote:</strong></p>
-<pre>
-hostnamectl set-hostname quijote.javierpzh.gonzalonazareno.org
-</pre>
-
-<p><strong>12. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname.</strong></p>
+<p><strong>10. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname.</strong></p>
 <p>Para configurar la resolución estática de las instancias, debemos modificar el fichero <code>/etc/hosts</code> y añadir unas líneas con este aspecto:</p>
 <pre>
 XXX.XXX.XXX.XXX nombre
@@ -954,7 +937,7 @@ manage_etc_hosts: false
 10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
 </pre>
 
-<p><strong>13. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
+<p><strong>11. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <p>Para configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
 <pre>
