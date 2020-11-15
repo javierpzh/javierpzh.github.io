@@ -548,7 +548,11 @@ iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE
 </pre>
 
 <p>Hemos habilitado el <strong>bit de forward</strong> y hemos añadido la regla de <code>iptables</code> que necesitamos para que todo el tráfico que provenga de la red <strong>10.0.1.0/24</strong>, salga por la interfaz <strong>eth0</strong>, que es la red que se conecta con el exterior, por tanto ya habríamos configurado lo necesario en <strong>Dulcinea</strong>.</p>
-<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente.</p>
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente, siempre y cuando las guardemos en el fichero <code>/etc/iptables/rules.v4</code>. Por tanto vamos a guardar esta regla para que se levente en cada inicio:</p>
+<pre>
+iptables-save > /etc/iptables/rules.v4
+</pre>
+
 <p><strong>Dulcinea</strong></p>
 <p>Vamos a establecerle una IP estática. Como se trata de un sistema operativo <em>Debian</em>, debemos editar el fichero <code>/etc/network/interfaces</code>.</p>
 <pre>
