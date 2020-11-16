@@ -126,6 +126,11 @@ DNS2=X.X.X.X
 DNSX=X.X.X.X
 </pre>
 
+<p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
+<pre>
+systemctl restart network.service
+</pre>
+
 <p><strong>2. Actualiza el sistema a las versiones más recientes de los paquetes instalados.</strong></p>
 <p><strong>3. Instala los repositorios adicionales EPEL y CentOSPlus.</strong></p>
 <p><strong>4. Instala el paquete que proporciona el programa dig, explicando los pasos que has dado para encontrarlo.</strong></p>
