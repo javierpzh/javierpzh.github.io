@@ -332,14 +332,11 @@ python-perf.x86_64                                  5.9.8-1.el7.elrepo          
 <p>Procedemos a la instalación de este kernel ejecutando lo siguiente:</p>
 <pre>
 yum --enablerepo=elrepo-kernel install kernel-ml
-<pre>
+</pre>
 
-Aceptamos la descarga y la instalación de los paquetes.
-
-Una vez instalado tenemos que configurar para que seleccione este kérnel de manera predeterminada, para ello editamos el fichero `/etc/default/grub` y cambiamos el valor de la línea **GRUB_DEFAULT** a **0**.
-
-Ejecutamos la siguiente línea para actualizar la configuración de GRUB:
-
+<p>Aceptamos la descarga y la instalación de los paquetes.</p>
+<p>Una vez instalado tenemos que configurar para que seleccione este kérnel de manera predeterminada, para ello editamos el fichero <code>/etc/default/grub</code> y cambiamos el valor de la línea <strong>GRUB_DEFAULT</strong> a <strong>0</strong>.</p>
+<p>Ejecutamos la siguiente línea para actualizar la configuración de GRUB:</p>
 <pre>
 grub2-mkconfig -o /boot/grub2/grub.cfg
 </pre>
