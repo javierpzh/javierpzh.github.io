@@ -132,6 +132,12 @@ systemctl restart network.service
 </pre>
 
 <p><strong>2. Actualiza el sistema a las versiones más recientes de los paquetes instalados.</strong></p>
+<p>Para realizar una actualización de todos los paquetes instalados en el sistema, empleamos este comando:</p>
+<pre>
+yum update
+</pre>
+
+<p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
 <p><strong>3. Instala los repositorios adicionales EPEL y CentOSPlus.</strong></p>
 <p><strong>4. Instala el paquete que proporciona el programa dig, explicando los pasos que has dado para encontrarlo.</strong></p>
 <p><strong>5. Explica qué comando utilizarías para ver la información del paquete kernel instalado.</strong></p>
