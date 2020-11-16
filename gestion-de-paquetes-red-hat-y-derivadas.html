@@ -199,7 +199,43 @@ repolist: 24,283
 
 <p>Ya hemos instalado el repositorio <strong>EPEL</strong>.</p>
 <p>El repositorio <strong>CentOSPlus</strong> contiene paquetes que son mejoras para los paquetes en los repositorios <em>CentOS base</em> + <em>CentOS updates</em>. Estos paquetes no son parte de la distribución mayor y extienden la funcionalidad a costa de la compatibilidad con el proveedor.</p>
-<p>Para instalar el repositorio <strong>CentOSPlus</strong> tenemos que descargar un archivo con extensión <em>.rpm</em> y después instalarlo. Para descargar el archivo <em>.rpm</em> ejecutamos el siguiente comando:</p>
+<p>Para instalar el repositorio <strong>CentOSPlus</strong> tenemos que editar el fichero <code>/etc/yum.repos.d/CentOS-Base.repo</code> y sustituir el bloque de <em>CentOSPlus</em> que viene por defecto por este otro:</p>
+<pre>
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-$releasever - Plus
+mirrorlist=http://mirrorlist.centos.org/?release=$releasever&arch=$basearch&repo=centosplus
+#baseurl=http://mirror.centos.org/centos/$releasever/centosplus/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-centos5
+includepkgs=postfix-*
+exclude=postfix-*plus* 
+</pre>
+
+<pre>
+[root@quijote ~]# yum repolist
+Loaded plugins: fastestmirror
+Loading mirror speeds from cached hostfile
+ * base: mirror.airenetworks.es
+ * centosplus: mirror.airenetworks.es
+ * epel: mirror.etf.bg.ac.rs
+ * extras: mirror.airenetworks.es
+ * updates: mirror.airenetworks.es
+base                                                                             | 3.6 kB  00:00:00     
+centosplus                                                                       | 2.9 kB  00:00:00     
+extras                                                                           | 2.9 kB  00:00:00     
+updates                                                                          | 2.9 kB  00:00:00     
+centosplus/7/x86_64/primary_db                                                   | 1.2 MB  00:00:00     
+repo id                            repo name                                                      status
+base/7/x86_64                      CentOS-7 - Base                                                10,072
+centosplus/7/x86_64                CentOS-7 - Plus                                                  0+34
+epel/x86_64                        Extra Packages for Enterprise Linux 7 - x86_64                 13,470
+extras/7/x86_64                    CentOS-7 - Extras                                                 448
+updates/7/x86_64                   CentOS-7 - Updates                                                293
+repolist: 24,283
+</pre>
+
 <p><strong>4. Instala el paquete que proporciona el programa dig, explicando los pasos que has dado para encontrarlo.</strong></p>
 <p><strong>5. Explica qué comando utilizarías para ver la información del paquete kernel instalado.</strong></p>
 <p><strong>6. Instala el repositorio adicional "elrepo" e instala el último núcleo disponible del mismo (5.9.X).</strong></p>
