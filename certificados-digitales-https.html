@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Seguridad y Alta Disponibilidad | Javier Pérez Hidalgo</title>
+        <title>Certificados digitales. HTTPS | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +31,30 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Criptografía">
+        <meta name="tags" content="Certificado digital">
+        <meta name="tags" content="HTTPS">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/certificados-digitales-https.html">
+	<meta property="og:title" content="Certificados digitales. HTTPS">
+	<meta property="article:published_time" content="2020-11-17 00:00:00+01:00">
+            <meta property="og:description" content="Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica...">
+
+            <meta property="og:image" content="theme/images/banner-seguridad.jpg">
 </head>
 
-<body class="category-seguridad-y-alta-disponibilidad">
+<body class="article-certificados-digitales-https">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -66,12 +85,17 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+        <header class="intro-header" style="background-image: url('/theme/images/banner-seguridad.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Seguridad y Alta Disponibilidad</h1>
+                        <h1>Certificados digitales. HTTPS</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el mar 17 noviembre 2020
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -82,76 +106,50 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/certificados-digitales-https.html" rel="bookmark" title="Permalink to Certificados digitales. HTTPS">
-                <h2 class="post-title">
-                    Certificados digitales. HTTPS
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Certificado digital de persona física Tarea 1: Instalación del certificado 1. Una vez que hayas obtenido tu certificado, explica...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mar 17 noviembre 2020
-            </p>
+    <!-- Post Content -->
+    <article>
+        <h2>Certificado digital de persona física</h2>
+<h4>Tarea 1: Instalación del certificado</h4>
+<p><strong>1. Una vez que hayas obtenido tu certificado, explica brevemente como se instala en tu navegador favorito.</strong></p>
+<p><strong>2. Muestra una captura de pantalla donde se vea las preferencias del navegador donde se ve instalado tu certificado.</strong></p>
+<p><strong>3. ¿Cómo puedes hacer una copia de tu certificado?, ¿Como vas a realizar la copia de seguridad de tu certificado?. Razona la respuesta.</strong></p>
+<p><strong>4. Investiga como exportar la clave pública de tu certificado.</strong></p>
+<h4>Tarea 2: Validación del certificado</h4>
+<p><strong>1. Instala en tu ordenador el software <a href="https://firmaelectronica.gob.es/Home/Descargas.html">autofirma</a> y desde la página de VALIDe valida tu certificado. Muestra capturas de pantalla donde se comprueba la validación.</strong></p>
+<h4>Tarea 3: Firma electrónica</h4>
+<p><strong>1. Utilizando la página VALIDe y el programa autofirma, firma un documento con tu certificado y envíalo por correo a un compañero.</strong></p>
+<p><strong>2. Tu debes recibir otro documento firmado por un compañero y utilizando las herramientas anteriores debes visualizar la firma (Visualizar Firma) y (Verificar Firma). ¿Puedes verificar la firma aunque no tengas la clave pública de tu compañero?, ¿Es necesario estar conectado a internet para hacer la validación de la firma?. Razona tus respuestas.</strong></p>
+<p><strong>3. Entre dos compañeros, firmar los dos un documento, verificar la firma para comprobar que está firmado por los dos.</strong></p>
+<h4>Tarea 4: Autentificación</h4>
+<p><strong>1. Utilizando tu certificado accede a alguna página de la administración pública )cita médica, becas, puntos del carnet,…). Entrega capturas de pantalla donde se demuestre el acceso a ellas.</strong></p>
+<h2>HTTPS / SSL</h2>
+<p><strong>Antes de hacer esta práctica vamos a crear una página web (puedes usar una página estática o instalar una aplicación web) en un servidor web apache2 que se acceda con el nombre <code>tunombre.iesgn.org</code>.</strong></p>
+<h4>Tarea 1: Certificado autofirmado</h4>
+<p><strong>Esta práctica la vamos a realizar con un compañero. En un primer momento un alumno creará una Autoridad Certficadora y firmará un certificado para la página del otro alumno. Posteriormente se volverá a realizar la práctica con los roles cambiados.</strong></p>
+<p><strong>Para hacer esta práctica puedes buscar información en internet, algunos enlaces interesantes:</strong></p>
+<ul>
+<li>Phil’s X509/SSL Guide</li>
+<li>How to setup your own CA with OpenSSL</li>
+<li>Crear autoridad certificadora (CA) y certificados autofirmados en Linux</li>
+</ul>
+<p><strong>El alumno que hace de Autoridad Certificadora deberá entregar una documentación donde explique los siguientes puntos:</strong></p>
+<p><strong>1. Crear su autoridad certificadora (generar el certificado digital de la CA). Mostrar el fichero de configuración de la AC.</strong></p>
+<p><strong>2. Debe recibir el fichero CSR (Solicitud de Firmar un Certificado) de su compañero, debe firmarlo y enviar el certificado generado a su compañero.</strong></p>
+<p><strong>3. ¿Qué otra información debes aportar a tu compañero para que éste configure de forma adecuada su servidor web con el certificado generado?</strong></p>
+<p><strong>El alumno que hace de administrador del servidor web, debe entregar una documentación que describa los siguientes puntos:</strong></p>
+<p><strong>1. Crea una clave privada RSA de 4096 bits para identificar el servidor.</strong></p>
+<p><strong>2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor tanto con el FQDN (<code>tunombre.iesgn.org</code>) como con el nombre de host (implica el uso de las extensiones <code>Alt Name</code>).</strong></p>
+<p><strong>3. Envía la solicitud de firma a la entidad certificadora (su compañero).</strong></p>
+<p><strong>4. Recibe como respuesta un certificado X.509 para el servidor firmado y el certificado de la autoridad certificadora.</strong></p>
+<p><strong>5. Configura tu servidor web con https en el puerto 443, haciendo que las peticiones http se redireccionen a https (forzar https).</strong></p>
+<p><strong>6. Instala ahora un servidor nginx, y realiza la misma configuración que anteriormente para que se sirva la página con HTTPS.</strong></p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/criptografia.html">Criptografía</a>, <a href="/tag/certificado-digital.html">Certificado digital</a>, <a href="/tag/https.html">HTTPS</a></p>
         </div>
-        <div class="post-preview">
-            <a href="/integridad-firmas-y-autenticacion.html" rel="bookmark" title="Permalink to Integridad, firmas y autenticación">
-                <h2 class="post-title">
-                    Integridad, firmas y autenticación
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Tarea 1: Firmas electrónicas En este primer apartado vamos a trabajar con las firmas electrónicas, para ello te pueden ayudar los...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el jue 05 noviembre 2020
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="/cifrado-asimetrico-con-gpg-y-openssl.html" rel="bookmark" title="Permalink to Cifrado asimétrico con gpg y openssl">
-                <h2 class="post-title">
-                    Cifrado asimétrico con gpg y openssl
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Cifrado asimétrico con gpg En esta práctica vamos a cifrar ficheros utilizando cifrado asimétrico utilizando el programa gpg. Puedes...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mar 13 octubre 2020
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="/raid5-gestion-del-almacenamiento-de-la-informacion.html" rel="bookmark" title="Permalink to RAID5: Gestión del almacenamiento de la información">
-                <h2 class="post-title">
-                    RAID5: Gestión del almacenamiento de la información
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Ejercicio: RAID 5 Vamos a crear una máquina virtual con un sistema operativo Linux. En esta máquina, queremos crear un raid 5 de 2 GB,...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mié 30 septiembre 2020
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="/rclone-gestionando-nuestro-almacenamiento-en-la-nube.html" rel="bookmark" title="Permalink to rclone - Gestionando nuestro almacenamiento en la nube">
-                <h2 class="post-title">
-                    rclone - Gestionando nuestro almacenamiento en la nube
-                </h2>
-            </a>
-                <p class="article-summary">
-                    rclone Tarea 1: Instala rclone en tu equipo. Antes de nada tenemos que instalar rclone en la máquina en la que vayamos a utilizarlo. Es...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mié 30 septiembre 2020
-            </p>
-        </div>
+
+    <hr>
 
             </div>
         </div>
