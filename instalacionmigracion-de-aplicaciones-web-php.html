@@ -437,7 +437,13 @@ root@buster:/etc/apache2/sites-available# systemctl reload apache2
 
 <p>Añadimos a nuestro <code>/etc/hosts</code> la línea que corresponde ....</p>
 <p>Si nos dirigimos al navegador a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
-<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmv.png"></p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvfaltan.png"></p>
+<pre>
+apt install php-{mysql,zip,curl,mbstring,xml}
+</pre>
+
+<p>Si probamos entrar ahora a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalador.png"></p>
 <p><strong>2. Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.iesgnXX.es/cloud</code></strong></p>
 <p><strong>3. Instala en un ordenador el cliente de nextcloud y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
