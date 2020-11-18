@@ -387,6 +387,7 @@ try_files $uri /index.php?dir=$uri;
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <h3>Instalación / migración de la aplicación Nextcloud</h3>
 <p><strong>1. Instala la aplicación web <em>Nextcloud</em> en tu entorno de desarrollo.</strong></p>
+<p>Vamos a instalar la aplicación <strong>Nextcloud</strong> en un servidor web <strong>Apache</strong> de nuestro entorno de desarrollo para posteriormente realizar la migración a un servidor web <strong>Nginx</strong> en nuestro entorno de producción.</p>
 <p>Nos descargamos <em>Nextcloud</em> desde su <a href="https://nextcloud.com/install/">página oficial</a> con el siguiente comando:</p>
 <pre>
 root@buster:/home/vagrant# wget https://download.nextcloud.com/server/releases/nextcloud-20.0.1.zip
@@ -409,15 +410,16 @@ root@buster:/home/vagrant#
 root@buster:/home/vagrant# unzip nextcloud-20.0.1.zip
 </pre>
 
+<p>La carpeta descomprimida la trasladamos al directorio donde vamos a almacenar nuestra aplicación web, en mi caso es dentro de <code>/srv/www/</code>, y le vamos a asignar como propietario de los archivos</p>
 <pre>
-root@buster:/home/vagrant# mv nextcloud /var/www/html/
+root@buster:/home/vagrant# mv nextcloud /srv/www/
 
-root@buster:/home/vagrant# ls /var/www/html/nextcloud/
-3rdparty  config       core    index.php  ocm-provider  public.php  robots.txt  updater
-apps      console.php  cron.php    lib        ocs       remote.php  status.php  version.php
-AUTHORS   COPYING      index.html  occ        ocs-provider  resources   themes
+root@buster:/home/vagrant# ls /srv/www/nextcloud/
+3rdparty  config       core  index.html  occ       ocs-provider  resources   themes
+apps      console.php  cron.php  index.php   ocm-provider  public.php    robots.txt  updater
+AUTHORS   COPYING      data  lib         ocs       remote.php    status.php  version.php
 
-root@buster:/var/www/html/nextcloud# chown -R www-data:www-data /var/www/html/
+root@buster:/home/vagrant# chown -R www-data:www-data /srv/www/
 </pre>
 
 <pre>
@@ -426,6 +428,20 @@ root@buster:/etc/apache2/sites-available# cp anchor.conf nextcloud.conf
 root@buster:/etc/apache2/sites-available# nano nextcloud.conf
 </pre>
 
+<pre>
+<\VirtualHost *:80\>
+
+        ServerName www.jpnextcloud.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/nextcloud
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <pre>
 root@buster:/etc/apache2/sites-available# a2ensite nextcloud.conf
 Enabling site nextcloud.
@@ -470,7 +486,7 @@ MariaDB [(none)]> SHOW DATABASES;
 MariaDB [(none)]> CREATE DATABASE bd_nextcloud;
 Query OK, 1 row affected (0.001 sec)
 
-MariaDB [(none)]> CREATE USER 'user_nextcloud' IDENTIFIED BY 'martaguapa7';
+MariaDB [(none)]> CREATE USER 'user_nextcloud' IDENTIFIED BY 'pass_nextcloud';
 Query OK, 0 rows affected (0.005 sec)
 
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_nextcloud.* TO 'user_nextcloud';
@@ -493,7 +509,7 @@ MariaDB [(none)]> exit
 Bye
 </pre>
 
-<p>Vemos como hemos creado una nueva base de datos y un usuario con los correspondientes permisos sobre esta base de datos. Ahora introducimos estos datos en el instalador:</p>
+<p>Vemos como hemos creado una nueva base de datos y un usuario con los correspondientes permisos sobre esta base de datos. Ahora introducimos estos datos en el instalador.</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalando.png"></p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalado.png"></p>
 <p><strong>2. Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.iesgnXX.es/cloud</code></strong></p>
