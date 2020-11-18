@@ -523,7 +523,13 @@ apt install php-{mysql,zip,curl,mbstring,xml} -y
 <p>Vamos a realizar la migración de esta aplicación instalada previamente a nuestro entorno de desarrollo, pero ahora en vez de trabajar con <em>Apache</em> haremos que trabaje con <em>Nginx</em>.</p>
 <p>Lo primero que haremos será realizar una copia de seguridad de la base de datos, para restaurarla en el servidor de OVH. Para ello:</p>
 <pre>
+root@buster:~# mysqldump -u user_nextcloud -p bd_nextcloud > backupnextcloud.sql
+Enter password:
 
+root@buster:~# ls
+backupdrupal.sql  backupnextcloud.sql
+
+root@buster:~# 
 </pre>
 
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
