@@ -451,15 +451,6 @@ To activate the new configuration, you need to run:
 root@buster:/etc/apache2/sites-available# systemctl reload apache2
 </pre>
 
-<p>Mi entorno de desarrollo se trata de una máquina virtual <em>Vagrant</em>, por tanto para visualizar este sitio web, necesito añadir en el fichero <code>/etc/hosts</code> de mi máquina la línea que corresponda.</p>
-<p>Si nos dirigimos al navegador a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
-<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvfaltan.png"></p>
-<pre>
-apt install php-{mysql,zip,curl,mbstring,xml}
-</pre>
-
-<p>Si probamos entrar ahora a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
-<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalador.png"></p>
 <pre>
 root@buster:/var/www/html/nextcloud# mysql -u root -p
 Enter password:
@@ -509,6 +500,16 @@ MariaDB [(none)]> exit
 Bye
 </pre>
 
+<p>Mi entorno de desarrollo se trata de una máquina virtual <em>Vagrant</em>, por tanto para visualizar este sitio web, necesito añadir en el fichero <code>/etc/hosts</code> de mi máquina la línea que corresponda.</p>
+<p>Si nos dirigimos al navegador a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvfaltan.png"></p>
+<p>Vemos que <em>Nextcloud</em> necesita una serie de extensiones <em>PHP</em>. Para instalar todas las extensiones necesarias:</p>
+<pre>
+apt install php-{mysql,zip,curl,mbstring,xml}
+</pre>
+
+<p>Si probamos a entrar ahora a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalador.png"></p>
 <p>Vemos como hemos creado una nueva base de datos y un usuario con los correspondientes permisos sobre esta base de datos. Ahora introducimos estos datos en el instalador.</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalando.png"></p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalado.png"></p>
