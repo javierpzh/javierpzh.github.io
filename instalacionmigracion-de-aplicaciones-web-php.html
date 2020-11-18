@@ -377,7 +377,14 @@ MariaDB [bd_drupal]>
 <p>Si accedemos a la dirección <code>portal.iesgn15.es</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <p><strong>5. Asegúrate que las URL limpias de <em>Drupal</em> siguen funcionando en <em>Nginx</em>.</strong></p>
+<p>Para que <em>Drupal</em> utilice las URLs limpias debemos añadir esta línea en su fichero de configuración, es decir, en <code>/etc/nginx/sites-available/drupal.conf</code>:</p>
+<pre>
+try_files $uri /index.php?dir=$uri;
+</pre>
+
 <p><strong>6. La aplicación debe estar disponible en la URL: <code>portal.iesgnXX.es</code> (Sin ningún directorio).</strong></p>
+<p>Se puede ver como efectivamente la URL de la aplicación <code>portal.iesgn15.es</code>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <h3>Instalación / migración de la aplicación Nextcloud</h3>
 <p><strong>1. Instala la aplicación web <em>Nextcloud</em> en tu entorno de desarrollo.</strong></p>
 <p><strong>2. Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.iesgnXX.es/cloud</code></strong></p>
