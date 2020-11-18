@@ -557,6 +557,80 @@ root@buster:~#
 </pre>
 
 <pre>
+root@vpsjavierpzh:/home/debian# mv nextclouddat.tar.gz /srv/www/aplicacionesiesgn/
+
+root@vpsjavierpzh:/home/debian# cd /srv/www/aplicacionesiesgn/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn#tar -xvf nextclouddat.tar.gz
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# ls
+drupal  nextcloud  nextclouddat.tar.gz  principal
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# rm nextclouddat.tar.gz
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# ls nextcloud/
+3rdparty  config       core  index.html  occ       ocs-provider  resources   themes
+apps      console.php  cron.php  index.php   ocm-provider  public.php    robots.txt  updater
+AUTHORS   COPYING      data  lib         ocs       remote.php    status.php  version.php
+</pre>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 324
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bd_drupal          |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [(none)]> CREATE DATABASE bd_nextcloud;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> CREATE USER 'user_nextcloud' IDENTIFIED BY 'pass_nextcloud';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_nextcloud.* TO 'user_nextcloud';
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]> flush privileges;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bd_drupal          |
+| bd_nextcloud       |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+</pre>
+
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# cp drupal.conf nextcloud.conf
+
+root@vpsjavierpzh:/etc/nginx/sites-available# nano nextcloud.conf
+</pre>
+
+<pre>
 
 </pre>
 
