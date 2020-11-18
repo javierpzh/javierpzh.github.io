@@ -114,11 +114,7 @@
 <p>Cuando me refiero al entorno de producción, estoy haciendo referencia a un servidor de OVH.</p>
 <p>Antes de realizar la migración necesitamos preparar nuestro entorno de producción instalando todos los paquetes necesarios, como pueden ser <code>php</code>, <code>mysql</code>, ... para poder migrar <em>Drupal</em> de manera correcta. En mi caso tengo listo el entorno de producción, ya que en él lleve a cabo la instalación de un <em>servidor LEMP</em> que es lo que al fin y al cabo vamos a utilizar. Si quieres ver como instalar un <em>servidor LEMP</em> puedes verlo <a href="https://javierpzh.github.io/instalacion-de-un-servidor-lemp.html">aquí</a>.</p>
 <p><strong>1. La aplicación se tendrá que migrar a un nuevo virtualhost al que se accederá con el nombre <code>portal.iesgnXX.es.</code></strong></p>
-<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/aplicacionesiesgn/</code>:</p>
-<pre>
-root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mkdir drupal
-</pre>
-
+<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/aplicacionesiesgn/</code>.</p>
 <p>Ahora debemos crear el fichero de configuración de <em>Nginx</em> que utilizará esta aplicación. Nos desplazamos a <code>/etc/nginx/sites-available/</code>, y podemos copiar el fichero por defecto para tener la estructura, en mi caso ya tengo un <em>virtualhost</em> creado y utilizo el fichero de este:</p>
 <pre>
 root@vpsjavierpzh:/etc/nginx/sites-available# cp aplicacionesiesgn.conf drupal.conf
@@ -229,12 +225,29 @@ root@buster:/var/www/html# tar -cf ./drupaldat.tar.gz ./drupal/*
 root@buster:/var/www/html# scp ./drupaldat.tar.gz debian@vpsjavierpzh.iesgn15.es:
 </pre>
 
-<p>Muevo este archivo al directorio que he creado para guardar esta aplicación:</p>
+<p>Muevo este archivo al directorio donde vamos a almacenar esta aplicación:</p>
 <pre>
-root@vpsjavierpzh:/home/debian/drupal# mv * /srv/www/aplicacionesiesgn/drupal/
+root@vpsjavierpzh:/home/debian/drupal# mv * /srv/www/aplicacionesiesgn/
 </pre>
 
-<p>Ahora voy a pasar la copia de seguridad al servidor de OVH que es lo último que falta:</p>
+<p>Y descomprimimos el fichero obteniendo como resultado:</p>
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# tar -xvf drupaldat.tar.gz
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# cd drupal/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn/drupal# ls
+autoload.php   core       INSTALL.txt  profiles    sites       vendor
+composer.json  example.gitignore  LICENSE.txt  README.txt  themes      web.config
+composer.lock  index.php      modules      robots.txt  update.php
+</pre>
+
+<p>Nos faltaría simplemente cambiar el propietario de todos estos nuevos archivos a <code>www:data</code>, que es el usuario que posee los permisos de lectura y escritura en Nginx.</p>
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
+<p>Ya tenemos los datos de <em>Drupal</em> en el entorno de producción por lo tanto nos faltaría restaurar la copia de seguridad en el servidor de OVH. Para ello primero pasamos la copia:</p>
 <pre>
 root@buster:~# scp backupdrupal.sql debian@vpsjavierpzh.iesgn15.es:/home/debian/drupal/
 debian@vpsjavierpzh.iesgn15.es's password:
@@ -243,7 +256,7 @@ backupdrupal.sql                                                      100% 8165K
 root@buster:~#
 </pre>
 
-<p>Y por último restauramos la copia de seguridad en nuestro servidor de base de datos del entorno de producción:</p>
+<p>Y por último restauramos la copia de seguridad en nuestro servidor de base de datos de OVH:</p>
 <pre>
 mysql -u user_drupal -p bd_drupal < backupdrupal.sql
 </pre>
@@ -356,7 +369,20 @@ MariaDB [bd_drupal]>
 <p>Creamos:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/cnamecreado.png"></p>
 <p>Si accedemos a la dirección <code>portal.iesgn15.es</code>:</p>
-<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
+<p>(
+(
+(
+(
+(
+<pre>
+apt install php-gd php-xml
+</pre>
+)
+)
+)
+)
+)
+<img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <p><strong>5. Asegúrate que las URL limpias de <em>Drupal</em> siguen funcionando en <em>Nginx</em>.</strong></p>
 <p><strong>6. La aplicación debe estar disponible en la URL: <code>portal.iesgnXX.es</code> (Sin ningún directorio).</strong></p>
 <h3>Instalación / migración de la aplicación Nextcloud</h3>
