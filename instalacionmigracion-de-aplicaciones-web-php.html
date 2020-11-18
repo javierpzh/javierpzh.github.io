@@ -114,9 +114,9 @@
 <p>Cuando me refiero al entorno de producción, estoy haciendo referencia a un servidor de OVH.</p>
 <p>Antes de realizar la migración necesitamos preparar nuestro entorno de producción instalando todos los paquetes necesarios, como pueden ser <code>php</code>, <code>mysql</code>, ... para poder migrar <em>Drupal</em> de manera correcta. En mi caso tengo listo el entorno de producción, ya que en él lleve a cabo la instalación de un <em>servidor LEMP</em> que es lo que al fin y al cabo vamos a utilizar. Si quieres ver como instalar un <em>servidor LEMP</em> puedes verlo <a href="https://javierpzh.github.io/instalacion-de-un-servidor-lemp.html">aquí</a>.</p>
 <p><strong>1. La aplicación se tendrá que migrar a un nuevo virtualhost al que se accederá con el nombre <code>portal.iesgnXX.es.</code></strong></p>
-<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/</code>:</p>
+<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/aplicacionesiesgn/</code>:</p>
 <pre>
-root@vpsjavierpzh:/srv/www# mkdir drupal
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mkdir drupal
 </pre>
 
 <p>Ahora debemos crear el fichero de configuración de <em>Nginx</em> que utilizará esta aplicación. Nos desplazamos a <code>/etc/nginx/sites-available/</code>, y podemos copiar el fichero por defecto para tener la estructura, en mi caso ya tengo un <em>virtualhost</em> creado y utilizo el fichero de este:</p>
@@ -131,7 +131,7 @@ server {
         listen 80;
         listen [::]:80;
 
-        root /srv/www/drupal;
+        root /srv/www/aplicacionesiesgn/drupal;
 
         index index.php index.html index.htm index.nginx-debian.html;
 
@@ -220,6 +220,143 @@ root@vpsjavierpzh:~#
 </pre>
 
 <p><strong>4. Realiza la migración de la aplicación.</strong></p>
+<p>Para realizar la migración, debemos llevarnos todos los archivos de <em>Drupal</em> desde el entorno de desarrollo hasta el entorno de producción. Para ello vamos a copiar los archivos con <code>scp</code>, pero primero vamos a comprimir todos los datos en un archivo:</p>
+<pre>
+root@buster:/var/www/html# tar -cf ./drupaldat.tar.gz ./drupal/*
+</pre>
+
+<pre>
+root@buster:/var/www/html# scp ./drupaldat.tar.gz debian@vpsjavierpzh.iesgn15.es:
+</pre>
+
+<p>Muevo este archivo al directorio que he creado para guardar esta aplicación:</p>
+<pre>
+root@vpsjavierpzh:/home/debian/drupal# mv * /srv/www/aplicacionesiesgn/drupal/
+</pre>
+
+<p>Ahora voy a pasar la copia de seguridad al servidor de OVH que es lo último que falta:</p>
+<pre>
+root@buster:~# scp backupdrupal.sql debian@vpsjavierpzh.iesgn15.es:/home/debian/drupal/
+debian@vpsjavierpzh.iesgn15.es's password:
+backupdrupal.sql                                                      100% 8165KB  63.9KB/s   02:07
+
+root@buster:~#
+</pre>
+
+<p>Y por último restauramos la copia de seguridad en nuestro servidor de base de datos del entorno de producción:</p>
+<pre>
+mysql -u user_drupal -p bd_drupal < backupdrupal.sql
+</pre>
+
+<p>Si entramos y vemos las tablas de esta base de datos:</p>
+<pre>
+root@vpsjavierpzh:/home/debian/drupal# mysql -u user_drupal -p bd_drupal
+Enter password:
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 74
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [bd_drupal]> show tables;
++----------------------------------+
+| Tables_in_bd_drupal              |
++----------------------------------+
+| batch                            |
+| block_content                    |
+| block_content__body              |
+| block_content_field_data         |
+| block_content_field_revision     |
+| block_content_revision           |
+| block_content_revision__body     |
+| cache_bootstrap                  |
+| cache_config                     |
+| cache_container                  |
+| cache_data                       |
+| cache_default                    |
+| cache_discovery                  |
+| cache_dynamic_page_cache         |
+| cache_entity                     |
+| cache_menu                       |
+| cache_page                       |
+| cache_render                     |
+| cachetags                        |
+| comment                          |
+| comment__comment_body            |
+| comment_entity_statistics        |
+| comment_field_data               |
+| config                           |
+| file_managed                     |
+| file_usage                       |
+| history                          |
+| key_value                        |
+| key_value_expire                 |
+| locale_file                      |
+| locales_location                 |
+| locales_source                   |
+| locales_target                   |
+| menu_link_content                |
+| menu_link_content_data           |
+| menu_link_content_field_revision |
+| menu_link_content_revision       |
+| menu_tree                        |
+| node                             |
+| node__body                       |
+| node__comment                    |
+| node__field_image                |
+| node__field_tags                 |
+| node_access                      |
+| node_field_data                  |
+| node_field_revision              |
+| node_revision                    |
+| node_revision__body              |
+| node_revision__comment           |
+| node_revision__field_image       |
+| node_revision__field_tags        |
+| path_alias                       |
+| path_alias_revision              |
+| queue                            |
+| router                           |
+| search_dataset                   |
+| search_index                     |
+| search_total                     |
+| semaphore                        |
+| sequences                        |
+| sessions                         |
+| shortcut                         |
+| shortcut_field_data              |
+| shortcut_set_users               |
+| taxonomy_index                   |
+| taxonomy_term__parent            |
+| taxonomy_term_data               |
+| taxonomy_term_field_data         |
+| taxonomy_term_field_revision     |
+| taxonomy_term_revision           |
+| taxonomy_term_revision__parent   |
+| user__roles                      |
+| user__user_picture               |
+| users                            |
+| users_data                       |
+| users_field_data                 |
+| watchdog                         |
++----------------------------------+
+77 rows in set (0.001 sec)
+
+MariaDB [bd_drupal]>
+</pre>
+
+<p>Vemos que hemos restaurado la copia de seguridad correctamente.</p>
+<p>Ahora nos faltaría crear un registro <strong>CNAME</strong> en nuestra zona DNS del servidor <strong>OVH</strong> como este:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/cnamecrear.png"></p>
+<p>Creamos:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/cnamecreado.png"></p>
+<p>Si accedemos a la dirección <code>portal.iesgn15.es</code>:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <p><strong>5. Asegúrate que las URL limpias de <em>Drupal</em> siguen funcionando en <em>Nginx</em>.</strong></p>
 <p><strong>6. La aplicación debe estar disponible en la URL: <code>portal.iesgnXX.es</code> (Sin ningún directorio).</strong></p>
 <h3>Instalación / migración de la aplicación Nextcloud</h3>
