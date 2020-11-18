@@ -387,6 +387,57 @@ try_files $uri /index.php?dir=$uri;
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <h3>Instalación / migración de la aplicación Nextcloud</h3>
 <p><strong>1. Instala la aplicación web <em>Nextcloud</em> en tu entorno de desarrollo.</strong></p>
+<p>Nos descargamos <em>Nextcloud</em> desde su <a href="https://nextcloud.com/install/">página oficial</a> con el siguiente comando:</p>
+<pre>
+root@buster:/home/vagrant# wget https://download.nextcloud.com/server/releases/nextcloud-20.0.1.zip
+--2020-11-18 17:08:17--  https://download.nextcloud.com/server/releases/nextcloud-20.0.1.zip
+Resolving download.nextcloud.com (download.nextcloud.com)... 95.217.64.181, 2a01:4f9:2a:3119::181
+Connecting to download.nextcloud.com (download.nextcloud.com)|95.217.64.181|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 142691943 (136M) [application/zip]
+Saving to: ‘nextcloud-20.0.1.zip’
+
+nextcloud-20.0.1.zip      100%[=====================================>] 136.08M  10.7MB/s    in 16s     
+
+2020-11-18 17:08:34 (8.26 MB/s) - ‘nextcloud-20.0.1.zip’ saved [142691943/142691943]
+
+root@buster:/home/vagrant#
+</pre>
+
+<p>Vamos a descomprimir el archivo descargado:</p>
+<pre>
+root@buster:/home/vagrant# unzip nextcloud-20.0.1.zip
+</pre>
+
+<pre>
+root@buster:/home/vagrant# mv nextcloud /var/www/html/
+
+root@buster:/home/vagrant# ls /var/www/html/nextcloud/
+3rdparty  config       core    index.php  ocm-provider  public.php  robots.txt  updater
+apps      console.php  cron.php    lib        ocs       remote.php  status.php  version.php
+AUTHORS   COPYING      index.html  occ        ocs-provider  resources   themes
+
+root@buster:/var/www/html/nextcloud# chown -R www-data:www-data /var/www/html/
+</pre>
+
+<pre>
+root@buster:/etc/apache2/sites-available# cp anchor.conf nextcloud.conf
+
+root@buster:/etc/apache2/sites-available# nano nextcloud.conf
+</pre>
+
+<pre>
+root@buster:/etc/apache2/sites-available# a2ensite nextcloud.conf
+Enabling site nextcloud.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+
+root@buster:/etc/apache2/sites-available# systemctl reload apache2
+</pre>
+
+<p>Añadimos a nuestro <code>/etc/hosts</code> la línea que corresponde ....</p>
+<p>Si nos dirigimos al navegador a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmv.png"></p>
 <p><strong>2. Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.iesgnXX.es/cloud</code></strong></p>
 <p><strong>3. Instala en un ordenador el cliente de nextcloud y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
