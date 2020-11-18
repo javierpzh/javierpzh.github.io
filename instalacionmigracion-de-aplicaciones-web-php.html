@@ -111,7 +111,43 @@
     <!-- Post Content -->
     <article>
         <h3>Realizar la migración de la aplicación Drupal que tienes instalada en el entorno de desarrollo a nuestro entorno de producción, para ello ten en cuenta lo siguiente:</h3>
+<p>Cuando me refiero al entorno de producción, estoy haciendo referencia a un servidor de OVH.</p>
+<p>Antes de realizar la migración necesitamos preparar nuestro entorno de producción instalando todos los paquetes necesarios, como pueden ser <code>php</code>, <code>mysql</code>, ... para poder migrar <em>Drupal</em> de manera correcta. En mi caso tengo listo el entorno de producción, ya que en él lleve a cabo la instalación de un <em>servidor LEMP</em> que es lo que al fin y al cabo vamos a utilizar. Si quieres ver como instalar un <em>servidor LEMP</em> puedes verlo <a href="https://javierpzh.github.io/instalacion-de-un-servidor-lemp.html">aquí</a>.</p>
 <p><strong>1. La aplicación se tendrá que migrar a un nuevo virtualhost al que se accederá con el nombre <code>portal.iesgnXX.es.</code></strong></p>
+<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/</code>:</p>
+<pre>
+root@vpsjavierpzh:/srv/www# mkdir drupal
+</pre>
+
+<p>Ahora debemos crear el fichero de configuración de <em>Nginx</em> que utilizará esta aplicación. Nos desplazamos a <code>/etc/nginx/sites-available/</code>, y podemos copiar el fichero por defecto para tener la estructura, en mi caso ya tengo un <em>virtualhost</em> creado y utilizo el fichero de este:</p>
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# cp aplicacionesiesgn.conf drupal.conf
+root@vpsjavierpzh:/etc/nginx/sites-available# nano drupal.conf
+</pre>
+
+<p>Edito el fichero de configuración de <em>Drupal</em> y queda de tal manera: </p>
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/drupal;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name portal.iesgn15.es;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+}
+</pre>
+
 <p><strong>2. Vamos a nombrar el servicio de base de datos que tenemos en producción. Como es un servicio interno no la vamos a nombrar en la zona DNS, la vamos a nombrar usando resolución estática. El nombre del servicio de base de datos se debe llamar: <code>bd.iesgnXX.es</code>.</strong></p>
 <p><strong>3. Por lo tanto los recursos que deberás crear en la base de datos serán (respeta los nombres):</strong></p>
 <ul>
