@@ -616,9 +616,6 @@ Query OK, 0 rows affected (0.001 sec)
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_nextcloud.* TO 'user_nextcloud';
 Query OK, 0 rows affected (0.002 sec)
 
-MariaDB [(none)]> flush privileges;
-Query OK, 0 rows affected (0.001 sec)
-
 MariaDB [(none)]> SHOW DATABASES;
 +--------------------+
 | Database           |
@@ -780,6 +777,10 @@ systemctl restart nginx
 
 <p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
+<p>'trusted_domains' =&gt;
+  array (
+    0 =&gt; '127.0.0.1',
+  ),</p>
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
     </article>
