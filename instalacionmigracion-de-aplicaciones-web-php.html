@@ -800,6 +800,31 @@ systemctl restart nginx
 
 
 <p>}</p>
+<p>upstream php-handler {
+    server unix:/run/php/php7.3-fpm.sock;
+}</p>
+<p>server {
+        listen 80;
+        listen [::]:80;</p>
+<div class="highlight"><pre><span></span><code>    <span class="nt">root</span> <span class="o">/</span><span class="nt">srv</span><span class="o">/</span><span class="nt">www</span><span class="o">/</span><span class="nt">aplicacionesiesgn</span><span class="o">;</span>
+
+    <span class="nt">index</span> <span class="nt">index</span><span class="p">.</span><span class="nc">php</span> <span class="nt">index</span><span class="p">.</span><span class="nc">html</span> <span class="nt">index</span><span class="p">.</span><span class="nc">htm</span> <span class="nt">index</span><span class="p">.</span><span class="nc">nginx-debian</span><span class="p">.</span><span class="nc">html</span><span class="o">;</span>
+
+    <span class="nt">server_name</span> <span class="nt">www</span><span class="p">.</span><span class="nc">iesgn15</span><span class="p">.</span><span class="nc">es</span><span class="o">;</span>
+
+    <span class="nt">rewrite</span> <span class="o">^/$</span> <span class="o">/</span><span class="nt">principal</span> <span class="nt">permanent</span><span class="o">;</span>
+
+    <span class="nt">location</span> <span class="o">/</span> <span class="p">{</span>
+             <span class="err">try_files</span> <span class="err">$uri</span> <span class="err">$uri/</span> <span class="err">=404</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nt">location</span> <span class="o">~</span> <span class="err">\</span><span class="p">.</span><span class="nc">php</span><span class="o">$</span> <span class="p">{</span>
+    <span class="err">include</span> <span class="err">snippets/fastcgi-php.conf</span><span class="p">;</span>
+    <span class="err">fastcgi_pass</span> <span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">/</span><span class="n">php7</span><span class="mf">.3</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre></div>
+
+
 <p>add_header X-Content-Type-Options nosniff;
 add_header X-XSS-Protection "1; mode=block";
 add_header X-Robots-Tag none;
@@ -807,32 +832,7 @@ add_header X-Download-Options noopen;
 add_header X-Permitted-Cross-Domain-Policies none;
 add_header Referrer-Policy no-referrer;</p>
 <p>fastcgi_hide_header X-Powered-By;</p>
-<p>upstream php-handler {
-    server unix:/run/php/php7.3-fpm.sock;
-}</p>
-<p>server {
-      listen 80 ;
-      listen [::]:80 ;</p>
-<div class="highlight"><pre><span></span><code>  <span class="n">root</span> <span class="o">/</span><span class="n">srv</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">aplicacionesiesgn</span><span class="p">;</span>
-
-  <span class="n">index</span> <span class="n">index</span><span class="o">.</span><span class="n">php</span> <span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="n">index</span><span class="o">.</span><span class="n">htm</span> <span class="n">index</span><span class="o">.</span><span class="n">nginx</span><span class="o">-</span><span class="n">debian</span><span class="o">.</span><span class="n">html</span><span class="p">;</span>
-
-  <span class="n">server_name</span> <span class="n">www</span><span class="o">.</span><span class="n">iesgn15</span><span class="o">.</span><span class="n">es</span><span class="p">;</span>
-
-  <span class="n">rewrite</span> <span class="o">^/$</span> <span class="o">/</span><span class="n">principal</span> <span class="n">permanent</span><span class="p">;</span>
-
-  <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>
-     <span class="n">try_files</span> <span class="o">$</span><span class="n">uri</span> <span class="o">$</span><span class="n">uri</span><span class="o">/</span> <span class="o">=</span><span class="mi">404</span><span class="p">;</span>
-   <span class="p">}</span>
-
-   <span class="n">location</span> <span class="o">~</span> \<span class="o">.</span><span class="n">php</span><span class="o">$</span> <span class="p">{</span>
-     <span class="n">include</span> <span class="n">snippets</span><span class="o">/</span><span class="n">fastcgi</span><span class="o">-</span><span class="n">php</span><span class="o">.</span><span class="n">conf</span><span class="p">;</span>
-     <span class="n">fastcgi_pass</span> <span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">/</span><span class="n">php7</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
-  <span class="p">}</span>
-
-
-
-  <span class="n">location</span> <span class="o">=</span> <span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><code>  <span class="n">location</span> <span class="o">=</span> <span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span> <span class="p">{</span>
         <span class="n">allow</span> <span class="n">all</span><span class="p">;</span>
         <span class="n">log_not_found</span> <span class="n">off</span><span class="p">;</span>
         <span class="n">access_log</span> <span class="n">off</span><span class="p">;</span>
@@ -906,7 +906,6 @@ add_header Referrer-Policy no-referrer;</p>
             <span class="c1"># Optional: Don&#39;t log access to other asse</span>
             <span class="n">access_log</span> <span class="n">off</span><span class="p">;</span>
         <span class="p">}</span>
-<span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 
