@@ -557,7 +557,12 @@ nextclouddat.tar.gz                                                   100%  528M
 root@buster:~#
 </pre>
 
-<p>Una vez en el entorno de producción, vamos a descomprimir los archivos de <em>Nextcloud</em> en el directorio <code>/srv/www/aplicacionesiesgn/</code>:</p>
+<p>Una vez en el entorno de producción, vamos a instalar las extensiones de <em>PHP</em> que requiere <em>Nextcloud</em>:</p>
+<pre>
+apt install php-{mysql,zip,curl,mbstring,xml} -y
+</pre>
+
+<p>Ahora vamos a descomprimir los archivos de <em>Nextcloud</em> en el directorio <code>/srv/www/aplicacionesiesgn/</code>:</p>
 <pre>
 root@vpsjavierpzh:/home/debian# mv nextclouddat.tar.gz /srv/www/aplicacionesiesgn/
 
@@ -773,6 +778,8 @@ lrwxrwxrwx 1 root root 41 Nov 18 19:13 nextcloud.conf -> /etc/nginx/sites-availa
 systemctl restart nginx
 </pre>
 
+<p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
     </article>
