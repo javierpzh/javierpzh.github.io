@@ -777,140 +777,146 @@ systemctl restart nginx
 
 <p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
-<p>server {
-        listen 80;
-        listen [::]:80;</p>
-<div class="highlight"><pre><span></span><code>    <span class="nt">root</span> <span class="o">/</span><span class="nt">srv</span><span class="o">/</span><span class="nt">www</span><span class="o">/</span><span class="nt">aplicacionesiesgn</span><span class="o">;</span>
-
-    <span class="nt">index</span> <span class="nt">index</span><span class="p">.</span><span class="nc">php</span> <span class="nt">index</span><span class="p">.</span><span class="nc">html</span> <span class="nt">index</span><span class="p">.</span><span class="nc">htm</span> <span class="nt">index</span><span class="p">.</span><span class="nc">nginx-debian</span><span class="p">.</span><span class="nc">html</span><span class="o">;</span>
-
-    <span class="nt">server_name</span> <span class="nt">www</span><span class="p">.</span><span class="nc">iesgn15</span><span class="p">.</span><span class="nc">es</span><span class="o">;</span>
-
-    <span class="nt">rewrite</span> <span class="o">^/$</span> <span class="o">/</span><span class="nt">principal</span> <span class="nt">permanent</span><span class="o">;</span>
-
-    <span class="nt">location</span> <span class="o">/</span> <span class="p">{</span>
-             <span class="err">try_files</span> <span class="err">$uri</span> <span class="err">$uri/</span> <span class="err">=404</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="nt">location</span> <span class="o">~</span> <span class="err">\</span><span class="p">.</span><span class="nc">php</span><span class="o">$</span> <span class="p">{</span>
-    <span class="err">include</span> <span class="err">snippets/fastcgi-php.conf</span><span class="p">;</span>
-    <span class="err">fastcgi_pass</span> <span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">/</span><span class="n">php7</span><span class="mf">.3</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
-    <span class="p">}</span>
-</code></pre></div>
-
-
-<p>}</p>
-<p>upstream php-handler {
+<pre>
+upstream php-handler {
     server unix:/run/php/php7.3-fpm.sock;
-}</p>
-<p>server {
+}
+
+server {
         listen 80;
-        listen [::]:80;</p>
-<div class="highlight"><pre><span></span><code>    <span class="nt">root</span> <span class="o">/</span><span class="nt">srv</span><span class="o">/</span><span class="nt">www</span><span class="o">/</span><span class="nt">aplicacionesiesgn</span><span class="o">;</span>
+        listen [::]:80;
 
-    <span class="nt">index</span> <span class="nt">index</span><span class="p">.</span><span class="nc">php</span> <span class="nt">index</span><span class="p">.</span><span class="nc">html</span> <span class="nt">index</span><span class="p">.</span><span class="nc">htm</span> <span class="nt">index</span><span class="p">.</span><span class="nc">nginx-debian</span><span class="p">.</span><span class="nc">html</span><span class="o">;</span>
+        root /srv/www/aplicacionesiesgn;
 
-    <span class="nt">server_name</span> <span class="nt">www</span><span class="p">.</span><span class="nc">iesgn15</span><span class="p">.</span><span class="nc">es</span><span class="o">;</span>
+        index index.php index.html index.htm index.nginx-debian.html;
 
-    <span class="nt">rewrite</span> <span class="o">^/$</span> <span class="o">/</span><span class="nt">principal</span> <span class="nt">permanent</span><span class="o">;</span>
+        server_name www.iesgn15.es;
 
-    <span class="nt">location</span> <span class="o">/</span> <span class="p">{</span>
-             <span class="err">try_files</span> <span class="err">$uri</span> <span class="err">$uri/</span> <span class="err">=404</span><span class="p">;</span>
-    <span class="p">}</span>
+        rewrite ^/$ /principal permanent;
 
-    <span class="nt">location</span> <span class="o">~</span> <span class="err">\</span><span class="p">.</span><span class="nc">php</span><span class="o">$</span> <span class="p">{</span>
-    <span class="err">include</span> <span class="err">snippets/fastcgi-php.conf</span><span class="p">;</span>
-    <span class="err">fastcgi_pass</span> <span class="n">unix</span><span class="p">:</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">php</span><span class="o">/</span><span class="n">php7</span><span class="mf">.3</span><span class="o">-</span><span class="n">fpm</span><span class="o">.</span><span class="n">sock</span><span class="p">;</span>
-    <span class="p">}</span>
-</code></pre></div>
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
 
 
-<p>add_header X-Content-Type-Options nosniff;
+add_header X-Content-Type-Options nosniff;
 add_header X-XSS-Protection "1; mode=block";
 add_header X-Robots-Tag none;
 add_header X-Download-Options noopen;
 add_header X-Permitted-Cross-Domain-Policies none;
-add_header Referrer-Policy no-referrer;</p>
-<p>fastcgi_hide_header X-Powered-By;</p>
-<div class="highlight"><pre><span></span><code>  <span class="n">location</span> <span class="o">=</span> <span class="o">/</span><span class="n">robots</span><span class="o">.</span><span class="n">txt</span> <span class="p">{</span>
-        <span class="n">allow</span> <span class="n">all</span><span class="p">;</span>
-        <span class="n">log_not_found</span> <span class="n">off</span><span class="p">;</span>
-        <span class="n">access_log</span> <span class="n">off</span><span class="p">;</span>
-    <span class="p">}</span>
+add_header Referrer-Policy no-referrer;
 
-    <span class="n">location</span> <span class="o">=</span> <span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">carddav</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">301</span> <span class="o">$</span><span class="n">scheme</span><span class="p">:</span><span class="o">//$</span><span class="n">host</span><span class="p">:</span><span class="o">$</span><span class="n">server_port</span><span class="o">/</span><span class="n">nextcloud</span><span class="o">/</span><span class="k">remote</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="n">dav</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">location</span> <span class="o">=</span> <span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">caldav</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">301</span> <span class="o">$</span><span class="n">scheme</span><span class="p">:</span><span class="o">//$</span><span class="n">host</span><span class="p">:</span><span class="o">$</span><span class="n">server_port</span><span class="o">/</span><span class="n">nextcloud</span><span class="o">/</span><span class="k">remote</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="n">dav</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="n">location</span> <span class="o">/.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">acme</span><span class="o">-</span><span class="n">challenge</span> <span class="p">{</span> <span class="p">}</span>
-
-    <span class="n">location</span> <span class="o">^~</span> <span class="o">/</span><span class="n">cloud</span> <span class="p">{</span>
-        <span class="n">client_max_body_size</span> <span class="mi">512</span><span class="n">M</span><span class="p">;</span>
-        <span class="n">fastcgi_buffers</span> <span class="mi">64</span> <span class="mi">4</span><span class="n">K</span><span class="p">;</span>
-        <span class="n">gzip</span> <span class="n">on</span><span class="p">;</span>
-        <span class="n">gzip_vary</span> <span class="n">on</span><span class="p">;</span>
-        <span class="n">gzip_comp_level</span> <span class="mi">4</span><span class="p">;</span>
-        <span class="n">gzip_min_length</span> <span class="mi">256</span><span class="p">;</span>
-        <span class="n">gzip_proxied</span> <span class="n">expired</span> <span class="n">no</span><span class="o">-</span><span class="n">cache</span> <span class="n">no</span><span class="o">-</span><span class="n">store</span> <span class="n">private</span> <span class="n">no_last_modified</span> <span class="n">no_etag</span> <span class="n">auth</span><span class="p">;</span>
-        <span class="n">gzip_types</span> <span class="n">application</span><span class="o">/</span><span class="n">atom</span><span class="o">+</span><span class="n">xml</span> <span class="n">application</span><span class="o">/</span><span class="n">javascript</span> <span class="n">application</span><span class="o">/</span><span class="n">json</span> <span class="n">application</span><span class="o">/</span><span class="n">ld</span><span class="o">+</span><span class="n">json</span> <span class="n">application</span><span class="o">/</span><span class="n">manifest</span><span class="o">+</span><span class="n">json</span> <span class="n">application</span><span class="o">/</span><span class="n">rss</span><span class="o">+</span><span class="n">xml</span> <span class="n">application</span><span class="o">/</span><span class="n">vnd</span><span class="o">.</span><span class="n">geo</span><span class="o">+</span><span class="n">json</span> <span class="n">application</span><span class="o">/</span><span class="n">vnd</span><span class="o">.</span><span class="n">ms</span><span class="o">-</span><span class="n">fontobject</span> <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">font</span><span class="o">-</span><span class="n">ttf</span> <span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">web</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">manifest</span><span class="o">+</span><span class="n">json</span> <span class="n">application</span><span class="o">/</span><span class="n">xhtml</span><span class="o">+</span><span class="n">xml</span> <span class="n">application</span><span class="o">/</span><span class="n">xml</span> <span class="n">font</span><span class="o">/</span><span class="n">opentype</span> <span class="n">image</span><span class="o">/</span><span class="n">bmp</span> <span class="n">image</span><span class="o">/</span><span class="n">svg</span><span class="o">+</span><span class="n">xml</span> <span class="n">image</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">icon</span> <span class="n">text</span><span class="o">/</span><span class="n">cache</span><span class="o">-</span><span class="n">manifest</span> <span class="n">text</span><span class="o">/</span><span class="n">css</span> <span class="n">text</span><span class="o">/</span><span class="n">plain</span> <span class="n">text</span><span class="o">/</span><span class="n">vcard</span> <span class="n">text</span><span class="o">/</span><span class="n">vnd</span><span class="o">.</span><span class="n">rim</span><span class="o">.</span><span class="n">location</span><span class="o">.</span><span class="n">xloc</span> <span class="n">text</span><span class="o">/</span><span class="n">vtt</span> <span class="n">text</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">component</span> <span class="n">text</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">cross</span><span class="o">-</span><span class="n">domain</span><span class="o">-</span><span class="n">policy</span><span class="p">;</span>
-
-        <span class="n">location</span> <span class="o">/</span><span class="n">cloud</span> <span class="p">{</span>
-            <span class="n">rewrite</span> <span class="o">^</span> <span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">cloud</span>\<span class="o">/</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="n">build</span><span class="o">|</span><span class="n">tests</span><span class="o">|</span><span class="n">config</span><span class="o">|</span><span class="n">lib</span><span class="o">|</span><span class="mi">3</span><span class="n">rdparty</span><span class="o">|</span><span class="n">templates</span><span class="o">|</span><span class="n">data</span><span class="p">)</span>\<span class="o">/</span> <span class="p">{</span>
-            <span class="n">deny</span> <span class="n">all</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">cloud</span>\<span class="o">/</span><span class="p">(</span><span class="err">?</span><span class="p">:</span>\<span class="o">.|</span><span class="n">autotest</span><span class="o">|</span><span class="n">occ</span><span class="o">|</span><span class="n">issue</span><span class="o">|</span><span class="n">indie</span><span class="o">|</span><span class="n">db_</span><span class="o">|</span><span class="n">console</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">deny</span> <span class="n">all</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">cloud</span>\<span class="o">/</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="n">index</span><span class="o">|</span><span class="k">remote</span><span class="o">|</span><span class="n">public</span><span class="o">|</span><span class="n">cron</span><span class="o">|</span><span class="n">core</span>\<span class="o">/</span><span class="n">ajax</span>\<span class="o">/</span><span class="n">update</span><span class="o">|</span><span class="n">status</span><span class="o">|</span><span class="n">ocs</span>\<span class="o">/</span><span class="n">v</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="o">|</span><span class="n">updater</span>\<span class="o">/.+|</span><span class="n">oc</span><span class="p">[</span><span class="n">ms</span><span class="p">]</span><span class="o">-</span><span class="n">provider</span>\<span class="o">/.+</span><span class="p">)</span>\<span class="o">.</span><span class="n">php</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="o">$|</span>\<span class="o">/</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">fastcgi_split_path_info</span> <span class="o">^</span><span class="p">(</span><span class="o">.+</span><span class="err">?</span>\<span class="o">.</span><span class="n">php</span><span class="p">)(</span>\<span class="o">/.*|</span><span class="p">)</span><span class="o">$</span><span class="p">;</span>
-            <span class="n">set</span> <span class="o">$</span><span class="n">path_info</span> <span class="o">$</span><span class="n">fastcgi_path_info</span><span class="p">;</span>
-            <span class="n">try_files</span> <span class="o">$</span><span class="n">fastcgi_script_name</span> <span class="o">=</span><span class="mi">404</span><span class="p">;</span>
-            <span class="n">include</span> <span class="n">fastcgi_params</span><span class="p">;</span>
-            <span class="n">fastcgi_param</span> <span class="n">SCRIPT_FILENAME</span> <span class="o">$</span><span class="n">document_root</span><span class="o">$</span><span class="n">fastcgi_script_name</span><span class="p">;</span>
-            <span class="n">fastcgi_param</span> <span class="n">PATH_INFO</span> <span class="o">$</span><span class="n">path_info</span><span class="p">;</span>
-            <span class="n">fastcgi_param</span> <span class="n">modHeadersAvailable</span> <span class="bp">true</span><span class="p">;</span>
-            <span class="n">fastcgi_param</span> <span class="n">front_controller_active</span> <span class="bp">true</span><span class="p">;</span>
-            <span class="n">fastcgi_pass</span> <span class="n">php</span><span class="o">-</span><span class="n">handler</span><span class="p">;</span>
-            <span class="n">fastcgi_intercept_errors</span> <span class="n">on</span><span class="p">;</span>
-            <span class="n">fastcgi_request_buffering</span> <span class="n">off</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">nextcloud</span>\<span class="o">/</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="n">updater</span><span class="o">|</span><span class="n">oc</span><span class="p">[</span><span class="n">ms</span><span class="p">]</span><span class="o">-</span><span class="n">provider</span><span class="p">)(</span><span class="err">?</span><span class="p">:</span><span class="o">$|</span>\<span class="o">/</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">try_files</span> <span class="o">$</span><span class="n">uri</span><span class="o">/</span> <span class="o">=</span><span class="mi">404</span><span class="p">;</span>
-            <span class="n">index</span> <span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">cloud</span>\<span class="o">/.+</span><span class="p">[</span><span class="o">^</span>\<span class="o">/</span><span class="p">]</span>\<span class="o">.</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="n">css</span><span class="o">|</span><span class="n">js</span><span class="o">|</span><span class="n">woff2</span><span class="err">?</span><span class="o">|</span><span class="n">svg</span><span class="o">|</span><span class="n">gif</span><span class="o">|</span><span class="n">map</span><span class="p">)</span><span class="o">$</span> <span class="p">{</span>
-            <span class="n">try_files</span> <span class="o">$</span><span class="n">uri</span> <span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">$</span><span class="n">request_uri</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">Cache</span><span class="o">-</span><span class="n">Control</span> <span class="s2">&quot;public, max-age=15778463&quot;</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="o">-</span><span class="n">Options</span> <span class="n">nosniff</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">X</span><span class="o">-</span><span class="n">XSS</span><span class="o">-</span><span class="n">Protection</span> <span class="s2">&quot;1; mode=block&quot;</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Robots</span><span class="o">-</span><span class="n">Tag</span> <span class="n">none</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Download</span><span class="o">-</span><span class="n">Options</span> <span class="n">noopen</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Permitted</span><span class="o">-</span><span class="n">Cross</span><span class="o">-</span><span class="n">Domain</span><span class="o">-</span><span class="n">Policies</span> <span class="n">none</span><span class="p">;</span>
-            <span class="n">add_header</span> <span class="n">Referrer</span><span class="o">-</span><span class="n">Policy</span> <span class="n">no</span><span class="o">-</span><span class="n">referrer</span><span class="p">;</span>
-            <span class="n">access_log</span> <span class="n">off</span><span class="p">;</span>
-        <span class="p">}</span>
-
-        <span class="n">location</span> <span class="o">~</span> <span class="o">^</span>\<span class="o">/</span><span class="n">cloud</span>\<span class="o">/.+</span><span class="p">[</span><span class="o">^</span>\<span class="o">/</span><span class="p">]</span>\<span class="o">.</span><span class="p">(</span><span class="err">?</span><span class="p">:</span><span class="n">png</span><span class="o">|</span><span class="n">html</span><span class="o">|</span><span class="n">ttf</span><span class="o">|</span><span class="n">ico</span><span class="o">|</span><span class="n">jpg</span><span class="o">|</span><span class="n">jpeg</span><span class="o">|</span><span class="n">bcmap</span><span class="p">)</span><span class="o">$</span> <span class="p">{</span>
-            <span class="n">try_files</span> <span class="o">$</span><span class="n">uri</span> <span class="o">/</span><span class="n">cloud</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">$</span><span class="n">request_uri</span><span class="p">;</span>
-            <span class="c1"># Optional: Don&#39;t log access to other asse</span>
-            <span class="n">access_log</span> <span class="n">off</span><span class="p">;</span>
-        <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
+fastcgi_hide_header X-Powered-By;
 
 
-<p>}</p>
+      location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location = /.well-known/carddav {
+            return 301 $scheme://$host:$server_port/nextcloud/remote.php/dav;
+        }
+
+        location = /.well-known/caldav {
+            return 301 $scheme://$host:$server_port/nextcloud/remote.php/dav;
+        }
+
+        location /.well-known/acme-challenge { }
+
+        location ^~ /cloud {
+            client_max_body_size 512M;
+            fastcgi_buffers 64 4K;
+            gzip on;
+            gzip_vary on;
+            gzip_comp_level 4;
+            gzip_min_length 256;
+            gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+            gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+            location /cloud {
+                rewrite ^ /cloud/index.php;
+            }
+
+            location ~ ^\/cloud\/(?:build|tests|config|lib|3rdparty|templates|data)\/ {
+                deny all;
+            }
+
+            location ~ ^\/cloud\/(?:\.|autotest|occ|issue|indie|db_|console) {
+                deny all;
+            }
+
+            location ~ ^\/cloud\/(?:index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+)\.php(?:$|\/) {
+                fastcgi_split_path_info ^(.+?\.php)(\/.*|)$;
+                set $path_info $fastcgi_path_info;
+                try_files $fastcgi_script_name =404;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param PATH_INFO $path_info;
+                fastcgi_param modHeadersAvailable true;
+                fastcgi_param front_controller_active true;
+                fastcgi_pass php-handler;
+                fastcgi_intercept_errors on;
+                fastcgi_request_buffering off;
+            }
+
+            location ~ ^\/nextcloud\/(?:updater|oc[ms]-provider)(?:$|\/) {
+                try_files $uri/ =404;
+                index index.php;
+            }
+
+            location ~ ^\/cloud\/.+[^\/]\.(?:css|js|woff2?|svg|gif|map)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                add_header Cache-Control "public, max-age=15778463";
+                add_header X-Content-Type-Options nosniff;
+                add_header X-XSS-Protection "1; mode=block";
+                add_header X-Robots-Tag none;
+                add_header X-Download-Options noopen;
+                add_header X-Permitted-Cross-Domain-Policies none;
+                add_header Referrer-Policy no-referrer;
+                access_log off;
+            }
+
+            location ~ ^\/cloud\/.+[^\/]\.(?:png|html|ttf|ico|jpg|jpeg|bcmap)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                # Optional: Don't log access to other asse
+                access_log off;
+            }
+    }
+}
+</pre>
+
+<pre>
+<?php
+$CONFIG = array (
+  'instanceid' => 'occb96siynsl',
+  'passwordsalt' => '5A/7E474U9dFg2k16Pvdy9hZRdo/J8',
+  'secret' => 'oVy6H5qJtp6WJ37nVspZF06HuiwhyhMqd5WhAnxEW4AhK5/h',
+  'trusted_domains' =>
+  array (
+    0 => 'www.iesgn15.es',
+  ),
+  'datadirectory' => '/srv/www/aplicacionesiesgn/cloud/data',
+  'dbtype' => 'mysql',
+  'version' => '20.0.1.1',
+  'overwrite.cli.url' => 'http://www.iesgn15.es/cloud',
+  'dbname' => 'bd_nextcloud',
+  'dbhost' => 'bd.iesgn15.es:3306',
+  'dbport' => '',
+  'dbtableprefix' => 'oc_',
+  'mysql.utf8mb4' => true,
+  'dbuser' => 'user_nextcloud',
+  'dbpassword' => 'pass_nextcloud',
+  'installed' => true,
+);
+</pre>
+
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
     </article>
