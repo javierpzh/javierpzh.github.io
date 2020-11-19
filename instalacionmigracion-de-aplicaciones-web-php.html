@@ -510,7 +510,7 @@ Bye
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvfaltan.png"></p>
 <p>Vemos que <em>Nextcloud</em> necesita una serie de extensiones <em>PHP</em>. Para instalar todas las extensiones necesarias:</p>
 <pre>
-apt install php-{mysql,zip,curl,mbstring,xml} -y
+apt install php-{mysql,zip,curl,mbstring,xml,gd} -y
 </pre>
 
 <p>Si probamos a entrar ahora a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
@@ -559,7 +559,7 @@ root@buster:~#
 
 <p>Una vez en el entorno de producción, vamos a instalar las extensiones de <em>PHP</em> que requiere <em>Nextcloud</em>:</p>
 <pre>
-apt install php-{mysql,zip,curl,mbstring,xml} -y
+apt install php-{mysql,zip,curl,mbstring,xml,gd} -y
 </pre>
 
 <p>Ahora vamos a descomprimir los archivos de <em>Nextcloud</em> en el directorio <code>/srv/www/aplicacionesiesgn/</code>:</p>
