@@ -381,9 +381,11 @@ MariaDB [bd_drupal]>
 <p>Si accedemos a la dirección <code>portal.iesgn15.es</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
 <p><strong>5. Asegúrate que las URL limpias de <em>Drupal</em> siguen funcionando en <em>Nginx</em>.</strong></p>
-<p>Para que <em>Drupal</em> utilice las URLs limpias debemos añadir esta línea en su fichero de configuración, es decir, en <code>/etc/nginx/sites-available/drupal.conf</code>:</p>
+<p>Para que <em>Drupal</em> utilice las URLs limpias debemos añadir este bloque en su fichero de configuración, es decir, en <code>/etc/nginx/sites-available/drupal.conf</code>:</p>
 <pre>
-try_files $uri /index.php?dir=$uri;
+location / {
+    try_files $uri /index.php?$query_string;
+}
 </pre>
 
 <p><strong>6. La aplicación debe estar disponible en la URL: <code>portal.iesgnXX.es</code> (Sin ningún directorio).</strong></p>
