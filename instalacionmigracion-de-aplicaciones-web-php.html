@@ -783,7 +783,7 @@ systemctl restart nginx
 
 <p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhmal.png"></p>
-<p>Esto es porque tanto el fichero de configuración del virtualhost <em>Nextcloud</em>, como el fichero <code>(nextcloud)/config/config.php</code> no están bien configurados:</p>
+<p>Esto es porque tanto el fichero de configuración del virtualhost <em>Nextcloud</em>, como el fichero <code>.../(nextcloud)/config/config.php</code> no están bien configurados:</p>
 <p>El fichero <code>/etc/nginx/sites-available/nextcloud.conf</code> debe quedar así:</p>
 <pre>
 upstream php-handler {
@@ -901,7 +901,7 @@ fastcgi_hide_header X-Powered-By;
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que sustituirle en las rutas, la palabra <code>cloud</code>, por el nombre que tenga vuestro directorio de <em>Nextcloud</em>, que suele ser <code>nextcloud</code>, pero yo lo he modificado.</p>
-<p>Y el fichero <code>(nextcloud)/config/config.php</code> debe quedar así:</p>
+<p>Y el fichero <code>.../(nextcloud)/config/config.php</code> debe quedar así:</p>
 <pre>
 <?php
 $CONFIG = array (
