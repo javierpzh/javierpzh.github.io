@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Actualización | Javier Pérez HidalgoActualización</title>
+        <title>Actualización de CentOS 7 a CentOS 8 | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +31,30 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee CentOS 7, a CentOS 8, garantizando que...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Actualización">
+        <meta name="tags" content="CentOS7">
+        <meta name="tags" content="CentOS8">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/actualizacion-de-centos-7-a-centos-8.html">
+	<meta property="og:title" content="Actualización de CentOS 7 a CentOS 8">
+	<meta property="article:published_time" content="2020-11-20 00:00:00+01:00">
+            <meta property="og:description" content="Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee CentOS 7, a CentOS 8, garantizando que...">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
 
-<body class="tag-actualizacion">
+<body class="article-actualizacion-de-centos-7-a-centos-8">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -65,12 +84,18 @@
         <!-- /.container -->
     </nav>
 
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>tag - Actualización</h1>
+                        <h1>Actualización de CentOS 7 a CentOS 8</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el vie 20 noviembre 2020
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -81,20 +106,25 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/actualizacion-de-centos-7-a-centos-8.html" rel="bookmark" title="Permalink to Actualización de CentOS 7 a CentOS 8">
-                <h2 class="post-title">
-                    Actualización de CentOS 7 a CentOS 8
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee CentOS 7, a CentOS 8, garantizando que...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el vie 20 noviembre 2020
-            </p>
+    <!-- Post Content -->
+    <article>
+        <p>Vamos a realizar la actualización de la instancia <strong>Quijote</strong>, que creamos en este <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">post</a> la cuál posee <strong>CentOS 7</strong>, a <strong>CentOS 8</strong>, garantizando que todos los servicios previos continúen funcionando.</p>
+<p>Para comprobar la versión de <em>CentOS</em> que tenemos instalada en este momento:</p>
+<pre>
+cat /etc/redhat-release
+</pre>
+
+<p>Lo primero sería instalar el repositorio epel.</p>
+<pre>
+yum install epel-release -y
+</pre>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/actualizacion.html">Actualización</a>, <a href="/tag/centos7.html">CentOS7</a>, <a href="/tag/centos8.html">CentOS8</a></p>
         </div>
+
+    <hr>
 
             </div>
         </div>
