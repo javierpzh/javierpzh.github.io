@@ -46,6 +46,7 @@
         <meta name="tags" content="Apache">
         <meta name="tags" content="Drupal">
         <meta name="tags" content="Nextcloud">
+        <meta name="tags" content="migraciones">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -932,11 +933,39 @@ $CONFIG = array (
 <p>Vemos que ya podemos <em>loguearnos</em> correctamente. Si accedemos con nuestro usuario:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhdentro.png"></p>
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
-<p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
+<pre>
+apt install nextcloud-desktop -y
+</pre>
+
+<p>Si abrimos la aplicación de escritorio y seguimos estos pasos:</p>
+<ul>
+<li>
+<p>Pulsamos el botón <strong>Entrar</strong>.</p>
+</li>
+<li>
+<p>Introducimos la dirección del servidor: <strong>http://www.iesgn15.es/cloud</strong>.</p>
+</li>
+<li>
+<p>Iniciamos sesión con nuestra cuenta.</p>
+</li>
+<li>
+<p>Elegimos la carpeta a sincronizar: <code>/home/javier/Nextcloud</code>.</p>
+</li>
+</ul>
+<p>Y ya habríamos terminado de configurar <em>Nextcloud Client</em>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudclient.png"></p>
+<p>Si vemos el contenido de la carpeta <code>/home/javier/Nextcloud</code>:</p>
+<pre>
+javier@debian:~/Nextcloud$ ls
+ Documents             'Nextcloud Manual.pdf'   Photos                          Talk
+'Nextcloud intro.mp4'   Nextcloud.png          'Reasons to use Nextcloud.pdf'
+</pre>
+
+<p>Vemos que se ha sincronizado correctamente con nuestra nube.</p>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/lemp.html">LEMP</a>, <a href="/tag/linux.html">Linux</a>, <a href="/tag/nginx.html">Nginx</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/drupal.html">Drupal</a>, <a href="/tag/nextcloud.html">Nextcloud</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/lemp.html">LEMP</a>, <a href="/tag/linux.html">Linux</a>, <a href="/tag/nginx.html">Nginx</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/drupal.html">Drupal</a>, <a href="/tag/nextcloud.html">Nextcloud</a>, <a href="/tag/migraciones.html">migraciones</a></p>
         </div>
 
     <hr>
