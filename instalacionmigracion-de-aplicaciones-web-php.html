@@ -782,7 +782,7 @@ systemctl restart nginx
 </pre>
 
 <p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
-<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhmal.png"></p>
 <p>Esto es porque tanto el fichero de configuración del virtualhost <em>Nextcloud</em>, como el fichero <code>(nextcloud)/config/config.php</code> no están bien configurados:</p>
 <p>El fichero <code>/etc/nginx/sites-available/nextcloud.conf</code> debe quedar así:</p>
 <pre>
@@ -927,6 +927,10 @@ $CONFIG = array (
 );
 </pre>
 
+<p>Si probamos de nuevo a acceder a <code>http://www.iesgn15.es/cloud/</code>:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
+<p>Vemos que ya podemos <em>loguearnos</em> correctamente. Si accedemos con nuestro usuario:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhdentro.png"></p>
 <p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
 <p><strong>Documenta de la forma más precisa posible cada uno de los pasos que has dado, y entrega pruebas de funcionamiento para comprobar el proceso que has realizado.</strong></p>
     </article>
