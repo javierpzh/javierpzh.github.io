@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Instalación / migración de aplicaciones web PHP | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Realizar la migración de la aplicación Drupal que tienes instalada en el entorno de desarrollo a nuestro entorno de producción, para...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="LEMP">
+        <meta name="tags" content="Linux">
+        <meta name="tags" content="Nginx">
+        <meta name="tags" content="MySQL">
+        <meta name="tags" content="MariaDB">
+        <meta name="tags" content="PHP">
+        <meta name="tags" content="Apache">
+        <meta name="tags" content="Drupal">
+        <meta name="tags" content="Nextcloud">
+        <meta name="tags" content="migraciones">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/instalacion-migracion-de-aplicaciones-web-php.html">
+	<meta property="og:title" content="Instalación / migración de aplicaciones web PHP">
+	<meta property="article:published_time" content="2020-11-20 00:00:00+01:00">
+            <meta property="og:description" content="Realizar la migración de la aplicación Drupal que tienes instalada en el entorno de desarrollo a nuestro entorno de producción, para...">
+
+            <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
+</head>
+
+<body class="article-instalacion-migracion-de-aplicaciones-web-php">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-aplicacionesweb.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Instalación / migración de aplicaciones web PHP</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el vie 20 noviembre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h3>Realizar la migración de la aplicación Drupal que tienes instalada en el entorno de desarrollo a nuestro entorno de producción, para ello ten en cuenta lo siguiente:</h3>
+<p>Cuando me refiero al entorno de producción, estoy haciendo referencia a un servidor de OVH.</p>
+<p>Antes de realizar la migración necesitamos preparar nuestro entorno de producción instalando todos los paquetes necesarios, como pueden ser <code>php</code>, <code>mysql</code>, ... para poder migrar <em>Drupal</em> de manera correcta. En mi caso tengo listo el entorno de producción, ya que en él llevé a cabo la instalación de un <em>servidor LEMP</em> que es lo que al fin y al cabo vamos a utilizar. Si quieres ver como instalar un <em>servidor LEMP</em> puedes verlo <a href="https://javierpzh.github.io/instalacion-de-un-servidor-lemp.html">aquí</a>.</p>
+<p><strong>1. La aplicación se tendrá que migrar a un nuevo virtualhost al que se accederá con el nombre <code>portal.iesgnXX.es.</code></strong></p>
+<p>En nuestro entorno en producción, vamos a crear este nuevo <em>virtualhost</em>. Para ello antes que nada creamos la ruta donde vamos a almacenar esta aplicación, en mi caso dentro de <code>/srv/www/aplicacionesiesgn/</code>.</p>
+<p>Ahora debemos crear el fichero de configuración de <em>Nginx</em> que utilizará esta aplicación. Nos desplazamos a <code>/etc/nginx/sites-available/</code>, y podemos copiar el fichero por defecto para tener la estructura, en mi caso ya tengo un <em>virtualhost</em> creado y utilizo el fichero de este:</p>
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# cp aplicacionesiesgn.conf drupal.conf
+root@vpsjavierpzh:/etc/nginx/sites-available# nano drupal.conf
+</pre>
+
+<p>Edito el fichero de configuración de <em>Drupal</em> y queda de tal manera:</p>
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn/drupal;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name portal.iesgn15.es;
+
+        location / {
+                         try_files $uri $uri/ /index.php?$args;
+                }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+}
+</pre>
+
+<p>Como podemos apreciar, a esta aplicación se accederá con la URL: <code>portal.iesgn15.es</code> como nos pide el ejercicio. Ya solo nos quedaría habilitar el servicio de este sitio web mediante la creación de un <strong>enlace simbólico</strong> a la ruta <code>/etc/nginx/sites-enabled/</code>:</p>
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# ln -s /etc/nginx/sites-available/drupal.conf /etc/nginx/sites-enabled/
+
+root@vpsjavierpzh:/etc/nginx/sites-available# ls -l /etc/nginx/sites-enabled/
+total 0
+lrwxrwxrwx 1 root root 49 Nov  9 18:44 aplicacionesiesgn.conf -> /etc/nginx/sites-available/aplicacionesiesgn.conf
+lrwxrwxrwx 1 root root 34 Nov  9 12:09 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 root root 38 Nov 18 08:06 drupal.conf -> /etc/nginx/sites-available/drupal.conf
+</pre>
+
+<p>Como hemos realizado cambios en la configuración de <em>Nginx</em> debemos reiniciar el servicio:</p>
+<pre>
+systemctl restart nginx.service
+</pre>
+
+<p><strong>2. Vamos a nombrar el servicio de base de datos que tenemos en producción. Como es un servicio interno no la vamos a nombrar en la zona DNS, la vamos a nombrar usando resolución estática. El nombre del servicio de base de datos se debe llamar: <code>bd.iesgnXX.es</code>.</strong></p>
+<p>Para nombrar el servicio de la base de datos mediante resolución estática, debemos añadir al fichero <code>/etc/hosts</code> del servidor de OVH la siguiente línea:</p>
+<pre>
+127.0.0.1       bd.iesgn15.es
+</pre>
+
+<p><strong>3. Por lo tanto los recursos que deberás crear en la base de datos serán (respeta los nombres):</strong></p>
+<ul>
+<li><strong>Dirección de la base de datos: <code>bd.iesgnXX.es</code></strong></li>
+<li><strong>Base de datos: <code>bd_drupal</code></strong></li>
+<li><strong>Usuario: <code>user_drupal</code></strong></li>
+<li><strong>Password: <code>pass_drupal</code></strong></li>
+</ul>
+<pre>
+root@vpsjavierpzh:~# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 65
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [(none)]> CREATE DATABASE bd_drupal;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> CREATE USER 'user_drupal' IDENTIFIED BY 'pass_drupal';
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_drupal.* TO 'user_drupal';
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bd_drupal          |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+
+root@vpsjavierpzh:~#
+</pre>
+
+<p><strong>4. Realiza la migración de la aplicación.</strong></p>
+<p>Para realizar la migración, debemos llevarnos todos los archivos de <em>Drupal</em> desde el entorno de desarrollo hasta el entorno de producción. Para ello vamos a copiar los archivos con <code>scp</code>, pero primero vamos a comprimir todos los datos en un solo archivo:</p>
+<pre>
+root@buster:/var/www/html# tar -cf ./drupaldat.tar.gz ./drupal/*
+</pre>
+
+<p>Lo pasamos al servidor de OVH:</p>
+<pre>
+root@buster:/var/www/html# scp ./drupaldat.tar.gz debian@vpsjavierpzh.iesgn15.es:/home/debian/
+</pre>
+
+<p>Muevo este archivo al directorio donde vamos a almacenar esta aplicación:</p>
+<pre>
+root@vpsjavierpzh:/home/debian# mv drupaldat.tar.gz /srv/www/aplicacionesiesgn/
+</pre>
+
+<p>Y descomprimimos el fichero obteniendo como resultado:</p>
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# tar -xvf drupaldat.tar.gz
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# cd drupal/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn/drupal# ls
+autoload.php   core       INSTALL.txt  profiles    sites       vendor
+composer.json  example.gitignore  LICENSE.txt  README.txt  themes      web.config
+composer.lock  index.php      modules      robots.txt  update.php
+</pre>
+
+<p>Nos faltaría simplemente cambiar el propietario de todos estos nuevos archivos a <code>www:data</code>, que es el usuario que posee los permisos de lectura y escritura en Nginx.</p>
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
+<p>Ya tenemos los datos de <em>Drupal</em> en el entorno de producción por lo tanto nos faltaría restaurar la copia de seguridad en el servidor de OVH. Para ello primero pasamos la copia:</p>
+<pre>
+root@buster:~# scp backupdrupal.sql debian@vpsjavierpzh.iesgn15.es:/home/debian/
+debian@vpsjavierpzh.iesgn15.es's password:
+backupdrupal.sql                                                      100% 8165KB  63.9KB/s   02:07
+
+root@buster:~#
+</pre>
+
+<p>Y por último restauramos la copia de seguridad en nuestro servidor de base de datos de OVH:</p>
+<pre>
+mysql -u user_drupal -p bd_drupal < backupdrupal.sql
+</pre>
+
+<p>Si entramos y vemos las tablas de esta base de datos:</p>
+<pre>
+root@vpsjavierpzh:/home/debian/drupal# mysql -u user_drupal -p bd_drupal
+Enter password:
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 74
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [bd_drupal]> show tables;
++----------------------------------+
+| Tables_in_bd_drupal              |
++----------------------------------+
+| batch                            |
+| block_content                    |
+| block_content__body              |
+| block_content_field_data         |
+| block_content_field_revision     |
+| block_content_revision           |
+| block_content_revision__body     |
+| cache_bootstrap                  |
+| cache_config                     |
+| cache_container                  |
+| cache_data                       |
+| cache_default                    |
+| cache_discovery                  |
+| cache_dynamic_page_cache         |
+| cache_entity                     |
+| cache_menu                       |
+| cache_page                       |
+| cache_render                     |
+| cachetags                        |
+| comment                          |
+| comment__comment_body            |
+| comment_entity_statistics        |
+| comment_field_data               |
+| config                           |
+| file_managed                     |
+| file_usage                       |
+| history                          |
+| key_value                        |
+| key_value_expire                 |
+| locale_file                      |
+| locales_location                 |
+| locales_source                   |
+| locales_target                   |
+| menu_link_content                |
+| menu_link_content_data           |
+| menu_link_content_field_revision |
+| menu_link_content_revision       |
+| menu_tree                        |
+| node                             |
+| node__body                       |
+| node__comment                    |
+| node__field_image                |
+| node__field_tags                 |
+| node_access                      |
+| node_field_data                  |
+| node_field_revision              |
+| node_revision                    |
+| node_revision__body              |
+| node_revision__comment           |
+| node_revision__field_image       |
+| node_revision__field_tags        |
+| path_alias                       |
+| path_alias_revision              |
+| queue                            |
+| router                           |
+| search_dataset                   |
+| search_index                     |
+| search_total                     |
+| semaphore                        |
+| sequences                        |
+| sessions                         |
+| shortcut                         |
+| shortcut_field_data              |
+| shortcut_set_users               |
+| taxonomy_index                   |
+| taxonomy_term__parent            |
+| taxonomy_term_data               |
+| taxonomy_term_field_data         |
+| taxonomy_term_field_revision     |
+| taxonomy_term_revision           |
+| taxonomy_term_revision__parent   |
+| user__roles                      |
+| user__user_picture               |
+| users                            |
+| users_data                       |
+| users_field_data                 |
+| watchdog                         |
++----------------------------------+
+77 rows in set (0.001 sec)
+
+MariaDB [bd_drupal]>
+</pre>
+
+<p>Vemos que hemos restaurado la copia de seguridad correctamente.</p>
+<p>Por último nos faltaría crear un registro <strong>CNAME</strong>, para que nos muestre esta paǵina, en nuestra zona DNS del servidor <strong>OVH</strong>. En mi caso, como destino pongo <code>vpsjavierpzh.iesgn15.es</code> en vez de una dirección IP, ya que tengo creado un registro de tipo <strong>A</strong> que apunta a esta IP.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/cnamecrear.png"></p>
+<p>Lo creamos:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/cnamecreado.png"></p>
+<p>Si accedemos a la dirección <code>portal.iesgn15.es</code>:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
+<p><strong>5. Asegúrate que las URL limpias de <em>Drupal</em> siguen funcionando en <em>Nginx</em>.</strong></p>
+<p>Para que <em>Drupal</em> utilice las URLs limpias debemos añadir este bloque en su fichero de configuración, es decir, en <code>/etc/nginx/sites-available/drupal.conf</code>:</p>
+<pre>
+location / {
+    try_files $uri /index.php?$query_string;
+}
+</pre>
+
+<p><strong>6. La aplicación debe estar disponible en la URL: <code>portal.iesgnXX.es</code> (Sin ningún directorio).</strong></p>
+<p>Se puede ver como efectivamente la URL de la aplicación <code>portal.iesgn15.es</code>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/drupalovh.png"></p>
+<h3>Instalación / migración de la aplicación Nextcloud</h3>
+<p><strong>1. Instala la aplicación web <em>Nextcloud</em> en tu entorno de desarrollo.</strong></p>
+<p>Vamos a instalar la aplicación <strong>Nextcloud</strong> en un servidor web <strong>Apache</strong> de nuestro entorno de desarrollo para posteriormente realizar la migración a un servidor web <strong>Nginx</strong> en nuestro entorno de producción.</p>
+<p>Nos descargamos <em>Nextcloud</em> desde su <a href="https://nextcloud.com/install/">página oficial</a> con el siguiente comando:</p>
+<pre>
+root@buster:/home/vagrant# wget https://download.nextcloud.com/server/releases/nextcloud-20.0.1.zip
+--2020-11-18 17:08:17--  https://download.nextcloud.com/server/releases/nextcloud-20.0.1.zip
+Resolving download.nextcloud.com (download.nextcloud.com)... 95.217.64.181, 2a01:4f9:2a:3119::181
+Connecting to download.nextcloud.com (download.nextcloud.com)|95.217.64.181|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 142691943 (136M) [application/zip]
+Saving to: ‘nextcloud-20.0.1.zip’
+
+nextcloud-20.0.1.zip      100%[=====================================>] 136.08M  10.7MB/s    in 16s     
+
+2020-11-18 17:08:34 (8.26 MB/s) - ‘nextcloud-20.0.1.zip’ saved [142691943/142691943]
+
+root@buster:/home/vagrant#
+</pre>
+
+<p>Vamos a descomprimir el archivo descargado:</p>
+<pre>
+root@buster:/home/vagrant# unzip nextcloud-20.0.1.zip
+</pre>
+
+<p>La carpeta descomprimida la trasladamos al directorio donde vamos a almacenar nuestra aplicación web, en mi caso es dentro de <code>/srv/www/</code>, y le vamos a asignar como propietario de los archivos al usuario <code>www-data</code> que es el adecuado.</p>
+<pre>
+root@buster:/home/vagrant# mv nextcloud /srv/www/
+
+root@buster:/home/vagrant# ls /srv/www/nextcloud/
+3rdparty  config       core  index.html  occ       ocs-provider  resources   themes
+apps      console.php  cron.php  index.php   ocm-provider  public.php    robots.txt  updater
+AUTHORS   COPYING      data  lib         ocs       remote.php    status.php  version.php
+
+root@buster:/home/vagrant# chown -R www-data:www-data /srv/www/
+</pre>
+
+<p>Una vez hecho esto, tendríamos que crear un fichero de configuración que nos mostrará la página, para ello creamos uno en <code>/etc/apache2/sites-available/</code>. En mi caso, copio uno ya existente para tener la plantilla, ustedes podéis utilizar el fichero <code>000-default.conf</code>.</p>
+<pre>
+root@buster:/etc/apache2/sites-available# cp anchor.conf nextcloud.conf
+
+root@buster:/etc/apache2/sites-available# nano nextcloud.conf
+</pre>
+
+<p>El fichero <code>/etc/apache2/sites-available/nextcloud.conf</code> quedaría así:</p>
+<pre>
+<\VirtualHost *:80\>
+
+        ServerName www.jpnextcloud.com
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/nextcloud
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Habilitamos la página:</p>
+<pre>
+root@buster:/etc/apache2/sites-available# a2ensite nextcloud.conf
+Enabling site nextcloud.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+
+root@buster:/etc/apache2/sites-available# systemctl reload apache2
+</pre>
+
+<p>Por último, nos quedaría crear un usuario y una base de datos, para que <em>Nextcloud</em> guarde sus datos:</p>
+<pre>
+root@buster:/var/www/html/nextcloud# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 36
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| anchor             |
+| drupal             |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.014 sec)
+
+MariaDB [(none)]> CREATE DATABASE bd_nextcloud;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> CREATE USER 'user_nextcloud' IDENTIFIED BY 'pass_nextcloud';
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_nextcloud.* TO 'user_nextcloud';
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| anchor             |
+| bd_nextcloud       |
+| drupal             |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+</pre>
+
+<p>Vemos que hemos creado un nuevo usuario con privilegios de la nueva base de datos.</p>
+<p>Mi entorno de desarrollo se trata de una máquina virtual <em>Vagrant</em>, por tanto para visualizar este sitio web, necesito añadir en el fichero <code>/etc/hosts</code> de mi máquina la línea que corresponda.</p>
+<p>Si nos dirigimos al navegador a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvfaltan.png"></p>
+<p>Vemos que <em>Nextcloud</em> necesita una serie de extensiones <em>PHP</em>. Para instalar todas las extensiones necesarias:</p>
+<pre>
+apt install php-{mysql,zip,curl,mbstring,xml,gd} -y
+</pre>
+
+<p>Si probamos a entrar ahora a la dirección <code>www.jpnextcloud.com</code> nos muestra:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalador.png"></p>
+<p>Introducimos los datos del administrador y de nuestra base de datos en el instalador y comenzará la instalación de <em>Nextcloud</em>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalando.png"></p>
+<p>Una vez finalizado el proceso podemos ver como ya hemos instalado esta aplicación web con <em>Apache</em>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudmvinstalado.png"></p>
+<p><strong>2. Realiza la migración al servidor en producción, para que la aplicación sea accesible en la URL: <code>www.iesgnXX.es/cloud</code></strong></p>
+<p>Vamos a realizar la migración de esta aplicación instalada previamente a nuestro entorno de desarrollo, pero ahora en vez de trabajar con <em>Apache</em> haremos que trabaje con <em>Nginx</em>.</p>
+<p>Lo primero que haremos será realizar una copia de seguridad de la base de datos que tenemos en el servidor de desarrollo, para restaurarla en el servidor de OVH. Para ello:</p>
+<pre>
+root@buster:~# mysqldump -u user_nextcloud -p bd_nextcloud > backupnextcloud.sql
+Enter password:
+
+root@buster:~# ls
+backupdrupal.sql  backupnextcloud.sql
+
+root@buster:~#
+</pre>
+
+<p>Vamos a comprimir todos los archivos del directorio <code>/srv/www/nextcloud</code>, ya que en él se encuentran todos los datos de la aplicación web:</p>
+<pre>
+root@buster:/srv/www# tar -cf ./nextclouddat.tar.gz ./nextcloud/*
+tar: Removing leading `/' from member names
+tar: Removing leading `/' from hard link targets
+
+root@buster:/srv/www# mv nextclouddat.tar.gz /root/
+
+root@buster:~# ls
+backupdrupal.sql  backupnextcloud.sql  nextclouddat.tar.gz
+</pre>
+
+<p>Pasamos la copia de seguridad y los datos comprimidos al servidor de OVH:</p>
+<pre>
+root@buster:~# scp ./backupnextcloud.sql debian@vpsjavierpzh.iesgn15.es:/home/debian/
+debian@vpsjavierpzh.iesgn15.es's password:
+backupnextcloud.sql                                                   100%  137KB 776.4KB/s   00:00
+
+root@buster:~# scp ./nextclouddat.tar.gz debian@vpsjavierpzh.iesgn15.es:/home/debian/
+debian@vpsjavierpzh.iesgn15.es's password:
+nextclouddat.tar.gz                                                   100%  528MB   8.4MB/s   01:02    
+
+root@buster:~#
+</pre>
+
+<p>Una vez en el entorno de producción, vamos a instalar las extensiones de <em>PHP</em> que requiere <em>Nextcloud</em>:</p>
+<pre>
+apt install php-{mysql,zip,curl,mbstring,xml,gd} -y
+</pre>
+
+<p>Ahora vamos a descomprimir los archivos de <em>Nextcloud</em> en el directorio <code>/srv/www/aplicacionesiesgn/</code>:</p>
+<pre>
+root@vpsjavierpzh:/home/debian# mv nextclouddat.tar.gz /srv/www/aplicacionesiesgn/
+
+root@vpsjavierpzh:/home/debian# cd /srv/www/aplicacionesiesgn/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# tar -xvf nextclouddat.tar.gz
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# ls
+drupal  nextcloud  nextclouddat.tar.gz  principal
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# ls nextcloud/
+3rdparty  config       core  index.html  occ       ocs-provider  resources   themes
+apps      console.php  cron.php  index.php   ocm-provider  public.php    robots.txt  updater
+AUTHORS   COPYING      data  lib         ocs       remote.php    status.php  version.php
+</pre>
+
+<p>Debemos cambiar el propietario a <code>www-data</code>:</p>
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
+<p>Es el momento de crear la base de datos y el correspondiente usuario que utilizará <em>Nextcloud</em>:</p>
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 324
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bd_drupal          |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [(none)]> CREATE DATABASE bd_nextcloud;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> CREATE USER 'user_nextcloud' IDENTIFIED BY 'pass_nextcloud';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON bd_nextcloud.* TO 'user_nextcloud';
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| bd_drupal          |
+| bd_nextcloud       |
+| information_schema |
+| mysql              |
+| performance_schema |
++--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+</pre>
+
+<p>Vemos que hemos creado correctamente el usuario y la base de datos y ahora ya podemos restaurar la copia de seguridad:</p>
+<pre>
+root@vpsjavierpzh:/home/debian# mysql -u user_nextcloud -p bd_nextcloud < backupnextcloud.sql
+Enter password:
+
+root@vpsjavierpzh:/home/debian# mysql -u user_nextcloud -p bd_nextcloud
+Enter password:
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 326
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [bd_nextcloud]> show tables;
++-----------------------------+
+| Tables_in_bd_nextcloud      |
++-----------------------------+
+| oc_accounts                 |
+| oc_activity                 |
+| oc_activity_mq              |
+| oc_addressbookchanges       |
+| oc_addressbooks             |
+| oc_appconfig                |
+| oc_authtoken                |
+| oc_bruteforce_attempts      |
+| oc_calendar_invitations     |
+| oc_calendar_reminders       |
+| oc_calendar_resources       |
+| oc_calendar_resources_md    |
+| oc_calendar_rooms           |
+| oc_calendar_rooms_md        |
+| oc_calendarchanges          |
+| oc_calendarobjects          |
+| oc_calendarobjects_props    |
+| oc_calendars                |
+| oc_calendarsubscriptions    |
+| oc_cards                    |
+| oc_cards_properties         |
+| oc_collres_accesscache      |
+| oc_collres_collections      |
+| oc_collres_resources        |
+| oc_comments                 |
+| oc_comments_read_markers    |
+| oc_credentials              |
+| oc_dav_cal_proxy            |
+| oc_dav_shares               |
+| oc_direct_edit              |
+| oc_directlink               |
+| oc_federated_reshares       |
+| oc_file_locks               |
+| oc_filecache                |
+| oc_filecache_extended       |
+| oc_files_trash              |
+| oc_flow_checks              |
+| oc_flow_operations          |
+| oc_flow_operations_scope    |
+| oc_group_admin              |
+| oc_group_user               |
+| oc_groups                   |
+| oc_jobs                     |
+| oc_login_flow_v2            |
+| oc_mail_accounts            |
+| oc_mail_aliases             |
+| oc_mail_attachments         |
+| oc_mail_classifiers         |
+| oc_mail_coll_addresses      |
+| oc_mail_mailboxes           |
+| oc_mail_messages            |
+| oc_mail_recipients          |
+| oc_migrations               |
+| oc_mimetypes                |
+| oc_mounts                   |
+| oc_notifications            |
+| oc_notifications_pushtokens |
+| oc_oauth2_access_tokens     |
+| oc_oauth2_clients           |
+| oc_preferences              |
+| oc_privacy_admins           |
+| oc_properties               |
+| oc_recent_contact           |
+| oc_richdocuments_assets     |
+| oc_richdocuments_direct     |
+| oc_richdocuments_wopi       |
+| oc_schedulingobjects        |
+| oc_share                    |
+| oc_share_external           |
+| oc_storages                 |
+| oc_systemtag                |
+| oc_systemtag_group          |
+| oc_systemtag_object_mapping |
+| oc_talk_bridges             |
+| oc_talk_commands            |
+| oc_talk_guests              |
+| oc_talk_participants        |
+| oc_talk_rooms               |
+| oc_talk_signaling           |
+| oc_text_documents           |
+| oc_text_sessions            |
+| oc_text_steps               |
+| oc_trusted_servers          |
+| oc_twofactor_backupcodes    |
+| oc_twofactor_providers      |
+| oc_user_status              |
+| oc_user_transfer_owner      |
+| oc_users                    |
+| oc_vcategory                |
+| oc_vcategory_to_object      |
+| oc_webauthn                 |
+| oc_whats_new                |
++-----------------------------+
+92 rows in set (0.001 sec)
+
+MariaDB [bd_nextcloud]> exit
+Bye
+</pre>
+
+<p>Vemos que la hemos restaurado satisfactoriamente, por tanto, ya tendríamos todos los datos disponibles en el entorno de producción, por lo que nos faltaría crear el sitio web.</p>
+<p>Para crear el sitio web, creamos su fichero de configuración y lo enlazamos simbólicamente a la ruta <code>/etc/nginx/sites-enabled/</code> para que esté disponible para <em>Nginx</em>:</p>
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# cp drupal.conf nextcloud.conf
+
+root@vpsjavierpzh:/etc/nginx/sites-available# nano nextcloud.conf
+
+root@vpsjavierpzh:/etc/nginx/sites-available# ln -s /etc/nginx/sites-available/nextcloud.conf /etc/nginx/sites-enabled/
+
+root@vpsjavierpzh:/etc/nginx/sites-available# ls -l /etc/nginx/sites-enabled/
+total 0
+lrwxrwxrwx 1 root root 49 Nov  9 18:44 aplicacionesiesgn.conf -> /etc/nginx/sites-available/aplicacionesiesgn.conf
+lrwxrwxrwx 1 root root 34 Nov 18 16:31 default -> /etc/nginx/sites-available/default
+lrwxrwxrwx 1 root root 38 Nov 18 08:06 drupal.conf -> /etc/nginx/sites-available/drupal.conf
+lrwxrwxrwx 1 root root 41 Nov 18 19:13 nextcloud.conf -> /etc/nginx/sites-available/nextcloud.conf
+</pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre>
+systemctl restart nginx
+</pre>
+
+<p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhmal.png"></p>
+<p>Esto es porque tanto el fichero de configuración del virtualhost <em>Nextcloud</em>, como el fichero <code>.../(nextcloud)/config/config.php</code> no están bien configurados:</p>
+<p>El fichero <code>/etc/nginx/sites-available/nextcloud.conf</code> debe quedar así:</p>
+<pre>
+upstream php-handler {
+    server unix:/run/php/php7.3-fpm.sock;
+}
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        rewrite ^/$ /principal permanent;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+
+
+add_header X-Content-Type-Options nosniff;
+add_header X-XSS-Protection "1; mode=block";
+add_header X-Robots-Tag none;
+add_header X-Download-Options noopen;
+add_header X-Permitted-Cross-Domain-Policies none;
+add_header Referrer-Policy no-referrer;
+
+fastcgi_hide_header X-Powered-By;
+
+
+      location = /robots.txt {
+            allow all;
+            log_not_found off;
+            access_log off;
+        }
+
+        location = /.well-known/carddav {
+            return 301 $scheme://$host:$server_port/nextcloud/remote.php/dav;
+        }
+
+        location = /.well-known/caldav {
+            return 301 $scheme://$host:$server_port/nextcloud/remote.php/dav;
+        }
+
+        location /.well-known/acme-challenge { }
+
+        location ^~ /cloud {
+            client_max_body_size 512M;
+            fastcgi_buffers 64 4K;
+            gzip on;
+            gzip_vary on;
+            gzip_comp_level 4;
+            gzip_min_length 256;
+            gzip_proxied expired no-cache no-store private no_last_modified no_etag auth;
+            gzip_types application/atom+xml application/javascript application/json application/ld+json application/manifest+json application/rss+xml application/vnd.geo+json application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/bmp image/svg+xml image/x-icon text/cache-manifest text/css text/plain text/vcard text/vnd.rim.location.xloc text/vtt text/x-component text/x-cross-domain-policy;
+
+            location /cloud {
+                rewrite ^ /cloud/index.php;
+            }
+
+            location ~ ^\/cloud\/(?:build|tests|config|lib|3rdparty|templates|data)\/ {
+                deny all;
+            }
+
+            location ~ ^\/cloud\/(?:\.|autotest|occ|issue|indie|db_|console) {
+                deny all;
+            }
+
+            location ~ ^\/cloud\/(?:index|remote|public|cron|core\/ajax\/update|status|ocs\/v[12]|updater\/.+|oc[ms]-provider\/.+)\.php(?:$|\/) {
+                fastcgi_split_path_info ^(.+?\.php)(\/.*|)$;
+                set $path_info $fastcgi_path_info;
+                try_files $fastcgi_script_name =404;
+                include fastcgi_params;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param PATH_INFO $path_info;
+                fastcgi_param modHeadersAvailable true;
+                fastcgi_param front_controller_active true;
+                fastcgi_pass php-handler;
+                fastcgi_intercept_errors on;
+                fastcgi_request_buffering off;
+            }
+
+            location ~ ^\/nextcloud\/(?:updater|oc[ms]-provider)(?:$|\/) {
+                try_files $uri/ =404;
+                index index.php;
+            }
+
+            location ~ ^\/cloud\/.+[^\/]\.(?:css|js|woff2?|svg|gif|map)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                add_header Cache-Control "public, max-age=15778463";
+                add_header X-Content-Type-Options nosniff;
+                add_header X-XSS-Protection "1; mode=block";
+                add_header X-Robots-Tag none;
+                add_header X-Download-Options noopen;
+                add_header X-Permitted-Cross-Domain-Policies none;
+                add_header Referrer-Policy no-referrer;
+                access_log off;
+            }
+
+            location ~ ^\/cloud\/.+[^\/]\.(?:png|html|ttf|ico|jpg|jpeg|bcmap)$ {
+                try_files $uri /cloud/index.php$request_uri;
+                # Optional: Don't log access to other asse
+                access_log off;
+            }
+    }
+}
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que sustituirle en las rutas, la palabra <code>cloud</code>, por el nombre que tenga vuestro directorio de <em>Nextcloud</em>, que suele ser <code>nextcloud</code>, pero yo lo he modificado.</p>
+<p>Y el fichero <code>.../(nextcloud)/config/config.php</code> debe quedar así:</p>
+<pre>
+<?php
+$CONFIG = array (
+  'instanceid' => 'occb96siynsl',
+  'passwordsalt' => '5A/7E474U9dFg2k16Pvdy9hZRdo/J8',
+  'secret' => 'oVy6H5qJtp6WJ37nVspZF06HuiwhyhMqd5WhAnxEW4AhK5/h',
+  'trusted_domains' =>
+  array (
+    0 => 'www.iesgn15.es',
+  ),
+  'datadirectory' => '/srv/www/aplicacionesiesgn/cloud/data',
+  'dbtype' => 'mysql',
+  'version' => '20.0.1.1',
+  'overwrite.cli.url' => 'http://www.iesgn15.es/cloud',
+  'dbname' => 'bd_nextcloud',
+  'dbhost' => 'bd.iesgn15.es:3306',
+  'dbport' => '',
+  'dbtableprefix' => 'oc_',
+  'mysql.utf8mb4' => true,
+  'dbuser' => 'user_nextcloud',
+  'dbpassword' => 'pass_nextcloud',
+  'installed' => true,
+);
+</pre>
+
+<p>Si probamos de nuevo a acceder a <code>http://www.iesgn15.es/cloud/</code>:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
+<p>Vemos que ya podemos <em>loguearnos</em> correctamente. Si accedemos con nuestro usuario:</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhdentro.png"></p>
+<p><strong>3. Instala en un ordenador el cliente de <em>Nextcloud</em> y realiza la configuración adecuada para acceder a "tu nube".</strong></p>
+<p>Para instalar el cliente de <em>Nextcloud</em>:</p>
+<pre>
+apt install nextcloud-desktop -y
+</pre>
+
+<p>Si abrimos la aplicación de escritorio y seguimos estos pasos:</p>
+<ul>
+<li>
+<p>Pulsamos el botón <strong>Entrar</strong>.</p>
+</li>
+<li>
+<p>Introducimos la dirección del servidor: <strong>http://www.iesgn15.es/cloud</strong>.</p>
+</li>
+<li>
+<p>Iniciamos sesión con nuestra cuenta.</p>
+</li>
+<li>
+<p>Elegimos la carpeta a sincronizar: <code>/home/javier/Nextcloud</code>.</p>
+</li>
+</ul>
+<p>Y ya habríamos terminado de configurar <em>Nextcloud Client</em>.</p>
+<p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudclient.png"></p>
+<p>Si vemos el contenido de la carpeta <code>/home/javier/Nextcloud</code>:</p>
+<pre>
+javier@debian:~/Nextcloud$ ls
+ Documents             'Nextcloud Manual.pdf'   Photos                          Talk
+'Nextcloud intro.mp4'   Nextcloud.png          'Reasons to use Nextcloud.pdf'
+</pre>
+
+<p>Vemos que se ha sincronizado correctamente con nuestra nube.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/lemp.html">LEMP</a>, <a href="/tag/linux.html">Linux</a>, <a href="/tag/nginx.html">Nginx</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/drupal.html">Drupal</a>, <a href="/tag/nextcloud.html">Nextcloud</a>, <a href="/tag/migraciones.html">migraciones</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
