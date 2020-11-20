@@ -472,6 +472,16 @@ cacert.pem                                                            100% 4658 
 <p>Lo primero que debemos hacer, como estamos trabajando en el <em>cloud</em>, es decir, en <em>OpenStack</em>, sería abrir el puerto <strong>443</strong>, que corresponde a <strong>https</strong>.</p>
 <p>Lo abro:</p>
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/puerto443.png"></p>
+<p>Hecho esto, tenemos que almacenar los ficheros <em>.crt</em> y <em>.pem</em> en unas rutas específicas, que son , por tanto los movemos:</p>
+<pre>
+root@https:~# ls
+CA  javi.csr  javier.crt  cacert.pem
+
+root@https:~# mv cacert.pem /etc/ssl/certs/
+
+root@https:~# mv javier.crt /etc/ssl/certs/
+</pre>
+
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
     </article>
 
