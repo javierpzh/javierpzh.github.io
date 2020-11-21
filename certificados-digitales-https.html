@@ -522,6 +522,12 @@ Redirect / https://javierpzh.iesgn.org/
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres \, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Ahora, en el fichero de configuración de la página con <em>https</em>, debemos introducir una serie de líneas como estas:</p>
+<ul>
+<li><strong>SSLCertificateFile:</strong> indica donde se encuentra nuestro fichero <em>.crt</em> firmado por la autoridad.</li>
+<li><strong>SSLCertificateKeyFile:</strong> indica donde se encuentra nuestra clave privada mediante la cuál generemos el archivo <em>.csr</em>.</li>
+<li><strong>SSLCertificateChainFile:</strong> indica donde se encuentra el certificado de la autoridad certificadora.</li>
+</ul>
 <pre>
 ...
 
@@ -544,6 +550,7 @@ Redirect / https://javierpzh.iesgn.org/
 ...
 </pre>
 
+<p>Una vez configurado, debemos habilitar la página e iniciar el <strong>módulo SSL</strong> de <em>Apache</em>:</p>
 <pre>
 root@https:/etc/apache2/sites-available# a2ensite default-ssl.conf
 
@@ -552,6 +559,7 @@ root@https:/etc/apache2/sites-available# a2enmod ssl
 root@https:/etc/apache2/sites-available# systemctl restart apache2
 </pre>
 
+<p>Ya tendríamos nuestro sitio web configurado para que utilice <em>https</em> pero  </p>
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
     </article>
 
