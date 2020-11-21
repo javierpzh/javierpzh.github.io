@@ -545,7 +545,7 @@ Redirect / https://javierpzh.iesgn.org/
         SSLCertificateFile  /etc/ssl/certs/javier.crt
         SSLCertificateKeyFile /etc/ssl/private/javi.key
 
-      SSLCertificateChainFile /etc/ssl/private/cacert.pem
+    SSLCertificateChainFile /etc/ssl/private/cacert.pem
 
 ...
 </pre>
@@ -560,7 +560,9 @@ root@https:/etc/apache2/sites-available# systemctl restart apache2
 </pre>
 
 <p>Ya tendríamos nuestro sitio web configurado para que utilice <em>https</em> pero en nuestro navegador no poseemos el certificado de la autoridad certificadora que nos ha firmado, por tanto debemos añadir su certificado.</p>
+<p>Para instalar el certificado en nuestro navegador, <em>Firefox</em> en mi caso, nos dirigimos a <strong>Preferencias</strong>, a la sección <strong>Privacidad &amp; Seguridad</strong>, y al apartado <strong>Certificados</strong>, <em>clickamos</em> en <strong>Ver certificados</strong> y nos sale una ventana como esta:</p>
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/caalvaroimportar.png"></p>
+<p>Seleccionamos <strong>Importar</strong>:</p>
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
     </article>
 
