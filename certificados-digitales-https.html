@@ -568,7 +568,7 @@ root@https:/etc/apache2/sites-available# systemctl restart apache2
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/caalvaroinstalado.png"></p>
 <p>Si ahora nos dirigimos a la dirección <code>javierpzh.iesgn.org</code>:</p>
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/httpsapache.png"></p>
-<p>Vemos que nos ha redirigido automáticamente por <em>https</em> y además que podemos ver como tenemos la confianza de la entidad de Álvaro.</p>
+<p>Vemos que nos ha redirigido automáticamente por <em>https</em> y además podemos ver como tenemos la confianza de la entidad de Álvaro.</p>
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
 <p>Vamos realizar el mismo proceso pero con un servidor web <strong>Nginx</strong>. En este proceso, voy a ser más directo y voy a utilizar los mismos ficheros que en el apartado anterior, ya que únicamente nos hace falta configurar <em>Nginx</em>.</p>
 <p>En primer lugar vamos a parar el servicio de <em>Apache</em>:</p>
@@ -580,6 +580,55 @@ systemctl stop apache2
 <pre>
 apt install nginx -y
 </pre>
+
+<p>Editamos el fichero <em>virtualhost</em> por defecto (aunque lo recomendable es crear un <em>virtualhost</em> diferente) y le forzamos a que utilice <em>https</em> y queda con este aspecto:</p>
+<pre>
+server {
+    listen 80;
+    server_name javierpzh.iesgn.org;
+    return 301 https://$host$request_uri;
+}
+
+server {
+     listen 443;
+
+    server_name javierpzh.iesgn.org;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    ssl on;
+    ssl_certificate /etc/ssl/certs/javier.crt;
+    ssl_certificate_key /etc/ssl/private/javi.key;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+}
+</pre>
+
+<p>Nos aseguramos que esté habilitado para <em>Nginx</em>:</p>
+<pre>
+root@https:/etc/nginx/sites-available# ls -l /etc/nginx/sites-enabled/
+total 0
+lrwxrwxrwx 1 root root 34 Nov 21 12:32 default -> /etc/nginx/sites-available/default
+</pre>
+
+<p>Si no lo está, lo habilitamos:</p>
+<pre>
+ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+</pre>
+
+<p>Reiniciamos el servicio:</p>
+<pre>
+systemctl restart nginx.service
+</pre>
+
+<p>En el navegador nos introducimos la dirección <code>javierpzh.iesgn.org</code>:</p>
+<p><img alt="." src="images/sad_certificados_digitales_HTTPS/httpsnginx.png"></p>
+<p>Vemos que nos ha redirigido automáticamente por <em>https</em> y además podemos ver como tenemos la confianza de la entidad de Álvaro, esta vez utilizando un servidor web <em>Nginx</em>.</p>
     </article>
 
         <div class="tags">
