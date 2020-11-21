@@ -525,6 +525,7 @@ Redirect / https://javierpzh.iesgn.org/
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres \, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Si nos fijamos en la ruta del <strong>DocumentRoot</strong>, vemos que he almacenado la página en <code>/var/www/html</code>, esto no es lo adecuado pero como solo estoy haciendo estas pruebas y realmente esta estructura no va a tener ninguna funcionalidad en un futuro, lo hago así por comodidad y rapidez. Recomiendo usar la ruta <code>/srv/www/...</code> para almacenar datos de sitios webs.</p>
 <p>Ahora, en el fichero de configuración de la página con <em>https</em>, debemos introducir una serie de líneas como estas:</p>
 <ul>
 <li><strong>SSLCertificateFile:</strong> indica donde se encuentra nuestro fichero <em>.crt</em> firmado por la autoridad.</li>
