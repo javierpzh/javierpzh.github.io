@@ -228,11 +228,17 @@ sudo dpkg -i AutoFirma_1_6_5.deb
 <p>Para crear una <strong>Autoridad Certificadora</strong> debemos crear esta estructura de directorios con esta serie de permisos y ficheros:</p>
 <pre>
 root@https:~# mkdir CA
+
 root@https:~# cd CA/
+
 root@https:~/CA# mkdir ./{certsdb,certreqs,crl,private}
+
 root@https:~/CA# chmod 700 ./private
+
 root@https:~/CA# touch ./index.txt
+
 root@https:~/CA# cp /usr/lib/ssl/openssl.cnf ./
+
 root@https:~/CA# nano openssl.cnf
 </pre>
 
@@ -431,7 +437,7 @@ root@https:~#
 </pre>
 
 <p><strong>2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor tanto con el FQDN (<code>tunombre.iesgn.org</code>) como con el nombre de host (implica el uso de las extensiones <code>Alt Name</code>).</strong></p>
-<p>Con la clave generada anteriormente, voy a generar un fichero <code>.csr</code> que tendré que enviar a Álvaro para que él me devuelva un fichero <code>.crt</code> firmado por su Autoridad Certficadora, con el cuál yo podré disponer de <strong>https</strong> en mi sitio web.</p>
+<p>Con la clave generada anteriormente, voy a generar un fichero <code>.csr</code> que tendré que enviar a Álvaro para que él me devuelva un fichero <code>.crt</code> firmado por su Autoridad Certificadora, con el cuál yo podré disponer de <strong>https</strong> en mi sitio web.</p>
 <p>A la hora de generar el fichero <code>.csr</code> indico en los parámetros que previamente ha configurado Álvaro a la hora de crear su CA, los valores que me corresponden a mí, respetando los apartados, <strong>Organization Name</strong> y <strong>Organizational Unit Name</strong>, que debo poner los valores que Álvaro haya especificado en el fichero <em>openssl.cnf</em> de su Autoridad Certificadora.</p>
 <pre>
 root@https:~# openssl req -new -key /etc/ssl/private/javi.key -out ./javi.csr
