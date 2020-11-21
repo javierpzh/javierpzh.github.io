@@ -573,10 +573,13 @@ root@https:/etc/apache2/sites-available# systemctl restart apache2
 <p>Vamos realizar el mismo proceso pero con un servidor web <strong>Nginx</strong>. En este proceso, voy a ser más directo y voy a utilizar los mismos ficheros que en el apartado anterior, ya que únicamente nos hace falta configurar <em>Nginx</em>.</p>
 <p>En primer lugar vamos a parar el servicio de <em>Apache</em>:</p>
 <pre>
-
+systemctl stop apache2
 </pre>
 
-<p>Instalamos <em>Nginx</em></p>
+<p>Instalamos <em>Nginx</em>:</p>
+<pre>
+apt install nginx -y
+</pre>
     </article>
 
         <div class="tags">
