@@ -465,8 +465,8 @@ root@https:~#
 </pre>
 
 <p><strong>3. Envía la solicitud de firma a la entidad certificadora (su compañero).</strong></p>
-<p>Álvaro también me ha creado un usuario en su máquina, al cuál yo tengo acceso, para que le envíe el fichero <em>.csr</em>, y próximamente pueda moverme el fichero <em>.crt</em> que me devuelva junto con el certificado de su CA.</p>
-<p>Le envío mi <em>.csr</em>.</p>
+<p>Álvaro también me ha creado un usuario en su máquina, al cuál yo tengo acceso, para que le envíe el fichero <em>.csr</em>, y próximamente pueda copiarme, el fichero <em>.crt</em> que me devuelva junto con el certificado de su CA, a mi máquina.</p>
+<p>Le envío mi <em>.csr</em>:</p>
 <pre>
 root@https:~# scp javi.csr javi@172.22.200.186:/home/javi/
 javi@172.22.200.186's password:
@@ -489,7 +489,7 @@ cacert.pem                                                            100% 4658 
 <p>Lo primero que debemos hacer, como estamos trabajando en el <em>cloud</em>, es decir, en <em>OpenStack</em>, sería abrir el puerto <strong>443</strong>, que corresponde a <strong>https</strong>.</p>
 <p>Lo abro:</p>
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/puerto443.png"></p>
-<p>Hecho esto, tenemos que almacenar los ficheros <em>.crt</em> y <em>.pem</em> en unas rutas específicas, que son , por tanto los movemos:</p>
+<p>Hecho esto, tenemos que almacenar los ficheros <em>.crt</em> y <em>.pem</em> en unas rutas específicas, que son .............................., por tanto los movemos:</p>
 <pre>
 root@https:~# ls
 CA  javi.csr  javier.crt  cacert.pem
@@ -497,6 +497,77 @@ CA  javi.csr  javier.crt  cacert.pem
 root@https:~# mv cacert.pem /etc/ssl/certs/
 
 root@https:~# mv javier.crt /etc/ssl/certs/
+</pre>
+
+<p>Tenemos que configurar <em>Apache</em> para que utilice los ficheros necesarios y verifique y fuerce el <em>https</em>. Primero vamos a editar el fichero de configuración del <em>virtualhost</em> de la página que hemos creado, y vamos a crear una redirección a <em>https</em> para que siempre accedamos por aquí. Introduzco esta línea:</p>
+<pre>
+Redirect / https://javierpzh.iesgn.org/
+</pre>
+
+<p>El fichero de configuración de mi <em>virtualhost</em> quedaría así:</p>
+<pre>
+<VirtualHost *:80>
+
+        ServerName javierpzh.iesgn.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        Redirect / https://javierpzh.iesgn.org/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+</pre>
+
+<pre>
+<IfModule mod_ssl.c>
+    <VirtualHost _default_:443>
+        ServerAdmin webmaster@localhost
+
+        ServerName javierpzh.iesgn.org
+
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        SSLEngine on
+
+        SSLCertificateFile  /etc/ssl/certs/javier.crt
+        SSLCertificateKeyFile /etc/ssl/private/javi.key
+
+        #   Server Certificate Chain:
+        #   Point SSLCertificateChainFile at a file containing the
+        #   concatenation of PEM encoded CA certificates which form the
+        #   certificate chain for the server certificate. Alternatively
+        #   the referenced file can be the same as SSLCertificateFile
+        #   when the CA certificates are directly appended to the server
+        #   certificate for convinience.
+        #SSLCertificateChainFile /etc/apache2/ssl.crt/server-ca.crt
+
+        #   Certificate Authority (CA):
+        #   Set the CA certificate verification path where to find CA
+        #   certificates for client authentication or alternatively one
+        #   huge file containing all of them (file must be PEM encoded)
+        #   Note: Inside SSLCACertificatePath you need hash symlinks
+        #        to point to the certificate files. Use the provided
+        #        Makefile to update the hash symlinks after changes.
+        #SSLCACertificatePath /etc/ssl/certs/
+        #SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
+
+
+        <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                SSLOptions +StdEnvVars
+        </FilesMatch>
+        <Directory /usr/lib/cgi-bin>
+                SSLOptions +StdEnvVars
+        </Directory>
+
+    </VirtualHost>
+</IfModule>
+
 </pre>
 
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
