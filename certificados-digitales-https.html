@@ -292,7 +292,7 @@ emailAddress                    = Email Address
 emailAddress_max                = 64
 </pre>
 
-<p>Ya nos encontramos frente al último bloque a editar en este fichero <code>openssl.cnf</code>, y simplemente se trata en buscar las siguientes líneas y comentarlas, ya que a mí no me interesan, esto es según las necesidades y lo que busque cada uno:</p>
+<p>Ya nos encontramos frente al último bloque a editar en este fichero <code>openssl.cnf</code>, y simplemente se trata de buscar las siguientes líneas y comentarlas, ya que a mí no me interesan, esto es según las necesidades y lo que busque cada uno:</p>
 <pre>
 [ req_attributes ]
 #challengePassword              = A challenge password
@@ -435,6 +435,7 @@ Generating RSA private key, 4096 bit long modulus (2 primes)
 ................................................................................................................................................++++
 ............................++++
 e is 65537 (0x010001)
+
 root@https:~#
 </pre>
 
@@ -467,7 +468,7 @@ root@https:~#
 </pre>
 
 <p><strong>3. Envía la solicitud de firma a la entidad certificadora (su compañero).</strong></p>
-<p>Álvaro también me ha creado un usuario en su máquina, al cuál yo tengo acceso, para que le envíe el fichero <em>.csr</em>, y próximamente pueda copiarme, el fichero <em>.crt</em> que me devuelva junto con el certificado de su CA, a mi máquina.</p>
+<p>Álvaro también me ha creado un usuario en su máquina, al cuál yo tengo acceso, para que le envíe mi fichero <em>.csr</em>, y próximamente pueda copiarme, el fichero <em>.crt</em> que me devuelva junto con el certificado de su CA, a mi máquina.</p>
 <p>Le envío mi <em>.csr</em>:</p>
 <pre>
 root@https:~# scp javi.csr javi@172.22.200.186:/home/javi/
@@ -491,7 +492,7 @@ cacert.pem                                                            100% 4658 
 <p>Lo primero que debemos hacer, como estamos trabajando en el <em>cloud</em>, es decir, en <em>OpenStack</em>, sería abrir el puerto <strong>443</strong>, que corresponde a <strong>https</strong>.</p>
 <p>Lo abro:</p>
 <p><img alt="." src="images/sad_certificados_digitales_HTTPS/puerto443.png"></p>
-<p>Hecho esto, tenemos que almacenar los ficheros <em>.crt</em> y <em>.pem</em> en unas rutas específicas, que son .............................., por tanto los movemos:</p>
+<p>Hecho esto, tenemos que almacenar los ficheros <em>.crt</em> y <em>.pem</em> en la ruta <code>/etc/ssl/certs/</code>, por tanto los movemos:</p>
 <pre>
 root@https:~# ls
 CA  javi.csr  javier.crt  cacert.pem
