@@ -522,8 +522,8 @@ Redirect / https://javierpzh.iesgn.org/
 </pre>
 
 <pre>
-<IfModule mod_ssl.c>
-    <VirtualHost _default_:443>
+...
+
         ServerAdmin webmaster@localhost
 
         ServerName javierpzh.iesgn.org
@@ -557,17 +557,7 @@ Redirect / https://javierpzh.iesgn.org/
         #SSLCACertificatePath /etc/ssl/certs/
         #SSLCACertificateFile /etc/apache2/ssl.crt/ca-bundle.crt
 
-
-        <FilesMatch "\.(cgi|shtml|phtml|php)$">
-                SSLOptions +StdEnvVars
-        </FilesMatch>
-        <Directory /usr/lib/cgi-bin>
-                SSLOptions +StdEnvVars
-        </Directory>
-
-    </VirtualHost>
-</IfModule>
-
+...
 </pre>
 
 <p><strong>6. Instala ahora un servidor Nginx, y realiza la misma configuración que anteriormente para que se sirva la página con <em>HTTPS</em>.</strong></p>
