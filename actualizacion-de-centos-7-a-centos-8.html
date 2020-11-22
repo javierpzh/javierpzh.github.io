@@ -114,10 +114,117 @@
 cat /etc/redhat-release
 </pre>
 
-<p>Lo primero sería instalar el repositorio epel.</p>
+<p>Lo primero que debemos si queremos subir de <em>CentOS 7</em> a <em>CentOS 8</em>, sería habilitar el repositorio <strong>epel</strong>.</p>
 <pre>
 yum install epel-release -y
 </pre>
+
+<p>Debemos tener instaladas las herramientas para el gestor de paquetes <code>yum</code>. Para instalarlas:</p>
+<pre>
+yum install yum-utils -y
+</pre>
+
+<p>Instalamos la herramienta <code>rpmconf</code>, para resolver los paquetes <em>rpm</em>:</p>
+<pre>
+yum install rpmconf
+</pre>
+
+<p>Ejecutamos el siguiente comando, y el sistema nos preguntará si queremos mantener los archivos originales o actualizarlos. En mi caso, mantengo los originales.</p>
+<pre>
+rpmconf -a
+</pre>
+
+<p>Ahora vamos a eliminar los paquetes huérfanos y que nos resultan innecesarios:</p>
+<pre>
+package-cleanup --orphans
+
+package-cleanup --leaves
+</pre>
+
+<p>En <em>CentOS 8</em>, el gestor de paquetes predeterminado no es <code>yum</code>, sino que se utiliza <code>dnf</code>, por tanto vamos a instalarlo:</p>
+<pre>
+yum install dnf
+</pre>
+
+<p>Como ya hemos instalado y tenemos disponible el nuevo gestor de paquetes, podemos prescindir de <code>yum</code>. En mi caso ya no me interesa, por eso me deshago de él, pero si lo queremos conservar podemos saltarnos este paso.</p>
+<pre>
+dnf remove yum yum-metadata-parser
+
+rm -Rf /etc/yum
+</pre>
+
+<p>Actualizamos el sistema:</p>
+<pre>
+dnf update
+</pre>
+
+<p>Ha llegado el momento de habilitar los repositorios de <em>CentOS 8</em>. Los añadimos:</p>
+<pre>
+dnf install http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.1.el8.x86_64.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-release-8.2-2.2004.0.1.el8.x86_64.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm
+</pre>
+
+<p>Actualizamos de nuevo el repositorio <em>epel</em>:</p>
+<pre>
+dnf upgrade -y epel-release
+</pre>
+
+<p>Construimos de nuevo la caché.</p>
+<pre>
+dnf makecache
+</pre>
+
+<p>Eliminamos los archivos temporales innecesarios.</p>
+<pre>
+dnf clean all
+</pre>
+
+<p>Ahora es el paso de eliminar el kérnel de <em>CentOS 7</em>:</p>
+<pre>
+rpm -e `rpm -q kernel`
+</pre>
+
+<p>Varios paquetes nos harán entrar en conflictos con ellos, por tanto también los removemos:</p>
+<pre>
+rpm -e --nodeps sysvinit-tools
+</pre>
+
+<p>Y por fin, empezamos la actualización a <em>CentOS 8</em>:</p>
+<pre>
+dnf -y --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
+</pre>
+
+<p>Puede que varios paquetes relacionados con <strong>Python</strong>, nos produzcan conflictos, así que para resolverlos utilizamos estos comandos:</p>
+<pre>
+rpm -e --justdb python36-rpmconf-1.0.22-1.el7.noarch rpmconf-1.0.22-1.el7.noarch
+rpm -e --justdb --nodeps python3-setuptools-39.2.0-10.el7.noarch
+rpm -e --justdb --nodeps vim-minimal
+dnf upgrade --best --allowerasing rpm
+</pre>
+
+<p>Para terminar, nos quedaría instalar el kérnel del nuevo <em>CentOS 8</em>:</p>
+<pre>
+dnf install -y kernel-core
+</pre>
+
+<p>Y por último, vamos a instalar los paquetes mínimos del sistema:</p>
+<pre>
+dnf -y groupupdate "Core" "Minimal Install" --allowerasing --skip-broken
+</pre>
+
+<p>Reiniciamos el sistema:</p>
+<pre>
+reboot
+</pre>
+
+<p>Si miramos de nuevo la versión de <em>CentOS</em>:</p>
+<pre>
+[root@quijote ~]# cat /etc/redhat-release
+CentOS Linux release 8.2.2004 (Core)
+
+[root@quijote ~]#
+</pre>
+
+<p>Vemos como hemos actualizado nuestro sistema y ahora está corriendo <em>CentOS 8</em>, por tanto la actulización de <em>Quijote</em> habría terminado:</p>
     </article>
 
         <div class="tags">
