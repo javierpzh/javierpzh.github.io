@@ -241,7 +241,23 @@ root@https:~/CA# cp /usr/lib/ssl/openssl.cnf ./
 root@https:~/CA# nano openssl.cnf
 </pre>
 
-<p>Vemos que hemos copiado el fichero <code>openssl.cnf</code>, y en él tendremos que editar las siguientes líneas y corregir las rutas, para que se use el directorio creado previamente para la Autoridad Certificadora.</p>
+<p>Los directorios que hemos creado:</p>
+<ul>
+<li>
+<p><strong>certsdb:</strong> En él se almacenarán los certificados firmados.</p>
+</li>
+<li>
+<p><strong>certreqs:</strong> En él se almacenarán los ficheros <em>.csr</em>.</p>
+</li>
+<li>
+<p><strong>crl:</strong> En él se almacenarán los certificados revocados.</p>
+</li>
+<li>
+<p><strong>private:</strong> En él se almacenará la clave privada de la CA. Por eso mismo, le hemos establecido permisos 700, para que solo pueda acceder el propietario.</p>
+</li>
+</ul>
+<p>El fichero <code>inedx.txt</code> actuará de base de datos.</p>
+<p>Vemos que también hemos copiado el fichero <code>openssl.cnf</code>, y en él tendremos que editar las siguientes líneas y corregir las rutas, para que se use el directorio creado previamente para la Autoridad Certificadora.</p>
 <p>En este bloque indicamos que el directorio se encuentra en <code>/root/CA</code>, que los certificados se van a guardar en <code>$dir/certsdb</code>,  la variable <code>$dir</code> ha referencia si nos fijamos a <code>/root/CA</code>, el certificado de la autoridad certificadora se va a encontrar en el directorio con el nombre <code>cacert.pem</code>, ...</p>
 <pre>
 [ CA_default ]
@@ -262,7 +278,7 @@ crl             = $dir/crl.pem          # The current CRL
 private_key     = $dir/private/cakey.pem# The private key
 </pre>
 
-<p>El siguiente bloque a tener en cuenta en el fichero <code>openssl.cnf</code> es el siguiente, y en él vamos a introducir los datos de la autoridad certificadora.</p>
+<p>El siguiente bloque a tener en cuenta en el fichero <code>openssl.cnf</code> es el siguiente, y en él vamos a introducir los datos básicos de la autoridad certificadora.</p>
 <pre>
 [ req_distinguished_name ]
 countryName                     = Country Name (2 letter code)
@@ -299,7 +315,7 @@ emailAddress_max                = 64
 #unstructuredName               = An optional company name
 </pre>
 
-<p>Una vez tenemos creada nuestra autoridad certificadora, vamos a generar una</p>
+<p>Una vez tenemos creada nuestra autoridad certificadora, vamos a generar un par de claves, y un fichero <em>.csr</em> que luego vamos a firmar con la propia CA:</p>
 <pre>
 root@https:~/CA# openssl req -new -newkey rsa:2048 -keyout private/cakey.pem -out careq.pem -config ./openssl.cnf
 Generating a RSA private key
@@ -327,6 +343,7 @@ Email Address []:javierperezhidalgo01@gmail.com
 root@https:~/CA#
 </pre>
 
+<p>Firmamos nuestro propio fichero <em>.csr</em> con nuestra propia entidad certificadora. Esto lo hacemos para generar un fichero <em>.crt</em> que es el que vamos a enviar a nuestros clientes como certificado de la CA.</p>
 <pre>
 root@https:~/CA# openssl ca -create_serial -out cacert.pem -days 365 -keyfile private/cakey.pem -selfsign -extensions v3_ca -config ./openssl.cnf -infiles careq.pem
 Using configuration from ./openssl.cnf
@@ -365,12 +382,11 @@ Data Base Updated
 root@https:~/CA#
 </pre>
 
+<p>Nos ha generado un fichero <code>cacert.pem</code> que es el certificado de la autoridad certificadora.</p>
 <p><strong>2. Debe recibir el fichero CSR (Solicitud de Firmar un Certificado) de su compañero, debe firmarlo y enviar el certificado generado a su compañero.</strong></p>
-<p>He creado un usuario llamado <code>alvaro</code>.</p>
-<pre>
-cp /home/javi/javierpzh_key.pem /certreqs
-</pre>
-
+<p>He creado en mi máquina un usuario llamado <code>alvaro</code>, al que tiene acceso mi compañero para que me traslade su fichero <em>.csr</em>.</p>
+<p>Una vez tenemos a nuestra disposición el fichero que queremos firmar, debemos moverlo a la carpeta <code>certreqs</code> creada anteriormente.</p>
+<p>Ahora procedemos a firmar el documento y a generar el <em>.crt</em>.</p>
 <pre>
 root@https:~/CA# openssl ca -config openssl.cnf -out certsdb/alvaro.crt -infiles certreqs/alvaro.csr
 Using configuration from openssl.cnf
@@ -412,16 +428,8 @@ root@https:~/CA#
 </pre>
 
 <p>El fichero <em>.crt</em> obtenido, que es el fichero firmado por mi autoridad certificadora, se lo copio a Álvaro al usuario que he creado para él.</p>
-<pre>
-root@https:~/CA# cp certsdb/alvaro.crt /home/alvaro/
-</pre>
-
 <p><strong>3. ¿Qué otra información debes aportar a tu compañero para que éste configure de forma adecuada su servidor web con el certificado generado?</strong></p>
-<p>Como yo estoy actuando como Autoridad Certificadora, le tengo que enviar a Álvaro el certificado de la entidad certificadora. Al igual que su <em>.crt</em>, se lo dejo en el usuario de mi máquina que he creado para que acceda él.</p>
-<pre>
-root@https:~/CA# cp cacert.pem /home/alvaro/
-</pre>
-
+<p>Como yo estoy actuando como Autoridad Certificadora, le tengo que enviar a mi compañero el certificado de la entidad certificadora. Al igual que su <em>.crt</em>, se lo dejo en el usuario de mi máquina que he creado para que acceda él.</p>
 <p>Por tanto, una vez hecho esto, Álvaro ya podría visualizar su página con <em>https</em>.</p>
 <p><strong>El alumno que hace de administrador del servidor web, debe entregar una documentación que describa los siguientes puntos:</strong></p>
 <p><strong>1. Crea una clave privada RSA de 4096 bits para identificar el servidor.</strong></p>
@@ -438,7 +446,7 @@ root@https:~#
 
 <p><strong>2. Utiliza la clave anterior para generar un CSR, considerando que deseas acceder al servidor tanto con el FQDN (<code>tunombre.iesgn.org</code>) como con el nombre de host (implica el uso de las extensiones <code>Alt Name</code>).</strong></p>
 <p>Con la clave generada anteriormente, voy a generar un fichero <code>.csr</code> que tendré que enviar a Álvaro para que él me devuelva un fichero <code>.crt</code> firmado por su Autoridad Certificadora, con el cuál yo podré disponer de <strong>https</strong> en mi sitio web.</p>
-<p>A la hora de generar el fichero <code>.csr</code> indico en los parámetros que previamente ha configurado Álvaro a la hora de crear su CA, los valores que me corresponden a mí, respetando los apartados, <strong>Organization Name</strong> y <strong>Organizational Unit Name</strong>, que debo poner los valores que Álvaro haya especificado en el fichero <em>openssl.cnf</em> de su Autoridad Certificadora.</p>
+<p>A la hora de generar el fichero <code>.csr</code> nos pedirá unos valores que debemos rellenar para identificar el certificado, respetando los apartados, <strong>County Name</strong>, <strong>Locality Name</strong>, <strong>Organization Name</strong> y <strong>Organizational Unit Name</strong>, que debo poner los valores que Álvaro haya especificado en el fichero <em>openssl.cnf</em> de su Autoridad Certificadora. En los apartados <strong>Common Name</strong> y <strong>Email Address</strong> debemos introducir nuestros datos personales, ya que eso es lo que diferenciara los distintos certificados.</p>
 <pre>
 root@https:~# openssl req -new -key /etc/ssl/private/javi.key -out ./javi.csr
 You are about to be asked to enter information that will be incorporated
@@ -527,7 +535,7 @@ Redirect / https://javierpzh.iesgn.org/
 <ul>
 <li><strong>SSLCertificateFile:</strong> indica donde se encuentra nuestro fichero <em>.crt</em> firmado por la autoridad.</li>
 <li><strong>SSLCertificateKeyFile:</strong> indica donde se encuentra nuestra clave privada mediante la cuál generamos el archivo <em>.csr</em>.</li>
-<li><strong>SSLCertificateChainFile:</strong> indica donde se encuentra el certificado de la autoridad certificadora.</li>
+<li><strong>SSLCACertificateFile:</strong> indica donde se encuentra el certificado de la autoridad certificadora.</li>
 </ul>
 <pre>
 ...
@@ -546,7 +554,7 @@ Redirect / https://javierpzh.iesgn.org/
         SSLCertificateFile  /etc/ssl/certs/javier.crt
         SSLCertificateKeyFile /etc/ssl/private/javi.key
 
-    SSLCertificateChainFile /etc/ssl/private/cacert.pem
+    SSLCACertificateFile /etc/ssl/private/cacert.pem
 
 ...
 </pre>
