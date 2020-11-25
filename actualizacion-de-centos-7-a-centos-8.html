@@ -209,7 +209,7 @@ dnf groupupdate "Core" "Minimal Install" -y
 reboot
 </pre>
 
-<p>Al intentar conectarme de nuevo a la máquina no me dejaba, y dirigiéndome a la consola de <em>OpenStack</em>, porque recordemos que <em>Quijote</em> es una instancia de mi proyecto, pude comprobar como el fichero de configuración que establecía la IP de la interfaz <em>eth0</em> estática, se había reiniciado. Volví a configurar el fichero <code>touch /etc/cloud/cloud-init.disabled</code>:</p>
+<p>Al intentar conectarme de nuevo a la máquina mediante <em>SSH</em> no me dejaba, y dirigiéndome a la consola de <em>OpenStack</em>, porque recordemos que <em>Quijote</em> es una instancia de mi proyecto, pude comprobar como el fichero de configuración que establecía la IP de la interfaz <em>eth0</em> estática, se había reiniciado. Volví a configurar el fichero <code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>:</p>
 <pre>
 BOOTPROTO=static
 DEVICE=eth0
@@ -231,7 +231,7 @@ systemctl restart network.service
 </pre>
 
 <p>Y probé a acceder de nuevo, ahora lógicamente sí accedí mediante <em>SSH</em> a través de <em>Dulcinea</em>.</p>
-<p>Reinicié la máquina y comprobé como volvía a perder la configuración como yo suponía que iba a pasar. Configuré de nuevo el fichero <code>touch /etc/cloud/cloud-init.disabled</code> y procedí a crear el siguiente fichero para evitar que los cambios se perdieran en cada inicio del sistema:</p>
+<p>Reinicié la máquina y comprobé como volvía a perder la configuración como yo suponía que iba a pasar. Configuré de nuevo el fichero <code>/etc/sysconfig/network-scripts/ifcfg-eth0</code> y procedí a crear el siguiente fichero para evitar que los cambios se perdieran en cada inicio del sistema:</p>
 <pre>
 touch /etc/cloud/cloud-init.disabled
 </pre>
