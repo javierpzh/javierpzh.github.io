@@ -114,7 +114,7 @@
 <p><strong>¿Qué configuración se realiza en el servidor web?</strong></p>
 <p><strong>¿Qué pruebas realiza <em>Let's Encrypt</em> para asegurar que somos los administrados del sitio web?</strong></p>
 <p><strong>¿Se puede usar el DNS para verificar que somos administradores del sitio?</strong></p>
-<p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> HTTP y otro para la configuración del <em>virtualhost</em> HTTPS.</strong></p>
+<p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> <em>HTTP</em> y otro para la configuración del <em>virtualhost</em> <em>HTTPS</em>.</strong></p>
 <p>Yo he utilizado solo un fichero de configuración para cada <em>virtualhost</em>, ya que <em>Nginx</em> te permite establecer en el mismo fichero, las configuraciones de <em>http</em> y <em>https</em>, por lo que, es una tontería crear dos ficheros si podemos utilizar uno.</p>
 <p><code>www.iesgn15.es</code>:</p>
 <pre>
@@ -231,7 +231,7 @@ IMPORTANT NOTES:
 root@vpsjavierpzh:/etc/nginx/sites-available#
 </pre>
 
-<p><strong>4. Realiza una redirección o una reescritura para que cuando accedas a HTTP te redirija al sitio HTTPS.</strong></p>
+<p><strong>4. Realiza una redirección o una reescritura para que cuando accedas a <em>HTTP</em> te redirija al sitio <em>HTTPS</em>.</strong></p>
 <p>Al escoger el <em>plugin</em> de <em>Nginx</em>, el propio <strong>Certbot</strong> te pregunta si quieres que también te cree la redirección permanente para que siempre se acceda a la página por <em>HTTPS</em>. Vamos a echarle un vistazo a las líneas que configura. Al final de nuestro fichero de configuración del <em>virtualhost</em> ha añadido:</p>
 <pre>
 ...
@@ -276,7 +276,7 @@ server {
 <p><strong>7. Modifica la configuración del cliente de <em>Nextcloud</em> para comprobar que sigue en funcionamiento con HTTPS.</strong></p>
 <p>Nos dirigimos ahora a nuestro cliente de <em>Nextcloud</em>, que recordemos que está configurado para la dirección <code>http://www.iesgn15.es/cloud</code>:</p>
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/nextcloudcliente.png"></p>
-<p>Vemos como a pesar de no estar configurado para que use <em>HTTPS</em>, nos redirige automáticamente gracias a la redirección permanente que hemos creado, por tanto no haría falta volver a configurarlo para que use <em>HTTPS</em>.</p>
+<p>Vemos como a pesar de no estar configurado para que use <em>HTTPS</em>, nos redirige automáticamente gracias a la redirección permanente que hemos creado, por tanto no haría falta volver a configurarlo.</p>
 <h4>Recursos interesantes</h4>
 <ul>
 <li>
