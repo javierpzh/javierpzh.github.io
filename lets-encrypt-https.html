@@ -109,6 +109,21 @@
     <article>
         <h4>Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente.</h4>
 <p><strong>1. Vamos a utilizar el servicio <code>https://letsencrypt.org</code> para solicitar los certificados de nuestras páginas.</strong></p>
+<p>Si queremos llevar a cabo la solicitud de los certificados para nuestras páginas dispongan de <em>HTTPS</em> verificado por <em>Let's Encryt</em>, tenemos que instalar el siguiente paquete:</p>
+<pre>
+apt install certbot
+</pre>
+
+<p>Como además, yo voy a hacer uso del <em>plugin</em> de <em>Nginx</em> para que <strong>Certbot</strong> además de solicitarnos, nos configure los ficheros de configuración de los distintos <em>virtualhost</em>, instalo este paquete:</p>
+<pre>
+apt install python3-certbot-nginx
+</pre>
+
+<p>Para solicitar el certificado y que lo instale el propio <em>Certbot</em>:</p>
+<pre>
+certbot --nginx
+</pre>
+
 <p><strong>2. Explica detenidamente cómo se solicita un certificado en <em>Let's Encrypt</em>. En tu explicación deberás responder a estas preguntas:</strong></p>
 <p><strong>¿Qué función tiene el cliente ACME?</strong></p>
 <p><strong>¿Qué configuración se realiza en el servidor web?</strong></p>
