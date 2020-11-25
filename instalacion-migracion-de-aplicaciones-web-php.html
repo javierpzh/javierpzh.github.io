@@ -785,7 +785,7 @@ systemctl restart nginx
 <p>Accedemos a la dirección <code>http://www.iesgn15.es/cloud/</code> y obtenemos este resultado:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovhmal.png"></p>
 <p>Esto es porque tanto el fichero de configuración del virtualhost <em>Nextcloud</em>, como el fichero <code>.../(nextcloud)/config/config.php</code> no están bien configurados:</p>
-<p>El fichero <code>/etc/nginx/sites-available/nextcloud.conf</code> debe quedar así:</p>
+<p>El fichero <code>/etc/nginx/sites-available/nextcloud.conf</code>, en mi caso, el fichero <code>/etc/nginx/sites-available/aplicacionesiesgn.conf</code>, ya que quiero que se acceda mediante la dirección <code>www.iesgn15.es/cloud</code>, debe quedar así:</p>
 <pre>
 upstream php-handler {
     server unix:/run/php/php7.3-fpm.sock;
@@ -875,7 +875,7 @@ fastcgi_hide_header X-Powered-By;
                 fastcgi_request_buffering off;
             }
 
-            location ~ ^\/nextcloud\/(?:updater|oc[ms]-provider)(?:$|\/) {
+            location ~ ^\/cloud\/(?:updater|oc[ms]-provider)(?:$|\/) {
                 try_files $uri/ =404;
                 index index.php;
             }
