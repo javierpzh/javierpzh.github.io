@@ -33,6 +33,7 @@
 
 
 
+        <meta name="description" content="Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente. 1....">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -47,6 +48,7 @@
 	<meta property="og:url" content="/lets-encrypt-https.html">
 	<meta property="og:title" content="Let's Encrypt HTTPS">
 	<meta property="article:published_time" content="2020-11-24 00:00:00+01:00">
+            <meta property="og:description" content="Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente. 1....">
 
             <meta property="og:image" content="theme/images/banner-seguridad.jpg">
 </head>
@@ -105,7 +107,18 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        
+        <h4>Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente.</h4>
+<p><strong>1. Vamos a utilizar el servicio <code>https://letsencrypt.org</code> para solicitar los certificados de nuestras páginas.</strong></p>
+<p><strong>2. Explica detenidamente cómo se solicita un certificado en <em>Let's Encrypt</em>. En tu explicación deberás responder a estas preguntas:</strong></p>
+<p><strong>¿Qué función tiene el cliente ACME?</strong></p>
+<p><strong>¿Qué configuración se realiza en el servidor web?</strong></p>
+<p><strong>¿Qué pruebas realiza <em>Let's Encrypt</em> para asegurar que somos los administrados del sitio web?</strong></p>
+<p><strong>¿Se puede usar el DNS para verificar que somos administradores del sitio?</strong></p>
+<p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> HTTP y otro para la configuración del virtualhost HTTPS.</strong></p>
+<p><strong>4. Realiza una redirección o una reescritura para que cuando accedas a HTTP te redirija al sitio HTTPS.</strong></p>
+<p><strong>5. Comprueba que se ha creado una tarea <em>cron</em> que renueva el certificado cada 3 meses.</strong></p>
+<p><strong>6. Comprueba que las páginas son accesible por HTTPS y visualiza los detalles del certificado que has creado.</strong></p>
+<p><strong>7. Modifica la configuración del cliente de <em>Nextcloud</em> para comprobar que sigue en funcionamiento con HTTPS.</strong></p>
     </article>
 
         <div class="tags">
