@@ -111,37 +111,33 @@
         <p>Vamos a realizar la actualización de la instancia <strong>Quijote</strong>, que creamos en este <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">post</a> la cuál posee <strong>CentOS 7</strong>, a <strong>CentOS 8</strong>, garantizando que todos los servicios previos continúen funcionando.</p>
 <p>Para comprobar la versión de <em>CentOS</em> que tenemos instalada en este momento:</p>
 <pre>
-cat /etc/redhat-release
+[root@quijote ~]# cat /etc/redhat-release
+CentOS Linux release 7.8.2003 (Core)
 </pre>
 
-<p>Lo primero que debemos si queremos subir de <em>CentOS 7</em> a <em>CentOS 8</em>, sería habilitar el repositorio <strong>epel</strong>.</p>
+<p>Lo primero que debemos si queremos subir de <em>CentOS 7</em> a <em>CentOS 8</em>, sería instalar el repositorio <strong>EPEL</strong> (Extra Packages Enterprise Linux). Recordemos que el gestor de paquetes predeterminado es <em>CentOS 7</em> es <code>yum</code>.</p>
 <pre>
 yum install epel-release -y
 </pre>
 
-<p>Debemos tener instaladas las herramientas para el gestor de paquetes <code>yum</code>. Para instalarlas:</p>
+<p>Debemos tener instaladas las herramientas para el gestor de paquetes <code>yum</code> y la herramienta <code>rpmconf</code>, para resolver los posibles conflictos en las configuraciones de paquetes <em>rpm</em>. Para instalar ambos paquetes:</p>
 <pre>
-yum install yum-utils -y
+yum install yum-utils rpmconf -y
 </pre>
 
-<p>Instalamos la herramienta <code>rpmconf</code>, para resolver los paquetes <em>rpm</em>:</p>
-<pre>
-yum install rpmconf
-</pre>
-
-<p>Ejecutamos el siguiente comando, y el sistema nos preguntará si queremos mantener los archivos originales o actualizarlos. En mi caso, mantengo los originales.</p>
+<p>Ejecutamos el siguiente comando, para comprobar si existen conflictos como acabamos de comentar.</p>
 <pre>
 rpmconf -a
 </pre>
 
-<p>Ahora vamos a eliminar los paquetes huérfanos y que nos resultan innecesarios:</p>
+<p>Cuando hemos verificado que no hay ningún problema, vamos a eliminar los paquetes huérfanos y que nos resultan innecesarios:</p>
 <pre>
 package-cleanup --orphans
 
 package-cleanup --leaves
 </pre>
 
-<p>En <em>CentOS 8</em>, el gestor de paquetes predeterminado no es <code>yum</code>, sino que se utiliza <code>dnf</code>, por tanto vamos a instalarlo:</p>
+<p>En <em>CentOS 8</em>, el gestor de paquetes predeterminado no es <code>yum</code>, sino que se utiliza <code>dnf</code>, por tanto vamos a instalarlo, aunque realmente podemos seguir utilizando <code>yum</code> sin problemas, o conviviendo con los dos:</p>
 <pre>
 yum install dnf
 </pre>
@@ -153,24 +149,19 @@ dnf remove yum yum-metadata-parser
 rm -Rf /etc/yum
 </pre>
 
-<p>Actualizamos el sistema:</p>
+<p>Vamos a llevar a cabo una actualización de todos los paquetes del sistema:</p>
 <pre>
 dnf update
 </pre>
 
-<p>Ha llegado el momento de habilitar los repositorios de <em>CentOS 8</em>. Los añadimos:</p>
+<p>Ha llegado el momento de iniciar la actualización y de instalar los paquetes necesarios para <em>CentOS 8</em> que encontramos en los repositorios oficiales. Los instalamos:</p>
 <pre>
 dnf install http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.1.el8.x86_64.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-release-8.2-2.2004.0.1.el8.x86_64.rpm http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8.2-2.2004.0.1.el8.noarch.rpm
 </pre>
 
-<p>Actualizamos de nuevo el repositorio <em>epel</em>:</p>
+<p>Toca actualizar de nuevo el repositorio <em>EPEL</em>:</p>
 <pre>
 dnf upgrade -y epel-release
-</pre>
-
-<p>Construimos de nuevo la caché.</p>
-<pre>
-dnf makecache
 </pre>
 
 <p>Eliminamos los archivos temporales innecesarios.</p>
