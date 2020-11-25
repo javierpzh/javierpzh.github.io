@@ -248,11 +248,11 @@ ubuntu@sancho:~$
 <p><img alt="." src="images/hlc_creacion_del_escenario_de_trabajo_en_OpenStack/quijotecreada.png"></p>
 <p>Comprobamos que desde <em>Dulcinea</em> nos podemos conectar a esta nueva máquina:</p>
 <pre>
-debian@dulcinea:~$ ssh centos@10.0.1.7
-The authenticity of host '10.0.1.7 (10.0.1.7)' can't be established.
-ECDSA key fingerprint is SHA256:yaVnl6DEqwYuqYG3FKZV6t/pDWGM0kdKX0ExM1jr5Xc.
+debian@dulcinea:~$ ssh centos@10.0.1.13
+The authenticity of host '10.0.1.13 (10.0.1.13)' can't be established.
+ECDSA key fingerprint is SHA256:kZHztAbFW707wQg8BfcVd8+R/Kp/DZJseK5kwLO/xTU.
 Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added '10.0.1.7' (ECDSA) to the list of known hosts.
+Warning: Permanently added '10.0.1.13' (ECDSA) to the list of known hosts.
 
 [centos@quijote ~]$
 </pre>
@@ -302,16 +302,15 @@ Please enter your OpenStack Password for project Proyecto de javier.perezh as us
 
 <p>Si hemos introducido correctamente la contraseña, ya podríamos administrar nuestro proyecto desde la terminal. Por ejemplo, podemos listar nuestras instancias:</p>
 <pre>
-(openstack) javier@debian:~/openstack$ openstack server list
-+--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
-| ID                                   | Name                 | Status | Networks                                                                              | Image                    | Flavor  |
-+--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
-| 07edce9e-38af-45a5-b1bc-a9df951575cc | Quijote              | ACTIVE | red interna de javier.perezh=10.0.1.7                                                 | N/A (booted from volume) | m1.mini |
-| 044c375b-d088-4165-8668-a55775f9fabb | Sancho               | ACTIVE | red interna de javier.perezh=10.0.1.8                                                 | N/A (booted from volume) | m1.mini |
-| 73f609c8-9724-4e54-818d-a9bdf0cb43fe | Dulcinea             | ACTIVE | red de javier.perezh=10.0.0.8, 172.22.200.183; red interna de javier.perezh=10.0.1.11 | N/A (booted from volume) | m1.mini |
-| 1228132f-73ae-4ccf-9216-bf17fab31d12 | Deb10-ServidorNginx2 | ACTIVE | red de javier.perezh=10.0.0.9                                                         | N/A (booted from volume) | m1.mini |
-| 70264938-6486-4db0-af71-89d0037f3d54 | Deb10-ServidorNginx  | ACTIVE | red de javier.perezh=10.0.0.3, 172.22.200.116                                         | N/A (booted from volume) | m1.mini |
-+--------------------------------------+----------------------+--------+---------------------------------------------------------------------------------------+--------------------------+---------+
+javier@debian:~/openstack$ openstack server list
++--------------------------------------+-------------+--------+---------------------------------------------------------------------------------------+-------+---------+
+| ID                                   | Name        | Status | Networks                                                                              | Image | Flavor  |
++--------------------------------------+-------------+--------+---------------------------------------------------------------------------------------+-------+---------+
+| 5c572aa6-3ca4-49a8-8e1c-b9f472988b84 | Quijote     | ACTIVE | red interna de javier.perezh=10.0.1.13                                                |       | m1.mini |
+| 044c375b-d088-4165-8668-a55775f9fabb | Sancho      | ACTIVE | red interna de javier.perezh=10.0.1.8                                                 |       | m1.mini |
+| 73f609c8-9724-4e54-818d-a9bdf0cb43fe | Dulcinea    | ACTIVE | red de javier.perezh=10.0.0.8, 172.22.200.183; red interna de javier.perezh=10.0.1.11 |       | m1.mini |
+| 650210f7-e31c-40e7-8a9d-53b7e6cb038e | PracticaDNS | ACTIVE | red de javier.perezh=10.0.0.11, 172.22.200.174                                        |       | m1.mini |
++--------------------------------------+-------------+--------+---------------------------------------------------------------------------------------+-------+---------+
 </pre>
 
 <p>Vemos como nos muestra las instancias creadas, entre las cuáles se encuentran las tres que formarán el escenario, <strong>Quijote</strong>, <strong>Sancho</strong> y <strong>Dulcinea</strong>.</p>
@@ -410,17 +409,16 @@ PING 172.22.200.183 (172.22.200.183) 56(84) bytes of data.
 <p>Ya no responde y por tanto hemos perdido la conectividad a ella.</p>
 <p>Si miramos la lista de los puertos:</p>
 <pre>
-(openstack) javier@debian:~/openstack$ openstack port list
+javier@debian:~/openstack$ openstack port list
 +--------------------------------------+------+-------------------+--------------------------------------------------------------------------+--------+
 | ID                                   | Name | MAC Address       | Fixed IP Addresses                                                       | Status |
 +--------------------------------------+------+-------------------+--------------------------------------------------------------------------+--------+
-| 17545123-581b-4ed5-8884-96ae771eb5d3 |      | fa:16:3e:75:b4:33 | ip_address='10.0.0.3', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
 | 2531063e-74f3-44d3-a268-0d2868599eee |      | fa:16:3e:2b:1c:c7 | ip_address='10.0.0.8', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
-| 450cc85b-f8a2-41a5-94b2-36ef74505a04 |      | fa:16:3e:5c:a3:2c | ip_address='10.0.0.9', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| 2cffa116-c4b4-45e5-865f-5c40f6868eaa |      | fa:16:3e:5c:3d:c5 | ip_address='10.0.1.13', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748' | ACTIVE |
+| 34576fb0-2015-4d8d-b4c4-4e506713a84b |      | fa:16:3e:08:8c:c3 | ip_address='10.0.1.1', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
 | 4b74d3ee-c877-4c20-820d-69e502c51034 |      | fa:16:3e:28:24:d0 | ip_address='10.0.0.2', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
 | 50c06762-bfce-499f-95b3-ef3a3708f906 |      | fa:16:3e:4b:ab:f9 | ip_address='10.0.0.1', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
-| 5e26175a-0a8e-4a5e-b3be-ba324a77d111 |      | fa:16:3e:f3:9b:bf | ip_address='10.0.1.1', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
-| 806f2c56-3e2f-402e-8508-794875c6476d |      | fa:16:3e:ba:a3:5e | ip_address='10.0.1.7', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
+| a849802c-5c9d-41c1-94c5-59226fb2fe1a |      | fa:16:3e:65:96:2b | ip_address='10.0.0.11', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3' | ACTIVE |
 | e1517753-2766-4856-a1aa-9f6df4e70d8d |      | fa:16:3e:24:f3:f9 | ip_address='10.0.1.11', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748' | ACTIVE |
 | e225a306-9713-4e4a-bd14-888c01479784 |      | fa:16:3e:84:9b:94 | ip_address='10.0.1.8', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
 +--------------------------------------+------+-------------------+--------------------------------------------------------------------------+--------+
@@ -686,23 +684,23 @@ rtt min/avg/max/mdev = 43.166/43.438/43.925/0.345 ms
 <pre>
 BOOTPROTO=dhcp
 DEVICE=eth0
-HWADDR=fa:16:3e:ba:a3:5e
+HWADDR=fa:16:3e:5c:3d:c5
 MTU=8950
 ONBOOT=yes
 TYPE=Ethernet
 USERCTL=no
 </pre>
 
-<p>Debemos sustituirlo por este bloque, en el que indicamos que en el apartado <strong>BOOTPROTO</strong>, la IP ahora se establece como estática, y el <strong>DHCP4</strong> pasa a ser desactivado, que la IP estática que le estamos asignando es la <strong>10.0.1.7</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>, que la puerta de enlace es la <strong>10.0.1.3</strong>, es decir, la IP de <em>Dulcinea</em>, y que utilice esos <strong>DNS</strong> indicados. Es importante establecer en el apartado <strong>ONBOOT</strong> el valor <em>yes</em>, ya que esto hará que esta configuración se active en cada inicio del sistema.</p>
+<p>Debemos sustituirlo por este bloque, en el que indicamos que en el apartado <strong>BOOTPROTO</strong>, la IP ahora se establece como estática, y el <strong>DHCP4</strong> pasa a ser desactivado, que la IP estática que le estamos asignando es la <strong>10.0.1.13</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>, que la puerta de enlace es la <strong>10.0.1.3</strong>, es decir, la IP de <em>Dulcinea</em>, y que utilice esos <strong>DNS</strong> indicados. Es importante establecer en el apartado <strong>ONBOOT</strong> el valor <em>yes</em>, ya que esto hará que esta configuración se active en cada inicio del sistema.</p>
 <pre>
 BOOTPROTO=static
 DEVICE=eth0
-HWADDR=fa:16:3e:ba:a3:5e
+HWADDR=fa:16:3e:5c:3d:c5
 MTU=8950
 ONBOOT=yes
 TYPE=Ethernet
 USERCTL=no
-IPADDR=10.0.1.7
+IPADDR=10.0.1.13
 NETMASK=255.255.255.0
 GATEWAY=10.0.1.3
 DNS1=10.0.1.3
@@ -717,10 +715,10 @@ systemctl restart network.service
 <p>También reinicio la máquina para verificar que en cada inicio se aplicará esta configuración:</p>
 <pre>
 [root@quijote ~]# reboot
-Connection to 10.0.1.7 closed by remote host.
-Connection to 10.0.1.7 closed.
+Connection to 10.0.1.13 closed by remote host.
+Connection to 10.0.1.13 closed.
 
-debian@dulcinea:~$ ssh centos@10.0.1.7
+debian@dulcinea:~$ ssh centos@10.0.1.13
 
 Last login: Sat Nov 14 18:43:37 2020 from gateway
 
@@ -732,25 +730,25 @@ Last login: Sat Nov 14 18:43:37 2020 from gateway
     inet6 ::1/128 scope host
        valid_lft forever preferred_lft forever
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
-    link/ether fa:16:3e:f8:a8:c4 brd ff:ff:ff:ff:ff:ff
-    inet 10.0.1.7/24 brd 10.0.1.255 scope global eth0
+    link/ether fa:16:3e:5c:3d:c5 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.1.13/24 brd 10.0.1.255 scope global eth0
        valid_lft forever preferred_lft forever
-    inet6 fe80::f816:3eff:fef8:a8c4/64 scope link
+    inet6 fe80::f816:3eff:fe5c:3dc5/64 scope link
        valid_lft forever preferred_lft forever
 
 [centos@quijote ~]$ ip r
 default via 10.0.1.3 dev eth0
-10.0.1.0/24 dev eth0 proto kernel scope link src 10.0.1.7
+10.0.1.0/24 dev eth0 proto kernel scope link src 10.0.1.13
 
 [centos@quijote ~]$ ping www.google.es
-PING www.google.es (216.58.215.131) 56(84) bytes of data.
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=43.1 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=42.6 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=54.7 ms
+PING www.google.es (216.58.209.67) 56(84) bytes of data.
+64 bytes from mad07s22-in-f3.1e100.net (216.58.209.67): icmp_seq=1 ttl=112 time=42.9 ms
+64 bytes from mad07s22-in-f3.1e100.net (216.58.209.67): icmp_seq=2 ttl=112 time=43.4 ms
+64 bytes from mad07s22-in-f3.1e100.net (216.58.209.67): icmp_seq=3 ttl=112 time=57.3 ms
 ^C
 --- www.google.es ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 42.619/46.859/54.796/5.616 ms
+rtt min/avg/max/mdev = 42.978/47.944/57.388/6.680 ms
 </pre>
 
 <p>Podemos ver como efectivamente nos ha aplicado la configuración, poseemos una IP estática y la puerta de enlace es la IP de <em>Dulcinea</em>, y además comprobamos que poseemos conectividad al exterior, y podemos disfrutar de una resolución de nombres satisfactoria.</p>
