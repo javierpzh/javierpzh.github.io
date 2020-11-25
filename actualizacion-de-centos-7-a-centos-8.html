@@ -156,18 +156,12 @@ dnf upgrade -y
 
 <p>Ha llegado el momento de iniciar la actualización y de instalar los paquetes necesarios para <em>CentOS 8</em> que encontramos en los repositorios oficiales. Los instalamos:</p>
 <pre>
-dnf install \
-
-http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.2.el8.x86_64.rpm \
-
-http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-release-8.2-2.2004.0.2.el8.x86_64.rpm \
-
-http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8.2-2.2004.0.2.el8.noarch.rpm
+dnf install \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.2.el8.x86_64.rpm \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-release-8.2-2.2004.0.2.el8.x86_64.rpm \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8.2-2.2004.0.2.el8.noarch.rpm
 </pre>
 
 <p>Toca actualizar de nuevo el repositorio <em>EPEL</em>:</p>
 <pre>
-dnf upgrade -y epel-release
+dnf upgrade epel-release -y
 </pre>
 
 <p>Eliminamos los archivos temporales innecesarios.</p>
@@ -187,7 +181,7 @@ rpm -e --nodeps sysvinit-tools
 
 <p>Y por fin, empezamos la actualización a <em>CentOS 8</em>:</p>
 <pre>
-dnf -y --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
+dnf --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
 </pre>
 
 <p>Puede que varios paquetes relacionados con <strong>Python</strong>, nos produzcan conflictos, así que para resolverlo, desinstalamos el paquete con este comando:</p>
@@ -202,12 +196,12 @@ dnf -y --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
 
 <p>Una vez finalizada exitosamente la actualización, para terminar, nos quedaría instalar el kérnel del nuevo <em>CentOS 8</em>:</p>
 <pre>
-dnf install -y kernel-core
+dnf install kernel-core -y
 </pre>
 
 <p>Y por último, vamos a instalar los paquetes mínimos del sistema:</p>
 <pre>
-dnf -y groupupdate "Core" "Minimal Install" --allowerasing --skip-broken
+dnf groupupdate "Core" "Minimal Install" -y
 </pre>
 
 <p>Reiniciamos el sistema:</p>
