@@ -144,9 +144,25 @@ javier@debian:~/entornos_virtuales/django_tutorial$ source django/bin/activate
 </pre>
 
 <ul>
-<li>
-<p><strong>Comprueba que vamos a trabajar con una base de datos sqlite (<code>django_tutorial/settings.py</code>). ¿Cómo se llama la base de datos que vamos a crear?</strong></p>
-</li>
+<li><strong>Comprueba que vamos a trabajar con una base de datos <em>sqlite</em> (<code>django_tutorial/settings.py</code>). ¿Cómo se llama la base de datos que vamos a crear?</strong></li>
+</ul>
+<p>Para realizar esta comprobación, vamos a inspeccionar las líneas del fichero <code>settings.py</code>.</p>
+<pre>
+nano django_tutorial/settings.py
+</pre>
+
+<p>Ahora debemos buscar el siguiente bloque:</p>
+<pre>
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+</pre>
+
+<p>En él podemos ver como efectivamente, trabajaremos con una base de datos <em>sqlite</em>, que recibirá el nombre <strong><code>db.sqlite3</code></strong>.</p>
+<ul>
 <li>
 <p><strong>Crea la base de datos: <code>python3 manage.py migrate</code>. A partir del modelo de datos se crean las tablas de la base de datos.</strong></p>
 </li>
