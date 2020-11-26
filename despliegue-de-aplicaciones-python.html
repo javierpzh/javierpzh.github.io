@@ -33,6 +33,7 @@
 
 
 
+        <meta name="description" content="Tarea 1: Entorno de desarrollo Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -48,6 +49,7 @@
 	<meta property="og:url" content="/despliegue-de-aplicaciones-python.html">
 	<meta property="og:title" content="Despliegue de aplicaciones python">
 	<meta property="article:published_time" content="2020-11-26 00:00:00+01:00">
+            <meta property="og:description" content="Tarea 1: Entorno de desarrollo Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
 </head>
@@ -106,7 +108,97 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        
+        <p>Tarea 1: Entorno de desarrollo</p>
+<p>Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:</p>
+<div class="highlight"><pre><span></span><code><span class="err">Realiza un fork del repositorio de GitHub: https://github.com/josedom24/django_tutorial.</span>
+<span class="err">Crea un entorno virtual de python3 e instala las dependencias necesarias para que funcione el proyecto (fichero requirements.txt).</span>
+<span class="err">Comprueba que vamos a trabajar con una base de datos sqlite (django_tutorial/settings.py). ¿Cómo se llama la base de datos que vamos a crear?</span>
+<span class="err">Crea la base de datos: python3 manage.py migrate. A partir del modelo de datos se crean las tablas de la base de datos.</span>
+<span class="err">Crea un usuario administrador: python3 manage.py createsuperuser.</span>
+<span class="err">Ejecuta el servidor web de desarrollo y entra en la zona de administración (\admin) para comprobar que los datos se han añadido correctamente.</span>
+<span class="err">Crea dos preguntas, con posibles respuestas.</span>
+<span class="err">Comprueba en el navegador que la aplicación está funcionando, accede a la url \polls.</span>
+</code></pre></div>
+
+
+<p>En este momento, muestra al profesor la aplicación funcionando. Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea. (2 puntos)
+Tarea 2: Entorno de producciónPermalink</p>
+<p>Vamos a realizar el despliegue de nuestra aplicación en un entorno de producción, para ello vamos a utilizar una instancia del cloud, sigue los siguientes pasos:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Instala</span> <span class="n">en</span> <span class="n">el</span> <span class="n">servidor</span> <span class="n">los</span> <span class="n">servicios</span> <span class="n">necesarios</span> <span class="p">(</span><span class="n">apache2</span><span class="p">).</span> <span class="n">Instala</span> <span class="n">el</span> <span class="n">módulo</span> <span class="n">de</span> <span class="n">apache2</span> <span class="n">para</span> <span class="n">ejecutar</span> <span class="n">código</span> <span class="n">python</span><span class="p">.</span>
+<span class="n">Clona</span> <span class="n">el</span> <span class="n">repositorio</span> <span class="n">en</span> <span class="n">el</span> <span class="n">DocumentRoot</span> <span class="n">de</span> <span class="n">tu</span> <span class="n">virtualhost</span><span class="p">.</span>
+<span class="n">Crea</span> <span class="n">un</span> <span class="n">entorno</span> <span class="n">virtual</span> <span class="n">e</span> <span class="n">instala</span> <span class="n">las</span> <span class="n">dependencias</span> <span class="n">de</span> <span class="n">tu</span> <span class="n">aplicación</span><span class="p">.</span>
+
+<span class="n">Instala</span> <span class="n">el</span> <span class="n">módulo</span> <span class="n">que</span> <span class="n">permite</span> <span class="n">que</span> <span class="n">python</span> <span class="n">trabaje</span> <span class="n">con</span> <span class="n">mysql</span><span class="p">:</span>
+
+  <span class="err">$</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">mysqldb</span>
+
+<span class="n">Y</span> <span class="n">en</span> <span class="n">el</span> <span class="n">entorno</span> <span class="n">virtual</span><span class="p">:</span>
+
+  <span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="err">$</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">connector</span><span class="o">-</span><span class="n">python</span>
+
+<span class="n">Crea</span> <span class="n">una</span> <span class="n">base</span> <span class="n">de</span> <span class="n">datos</span> <span class="n">y</span> <span class="n">un</span> <span class="n">usuario</span> <span class="n">en</span> <span class="n">mysql</span><span class="p">.</span>
+
+<span class="n">Configura</span> <span class="n">la</span> <span class="n">aplicación</span> <span class="n">para</span> <span class="n">trabajar</span> <span class="n">con</span> <span class="n">mysql</span><span class="p">,</span> <span class="n">para</span> <span class="n">ello</span> <span class="n">modifica</span> <span class="n">la</span> <span class="n">configuración</span> <span class="n">de</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">datos</span> <span class="n">en</span> <span class="n">el</span> <span class="n">archivo</span> <span class="n">settings</span><span class="p">.</span><span class="n">py</span><span class="p">:</span>
+
+  <span class="n">DATABASES</span> <span class="o">=</span> <span class="err">{</span>
+      <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="err">{</span>
+          <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;mysql.connector.django&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;myproject&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="s1">&#39;myprojectuser&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+      <span class="err">}</span>
+  <span class="err">}</span>
+
+<span class="n">Como</span> <span class="n">en</span> <span class="n">la</span> <span class="n">tarea</span> <span class="mi">1</span><span class="p">,</span> <span class="n">realiza</span> <span class="n">la</span> <span class="n">migración</span> <span class="n">de</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">datos</span> <span class="n">que</span> <span class="n">creará</span> <span class="n">la</span> <span class="n">estructura</span> <span class="n">de</span> <span class="n">datos</span> <span class="n">necesrias</span><span class="p">.</span> <span class="n">comprueba</span> <span class="n">en</span> <span class="n">mariadb</span> <span class="n">que</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">datos</span> <span class="n">y</span> <span class="n">las</span> <span class="n">tablas</span> <span class="n">se</span> <span class="n">han</span> <span class="n">creado</span><span class="p">.</span>
+<span class="n">Crea</span> <span class="n">un</span> <span class="n">usuario</span> <span class="n">administrador</span><span class="p">:</span> <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">createsuperuser</span><span class="p">.</span>
+<span class="n">Configura</span> <span class="n">un</span> <span class="n">virtualhost</span> <span class="n">en</span> <span class="n">apache2</span> <span class="n">con</span> <span class="n">la</span> <span class="n">configuración</span> <span class="n">adecuada</span> <span class="n">para</span> <span class="n">que</span> <span class="n">funcione</span> <span class="n">la</span> <span class="n">aplicación</span><span class="p">.</span> <span class="n">El</span> <span class="n">punto</span> <span class="n">de</span> <span class="n">entrada</span> <span class="n">de</span> <span class="n">nuestro</span> <span class="n">servidor</span> <span class="n">será</span> <span class="n">django_tutorial</span><span class="o">/</span><span class="n">django_tutorial</span><span class="o">/</span><span class="n">wsgi</span><span class="p">.</span><span class="n">py</span><span class="p">.</span> <span class="n">Puedes</span> <span class="n">guiarte</span> <span class="n">por</span> <span class="n">el</span> <span class="n">Ejercicio</span><span class="p">:</span> <span class="n">Desplegando</span> <span class="n">aplicaciones</span> <span class="n">flask</span><span class="p">,</span> <span class="n">por</span> <span class="n">la</span> <span class="n">documentación</span> <span class="n">de</span> <span class="n">django</span><span class="p">:</span> <span class="n">How</span> <span class="k">to</span> <span class="n">use</span> <span class="n">Django</span> <span class="k">with</span> <span class="n">Apache</span> <span class="k">and</span> <span class="n">mod_wsgi</span><span class="p">,</span><span class="err">…</span>
+<span class="n">Debes</span> <span class="n">asegurarte</span> <span class="n">que</span> <span class="n">el</span> <span class="n">contenido</span> <span class="n">estático</span> <span class="n">se</span> <span class="n">está</span> <span class="n">sirviendo</span><span class="p">:</span> <span class="err">¿</span><span class="n">Se</span> <span class="n">muestra</span> <span class="n">la</span> <span class="n">imagen</span> <span class="n">de</span> <span class="n">fondo</span> <span class="n">de</span> <span class="n">la</span> <span class="n">aplicación</span><span class="o">?</span> <span class="err">¿</span><span class="n">Se</span> <span class="n">ve</span> <span class="n">de</span> <span class="n">forma</span> <span class="n">adecuada</span> <span class="n">la</span> <span class="n">hoja</span> <span class="n">de</span> <span class="n">estilo</span> <span class="n">de</span> <span class="n">la</span> <span class="n">zona</span> <span class="n">de</span> <span class="n">administración</span><span class="o">?</span><span class="p">.</span> <span class="n">Para</span> <span class="n">arreglarlo</span> <span class="n">puedes</span> <span class="n">encontrar</span> <span class="n">documentación</span> <span class="n">en</span> <span class="n">How</span> <span class="k">to</span> <span class="n">use</span> <span class="n">Django</span> <span class="k">with</span> <span class="n">Apache</span> <span class="k">and</span> <span class="n">mod_wsgi</span><span class="p">.</span>
+<span class="n">Desactiva</span> <span class="n">en</span> <span class="n">la</span> <span class="n">configuración</span> <span class="p">(</span><span class="n">fichero</span> <span class="n">settings</span><span class="p">.</span><span class="n">py</span><span class="p">)</span> <span class="n">el</span> <span class="n">modo</span> <span class="n">debug</span> <span class="n">a</span> <span class="k">False</span><span class="p">.</span> <span class="n">Para</span> <span class="n">que</span> <span class="n">los</span> <span class="n">errores</span> <span class="n">de</span> <span class="n">ejecución</span> <span class="k">no</span> <span class="n">den</span> <span class="n">información</span> <span class="n">sensible</span> <span class="n">de</span> <span class="n">la</span> <span class="n">aplicación</span><span class="p">.</span>
+<span class="n">Muestra</span> <span class="n">la</span> <span class="n">página</span> <span class="n">funcionando</span><span class="p">.</span> <span class="n">En</span> <span class="n">la</span> <span class="n">zona</span> <span class="n">de</span> <span class="n">administración</span> <span class="n">se</span> <span class="n">debe</span> <span class="n">ver</span> <span class="n">de</span> <span class="n">forma</span> <span class="n">adecuada</span> <span class="n">la</span> <span class="n">hoja</span> <span class="n">de</span> <span class="n">estilo</span><span class="p">.</span>
+</code></pre></div>
+
+
+<p>En este momento, muestra al profesor la aplicación funcionando. Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea. (4 puntos)
+Tarea 3: Modificación de nuestra aplicaciónPermalink</p>
+<p>Vamos a realizar cambios en el entorno de desarrollo y posteriormente vamos a subirlas a producción. Vamos a realizar tres modificaciones (entrega una captura de pantalla donde se ven cada una de ellas). Recuerda que primero lo haces en el entrono de desarrollo, y luego tendrás que llevar los cambios a producción:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Modifica</span> <span class="n">la</span> <span class="n">página</span> <span class="n">inicial</span> <span class="n">donde</span> <span class="n">se</span> <span class="n">ven</span> <span class="n">las</span> <span class="n">encuestas</span> <span class="n">para</span> <span class="n">que</span> <span class="n">aparezca</span> <span class="n">tu</span> <span class="n">nombre</span><span class="p">:</span> <span class="n">Para</span> <span class="n">ello</span> <span class="n">modifica</span> <span class="n">el</span> <span class="n">archivo</span> <span class="n">django_tutorial</span><span class="o">/</span><span class="n">polls</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">polls</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span><span class="o">.</span>
+<span class="n">Modifica</span> <span class="n">la</span> <span class="n">imagen</span> <span class="n">de</span> <span class="n">fondo</span> <span class="n">que</span> <span class="n">se</span> <span class="n">ve</span> <span class="n">la</span> <span class="n">aplicación</span><span class="o">.</span>
+
+<span class="n">Vamos</span> <span class="n">a</span> <span class="n">crear</span> <span class="n">una</span> <span class="n">nueva</span> <span class="n">tabla</span> <span class="n">en</span> <span class="n">la</span> <span class="n">base</span> <span class="n">de</span> <span class="n">datos</span><span class="p">,</span> <span class="n">para</span> <span class="n">ello</span> <span class="n">sigue</span> <span class="n">los</span> <span class="n">siguientes</span> <span class="n">pasos</span><span class="p">:</span>
+
+    <span class="n">Añade</span> <span class="n">un</span> <span class="n">nuevo</span> <span class="n">modelo</span> <span class="n">al</span> <span class="n">fichero</span> <span class="n">polls</span><span class="o">/</span><span class="n">models</span><span class="o">.</span><span class="n">py</span><span class="p">:</span>
+
+      <span class="k">class</span> <span class="nc">Categoria</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+        <span class="n">Abr</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="n">Nombre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Abr</span><span class="o">+</span><span class="s2">&quot; - &quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">Nombre</span>
+
+    <span class="n">Crea</span> <span class="n">una</span> <span class="n">nueva</span> <span class="n">migración</span><span class="p">:</span> <span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">makemigrations</span><span class="o">.</span>
+    <span class="n">Y</span> <span class="n">realiza</span> <span class="n">la</span> <span class="n">migración</span><span class="p">:</span> <span class="n">python3</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">migrate</span>
+
+    <span class="n">Añade</span> <span class="n">el</span> <span class="n">nuevo</span> <span class="n">modelo</span> <span class="n">al</span> <span class="n">sitio</span> <span class="n">de</span> <span class="n">administración</span> <span class="n">de</span> <span class="n">django</span><span class="p">:</span>
+
+    <span class="n">Para</span> <span class="n">ello</span> <span class="n">cambia</span> <span class="n">la</span> <span class="n">siguiente</span> <span class="n">línea</span> <span class="n">en</span> <span class="n">el</span> <span class="n">fichero</span> <span class="n">polls</span><span class="o">/</span><span class="n">admin</span><span class="o">.</span><span class="n">py</span><span class="p">:</span>
+
+      <span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span>
+
+    <span class="n">Por</span> <span class="n">esta</span> <span class="n">otra</span><span class="p">:</span>
+
+      <span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">Choice</span><span class="p">,</span> <span class="n">Question</span><span class="p">,</span> <span class="n">Categoria</span>
+
+    <span class="n">Y</span> <span class="n">añade</span> <span class="n">al</span> <span class="n">final</span> <span class="n">la</span> <span class="n">siguiente</span> <span class="n">línea</span><span class="p">:</span>
+
+      <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Categoria</span><span class="p">)</span>
+
+    <span class="n">Despliega</span> <span class="n">el</span> <span class="n">cambio</span> <span class="n">producido</span> <span class="n">al</span> <span class="n">crear</span> <span class="n">la</span> <span class="n">nueva</span> <span class="n">tabla</span> <span class="n">en</span> <span class="n">el</span> <span class="n">entorno</span> <span class="n">de</span> <span class="n">producción</span><span class="o">.</span>
+</code></pre></div>
+
+
+<p>Explica los cambios que has realizado en el entorno de desarrollo y cómo lo has desplegado en producción para cada una de las modificaciones.</p>
     </article>
 
         <div class="tags">
