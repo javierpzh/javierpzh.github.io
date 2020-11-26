@@ -234,9 +234,13 @@ Quit the server with CONTROL-C.
 <h2>Tarea 2: Entorno de producción</h2>
 <p><strong>Vamos a realizar el despliegue de nuestra aplicación en un entorno de producción, para ello vamos a utilizar una instancia del cloud, sigue los siguientes pasos:</strong></p>
 <ul>
-<li>
-<p><strong>Instala en el servidor los servicios necesarios (<em>Apache2</em>). Instala el módulo de <em>Apache</em> para ejecutar código <em>Python</em>.</strong></p>
-</li>
+<li><strong>Instala en el servidor los servicios necesarios (<em>Apache2</em>). Instala el módulo de <em>Apache</em> para ejecutar código <em>Python</em>.</strong></li>
+</ul>
+<pre>
+apt install apache2 libapache2-mod-wsgi -y
+</pre>
+
+<ul>
 <li>
 <p><strong>Clona el repositorio en el <em>DocumentRoot</em> de tu <em>virtualhost</em>.</strong></p>
 </li>
