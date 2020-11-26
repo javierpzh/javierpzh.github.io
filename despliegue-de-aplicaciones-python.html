@@ -112,11 +112,38 @@
 <p><strong>Vamos a desarrollar la aplicación del <a href="https://docs.djangoproject.com/en/3.1/intro/tutorial01/">tutorial de django 3.1</a>. Vamos a configurar tu equipo como entorno de desarrollo para trabajar con la aplicación, para ello:</strong></p>
 <ul>
 <li>
-<p><strong>Realiza un fork del repositorio de GitHub: <code>https://github.com/josedom24/django_tutorial</code>.</strong></p>
+<p><strong>Realiza un <em>fork</em> del repositorio de GitHub: <code>https://github.com/josedom24/django_tutorial</code>.</strong></p>
 </li>
 <li>
 <p><strong>Crea un entorno virtual de <em>python3</em> e instala las dependencias necesarias para que funcione el proyecto (fichero <code>requirements.txt</code>).</strong></p>
 </li>
+</ul>
+<p>Tras hacer el <em>fork</em> del repositorio, vamos a clonarlo y a crear dentro de la carpeta que obtendremos un entorno virtual en el que trabajaremos:</p>
+<pre>
+javier@debian:~/entornos_virtuales$ git clone git@github.com:javierpzh/django_tutorial.git
+Clonando en 'django_tutorial'...
+remote: Enumerating objects: 37, done.
+remote: Counting objects: 100% (37/37), done.
+remote: Compressing objects: 100% (32/32), done.
+remote: Total 129 (delta 4), reused 24 (delta 3), pack-reused 92
+Recibiendo objetos: 100% (129/129), 4.25 MiB | 1002.00 KiB/s, listo.
+Resolviendo deltas: 100% (28/28), listo.
+
+javier@debian:~/entornos_virtuales$ cd django_tutorial/
+
+javier@debian:~/entornos_virtuales/django_tutorial$ python3 -m venv django
+
+javier@debian:~/entornos_virtuales/django_tutorial$ source django/bin/activate
+</pre>
+
+<p>Ya en el entorno virtual, actualizamos <code>pip</code> e instalamos el fichero <code>requirements.txt</code> que nos instalara de manera automática todos los paquetes que se incluyan en él.</p>
+<pre>
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ pip install --upgrade pip
+
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ pip install -r requirements.txt
+</pre>
+
+<ul>
 <li>
 <p><strong>Comprueba que vamos a trabajar con una base de datos sqlite (<code>django_tutorial/settings.py</code>). ¿Cómo se llama la base de datos que vamos a crear?</strong></p>
 </li>
