@@ -209,10 +209,9 @@ DATABASES = {
 <p><strong>1. Modifica la página inicial donde se ven las encuestas para que aparezca tu nombre: Para ello modifica el archivo django_tutorial/polls/templates/polls/index.html.</strong></p>
 <p><strong>2. Modifica la imagen de fondo que se ve la aplicación.</strong></p>
 <p><strong>3. Vamos a crear una nueva tabla en la base de datos, para ello sigue los siguientes pasos:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="err">- **Añade un nuevo modelo al fichero `polls/models.py`:**</span>
-</code></pre></div>
-
-
+<ul>
+<li><strong>Añade un nuevo modelo al fichero <code>polls/models.py</code>:</strong></li>
+</ul>
 <pre>
 class Categoria(models.Model):
     Abr = models.CharField(max_length=4)
@@ -222,42 +221,35 @@ class Categoria(models.Model):
         return self.Abr+" - "+self.Nombre       
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="o">**</span><span class="n">Crea</span> <span class="n">una</span> <span class="n">nueva</span> <span class="n">migración</span><span class="p">:</span> <span class="o">`</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span><span class="o">`</span><span class="p">.</span><span class="o">**</span>
-
-
-
-<span class="o">-</span> <span class="o">**</span><span class="n">Y</span> <span class="n">realiza</span> <span class="n">la</span> <span class="n">migración</span><span class="p">:</span> <span class="o">`</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span><span class="o">`**</span>
-
-<span class="o">-</span> <span class="o">**</span><span class="n">Añade</span> <span class="n">el</span> <span class="n">nuevo</span> <span class="n">modelo</span> <span class="n">al</span> <span class="n">sitio</span> <span class="n">de</span> <span class="n">administración</span> <span class="n">de</span> <span class="n">django</span><span class="p">:</span><span class="o">**</span>
-
-<span class="o">**</span><span class="n">Para</span> <span class="n">ello</span> <span class="n">cambia</span> <span class="n">la</span> <span class="n">siguiente</span> <span class="n">línea</span> <span class="n">en</span> <span class="n">el</span> <span class="n">fichero</span> <span class="o">`</span><span class="n">polls</span><span class="o">/</span><span class="k">admin</span><span class="p">.</span><span class="n">py</span><span class="o">`</span><span class="p">:</span><span class="o">**</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p><strong>Crea una nueva migración: <code>python3 manage.py makemigrations</code>.</strong></p>
+</li>
+<li>
+<p><strong>Y realiza la migración: <code>python3 manage.py migrate</code></strong></p>
+</li>
+<li>
+<p><strong>Añade el nuevo modelo al sitio de administración de django:</strong></p>
+</li>
+</ul>
+<p><strong>Para ello cambia la siguiente línea en el fichero <code>polls/admin.py</code>:</strong></p>
 <pre>
 from .models import Choice, Question
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="err">**Por esta otra:**</span>
-</code></pre></div>
-
-
+<p><strong>Por esta otra:</strong></p>
 <pre>
 from .models import Choice, Question, Categoria
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="err">**Y añade al final la siguiente línea:**</span>
-</code></pre></div>
-
-
+<p><strong>Y añade al final la siguiente línea:</strong></p>
 <pre>
 admin.site.register(Categoria)
 </pre>
 
-<div class="highlight"><pre><span></span><code><span class="err">- **Despliega el cambio producido al crear la nueva tabla en el entorno de producción.**</span>
-</code></pre></div>
-
-
+<ul>
+<li><strong>Despliega el cambio producido al crear la nueva tabla en el entorno de producción.</strong></li>
+</ul>
 <p><strong>Explica los cambios que has realizado en el entorno de desarrollo y cómo lo has desplegado en producción para cada una de las modificaciones.</strong></p>
     </article>
 
