@@ -164,12 +164,29 @@ DATABASES = {
 
 <p>En él podemos ver como efectivamente, trabajaremos con una base de datos <em>sqlite</em>, que recibirá el nombre <strong><code>db.sqlite3</code></strong>.</p>
 <ul>
-<li>
-<p><strong>Crea la base de datos: <code>python3 manage.py migrate</code>. A partir del modelo de datos se crean las tablas de la base de datos.</strong></p>
-</li>
-<li>
-<p><strong>Crea un usuario administrador: <code>python3 manage.py createsuperuser</code>.</strong></p>
-</li>
+<li><strong>Crea la base de datos. A partir del modelo de datos se crean las tablas de la base de datos.</strong></li>
+</ul>
+<p>Creamos la base de datos con el siguiente comando:</p>
+<pre>
+python3 manage.py migrate
+</pre>
+
+<p>Ya habríamos creado la nueva base de datos.</p>
+<ul>
+<li><strong>Crea un usuario administrador:</strong></li>
+</ul>
+<p>Creamos el nuevo usuario administrador con el siguiente comando:</p>
+<pre>
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ python3 manage.py createsuperuser
+Username (leave blank to use 'javier'): javierdjango
+Email address: javierperezhidalgo01@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+</pre>
+
+<p>Ya habríamos creado el nuevo administrador.</p>
+<ul>
 <li>
 <p><strong>Ejecuta el servidor web de desarrollo y entra en la zona de administración (<code>\admin</code>) para comprobar que los datos se han añadido correctamente.</strong></p>
 </li>
