@@ -292,6 +292,17 @@ server {
 
 <p>Podemos ver como automáticamente, nos ha añadido las líneas que nos establecen la configuración de los certificados y nos ha creado la redirección hacia <em>HTTPS</em>.</p>
 <p><strong>5. Comprueba que se ha creado una tarea <em>cron</em> que renueva el certificado cada 3 meses.</strong></p>
+<p>Vamos a comprobar que <em>Certbot</em> también nos ha creado una tarea <em>cron</em> que renovará los certificados de manera automática cada 3 meses. Para ello visualizamos el fichero <code>/etc/cron.d/certbot</code>:</p>
+<pre>
+root@vpsjavierpzh:~# cat /etc/cron.d/certbot
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 */12 * * * root test -x /usr/bin/certbot -a \! -d /run/systemd/system && perl -e 'sleep int(rand(43200))' && certbot -q renew
+</pre>
+
+<p>Estas líneas lo que hacen es comprobar cada 12 horas como indica ahí, (12 horas = 43200 segundos), si al certificado le quedan menos de 30 días de validez, y si es así, lo renueva.</p>
 <p><strong>6. Comprueba que las páginas son accesible por <em>HTTPS</em> y visualiza los detalles del certificado que has creado.</strong></p>
 <p>Accedemos a <code>www.iesgn15.es</code>:</p>
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/www.iesgn15.es.png"></p>
