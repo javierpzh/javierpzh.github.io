@@ -131,7 +131,8 @@ certbot --nginx
 <p><strong>¿Se puede usar el DNS para verificar que somos administradores del sitio?</strong></p>
 <p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> <em>HTTP</em> y otro para la configuración del <em>virtualhost</em> <em>HTTPS</em>.</strong></p>
 <p>Yo he utilizado solo un fichero de configuración para cada <em>virtualhost</em>, ya que <em>Nginx</em> te permite establecer en el mismo fichero, las configuraciones de <em>http</em> y <em>https</em>, por lo que, es una tontería crear dos ficheros si podemos utilizar uno.</p>
-<p><code>www.iesgn15.es</code>:</p>
+<p>Nos disponemos a pedir los certificados y a ver el proceso que nos enseña <em>Certbot</em>.</p>
+<p>En primer lugar, voy a solicitar el certificado para la web <code>www.iesgn15.es</code>:</p>
 <pre>
 root@vpsjavierpzh:/etc/nginx/sites-available# certbot --nginx
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
@@ -192,7 +193,8 @@ IMPORTANT NOTES:
 root@vpsjavierpzh:/etc/nginx/sites-available#
 </pre>
 
-<p><code>portal.iesgn15.es</code>:</p>
+<p>Vemos que a la hora de ejecutar el comando, nos identifica todos los <em>virtualhost</em> que poseemos, y tan solo tenemos que seleccionar para cual queremos el certificado. Acto seguido, nos pregunta si queremos que el certificado se renueve de manera automática, también nos pregunta si queremos que el propio <em>Certbot</em> nos realice toda la configuración en el fichero de configuración del <em>virtualhost</em>.</p>
+<p>De nuevo realizo el mismo proceso, esta vez para el <em>virtualhost</em> <code>portal.iesgn15.es</code>:</p>
 <pre>
 root@vpsjavierpzh:/etc/nginx/sites-available# certbot --nginx
 Saving debug log to /var/log/letsencrypt/letsencrypt.log
@@ -274,7 +276,6 @@ server {
 
 
 }
-
 </pre>
 
 <p>Podemos ver como automáticamente, nos ha añadido las líneas que nos establecen la configuración de los certificados y nos ha creado la redirección hacia <em>HTTPS</em>.</p>
