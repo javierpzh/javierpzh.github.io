@@ -109,7 +109,7 @@
     <article>
         <h4>Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente.</h4>
 <p><strong>1. Vamos a utilizar el servicio <code>https://letsencrypt.org</code> para solicitar los certificados de nuestras páginas.</strong></p>
-<p>Si queremos llevar a cabo la solicitud de los certificados para nuestras páginas dispongan de <em>HTTPS</em> verificado por <em>Let's Encryt</em>, tenemos que instalar el siguiente paquete:</p>
+<p>Si queremos llevar a cabo la solicitud de los certificados para nuestras páginas dispongan de <em>HTTPS</em> verificado por <em>Let's Encrypt</em>, tenemos que instalar el siguiente paquete:</p>
 <pre>
 apt install certbot
 </pre>
@@ -126,9 +126,21 @@ certbot --nginx
 
 <p><strong>2. Explica detenidamente cómo se solicita un certificado en <em>Let's Encrypt</em>. En tu explicación deberás responder a estas preguntas:</strong></p>
 <p><strong>¿Qué función tiene el cliente ACME?</strong></p>
+<p><strong>ACME</strong>, siglas de <em>Automatic Certificate Management Environment</em>, es un protocolo que lleva a cabo el agente <em>Certbot</em> y consiste en dos pasos:</p>
+<ul>
+<li>
+<p>Primero, se lleva a cabo la <strong>validación del dominio</strong>, hay que decir antes que nada, que al instalar <em>Certbot</em>, éste generará un par de claves para comunicarse con la CA. Este primer paso, no es más sino que demostrar a la autoridad certificadora que la página que estamos intentando validar es nuestra o somos los administradores de ella. Para este proceso, <em>Let's Encrypt</em> nos posibilita dos retos a realizar, el llamado <em>HTTP-01 Challenger</em>, consiste en colocar un archivo con un determinado contenido en una ruta específica que nos indique <em>Let's Encrypt</em>, si verifican que dicho archivo es correcto, la validación se lleva a cabo, y también disponemos del llamado <em>DNS-01 Challenger</em>, que consiste en crear un registro en la zona DNS con una determinada información.</p>
+</li>
+<li>
+<p>En segundo lugar, se lleva a cabo la <strong>solicitud del certificado</strong>. Cuando hemos realizado el paso anterior, <em>Certbot</em> envía una solcitud de firma, es decir, un fichero <em>.csr</em>, a <em>Let's Encrypt</em>, y este verifica la firma mediante las claves públicas-privadas generadas al inicio y si es correcta firma el certificado y se lo envía a <em>Certbot</em>.</p>
+</li>
+</ul>
 <p><strong>¿Qué configuración se realiza en el servidor web?</strong></p>
-<p><strong>¿Qué pruebas realiza <em>Let's Encrypt</em> para asegurar que somos los administrados del sitio web?</strong></p>
+<p>En el servidor web tenemos que configurar el fichero de configuración del <em>virtualhost</em> a validar y especificarle las rutas donde se encontrarán tanto el certificado, como la clave privada mediante el cuál se generó el fichero <em>.csr</em>.</p>
+<p><strong>¿Qué pruebas realiza <em>Let's Encrypt</em> para asegurar que somos los administradores del sitio web?</strong></p>
+<p>Comentado anteriormente.</p>
 <p><strong>¿Se puede usar el DNS para verificar que somos administradores del sitio?</strong></p>
+<p>Como he comentado anteriormente, sí, y de hecho es un método que nos permitirá al validar un dominio, que todos sus subdominios estén validados también, ya que mediante DNS habrá podido comprobar que somos realmente los administradores del sitio.</p>
 <p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> <em>HTTP</em> y otro para la configuración del <em>virtualhost</em> <em>HTTPS</em>.</strong></p>
 <p>Yo he utilizado solo un fichero de configuración para cada <em>virtualhost</em>, ya que <em>Nginx</em> te permite establecer en el mismo fichero, las configuraciones de <em>http</em> y <em>https</em>, por lo que, es una tontería crear dos ficheros si podemos utilizar uno.</p>
 <p>Nos disponemos a pedir los certificados y a ver el proceso que nos enseña <em>Certbot</em>.</p>
