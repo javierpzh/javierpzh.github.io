@@ -280,7 +280,7 @@ server {
 
 <p>Podemos ver como automáticamente, nos ha añadido las líneas que nos establecen la configuración de los certificados y nos ha creado la redirección hacia <em>HTTPS</em>.</p>
 <p><strong>5. Comprueba que se ha creado una tarea <em>cron</em> que renueva el certificado cada 3 meses.</strong></p>
-<p><strong>6. Comprueba que las páginas son accesible por HTTPS y visualiza los detalles del certificado que has creado.</strong></p>
+<p><strong>6. Comprueba que las páginas son accesible por <em>HTTPS</em> y visualiza los detalles del certificado que has creado.</strong></p>
 <p>Accedemos a <code>www.iesgn15.es</code>:</p>
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/www.iesgn15.es.png"></p>
 <p>Accedemos a <code>portal.iesgn15.es</code>:</p>
@@ -289,7 +289,7 @@ server {
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/nextcloud.png"></p>
 <p>Si vemos los detalles del certificado:</p>
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/certificado.png"></p>
-<p><strong>7. Modifica la configuración del cliente de <em>Nextcloud</em> para comprobar que sigue en funcionamiento con HTTPS.</strong></p>
+<p><strong>7. Modifica la configuración del cliente de <em>Nextcloud</em> para comprobar que sigue en funcionamiento con <em>HTTPS</em>.</strong></p>
 <p>Nos dirigimos ahora a nuestro cliente de <em>Nextcloud</em>, que recordemos que está configurado para la dirección <code>http://www.iesgn15.es/cloud</code>:</p>
 <p><img alt="." src="images/sad_lets_encrypt_HTTPS/nextcloudcliente.png"></p>
 <p>Vemos como a pesar de no estar configurado para que use <em>HTTPS</em>, nos redirige automáticamente gracias a la redirección permanente que hemos creado, por tanto no haría falta volver a configurarlo.</p>
