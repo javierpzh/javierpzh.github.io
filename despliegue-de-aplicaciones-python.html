@@ -261,6 +261,14 @@ root@aplicacion-python:/srv/www# ls
 django_tutorial
 </pre>
 
+<pre>
+root@aplicacion-python:/etc/apache2/sites-available# nano 000-default.conf
+</pre>
+
+<pre>
+DocumentRoot /srv/www/django_tutorial
+</pre>
+
 <ul>
 <li><strong>Crea un entorno virtual e instala las dependencias de tu aplicación.</strong></li>
 </ul>
@@ -296,12 +304,22 @@ pip install mysql-connector-python
 </pre>
 
 <ul>
-<li>
-<p><strong>Crea una base de datos y un usuario en <em>MySQL</em>.</strong></p>
-</li>
-<li>
-<p><strong>Configura la aplicación para trabajar con <em>MySQL</em>, para ello modifica la configuración de la base de datos en el archivo <code>settings.py</code>:</strong></p>
-</li>
+<li><strong>Crea una base de datos y un usuario en <em>MySQL</em>.</strong></li>
+</ul>
+<pre>
+(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py migrate
+...
+
+(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py createsuperuser
+Username (leave blank to use 'root'): javierdjango
+Email address: javierperezhidalgo01@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+</pre>
+
+<ul>
+<li><strong>Configura la aplicación para trabajar con <em>MySQL</em>, para ello modifica la configuración de la base de datos en el archivo <code>settings.py</code>:</strong></li>
 </ul>
 <pre>
 DATABASES = {
