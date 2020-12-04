@@ -242,6 +242,30 @@ empresa=# select * from tiendas;
 
 <p>Vemos como tenemos acceso remoto y tenemos acceso a los datos almacenados.</p>
 <p>En este punto, solo nos quedaría configurar la aplicación web.</p>
+<p>Para servir una página web lógicamente necesitamos un servidor web. Yo he decidido utilizar <em>Apache</em>:</p>
+<pre>
+apt install apache2 apache2-utils -y
+</pre>
+
+<p>Instalamos los paquetes necesarios para poder acceder desde una aplicación web:</p>
+<pre>
+apt install php libapache2-mod-php php-cli php-pgsql phppgadmin -y
+</pre>
+
+<p>En este punto solo nos quedaría hacer unas pequeñas modificaciones en algunos ficheros de configuración.</p>
+<p>El primer cambio debemos hacerlo en el fichero <code>/etc/apache2/conf-available/phppgadmin.conf</code> y comentar la línea <strong>Require local</strong>.</p>
+<p>Después de hacer esto, en el fichero <code>/etc/phppgadmin/config.inc.php</code> debemos buscar la siguiente línea:</p>
+<pre>
+$conf['extra_login_security'] = true;
+</pre>
+
+<p>Tenemos que asegurarnos que su valor sea igual a <strong>true</strong>, y añadir estas líneas que indican la dirección del servidor y el puerto de la máquina remota:</p>
+<pre>
+$conf['servers'][1]['host'] = '172.22.201.25';
+$conf['servers'][1]['port'] = 5432;
+</pre>
+
+<p>Si accedemos a la dirección <code>.../phppgadmin</code> en nuestro navegador e iniciamos sesión con las credenciales de nuestro usuario de la base de datos, obtendremos un resultado como éste:</p>
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/postgresqlaplicacionweb.png"></p>
 <ul>
 <li><strong>Instalación de una herramienta de administración web para MongoDB y prueba desde un cliente remoto.</strong></li>
