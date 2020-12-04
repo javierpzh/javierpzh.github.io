@@ -133,9 +133,28 @@
 </ul>
 <p>Primeramente voy a instalar un servidor PostgreSQL en una instancia del cloud, para luego acceder de manera remota desde una máquina virtual donde haré la aplicación web.</p>
 <p>Instalo en la instancia el servidor:</p>
+<pre>
+apt install postgresql-11 -y
+</pre>
+
+<p>Para verificar si la base de datos <em>PostgreSQL</em> está inicializada y verificar el estado de conexión del servidor utilizamos este comando:</p>
+<pre>
+root@servidor-postgresql:~# pg_isready
+/var/run/postgresql:5432 - accepting connections
+</pre>
+
+<p>Una vez instalado se crea un nuevo usuario llamado <em>postgres</em> que tiene rol de superusuario, por tanto si queremos crear un nuevo usuario, debemos hacerlo a través de este usuario.</p>
+<p>Utilizamos el argumento <em>--interactive</em> para que nos pregunte si el nuevo usuario será administrador o no:</p>
+<pre>
+debian@servidor-postgresql:~$ sudo -u postgres createuser --interactive
+Enter name of role to add: debian
+Shall the new role be a superuser? (y/n) y
+</pre>
+
 <ul>
 <li><strong>Instalación de una herramienta de administración web para MongoDB y prueba desde un cliente remoto.</strong></li>
 </ul>
+<p>.</p>
     </article>
 
         <div class="tags">
