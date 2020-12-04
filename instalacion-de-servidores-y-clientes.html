@@ -143,12 +143,51 @@ root@servidor-postgresql:~# pg_isready
 /var/run/postgresql:5432 - accepting connections
 </pre>
 
-<p>Una vez instalado se crea un nuevo usuario llamado <em>postgres</em> que tiene rol de superusuario, por tanto si queremos crear un nuevo usuario, debemos hacerlo a través de este usuario.</p>
-<p>Utilizamos el argumento <em>--interactive</em> para que nos pregunte si el nuevo usuario será administrador o no:</p>
+<p>Una vez instalado se crea un nuevo usuario llamado <em>postgres</em> que tiene rol de superusuario.</p>
+<p>Vamos a crear un nuevo rol, y debemos hacerlo a través de este usuario.</p>
+<p>Utilizamos el argumento <em>--interactive</em> para que nos pregunte si el nuevo rol será de administrador o no:</p>
 <pre>
 debian@servidor-postgresql:~$ sudo -u postgres createuser --interactive
 Enter name of role to add: debian
 Shall the new role be a superuser? (y/n) y
+</pre>
+
+<p>Ahora creamos una base de datos con el mismo nombre que el rol que hemos creado y nos conectamos:</p>
+<pre>
+debian@servidor-postgresql:~$ createdb debian
+
+debian@servidor-postgresql:~$ psql
+psql (11.9 (Debian 11.9-0+deb10u1))
+Type "help" for help.
+
+debian=#
+</pre>
+
+<p>Vamos a crear unas tablas y unos registros, para ello, utilizamos el siguiente <a href="images/abd_instalacion_de_servidores_y_clientes/scriptpostgresql.txt">script</a>.</p>
+<p>Si comprobamos las tablas y los registros:</p>
+<pre>
+debian=# \d
+          List of relations
+ Schema |   Name    | Type  | Owner  
+--------+-----------+-------+--------
+ public | empleados | table | debian
+ public | productos | table | debian
+ public | tiendas   | table | debian
+(3 rows)
+
+debian=#
+</pre>
+
+<pre>
+
+</pre>
+
+<pre>
+
+</pre>
+
+<pre>
+
 </pre>
 
 <ul>
