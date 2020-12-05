@@ -120,6 +120,29 @@
 <ul>
 <li><strong>Instalación de un servidor de ORACLE 19c</strong></li>
 </ul>
+<p>Vamos a llevar a cabo la instalación de <strong>Oracle</strong> en su versión <strong>19c</strong>. Esta instalación se hará sobre un sistema <strong>Windows 10</strong>.</p>
+<p>Lo primero que debemos hacer, sería descargarnos el paquete de instalación desde la <a href="https://www.oracle.com/es/database/technologies/oracle-database-software-downloads.html#19c">web oficial de Oracle</a>, para realizar la descarga nos hará falta estar registrados como usuarios de <em>Oracle</em>.</p>
+<p>Una vez descargado el archivo <em>.zip</em>, tenemos que extraerlo y ahora empezaremos el proceso de instalación.</p>
+<p>Debemos buscar en el directorio resultante este ejecutable llamado <strong>setup</strong>:</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_setup.png"></p>
+<p>Lo abrimos con permisos de administrador y se nos abrirá esta ventana que quedará cargando:</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_setupcargando.png"></p>
+<p>Una vez haya terminado de cargar el instalador de <em>Oracle</em>, se nos abrirá este asistente en el que configuraremos todos los parámetros de los que queremos disponer en nuestro nuevo servidor de base de datos.</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion1.png"></p>
+<p>Seleccionamos de que tipo de sistema queremos disponer, en mi caso, selecciono ......</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion2.png"></p>
+<p>Este paso es bastante importante, pues debemos establecer la contraseña de administrador que poseerá nuestro nuevo <em>Oracle</em>:</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion4.png"></p>
+<p>En este punto, nos redacta un resumen de las preferencias que hemos escogido, y después de esto, ya comenzará el proceso de instalación:</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion5.png"></p>
+<p>Una vez terminada la instalación, obtendremos esta ventana:</p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion6.png"></p>
+<p>Bien, ya hemos instalado el servidor <em>Oracle</em> en nuestro sistema, vamos a acceder a él. Para ello vamos a abrir la aplicación <strong>SQLPlus</strong>. También podemos acceder a través de nuestro <strong>cmd</strong> con el comando:</p>
+<pre>
+sqlplus
+</pre>
+
+<p>Yo accedo mediante esta segunda opción. Como es la primera vez que vamos a acceder, debemos hacerlo mediante el usuario <strong>system</strong> que nos lo crea por defecto y es administrador. Una vez en él, crearé un usuario personal y le asignaré permisos:</p>
 <pre>
 SQL*Plus: Release 19.0.0.0.0 - Production on Sßb Dic 5 19:04:22 2020
 Version 19.3.0.0.0
@@ -145,7 +168,15 @@ Concesi¾n terminada correctamente.
 SQL>
 </pre>
 
-<p>Voy a crear una serie de tablas de prueba y a insertarle unos pocos registros a partir de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptoracle.txt">script</a>.</p>
+<p>Ya tenemos nuestro usuario disponible, en mi caso, voy a acceder a él y a crear una serie de tablas de prueba y a insertarle unos pocos registros a partir de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptoracle.txt">script</a>.</p>
+<ul>
+<li>
+<p><strong>Instalación de un servidor MySQL y configuración para permitir el acceso remoto desde la red local.</strong></p>
+</li>
+<li>
+<p><strong>Prueba desde un cliente remoto de SQL*Plus.</strong></p>
+</li>
+</ul>
 <pre>
 C:\Users\javier>lsnrctl start
 
@@ -159,17 +190,9 @@ C:\Users\javier>
 </pre>
 
 <ul>
-<li>
-<p><strong>Instalación de un servidor MySQL y configuración para permitir el acceso remoto desde la red local.</strong></p>
-</li>
-<li>
-<p><strong>Prueba desde un cliente remoto de SQL*Plus.</strong></p>
-</li>
-<li>
-<p><strong>Realización de una aplicación web en cualquier lenguaje que conecte con un servidor PostgreSQL tras autenticarse y muestre alguna información almacenada en el mismo.</strong></p>
-</li>
+<li><strong>Realización de una aplicación web en cualquier lenguaje que conecte con un servidor PostgreSQL tras autenticarse y muestre alguna información almacenada en el mismo.</strong></li>
 </ul>
-<p>Primeramente voy a instalar un servidor PostgreSQL en una instancia del <em>cloud</em>, para luego acceder de manera remota desde una máquina virtual donde haré la aplicación web.</p>
+<p>Primeramente voy a instalar un servidor <strong>PostgreSQL</strong> en una instancia del <em>cloud</em>, para luego acceder de manera remota desde una máquina virtual donde haré la aplicación web.</p>
 <p>Instalo en la instancia el servidor:</p>
 <pre>
 apt install postgresql-11 -y
