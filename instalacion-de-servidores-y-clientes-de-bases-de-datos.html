@@ -120,7 +120,7 @@
 <ul>
 <li><strong>Instalación de un servidor de ORACLE 19c</strong></li>
 </ul>
-<p>Vamos a llevar a cabo la instalación de <strong>Oracle</strong> en su versión <strong>19c</strong>. Esta instalación se hará sobre un sistema <strong>Windows 10</strong>.</p>
+<p>Vamos a llevar a cabo la instalación de <strong>Oracle</strong> en su versión <strong>19c</strong>. Esta instalación se hará sobre un sistema <strong>Windows 10</strong>, que se ejecuraá en una máquina virtual conectada en mod puente a mi red local.</p>
 <p>Lo primero que debemos hacer, sería descargarnos el paquete de instalación desde la <a href="https://www.oracle.com/es/database/technologies/oracle-database-software-downloads.html#19c">web oficial de Oracle</a>, para realizar la descarga nos hará falta estar registrados como usuarios de <em>Oracle</em>.</p>
 <p>Una vez descargado el archivo <em>.zip</em>, tenemos que extraerlo y ahora empezaremos el proceso de instalación.</p>
 <p>Debemos buscar en el directorio resultante este ejecutable llamado <strong>setup</strong>:</p>
@@ -129,7 +129,7 @@
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_setupcargando.png"></p>
 <p>Una vez haya terminado de cargar el instalador de <em>Oracle</em>, se nos abrirá este asistente en el que configuraremos todos los parámetros de los que queremos disponer en nuestro nuevo servidor de base de datos.</p>
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion1.png"></p>
-<p>Seleccionamos de que tipo de sistema queremos disponer, en mi caso, selecciono ......</p>
+<p>Seleccionamos de que tipo de sistema queremos disponer, en mi caso, selecciono la <em>clase de escritorio</em> ya que, si seleccionara la <em>case servidor</em>, el propio <em>Oracle</em> nos realizaría todo el proceso de configuración para el acceso remoto, y esto prefiero mostrar como hacerlo manualmente.</p>
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion2.png"></p>
 <p>Este paso es bastante importante, pues debemos establecer la contraseña de administrador que poseerá nuestro nuevo <em>Oracle</em>:</p>
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion4.png"></p>
@@ -144,7 +144,12 @@ sqlplus
 
 <p>Yo accedo mediante esta segunda opción. Como es la primera vez que vamos a acceder, debemos hacerlo mediante el usuario <strong>system</strong> que nos lo crea por defecto y es administrador. Una vez en él, crearé un usuario personal y le asignaré permisos:</p>
 <pre>
-SQL*Plus: Release 19.0.0.0.0 - Production on Sßb Dic 5 19:04:22 2020
+Microsoft Windows [Versión 10.0.19042.572]
+(c) 2020 Microsoft Corporation. Todos los derechos reservados.
+
+C:\Users\javier>sqlplus
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Lun Dic 7 16:43:18 2020
 Version 19.3.0.0.0
 
 Copyright (c) 1982, 2019, Oracle.  All rights reserved.
@@ -177,6 +182,8 @@ SQL>
 <p><strong>Prueba desde un cliente remoto de SQL*Plus.</strong></p>
 </li>
 </ul>
+<p>He creado otra máquina virtual con <strong>Windows 10</strong>, que en este caso, actuará como cliente que accederá al servidor creado anteriormente. También está conectada en modo puente a mi red doméstica, por lo que tiene totalmente accesible al servidor y viceversa. En esta segunda máquina he instalado <em>Oracle</em> de igual manera que en la primera.</p>
+<p><strong>Servidor</strong>:</p>
 <pre>
 C:\Users\javier>lsnrctl start
 
