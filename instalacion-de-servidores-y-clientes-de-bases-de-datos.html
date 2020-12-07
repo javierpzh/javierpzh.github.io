@@ -373,6 +373,7 @@ MariaDB [empresa]>
 <p>El resultado es el esperado, y por tanto, ya hemos terminado este ejercicio donde hemos configurado el acceso desde un cliente a un servidor remoto <em>MySQL</em>.</p>
 <h4>Prueba desde un cliente remoto de SQL*Plus</h4>
 <p>He creado otra máquina virtual con <strong>Windows 10</strong>, que en este caso, actuará como cliente que accederá al servidor creado anteriormente. También está conectada en modo puente a mi red doméstica, por lo que tiene totalmente accesible al servidor y viceversa. En esta segunda máquina he instalado <em>Oracle</em> de igual manera que en la primera.</p>
+<p>Me he dado cuenta de un pequeño detalle, y es que por defecto, el cortafuegos de <em>Windows 10</em> (<em>firewall</em>), me bloqueaba la entrada de paquetes, es decir, me dejaba enviar paquetes pero no recibir, de manera que las máquinas virtuales no llegaban a establecer una conexión, ya que los paquetes sí salían pero nunca llegaban a su destino, por tanto, he tenido que desactivar los cortafuegos de ambas máquinas. Como estoy trabajando en máquinas virtuales en mi red local, no hay problema, pero obviamente no es nada recomendable desactivar todo el sistemas de cortafuegos del sistema.</p>
 <p><strong>Servidor</strong>:</p>
 <pre>
 C:\Users\javier>lsnrctl start
