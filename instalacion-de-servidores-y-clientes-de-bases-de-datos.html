@@ -556,28 +556,33 @@ end
 <p><strong>Cliente:</strong> 192.168.0.40</p>
 </li>
 </ul>
-<p>Una vez tenemos operativas ambas máquinas, nos dirigimos a la que va a tener el rol de <strong>servidor</strong>, y procedemos con la instalación de <strong>MongoDB</strong>:</p>
+<p>Una vez tenemos operativas ambas máquinas, nos dirigimos a la que va a tener el rol de <strong>servidor</strong>, y procedemos con la instalación de <strong>MongoDB</strong>. Antes de nada, hay que instalar el siguiente paquete:</p>
 <pre>
 apt install gnupg -y
 </pre>
 
+<p>Ahora vamos a añadir un nuevo repositorio a nuestro sistema:</p>
 <pre>
 wget https://www.mongodb.org/static/pgp/server-4.4.asc -qO- | sudo apt-key add -
 </pre>
 
-<p><code>/etc/apt/sources.list.d/mongodb-org.list</code>:</p>
+<p>En el fichero <code>/etc/apt/sources.list.d/mongodb-org.list</code> añadimos la siguiente línea:</p>
 <pre>
 deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main
 </pre>
 
+<p>Ya hemos añadido a nuestra lista de repositorios el que contiene los paquetes de <em>MongoDB</em>, por tanto podemos proceder a instalarlo:</p>
 <pre>
 apt update && apt install mongodb-org -y
 </pre>
 
+<p>Una vez descargado el paquete, vamos a iniciar el proceso:</p>
 <pre>
 systemctl enable --now mongod
 </pre>
 
+<p>Con esto, habríamos terminado la actualización, que vemos que es muy sencilla.</p>
+<p>Vamos a proceder a acceder por primera vez a nuestro servidor:</p>
 <pre>
 root@servidor:~# mongo
 MongoDB shell version v4.4.2
