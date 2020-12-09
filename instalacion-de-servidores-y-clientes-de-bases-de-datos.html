@@ -665,12 +665,33 @@ config  0.000GB
 local   0.000GB
 </pre>
 
-<p>Nos conectamos a la base de datos <strong>empresa_mongo</strong> que acabamos de crear:</p>
+<p>Ahora vamos a crear la nueva base de datos que recibirá el nombre de <strong>empresa_mongo</strong>:</p>
+<pre>
+/> use empresa_mongodb
+switched to db empresa_mongodb
+</pre>
+
+<p>Vemos como nos indican mediante un mensaje, que hemos cambiado a trabajar con esta nueva base de datos, que supuestamente debería haber creado.</p>
+<p>Para asegurarnos que la ha creado, vamos a volver a listar las bases de datos existentes:</p>
+<pre>
+/> show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+</pre>
+
+<p>Vaya, no aparece <strong>empresa_mongo</strong>. Aquí viene un apunte importante. <em>MongoDB</em> detecta las bases de datos que contienen algún registro en ellas, de manera que si una base de datos se encuentra vacía, no la muestra.</p>
+<p>Me gustaría hacer un apunte un poco fuera del guión, y es que, en realidad, en <em>MongoDB</em> al no ser una base de datos relacional, las bases de datos no reciben este nombre como tal, sino que se llaman <strong>Colecciones</strong> y sus registros, <strong>Documentos</strong>. Nos parecerá un poco extraño, ya que seguramente estemos más habituados a las bases de datos relacionales, que son las que hemos visto en los ejercicios anteriores.</p>
+<p>Una vez dentro de esta nueva <em>colección</em>, primeramente vamos a crear un nuevo usuario, para así no tener que trabajar con el administrador.</p>
+<pre>
+/> db.createUser({user: "javier_empresario", pwd: "contraseña", roles: ["dbOwner"]})
+Successfully added user: { "user" : "javier_empresario", "roles" : [ "dbOwner" ] }
+</pre>
+
+<p>vamos a insertarle algunos documentos a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
 <pre>
 
 </pre>
-
-<p>Una vez dentro, vamos a crear las tablas y a insertarle los registros a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
     </article>
 
         <div class="tags">
