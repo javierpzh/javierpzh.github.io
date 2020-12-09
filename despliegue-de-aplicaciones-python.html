@@ -238,7 +238,7 @@ Quit the server with CONTROL-C.
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls_pregunta1_respondida.png"></p>
 <p>Y podemos observar como nos ha contabilizado el valor de la nueva respuesta.</p>
 <h2>Tarea 2: Entorno de producción</h2>
-<p><strong>Vamos a realizar el despliegue de nuestra aplicación en un entorno de producción, para ello vamos a utilizar una instancia del cloud, sigue los siguientes pasos:</strong></p>
+<p><strong>Vamos a realizar el despliegue de nuestra aplicación en un entorno de producción, para ello vamos a utilizar una instancia del <em>cloud</em>, sigue los siguientes pasos:</strong></p>
 <ul>
 <li><strong>Instala en el servidor los servicios necesarios (<em>Apache2</em>). Instala el módulo de <em>Apache</em> para ejecutar código <em>Python</em>.</strong></li>
 </ul>
@@ -307,20 +307,55 @@ pip install mysql-connector-python
 <ul>
 <li><strong>Crea una base de datos y un usuario en <em>MySQL</em>.</strong></li>
 </ul>
+<p>Instalamos:</p>
 <pre>
-(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py migrate
-...
+apt install mariadb-server mariadb-client -y
+</pre>
 
-(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py createsuperuser
-Username (leave blank to use 'root'): javierdjango
-Email address: javierperezhidalgo01@gmail.com
-Password:
-Password (again):
-Superuser created successfully.
+<pre>
+root@aplicacion-python:/etc/apache2/sites-available# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 37
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE USER 'django'@'%' IDENTIFIED BY 'djangopassword';
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON *.* TO 'django'@'%';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+</pre>
+
+<p>Nos conectamos al nuevo usuario de <em>MySQL</em>, <strong>django</strong>, y creamos la nueva base de datos, que va a recibir el nombre <strong>db_django</strong>:</p>
+<pre>
+root@aplicacion-python:/etc/apache2/sites-available# mysql -u django -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 38
+Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database db_django;
+Query OK, 1 row affected (0.000 sec)
+
+MariaDB [(none)]> use db_django;
+Database changed
+
+MariaDB [db_django]>
 </pre>
 
 <ul>
-<li><strong>Configura la aplicación para trabajar con <em>MySQL</em>, para ello modifica la configuración de la base de datos en el archivo <code>settings.py</code>:</strong></li>
+<li><strong>Configura la aplicación para trabajar con <em>MySQL</em>, para ello modifica la configuración de la base de datos en el archivo <code>django_tutorial/settings.py</code>:</strong></li>
 </ul>
 <pre>
 DATABASES = {
@@ -342,6 +377,20 @@ DATABASES = {
 <li>
 <p><strong>Crea un usuario administrador: <code>python3 manage.py createsuperuser</code>.</strong></p>
 </li>
+</ul>
+<pre>
+(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py migrate
+...
+
+(django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py createsuperuser
+Username (leave blank to use 'root'): javierdjango
+Email address: javierperezhidalgo01@gmail.com
+Password:
+Password (again):
+Superuser created successfully.
+</pre>
+
+<ul>
 <li>
 <p><strong>Configura un <em>virtualhost</em> en <em>Apache</em> con la configuración adecuada para que funcione la aplicación. El punto de entrada de nuestro servidor será <code>django_tutorial/django_tutorial/wsgi.py</code>. Puedes guiarte por el <a href="https://fp.josedomingo.org/iawgs/u03/flask.html">Ejercicio: Desplegando aplicaciones flask</a>, por la documentación de <em>Django</em>: <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>,…</strong></p>
 </li>
