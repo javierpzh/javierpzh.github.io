@@ -688,7 +688,7 @@ local   0.000GB
 Successfully added user: { "user" : "javier_empresario", "roles" : [ "dbOwner" ] }
 </pre>
 
-<p>Salimos y entramos con el usuario <strong>javier_empresario</strong>. En este caso, como hemos especificado que este usuario solo pueda acceder a la base de datos <strong>empresa_mongodb</strong>, tendremos que hacer uso del parámetro <strong>--authenticationDatabase</strong> que indica a que <strong>colección</strong> nos conectaremos:</p>
+<p>Salimos y entramos con el usuario <strong>javier_empresario</strong>. En este caso, como este usuario ha sido creado en la base de datos <strong>empresa_mongodb</strong>, tendremos que hacer uso del parámetro <strong>--authenticationDatabase</strong> e indicar donde se encuentra el nuevo usuario. Acto después seleccionamos usar <strong>empresa_mongodb</strong>:</p>
 <pre>
 root@servidor:~# mongo --authenticationDatabase "empresa_mongodb" -u javier_empresario -p
 MongoDB shell version v4.4.2
@@ -696,7 +696,9 @@ Enter password:
 connecting to: mongodb://127.0.0.1:27017/?authSource=empresa_mongodb&compressors=disabled&gssapiServiceName=mongodb
 Implicit session: session { "id" : UUID("40c042b7-2ca1-4089-a234-b708db8e888b") }
 MongoDB server version: 4.4.2
-/>
+
+/> use empresa_mongodb
+switched to db empresa_mongodb
 </pre>
 
 <p>Es el momento de insertarle algunos documentos a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
