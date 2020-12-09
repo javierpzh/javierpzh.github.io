@@ -665,7 +665,7 @@ config  0.000GB
 local   0.000GB
 </pre>
 
-<p>Ahora vamos a crear la nueva base de datos que recibirá el nombre de <strong>empresa_mongo</strong>:</p>
+<p>Ahora vamos a crear la nueva base de datos que recibirá el nombre de <strong>empresa_mongodb</strong>:</p>
 <pre>
 /> use empresa_mongodb
 switched to db empresa_mongodb
@@ -680,7 +680,7 @@ config  0.000GB
 local   0.000GB
 </pre>
 
-<p>Vaya, no aparece <strong>empresa_mongo</strong>. Aquí viene un apunte importante. <em>MongoDB</em> detecta las bases de datos que contienen algún registro en ellas, de manera que si una base de datos se encuentra vacía, no la muestra.</p>
+<p>Vaya, no aparece <strong>empresa_mongodb</strong>. Aquí viene un apunte importante. <em>MongoDB</em> detecta las bases de datos que contienen algún registro en ellas, de manera que si una base de datos se encuentra vacía, no la muestra.</p>
 <p>Me gustaría hacer un apunte un poco fuera del guión, y es que, en realidad, en <em>MongoDB</em> al no ser una base de datos relacional, las bases de datos no reciben este nombre como tal, sino que se llaman <strong>Colecciones</strong> y sus registros, <strong>Documentos</strong>. Nos parecerá un poco extraño, ya que seguramente estemos más habituados a las bases de datos relacionales, que son las que hemos visto en los ejercicios anteriores.</p>
 <p>Una vez dentro de esta nueva <em>colección</em>, primeramente vamos a crear un nuevo usuario, para así no tener que trabajar con el administrador.</p>
 <pre>
@@ -688,7 +688,18 @@ local   0.000GB
 Successfully added user: { "user" : "javier_empresario", "roles" : [ "dbOwner" ] }
 </pre>
 
-<p>vamos a insertarle algunos documentos a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
+<p>Salimos y entramos con el usuario <strong>javier_empresario</strong>. En este caso, como hemos especificado que este usuario solo pueda acceder a la base de datos <strong>empresa_mongodb</strong>, tendremos que hacer uso del parámetro <strong>--authenticationDatabase</strong> que indica a que <strong>colección</strong> nos conectaremos:</p>
+<pre>
+root@servidor:~# mongo --authenticationDatabase "empresa_mongodb" -u javier_empresario -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://127.0.0.1:27017/?authSource=empresa_mongodb&compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("40c042b7-2ca1-4089-a234-b708db8e888b") }
+MongoDB server version: 4.4.2
+/>
+</pre>
+
+<p>Es el momento de insertarle algunos documentos a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
 <pre>
 
 </pre>
