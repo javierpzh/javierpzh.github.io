@@ -412,9 +412,31 @@ Superuser created successfully.
 </pre>
 
 <ul>
-<li>
-<p><strong>Configura un <em>virtualhost</em> en <em>Apache</em> con la configuración adecuada para que funcione la aplicación. El punto de entrada de nuestro servidor será <code>django_tutorial/django_tutorial/wsgi.py</code>. Puedes guiarte por el <a href="https://fp.josedomingo.org/iawgs/u03/flask.html">Ejercicio: Desplegando aplicaciones flask</a>, por la documentación de <em>Django</em>: <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>,…</strong></p>
-</li>
+<li><strong>Configura un <em>virtualhost</em> en <em>Apache</em> con la configuración adecuada para que funcione la aplicación. El punto de entrada de nuestro servidor será <code>django_tutorial/django_tutorial/wsgi.py</code>. Puedes guiarte por el <a href="https://fp.josedomingo.org/iawgs/u03/flask.html">Ejercicio: Desplegando aplicaciones flask</a>, por la documentación de <em>Django</em>: <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>,…</strong></li>
+</ul>
+<pre>
+apt install libapache2-mod-wsgi-py3
+</pre>
+
+<p>Activamos el módulo que acabamos de instalar:</p>
+<pre>
+a2enmod wsgi
+</pre>
+
+<p>Creación del fichero WSGI</p>
+<p>Lo primero que vamos a hacer es crear el fichero <strong>WSGI</strong>, que vamos a llamar <code>app.wsgi</code> y estará en mi caso, en <code>/srv/www/django_tutorial</code> y tendrá el siguiente contenido:</p>
+<pre>
+from app import app as application
+</pre>
+
+<p>El primer <code>app</code> corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama <code>app.py</code>. El segundo <code>app</code> corresponde a la aplicación flask creada en <code>app.py: app = Flask(__name__)</code>. Importamos la aplicación flask, pero la llamamos <code>application</code> necesario para que el servidor web pueda enviarle peticiones.</p>
+<p><strong>configuración de Apache2</strong>:</p>
+<p>En el fichero de configuración de nuestro <em>virtualhost</em>:</p>
+<pre>
+
+</pre>
+
+<ul>
 <li>
 <p><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></p>
 </li>
