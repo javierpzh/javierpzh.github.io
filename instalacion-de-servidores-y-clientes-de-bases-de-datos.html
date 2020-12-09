@@ -716,7 +716,9 @@ net:
 systemctl restart mongod
 </pre>
 
-<p>Desde la máquina cliente:</p>
+<p>Hecho esto, habríamos terminado de configurar el acceso remoto a nuestro servidor, por lo que ya podríamos acceder desde el cliente.</p>
+<p>Desde la máquina <strong>cliente</strong> vamos a acceder al servidor en el que hemos estado trabajado anteriormente.</p>
+<p>Utilizamos los parámetros <strong>-host</strong> para especificar la dirección del servidor al que nos vamos a conectar, y todos los demás los conocemos ya:</p>
 <pre>
 root@cliente:~# mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_empresario -p
 MongoDB shell version v4.4.2
@@ -780,6 +782,9 @@ Productos
 }
 />
 </pre>
+
+<p>Acabamos de comprobar como podemos efectivamente podemos acceder al servidor y tenemos acceso a la base de datos y a sus colecciones y documentos.</p>
+<p>Por tanto, solo nos faltaría desarrollar la herramienta web para administrar nuestro servidor de <em>MongoDB</em>.</p>
     </article>
 
         <div class="tags">
