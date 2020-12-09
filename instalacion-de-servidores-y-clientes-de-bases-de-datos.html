@@ -681,8 +681,8 @@ local   0.000GB
 </pre>
 
 <p>Vaya, no aparece <strong>empresa_mongodb</strong>. Aquí viene un apunte importante. <em>MongoDB</em> detecta las bases de datos que contienen algún registro en ellas, de manera que si una base de datos se encuentra vacía, no la muestra.</p>
-<p>Me gustaría hacer un apunte un poco fuera del guión, y es que, en realidad, en <em>MongoDB</em> al no ser una base de datos relacional, las bases de datos no reciben este nombre como tal, sino que se llaman <strong>Colecciones</strong> y sus registros, <strong>Documentos</strong>. Nos parecerá un poco extraño, ya que seguramente estemos más habituados a las bases de datos relacionales, que son las que hemos visto en los ejercicios anteriores.</p>
-<p>Una vez dentro de esta nueva <em>colección</em>, primeramente vamos a crear un nuevo usuario, para así no tener que trabajar con el administrador.</p>
+<p>Me gustaría hacer un apunte un poco fuera del guión, y es que, en realidad, en <em>MongoDB</em> al no ser una base de datos relacional, las tablas de las bases de datos no reciben este nombre como tal, sino que se llaman <strong>Colecciones</strong> y sus registros, <strong>Documentos</strong>. Nos parecerá un poco extraño, ya que seguramente estemos más habituados a las bases de datos relacionales, que son las que hemos visto en los ejercicios anteriores.</p>
+<p>Una vez dentro de esta nueva base de datos, primeramente vamos a crear un nuevo usuario, para así no tener que trabajar con el administrador.</p>
 <pre>
 /> db.createUser({user: "javier_empresario", pwd: "contraseña", roles: ["dbOwner"]})
 Successfully added user: { "user" : "javier_empresario", "roles" : [ "dbOwner" ] }
@@ -701,7 +701,7 @@ MongoDB server version: 4.4.2
 switched to db empresa_mongodb
 </pre>
 
-<p>Es el momento de insertarle algunos documentos a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
+<p>Es el momento de crear algunas <em>colecciones</em> e insertarle algunos <em>documentos</em>. Lo llevaré a cabo a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
 <pre>
 
 </pre>
