@@ -50,7 +50,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">
 	<meta property="og:title" content="Instalación de Servidores y Clientes de bases de datos">
-	<meta property="article:published_time" content="2020-12-04 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-12-08 00:00:00+01:00">
             <meta property="og:description" content="Con esta práctica aprenderéis la instalación y configuración de distintos servidores y clientes de bases de datos. Tras la instalación...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -95,7 +95,7 @@
                         <h1>Instalación de Servidores y Clientes de bases de datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el vie 04 diciembre 2020
+                             el mar 08 diciembre 2020
                         </span>
                         
                     </div>
@@ -526,6 +526,40 @@ $conf['servers'][1]['port'] = 5432;
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/postgresqlaplicacionweb.png"></p>
 <p>Podemos ver como nuestra aplicación nos muestra las bases de datos existentes en el servidor, y podemos eliminarlas, modificarlas y establecer privilegios, entre otras cosas, ya que también podemos realizar consultas, ...</p>
 <h4>Instalación de una herramienta de administración web para MongoDB y prueba desde un cliente remoto</h4>
+<p>Lo primero que voy a hacer, sería crear las dos máquinas virtuales con las que vamos a trabajar en este ejercicio. Como siempre, una actuará como servidor y la otra como cliente. Las dos <em>mv</em> están creadas con <strong>Vagrant</strong> con un sistema <strong>Debian 10</strong>, y conectadas a la misma red local. Este es el fichero <em>Vagrantfile</em>:</p>
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define :servidor do |servidor|
+        servidor.vm.box="debian/buster64"
+        servidor.vm.hostname="servidor"
+    servidor.vm.network :public_network, :bridge=>"wlo1"
+  end
+
+  config.vm.define :cliente do |cliente|
+        cliente.vm.box="debian/buster64"
+        cliente.vm.hostname="cliente"
+    cliente.vm.network :public_network, :bridge=>"wlo1"
+  end
+
+end
+</pre>
+
+<p>Las direcciones IP de ambas máquinas son:</p>
+<ul>
+<li>
+<p><strong>Servidor:</strong> 192.168.0.39</p>
+</li>
+<li>
+<p><strong>Cliente:</strong> 192.168.0.40</p>
+</li>
+</ul>
+<p>Una vez tenemos operativas ambas máquinas, nos dirigimos a la que va a tener el rol de <strong>servidor</strong>, y procedemos con la instalación de <strong>MongoDB</strong>:</p>
+<pre>
+
+</pre>
     </article>
 
         <div class="tags">
