@@ -558,7 +558,55 @@ end
 </ul>
 <p>Una vez tenemos operativas ambas máquinas, nos dirigimos a la que va a tener el rol de <strong>servidor</strong>, y procedemos con la instalación de <strong>MongoDB</strong>:</p>
 <pre>
+apt install gnupg -y
+</pre>
 
+<pre>
+wget https://www.mongodb.org/static/pgp/server-4.4.asc -qO- | sudo apt-key add -
+</pre>
+
+<p>nano /etc/apt/sources.list.d/mongodb-org.list</p>
+<pre>
+deb http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main
+</pre>
+
+<pre>
+apt update && apt install mongodb-org -y
+</pre>
+
+<pre>
+systemctl enable --now mongod
+</pre>
+
+<pre>
+root@servidor:~# mongo
+MongoDB shell version v4.4.2
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("a09dc1ed-067a-4dc0-a7f4-6064715a3a95") }
+MongoDB server version: 4.4.2
+Welcome to the MongoDB shell.
+For interactive help, type "help".
+For more comprehensive documentation, see
+    https://docs.mongodb.com/
+Questions? Try the MongoDB Developer Community Forums
+    https://community.mongodb.com
+---
+The server generated these startup warnings when booting:
+        2020-12-09T16:01:32.945+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+        2020-12-09T16:01:33.334+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+/>
 </pre>
     </article>
 
