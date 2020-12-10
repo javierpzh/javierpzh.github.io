@@ -228,7 +228,7 @@ Quit the server with CONTROL-C.
 <p>Y con esto ya habríamos creado las dos preguntas con las respuestas. Aquí lo podemos ver:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_preguntas_creadas.png"></p>
 <ul>
-<li><strong>Comprueba en el navegador que la aplicación está funcionando, accede a la url <code>\polls</code>.</strong></li>
+<li><strong>Comprueba en el navegador que la aplicación está funcionando, accede a la URL <code>\polls</code>.</strong></li>
 </ul>
 <p>Después de haber generado las dos nuevas preguntas, si nos dirigimos a la dirección <code>http://127.0.0.1:8000/polls</code>, podemos ver que nos aparecen ambas:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls.png"></p>
@@ -434,9 +434,9 @@ MariaDB [db_django]>
 
 <p>Efectivamente, hemos migrados los datos a nuestra nueva base de datos.</p>
 <ul>
-<li><strong>Crea un usuario administrador: <code>python3 manage.py createsuperuser</code>.</strong></li>
+<li><strong>Crea un usuario administrador:</strong></li>
 </ul>
-<p>Creamos el nuevo usuario administrador:</p>
+<p>Creamos el nuevo usuario administrador con el siguiente comando:</p>
 <pre>
 (django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py createsuperuser
 Username (leave blank to use 'root'): javierdjango
@@ -605,8 +605,9 @@ class Categoria(models.Model):
 </pre>
 
 <ul>
-<li><strong>Crea una nueva migración: <code>python3 manage.py makemigrations</code>.</strong></li>
+<li><strong>Crea una nueva migración:</strong></li>
 </ul>
+<p>Creamos una nueva migración con el siguiente comando:</p>
 <pre>
 (django) javier@debian:~/entornos_virtuales/django_tutorial$ python3 manage.py makemigrations
 Migrations for 'polls':
@@ -615,8 +616,9 @@ Migrations for 'polls':
 </pre>
 
 <ul>
-<li><strong>Y realiza la migración: <code>python3 manage.py migrate</code></strong></li>
+<li><strong>Y realiza la migración:</strong></li>
 </ul>
+<p>Realizamos la migración:</p>
 <pre>
 (django) javier@debian:~/entornos_virtuales/django_tutorial$ python manage.py migrate
 Operations to perform:
