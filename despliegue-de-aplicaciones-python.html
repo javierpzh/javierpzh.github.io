@@ -594,6 +594,7 @@ DEBUG = False
 <ul>
 <li><strong>Añade un nuevo modelo al fichero <code>polls/models.py</code>:</strong></li>
 </ul>
+<p>Añadimos al fichero <code>polls/models.py</code> de nuestro entorno de desarrollo el siguiente bloque:</p>
 <pre>
 class Categoria(models.Model):
     Abr = models.CharField(max_length=4)
@@ -604,35 +605,72 @@ class Categoria(models.Model):
 </pre>
 
 <ul>
-<li>
-<p><strong>Crea una nueva migración: <code>python3 manage.py makemigrations</code>.</strong></p>
-</li>
-<li>
-<p><strong>Y realiza la migración: <code>python3 manage.py migrate</code></strong></p>
-</li>
-<li>
-<p><strong>Añade el nuevo modelo al sitio de administración de django:</strong></p>
-</li>
+<li><strong>Crea una nueva migración: <code>python3 manage.py makemigrations</code>.</strong></li>
 </ul>
-<p><strong>Para ello cambia la siguiente línea en el fichero <code>polls/admin.py</code>:</strong></p>
 <pre>
-from .models import Choice, Question
-</pre>
-
-<p><strong>Por esta otra:</strong></p>
-<pre>
-from .models import Choice, Question, Categoria
-</pre>
-
-<p><strong>Y añade al final la siguiente línea:</strong></p>
-<pre>
-admin.site.register(Categoria)
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ python3 manage.py makemigrations
+Migrations for 'polls':
+  polls/migrations/0002_categoria.py
+    - Create model Categoria
 </pre>
 
 <ul>
-<li><strong>Despliega el cambio producido al crear la nueva tabla en el entorno de producción.</strong></li>
+<li><strong>Y realiza la migración: <code>python3 manage.py migrate</code></strong></li>
 </ul>
-<p><strong>Explica los cambios que has realizado en el entorno de desarrollo y cómo lo has desplegado en producción para cada una de las modificaciones.</strong></p>
+<pre>
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, polls, sessions
+Running migrations:
+  Applying polls.0002_categoria... OK
+</pre>
+
+<ul>
+<li>
+<p><strong>Añade el nuevo modelo al sitio de administración de django:</strong></p>
+<ul>
+<li><strong>Para ello cambia la siguiente línea en el fichero <code>polls/admin.py</code>:</strong></li>
+</ul>
+<p><pre>
+from .models import Choice, Question
+</pre></p>
+<ul>
+<li><strong>Por esta otra:</strong></li>
+</ul>
+<p><pre>
+from .models import Choice, Question, Categoria
+</pre></p>
+<ul>
+<li><strong>Y añade al final la siguiente línea:</strong></li>
+</ul>
+<p><pre>
+admin.site.register(Categoria)
+</pre></p>
+</li>
+<li>
+<p><strong>Despliega el cambio producido al crear la nueva tabla en el entorno de producción.</strong></p>
+</li>
+</ul>
+<pre>
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ git add *
+...
+
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ git commit -am "cambio"
+...
+
+(django) javier@debian:~/entornos_virtuales/django_tutorial$ git push
+...
+</pre>
+
+<pre>
+(django2) root@aplicacion-python:/srv/www/django_tutorial# git pull
+...
+
+(django2) root@aplicacion-python:/srv/www/django_tutorial# systemctl restart apache2.service
+</pre>
+
+<p>Si accedemos a la página <code>/admin</code>:</p>
+<p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls_produccion_categorias.png"></p>
     </article>
 
         <div class="tags">
