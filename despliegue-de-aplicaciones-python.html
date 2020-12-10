@@ -499,7 +499,7 @@ systemctl restart apache2.service
 <p>Hecho esto, si accedemos de nuevo a la página <code>/admin</code>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion_conestilo.png"></p>
 <p>Ahora sí apreciamos la hoja de estilo.</p>
-<p>En este punto, aún nos faltaría solucionar el fallo para apreciar también la hojsa de estilo de <code>/polls</code>. Para ello debemos añadir en nuestro fichero de configuración del <em>virtualhost</em> el siguiente contenido:</p>
+<p>En este punto, aún nos faltaría solucionar el fallo para apreciar también la hoja de estilo de <code>/polls</code>. Para ello debemos añadir en nuestro fichero de configuración del <em>virtualhost</em> el siguiente contenido:</p>
 <pre>
 Alias /static/ /srv/www/django_tutorial/polls/static/
 
