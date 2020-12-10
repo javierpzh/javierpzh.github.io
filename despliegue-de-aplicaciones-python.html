@@ -653,6 +653,7 @@ admin.site.register(Categoria)
 <p><strong>Despliega el cambio producido al crear la nueva tabla en el entorno de producción.</strong></p>
 </li>
 </ul>
+<p>Vamos a subir los cambios desde el entorno de desarrollo:</p>
 <pre>
 (django) javier@debian:~/entornos_virtuales/django_tutorial$ git add *
 ...
@@ -664,6 +665,7 @@ admin.site.register(Categoria)
 ...
 </pre>
 
+<p>Y por último, nos bajamos los cambios al entorno de producción:</p>
 <pre>
 (django2) root@aplicacion-python:/srv/www/django_tutorial# git pull
 ...
@@ -671,7 +673,7 @@ admin.site.register(Categoria)
 (django2) root@aplicacion-python:/srv/www/django_tutorial# systemctl restart apache2.service
 </pre>
 
-<p>Si accedemos a la página <code>/admin</code>:</p>
+<p>Si accedemos a la página <code>/admin</code> del entorno de producción:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls_produccion_categorias.png"></p>
     </article>
 
