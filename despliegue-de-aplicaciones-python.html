@@ -462,7 +462,7 @@ a2enmod wsgi
 <p>Hecho esto, es hora de pasar con la configuración de Apache2, mejor dicho, del <em>virtualhost</em>:</p>
 <p>El fichero de configuración de nuestro <em>virtualhost</em> debe ser algo así:</p>
 <pre>
-<VirtualHost *:80>
+<\VirtualHost *:80\>
 
     ServerAdmin webmaster@localhost
     DocumentRoot /srv/www/django_tutorial
@@ -473,27 +473,37 @@ a2enmod wsgi
     WSGIDaemonProcess django_app user=www-data group=www-data processes=1 threads=5 python-path=/srv/www/django_tutorial:/srv/www/django_tutorial/django2/lib/python3.7/site-packages
     WSGIScriptAlias / /srv/www/django_tutorial/django_tutorial/wsgi.py
 
-    <Directory /srv/www/django_tutorial>
+    <\Directory /srv/www/django_tutorial\>
        WSGIProcessGroup django_app
      WSGIApplicationGroup %{GLOBAL}
      Require all granted
-    </Directory>
+    <\/Directory\>
 
-</VirtualHost>
+<\/VirtualHost\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Reiniciamos el servicio para que se apliquen los cambios:</p>
 <pre>
-
+systemctl restart apache2.service
 </pre>
 
 <p>Si probamos a acceder a la dirección de la web, en mi caso <code>172.22.200.253/admin</code>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion.png"></p>
 <p>Vemos como nos muestra la aplicación pero sin su hoja de estilo.</p>
 <ul>
-<li>
-<p><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></p>
-</li>
+<li><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></li>
+</ul>
+<pre>
+Alias /static/ /srv/www/django_tutorial/polls/static/
+
+<\Directory /srv/www/django_tutorial/polls/static\>
+  Require all granted
+<\/Directory\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<ul>
 <li>
 <p><strong>Desactiva en la configuración (fichero <code>settings.py</code>) el modo <em>debug</em> a <em>False</em>. Para que los errores de ejecución no den información sensible de la aplicación.</strong></p>
 </li>
