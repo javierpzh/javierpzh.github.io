@@ -513,14 +513,18 @@ Alias /static/ /srv/www/django_tutorial/polls/static/
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls_produccion.png"></p>
 <p>Vemos como también poseemos hoja de estilo.</p>
 <ul>
-<li>
-<p><strong>Desactiva en la configuración (fichero <code>settings.py</code>) el modo <em>debug</em> a <em>False</em>. Para que los errores de ejecución no den información sensible de la aplicación.</strong></p>
-</li>
-<li>
-<p><strong>Muestra la página funcionando. En la zona de administración se debe ver de forma adecuada la hoja de estilo.</strong></p>
-</li>
+<li><strong>Desactiva en la configuración (fichero <code>django_tutorial/settings.py</code>) el modo <em>debug</em> a <em>False</em>. Para que los errores de ejecución no den información sensible de la aplicación.</strong></li>
 </ul>
-<p><strong>En este momento, muestra al profesor la aplicación funcionando. Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea.</strong></p>
+<p>Editamos el fichero <code>django_tutorial/settings.py</code> y la línea queda así:</p>
+<pre>
+DEBUG = False
+</pre>
+
+<ul>
+<li><strong>Muestra la página funcionando. En la zona de administración se debe ver de forma adecuada la hoja de estilo.</strong></li>
+</ul>
+<p>Accedemos a la página <code>/admin</code>:</p>
+<p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion_conestilo.png"></p>
 <h2>Tarea 3: Modificación de nuestra aplicación</h2>
 <p><strong>Vamos a realizar cambios en el entorno de desarrollo y posteriormente vamos a subirlas a producción. Vamos a realizar tres modificaciones (entrega una captura de pantalla donde se ven cada una de ellas). Recuerda que primero lo haces en el entrono de desarrollo, y luego tendrás que llevar los cambios a producción:</strong></p>
 <p><strong>1. Modifica la página inicial donde se ven las encuestas para que aparezca tu nombre: Para ello modifica el archivo <code>django_tutorial/polls/templates/polls/index.html</code>.</strong></p>
