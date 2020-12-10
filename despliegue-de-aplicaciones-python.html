@@ -627,21 +627,21 @@ Running migrations:
 
 <ul>
 <li>
-<p><strong>Añade el nuevo modelo al sitio de administración de django:</strong></p>
+<p><strong>Añade el nuevo modelo al sitio de administración de <em>Django</em>:</strong></p>
 <ul>
-<li><strong>Para ello cambia la siguiente línea en el fichero <code>polls/admin.py</code>:</strong></li>
+<li>Para ello cambia la siguiente línea en el fichero <code>polls/admin.py</code>:</li>
 </ul>
 <p><pre>
 from .models import Choice, Question
 </pre></p>
 <ul>
-<li><strong>Por esta otra:</strong></li>
+<li>Por esta otra:</li>
 </ul>
 <p><pre>
 from .models import Choice, Question, Categoria
 </pre></p>
 <ul>
-<li><strong>Y añade al final la siguiente línea:</strong></li>
+<li>Y añade al final la siguiente línea:</li>
 </ul>
 <p><pre>
 admin.site.register(Categoria)
