@@ -494,6 +494,12 @@ systemctl restart apache2.service
 <ul>
 <li><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></li>
 </ul>
+<p>Como hemos visto en el apartado anterior, la web no poseía hojas de estilo, por lo que debemos llevar a cabo una serie de pasos para solucionar esto.</p>
+<p>En primer lugar, para 'arreglar' la página <code>admin</code>, debemos dirigirnos a la ruta <code>/lib/python3.7/site-packages/django/contrib/admin/static</code> de nuestro entorno virtual y mover la carpeta <strong>admin</strong> junto a todos sus archivos a la ruta <code>/srv/www/django_tutorial/polls/static/</code>.</p>
+<p>Hecho esto, si accedemos de nuevo a la página <code>/admin</code>:</p>
+<p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion_conestilo.png"></p>
+<p>Ahora sí apreciamos la hoja de estilo.</p>
+<p>En este punto, aún nos faltaría solucionar el fallo para apreciar también la hojsa de estilo de <code>/polls</code>. Para ello debemos añadir en nuestro fichero de configuración del <em>virtualhost</em> el siguiente contenido:</p>
 <pre>
 Alias /static/ /srv/www/django_tutorial/polls/static/
 
@@ -503,6 +509,9 @@ Alias /static/ /srv/www/django_tutorial/polls/static/
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Si accedemos ahora la página <code>/polls</code>:</p>
+<p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_polls_produccion.png"></p>
+<p>Vemos como también poseemos hoja de estilo.</p>
 <ul>
 <li>
 <p><strong>Desactiva en la configuración (fichero <code>settings.py</code>) el modo <em>debug</em> a <em>False</em>. Para que los errores de ejecución no den información sensible de la aplicación.</strong></p>
