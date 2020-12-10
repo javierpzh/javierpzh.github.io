@@ -372,7 +372,7 @@ DATABASES = {
         'USER': 'django',
         'PASSWORD': 'djangopassword',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '3306',
     }
 }
 </pre>
@@ -482,7 +482,14 @@ a2enmod wsgi
 </VirtualHost>
 </pre>
 
+<p>Reiniciamos el servicio para que se apliquen los cambios:</p>
+<pre>
+
+</pre>
+
+<p>Si probamos a acceder a la dirección de la web, en mi caso <code>172.22.200.253/admin</code>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion.png"></p>
+<p>Vemos como nos muestra la aplicación pero sin su hoja de estilo.</p>
 <ul>
 <li>
 <p><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></p>
