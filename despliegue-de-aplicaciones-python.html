@@ -249,23 +249,25 @@ apt install apache2 libapache2-mod-wsgi -y
 <ul>
 <li><strong>Clona el repositorio en el <em>DocumentRoot</em> de tu <em>virtualhost</em>.</strong></li>
 </ul>
+<p>Para clonar el repositorio, es necesario tener instalado en la máquina el paquete <code>git</code>:</p>
 <pre>
-apt install git
+apt install git -y
 </pre>
 
+<p>Ahora sí podemos clonarlo. En mi caso he decidido clonarlo en la ruta <code>/srv/www</code>:</p>
 <pre>
 root@aplicacion-python:/srv/www# git clone https://github.com/javierpzh/django_tutorial.git
-</pre>
 
-<pre>
 root@aplicacion-python:/srv/www# ls
 django_tutorial
 </pre>
 
+<p>Vamos a configurar el fichero del <em>virtualhost</em>, yo utilizo el por defecto, aunque es más recomendable crear uno nuevo, pero así lo hago de manera más cómoda y más rápida.</p>
 <pre>
 root@aplicacion-python:/etc/apache2/sites-available# nano 000-default.conf
 </pre>
 
+<p>En dicho fichero cambiamos la línea del <em>DocumentRoot</em> por la siguiente, esto sirve para indicar donde se encuentran los datos de nuestra aplicación:</p>
 <pre>
 DocumentRoot /srv/www/django_tutorial
 </pre>
@@ -273,6 +275,7 @@ DocumentRoot /srv/www/django_tutorial
 <ul>
 <li><strong>Crea un entorno virtual e instala las dependencias de tu aplicación.</strong></li>
 </ul>
+<p>Creamos un entorno virtual, al igual que hicimos en el entorno de desarrollo, e instalamos los paquetes contenidos en el fichero <code>requirements.txt</code>:</p>
 <pre>
 root@aplicacion-python:/srv/www/django_tutorial# python3 -m venv django2
 
@@ -295,11 +298,13 @@ Successfully installed pip-20.3
 <ul>
 <li><strong>Instala el módulo que permite que <em>Python</em> trabaje con <em>MySQL</em>:</strong></li>
 </ul>
+<p>Instalamos el módulo para que <em>MySQL</em> funcione con <em>Python</em> con este comando:</p>
 <pre>
 apt install python3-mysqldb -y
 </pre>
 
 <p><strong>Y en el entorno virtual:</strong></p>
+<p>Instalamos el módulo para que <em>MySQL</em> funcione con <em>Python</em> en el entorno virtual con este comando:</p>
 <pre>
 pip install mysql-connector-python
 </pre>
@@ -307,11 +312,12 @@ pip install mysql-connector-python
 <ul>
 <li><strong>Crea una base de datos y un usuario en <em>MySQL</em>.</strong></li>
 </ul>
-<p>Instalamos:</p>
+<p>En primer lugar, debemos instalar nuestro servidor de base de datos:</p>
 <pre>
 apt install mariadb-server mariadb-client -y
 </pre>
 
+<p>Accedemos a nuestro servidor y creamos un usuario que será el que utilizaremos en nuestra base de datos:</p>
 <pre>
 root@aplicacion-python:/etc/apache2/sites-available# mysql -u root -p
 Enter password:
@@ -357,6 +363,7 @@ MariaDB [db_django]>
 <ul>
 <li><strong>Configura la aplicación para trabajar con <em>MySQL</em>, para ello modifica la configuración de la base de datos en el archivo <code>django_tutorial/settings.py</code>:</strong></li>
 </ul>
+<p>Para que nuestra aplicación, trabaje con nuestra base de datos, debemos cambiar el bloque <strong>DATABASES</strong> en el fichero <code>django_tutorial/settings.py</code>. Nos debería quedar algo así:</p>
 <pre>
 DATABASES = {
     'default': {
@@ -365,14 +372,16 @@ DATABASES = {
         'USER': 'django',
         'PASSWORD': 'djangopassword',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '',
     }
 }
 </pre>
 
+<p>Obviamente el valor de los campos <em>name</em>, <em>user</em>, <em>password</em> dependerá del nombre de la base de datos, del usuario, y de la contraseña que haya establecido cada uno.</p>
 <ul>
 <li><strong>Como en la tarea 1, realiza la migración de la base de datos que creará la estructura de datos necesarias. comprueba en <em>MariaDB</em> que la base de datos y las tablas se han creado.</strong></li>
 </ul>
+<p>Vamos a migrar de nuevo la base de datos:</p>
 <pre>
 (django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py migrate
 Operations to perform:
@@ -399,9 +408,35 @@ Running migrations:
   Applying sessions.0001_initial... OK
 </pre>
 
+<p>Vamos a entrar en la base de datos y a inspeccionar las tablas que hay creadas:</p>
+<pre>
+MariaDB [db_django]> show tables;
++----------------------------+
+| Tables_in_db_django        |
++----------------------------+
+| auth_group                 |
+| auth_group_permissions     |
+| auth_permission            |
+| auth_user                  |
+| auth_user_groups           |
+| auth_user_user_permissions |
+| django_admin_log           |
+| django_content_type        |
+| django_migrations          |
+| django_session             |
+| polls_choice               |
+| polls_question             |
++----------------------------+
+12 rows in set (0.001 sec)
+
+MariaDB [db_django]>
+</pre>
+
+<p>Efectivamente, hemos migrados los datos a nuestra nueva base de datos.</p>
 <ul>
 <li><strong>Crea un usuario administrador: <code>python3 manage.py createsuperuser</code>.</strong></li>
 </ul>
+<p>Creamos el nuevo usuario administrador:</p>
 <pre>
 (django2) root@aplicacion-python:/srv/www/django_tutorial# python3 manage.py createsuperuser
 Username (leave blank to use 'root'): javierdjango
@@ -414,22 +449,16 @@ Superuser created successfully.
 <ul>
 <li><strong>Configura un <em>virtualhost</em> en <em>Apache</em> con la configuración adecuada para que funcione la aplicación. El punto de entrada de nuestro servidor será <code>django_tutorial/django_tutorial/wsgi.py</code>. Puedes guiarte por el <a href="https://fp.josedomingo.org/iawgs/u03/flask.html">Ejercicio: Desplegando aplicaciones flask</a>, por la documentación de <em>Django</em>: <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>,…</strong></li>
 </ul>
+<p>En primer lugar vamos a asegurarnos que tenemos instalado el siguiente módulo:</p>
 <pre>
-apt install libapache2-mod-wsgi-py3
+apt install libapache2-mod-wsgi-py3 -y
 </pre>
 
-<p>Activamos el módulo que acabamos de instalar:</p>
+<p>Ahora activamos el módulo que acabamos de instalar:</p>
 <pre>
 a2enmod wsgi
 </pre>
 
-<p>Creación del fichero WSGI</p>
-<p>Lo primero que vamos a hacer es crear el fichero <strong>WSGI</strong>, que vamos a llamar <code>app.wsgi</code> y estará en mi caso, en <code>/srv/www/django_tutorial</code> y tendrá el siguiente contenido:</p>
-<pre>
-from app import app as application
-</pre>
-
-<p>El primer <code>app</code> corresponde con el nombre del módulo, es decir del fichero del programa, en nuestro caso se llama <code>app.py</code>. El segundo <code>app</code> corresponde a la aplicación flask creada en <code>app.py: app = Flask(__name__)</code>. Importamos la aplicación flask, pero la llamamos <code>application</code> necesario para que el servidor web pueda enviarle peticiones.</p>
 <p><strong>configuración de Apache2</strong>:</p>
 <p>En el fichero de configuración de nuestro <em>virtualhost</em>:</p>
 <pre>
