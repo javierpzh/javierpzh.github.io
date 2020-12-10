@@ -459,12 +459,30 @@ apt install libapache2-mod-wsgi-py3 -y
 a2enmod wsgi
 </pre>
 
-<p><strong>configuración de Apache2</strong>:</p>
-<p>En el fichero de configuración de nuestro <em>virtualhost</em>:</p>
+<p>Hecho esto, es hora de pasar con la configuración de Apache2, mejor dicho, del <em>virtualhost</em>:</p>
+<p>El fichero de configuración de nuestro <em>virtualhost</em> debe ser algo así:</p>
 <pre>
+<VirtualHost *:80>
 
+    ServerAdmin webmaster@localhost
+    DocumentRoot /srv/www/django_tutorial
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    WSGIDaemonProcess django_app user=www-data group=www-data processes=1 threads=5 python-path=/srv/www/django_tutorial:/srv/www/django_tutorial/django2/lib/python3.7/site-packages
+    WSGIScriptAlias / /srv/www/django_tutorial/django_tutorial/wsgi.py
+
+    <Directory /srv/www/django_tutorial>
+       WSGIProcessGroup django_app
+     WSGIApplicationGroup %{GLOBAL}
+     Require all granted
+    </Directory>
+
+</VirtualHost>
 </pre>
 
+<p><img alt="." src="images/iaw_despliegue_de_aplicaciones_python/django_admin_produccion.png"></p>
 <ul>
 <li>
 <p><strong>Debes asegurarte que el contenido estático se está sirviendo: ¿Se muestra la imagen de fondo de la aplicación? ¿Se ve de forma adecuada la hoja de estilo de la zona de administración? Para arreglarlo puedes encontrar documentación en <a href="https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/modwsgi/">How to use Django with Apache and mod_wsgi</a>.</strong></p>
