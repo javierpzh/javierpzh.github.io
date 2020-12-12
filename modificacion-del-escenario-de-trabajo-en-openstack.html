@@ -110,12 +110,8 @@
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/escenario2.png"></p>
 <h4>1. Creación de la red DMZ:</h4>
 <ul>
-<li>
-<p><strong>Nombre: DMZ de (nombre de usuario)</strong></p>
-</li>
-<li>
-<p><strong>10.0.2.0/24</strong></p>
-</li>
+<li><strong>Nombre: DMZ de (nombre de usuario)</strong></li>
+<li><strong>10.0.2.0/24</strong></li>
 </ul>
 <p>Vamos a crear una nueva red, en esta caso, una <strong>red DMZ</strong>, que se situará entre la red interna y la externa.</p>
 <p>Para crearla, nos dirigimos hacia nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Redes</strong>. Una vez aquí, <em>clickamos</em> en el botón llamado <strong>+ Crear red</strong>, y se nos abrirá un menú, donde debemos indicar las características de la red que queremos crear:</p>
@@ -129,10 +125,6 @@
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ4.png"></p>
 <p>Hemos finalizado este primer ejercicio.</p>
 <h4>2. Creación de las instancias:</h4>
-<p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
-<p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png"></p>
-<p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
-<p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png"></p>
 <ul>
 <li>
 <p><strong>freston:</strong></p>
@@ -144,6 +136,10 @@
 </ul>
 </li>
 </ul>
+<p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
+<p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png"></p>
+<p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
+<p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png"></p>
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
