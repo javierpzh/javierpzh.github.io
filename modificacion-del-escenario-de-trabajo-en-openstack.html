@@ -338,10 +338,12 @@ System clock synchronized: yes
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
 </ul>
-<p>Es hora de realizar el último cambio del ejercicio, y no es más que cambiar la ubicación de la máquina <strong>Quijote</strong> a la nueva red <strong>DMZ</strong>, ya que actualmente pertenece a la red interna.</p>
+<p>Es hora de realizar el último cambio del ejercicio, y no es más que cambiar la ubicación de la máquina <strong>Quijote</strong> a la nueva <strong>red DMZ</strong>, ya que actualmente pertenece a la red interna.</p>
 <p>Para llevar a cabo esta modificación, nos dirigimos a nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Instancias</strong>. Una vez aquí, <em>clickamos</em> en la pequeña flecha del final, y se nos desplegará este menú de opciones, donde debemos seleccionar <strong>Desconectar interfaz</strong>:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/menu.png"></p>
+<p>Seleccionamos la interfaz a desconectar, en este caso la interfaz conectada a la res interna:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/desconectarredinterna.png"></p>
+<p>Y una vez hecho esto, en el mismo menú de opciones, debemos seleccionar <strong>Conectar interfaz</strong>,  y seleccionar la <strong>red DMZ</strong>:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/quijoteredDMZ.png"></p>
 <p>.</p>
     </article>
