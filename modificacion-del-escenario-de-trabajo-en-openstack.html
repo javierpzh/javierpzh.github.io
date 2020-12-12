@@ -316,6 +316,16 @@ manage_etc_hosts: false
 10.0.1.6 freston.javierpzh.gonzalonazareno.org freston
 </pre>
 
+<p>Por último, vamos a configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
+<pre>
+dpkg-reconfigure tzdata
+</pre>
+
+<p>Comprobamos que tenemos la hora correcta y el servidor <strong>NTP</strong> activo y sincronizado:</p>
+<pre>
+
+</pre>
+
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
