@@ -141,6 +141,7 @@
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png"></p>
 <p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png"></p>
+<p>Y ahora, un detalle importante que hay que tener en cuenta antes de realizar el lanzamiento de la nueva instancia es, que si recordamos, a la <strong>red interna</strong>, le deshabilitamos el <strong>servidor DHCP</strong>, por lo que si ahora generamos esta nueva instancia perteneciente a esta red, no adquirirá ninguna dirección mediante <em>DHCP</em>, por lo que será inaccesible, porque recordemos que a esta máquina también se accederá a través de <em>Dulcinea</em>. Por tanto, vamos a habilitar el servidor <em>DHCP</em> de la red interna.</p>
 <p>Ahora sí, es momento de crear la nueva instancia.</p>
 <p>Para crearla, nos dirigimos hacia nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Instancias</strong>. Una vez aquí, <em>clickamos</em> en el botón llamado <strong>+ Lanzar instancia</strong>, y se nos abrirá un menú, donde debemos indicar las características de la instancia que queremos crear:</p>
 <p>En el primer apartado de este asistente, indicamos el nombre que poseerá nuestra nueva instancia:</p>
@@ -151,8 +152,40 @@
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston3.png"></p>
 <p>Y por último, le asignamos la red a la que va a pertenecer esta máquina.</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston4.png"></p>
-<p>Aquí podemos ver como hemos creado esta instancia correctamente y que pertenece a la red interna, ya que posee una dirección <strong>10.0.1.7</strong></p>
+<p>Aquí podemos ver como hemos creado esta instancia correctamente y que pertenece a la red interna, ya que posee una dirección <strong>10.0.1.6</strong></p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfrestonfin.png"></p>
+<p>Vamos a probar a acceder a <strong>freston</strong> a través de <em>Dulcinea</em>:</p>
+<pre>
+debian@dulcinea:~$ ssh debian@10.0.1.6
+The authenticity of host '10.0.1.6 (10.0.1.6)' can't be established.
+ECDSA key fingerprint is SHA256:uR1IwMruxlhVJzsAB7UuqHlyR7r+6xqyVhwFXxvX6PM.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.1.6' (ECDSA) to the list of known hosts.
+Linux freston 4.19.0-11-cloud-amd64 #1 SMP Debian 4.19.146-1 (2020-09-17) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+debian@freston:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:4a:d0:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.1.6/24 brd 10.0.1.255 scope global dynamic eth0
+       valid_lft 86277sec preferred_lft 86277sec
+    inet6 fe80::f816:3eff:fe4a:d053/64 scope link
+       valid_lft forever preferred_lft forever
+debian@freston:~$
+</pre>
+
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
