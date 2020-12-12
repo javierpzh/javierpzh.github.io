@@ -128,7 +128,7 @@
 <h4>2. Creación de las instancias:</h4>
 <ul>
 <li>
-<p><strong>freston:</strong></p>
+<p><strong>Freston:</strong></p>
 <ul>
 <li><strong>Debian Buster sobre volumen de 10GB con sabor m1.mini</strong></li>
 <li><strong>Conectada a la red interna</strong></li>
@@ -137,7 +137,7 @@
 </ul>
 </li>
 </ul>
-<p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
+<p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>Freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png"></p>
 <p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png"></p>
@@ -154,7 +154,7 @@
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston4.png"></p>
 <p>Aquí podemos ver como hemos creado esta instancia correctamente y que pertenece a la red interna, ya que posee una dirección <strong>10.0.1.6</strong></p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfrestonfin.png"></p>
-<p>Vamos a probar a acceder a <strong>freston</strong> a través de <em>Dulcinea</em>:</p>
+<p>Vamos a probar a acceder a <strong>Freston</strong> a través de <em>Dulcinea</em>:</p>
 <pre>
 debian@dulcinea:~$ ssh debian@10.0.1.6
 The authenticity of host '10.0.1.6 (10.0.1.6)' can't be established.
@@ -186,7 +186,7 @@ debian@freston:~$ ip a
 debian@freston:~$
 </pre>
 
-<p>Vemos como efectivamente hemos accedido a <strong>freston</strong>.</p>
+<p>Vemos como efectivamente hemos accedido a <strong>Freston</strong>.</p>
 <p>Es el momento de realizar las configuraciones necesarias en esta nueva máquina.</p>
 <p>En primer lugar vamos a asignarle una <strong>dirección IP estática</strong>. Para ello editamos el fichero <code>/etc/network/interfaces</code>:</p>
 <pre>
@@ -284,7 +284,38 @@ rtt min/avg/max/mdev = 45.578/75.632/128.400/37.432 ms
 </pre>
 
 <p>Ahora sí resuelve por nombres, por lo que ya habríamos terminado las configuraciones de red.</p>
-<p>Vamos a pasar ahora a</p>
+<p>Vamos a pasar ahora a configurar la resolución estática, para ello editamos el fichero <code>/etc/hosts</code>:</p>
+<pre>
+nano /etc/hosts
+</pre>
+
+<p>La resolución estática lo que hace, es que cuando intentemos resolver un nombre, busca en este fichero si tiene su dirección IP guardada, por lo que nos facilita y nos acomoda mucho el trabajo.</p>
+<p>Añadimos estas líneas:</p>
+<pre>
+127.0.1.1 freston.javierpzh.gonzalonazareno.org freston freston.novalocal
+127.0.0.1 localhost
+
+10.0.1.11 dulcinea.javierpzh.gonzalonazareno.org dulcinea
+10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
+10.0.1.13 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>Me he dado cuenta de una cosa al reiniciar la máquina <em>Freston</em>, y es que en cada inicio se restablece el fichero <code>/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code>/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
+<pre>
+manage_etc_hosts: true
+</pre>
+
+<p>Le cambiamos el valor a <em>false</em>:</p>
+<pre>
+manage_etc_hosts: false
+</pre>
+
+<p>Y ya habríamos configurado la resolución estática en <em>Freston</em>.</p>
+<p>También he añadido la línea correspondiente a las máquinas <em>Dulcinea</em>, <em>Sancho</em> y <em>Quijote</em>, para que ellas también puedan hacer uso de la resolución estática con <em>Freston</em>. Les he añadido esta línea:</p>
+<pre>
+10.0.1.6 freston.javierpzh.gonzalonazareno.org freston
+</pre>
+
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
