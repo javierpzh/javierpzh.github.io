@@ -33,6 +33,7 @@
 
 
 
+        <meta name="description" content="Vamos a modificar el escenario que tenemos actualmente en OpenStack para que se adecúe a la realización de todas las prácticas en todos...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -46,6 +47,7 @@
 	<meta property="og:url" content="/modificacion-del-escenario-de-trabajo-en-openstack.html">
 	<meta property="og:title" content="Modificación del escenario de trabajo en OpenStack">
 	<meta property="article:published_time" content="2020-12-12 00:00:00+01:00">
+            <meta property="og:description" content="Vamos a modificar el escenario que tenemos actualmente en OpenStack para que se adecúe a la realización de todas las prácticas en todos...">
 
             <meta property="og:image" content="theme/images/banner-hlc.jpg">
 </head>
@@ -104,7 +106,32 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        
+        <p>Vamos a modificar el escenario que tenemos actualmente en OpenStack para que se adecúe a la realización de todas las prácticas en todos los módulos de 2º, en particular para que tenga una estructura más real a la de varios equipos detrás de un cortafuegos, separando los servidores en dos redes: red interna y DMZ. Para ello vamos a reutilizar todo lo hecho hasta ahora y añadiremos una máquina más: Frestón</p>
+<h4>1. Creación de la red DMZ:</h4>
+<ul>
+<li>
+<p><strong>Nombre: DMZ de <nombre de usuario></strong></p>
+</li>
+<li>
+<p><strong>10.0.2.0/24</strong></p>
+</li>
+</ul>
+<h4>2. Creación de las instancias:</h4>
+<ul>
+<li>
+<p><strong>freston:</strong></p>
+<ul>
+<li><strong>Debian Buster sobre volumen de 10GB con sabor m1.mini</strong></li>
+<li><strong>Conectada a la red interna</strong></li>
+<li><strong>Accesible indirectamente a través de dulcinea</strong></li>
+<li><strong>IP estática</strong></li>
+</ul>
+</li>
+</ul>
+<h4>3. Modificación de la ubicación de quijote</h4>
+<ul>
+<li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
+</ul>
     </article>
 
         <div class="tags">
