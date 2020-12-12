@@ -348,6 +348,53 @@ System clock synchronized: yes
 <p>Recordemos, que a las instancias <em>Sancho</em>, <em>Quijote</em> y <em>Freston</em>, accedemos mediante <em>Dulcinea</em>, por lo que, si queremos acceder a <em>Quijote</em>, debe tener conexión con <em>Dulcinea</em>, y esto solo es posible si añadimos una nueva interfaz a <em>Dulcinea</em> para que también pertenezca a la <strong>red DMZ</strong>, por lo que también la vamos a añadir.</p>
 <p>Aquí podemos ver el resultado:</p>
 <p><img alt="." src="images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/dulcinearedDMZ.png"></p>
+<p>Vamos a comprobar que realmente podemos acceder a <em>Quijote</em> a través de <em>Dulcinea</em>:</p>
+<pre>
+debian@dulcinea:~$ ssh centos@10.0.2.6
+The authenticity of host '10.0.2.6 (10.0.2.6)' can't be established.
+ECDSA key fingerprint is SHA256:E66o30JGSL5dZglKXltZaOAzuVHOWZUqdopacdi72m8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.2.6' (ECDSA) to the list of known hosts.
+Last login: Sat Dec 12 23:33:20 2020 from 10.0.1.11
+
+[centos@quijote ~]$
+</pre>
+
+<p>Efectivamente la respuesta es positiva.</p>
+<p>Por último, vamos a establecer estas nuevas direcciones que han obtenido <em>Dulcinea</em> y <em>Quijote</em> como estáticas.</p>
+<p>En el caso de <strong>Dulcinea</strong>:</p>
+<pre>
+debian@dulcinea:~# ip a
+
+...
+
+4: eth2: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:8d:98:da brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.10/24 brd 10.0.2.255 scope global dynamic eth2
+       valid_lft 85985sec preferred_lft 85985sec
+    inet6 fe80::f816:3eff:fe8d:98da/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos que ha obtenido por <em>DHCP</em> la dirección <strong>10.0.2.10</strong> en la interfaz <strong>eth2</strong>, por lo tanto esta le vamos a asignar de manera estática.</p>
+<p>Editamos el fichero <code>/etc/network/interfaces</code>:</p>
+<pre>
+nano /etc/network/interfaces
+</pre>
+
+<p>Quedaría de tal forma el bloque de la interfaz <em>eth2</em>:</p>
+<pre>
+allow-hotplug eth2
+iface eth2 inet static
+address 10.0.2.10
+netmask 255.255.255.0
+</pre>
+
+<p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
+<pre>
+systemctl restart networking
+</pre>
+
 <p>.</p>
     </article>
 
