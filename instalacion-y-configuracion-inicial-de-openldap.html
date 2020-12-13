@@ -217,6 +217,22 @@ dpkg-reconfigure slapd
 </pre>
 
 <p>Yo respondo que sí.</p>
+<p>Vamos con la última pregunta. Nos informa que en el directorio <code>/var/lib/ldap</code> existe la configuración previa de la que se ha creado anteriormente, y nos da la opción de remover esa configuración y sustituila por esta nueva.</p>
+<pre>
+┌──────────────────────────────────────┤ Configuring slapd ├───────────────────────────────────────┐
+│                                                                                                  │
+│ There are still files in /var/lib/ldap which will probably break the configuration process. If   │
+│ you enable this option, the maintainer scripts will move the old database files out of the way   │
+│ before creating a new database.                                                                  │
+│                                                                                                  │
+│ Move old database?                                                                               │
+│                                                                                                  │
+│                            <\Yes\>                               <\No\>                          │
+│                                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>En mi caso, respondo que sí.</p>
 <p>.</p>
     </article>
 
