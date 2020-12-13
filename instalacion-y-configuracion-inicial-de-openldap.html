@@ -233,7 +233,17 @@ dpkg-reconfigure slapd
 </pre>
 
 <p>En mi caso, respondo que sí.</p>
-<p>.</p>
+<p>Y ya, vemos como se cierra el asistente y habría terminado el proceso de configuración inicial de <em>LDAP</em>:</p>
+<pre>
+root@freston:~# dpkg-reconfigure slapd
+  Backing up /etc/ldap/slapd.d in /var/backups/slapd-2.4.47+dfsg-3+deb10u4... done.
+  Moving old database directory to /var/backups:
+  - directory unknown... done.
+  Creating initial configuration... done.
+  Creating LDAP directory... done.
+
+root@freston:~#
+</pre>
     </article>
 
         <div class="tags">
