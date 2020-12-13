@@ -350,6 +350,16 @@ debian  profesor
 
 <p>También le he asignando una contraseña que es <strong>profesor</strong>, por si alguna vez nos es necesaria, aunque normalmente no nos hará falta ya que accederemos mediante claves públicas-privadas.</p>
 <p>He copiado todas las claves públicas de los profesores al fichero <code>.ssh/authorized_keys</code> del usuario <em>profesor</em>.</p>
+<pre>
+mkdir .ssh
+
+nano .ssh/authorized_keys
+
+chmod 700 .ssh/
+
+chmod 600 .ssh/authorized_keys
+</pre>
+
 <p><strong>Importante:</strong> hay que cambiar los permisos de la carpeta <code>.ssh</code> a <em>700</em>, y del fichero <code>authorized_keys</code> a <em>600</em>.</p>
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
