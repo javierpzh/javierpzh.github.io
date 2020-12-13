@@ -517,6 +517,12 @@ systemctl restart network.service
 </pre>
 
 <p>Con esto, habríamos terminado todo el proceso de modificaciones.</p>
+<p>Antes de finalizar el <em>post</em>, me gustaría aclarar que aunque no haya comentado nada de cambiar los ficheros <code>/etc/hosts</code> de las máquinas <em>Sancho</em> y <em>Freston</em>, si queremos seguir utilizando la resolución estática en estas máquinas a la hora de hacer referencia a <em>Quijote</em>, debemos modificar la línea que hace referencia a <em>Quijote</em>, por esta otra:</p>
+<pre>
+10.0.2.6 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>Y a lo mejor alguien se pregunta, como se conectarían estas máquinas con <em>Quijote</em> si no se encuentran en la misma red, pues bien, al estar todas conectadas a <em>Dulcinea</em>, realizan una conexión hacia esta, y la propia <em>Dulcinea</em> las hace conectar con <em>Quijote</em>. El mismo proceso se llevaría a cabo en el caso de que fuese <em>Quijote</em> el que quisiese conectar con <em>Sancho</em> o <em>Freston</em>.</p>
     </article>
 
         <div class="tags">
