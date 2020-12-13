@@ -203,6 +203,7 @@ dpkg-reconfigure slapd
 └───────────────────────────────────────────────────────────────────────────────────────────────────┘
 </pre>
 
+<p>La respuesta de este apartado afectará cuando desinstalemos el paquete <code>slapd</code>, ya que si marcamos que sí, al hacer un <code>apt remove --purge slapd</code> se eliminará también la base de datos asociada al <em>servidor LDAP</em>.</p>
 <pre>
 ┌─────────────────────┤ Configuring slapd ├─────────────────────┐
 │                                                               │
@@ -210,7 +211,7 @@ dpkg-reconfigure slapd
 │                                                               │
 │ Do you want the database to be removed when slapd is purged?  │
 │                                                               │
-│                <\Ye\s>                   <\No\>               │
+│                <\Yes\>                   <\No\>               │
 │                                                               │
 └───────────────────────────────────────────────────────────────┘
 </pre>
