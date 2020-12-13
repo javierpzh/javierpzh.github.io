@@ -244,6 +244,38 @@ root@freston:~# dpkg-reconfigure slapd
 
 root@freston:~#
 </pre>
+
+<p>Si hacemos uso del comando <code>slapcat</code> nos mostraría un volcado en bruto de los objetos que tiene ahora mismo el <em>servidor LDAP</em>:</p>
+<pre>
+root@freston:~# slapcat
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+structuralObjectClass: organization
+entryUUID: caecef7c-d189-103a-852d-3549c02d4651
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201213122346Z
+entryCSN: 20201213122346.946704Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201213122346Z
+
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9QnlCSVZIVmh2WW43dUFqWnJoN1NOVThKc2MxWXVmSkY=
+structuralObjectClass: organizationalRole
+entryUUID: caf34c14-d189-103a-852e-3549c02d4651
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201213122346Z
+entryCSN: 20201213122346.988494Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201213122346Z
+</pre>
     </article>
 
         <div class="tags">
