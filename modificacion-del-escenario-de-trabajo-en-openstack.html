@@ -316,7 +316,12 @@ manage_etc_hosts: false
 10.0.1.6 freston.javierpzh.gonzalonazareno.org freston
 </pre>
 
-<p>Por último, vamos a configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
+<p>Por último, vamos a configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, pero nos encontraremos con que tendremos conflictos entre los servicios <code>systemd-timesyncd</code> y <code>ntpd</code>. En mi caso voy a desinstalar el paquete <code>ntp</code> para solucionar el problema:</p>
+<pre>
+apt remove --purge ntp -y
+</pre>
+
+<p>Hecho esto, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
 <pre>
 dpkg-reconfigure tzdata
 </pre>
