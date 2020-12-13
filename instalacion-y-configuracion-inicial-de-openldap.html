@@ -50,7 +50,7 @@
 	<meta property="article:published_time" content="2020-12-13 00:00:00+01:00">
             <meta property="og:description" content="Realiza la instalación y configuración básica de OpenLDAP en Freston utilizando como base el nombre DNS asignado. Crea dos unidades...">
 
-            <meta property="og:image" content="theme/images/banner-sistemas.png">
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
 
 <body class="article-instalacion-y-configuracion-inicial-de-openldap">
@@ -84,7 +84,7 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.png')">
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -124,7 +124,7 @@ apt install slapd ldap-utils -y
 │                                                                        │
 │ ______________________________________________________________________ │
 │                                                                        │
-│                                 <Ok>                                   │
+│                                 <\Ok\>                                 │
 │                                                                        │
 └────────────────────────────────────────────────────────────────────────┘
 </pre>
@@ -135,7 +135,7 @@ apt install slapd ldap-utils -y
 dpkg-reconfigure slapd
 </pre>
 
-<p>Lo primero que nos pregunta el asistente es si deseamos omitir la configuración del servidor LDAP:</p>
+<p>Se nos abrirá un asistente y en primer lugar nos preguntara si deseamos omitir la configuración del <em>servidor LDAP</em>:</p>
 <pre>
 ┌───────────────────────────────────┤ Configuring slapd ├───────────────────────────────────┐
 │                                                                                           │
@@ -143,9 +143,24 @@ dpkg-reconfigure slapd
 │                                                                                           │
 │ Omit OpenLDAP server configuration?                                                       │
 │                                                                                           │
-│                          <Yes>                             <No>                           │
+│                          <\Yes\>                             <\No\>                       │
 │                                                                                           │
 └───────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Respondemos que no, ya que precisamente lo que queremos es configurar el <em>servidor LDAP</em>.</p>
+<pre>
+┌───────────────────────────────────┤ Configuring slapd ├────────────────────────────────────┐
+│ The DNS domain name is used to construct the base DN of the LDAP directory. For example,   │
+│ 'foo.example.org' will create the directory with 'dc=foo, dc=example, dc=org' as base DN.  │
+│                                                                                            │
+│ DNS domain name:                                                                           │
+│                                                                                            │
+│ javierpzh.gonzalonazareno.org_____________________________________________________________ │
+│                                                                                            │
+│                                           <\Ok\>                                           │
+│                                                                                            │
+└────────────────────────────────────────────────────────────────────────────────────────────┘
 </pre>
 
 <p>.</p>
