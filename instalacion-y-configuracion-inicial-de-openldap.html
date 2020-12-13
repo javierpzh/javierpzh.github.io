@@ -109,6 +109,45 @@
     <article>
         <h4>Realiza la instalación y configuración básica de OpenLDAP en Freston utilizando como base el nombre DNS asignado.</h4>
 <h4>Crea dos unidades organizativas, una para personas y otra para grupos.</h4>
+<p>Vamos a proceeder con la instalación de <strong>LDAP</strong>.</p>
+<p>El servidor <strong>OpenLDAP</strong> está disponible en el paquete <code>slapd</code>. También nos conviene instalar el paquete <code>ldap-utils</code> que contiene utilidades adicionales:</p>
+<pre>
+apt install slapd ldap-utils -y
+</pre>
+
+<p>Durante la instalación, se nos abrirá esta ventana emergente donde nos pedirá que introduzcamos la contraseña de administrador de este nuevo <strong>LDAP</strong>:</p>
+<pre>
+┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐
+│ Please enter the password for the admin entry in your LDAP directory.  │
+│                                                                        │
+│ Administrator password:                                                │
+│                                                                        │
+│ ______________________________________________________________________ │
+│                                                                        │
+│                                 <Ok>                                   │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Una vez hemos instalado estos paquetes, podemos pasar a llevar a cabo la configuración inicial del servidor.</p>
+<p>Los archivos de configuración del servidor <strong>LDAP</strong> se almacenan en la carpeta <code>/etc/ldap/</code>. Pero en lugar de editar manualmente dichos archivos, es mejor ejecutar el asistente de configuración de <code>slapd</code>. Para ello debemos ejecutar el siguiente comando:</p>
+<pre>
+dpkg-reconfigure slapd
+</pre>
+
+<p>Lo primero que nos pregunta el asistente es si deseamos omitir la configuración del servidor LDAP:</p>
+<pre>
+┌───────────────────────────────────┤ Configuring slapd ├───────────────────────────────────┐
+│                                                                                           │
+│ If you enable this option, no initial configuration or database will be created for you.  │
+│                                                                                           │
+│ Omit OpenLDAP server configuration?                                                       │
+│                                                                                           │
+│                          <Yes>                             <No>                           │
+│                                                                                           │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
 <p>.</p>
     </article>
 
