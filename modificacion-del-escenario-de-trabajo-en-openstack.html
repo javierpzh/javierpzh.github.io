@@ -669,12 +669,59 @@ systemctl restart network.service
 </pre>
 
 <p>Nos encontramos la interfaz con la configuración correcta.</p>
+<p>Vamos a probar la conexión al exterior realizando un <em>ping</em> a <code>www.google.es</code>:</p>
+<pre>
+[centos@quijote ~]$ ping www.google.es
+PING www.google.es (216.58.215.131) 56(84) bytes of data.
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=42.9 ms
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=42.9 ms
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=42.7 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 42.734/42.857/42.939/0.088 ms
+</pre>
+
+<p>Poseemos conectividad al exterior.</p>
 <p>Para terminar la tarea, vamos a modificar el fichero <code>/etc/hosts</code> de esta máquina <em>Quijote</em> para corregir la resolución estática de <em>Dulcinea</em> que ahora ha cambiado de IP para esta red. Sustituimos la antigua línea que hacía referencia a <em>Dulcinea</em> por esta:</p>
 <pre>
 10.0.2.10 dulcinea.javierpzh.gonzalonazareno.org dulcinea
 </pre>
 
 <p>Con esto, habríamos terminado todo el proceso de modificaciones.</p>
+<p>Vamos a probar la resolución estática:</p>
+<pre>
+[centos@quijote ~]$ ping dulcinea
+PING dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10) 56(84) bytes of data.
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=1 ttl=64 time=0.547 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=2 ttl=64 time=0.802 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=3 ttl=64 time=0.810 ms
+^C
+--- dulcinea.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 32ms
+rtt min/avg/max/mdev = 0.547/0.719/0.810/0.126 ms
+
+[centos@quijote ~]$ ping sancho
+PING sancho.javierpzh.gonzalonazareno.org (10.0.1.8) 56(84) bytes of data.
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=1 ttl=63 time=2.98 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=2 ttl=63 time=1.44 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=3 ttl=63 time=1.95 ms
+^C
+--- sancho.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 1.442/2.123/2.979/0.641 ms
+
+[centos@quijote ~]$ ping freston
+PING freston.javierpzh.gonzalonazareno.org (10.0.1.6) 56(84) bytes of data.
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=1 ttl=63 time=2.75 ms
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=2 ttl=63 time=1.93 ms
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=3 ttl=63 time=1.73 ms
+^C
+--- freston.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 1.727/2.135/2.748/0.441 ms
+</pre>
+
 <p>Antes de finalizar el <em>post</em>, me gustaría aclarar que aunque no haya comentado nada de cambiar los ficheros <code>/etc/hosts</code> de las máquinas <em>Sancho</em> y <em>Freston</em>, si queremos seguir utilizando la resolución estática en estas máquinas a la hora de hacer referencia a <em>Quijote</em>, debemos modificar la línea que hace referencia a <em>Quijote</em>, por esta otra:</p>
 <pre>
 10.0.2.6 quijote.javierpzh.gonzalonazareno.org quijote
