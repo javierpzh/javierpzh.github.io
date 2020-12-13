@@ -334,6 +334,23 @@ System clock synchronized: yes
 </pre>
 
 <p>Ahora sí, hemos terminado todas las configuraciones en <em>Freston</em>.</p>
+<p>Aunque antes de salir de esta máquina, aún me quedaría algo por hacer, y no es más que llevar a cao la creación del usuario <strong>profesor</strong>, usuario que puede utilizar sudo sin contraseña.</p>
+<p>Para crear un usuario en <em>Debian</em>, tenemos que hacer uso del comando <code>useradd</code>, pero bien, si queremos que en el nuevo usuario se creen las carpetas automáticamente en el directorio <code>/home</code> debemos introducir la opción <code>-m</code>:</p>
+<pre>
+root@freston:~# useradd profesor -m -s /bin/bash
+
+root@freston:~# passwd profesor
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@freston:~# ls /home/
+debian  profesor
+</pre>
+
+<p>También le he asignando una contraseña que es <strong>profesor</strong>, por si alguna vez nos es necesaria, aunque normalmente no nos hará falta ya que accederemos mediante claves públicas-privadas.</p>
+<p>He copiado todas las claves públicas de los profesores al fichero <code>.ssh/authorized_keys</code> del usuario <em>profesor</em>.</p>
+<p><strong>Importante:</strong> hay que cambiar los permisos de la carpeta <code>.ssh</code> a <em>700</em>, y del fichero <code>authorized_keys</code> a <em>600</em>.</p>
 <h4>3. Modificación de la ubicación de quijote</h4>
 <ul>
 <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
