@@ -485,6 +485,18 @@ root@dulcinea:~# ip a
 </pre>
 
 <p>Ahora sí nos encontramos con la interfaz en estado <strong>UP</strong> y con la configuración correcta.</p>
+<p>Recordemos que <em>Dulcinea</em> es la máquina que hace de <em>router</em>, por lo que todas las conexiones pasan por ella, y es la que se encarga de redirigir las peticiones.</p>
+<p>En el primer <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">post</a>, configuramos una regla de <em>iptables</em> para que recondujera las peticiones provenientes de la red <em>10.0.1.0/24</em> hacia la interfaz <strong>eth0</strong> que es mediante la que está conectada al exterior. Pero esta regla obviamente no nos sirve para que <em>Quijote</em> que ahora pertenece a la red <em>10.0.2.0/24</em>, posea conexción a internet, por lo que tenemos que crear una nueva regla para esta red:</p>
+<pre>
+iptables -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE
+</pre>
+
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente, siempre y cuando las guardemos en el fichero <code>/etc/iptables/rules.v4</code>. Por tanto vamos a guardar esta regla para que se levente en cada inicio:</p>
+<pre>
+iptables-save > /etc/iptables/rules.v4
+</pre>
+
+<p>Lógicamente tenemos habilitado el <strong>bit de forward</strong>, ya que en el primer <em>post</em> lo establecimos a <em>1</em> de manera permanente.</p>
 <p>Para terminar de trabajar en <em>Dulcinea</em>, vamos a corregir la resolución estática de nombres, ya que la IP de <em>Quijote</em> ha cambiado. En el fichero <code>/etc/hosts</code> sustituimos la antigua línea que hacía referencia a <em>Quijote</em> por esta:</p>
 <pre>
 10.0.2.6 quijote.javierpzh.gonzalonazareno.org quijote
@@ -516,6 +528,7 @@ nano /etc/sysconfig/network-scripts/ifcfg-eth0
 <pre>
 BOOTPROTO=static
 DEVICE=eth0
+MTU=8950
 HWADDR=fa:16:3e:b6:48:45
 ONBOOT=yes
 TYPE=Ethernet
@@ -538,7 +551,7 @@ systemctl restart network.service
 
 ...
 
-2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 8950 qdisc fq_codel state UP group default qlen 1000
     link/ether fa:16:3e:b6:48:45 brd ff:ff:ff:ff:ff:ff
     inet 10.0.2.6/24 brd 10.0.2.255 scope global noprefixroute eth0
        valid_lft forever preferred_lft forever
