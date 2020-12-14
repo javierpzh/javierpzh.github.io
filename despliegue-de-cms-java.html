@@ -162,6 +162,68 @@ apt install tomcat9 -y
 <p>Para comprobar el funcionamiento de una forma más visual, podemos conectarnos desde un navegador web mediante la dirección IP de la máquina especificando el puerto <strong>8080</strong>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_CMS_Java/tomcat8080.png"></p>
 <p>Vemos que está funcionando correctamente.</p>
+<p>Ahora vamos a comenzar la instalación de <strong>Apache Guacamole</strong>, para ello vamos a instalar los paquetes mínimos necesarios:</p>
+<pre>
+apt install build-essential libcairo2-dev libjpeg62-turbo-dev libpng-dev libtool-bin libossp-uuid-dev -y
+</pre>
+
+<p>Acabo de comentar que iba a instalar los paquetes necesarios. Esto es porque en función de los protocolos que queramos utilizar, vamos a instalar una serie de paquetes u otros (podemos instalarlos todos y trabajarán de manera conjunta sin problemas).</p>
+<p>En mi caso, voy a instalar los paquetes necesarios para el soporte de <strong>SSH</strong>:</p>
+<pre>
+apt install libpango1.0-dev libssh2-1-dev -y
+</pre>
+
+<p>Como vamos a utilizar <em>SSH</em>, también nos es necesario el soporte de <strong>OpenSSL</strong>.</p>
+<p>Aquí dejo también los paquetes a instalar para cada protocolo, por si estás interesado en instalarlos:</p>
+<ul>
+<li>Soporte para <strong>OpenSSL</strong>:</li>
+</ul>
+<pre>
+apt install libssl-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>RDP</strong>:</li>
+</ul>
+<pre>
+apt install libfreerdp-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>telnet</strong>:</li>
+</ul>
+<pre>
+apt install libpango1.0-dev libtelnet-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>Guacenc</strong>:</li>
+</ul>
+<pre>
+apt install libavcodec-dev libavutil-dev libswscale-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>VNC</strong> y <strong>audio</strong>:</li>
+</ul>
+<pre>
+apt install libvncserver-dev libpulse-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>Ogg Vorbis</strong>:</li>
+</ul>
+<pre>
+apt install libvorbis-dev -y
+</pre>
+
+<ul>
+<li>Soporte para <strong>WebP</strong>:</li>
+</ul>
+<pre>
+apt install libwebp-dev -y
+</pre>
+
 <p>En este punto, ya podemos descargar el fichero <code>.war</code>.</p>
 <p>¿Alguien se pregunta qué es un fichero <code>.war</code>?</p>
 <p>Un fichero <code>.war</code> es una aplicación web que permite a <em>Tomcat</em> acceder a su utilización. El fichero <code>.war</code> tiene que ser descomprimido para ser leído.</p>
