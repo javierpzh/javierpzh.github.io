@@ -134,7 +134,23 @@
 </li>
 </ol>
 <p>A continuación vamos a realizar la instalación de <em>tomcat 9</em> y de la aplicación en sí.</p>
-<p>En primer lugar, debemos instalar <strong>Tomcat</strong>, en mi caso, voy a instalar la versión <em>9</em></p>
+<p>Antes de nada, necesitaremos un equipo donde trabajar. Yo voy a instalar una máquina virtual, y para ello, voy a utilizar <em>Vagrant</em>. He creado este <em>Vagrantfile</em>:</p>
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian/buster64"
+
+  config.vm.network "private_network", ip: "192.168.200.20"
+
+  config.vm.memory = «2048»
+
+end
+</pre>
+
+<p>Una vez estamos en nuestro equipo de trabajo, en primer lugar, debemos instalar <strong>Tomcat</strong>, en mi caso, voy a instalar la versión <em>9</em></p>
 <h4>¿Has necesitado instalar alguna librería? ¿Has necesitado instalar un conector de una base de datos?</h4>
 <p>.</p>
 <h4>Entrega una captura de pantalla donde se vea la aplicación funcionando</h4>
