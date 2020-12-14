@@ -172,6 +172,7 @@ root@buster:~# ls
 guacamole-1.2.0.war
 </pre>
 
+<p>Una vez la hemos descargado, tenemos que mover el archivo <code>.war</code> al directorio <code>/var/lib/tomcat9/webapps</code>, y podremos apreciar como automáticamente, al almacenar el fichero en esta ruta, se descomprime generando una carpeta llamada <code>guacamole-1.2.0</code> que es la que contiene la aplicación:</p>
 <pre>
 root@buster:~# mv guacamole-1.2.0.war /var/lib/tomcat9/webapps
 
@@ -184,6 +185,15 @@ fonts      guacamole.css    guacamole.min.js   layouts  relocateParameters.js
 generated  guacamole.js     images         license.txt  translations
 </pre>
 
+<p>Antes de probar a acceder desde el navegador, en mi caso, prefiero cambiarle el nombre a este nuevo directorio, para así no tener que escribir también la versión en cada acceso a la web:</p>
+<pre>
+root@buster:/var/lib/tomcat9/webapps# mv guacamole-1.2.0 guacamole
+
+root@buster:/var/lib/tomcat9/webapps# ls
+guacamole  guacamole-1.2.0.war  ROOT
+</pre>
+
+<p>Hecho esto, vamos a probar a acceder a la dirección <code>192.168.200.20:8080/guacamole</code>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_CMS_Java/guacamole8080.png"></p>
 <h4>¿Has necesitado instalar alguna librería? ¿Has necesitado instalar un conector de una base de datos?</h4>
 <p>.</p>
