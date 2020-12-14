@@ -240,8 +240,19 @@ tar -xzf guacamole-server-0.9.14.tar.gz
 ./configure --with-init-dir=/etc/init.d
 </pre>
 
+<p>Cuando termina el proceso, y observamos que todo ha ido según lo previsto, es el momento de compilar:</p>
 <pre>
+make
+</pre>
 
+<p>Una vez terminada la compilación, ya podemos instalar <strong>guacamole-server</strong>:</p>
+<pre>
+make install
+</pre>
+
+<p>Una vez terminada la instalación, actualizamos las librerías instaladas en el sistema:</p>
+<pre>
+ldconfig
 </pre>
 
 <p>En este punto, ya podemos descargar el fichero <code>.war</code>.</p>
