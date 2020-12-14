@@ -109,6 +109,15 @@
         <h4>Utiliza el servidor físico que se te haya asignado e instala la versión adecuada del sistema de virtualización VMWare ESXi (hay que tener en cuenta que recibe diferentes denominaciones comerciales, pero nos referimos al sistema de virtualización de VMWare que proporciona virtualización de alto rendimiento mediante la técnica de la paravirtualización).</h4>
 <h4>Realiza la configuración del servicio que permita su gestión remota desde un equipo cliente e instala en tu equipo la aplicación cliente que permita gestionar remotamente el hipervisor.</h4>
 <h4>Instala una máquina virtual que tenga acceso a Internet. La corrección consistirá en comprobar el funcionamiento de dicha máquina virtual.</h4>
+<p>Como dice el título de la práctica, voy a realizar la instalación de <strong>VMWare ESXi</strong> en su versión <strong>5.5</strong> sobre el servidor físico que tengo asignado.</p>
+<p>En mi caso, dispongo de un servidor <strong>Dell PowerEdge 2900</strong>, que recibe el nombre de <strong>Panoramix</strong>.</p>
+<p>Lo primero que he tenido que hacer, obviamente, ha sido preparar un medio de arranque, en mi caso descargué la ISO de <strong>VMWare</strong> y cree un medio de instalación USB, con el que realicé la primera instalación, en la que descubrí, que este modelo de servidor en concreto, no es compatible con dicha ISO.</p>
+<p>Para resolver este problema, estuve investigando y acabé descargando una ISO que supuestamente sí era compatible con este servidor. Dejo aquí la <a href="https://www.dell.com/support/home/es-es/drivers/driversdetails?driverid=20vnp">página desde donde descargué la ISO</a>.</p>
+<p>Volví a realizar el mismo proceso para la creación de un USB de arranque con esta ISO. Lógicamente había configurado previamente la BIOS del servidor para que hiciera el arranque mediante el USB.</p>
+<p>El proceso de instalación la verdad que es de lo más trivial que he llegado a experimentar, simplemente nos pide que especifiquemos en que unidad de se va a almacenar el sistema y nos pide una contraseña de superusuario. Después de indicar estos parámetros se instalará el sistema.</p>
+<p>Una vez ya había instalado <em>VMWare ESXi</em>, volví a la BIOS para modificar de nuevo la secuencia de arranque y poner en primer lugar la unidad de almacenamiento <em>SATA</em>.</p>
+<p>Al iniciar el sistema, nos aparece una ventana en la que nos indica la dirección IP, que</p>
+<p>.</p>
     </article>
 
         <div class="tags">
