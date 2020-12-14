@@ -122,7 +122,7 @@
 <p>Comprobar el acceso al puerto 8080.</p>
 </li>
 <li>
-<p>Buscar un archivo <code>.war</code> y almacenarlo en la ruta <code>/var/lib/tomcat9/webapp</code>.</p>
+<p>Buscar un archivo <code>.war</code> y almacenarlo en la ruta <code>/var/lib/tomcat9/webapps</code>.</p>
 </li>
 <li>
 <p>Acceder a la aplicación.</p>
@@ -166,6 +166,25 @@ apt install tomcat9 -y
 <p>En este punto, ya podemos descargar el fichero <code>.war</code>.</p>
 <p>¿Alguien se pregunta qué es un fichero <code>.war</code>?</p>
 <p>Un fichero <code>.war</code> es una aplicación web que permite a <em>Tomcat</em> acceder a su utilización. El fichero <code>.war</code> tiene que ser descomprimido para ser leído.</p>
+<p>Nos descargamos el fichero <code>.war</code> de la <a href="https://guacamole.apache.org/releases/">página oficial de Apache Guacamole</a>. En mi caso, descargo la última versión, que en este momento es la <strong>1.2.0</strong>. La he descargado desde mi máquina y la he pasado mediante <code>scp</code> a la máquina virtual <em>Vagrant</em>, aquí podemos ver que ya lo tenemos:</p>
+<pre>
+root@buster:~# ls
+guacamole-1.2.0.war
+</pre>
+
+<pre>
+root@buster:~# mv guacamole-1.2.0.war /var/lib/tomcat9/webapps
+
+root@buster:~# ls /var/lib/tomcat9/webapps/
+guacamole-1.2.0  guacamole-1.2.0.war  ROOT
+
+root@buster:~# ls /var/lib/tomcat9/webapps/guacamole-1.2.0
+app    guacamole-common-js  guacamole.min.css  index.html   META-INF           WEB-INF
+fonts      guacamole.css    guacamole.min.js   layouts  relocateParameters.js
+generated  guacamole.js     images         license.txt  translations
+</pre>
+
+<p><img alt="." src="images/iaw_despliegue_de_CMS_Java/guacamole8080.png"></p>
 <h4>¿Has necesitado instalar alguna librería? ¿Has necesitado instalar un conector de una base de datos?</h4>
 <p>.</p>
 <h4>Entrega una captura de pantalla donde se vea la aplicación funcionando</h4>
