@@ -173,9 +173,19 @@ root@javierpzh:~#
 </pre>
 
 <p>Vemos como hemos modificado correctamente el <em>hostname</em> de la máquina.</p>
+<p>Vamos a mirar también el <em>FQDN</em>:</p>
+<pre>
+root@javierpzh:~# hostname
+javierpzh
+
+root@javierpzh:~# hostname -f
+javierpzh.iesgn.org
+</pre>
+
+<p>También lo hemos modificado. Con esto, habríamos terminado todo el trabajo en la máquina <em>servidor</em>.</p>
 <h4>Tarea 1: Modifica los clientes para que utilicen el nuevo servidor DNS. Realiza una consulta a <code>www.iesgn.org</code>, y a <code>www.josedomingo.org</code>. Realiza una prueba de funcionamiento para comprobar que el servidor <em>dnsmasq</em> funciona como caché DNS. Muestra el fichero hosts del cliente para demostrar que no estás utilizando resolución estática. Realiza una consulta directa al servidor <em>dnsmasq</em>. ¿Se puede realizar resolución inversa?**</h4>
-<p>He creado una segunda máquina virtual con <em>Vagrant</em> que será la que actuará como <strong>cliente</strong>, mediante el siguiente fichero <em>Vagrantfile</em>:</p>
-<p>Una vez en el cliente, vamos a instalar el paquete <code>dnsutils</code>, para poder hacer uso de la herramienta <code>dig</code>:</p>
+<p>La máquina que actuará como <strong>cliente</strong>, será mi máquina anfitriona.</p>
+<p>Una vez en el <em>cliente</em>, vamos a instalar el paquete <code>dnsutils</code>, para poder hacer uso de la herramienta <code>dig</code>:</p>
 <pre>
 apt install dnsutils -y
 </pre>
