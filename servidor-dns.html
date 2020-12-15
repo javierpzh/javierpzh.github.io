@@ -184,7 +184,7 @@ javierpzh.iesgn.org
 </pre>
 
 <p>También lo hemos modificado. Con esto, habríamos terminado todo el trabajo en la máquina <em>servidor</em>.</p>
-<h4>Tarea 1: Modifica los clientes para que utilicen el nuevo servidor DNS. Realiza una consulta a <code>www.iesgn.org</code>, y a <code>www.josedomingo.org</code>. Realiza una prueba de funcionamiento para comprobar que el servidor <em>dnsmasq</em> funciona como caché DNS. Muestra el fichero hosts del cliente para demostrar que no estás utilizando resolución estática. Realiza una consulta directa al servidor <em>dnsmasq</em>. ¿Se puede realizar resolución inversa?**</h4>
+<h4>Tarea 1: Modifica los clientes para que utilicen el nuevo servidor DNS. Realiza una consulta a <code>www.iesgn.org</code>, y a <code>www.josedomingo.org</code>. Realiza una prueba de funcionamiento para comprobar que el servidor <em>dnsmasq</em> funciona como caché DNS. Muestra el fichero hosts del cliente para demostrar que no estás utilizando resolución estática. Realiza una consulta directa al servidor <em>dnsmasq</em>. ¿Se puede realizar resolución inversa?</h4>
 <p>La máquina que actuará como <strong>cliente</strong>, será mi máquina anfitriona.</p>
 <p>Una vez en el <em>cliente</em>, vamos a instalar el paquete <code>dnsutils</code>, para poder hacer uso de la herramienta <code>dig</code>:</p>
 <pre>
@@ -518,6 +518,34 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 </pre>
 
 <p>Efectivamente, la autoridad sobre esta zona es <code>javierpzh</code>.</p>
+<p>Hacemos una consulta al servidor DNS y preguntamos por la dirección <code>javierpzh.iesgn.org</code>:</p>
+<pre>
+javier@debian:~$ dig javierpzh.iesgn.org
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> javierpzh.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 65344
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 3dcc5f35481cc4c49e80ce955fd8e176f2da3aa5d4f91551 (good)
+;; QUESTION SECTION:
+;javierpzh.iesgn.org.       IN  A
+
+;; ANSWER SECTION:
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+
+;; Query time: 86 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:45:44 CET 2020
+;; MSG SIZE  rcvd: 106
+</pre>
+
 <p>Ahora, haremos una consulta al servidor DNS y preguntaremos por el <strong>servidor de correos</strong> que hemos especificado, es decir, <code>correo.iesgn.org</code>:</p>
 <pre>
 javier@debian:~$ dig mx iesgn.org
@@ -735,27 +763,9 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 </pre>
 
 <p>Vemos que también funciona correctamente, por lo que este ejercicio estaría terminado.</p>
-<h4>Tarea 3: Realiza las consultas dig/nslookup desde los clientes preguntando por los siguientes:**</h4>
-<ul>
-<li>
-<p><strong>Dirección de pandora.iesgn.org, www.iesgn.org, <code>ftp.iesgn.org</code>.</strong></p>
-</li>
-<li>
-<p><strong>El servidor DNS con autoridad sobre la zona del dominio <code>iesgn.org</code>.</strong></p>
-</li>
-<li>
-<p><strong>El servidor de correo configurado para <code>iesgn.org</code>.</strong></p>
-</li>
-<li>
-<p><strong>La dirección IP de <code>www.josedomingo.org</code></strong>.</p>
-</li>
-<li>
-<p><strong>Una resolución inversa</strong></p>
-</li>
-</ul>
 <h3>Servidor DNS esclavo</h3>
 <h5>El servidor DNS actual funciona como <strong>DNS maestro</strong>. Vamos a instalar un nuevo servidor DNS que va a estar configurado como <strong>DNS esclavo</strong> del anterior, donde se van a ir copiando periódicamente las zonas del DNS maestro. Suponemos que el nombre del servidor DNS esclavo se va llamar <code>afrodita.iesgn.org</code>.</h5>
-<h4>Tarea 4: Realiza la instalación del servidor DNS esclavo. Documenta los siguientes apartados:**</h4>
+<h4>Tarea 3: Realiza la instalación del servidor DNS esclavo. Documenta los siguientes apartados:</h4>
 <ul>
 <li>
 <p><strong>Entrega la configuración de las zonas del maestro y del esclavo.</strong></p>
@@ -773,7 +783,7 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></p>
 </li>
 </ul>
-<h4>Tarea 5: Documenta los siguientes apartados:**</h4>
+<h4>Tarea 4: Documenta los siguientes apartados:</h4>
 <ul>
 <li>
 <p><strong>Configura un cliente para que utilice los dos servidores como servidores DNS.</strong></p>
@@ -785,7 +795,7 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Solicita una copia completa de la zona desde el cliente ¿qué tiene que ocurrir?. Solicita una copia completa desde el esclavo ¿qué tiene que ocurrir?</strong></p>
 </li>
 </ul>
-<h4>Tarea 6: Muestra al profesor el funcionamiento del DNS esclavo:**</h4>
+<h4>Tarea 5: Muestra al profesor el funcionamiento del DNS esclavo:</h4>
 <ul>
 <li>
 <p><strong>Realiza una consulta desde el cliente y comprueba que servidor está respondiendo.</strong></p>
@@ -816,8 +826,8 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code>correo.informatica.iesgn.org</code>.</strong></p>
 </li>
 </ul>
-<h4>Tarea 7: Realiza la instalación y configuración del nuevo servidor DNS con las características anteriormente señaladas. Muestra el resultado al profesor.**</h4>
-<h4>Tarea 8: Realiza las consultas dig/neslookup desde los clientes preguntando por los siguientes:**</h4>
+<h4>Tarea 6: Realiza la instalación y configuración del nuevo servidor DNS con las características anteriormente señaladas. Muestra el resultado al profesor.</h4>
+<h4>Tarea 7: Realiza las consultas dig/neslookup desde los clientes preguntando por los siguientes:</h4>
 <ul>
 <li>
 <p><strong>Dirección de <code>www.informatica.iesgn.org</code>, <code>ftp.informatica.iesgn.org</code>.</strong></p>
