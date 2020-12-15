@@ -452,42 +452,47 @@ root@javierpzh:~# cp /etc/bind/db.empty /var/cache/bind/db.iesgn.org
 <p>Hecho esto, empezamos a editar nuestro archivo <code>db.iesgn.org</code>. Lo primero que debemos hacer en él es definir el servidor con privilegios sobre la zona, en mi caso lo he llamado <code>javierpzh.iesgn.org</code>. Lo definimos con un registro de tipo <strong>NS</strong>:</p>
 <pre>
 $TTL    86400
-@   IN  SOA javierpzh.iesgn.org. root.localhost. (
-                  1     ; Serial
-             604800     ; Refresh
-              86400     ; Retry
-            2419200     ; Expire
-              86400 )   ; Negative Cache TTL
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
 ;
-@   IN  NS  javierpzh.iesgn.org.
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
 
 $ORIGIN iesgn.org.
 
-javierpzh   IN      A       192.168.150.10
+javierpzh       IN      A       172.22.200.174
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
 </pre>
 
 <p>Voy a explicar el bloque añadido.</p>
 <p>El registro <strong>SOA</strong> es la autoridad sobre la zona, en mi caso <code>javierpzh.iesgn.org</code>.</p>
-<p>El registro <strong>$ORIGIN</strong> se usa para así evitar poner en cada registro que creemos la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code>iesgn.org</code>.</p>
+<p>El registro <strong>$ORIGIN</strong> se usa para que las líneas que se especifiquen debajo de él, sean autocompletadas con el dominio especificado en dicho registro. Esto nos sirve para evitar poner en cada registro que creemos, la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code>iesgn.org</code>.</p>
 <p>El registro de tipo <strong>A</strong> especifica la dirección IP correspondiente al dominio.</p>
 <p>Explicado estos detalles, vamos a añadir al fichero <code>/etc/resolv.conf</code> de la máquina cliente la siguiente línea con la IP del servidor DNS (si ya la hemos añadido en la tarea 1, no hace falta obviamente):</p>
 <pre>
-nameserver 192.168.150.10
+nameserver 172.22.200.174
 </pre>
 
 <p>Hecho esto, ahora nuestro cliente utilizará nuestro servidor DNS <em>bind9</em>, pero, antes hemos definido un registro <strong>SOA</strong> para definir la autoridad sobre la zona <code>iesgn.org</code>, que en teoría debería ser <code>javierpzh</code>. ¿Lo comprobamos? Vamos a asegurarnos. Para verificar la autoridad de una zona, hacemos uso del comando <code>dig ns (zona)</code>:</p>
 <pre>
-root@debian:~# dig ns iesgn.org
+javier@debian:~$ dig ns iesgn.org
 
 ; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> ns iesgn.org
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 593
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 58805
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: e95232b2d6d4596a85863dd15fd35ba33bc75abdc250ccd0 (good)
+; COOKIE: 8e54c737b042fc53a6c878905fd8bae17885d52769a88afb (good)
 ;; QUESTION SECTION:
 ;iesgn.org.         IN  NS
 
@@ -495,14 +500,12 @@ root@debian:~# dig ns iesgn.org
 iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
 
 ;; ADDITIONAL SECTION:
-javierpzh.iesgn.org.    86400   IN  A   192.168.150.10
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 
-;; Query time: 0 msec
-;; SERVER: 192.168.150.10#53(192.168.150.10)
-;; WHEN: vie dic 11 12:44:35 CET 2020
+;; Query time: 80 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:32:16 CET 2020
 ;; MSG SIZE  rcvd: 106
-
-root@debian:~#
 </pre>
 
 <p>Efectivamente, la autoridad sobre esta zona es <code>javierpzh</code>.</p>
