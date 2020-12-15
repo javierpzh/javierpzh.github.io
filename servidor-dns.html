@@ -453,7 +453,7 @@ root@javierpzh:~# cp /etc/bind/db.empty /var/cache/bind/db.iesgn.org
 <pre>
 $TTL    86400
 @       IN      SOA     javierpzh.iesgn.org. root.localhost. (
-                              1         ; Serial
+                        20121501        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
@@ -472,6 +472,7 @@ departamentos   IN      CNAME   javierpzh
 </pre>
 
 <p>Voy a explicar el bloque añadido.</p>
+<p>Vemos que hay un apartado llamado <strong>Serial</strong>, este apartado es muy importante, ya que es el identificador de la zona, que debemos incrementar cada vez que hagamos un cambio. Se recomienda que el valor sea de este formato <strong>YYMMDDNN</strong>, es decir, la fecha de modificación y el número de la modificación. En mi caso he establecido <strong>20121501</strong> pues estoy realizando esta práctica el <em>15 de diciembre de 2020</em> y es la primera modificación que hago.</p>
 <p>Los registros de tipo <strong>SOA</strong> representan las autoridad sobre las zonas.</p>
 <p>El registro de tipo <strong>NS</strong> define el servidor con privilegios sobre la zona.</p>
 <p>El registro de tipo <strong>MX</strong> indica que hacemos referencia a un servidor de correos.</p>
@@ -720,7 +721,7 @@ cp /etc/bind/db.127 /var/cache/bind/db.200.22.172
 <pre>
 $TTL    604800
 @       IN      SOA     javierpzh.iesgn.org. root.localhost. (
-                              1         ; Serial
+                        20121501        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
@@ -823,6 +824,7 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></p>
 </li>
 </ul>
+<p>Antes de nada, me gustaría explicar por encima para que servirá este <strong>servidor esclavo</strong>. Este nuevo servidor DNS, estará de alguna forma sincronizado con el <strong>maestro</strong> y nos ayudará en caso de que el <em>servidor maestro</em> no pueda procesar/responder una petición, de manera, que actuará este <em>servidor esclavo</em> y responderá él la petición. Es muy útil para casos de caídas del primer servidor, para casos donde queramos utilizar estos servidores en alta disponibilidad, ...</p>
 <p>He creado una segunda instancia en el <em>cloud</em>, también con un sistema <em>Debian Buster</em>, para que actúe como <strong>esclavo</strong>. Posee la dirección <strong>172.22.200.253</strong>.</p>
 <p>Pero antes de empezar a trabajar con esta máquina, debemos configurar el servidor <strong>maestro</strong>, que será el que hemos estado utilizando antes, para que permita que las zonas se puedan transferir a este servidor <strong>esclavo</strong>. Para ello nos dirigimos al fichero <code>/etc/bind/named.conf.local</code>, en el que si recordamos, antes añadimos dos bloques que hacían referencia a ambas zonas (directa e inversa). Bien, pues tenemos que introducir dos nuevas directivas en cada uno de los bloques, estas directivas son las llamadas <strong>allow-transfer</strong> y <strong>notify yes</strong>. El resultado final del contenido del fichero sería:</p>
 <pre>
@@ -894,12 +896,64 @@ $ORIGIN 200.22.172.in-addr.arpa.
 systemctl restart bind9
 </pre>
 
-<p>Ahora sí nos dirigimos a esta nueva máquina, en la que he vuelto a realizar los mismos pasos previos que llevé a cabo con la primera instancia. Su <strong>hostname</strong> será <strong>afrodita</strong> y su <strong>FQDN</strong>, <strong>afrodita.iesgn.org</strong>.</p>
+<p>Ahora sí, nos dirigimos a esta nueva máquina, en la que he vuelto a realizar los mismos pasos previos que llevé a cabo con la primera instancia. Su <strong>hostname</strong> será <strong>afrodita</strong> y su <strong>FQDN</strong>, <strong>afrodita.iesgn.org</strong>.</p>
 <p>Instalamos el servidor DNS:</p>
 <pre>
 apt install bind9 -y
 </pre>
 
+<p>Como hicimos anteriormente al instalar el servidor DNS <strong>bind9</strong>, vamos a configurar el fichero <code>/etc/bind/named.conf.local</code> añadiendo el siguiente bloque que define las dos zonas sobre las que este servidor <em>esclavo</em> tendrá autoridad. El contenido del fichero quedaría así:</p>
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type slave;
+        file "db.iesgn.org";
+        masters { 172.22.200.174; };
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type slave;
+        file "db.200.22.172";
+        masters { 172.22.200.174; };
+};
+</pre>
+
+<p>Podemos observar, como en el tipo hemos indicado <strong>slave</strong>, es decir, <strong>esclavo</strong>, y también hemos añadido una directiva <strong>masters</strong> que sirve para indicar cuál es la IP del servidor <strong>maestro</strong>.</p>
+<p>También tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, y aquí, al igual que antes, debemos introducir las siguientes líneas:</p>
+<pre>
+recursion yes;
+allow-recursion { any; };
+listen-on { any; };
+allow-transfer { none; };
+</pre>
+
+<p>De manera, que el fichero <code>/etc/bind/named.conf.options</code> quedaría así:</p>
+<pre>
+options {
+        directory "/var/cache/bind";
+
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+
+        recursion yes;
+
+        allow-recursion { any; };
+
+        listen-on { any; };
+
+        allow-transfer { none; };
+
+};
+</pre>
+
+<p>Tras editar ambos ficheros, ya habríamos terminado la configuración de este nuevo servidor <em>esclavo</em>, por tanto vamos a reiniciar el servicio para aplicar los nuevos cambios:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Tras unos segundos, nuestro nuevo servidor habría obtenido la transferencia de las zonas desde el servidor <em>maestro</em> por lo que ya tendríamos trabajando ambos servidores conjuntamente.</p>
 <h4>Tarea 4: Documenta los siguientes apartados:</h4>
 <ul>
 <li>
