@@ -890,7 +890,31 @@ yum update -y
 </pre>
 
 <p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
-<p><strong>10. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como hostname.</strong></p>
+<p><strong>10. Configura el servidor con el nombre de dominio <code>(nombre-usuario).gonzalonazareno.org</code></strong></p>
+<p><strong>Dulcinea:</strong></p>
+<p>En los sistemas <em>Debian</em>, el fichero <code>/etc/hosts</code> se genera dinámicamente en cada arranque, debido al <code>cloud-init</code>, así que debemos deshabilitarlo para conseguir un fichero estático. Para hacer esto, tendremos que cambiar el valor de la directiva <strong>manage_etc_hosts</strong> a <strong>false</strong> en el fichero <code>/etc/cloud/cloud.cfg</code>, de manera que quede así:</p>
+<pre>
+manage_etc_hosts: false
+</pre>
+
+<p>Hecho esto, ya podemos realizar las modificaciones necesarias en el fichero <code>/etc/hosts</code>. La línea editada tendría este aspecto:</p>
+<pre>
+127.0.1.1 dulcinea.javierpzh.gonzalonazareno.org dulcinea dulcinea.novalocal  
+</pre>
+
+<p><strong>Sancho:</strong></p>
+<p>Añadimos al fichero <code>/etc/hosts</code> la siguiente línea:</p>
+<pre>
+127.0.1.1 sancho.javierpzh.gonzalonazareno.org sancho
+</pre>
+
+<p><strong>Quijote:</strong></p>
+<p>En los sistemas <strong>CentOS</strong> de <em>OpenStack</em>, el <em>hostname</em> se asigna durante la creación es <code>(hostname).novalocal</code>, cosa que no nos interesa. Para llevar a cabo dicho cambio, vamos a modificar el fichero <code>/etc/hostname</code>. Quedando la línea de este fichero:</p>
+<pre>
+quijote
+</pre>
+
+<p><strong>11. Hasta que no esté configurado el servidor DNS, incluye resolución estática en las tres instancias tanto usando nombre completo como <em>hostname</em>.</strong></p>
 <p>Para configurar la resolución estática de las instancias, debemos modificar el fichero <code>/etc/hosts</code> y añadir unas líneas con este aspecto:</p>
 <pre>
 XXX.XXX.XXX.XXX nombre
@@ -936,7 +960,7 @@ manage_etc_hosts: false
 10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
 </pre>
 
-<p><strong>11. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
+<p><strong>12. Asegúrate que el servidor tiene sincronizado su reloj utilizando un servidor NTP externo.</strong></p>
 <p><strong>Dulcinea:</strong></p>
 <p>Para configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
 <pre>
