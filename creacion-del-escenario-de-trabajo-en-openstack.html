@@ -892,7 +892,12 @@ yum update -y
 <p>Cuando se ejecuta este comando, <code>yum</code> comenzará a comprobar en sus repositorios si existe una versión actualizada del software que el sistema tiene instalado actualmente. Una vez que revisa la lista de repositorios y nos informa de que paquetes se pueden actualizar, introducimos <code>y</code> y pulsando <em>intro</em> se nos actualizarán todos los paquetes.</p>
 <p><strong>10. Configura el servidor con el nombre de dominio <code>(nombre-usuario).gonzalonazareno.org</code></strong></p>
 <p><strong>Dulcinea:</strong></p>
-<p>En los sistemas <em>Debian</em>, el fichero <code>/etc/hosts</code> se genera dinámicamente en cada arranque, debido al <code>cloud-init</code>, así que debemos deshabilitarlo para conseguir un fichero estático. Para hacer esto, tendremos que cambiar el valor de la directiva <strong>manage_etc_hosts</strong> a <strong>false</strong> en el fichero <code>/etc/cloud/cloud.cfg</code>, de manera que quede así:</p>
+<p>Me he dado cuenta de una cosa al reiniciar la máquina <em>Dulcinea</em>, y es que en cada inicio se restablece el fichero <code>/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code>/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
+<pre>
+manage_etc_hosts: true
+</pre>
+
+<p>Le cambiamos el valor a <em>false</em>:</p>
 <pre>
 manage_etc_hosts: false
 </pre>
