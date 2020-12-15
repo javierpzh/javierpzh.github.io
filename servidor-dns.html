@@ -478,7 +478,12 @@ departamentos   IN      CNAME   javierpzh
 <p>El registro <strong>$ORIGIN</strong> se usa para que las líneas que se especifiquen debajo de él, sean autocompletadas con el dominio especificado en dicho registro. Esto nos sirve para evitar poner en cada registro que creemos, la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code>iesgn.org</code>.</p>
 <p>Los registros de tipo <strong>A</strong> especifican la direcciones IP correspondientes al dominio.</p>
 <p>Los registros de tipo <strong>CNAME</strong> sirven para apuntar hacia otro de los registros de tipo <strong>A</strong> ya existentes. De manera que es mucho más fácil y cómodo hacer referencia a una dirección a través de un nombre en vez de con la propia dirección en sí.</p>
-<p>Explicado estos detalles, vamos a añadir al fichero <code>/etc/resolv.conf</code> de la máquina cliente la siguiente línea con la IP del servidor DNS (si ya la hemos añadido en la tarea 1, no hace falta obviamente):</p>
+<p>Explicado estos detalles, reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> de la máquina cliente la siguiente línea con la IP del servidor DNS (si ya la hemos añadido en la tarea 1, no hace falta obviamente):</p>
 <pre>
 nameserver 172.22.200.174
 </pre>
@@ -637,30 +642,29 @@ iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
 
 <p>Lógicamente como he comentado antes, funciona.</p>
 <p>Por último, para terminar esta tarea, vamos a configurar la zona inversa de nuestra servidor DNS <em>bind9</em>.</p>
-<p>Al igual que hicimos al principio del ejercicio, vamos a tomar como plantilla un archivo, pero esta vez será el <code>/etc/bind/db.127</code> y lo guardaremos de nuevo en <code>/var/cache/bind</code> con el nombre <code>db.192.168.150</code>.</p>
+<p>Al igual que hicimos al principio del ejercicio, vamos a tomar como plantilla un archivo, pero esta vez será el <code>/etc/bind/db.127</code> y lo guardaremos de nuevo en <code>/var/cache/bind</code> con el nombre <code>db.200.22.172</code>.</p>
 <pre>
-cp /etc/bind/db.127 /var/cache/bind/db.192.168.150
+cp /etc/bind/db.127 /var/cache/bind/db.200.22.172
 </pre>
 
-<p>Antes de mostrar como quedaría este fichero, hay que decir que por cada registro de tipo <strong>A</strong> que tengamos en nuestro archivos que contiene las zonas directas, tenemos que añadir un registro de tipo <strong>PTR</strong>.</p>
-<p>En mi caso, el fichero <code>/var/cache/bind/db.192.168.150</code> tendría este aspecto:</p>
+<p>Antes de mostrar como quedaría este fichero, hay que decir que por cada registro de tipo <strong>A</strong> que tengamos en nuestro archivo que contiene la zona directa, sin incluir las páginas webs, tenemos que añadir un registro de tipo <strong>PTR</strong>.</p>
+<p>En mi caso, el fichero <code>/var/cache/bind/db.db.200.22.172</code> tendría este aspecto:</p>
 <pre>
 $TTL    604800
-@   IN  SOA javierpzh.iesgn.org. root.localhost. (
-                  1     ; Serial
-             604800     ; Refresh
-              86400     ; Retry
-            2419200     ; Expire
-             604800 )   ; Negative Cache TTL
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
 ;
-@   IN  NS  javierpzh.iesgn.org.
+@       IN      NS      javierpzh.iesgn.org.
 
-$ORIGIN 150.168.192.in-addr.arpa.
+$ORIGIN 200.22.172.in-addr.arpa.
 
-10  IN  PTR   javierpzh.iesgn.org.
-200 IN  PTR   scorreos.iesgn.org.
-201 IN  PTR   sftp.iesgn.org
-26  IN  PTR   cliente.iesgn.org
+174     IN      PTR     javierpzh.iesgn.org.
+200     IN      PTR     correo.iesgn.org.
+201     IN      PTR     ftp.iesgn.org.
 </pre>
 
 <p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
@@ -670,68 +674,64 @@ systemctl restart bind9
 
 <p>Para comprobar que funciona la resolución inversa, vamos a hacer una consulta inversa. Para hacer esto utilizamos el comando <code>dig -x (IP)</code>:</p>
 <pre>
-root@debian:~# dig -x 192.168.150.10
+javier@debian:~$ dig -x 172.22.200.174
 
-; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> -x 192.168.150.10
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> -x 172.22.200.174
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 44927
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 21938
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 3becf8105587fe516606f84b5fd38c12b82f225369f578b9 (good)
+; COOKIE: 7d3b873b603a177806bc97575fd8c12a2de7c483ab5f1672 (good)
 ;; QUESTION SECTION:
-;10.150.168.192.in-addr.arpa.   IN  PTR
+;174.200.22.172.in-addr.arpa.   IN  PTR
 
 ;; ANSWER SECTION:
-10.150.168.192.in-addr.arpa. 604800 IN  PTR javierpzh.iesgn.org.
+174.200.22.172.in-addr.arpa. 604800 IN  PTR javierpzh.iesgn.org.
 
 ;; AUTHORITY SECTION:
-150.168.192.in-addr.arpa. 604800 IN NS  javierpzh.iesgn.org.
+200.22.172.in-addr.arpa. 604800 IN  NS  javierpzh.iesgn.org.
 
 ;; ADDITIONAL SECTION:
-javierpzh.iesgn.org.    86400   IN  A   192.168.150.10
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 
-;; Query time: 0 msec
-;; SERVER: 192.168.150.10#53(192.168.150.10)
-;; WHEN: vie dic 11 18:00:09 CET 2020
+;; Query time: 79 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:59:06 CET 2020
 ;; MSG SIZE  rcvd: 147
-
-root@debian:~#
 </pre>
 
 <p>Parece que el servidor resuelve consultas inversas, pero vamos a hacer una prueba más realizando otra consulta inversa, esta vez al servidor de correos.</p>
 <pre>
-root@debian:~# dig -x 192.168.150.200
+javier@debian:~$ dig -x 172.22.200.200
 
-; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> -x 192.168.150.200
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> -x 172.22.200.200
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29504
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 61164
 ;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
 
 ;; OPT PSEUDOSECTION:
 ; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 779a6650f4f0623f495f51185fd38c25ceac5c00a3b27e45 (good)
+; COOKIE: 8551cca364e2557b2396263f5fd8c14e6b958e7180155dcf (good)
 ;; QUESTION SECTION:
-;200.150.168.192.in-addr.arpa.  IN  PTR
+;200.200.22.172.in-addr.arpa.   IN  PTR
 
 ;; ANSWER SECTION:
-200.150.168.192.in-addr.arpa. 604800 IN PTR scorreos.iesgn.org.
+200.200.22.172.in-addr.arpa. 604800 IN  PTR correo.iesgn.org.
 
 ;; AUTHORITY SECTION:
-150.168.192.in-addr.arpa. 604800 IN NS  javierpzh.iesgn.org.
+200.22.172.in-addr.arpa. 604800 IN  NS  javierpzh.iesgn.org.
 
 ;; ADDITIONAL SECTION:
-javierpzh.iesgn.org.    86400   IN  A   192.168.150.10
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 
-;; Query time: 0 msec
-;; SERVER: 192.168.150.10#53(192.168.150.10)
-;; WHEN: vie dic 11 18:00:27 CET 2020
-;; MSG SIZE  rcvd: 157
-
-root@debian:~#
+;; Query time: 81 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:59:42 CET 2020
+;; MSG SIZE  rcvd: 154
 </pre>
 
 <p>Vemos que también funciona correctamente, por lo que este ejercicio estaría terminado.</p>
@@ -795,25 +795,25 @@ root@debian:~#
 </li>
 </ul>
 <h3>Delegación de dominios</h3>
-<p>Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio <code>iesgn.org</code>, en esta ocasión queremos delegar el subdominio <code>informatica.iesgn.org</code> para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:</p>
+<p><strong>Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio <code>iesgn.org</code>, en esta ocasión queremos delegar el subdominio <code>informatica.iesgn.org</code> para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:</strong></p>
 <ul>
 <li>
-<p><code>pandora.iesgn.org</code>, es servidor DNS autorizado para la zona <code>iesgn.org</code>.</p>
+<p><strong><code>pandora.iesgn.org</code>, es servidor DNS autorizado para la zona <code>iesgn.org</code>.</strong></p>
 </li>
 <li>
-<p><code>ns.informatica.iesgn.org</code>, es el servidor DNS para la zona <code>informatica.iesgn.org</code> y, está instalado en otra máquina.</p>
+<p><strong><code>ns.informatica.iesgn.org</code>, es el servidor DNS para la zona <code>informatica.iesgn.org</code> y, está instalado en otra máquina.</strong></p>
 </li>
 </ul>
-<p>Los nombres que vamos a tener en ese subdominio son los siguientes:</p>
+<p><strong>Los nombres que vamos a tener en ese subdominio son los siguientes:</strong></p>
 <ul>
 <li>
-<p><code>www.informatica.iesgn.org</code> corresponde a un sitio web que está alojado en el servidor web del departamento de informática.</p>
+<p><strong><code>www.informatica.iesgn.org</code> corresponde a un sitio web que está alojado en el servidor web del departamento de informática.</strong></p>
 </li>
 <li>
-<p>Vamos a suponer que tenemos un servidor FTP que se llame <code>ftp.informatica.iesgn.org</code> y que está en la misma máquina.</p>
+<p><strong>Vamos a suponer que tenemos un servidor FTP que se llame <code>ftp.informatica.iesgn.org</code> y que está en la misma máquina.</strong></p>
 </li>
 <li>
-<p>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code>correo.informatica.iesgn.org</code>.</p>
+<p><strong>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code>correo.informatica.iesgn.org</code>.</strong></p>
 </li>
 </ul>
 <h4>Tarea 7: Realiza la instalación y configuración del nuevo servidor DNS con las características anteriormente señaladas. Muestra el resultado al profesor.**</h4>
