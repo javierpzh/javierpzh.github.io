@@ -140,7 +140,17 @@ interface=eth0
 </pre>
 
 <p>Con esto, ya habríamos terminado la configuración del servicio <code>dnsmasq</code>.</p>
-<p>Vamos a modificar el fichero <code>/etc/hosts</code> para cambiar el <strong>hostname</strong> y el <strong>FQDN</strong> de la máquina.</p>
+<p>Vamos a cambiar el nombre de la máquina, para ello, editamos el fichero <code>/etc/hostname</code>. En mi caso la máquina se llamará <code>javierpzh</code> por lo que el contenido del fichero es:</p>
+<pre>
+javierpzh
+</pre>
+
+<p>Si vemos, actualmente el <em>prompt</em> de la máquina posee este aspecto:</p>
+<pre>
+root@servidor-dns:~#
+</pre>
+
+<p>Debemos reiniciar la máquina para que este cambio se aplique, pero antes, vamos a modificar el fichero <code>/etc/hosts</code> para cambiar el <strong>hostname</strong> y el <strong>FQDN</strong> de la máquina.</p>
 <p>Antes de hacer esto, por experiencia, ya sé, que al reiniciar la máquina se restablecerá el fichero <code>/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code>/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
 <pre>
 manage_etc_hosts: true
@@ -151,11 +161,18 @@ manage_etc_hosts: true
 manage_etc_hosts: false
 </pre>
 
-<p>Ahora sí, vamos a cambiar el fichero <code>/etc/hosts</code>, </p>
+<p>Ahora sí, vamos a cambiar el fichero <code>/etc/hosts</code>. Nos interesa cambiar la línea con la dirección <strong>127.0.1.1</strong> que es la que hace referencia a la propia máquina. Establezco como <strong>FQDN</strong> <code>javierpzh.iesgn.org</code> y como <strong>hostname</strong>, <code>javierpzh</code>:</p>
 <pre>
 127.0.1.1 javierpzh.iesgn.org javierpzh
 </pre>
 
+<p>Hecho esto, vamos a reiniciar la máquina con el comando <code>reboot</code>.</p>
+<p>Si después del reinicio volvemos a mirar el <em>prompt</em>:</p>
+<pre>
+root@javierpzh:~#
+</pre>
+
+<p>Vemos como hemos modificado correctamente el <em>hostname</em> de la máquina.</p>
 <h4>Tarea 1: Modifica los clientes para que utilicen el nuevo servidor DNS. Realiza una consulta a <code>www.iesgn.org</code>, y a <code>www.josedomingo.org</code>. Realiza una prueba de funcionamiento para comprobar que el servidor <em>dnsmasq</em> funciona como caché DNS. Muestra el fichero hosts del cliente para demostrar que no estás utilizando resolución estática. Realiza una consulta directa al servidor <em>dnsmasq</em>. ¿Se puede realizar resolución inversa?**</h4>
 <p>He creado una segunda máquina virtual con <em>Vagrant</em> que será la que actuará como <strong>cliente</strong>, mediante el siguiente fichero <em>Vagrantfile</em>:</p>
 <p>Una vez en el cliente, vamos a instalar el paquete <code>dnsutils</code>, para poder hacer uso de la herramienta <code>dig</code>:</p>
