@@ -669,7 +669,47 @@ iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
 </pre>
 
 <p>Lógicamente como he comentado antes, funciona.</p>
-<p>Por último, para terminar esta tarea, vamos a configurar la zona inversa de nuestra servidor DNS <em>bind9</em>.</p>
+<p>Por último, vamos a realizar una consulta a <code>www.josedomingo.org</code>:</p>
+<pre>
+javier@debian:~$ dig www.josedomingo.org
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> www.josedomingo.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46237
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 5, ADDITIONAL: 6
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 2d75623a8efbcd2bb12aaea35fd8e32de5465209b63c40be (good)
+;; QUESTION SECTION:
+;www.josedomingo.org.       IN  A
+
+;; ANSWER SECTION:
+www.josedomingo.org.    386 IN  CNAME   endor.josedomingo.org.
+endor.josedomingo.org.  386 IN  A   37.187.119.60
+
+;; AUTHORITY SECTION:
+josedomingo.org.    85885   IN  NS  ns5.cdmondns-01.com.
+josedomingo.org.    85885   IN  NS  ns1.cdmon.net.
+josedomingo.org.    85885   IN  NS  ns4.cdmondns-01.org.
+josedomingo.org.    85885   IN  NS  ns2.cdmon.net.
+josedomingo.org.    85885   IN  NS  ns3.cdmon.net.
+
+;; ADDITIONAL SECTION:
+ns1.cdmon.net.      172285  IN  A   35.189.106.232
+ns2.cdmon.net.      172285  IN  A   35.195.57.29
+ns3.cdmon.net.      172285  IN  A   35.157.47.125
+ns4.cdmondns-01.org.    85885   IN  A   52.58.66.183
+ns5.cdmondns-01.com.    172285  IN  A   52.59.146.62
+
+;; Query time: 99 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:48:02 CET 2020
+;; MSG SIZE  rcvd: 318
+</pre>
+
+<p>Para terminar esta tarea, vamos a configurar la zona inversa de nuestra servidor DNS <em>bind9</em>.</p>
 <p>Al igual que hicimos al principio del ejercicio, vamos a tomar como plantilla un archivo, pero esta vez será el <code>/etc/bind/db.127</code> y lo guardaremos de nuevo en <code>/var/cache/bind</code> con el nombre <code>db.200.22.172</code>.</p>
 <pre>
 cp /etc/bind/db.127 /var/cache/bind/db.200.22.172
