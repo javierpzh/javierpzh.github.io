@@ -823,8 +823,78 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></p>
 </li>
 </ul>
-<p>He creado una segunda instancia en el <em>cloud</em>, también con un sistema <em>Debian Buster</em>, para que actúe como <strong>esclavo</strong>. Posee la dirección <strong>172.22.201.12</strong>.</p>
-<p>En esta nueva máquina, he vuelto a realizar los mismos pasos previos que llevé a cabo con la primera instancia. Su <strong>hostname</strong> será <strong>afrodita</strong> y su <strong>FQDN</strong>, <strong>afrodita.iesgn.org</strong>.</p>
+<p>He creado una segunda instancia en el <em>cloud</em>, también con un sistema <em>Debian Buster</em>, para que actúe como <strong>esclavo</strong>. Posee la dirección <strong>172.22.200.253</strong>.</p>
+<p>Pero antes de empezar a trabajar con esta máquina, debemos configurar el servidor <strong>maestro</strong>, que será el que hemos estado utilizando antes, para que permita que las zonas se puedan transferir a este servidor <strong>esclavo</strong>. Para ello nos dirigimos al fichero <code>/etc/bind/named.conf.local</code>, en el que si recordamos, antes añadimos dos bloques que hacían referencia a ambas zonas (directa e inversa). Bien, pues tenemos que introducir dos nuevas directivas en cada uno de los bloques, estas directivas son las llamadas <strong>allow-transfer</strong> y <strong>notify yes</strong>. El resultado final del contenido del fichero sería:</p>
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type master;
+        file "/var/cache/bind/db.iesgn.org";
+    allow-transfer { 172.22.200.253; };
+    notify yes;
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type master;
+        file "/var/cache/bind/db.200.22.172";
+    allow-transfer { 172.22.200.253; };
+    notify yes;
+};
+</pre>
+
+<p>Hecho esto, tendremos que editar los ficheros <code>/var/cache/bind/db.iesgn.org</code> y <code>/var/cache/bind/db.200.22.172</code> y añadir un registro de tipo <strong>NS</strong> y de tipo <strong>A</strong> o de tipo <strong>PTR</strong>, según el fichero, haciendo referencia a <strong>afrodita</strong>.</p>
+<p>El resultado final del fichero <code>/var/cache/bind/db.iesgn.org</code> sería:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                         86400         ; Retry
+                         2419200         ; Expire
+                         86400 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+javierpzh       IN      A       172.22.200.174
+afrodita        IN      A       172.22.200.253
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
+</pre>
+
+<p>El resultado final del fichero <code>/var/cache/bind/db.200.22.172</code> sería:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+
+$ORIGIN 200.22.172.in-addr.arpa.
+
+174     IN      PTR     javierpzh.iesgn.org.
+253     IN      PTR     afrodita.iesgn.org.
+200     IN      PTR     correo.iesgn.org.
+201     IN      PTR     ftp.iesgn.org.
+</pre>
+
+<p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Ahora sí nos dirigimos a esta nueva máquina, en la que he vuelto a realizar los mismos pasos previos que llevé a cabo con la primera instancia. Su <strong>hostname</strong> será <strong>afrodita</strong> y su <strong>FQDN</strong>, <strong>afrodita.iesgn.org</strong>.</p>
 <p>Instalamos el servidor DNS:</p>
 <pre>
 apt install bind9 -y
