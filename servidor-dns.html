@@ -407,18 +407,41 @@ zone "iesgn.org" {
         file "/var/cache/bind/db.iesgn.org";
 };
 
-zone "150.168.192.in-addr.arpa" {
+zone "200.22.172.in-addr.arpa" {
         type master;
-        file "/var/cache/bind/db.192.168.150";
+        file "/var/cache/bind/db.200.22.172";
 };
 </pre>
 
 <p>Vamos a explicar las líneas que acabamos de añadir.</p>
 <p>En primer lugar, hemos escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
-<p>Los bloques definen la zona <code>iesgn.org</code> con su correspondiente <strong>zona inversa</strong>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
-<p>Una vez explicado, vamos a empezar con las modificaciones. En primer lugar, debemos comentar en el fichero <code>/etc/bind/zones.rfc1918</code> la siguiente línea:</p>
+<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>iesgn.org</code> con su correspondiente <strong>zona de resolución inversa</strong> <code>200.22.172.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
+<p>Una vez explicado, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, y aquí debemos introducir las siguientes líneas:</p>
 <pre>
-zone "168.192.in-addr.arpa" { type master; file "/etc/bind/db.empty"; };
+recursion yes;
+allow-recursion { any; };
+listen-on { any; };
+allow-transfer { none; };
+</pre>
+
+<p>De manera, que el fichero <code>/etc/bind/named.conf.options</code> quedaría así:</p>
+<pre>
+options {
+        directory "/var/cache/bind";
+
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+
+        recursion yes;
+
+        allow-recursion { any; };
+
+        listen-on { any; };
+
+        allow-transfer { none; };
+
+};
 </pre>
 
 <p>Ahora, vamos a configurar las zonas que definimos en el paso anterior. En mi caso copio el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla del nuevo archivo de configuración de esta zona <strong>iesgn.org</strong>.</p>
