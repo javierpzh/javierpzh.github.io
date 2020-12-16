@@ -526,27 +526,7 @@ $conf['servers'][1]['port'] = 5432;
 <p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/postgresqlaplicacionweb.png"></p>
 <p>Podemos ver como nuestra aplicación nos muestra las bases de datos existentes en el servidor, y podemos eliminarlas, modificarlas y establecer privilegios, entre otras cosas, ya que también podemos realizar consultas, ...</p>
 <h4>Instalación de una herramienta de administración para MongoDB y prueba desde un cliente remoto</h4>
-<p>Lo primero que voy a hacer, sería crear las dos máquinas virtuales con las que vamos a trabajar en este ejercicio. Como siempre, una actuará como servidor y la otra como cliente. Las dos <em>mv</em> están creadas con <strong>Vagrant</strong> con un sistema <strong>Debian 10</strong>, y conectadas a la misma red local. Este es el fichero <em>Vagrantfile</em>:</p>
-<pre>
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-Vagrant.configure("2") do |config|
-  config.vm.define :servidor do |servidor|
-        servidor.vm.box="debian/buster64"
-        servidor.vm.hostname="servidor"
-    servidor.vm.network :public_network, :bridge=>"wlo1"
-  end
-
-  config.vm.define :cliente do |cliente|
-        cliente.vm.box="debian/buster64"
-        cliente.vm.hostname="cliente"
-    cliente.vm.network :public_network, :bridge=>"wlo1"
-  end
-
-end
-</pre>
-
+<p>Lo primero que voy a hacer, sería crear las dos máquinas virtuales con las que vamos a trabajar en este ejercicio. Como siempre, una actuará como servidor y la otra como cliente. Las dos <em>mv</em> están creadas con un sistema <strong>Debian 10</strong>, y conectadas a la misma red local. La máquina <strong>cliente</strong> tendrá <strong>entorno gráfico</strong> para así poder utilizar la herramienta de administración.</p>
 <p>Las direcciones IP de ambas máquinas son:</p>
 <ul>
 <li>
@@ -792,7 +772,7 @@ Productos
 <p>Por tanto, solo nos faltaría instalar la herramienta para administrar nuestro servidor de <em>MongoDB</em>.</p>
 <p>Este proceso lo haremos desde el <em>cliente</em>.</p>
 <p>He decidido instalar la propia herramienta de administración de <em>MongoDB</em>, llamada <strong>Compass</strong>. Es una aplicación bastante sencilla de utilizar y que nos facilita muchísimo el trabajo.</p>
-<p>Para descargar esta aplicación de escritorio nos dirigimos a la <a href="https://www.mongodb.com/try/download/compass">página oficial de descargas de MongoDB</a> y elegimos el sistema operativo con el que trabajemos y descargamos el archivo <code>.exe</code>, <code>.deb</code>, <code>.rpm</code>, ... En mi caso estoy trabajando con <em>Debian</em>, por lo que descargo el <code>.deb</code>, y lo instalo con el siguiente comando:</p>
+<p>Para descargar esta aplicación de escritorio nos dirigimos a la <a href="https://www.mongodb.com/try/download/compass">página oficial de descargas de MongoDB</a> y elegimos el sistema operativo con el que trabajamos y descargamos el archivo <code>.exe</code>, <code>.deb</code>, <code>.rpm</code>, ... En mi caso estoy trabajando con <em>Debian</em>, por lo que descargo el <code>.deb</code>, y lo instalo con el siguiente comando:</p>
 <pre>
 sudo dpkg -i mongodb-compass_1.24.1_amd64.deb
 </pre>
