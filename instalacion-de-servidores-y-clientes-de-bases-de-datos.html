@@ -289,7 +289,18 @@ Conexiones activas
 <p>Vemos que efectivamente está escuchando en dicho puerto.</p>
 <p>Hecho esto, ya habríamos habilitado al servidor para que permita el acceso remoto, por tanto, vamos a intentar acceder a él desde el <strong>cliente</strong>, pero antes vamos a probar si verdaderamente el <em>cliente</em> posee conectividad al puerto <em>1521</em> del <em>servidor</em>. Para esto vamos a utilizar la herramienta <code>tnsping</code>, que se encarga de realizar un <em>ping</em> a la IP que indiquemos, pero haciendo referencia al puerto <em>1521</em>:</p>
 <pre>
-tnsping 192.168.0.55
+C:\Users\cliente>tnsping 192.168.0.55
+
+TNS Ping Utility for 64-bit Windows: Version 19.0.0.0.0 - Production on 17-DIC-2020 14:47:58
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Archivos de parßmetros utilizados:
+C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\network\admin\sqlnet.ora
+
+Adaptador EZCONNECT utilizado para resolver el alias
+Intentando contactar con (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.0.55)(PORT=1521)))
+Realizado correctamente (0 mseg)
 </pre>
 
 <p>Tenemos conectividad con el puerto <em>1521</em> del <em>servidor</em>.</p>
