@@ -161,7 +161,7 @@
 dnf install httpd -y
 </pre>
 
-<p>Una vez instalado, debemos abrir los puertos que utilizará <em>Apache</em> ya que por defecto, en el <em>firewall</em> de <em>CentOS</em>, vienen cerrados.</p>
+<p>Una vez instalado, debemos abrir los puertos <em>80</em> y <em>443</em>, que utilizará <em>Apache</em>, ya que por defecto, en el <em>firewall</em> de <em>CentOS</em>, vienen cerrados.</p>
 <pre>
 [root@quijote ~]# firewall-cmd --permanent --add-service=http
 success
