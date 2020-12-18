@@ -108,6 +108,63 @@
     <!-- Post Content -->
     <article>
         <h4>Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://</h4>
+<p>Lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
+<p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code>openssl</code>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
+<pre>
+root@freston:~# openssl genrsa 4096 > /etc/ssl/private/freston.key
+Generating RSA private key, 4096 bit long modulus (2 primes)
+.........................................++++
+...........................................................................................................................++++
+e is 65537 (0x010001)
+
+root@freston:~# ls /etc/ssl/private/
+freston.key
+</pre>
+
+<p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>.csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
+<p>Para generar nuestro archivo <em>.csr</em>:</p>
+<pre>
+root@freston:~# openssl req -new -key /etc/ssl/private/freston.key -out /root/wildcard.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Sevilla
+Locality Name (eg, city) []:Dos Hermanas
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES Gonzalo Nazareno
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (e.g. server FQDN or YOUR name) []:*.javierpzh.gonzalonazareno.org
+Email Address []:javierperezhidalgo01@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+root@freston:~# ls
+wildcard.csr
+</pre>
+
+<p>Como <strong>freston</strong> es una instancia del <em>cloud</em>, voy a pasarme este fichero <code>wildcard.csr</code> a mi máquina anfitriona para enviárselo a la entidad certificadora, que en este caso es el <strong>Gonzalo Nazareno</strong>.
+Si quieres entender mejor la estructura del escenario donde estamos trabajando puedes echarle un vistazo a este <em>post</em>, <a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a>.</p>
+<p>Por tanto, pasaré este archivo a mi equipo mediante <code>scp</code>.</p>
+<p>Una vez tenemos el certificado firmado por la entidad certificadora, lo pasamos a <strong>freston</strong>. También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover también a <em>freston</em>.</p>
+<pre>
+root@freston:~# ls
+gonzalonazareno.crt  wildcard.crt  wildcard.csr
+</pre>
+
+<p>Una vez los tenemos aquí, los vamos a mover a la ruta <code>/etc/ssl/certs</code>:</p>
+<pre>
+root@freston:~# mv gonzalonazareno.crt /etc/ssl/certs/
+
+root@freston:~# mv wildcard.crt /etc/ssl/certs/
+</pre>
+
 <p>.</p>
     </article>
 

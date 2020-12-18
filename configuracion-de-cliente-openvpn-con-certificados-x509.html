@@ -128,7 +128,7 @@ e is 65537 (0x010001)
 </pre>
 
 <p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
-<p>Para generar nuestro archivo csr:</p>
+<p>Para generar nuestro archivo <em>.csr</em>:</p>
 <pre>
 root@debian:~# openssl req -new -key /etc/ssl/private/msi-debian-javierperezhidalgo.key -out /root/msi-debian-javierperezhidalgo.csr
 You are about to be asked to enter information that will be incorporated
@@ -155,18 +155,18 @@ root@debian:~# ls
 msi-debian-javierperezhidalgo.csr
 </pre>
 
-<p>Vemos que ya hemos generado nuestro certificado, así que ahora tenemos que enviárselo al Gonzalo Nazareno para que nos lo firme. Lo enviamos desde este <a href="https://dit.gonzalonazareno.org/gestiona/cert/">enlace</a>.</p>
+<p>Vemos que ya hemos generado nuestro certificado, así que ahora tenemos que enviárselo al <em>Gonzalo Nazareno</em> para que nos lo firme. Lo enviamos desde este <a href="https://dit.gonzalonazareno.org/gestiona/cert/">enlace</a>.</p>
 <p>Una vez tenemos descargado el certificado firmado, normalmente lo habremos descargado en <em>Descargas</em>, por tanto lo vamos a mover a la carpeta <code>/etc/openvpn</code> de nuestro usuario <em>root</em>.</p>
 <pre>
 root@debian:~# mv ../home/javier/Descargas/msi-debian-javierperezhidalgo.crt /etc/openvpn/
 </pre>
 
-<p>También hemos tenido que descargar el certificado de la entidad Gonzalo Nazareno. Por tanto lo vamos a mover a la ruta <code>/etc/ssl/certs/</code>:</p>
+<p>También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover a la ruta <code>/etc/ssl/certs/</code>:</p>
 <pre>
 root@debian:~# mv ../home/javier/Descargas/gonzalonazareno.csr /etc/ssl/certs/
 </pre>
 
-<p>Solo nos quedaría crear un fichero que configure OpenVPN. Este fichero tiene que tener una extensión <code>.conf</code>, y tiene que encontrarse en el directorio <code>/etc/openvpn</code>.</p>
+<p>Solo nos quedaría crear un fichero que configure <strong>OpenVPN</strong>. Este fichero tiene que tener una extensión <code>.conf</code>, y tiene que encontrarse en el directorio <code>/etc/openvpn</code>.</p>
 <pre>
 root@debian:/etc/openvpn# nano vpniesgn.conf
 </pre>
