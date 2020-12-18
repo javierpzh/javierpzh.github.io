@@ -846,6 +846,14 @@ zone "200.22.172.in-addr.arpa" {
 };
 </pre>
 
+<p>Vamos a comprobar que este fichero posee una sintaxis correcta:</p>
+<pre>
+root@javierpzh:~# named-checkconf
+
+root@javierpzh:~#
+</pre>
+
+<p>Si no nos devuelve ninguna salida, significa que la sintaxis es correcta.</p>
 <p>Hecho esto, tendremos que editar los ficheros <code>/var/cache/bind/db.iesgn.org</code> y <code>/var/cache/bind/db.200.22.172</code> y añadir un registro de tipo <strong>NS</strong> y de tipo <strong>A</strong> o de tipo <strong>PTR</strong>, según el fichero, haciendo referencia a <strong>afrodita</strong>.</p>
 <p>El resultado final del fichero <code>/var/cache/bind/db.iesgn.org</code> sería:</p>
 <pre>
@@ -892,6 +900,18 @@ $ORIGIN 200.22.172.in-addr.arpa.
 201     IN      PTR     ftp.iesgn.org.
 </pre>
 
+<p>Vamos a comprobar que este fichero posee una sintaxis correcta:</p>
+<pre>
+root@javierpzh:~# named-checkzone iesgn.org /var/cache/bind/db.iesgn.org
+zone iesgn.org/IN: loaded serial 20121801
+OK
+
+root@javierpzh:~# named-checkzone 200.22.172.in-addr.arpa /var/cache/bind/db.200.22.172
+zone 200.22.172.in-addr.arpa/IN: loaded serial 20121502
+OK
+</pre>
+
+<p>Vemos que la sintaxis es correcta.</p>
 <p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
 <pre>
 systemctl restart bind9
@@ -954,11 +974,45 @@ options {
 systemctl restart bind9
 </pre>
 
-<p>Tras unos segundos, nuestro nuevo servidor habría obtenido la transferencia de las zonas desde el servidor <em>maestro</em> por lo que ya tendríamos trabajando ambos servidores conjuntamente.</p>
+<p>Tras unos segundos, nuestro nuevo servidor habría obtenido la transferencia de las zonas desde el servidor <em>maestro</em> por lo que ya tendríamos trabajando ambos servidores conjuntamente. Si visualizamos el estado del servidor:</p>
 <pre>
+root@afrodita:~# systemctl status bind9
+● bind9.service - BIND Domain Name Server
+   Loaded: loaded (/lib/systemd/system/bind9.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-12-18 11:45:33 UTC; 4h 40min ago
+     Docs: man:named(8)
+  Process: 768 ExecStart=/usr/sbin/named $OPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 771 (named)
+    Tasks: 4 (limit: 562)
+   Memory: 11.9M
+   CGroup: /system.slice/bind9.service
+           └─771 /usr/sbin/named -u bind
 
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: Transfer started.
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: connected using 10.0.0.5#45093
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: transferred serial 20121502
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: Transfer status: success
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: Transfer completed: 1 messages, 8 records, 266 bytes, 0.003 secs (88666 bytes/sec)
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: sending notifies (serial 20121502)
+Dec 18 11:45:34 afrodita named[771]: client @0x7fc9140c72c0 172.22.200.253#56966: received notify for zone '200.22.172.in-addr.arpa'
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: refused notify from non-master: 172.22.200.253#56966
+Dec 18 11:45:34 afrodita named[771]: managed-keys-zone: Key 20326 for zone . acceptance timer complete: key now trusted
+Dec 18 11:45:34 afrodita named[771]: resolver priming query complete
 </pre>
 
+<p>A través de los mensajes podemos ver como se han llevado a cabo la transferencia de las zonas, por lo que si ahora visualizamos los archivos que hay en la ruta <code>/var/cache/bind/</code>:</p>
+<pre>
+root@afrodita:~# ls /var/cache/bind/
+db.200.22.172  db.iesgn.org  managed-keys.bind  managed-keys.bind.jnl
+</pre>
+
+<p>Efectivamente, podemos ver como se han copiado las zonas a este servidor <em>esclavo</em>.</p>
+<p>Hecho esto, nos dirigimos a nuestro equipo anfitrión y añadimos al fichero <code>resolv.conf</code> la siguiente línea:</p>
+<pre>
+nameserver 172.22.200.253
+</pre>
+
+<p>Esta línea hace referencia a la de <strong>afrodita</strong>, es decir, la IP del servidor <em>esclavo</em>.</p>
 <h4>Tarea 4: Documenta los siguientes apartados:</h4>
 <ul>
 <li>
