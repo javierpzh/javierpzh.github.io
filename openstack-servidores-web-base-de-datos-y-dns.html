@@ -239,6 +239,67 @@ javierpzh       IN      A       172.22.200.183
 <p>El registro <strong>$ORIGIN</strong> se usa para que las líneas que se especifiquen debajo de él, sean autocompletadas con el dominio especificado en dicho registro. Esto nos sirve para evitar poner en cada registro que creemos, la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code>gonzalonazareno.org</code>.</p>
 <p>Los registros de tipo <strong>A</strong> especifican la direcciones IP correspondientes al dominio.</p>
 <p>Los registros de tipo <strong>CNAME</strong> sirven para apuntar hacia otro de los registros de tipo <strong>A</strong> ya existentes. De manera que es mucho más fácil y cómodo hacer referencia a una dirección a través de un nombre en vez de con la propia dirección en sí.</p>
+<p>Explicados estos detalles, vamos a tomar como plantilla otro archivo, esta vez será el <code>/etc/bind/db.127</code> y lo copiaremos tres veces, ya que vamos a configurar 3 zonas inversas. Lo guardaremos de nuevo en <code>/var/cache/bind</code> con los nombres <code>db.0.0.10</code>, <code>db.1.0.10</code> y <code>db.2.0.10</code>.</p>
+<pre>
+root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.0.0.10
+
+root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.1.0.10
+
+root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.2.0.10
+</pre>
+
+<p>Antes de mostrar como quedarían estos ficheros, hay que decir que por cada registro de tipo <strong>A</strong> que tengamos en nuestro archivo que contiene la zona directa, tenemos que añadir un registro de tipo <strong>PTR</strong>.</p>
+<p>En mi caso, el fichero <code>/var/cache/bind/db.0.0.10</code> tendría este aspecto:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
+                        20121501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.gonzalonazareno.org.
+
+$ORIGIN 0.0.10.in-addr.arpa.
+
+183     IN      PTR     javierpzh.gonzalonazareno.org.
+</pre>
+
+<p>En mi caso, el fichero <code>/var/cache/bind/db.1.0.10</code> tendría este aspecto:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
+                        20121501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.gonzalonazareno.org.
+
+$ORIGIN 1.0.10.in-addr.arpa.
+
+183     IN      PTR     javierpzh.gonzalonazareno.org.
+</pre>
+
+<p>En mi caso, el fichero <code>/var/cache/bind/db.2.0.10</code> tendría este aspecto:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
+                        20121501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.gonzalonazareno.org.
+
+$ORIGIN 2.0.10.in-addr.arpa.
+
+183     IN      PTR     javierpzh.gonzalonazareno.org.
+</pre>
+
 <hr>
 <p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
 <pre>
