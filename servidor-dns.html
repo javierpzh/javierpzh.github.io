@@ -1091,7 +1091,41 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 </pre>
 
 <p>A la primera consulta nos ha respondido el <em>maestro</em> y a la segunda el <em>esclavo</em> como podemos ver. Vemos que ambas, los dos servidores aparecen autorizados.</p>
-<p>Ahora vamos a solicitar una copia de la zona.</p>
+<p>Ahora vamos a solicitar una copia de la zona desde el cliente.</p>
+<pre>
+javier@debian:~$ dig @172.22.200.174 iesgn.org. axfr
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> @172.22.200.174 iesgn.org. axfr
+; (1 server found)
+;; global options: +cmd
+; Transfer failed.
+</pre>
+
+<p>Vemos que no nos deja. Vamos a probar desde el <em>esclavo</em>:</p>
+<pre>
+root@afrodita:~# dig @172.22.200.174 iesgn.org. axfr
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> @172.22.200.174 iesgn.org. axfr
+; (1 server found)
+;; global options: +cmd
+iesgn.org.      86400   IN  SOA javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+iesgn.org.      86400   IN  NS  afrodita.iesgn.org.
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+iesgn.org.      86400   IN  MX  10 correo.iesgn.org.
+afrodita.iesgn.org. 86400   IN  A   172.22.200.253
+correo.iesgn.org.   86400   IN  A   172.22.200.200
+departamentos.iesgn.org. 86400  IN  CNAME   javierpzh.iesgn.org.
+ftp.iesgn.org.      86400   IN  A   172.22.200.201
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+www.iesgn.org.      86400   IN  CNAME   javierpzh.iesgn.org.
+iesgn.org.      86400   IN  SOA javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+;; Query time: 2 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: Fri Dec 18 16:49:46 UTC 2020
+;; XFR size: 11 records (messages 1, bytes 336)
+</pre>
+
+<p>Desde <em>afrodita</em> sí nos deja. Obviamente, esto se debe a que anteriormente configuramos el servidor <em>maestro</em> para que únicamente copiara las zonas a la dirección IP de <em>afrodita</em> y denegamos las transferencias por defecto a los clientes.</p>
 <h4>Tarea 5: Muestra al profesor el funcionamiento del DNS esclavo:</h4>
 <ul>
 <li>
@@ -1101,6 +1135,78 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 <p><strong>Posteriormente apaga el servidor maestro y vuelve a realizar una consulta desde el cliente ¿quién responde?</strong></p>
 </li>
 </ul>
+<p>Bien, voy a realizar una consulta desde el cliente a la dirección <code>www.iesgn.org</code>:</p>
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55227
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 2ff9d322943323d91597cd795fdcde7dba3b3d77ee6e0e3a (good)
+;; QUESTION SECTION:
+;www.iesgn.org.         IN  A
+
+;; ANSWER SECTION:
+www.iesgn.org.      86400   IN  CNAME   javierpzh.iesgn.org.
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  afrodita.iesgn.org.
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org. 86400   IN  A   172.22.200.253
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 17:53:17 CET 2020
+;; MSG SIZE  rcvd: 163
+</pre>
+
+<p>Nos ha respondido el servidor <em>maestro</em> como era de esperar, pero, ¿qué pasaría si el servidor <em>maestro</em> fallase? Para responder esta pregunta vamos a apagar el servidor <em>maestro</em> y vamos a volver a realizar la consulta.</p>
+<pre>
+root@javierpzh:~# systemctl stop bind9
+</pre>
+
+<p>Hacemos de nuevo la consulta:</p>
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35402
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: fb9bc1e0d4727820581d4c515fdcdee93cdb5125eb5afc07 (good)
+;; QUESTION SECTION:
+;www.iesgn.org.         IN  A
+
+;; ANSWER SECTION:
+www.iesgn.org.      86400   IN  CNAME   javierpzh.iesgn.org.
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  afrodita.iesgn.org.
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org. 86400   IN  A   172.22.200.253
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.253#53(172.22.200.253)
+;; WHEN: vie dic 18 17:55:05 CET 2020
+;; MSG SIZE  rcvd: 163
+</pre>
+
+<p>Vemos como ahora la respuesta viene de parte de la dirección <strong>172.22.200.253</strong>, es decir, la IP de <strong>afrodita</strong> que es el servidor <strong>esclavo</strong>. Esto significa que obviamente hemos realizado correctamente la configuración y en caso de que nuestro servidor <em>maestro</em> dejara de funcionar, comenzaríamos a utilizar nuestro servidor <em>esclavo</em>.</p>
 <h3>Delegación de dominios</h3>
 <p><strong>Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio <code>iesgn.org</code>, en esta ocasión queremos delegar el subdominio <code>informatica.iesgn.org</code> para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:</strong></p>
 <ul>
