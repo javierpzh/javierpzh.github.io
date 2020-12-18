@@ -1230,7 +1230,96 @@ afrodita.iesgn.org. 86400   IN  A   172.22.200.253
 </li>
 </ul>
 <h4>Tarea 6: Realiza la instalación y configuración del nuevo servidor DNS con las características anteriormente señaladas.</h4>
-<p>Vamos a utilizar la máquina <strong>afrodita</strong> para realizar la delegación del dominio.</p>
+<p>Utilizaré la máquina <strong>afrodita</strong> para realizar la delegación del dominio.</p>
+<p>Vamos a ponernos en situación, tenemos la primera máquina, es decir, el servidor <strong>maestro</strong> como servidor con autoridad sobre la zona <code>iesgn.org</code>. Bien, pues desde este servidor vamos a configurar la delegación del subdominio <code>informatica.iesgn.org</code> al servidor <strong>esclavo</strong>, es decir, a <strong>afrodita</strong>.</p>
+<p>Para realizar esta delegación, debemos editar el fichero <code>/var/cache/bind/db.iesgn.org</code> y añadir el siguiente bloque:</p>
+<pre>
+$ORIGIN informatica.iesgn.org.
+
+@       IN      NS      afrodita.iesgn.org.
+
+afrodita        IN      A       172.22.200.253
+</pre>
+
+<p>Vemos como hemos creado un nuevo registro <strong>$ORIGIN</strong> para el subdominio <code>informatica.iesgn.org</code>, al que le hemos asignado un registro <strong>NS</strong> con <em>afrodita</em>, lo que indica que ésta será el servidor con autoridad sobre este subdominio. Luego, creamos un registro de tipo <strong>A</strong> con la IP de <em>afrodita</em>.</p>
+<p>De manera que el contenido final del fichero <code>/var/cache/bind/db.iesgn.org</code> sería este:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                        20121801        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+javierpzh       IN      A       172.22.200.174
+afrodita        IN      A       172.22.200.253
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
+
+
+$ORIGIN informatica.iesgn.org.
+
+@       IN      NS      afrodita.iesgn.org.
+
+afrodita        IN      A       172.22.200.253
+</pre>
+
+<p>Es muy importante aumentar el valor del campo <strong>serial</strong>, que hemos comentado su funcionamiento.</p>
+<p>Ahora tendríamos que reiniciar el servidor:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>En este punto, debemos dirigirnos al servidor <em>esclavo</em> sobre el que hemos realizado la delegación, y en él, configurar esta nueva zona sobre la que tenemos autoridad.</p>
+<p>Editamos el fichero <code>etc/bind/named.conf.local</code> y añadimos el siguiente bloque:</p>
+<pre>
+zone "informatica.iesgn.org" {
+        type master;
+        file "db.informatica.iesgn.org";
+};
+</pre>
+
+<p>De manera que el contenido final del fichero <code>etc/bind/named.conf.local</code> sería este:</p>
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type slave;
+        file "db.iesgn.org";
+        masters { 172.22.200.174; };
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type slave;
+        file "db.200.22.172";
+        masters { 172.22.200.174; };
+};
+
+zone "informatica.iesgn.org" {
+        type master;
+        file "db.informatica.iesgn.org";
+};
+</pre>
+
+<p>Solo nos quedaría crear el nuevo fichero <code>db.informatica.iesgn.org</code>, que lógicamente se encontrará en <code>/var/cache/bind/</code>. Para ello vamos a copiar de nuevo el archivo <code>/etc/bind/db.empty</code> para tomarlo como referencia:</p>
+<pre>
+root@afrodita:~# cp /etc/bind/db.empty /var/cache/bind/db.informatica.iesgn.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code>/var/cache/bind/db.informatica.iesgn.org</code>:</p>
+<pre>
+
+</pre>
+
 <h4>Tarea 7: Realiza las consultas dig/nslookup desde los clientes preguntando por los siguientes:</h4>
 <ul>
 <li>
