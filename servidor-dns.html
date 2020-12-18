@@ -1007,12 +1007,6 @@ db.200.22.172  db.iesgn.org  managed-keys.bind  managed-keys.bind.jnl
 </pre>
 
 <p>Efectivamente, podemos ver como se han copiado las zonas a este servidor <em>esclavo</em>.</p>
-<p>Hecho esto, nos dirigimos a nuestro equipo anfitrión y añadimos al fichero <code>resolv.conf</code> la siguiente línea:</p>
-<pre>
-nameserver 172.22.200.253
-</pre>
-
-<p>Esta línea hace referencia a la de <strong>afrodita</strong>, es decir, la IP del servidor <em>esclavo</em>.</p>
 <h4>Tarea 4: Documenta los siguientes apartados:</h4>
 <ul>
 <li>
@@ -1025,6 +1019,12 @@ nameserver 172.22.200.253
 <p><strong>Solicita una copia completa de la zona desde el cliente ¿qué tiene que ocurrir?. Solicita una copia completa desde el esclavo ¿qué tiene que ocurrir?</strong></p>
 </li>
 </ul>
+<p>Hecho esto, nos dirigimos a nuestro equipo anfitrión y añadimos al fichero <code>resolv.conf</code> la siguiente línea:</p>
+<pre>
+nameserver 172.22.200.253
+</pre>
+
+<p>Esta línea hace referencia a la de <strong>afrodita</strong>, es decir, la IP del servidor <em>esclavo</em>.</p>
 <h4>Tarea 5: Muestra al profesor el funcionamiento del DNS esclavo:</h4>
 <ul>
 <li>
