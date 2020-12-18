@@ -176,7 +176,11 @@ SQL>
 <p>Voy a acceder a él y a crear una serie de tablas de prueba y a insertarle unos pocos registros a partir de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptoracle.txt">script</a>.</p>
 <p>Hecho esto, es el momento de acceder a este servidor de manera remota.</p>
 <p>Para ello, he creado otra máquina virtual con <strong>Windows 10</strong>, que en este caso, actuará como <strong>cliente</strong> que accederá al servidor creado anteriormente. También está conectada en modo puente a mi red doméstica, por lo que tiene totalmente accesible al servidor y viceversa. En esta segunda máquina he instalado <em>Oracle</em> de igual manera que en la primera.</p>
-<p>Me he dado cuenta de un pequeño detalle, y es que por defecto, el cortafuegos de <em>Windows 10</em> (<em>firewall</em>), me bloqueaba la entrada de paquetes, es decir, me dejaba enviar paquetes pero no recibir, de manera que las máquinas virtuales no llegaban a establecer una conexión, ya que los paquetes sí salían pero nunca llegaban a su destino, por tanto, he tenido que desactivar los cortafuegos de ambas máquinas. Como estoy trabajando en máquinas virtuales en mi red local, no hay problema, pero obviamente no es nada recomendable desactivar todo el sistemas de cortafuegos del sistema.</p>
+<p>Me he dado cuenta de un pequeño detalle, y es que por defecto, el cortafuegos de <em>Windows 10</em> (<em>firewall</em>), me bloqueaba la entrada de paquetes, es decir, me dejaba enviar paquetes pero no recibir, de manera que las máquinas virtuales no llegaban a establecer una conexión, ya que los paquetes sí salían pero nunca llegaban a su destino, por tanto, he tenido que desactivar los cortafuegos de ambas máquinas. Como estoy trabajando en máquinas virtuales en mi red local, no hay problema, pero obviamente no es nada recomendable desactivar todo el sistemas de cortafuegos del sistema. Para evitar tener que desactivar todo el <em>firewall</em>, podemos añadir esta regla al cortafuegos que nos solucionará el problema:</p>
+<pre>
+netsh advfirewall firewall add rule name="Habilitar respuesta ICMP IPv4" protocol=icmpv4:8,any dir=in action=allow
+</pre>
+
 <p>Esta máquina <em>cliente</em> posee la IP <strong>192.168.0.56</strong>.</p>
 <p>Para habilitar el acceso remoto al servidor, debemos modificar el fichero <code>listener.ora</code> en él. Este fichero se encuentra en la ruta <code>$ORACLE_HOME/network/admin</code>:</p>
 <p>Por defecto, posee este aspecto:</p>
