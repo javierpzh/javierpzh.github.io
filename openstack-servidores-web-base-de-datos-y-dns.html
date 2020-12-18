@@ -131,7 +131,7 @@
 <p><strong>Debes determinar cómo vas a nombrar a <em>Dulcinea</em>, para que seamos capaz de resolver la IP flotante y la ip fija. Para ello vamos a usar vistas en bind9.</strong></p>
 </li>
 <li>
-<p><strong>Debes considerar la posibilidad de hacer tres zonas de resolución inversa: para las redes <code>10.0.0.0/24</code>, <code>10.0.1.0/24</code> y <code>10.0.2.0/24</code>. (No vamos a crear la zona inversa para la red externa de IP flotantes). para resolver IP fijas y flotantes del <em>cloud</em>.</strong></p>
+<p><strong>Debes considerar la posibilidad de hacer tres zonas de resolución inversa: para las redes <code>10.0.0.0/24</code>, <code>10.0.1.0/24</code> y <code>10.0.2.0/24</code> (no vamos a crear la zona inversa para la red externa de IP flotantes), para resolver IP fijas y flotantes del <em>cloud</em>.</strong></p>
 </li>
 </ul>
 <p><strong>Entrega el resultado de las siguientes consultas desde un cliente interno a nuestra red y otro externo:</strong></p>
@@ -158,20 +158,30 @@ apt install bind9 -y
 <pre>
 include "/etc/bind/zones.rfc1918";
 
-zone "iesgn.org" {
+zone "javierpzh.gonzalonazareno.org" {
         type master;
-        file "/var/cache/bind/db.iesgn.org";
+        file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
 };
 
-zone "200.22.172.in-addr.arpa" {
+zone "0.0.10.in-addr.arpa" {
         type master;
-        file "/var/cache/bind/db.200.22.172";
+        file "/var/cache/bind/db.0.0.10";
+};
+
+zone "1.0.10.in-addr.arpa" {
+        type master;
+        file "/var/cache/bind/db.1.0.10";
+};
+
+zone "2.0.10.in-addr.arpa" {
+        type master;
+        file "/var/cache/bind/db.2.0.10";
 };
 </pre>
 
 <p>Vamos a explicar las líneas que acabamos de añadir.</p>
 <p>En primer lugar, hemos escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
-<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>iesgn.org</code> con su correspondiente <strong>zona de resolución inversa</strong> <code>200.22.172.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
+<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code> con sus correspondientes <strong>zonas de resolución inversa</strong> <code>0.0.10.in-addr.arpa</code>, <code>1.0.10.in-addr.arpa</code> y <code>2.0.10.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
 <p>Una vez explicado, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, y aquí debemos introducir las siguientes líneas:</p>
 <pre>
 recursion yes;
