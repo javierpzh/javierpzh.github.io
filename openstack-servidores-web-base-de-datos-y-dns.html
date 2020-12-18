@@ -278,6 +278,11 @@ MariaDB [(none)]> exit
 Bye
 </pre>
 
+<p>Una vez tenemos el usuario al que accederemos remotamente, nos quedaría configurar el acceso remoto a nuestro servidor <em>MySQL</em>, para ello, debemos modificar el fichero de configuración <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y buscar la línea <code>bind-address = 127.0.0.1</code> y sustituirla por la siguiente:</p>
+<pre>
+bind-address = 0.0.0.0
+</pre>
+
 <p>Vamos a comprobar el acceso remoto desde <em>Quijote</em>. Para ello necesitamos instalar <em>MySQL</em>:</p>
 <pre>
 dnf install mysql-server -y
