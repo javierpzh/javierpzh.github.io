@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>OpenStack: Servidores Web, Base de Datos y DNS | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Servidor DNS Vamos a instalar un servidor DNS en freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="OpenStack">
+        <meta name="tags" content="bind9">
+        <meta name="tags" content="Apache">
+        <meta name="tags" content="MySQL">
+        <meta name="tags" content="MariaDB">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/openstack-servidores-web-base-de-datos-y-dns.html">
+	<meta property="og:title" content="OpenStack: Servidores Web, Base de Datos y DNS">
+	<meta property="article:published_time" content="2020-12-18 00:00:00+01:00">
+            <meta property="og:description" content="Servidor DNS Vamos a instalar un servidor DNS en freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-openstack-servidores-web-base-de-datos-y-dns">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>OpenStack: Servidores Web, Base de Datos y DNS</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el vie 18 diciembre 2020
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Servidor DNS</h2>
+<p><strong>Vamos a instalar un servidor DNS en <em>freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Cada alumno va a poseer un servidor dns con autoridad sobre un subdominio de nuestro dominio principal <code>gonzalonazareno.org</code>, que se llamará <code>(nombre).gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
+<p><strong>Determina la regla DNAT en <em>dulcinea</em> para que podamos hacer consultas DNS desde el exterior</strong></p>
+<p><strong>Configura de forma adecuada todas las máquinas para que usen como servidor DNS a <em>freston</em>.</strong></p>
+<p><strong>Indica al profesor el nombre de tu dominio para que pueda realizar la delegación en el servidor DNS principal <em>papion-dns</em>.</strong></p>
+<p><strong>Comprueba que los servidores tienen configurados el nuevo nombre de dominio de forma adecuada después de volver a reiniciar el servidor (o tomar una nueva configuración DHCP). Para que el servidor tenga el <em>FQDN</em> debes tener configurado de forma correcta el parámetro <em>domain</em> y el parámetro <em>search</em> en el fichero <code>/etc/resolv.conf</code>, además debemos evitar que este fichero se sobreescriba con los datos que manda el servidor DHCP de <em>OpenStack</em>. Quizás sea buena idea mirar la configuración de <em>cloud-init</em>. Documenta la configuración que has tenido que modificar y muestra el contenido del fichero <code>/etc/resolv.conf</code> y la salida del comando <code>hostname -f</code> después de un reinicio.</strong></p>
+<p><strong>El servidor DNS se va a configurar en un principio de la siguiente manera:</strong></p>
+<ul>
+<li>
+<p><strong>El servidor DNS se llama <code>freston.(nombre).gonzalonazareno.org</code> y va a ser el servidor con autoridad para la zona <code>(nombre).gonzalonazareno.org</code>.</strong></p>
+</li>
+<li>
+<p><strong>El servidor debe resolver el nombre de todas las máquinas.</strong></p>
+</li>
+<li>
+<p><strong>El servidor debe resolver los distintos servicios (virtualhost, servidor de base de datos, servidor LDAP, ...).</strong></p>
+</li>
+<li>
+<p><strong>Debes determinar cómo vas a nombrar a dulcinea, para que seamos capaz de resolver la IP flotante y la ip fija. Para ello vamos a usar vistas en bind9.</strong></p>
+</li>
+<li>
+<p><strong>Debes considerar la posibilidad de hacer tres zonas de resolución inversa: para las redes <code>10.0.0.0/24</code>, <code>10.0.1.0/24</code> y <code>10.0.2.0/24</code>. (No vamos a crear la zona inversa para la red externa de IP flotantes). para resolver IP fijas y flotantes del <em>cloud</em>.</strong></p>
+</li>
+</ul>
+<p><strong>Entrega el resultado de las siguientes consultas desde un cliente interno a nuestra red y otro externo:</strong></p>
+<ul>
+<li>
+<p><strong>El servidor DNS con autoridad sobre la zona del dominio <code>(nombre).gonzalonazareno.org</code></strong></p>
+</li>
+<li>
+<p><strong>La dirección IP de <em>dulcinea</em>.</strong></p>
+</li>
+<li>
+<p><strong>Una resolución de <code>www</code>.</strong></p>
+</li>
+<li>
+<p><strong>Un resolución inversa de IP fija en cada una de las redes. (Esta consulta sólo funcionará desde una máquina interna).</strong></p>
+</li>
+</ul>
+<h2>Servidor Web</h2>
+<p><strong>En <em>quijote (CentOs)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Configura el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas DNAT de cortafuegos que tienes que configurar en <em>dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
+<h2>Servidor de base de datos</h2>
+<p><strong>En <em>sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>quijote</em>.</strong></p>
+<p><img alt="." src="images/sri_OpenStack_Servidores_Web_Base_de_Datos_y_DNS/.png"></p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/openstack.html">OpenStack</a>, <a href="/tag/bind9.html">bind9</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
