@@ -805,8 +805,8 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 
 <p>Vemos que también funciona correctamente, por lo que este ejercicio estaría terminado.</p>
 <h3>Servidor DNS esclavo</h3>
-<h5>El servidor DNS actual funciona como <strong>DNS maestro</strong>. Vamos a instalar un nuevo servidor DNS que va a estar configurado como <strong>DNS esclavo</strong> del anterior, donde se van a ir copiando periódicamente las zonas del DNS maestro. Suponemos que el nombre del servidor DNS esclavo se va llamar <code>afrodita.iesgn.org</code>.</h5>
-<h4>Tarea 3: Realiza la instalación del servidor DNS esclavo. Documenta los siguientes apartados:</h4>
+<h5>El servidor DNS actual funciona como <em>DNS maestro</em>. Vamos a instalar un nuevo servidor DNS que va a estar configurado como <em>DNS esclavo</em> del anterior, donde se van a ir copiando periódicamente las zonas del <em>DNS maestro</em>. Suponemos que el nombre del servidor <em>DNS esclavo</em> se va llamar <code>afrodita.iesgn.org</code>.</h5>
+<h4>Tarea 3: Realiza la instalación del servidor <em>DNS esclavo</em>. Documenta los siguientes apartados:</h4>
 <ul>
 <li>
 <p><strong>Entrega la configuración de las zonas del maestro y del esclavo.</strong></p>
@@ -826,6 +826,7 @@ javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
 </ul>
 <p>Antes de nada, me gustaría explicar por encima para que servirá este <strong>servidor esclavo</strong>. Este nuevo servidor DNS, estará de alguna forma sincronizado con el <strong>maestro</strong> y nos ayudará en caso de que el <em>servidor maestro</em> no pueda procesar/responder una petición, de manera, que actuará este <em>servidor esclavo</em> y responderá él la petición. Es muy útil para casos de caídas del primer servidor, para casos donde queramos utilizar estos servidores en alta disponibilidad, ...</p>
 <p>He creado una segunda instancia en el <em>cloud</em>, también con un sistema <em>Debian Buster</em>, para que actúe como <strong>esclavo</strong>. Posee la dirección <strong>172.22.200.253</strong>.</p>
+<p><strong>Importante:</strong> como estamos trabajando en el <em>cloud</em>, he tenido que abrir el puerto <strong>53/TCP</strong>, ya que es el puerto que se utiliza para la transferencia de archivos, de manera que si no lo tenemos abierto, el <em>esclavo</em> no recibirá las zonas del <em>maestro</em>.</p>
 <p>Pero antes de empezar a trabajar con esta máquina, debemos configurar el servidor <strong>maestro</strong>, que será el que hemos estado utilizando antes, para que permita que las zonas se puedan transferir a este servidor <strong>esclavo</strong>. Para ello nos dirigimos al fichero <code>/etc/bind/named.conf.local</code>, en el que si recordamos, antes añadimos dos bloques que hacían referencia a ambas zonas (directa e inversa). Bien, pues tenemos que introducir dos nuevas directivas en cada uno de los bloques, estas directivas son las llamadas <strong>allow-transfer</strong> y <strong>notify yes</strong>. El resultado final del contenido del fichero sería:</p>
 <pre>
 include "/etc/bind/zones.rfc1918";
@@ -954,6 +955,10 @@ systemctl restart bind9
 </pre>
 
 <p>Tras unos segundos, nuestro nuevo servidor habría obtenido la transferencia de las zonas desde el servidor <em>maestro</em> por lo que ya tendríamos trabajando ambos servidores conjuntamente.</p>
+<pre>
+
+</pre>
+
 <h4>Tarea 4: Documenta los siguientes apartados:</h4>
 <ul>
 <li>
