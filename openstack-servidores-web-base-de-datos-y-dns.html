@@ -149,6 +149,16 @@
 <p><strong>Un resolución inversa de IP fija en cada una de las redes. (Esta consulta sólo funcionará desde una máquina interna).</strong></p>
 </li>
 </ul>
+<p>Vamos a instalar el servidor bind9:</p>
+<pre>
+apt install bind9 -y
+</pre>
+
+<p>Una vez instalado, debemos modificar su fichero de configuración, para ello nos dirigimos a <code>/etc/bind/named.conf.local</code> y añadimos el siguiente bloque:</p>
+<pre>
+
+</pre>
+
 <h2>Servidor Web</h2>
 <p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Configura el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
 <p>Antes de instalar el servidor web, vamos a dirigirnos a <strong>Dulcinea</strong> y vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
