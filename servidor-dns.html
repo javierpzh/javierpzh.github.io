@@ -1016,7 +1016,7 @@ db.200.22.172  db.iesgn.org  managed-keys.bind  managed-keys.bind.jnl
 <p><strong>Realiza una consulta con <code>dig</code> tanto al maestro como al esclavo para comprobar que las respuestas son autorizadas. ¿En qué te tienes que fijar?</strong></p>
 </li>
 <li>
-<p><strong>Solicita una copia completa de la zona desde el cliente ¿qué tiene que ocurrir?. Solicita una copia completa desde el esclavo ¿qué tiene que ocurrir?</strong></p>
+<p><strong>Solicita una copia completa de la zona desde el cliente. ¿Qué tiene que ocurrir? Solicita una copia completa desde el esclavo. ¿Qué tiene que ocurrir?</strong></p>
 </li>
 </ul>
 <p>Hecho esto, nos dirigimos a nuestro equipo anfitrión y añadimos al fichero <code>resolv.conf</code> la siguiente línea:</p>
@@ -1025,6 +1025,73 @@ nameserver 172.22.200.253
 </pre>
 
 <p>Esta línea hace referencia a la de <strong>afrodita</strong>, es decir, la IP del servidor <em>esclavo</em>.</p>
+<p>Vamos a hacer una consulta al <em>maestro</em> y otra al <em>esclavo</em> para ver las diferencias:</p>
+<pre>
+javier@debian:~$ dig +norec @172.22.200.174 iesgn.org. soa
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> +norec @172.22.200.174 iesgn.org. soa
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18061
+;; flags: qr aa ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 87db148fead0ec5efc52e7c75fdcdbf65feade950b86e84e (good)
+;; QUESTION SECTION:
+;iesgn.org.         IN  SOA
+
+;; ANSWER SECTION:
+iesgn.org.      86400   IN  SOA javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  afrodita.iesgn.org.
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org. 86400   IN  A   172.22.200.253
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+
+;; Query time: 84 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 17:42:30 CET 2020
+;; MSG SIZE  rcvd: 195
+
+javier@debian:~$ dig +norec @172.22.200.253 iesgn.org. soa
+
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> +norec @172.22.200.253 iesgn.org. soa
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 52681
+;; flags: qr aa ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 708e697a25ccee2e550d50375fdcdbfe545d6d60af91c97c (good)
+;; QUESTION SECTION:
+;iesgn.org.         IN  SOA
+
+;; ANSWER SECTION:
+iesgn.org.      86400   IN  SOA javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+
+;; AUTHORITY SECTION:
+iesgn.org.      86400   IN  NS  javierpzh.iesgn.org.
+iesgn.org.      86400   IN  NS  afrodita.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org. 86400   IN  A   172.22.200.253
+javierpzh.iesgn.org.    86400   IN  A   172.22.200.174
+
+;; Query time: 82 msec
+;; SERVER: 172.22.200.253#53(172.22.200.253)
+;; WHEN: vie dic 18 17:42:38 CET 2020
+;; MSG SIZE  rcvd: 195
+</pre>
+
+<p>A la primera consulta nos ha respondido el <em>maestro</em> y a la segunda el <em>esclavo</em> como podemos ver. Vemos que ambas, los dos servidores aparecen autorizados.</p>
+<p>Ahora vamos a solicitar una copia de la zona.</p>
 <h4>Tarea 5: Muestra al profesor el funcionamiento del DNS esclavo:</h4>
 <ul>
 <li>
