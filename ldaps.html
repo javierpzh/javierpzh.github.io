@@ -132,6 +132,16 @@ total 4
 -r-------- 1 root root 3243 Dec 18 08:59 freston.key
 </pre>
 
+<p>Pero claro, también hay que pensar que el usuario de <strong>LDAP</strong> debe poder leer esta clave, así que, para ello, he decidido crear una <strong>ACL</strong> para que únicamente este usuario, llamado <strong>openldap</strong> tenga acceso a la clave privada. Para ello instalamos el paquete <code>acl</code>:</p>
+<pre>
+apt install acl -y
+</pre>
+
+<p>Y creamos la <em>ACL</em> adecuada:</p>
+<pre>
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/freston.key
+</pre>
+
 <p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>.csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
 <p>Para generar nuestro archivo <em>.csr</em>:</p>
 <pre>
@@ -192,18 +202,7 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 -rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
 </pre>
 
-<pre>
-apt install acl -y
-</pre>
-
-<pre>
-root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private
-
-root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/freston.key
-</pre>
-
-<hr>
-<hr>
+<p>Ya tenemos todos los certificados almacenados correctamente y con los usuarios/grupos/permisos adecuados.</p>
 <p>Es la primera vez que estoy utilizando <em>LDAP</em>, y me ha sorprendido mucho la manera en la que se realiza su configuración, ya que no vamos a llevar a cabo las modificaciones en unos ficheros de configuración como es lo habitual, sino que vamos a crear un fichero <code>.ldif</code>, como los que creamos para introducir objetos. Esto se debe a que, de esta manera, podremos manipular la configuración sin tener que reiniciar el servicio, por tanto, nunca dejaría de funcionar.</p>
 <p>Creamos el fichero <code>.ldif</code> e introducimos las siguientes líneas:</p>
 <pre>
