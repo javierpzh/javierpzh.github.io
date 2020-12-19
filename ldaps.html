@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/ldaps.html">
 	<meta property="og:title" content="LDAPs">
-	<meta property="article:published_time" content="2020-12-17 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-12-19 00:00:00+01:00">
             <meta property="og:description" content="Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de...">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
@@ -92,7 +92,7 @@
                         <h1>LDAPs</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el jue 17 diciembre 2020
+                             el sáb 19 diciembre 2020
                         </span>
                         
                     </div>
@@ -109,7 +109,7 @@
     <article>
         <h4>Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://</h4>
 <p>Si quieres saber como instalar un servidor <strong>LDAP</strong>, puedes consultar <a href="https://javierpzh.github.io/instalacion-y-configuracion-inicial-de-openldap.html">este post</a>.</p>
-<p>Lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
+<p>Si queremos configurar <strong>Freston</strong> para que utilice el protocolo <code>ldaps://</code> y que así la información viaje cifrada y de manera segura, lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
 <p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code>openssl</code>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
 <pre>
 root@freston:~# openssl genrsa 4096 > /etc/ssl/private/freston.key
@@ -159,13 +159,30 @@ root@freston:~# ls
 gonzalonazareno.crt  wildcard.crt  wildcard.csr
 </pre>
 
-<p>Una vez los tenemos aquí, los vamos a mover a la ruta <code>/etc/ssl/certs</code>:</p>
+<p>Lógicamente, estos certificados no debemos dejarlos en esta directorio, por lo que, los vamos a mover a la ruta <code>/etc/ssl/certs</code>:</p>
 <pre>
 root@freston:~# mv gonzalonazareno.crt /etc/ssl/certs/
 
 root@freston:~# mv wildcard.crt /etc/ssl/certs/
 </pre>
 
+<p>Es importante que ambos archivos, posean a <strong>root</strong> como usuario y grupo propietario, por tanto le cambio el propietario y el grupo:</p>
+<pre>
+root@freston:/etc/ssl/certs# chown -R root:root wildcard.crt
+
+root@freston:/etc/ssl/certs# chown -R root:root gonzalonazareno.crt
+</pre>
+
+<p>Aquí podemos ver el resultado:</p>
+<pre>
+root@freston:~# ls -l /etc/ssl/certs/ | grep gonzalo
+-rw-r--r-- 1 root root   3634 Dec 18 09:34 gonzalonazareno.crt
+
+root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
+-rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
+</pre>
+
+<hr>
 <p>Reiniciamos el servidor <strong>LDAP</strong> para aplicar los cambios:</p>
 <pre>
 systemctl restart slapd.service
