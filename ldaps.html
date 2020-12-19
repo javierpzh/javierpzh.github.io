@@ -187,13 +187,23 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 <p>Es la primera vez que estoy utilizando <em>LDAP</em>, y me ha sorprendido mucho la manera en la que se realiza su configuración, ya que no vamos a llevar a cabo las modificaciones en unos ficheros de configuración como es lo habitual, sino que vamos a crear un fichero <code>.ldif</code>, como los que creamos para introducir objetos. Esto se debe a que, de esta manera, podremos manipular la configuración sin tener que reiniciar el servicio, por tanto, nunca dejaría de funcionar.</p>
 <p>Creamos el fichero <code>.ldif</code> e introducimos las siguientes líneas:</p>
 <pre>
-root@freston:~# cat configuracion.ldif
+dn: cn=config
 
-dn: cn=config changetype: modify replace: olcTLSCACertificateFile olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+changetype: modify replace: olcTLSCACertificateFile olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
 
 replace: olcTLSCertificateKeyFile olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
 
 replace: olcTLSCertificateFile olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+</pre>
+
+<p>Una vez creado, vamos a hacer uso del siguiente comando para aplicar los cambios y modificar la configuración:</p>
+<pre>
+root@freston:~# ldapmodify -Y EXTERNAL -H ldapi:/// -f configuracion.ldif
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "cn=config"
 </pre>
 
 <hr>
