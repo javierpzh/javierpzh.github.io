@@ -117,9 +117,19 @@ Generating RSA private key, 4096 bit long modulus (2 primes)
 .........................................++++
 ...........................................................................................................................++++
 e is 65537 (0x010001)
+</pre>
 
-root@freston:~# ls /etc/ssl/private/
-freston.key
+<p>Debemos cambiarle los permisos a la clave privada a <strong>400</strong>, así únicamente el propietario podrá leer el contenido. Para ello, haremos uso de la herramienta <code>chmod</code>:</p>
+<pre>
+root@freston:/etc/ssl/private# ls -l
+total 4
+-rw-r--r-- 1 root root 3243 Dec 18 08:59 freston.key
+
+root@freston:/etc/ssl/private# chmod 400 /etc/ssl/private/freston.key
+
+root@freston:/etc/ssl/private# ls -l
+total 4
+-r-------- 1 root root 3243 Dec 18 08:59 freston.key
 </pre>
 
 <p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>.csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
@@ -182,6 +192,16 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 -rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
 </pre>
 
+<pre>
+apt install acl -y
+</pre>
+
+<pre>
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private
+
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/freston.key
+</pre>
+
 <hr>
 <hr>
 <p>Es la primera vez que estoy utilizando <em>LDAP</em>, y me ha sorprendido mucho la manera en la que se realiza su configuración, ya que no vamos a llevar a cabo las modificaciones en unos ficheros de configuración como es lo habitual, sino que vamos a crear un fichero <code>.ldif</code>, como los que creamos para introducir objetos. Esto se debe a que, de esta manera, podremos manipular la configuración sin tener que reiniciar el servicio, por tanto, nunca dejaría de funcionar.</p>
@@ -189,7 +209,9 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 <pre>
 dn: cn=config
 
-changetype: modify replace: olcTLSCACertificateFile olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+changetype: modify
+
+replace: olcTLSCACertificateFile olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
 
 replace: olcTLSCertificateKeyFile olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
 
@@ -211,10 +233,30 @@ modifying entry "cn=config"
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
 </pre>
 
-<hr>
 <p>Reiniciamos el servidor <strong>LDAP</strong> para aplicar los cambios:</p>
 <pre>
 systemctl restart slapd.service
+</pre>
+
+<p>Es hora de pasar a la parte del <strong>cliente</strong>. En mi caso será en la misma máquina pero haré la configuración que debería hacerse en una situación más normal, en la que el cliente se encuentre en otro equipo.</p>
+<p>El certificado que hemos almacenado en la ruta <code>/etc/ssl/certs/</code> para el servidor, en el lado del cliente, no debería almacenarse ahí, sino que sería más recomendable hacerlo en la ruta <code>/usr/local/share/ca-certificates/</code>. Este directorio está creado para almacenar en él los certificados que creemos nosotros de manera local. Por tanto voy a copiar el archivo <code>gonzalonazareno.crt</code> a esta ruta:</p>
+<pre>
+cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
+</pre>
+
+<p>Una vez lo hemos copiado, haremos uso del siguiente comando. Lo que haremos con este comando, será crear un enlace simbólico a la ruta <code>/etc/ssl/certs/</code> y con esto crearemos la nueva entrada necesaria para que el cliente haga uso de <strong>ldaps://</strong> confiando en la autoridad certificadora.</p>
+<pre>
+update-ca-certificates
+</pre>
+
+<p>Por último, debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
+<pre>
+URI     ldaps://localhost
+</pre>
+
+<p>Esto hará, que el cliente utilice de manera predeterminada el protocolo <strong>ldaps://</strong>.</p>
+<pre>
+
 </pre>
 
 <p>.</p>
