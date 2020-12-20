@@ -209,12 +209,15 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 dn: cn=config
 
 changetype: modify
-
-replace: olcTLSCACertificateFile olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
-
-replace: olcTLSCertificateKeyFile olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
-
-replace: olcTLSCertificateFile olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+add: olcTLSCACertificateFile
+replace: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
 </pre>
 
 <p>Una vez creado, vamos a hacer uso del siguiente comando para aplicar los cambios y modificar la configuración:</p>
@@ -258,6 +261,9 @@ URI     ldaps://localhost
 
 </pre>
 
+<p>setfacl -m u:openldap:r-x /etc/ssl/certs/gonzalonazareno.crt
+setfacl -m u:openldap:r-x /etc/ssl/certs/wildcard.crt</p>
+<p>Mirar en el fichero <code>ldif</code> esta línea: <code>add: olcTLSCACertificateFile</code></p>
 <p>.</p>
     </article>
 
