@@ -109,7 +109,7 @@
     <article>
         <h4>Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://</h4>
 <p>Si quieres saber como instalar un servidor <strong>LDAP</strong>, puedes consultar <a href="https://javierpzh.github.io/instalacion-y-configuracion-inicial-de-openldap.html">este post</a>.</p>
-<p>Si queremos configurar <strong>Freston</strong> para que utilice el protocolo <code>ldaps://</code> y que así la información viaje cifrada y de manera segura, lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
+<p>Si queremos configurar <strong>Freston</strong> para que utilice el protocolo <code>ldaps://</code> y que así la información viaje cifrada y de manera segura, lo primero que debemos hacer es solicitar el certificado. En mi caso, voy a solicitar un certificado <strong>wildcard</strong> ya que posteriormente voy a necesitar utilizarlo en otras máquinas que se encuentran bajo el mismo dominio que <em>Freston</em> (<code>xxxxx.javierpzh.gonzalonazareno.org</code>).</p>
 <p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code>openssl</code>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
 <pre>
 root@freston:~# openssl genrsa 4096 > /etc/ssl/private/freston.key
@@ -249,17 +249,17 @@ olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
 </pre>
 
+<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
+<pre>
+systemctl restart slapd.service
+</pre>
+
 <p>Por último, en la parte del <strong>cliente</strong> (en mi caso, se trata de la misma máquina), debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
 <pre>
 URI     ldaps://localhost
 </pre>
 
 <p>Esto hará, que el cliente utilice de manera predeterminada el protocolo <strong>ldaps://</strong>.</p>
-<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
-<pre>
-systemctl restart slapd.service
-</pre>
-
 <p>Para finalizar, vamos a realizar una consulta. Para realizar consultas en <em>LDAP</em> se utiliza la herramienta <code>ldapsearch</code>:</p>
 <pre>
 root@freston:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
