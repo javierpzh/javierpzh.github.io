@@ -249,7 +249,7 @@ olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
 </pre>
 
-<p>Por último, debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
+<p>Por último, en la parte del <strong>cliente</strong> (en mi caso, se trata de la misma máquina), debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
 <pre>
 URI     ldaps://localhost
 </pre>
