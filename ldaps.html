@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/ldaps.html">
 	<meta property="og:title" content="LDAPs">
-	<meta property="article:published_time" content="2020-12-09 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-12-21 00:00:00+01:00">
             <meta property="og:description" content="Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de...">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
@@ -92,7 +92,7 @@
                         <h1>LDAPs</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el mié 09 diciembre 2020
+                             el lun 21 diciembre 2020
                         </span>
                         
                     </div>
@@ -170,10 +170,10 @@ root@freston:~# ls
 wildcard.csr
 </pre>
 
-<p>Como <strong>freston</strong> es una instancia del <em>cloud</em>, voy a pasarme este fichero <code>wildcard.csr</code> a mi máquina anfitriona para enviárselo a la entidad certificadora, que en este caso es el <strong>Gonzalo Nazareno</strong>.
+<p>Como <strong>Freston</strong> es una instancia del <em>cloud</em>, voy a pasarme este fichero <code>wildcard.csr</code> a mi máquina anfitriona para enviárselo a la entidad certificadora, que en este caso es el <strong>Gonzalo Nazareno</strong>.
 Si quieres entender mejor la estructura del escenario donde estamos trabajando puedes echarle un vistazo a este <em>post</em>, <a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a>.</p>
 <p>Por tanto, pasaré este archivo a mi equipo mediante <code>scp</code>.</p>
-<p>Una vez tenemos el certificado firmado por la entidad certificadora, lo pasamos a <strong>freston</strong>. También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover también a <em>freston</em>.</p>
+<p>Una vez tenemos el certificado firmado por la entidad certificadora, lo pasamos a <em>Freston</em>. También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover también a <em>Freston</em>.</p>
 <pre>
 root@freston:~# ls
 gonzalonazareno.crt  wildcard.crt  wildcard.csr
@@ -202,22 +202,26 @@ root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
 -rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
 </pre>
 
+<p>Vamos a crear de nuevo las <em>ACL</em> adecuadas para que el usuario <strong>openldap</strong> pueda leer estos archivos:</p>
+<pre>
+root@freston:~# setfacl -m u:openldap:r-x /etc/ssl/certs/gonzalonazareno.crt
+root@freston:~# setfacl -m u:openldap:r-x /etc/ssl/certs/wildcard.crt
+</pre>
+
 <p>Ya tenemos todos los certificados almacenados correctamente y con los usuarios/grupos/permisos adecuados.</p>
 <p>Es la primera vez que estoy utilizando <em>LDAP</em>, y me ha sorprendido mucho la manera en la que se realiza su configuración, ya que no vamos a llevar a cabo las modificaciones en unos ficheros de configuración como es lo habitual, sino que vamos a crear un fichero <code>.ldif</code>, como los que creamos para introducir objetos. Esto se debe a que, de esta manera, podremos manipular la configuración sin tener que reiniciar el servicio, por tanto, nunca dejaría de funcionar.</p>
 <p>Creamos el fichero <code>.ldif</code> e introducimos las siguientes líneas:</p>
 <pre>
 dn: cn=config
-
 changetype: modify
-add: olcTLSCACertificateFile
 replace: olcTLSCACertificateFile
 olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
 -
-replace: olcTLSCertificateFile
-olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
--
 replace: olcTLSCertificateKeyFile
 olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
 </pre>
 
 <p>Una vez creado, vamos a hacer uso del siguiente comando para aplicar los cambios y modificar la configuración:</p>
@@ -230,25 +234,24 @@ SASL SSF: 0
 modifying entry "cn=config"
 </pre>
 
+<p>Para ver si hemos introducido y se han aplicado correctamente los cambios, vamos a introducir el siguiente comando:</p>
+<pre>
+root@freston:~# slapcat -b "cn=config" | grep -E "olcTLS"
+
+olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
+olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+</pre>
+
+<p>Vemos que nos muestra las tres líneas que hemos añadido con nuestro fichero <code>.ldif</code>. En el caso de que la salida no nos mostrara nada, significaría que no se han llevado a cabo los cambios.</p>
 <p>Vale, una vez hemos importado el fichero <em>.ldif</em> destinado a la configuración, nos quedaría hacer una modificación en el fichero <code>/etc/default/slapd</code>, ya que por defecto, el protocolo <code>ldaps://</code> no viene habilitado. Para habilitarlo, debemos buscar la línea <strong>SLAPD_SERVICES</strong> y añadir el valor <strong>ldaps://</strong>, de manera que quedaría así:</p>
 <pre>
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
 </pre>
 
-<p>Reiniciamos el servidor <strong>LDAP</strong> para aplicar los cambios:</p>
+<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
 <pre>
 systemctl restart slapd.service
-</pre>
-
-<p>Es hora de pasar a la parte del <strong>cliente</strong>. En mi caso será en la misma máquina pero haré la configuración que debería hacerse en una situación más normal, en la que el cliente se encuentre en otro equipo.</p>
-<p>El certificado que hemos almacenado en la ruta <code>/etc/ssl/certs/</code> para el servidor, en el lado del cliente, no debería almacenarse ahí, sino que sería más recomendable hacerlo en la ruta <code>/usr/local/share/ca-certificates/</code>. Este directorio está creado para almacenar en él los certificados que creemos nosotros de manera local. Por tanto voy a copiar el archivo <code>gonzalonazareno.crt</code> a esta ruta:</p>
-<pre>
-cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
-</pre>
-
-<p>Una vez lo hemos copiado, haremos uso del siguiente comando. Lo que haremos con este comando, será crear un enlace simbólico a la ruta <code>/etc/ssl/certs/</code> y con esto crearemos la nueva entrada necesaria para que el cliente haga uso de <strong>ldaps://</strong> confiando en la autoridad certificadora.</p>
-<pre>
-update-ca-certificates
 </pre>
 
 <p>Por último, debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
@@ -257,14 +260,53 @@ URI     ldaps://localhost
 </pre>
 
 <p>Esto hará, que el cliente utilice de manera predeterminada el protocolo <strong>ldaps://</strong>.</p>
+<p>Por último, vamos a realizar una consulta. Para realizar consultas en <em>LDAP</em> se utiliza la herramienta <code>ldapsearch</code>:</p>
 <pre>
+root@freston:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
+# extended LDIF
+#
+# LDAPv3
+# base <dc=javierpzh,dc=gonzalonazareno,dc=org> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
 
+# javierpzh.gonzalonazareno.org
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+
+# admin, javierpzh.gonzalonazareno.org
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# Personas, javierpzh.gonzalonazareno.org
+dn: ou=Personas,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Personas
+
+# Grupos, javierpzh.gonzalonazareno.org
+dn: ou=Grupos,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
 </pre>
 
-<p>setfacl -m u:openldap:r-x /etc/ssl/certs/gonzalonazareno.crt
-setfacl -m u:openldap:r-x /etc/ssl/certs/wildcard.crt</p>
-<p>Mirar en el fichero <code>ldif</code> esta línea: <code>add: olcTLSCACertificateFile</code></p>
-<p>.</p>
+<p>La salida es correcta y por tanto ya habríamos configurado <strong>LDAPs</strong>.</p>
     </article>
 
         <div class="tags">
