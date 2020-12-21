@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Archivos | Javier Pérez Hidalgo</title>
+        <title>Configurar LDAP en alta disponibilidad | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,10 +31,29 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Vamos a instalar un servidor LDAP en sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="LDAP">
+        <meta name="tags" content="OpenStack">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/configurar-ldap-en-alta-disponibilidad.html">
+	<meta property="og:title" content="Configurar LDAP en alta disponibilidad">
+	<meta property="article:published_time" content="2020-12-21 00:00:00+01:00">
+            <meta property="og:description" content="Vamos a instalar un servidor LDAP en sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en...">
+
+            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
 
+<body class="article-configurar-ldap-en-alta-disponibilidad">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -65,12 +84,17 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Archivos del blog</h1>
+                        <h1>Configurar LDAP en alta disponibilidad</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el lun 21 diciembre 2020
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -81,79 +105,21 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-    <dl>
-            <dt>lun 21 diciembre 2020</dt>
-            <dd><a href="/configurar-ldap-en-alta-disponibilidad.html">Configurar LDAP en alta disponibilidad</a></dd>
-            <dt>lun 21 diciembre 2020</dt>
-            <dd><a href="/ldaps.html">LDAPs</a></dd>
-            <dt>vie 18 diciembre 2020</dt>
-            <dd><a href="/openstack-servidores-web-base-de-datos-y-dns.html">OpenStack: Servidores Web, Base de Datos y DNS</a></dd>
-            <dt>lun 14 diciembre 2020</dt>
-            <dd><a href="/despliegue-de-cms-java.html">Despliegue de CMS Java</a></dd>
-            <dt>lun 14 diciembre 2020</dt>
-            <dd><a href="/instalacion-y-configuracion-basica-de-vmware-esxi.html">Instalación y configuración básica de VMWare ESXi</a></dd>
-            <dt>lun 14 diciembre 2020</dt>
-            <dd><a href="/instalacion-y-configuracion-inicial-de-openldap.html">Instalación y configuración inicial de OpenLDAP</a></dd>
-            <dt>sáb 12 diciembre 2020</dt>
-            <dd><a href="/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></dd>
-            <dt>vie 11 diciembre 2020</dt>
-            <dd><a href="/servidor-dns.html">Servidor DNS</a></dd>
-            <dt>mié 09 diciembre 2020</dt>
-            <dd><a href="/despliegue-de-aplicaciones-python.html">Despliegue de aplicaciones Python</a></dd>
-            <dt>mar 08 diciembre 2020</dt>
-            <dd><a href="/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a></dd>
-            <dt>lun 30 noviembre 2020</dt>
-            <dd><a href="/lets-encrypt-https.html">Let's Encrypt HTTPS</a></dd>
-            <dt>dom 22 noviembre 2020</dt>
-            <dd><a href="/actualizacion-de-centos-7-a-centos-8.html">Actualización de CentOS 7 a CentOS 8</a></dd>
-            <dt>sáb 21 noviembre 2020</dt>
-            <dd><a href="/certificados-digitales-https.html">Certificados digitales. HTTPS</a></dd>
-            <dt>vie 20 noviembre 2020</dt>
-            <dd><a href="/instalacion-migracion-de-aplicaciones-web-php.html">Instalación / migración de aplicaciones web PHP</a></dd>
-            <dt>lun 16 noviembre 2020</dt>
-            <dd><a href="/gestion-de-paquetes-red-hat-y-derivadas.html">Gestión de paquetes - Red Hat y derivadas</a></dd>
-            <dt>sáb 14 noviembre 2020</dt>
-            <dd><a href="/compilacion-de-un-kernel-linux-a-medida.html">Compilación de un kérnel linux a medida</a></dd>
-            <dt>sáb 14 noviembre 2020</dt>
-            <dd><a href="/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></dd>
-            <dt>lun 09 noviembre 2020</dt>
-            <dd><a href="/instalacion-de-un-servidor-lemp.html">Instalación de un servidor LEMP</a></dd>
-            <dt>dom 08 noviembre 2020</dt>
-            <dd><a href="/servidor-web-nginx.html">Servidor Web Nginx</a></dd>
-            <dt>jue 05 noviembre 2020</dt>
-            <dd><a href="/integridad-firmas-y-autenticacion.html">Integridad, firmas y autenticación</a></dd>
-            <dt>lun 02 noviembre 2020</dt>
-            <dd><a href="/configuracion-de-apache-mediante-archivo-htaccess.html">Configuración de apache mediante archivo .htaccess</a></dd>
-            <dt>sáb 31 octubre 2020</dt>
-            <dd><a href="/control-de-acceso-autentificacion-y-autorizacion.html">Control de acceso, autentificación y autorización</a></dd>
-            <dt>vie 30 octubre 2020</dt>
-            <dd><a href="/configuracion-de-cliente-openvpn-con-certificados-x509.html">Configuración de cliente OpenVPN con certificados X.509</a></dd>
-            <dt>jue 29 octubre 2020</dt>
-            <dd><a href="/instalacion-local-de-un-cms-php.html">Instalación local de un CMS PHP</a></dd>
-            <dt>sáb 24 octubre 2020</dt>
-            <dd><a href="/compilacion-de-un-programa-en-c-utilizando-un-makefile.html">Compilación de un programa en C utilizando un Makefile</a></dd>
-            <dt>mar 20 octubre 2020</dt>
-            <dd><a href="/mapear-url-a-ubicaciones-de-un-sistema-de-ficheros.html">Mapear URL a ubicaciones de un sistema de ficheros</a></dd>
-            <dt>lun 19 octubre 2020</dt>
-            <dd><a href="/servidor-dhcp-con-nat.html">Servidor DHCP con NAT</a></dd>
-            <dt>vie 16 octubre 2020</dt>
-            <dd><a href="/script-para-seleccionar-paquetes-por-repositorio.html">Script para seleccionar paquetes por repositorio</a></dd>
-            <dt>mié 14 octubre 2020</dt>
-            <dd><a href="/virtualhosting-con-apache.html">VirtualHosting con Apache</a></dd>
-            <dt>mar 13 octubre 2020</dt>
-            <dd><a href="/cifrado-asimetrico-con-gpg-y-openssl.html">Cifrado asimétrico con gpg y openssl</a></dd>
-            <dt>dom 11 octubre 2020</dt>
-            <dd><a href="/implantacion-y-despliegue-de-una-aplicacion-web-estatica.html">Implantación y despliegue de una aplicación web estática</a></dd>
-            <dt>lun 05 octubre 2020</dt>
-            <dd><a href="/ejercicios-de-dpkgapt.html">Ejercicios de dpkg/APT</a></dd>
-            <dt>lun 05 octubre 2020</dt>
-            <dd><a href="/instalacion-debian-10.html">Instalación Debian 10</a></dd>
-            <dt>mié 30 septiembre 2020</dt>
-            <dd><a href="/raid5-gestion-del-almacenamiento-de-la-informacion.html">RAID5: Gestión del almacenamiento de la información</a></dd>
-            <dt>mié 30 septiembre 2020</dt>
-            <dd><a href="/rclone-gestionando-nuestro-almacenamiento-en-la-nube.html">rclone - Gestionando nuestro almacenamiento en la nube</a></dd>
-        <hr>
-    </dl>
+    <!-- Post Content -->
+    <article>
+        <h4>Vamos a instalar un servidor LDAP en sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en Freston, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.</h4>
+<h4>- Selecciona el método más adecuado para configurar un servidor LDAP secundario, viendo y/o probando las opciones posibles.</h4>
+<h4>- Explica claramente las características, ventajas y limitaciones del método seleccionado</h4>
+<h4>- Realiza las configuraciones adecuadas en el directorio cn=config</h4>
+<h4>- Como prueba de funcionamiento, prepara un pequeño fichero ldif, que se insertará en el directorio en la corrección y se verificará que se ha sincronizado.</h4>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/ldap.html">LDAP</a>, <a href="/tag/openstack.html">OpenStack</a></p>
+        </div>
+
+    <hr>
+
             </div>
         </div>
     </div>
