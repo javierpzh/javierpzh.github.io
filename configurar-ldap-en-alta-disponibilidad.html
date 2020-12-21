@@ -145,11 +145,14 @@
 </li>
 <li>
 <p><strong>MirrorMode</strong></p>
-<p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>. Dos proveedores se configuran para replicarse mutuamente (como en <em>multi-master</em>) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> <em>(single point of failure?)</em> dirigirá las escrituras a al secundario. Cuando el servidor primario es reparado y reiniciado, automáticamente se actualizarán sus datos a partir del servidor secundario.</p>
+<p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>.</p>
+<p>Dos proveedores se configuran para replicarse mutuamente (como en <em>multi-master</em>) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> <em>(single point of failure?)</em> dirigirá las escrituras a al secundario.</p>
+<p>Cuando el servidor primario es reparado y reiniciado, automáticamente se actualizarán sus datos a partir del servidor secundario.</p>
 </li>
 <li>
 <p><strong>Syncrepl Proxy Mode</strong></p>
-<p>Se utiliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones del <em>firewall</em>. En este caso, <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que sí llegara al proveedor y así sí sería posible iniciar la comunicación del proveedor con el consumidor real.</p>
+<p>Se utiliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones del <em>firewall</em>.</p>
+<p>En este caso, <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que sí llegara al proveedor y así sí sería posible iniciar la comunicación del proveedor con el consumidor real.</p>
 </li>
 </ul>
 <p>Ya conocemos todas las opciones que disponemos para elegir. En mi caso, pienso que la más adecuada para lo que estoy buscando, sería el método <strong>MirrorMode</strong>, ya que garantiza la sincronización de todos los datos incluso cuando falla el servidor principal.</p>
