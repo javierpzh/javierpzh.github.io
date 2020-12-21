@@ -141,15 +141,15 @@
 </ul>
 <p>Utiliza <em>syncrepl</em> para replicar los datos a múltiples proveedores.</p>
 <p>Evita tener un punto único de falla, ya que si un proveedor falla otro continuará aceptando cambios.</p>
-<p>Puede causar inconsistencias, por ejemplo si hay al menos dos proveedores activos pero debido a problemas de red unos clientes ven uno y otros clientes ven al otro. En este caso, puede ser difícil llegar a unificar luego la información de ambos proveedores.</p>
+<p>Puede causar inconsistencias, ya que, por ejemplo, si hay al menos dos proveedores activos pero debido a problemas de red unos clientes ven uno y otros clientes ven al otro. En este caso, puede ser difícil llegar a unificar luego la información de ambos proveedores.</p>
 <ul>
 <li><strong>MirrorMode</strong></li>
 </ul>
-<p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>. Dos proveedores se configuran para replicarse mutuamente (como en multi-master) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> (single point of failure?) dirigirá las escrituras a al secundario. Cuando el servidor primario es reparado y reiniciado el automaticamente actualizará sus datos a partir del servidor secundario.</p>
+<p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>. Dos proveedores se configuran para replicarse mutuamente (como en <em>multi-master</em>) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> <em>(single point of failure?)</em> dirigirá las escrituras a al secundario. Cuando el servidor primario es reparado y reiniciado, automáticamente se actualizarán sus datos a partir del servidor secundario.</p>
 <ul>
 <li><strong>Syncrepl Proxy Mode</strong></li>
 </ul>
-<p>Se uitliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones de los <em>firewalls</em>. En ese caso <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que si llega al proveedor y puede iniciar la comunicación del proveedor con el consumidor real.</p>
+<p>Se utiliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones del <em>firewall</em>. En este caso, <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que sí llegara al proveedor y así sí sería posible iniciar la comunicación del proveedor con el consumidor real.</p>
 <p>.</p>
     </article>
 
