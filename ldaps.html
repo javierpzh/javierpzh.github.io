@@ -249,18 +249,18 @@ olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
 SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
 </pre>
 
-<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
-<pre>
-systemctl restart slapd.service
-</pre>
-
 <p>Por último, debemos realizar una modificación en el fichero de configuración <code>/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
 <pre>
 URI     ldaps://localhost
 </pre>
 
 <p>Esto hará, que el cliente utilice de manera predeterminada el protocolo <strong>ldaps://</strong>.</p>
-<p>Por último, vamos a realizar una consulta. Para realizar consultas en <em>LDAP</em> se utiliza la herramienta <code>ldapsearch</code>:</p>
+<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
+<pre>
+systemctl restart slapd.service
+</pre>
+
+<p>Para finalizar, vamos a realizar una consulta. Para realizar consultas en <em>LDAP</em> se utiliza la herramienta <code>ldapsearch</code>:</p>
 <pre>
 root@freston:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
 # extended LDIF
