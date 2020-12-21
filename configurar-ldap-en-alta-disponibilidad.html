@@ -129,24 +129,24 @@
 </ul>
 <p>Tenemos diferentes opciones de implementación:</p>
 <ul>
-<li><strong>Master-slave</strong></li>
-</ul>
+<li>
+<p><strong>Master-slave</strong></p>
 <p>Existe un sólo servidor principal <em>(master)</em> capaz de realizar actualizaciones, estas se replican a uno o más servidores secundarios <em>(slaves)</em>.</p>
-<ul>
-<li><strong>Delta-syncrepl</strong></li>
-</ul>
+</li>
+<li>
+<p><strong>Delta-syncrepl</strong></p>
 <p>Cada vez que se realiza un cambio en un atributo de un objeto, <em>syncrepl</em> copia todo el objeto al servidor de respaldo. <em>Delta-syncrepl</em> es una variante de <em>syncrepl</em> que busca hacer más eficiente la transferencia de información enviando solamente los datos modificados. Es utilizado en casos donde se realiza gran cantidad de modificaciones, por ejemplo, en casos donde se tiene una rutina periódica que modifica gran cantidad de atributos.</p>
-<ul>
-<li><strong>N-Way Multi-master</strong></li>
-</ul>
+</li>
+<li>
+<p><strong>N-Way Multi-master</strong></p>
 <p>Utiliza <em>syncrepl</em> para replicar los datos a múltiples proveedores.</p>
 <p>Evita tener un punto único de falla, ya que si un proveedor falla otro continuará aceptando cambios.</p>
 <p>Puede causar inconsistencias, ya que, por ejemplo, si hay al menos dos proveedores activos pero debido a problemas de red unos clientes ven uno y otros clientes ven al otro. En este caso, puede ser difícil llegar a unificar luego la información de ambos proveedores.</p>
-<ul>
-<li><strong>MirrorMode</strong></li>
-</ul>
+</li>
+<li>
+<p><strong>MirrorMode</strong></p>
 <p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>. Dos proveedores se configuran para replicarse mutuamente (como en <em>multi-master</em>) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> <em>(single point of failure?)</em> dirigirá las escrituras a al secundario. Cuando el servidor primario es reparado y reiniciado, automáticamente se actualizarán sus datos a partir del servidor secundario.</p>
-<ul>
+</li>
 <li>
 <p><strong>Syncrepl Proxy Mode</strong></p>
 <p>Se utiliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones del <em>firewall</em>. En este caso, <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que sí llegara al proveedor y así sí sería posible iniciar la comunicación del proveedor con el consumidor real.</p>
