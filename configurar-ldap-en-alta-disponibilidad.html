@@ -287,7 +287,27 @@ ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode6.ldif
 ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
 </pre>
 
-<p>.</p>
+<p>Podemos apreciar que nos muestra todos los datos que fueron creados en el primer servidor.</p>
+<p>Como última prueba, he preparado un fichero <code>.ldif</code> que insertará en el servidor principal, es decir, en <em>Freston</em>, una nueva unidad organizativa: <strong>Prueba</strong>.</p>
+<p>El contenido de este fichero <code>prueba.ldif</code> es el siguiente:</p>
+<pre>
+dn: ou=Prueba,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Prueba
+</pre>
+
+<p>Para cargar la configuración de este nuevo fichero, debemos hacer uso del siguiente comando:</p>
+<pre>
+ldapadd -x -D 'cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org' -W -f prueba.ldif
+</pre>
+
+<p>Si ahora hacemos una nueva consulta desde el servidor de respaldo, es decir, <em>Sancho</em>:</p>
+<pre>
+ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
+</pre>
+
+<p>De nuevo vemos que los datos se encuentran sincronizados, por tanto este <em>post</em> habría terminado.</p>
     </article>
 
         <div class="tags">
