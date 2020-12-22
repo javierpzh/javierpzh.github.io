@@ -280,11 +280,11 @@ ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode6.ldif
 
 <p>Hecho esto, ya habríamos terminado de configurar el servidor principal de <em>LDAP</em>, así que vamos a pasar con el servidor secundario. En éste, tendremos que realizar exactamente la misma configuración cambiando dos pequeños detalles.</p>
 <p>El primero de ellos es que debemos cambiar en el llamado <code>mirrormode5.ldif</code> el valor del campo <strong>olcServerId</strong>, ya que esto indica el número identificativo del servidor, en mi caso le he asignado el valor <strong>2</strong>.</p>
-<p>Y por último, debemos cambiar en el fichero <code>mirrormode6.ldif</code> la línea <strong>provider</strong> y asignarle como valor la dirección del servidor principal, para que haga referencia a éste.</p>
+<p>Y por último, debemos cambiar en el fichero <code>mirrormode6.ldif</code> la línea <strong>provider</strong> y asignarle como valor la dirección del servidor principal, para que haga referencia a éste. En mi caso <strong>ldaps://sancho.javierpzh.gonzalonazareno.org</strong>.</p>
 <p>En este unto, ya tendríamos ambos servidores replicados, por lo que vamos a pasar a hacer una prueba y a consultar en el servidor secundario los elementos, de manera que deben aparecer los datos que fueron creados en el principal.</p>
 <p>Realizamos la consulta:</p>
 <pre>
-
+ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
 </pre>
 
 <p>.</p>
