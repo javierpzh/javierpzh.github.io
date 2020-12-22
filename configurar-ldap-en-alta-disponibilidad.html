@@ -199,6 +199,20 @@ by * none
 ldapadd -H ldapi:/// -Y EXTERNAL -f mirrormode2.ldif
 </pre>
 
+<p>Pasamos con el tercer archivo, <code>mirrormode3.ldif</code>, este será el encargado de cargar el módulo <strong>syncprov</strong>. El resultado del contenido de este fichero sería:</p>
+<pre>
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+-
+</pre>
+
+<p>Cargamos el módulo definido en el archivo:</p>
+<pre>
+
+</pre>
+
 <p>.</p>
     </article>
 
