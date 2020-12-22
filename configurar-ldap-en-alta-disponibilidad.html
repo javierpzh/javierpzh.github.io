@@ -159,7 +159,8 @@
 <p>Ya conocemos todas las opciones que disponemos para elegir. En mi caso, pienso que la más adecuada para lo que estoy buscando, sería el método <strong>MirrorMode</strong>, ya que garantiza la sincronización de todos los datos incluso cuando falla el servidor principal y nos aporta unas desventajas mínimas y que prácticamente no me afectan, como es, el uso de un dispositivo externo que se encargue de comprobar qué proveedor se encuentra actualmente activo.</p>
 <p>Por fin, llegó el momento de empezar a realizar las configuraciones en sí, para ello, antes, he tenido que realizar en <strong>Sancho</strong>, la instalación de <em>LDAP</em> y asegurarme que haga uso del protocolo <em>ldaps://</em>. Me he ayudado, de los <em>posts</em> que cité al principio de este artículo.</p>
 <p>Hecho esto, en la máquina que actuará como servidor principal, es decir, <strong>Freston</strong>, empezaremos con la configuración.</p>
-<p>Crearemos un fichero <code>.ldif</code> que definirá el usuario <strong>mirrormode</strong> y lo creará. En mi caso, se llamará <code>mirrormode1.ldif</code> y tendrá el siguiente aspecto:</p>
+<p>Como sabemos, ya que lo hemos visto en los <em>posts</em> anteriores acerca de <em>LDAP</em>, la mayoría de configuraciones se llevan a cabo a partir de ficheros con extensión <code>.ldif</code> que insertaremos. Para llevar a cabo este proceso, necesitaremos crear seis ficheros distintos.</p>
+<p>Creamos el primer fichero <code>.ldif</code> que definirá el usuario <strong>mirrormode</strong> y lo creará. En mi caso, se llamará <code>mirrormode1.ldif</code> y tendrá el siguiente aspecto:</p>
 <pre>
 dn: uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org
 objectClass: top
@@ -174,7 +175,7 @@ userPassword: "contraseña"
 ldapmodify -D "cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org" -W -f mirrormode1.ldif
 </pre>
 
-<p>Debemos asignarle permisos de escritura al nuevo usuario, por tanto, creamos de nuevo un fichero, que recibirá el nombre <code>mirrormode2.ldif</code>:</p>
+<p>Debemos asignarle permisos de escritura al nuevo usuario, por tanto, creamos un nuevo fichero, que recibirá el nombre <code>mirrormode2.ldif</code>:</p>
 <pre>
 dn: olcDatabase={1}mdb,cn=config
 changetype: modify
