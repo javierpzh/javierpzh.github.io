@@ -346,7 +346,7 @@ apt install php-apcu php-gd php-mbstring php-uploadprogress php-xml -y
 
 <p><em>Drupal</em> puede hacer uso del sistema de reescritura de <em>URLs</em>, basado en el módulo <strong>Rewrite</strong> de <em>Apache</em>, que no está activado por defecto. Este módulo permite crear direcciones <em>URL</em> alternativas a las dinámicas generadas por la programación de nuestros sitio web, de tal modo que sean más legibles y fáciles de recordar. Activamos el módulo <strong>Rewrite</strong>:</p>
 <pre>
-a2enmod expires headers rewrite
+a2enmod rewrite
 </pre>
 
 <p>Generamos un fichero de configuración para <em>Drupal</em> que permita el uso de archivos <code>.htaccess</code> que configuren el módulo <code>Rewrite</code>:</p>
