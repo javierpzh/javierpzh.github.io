@@ -1219,13 +1219,9 @@ systemctl restart apache2
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/pico.png"></p>
 <p>Ya hemos instalado <em>Pico</em>.</p>
 <h2>Tarea 5: Necesidad de otros servicios</h2>
-<ul>
-<li>
 <p><strong>La mayoría de los CMS tienen la posibilidad de mandar correos electrónicos (por ejemplo para notificar una nueva versión, notificar un comentario,…)</strong></p>
-</li>
-<li>
-<p><strong>Instala un servidor de correo electrónico en tu servidor. Debes configurar un servidor relay de correo, para ello en el fichero <code>/etc/postfix/main.cf</code>, debes poner la siguiente línea:</strong></p>
-</li>
+<ul>
+<li><strong>Instala un servidor de correo electrónico en tu servidor. Debes configurar un <em>servidor relay de correo</em>, para ello en el fichero <code>/etc/postfix/main.cf</code>, debes poner la siguiente línea:</strong></li>
 </ul>
 <pre>
 relayhost = babuino-smtp.gonzalonazareno.org
