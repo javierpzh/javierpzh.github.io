@@ -464,12 +464,11 @@ systemctl restart apache2
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/moduloactivado.png"></p>
 <p>Observamos como en la página de inicio, ahora nos aparece un pequeño menú con varias redes sociales para compartir el artículo.</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/nuevomodulo.png"></p>
-<p><strong>En este momento, muestra al profesor la aplicación funcionando en local. Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea.</strong></p>
 <h2>Tarea 3: Configuración multinodo</h2>
 <ul>
 <li><strong>Realiza un copia de seguridad de la base de datos.</strong></li>
 </ul>
-<p>Realizamos una copia de seguridad de la base de datos de Drupal que tenemos en MySQL, mediante el comando:</p>
+<p>Realizamos una copia de seguridad de la base de datos de <em>Drupal</em> que tenemos en <em>MySQL</em>, mediante el comando:</p>
 <pre>
 root@buster:/home/vagrant# mysqldump -u drupal -p drupal > copiaseguridaddrupal.sql
 Enter password:
@@ -480,7 +479,7 @@ copiaseguridaddrupal.sql
 
 <p>Le pasamos dos parámetros: la opción <strong>-u</strong> indica el nombre de usuario y la opción <strong>-p</strong> el nombre de la base de datos.</p>
 <ul>
-<li><strong>Crea otra máquina con vagrant, conectada con una red interna a la anterior y configura un servidor de base de datos.</strong></li>
+<li><strong>Crea otra máquina con Vagrant, conectada con una red interna a la anterior y configura un servidor de base de datos.</strong></li>
 </ul>
 <p>Modifico el escenario creado antes y queda así:</p>
 <pre>
