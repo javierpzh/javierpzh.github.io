@@ -852,17 +852,12 @@ MariaDB [(none)]> exit
 Bye
 </pre>
 
-<p>Vamos a instalar la utilidad para descargar archivos <code>curl</code>, ya que estamos siguiendo los pasos de la web de <em>Anchor</em> y utiliza este comando. También necesitamos tener instalado el paquete <code>git</code>, ya que nos hará falta durante la instalación:</p>
+<p>Necesitamos instalar <strong>composer</strong> en el sistema, que es un administrador de dependencias <em>PHP</em>. También necesitamos tener instalado el paquete <code>git</code>, ya que nos hará falta durante la instalación:</p>
 <pre>
-apt install curl git -y
+apt install composer git -y
 </pre>
 
-<p>Necesitamos instalar <em>Composer</em> en el sistema, que es un administrador de dependencias PHP. Lo descargamos, instalamos y ejecutamos mediante el siguiente comando:</p>
-<pre>
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-</pre>
-
-<p>Descargamos y creamos la página de <em>Anchor</em> utilizando <em>Composer</em> con el comando:</p>
+<p>Descargamos y creamos la página de <em>Anchor</em> utilizando <em>composer</em> con el comando:</p>
 <pre>
 root@buster:/srv/www# composer create-project anchorcms/anchor-cms
 Do not run Composer as root/super user! See https://getcomposer.org/root for details
@@ -1175,7 +1170,7 @@ root@buster:/srv/www# chown -R www-data:www-data /srv/
 
 <p>Descargamos el instalador y lo lanzamos mediante los siguientes comandos:</p>
 <pre>
-root@buster:/srv/www# curl -sSL https://getcomposer.org/installer | php
+root@buster:/srv/www# apt install composer -y
 
 ...
 
@@ -1232,6 +1227,35 @@ systemctl restart apache2
 <p>Lo primero que debemos hacer, es dirigirnos hacia nuestra aplicación e instalarle el módulo llamado <strong>SMTP Authentication Support</strong>. Como ya sabemos, para instalar un módulo, debemos situarnos en la opción <strong>Ampliar</strong>, <em>clickamos</em> en <code>+ Instalar nuevo módulo</code>, introducimos el enlace de descarga del módulo que queremos añadir y listo.</p>
 <p>Lo instalo y lo añado:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/modulocorreos.png"></p>
+<p>Debemos instalar <strong>composer</strong>, ya que vamos a necesitar hacer uso de una dependencia llamada <strong>phpmailer</strong>:</p>
+<pre>
+apt install composer -y
+</pre>
+
+<p>Instalado el manejador de dependencias, instalamos la propia dependencia:</p>
+<pre>
+root@buster:~# composer require phpmailer/phpmailer
+Do not run Composer as root/super user! See https://getcomposer.org/root for details
+Continue as root/super user [yes]? yes
+Using version ^6.2 for phpmailer/phpmailer
+./composer.json has been created
+Running composer update phpmailer/phpmailer
+Loading composer repositories with package information
+Updating dependencies
+Lock file operations: 1 install, 0 updates, 0 removals
+  - Locking phpmailer/phpmailer (v6.2.0)
+Writing lock file
+Installing dependencies from lock file (including require-dev)
+Package operations: 1 install, 0 updates, 0 removals
+  - Downloading phpmailer/phpmailer (v6.2.0)
+  - Installing phpmailer/phpmailer (v6.2.0): Extracting archive
+5 package suggestions were added by new dependencies, use `composer suggest` to see details.
+Generating autoload files
+1 package you are using is looking for funding.
+Use the `composer fund` command to find out more!
+</pre>
+
+<p>Hecho esto, tan solo nos quedaría configurar <em>Drupal</em>. Nos dirigimos a nuestra web, y vamos a proceder a configurar el nuevo módulo instalado.</p>
 <p>.</p>
     </article>
 
