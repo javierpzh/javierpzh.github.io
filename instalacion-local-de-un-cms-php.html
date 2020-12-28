@@ -332,13 +332,45 @@ tar.gz                    100%[=====================================>]  16.92M  
 2020-12-28 13:18:59 (8.86 MB/s) - ‘tar.gz’ saved [17741953/17741953]
 
 root@buster:~# tar xf tar.gz -C /srv/www/
+</pre>
 
+<p>Hemos descargado <strong>Drupal</strong> y lo hemos descomprimido en la ruta en la que se encuentra el sitio web, en mi caso, <code>/srv/www/</code>. Para utilizar esta ruta, debemos modificar el fichero <code>apache2.conf</code>, que actualmente posee esta configuración:</p>
+<pre>
+<Directory /var/www/>
+       Options Indexes FollowSymLinks
+       AllowOverride None
+       Require all granted
+</Directory>
+
+#<Directory /srv/>
+#        Options Indexes FollowSymLinks
+#        AllowOverride None
+#        Require all granted
+#</Directory>
+</pre>
+
+<p>Esto indica que mostrará todos los ficheros de las páginas alojadas en la ruta <code>/var/www/</code>. Lo que debemos hacer es comentar estas líneas y descomentar las de abajo que hacen referencia a la ruta <code>/srv/</code> y todos sus hijos:</p>
+<pre>
+#<Directory /var/www/>
+#       Options Indexes FollowSymLinks
+#       AllowOverride None
+#       Require all granted
+#</Directory>
+
+<Directory /srv/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+</pre>
+
+<p>Además conviene crear un enlace simbólico sobre el directorio de <em>Drupal</em> para tener un nombre sin números de versión. Hemos otorgado al usuario <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
+<pre>
 root@buster:~# ln -s /srv/www/drupal-9.1.0/ /srv/www/drupal
 
 root@buster:~# chown -R www-data:www-data /srv/www/drupal/
 </pre>
 
-<p>Hemos descargado <strong>Drupal</strong> y lo hemos descomprimido en la ruta en la que se encuentra el sitio web, en mi caso, <code>/srv/www/</code>. Además conviene crear un enlace simbólico sobre el directorio de <em>Drupal</em> para tener un nombre sin números de versión. Hemos otorgado al usuario <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
 <p>También necesitamos algunas extensiones de <em>PHP</em>:</p>
 <pre>
 apt install php-apcu php-gd php-mbstring php-uploadprogress php-xml -y
