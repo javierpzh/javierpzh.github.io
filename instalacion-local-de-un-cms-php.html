@@ -55,7 +55,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/instalacion-local-de-un-cms-php.html">
 	<meta property="og:title" content="Instalación local de un CMS PHP">
-	<meta property="article:published_time" content="2020-12-28 00:00:00+01:00">
+	<meta property="article:published_time" content="2020-10-29 00:00:00+01:00">
             <meta property="og:description" content="Esta tarea consiste en instalar un CMS de tecnología PHP en un servidor local. Los pasos que tendrás que dar los siguientes: Tarea 1:...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
@@ -100,7 +100,7 @@
                         <h1>Instalación local de un CMS PHP</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el lun 28 diciembre 2020
+                             el jue 29 octubre 2020
                         </span>
                         
                     </div>
@@ -1205,58 +1205,14 @@ root@buster:/etc/apache2/sites-available# a2ensite pico.conf
 systemctl restart apache2
 </pre>
 
-<p>Acabamos de lanzar nuestra página en Pico, si queremos visualizarla en nuestra máquina anfitrión, añadimos la siguiente línea al fichero <code>/etc/hosts</code>:</p>
+<p>Acabamos de lanzar nuestra página en <em>Pico</em>, si queremos visualizarla en nuestra máquina anfitriona, añadimos la siguiente línea al fichero <code>/etc/hosts</code>:</p>
 <pre>
 192.168.30.15   www.javierperezhidalgopico.org
 </pre>
 
 <p>Nos dirigimos a la web <code>www.javierperezhidalgopico.org</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/pico.png"></p>
-<p>Ya hemos instalado <em>Pico</em>.</p>
-<h2>Tarea 5: Necesidad de otros servicios</h2>
-<p><strong>La mayoría de los CMS tienen la posibilidad de mandar correos electrónicos (por ejemplo para notificar una nueva versión, notificar un comentario,…)</strong></p>
-<ul>
-<li>
-<p><strong>Instala un servidor de correo electrónico en tu servidor. Debes configurar un <em>servidor relay de correo</em>, para ello en el fichero <code>/etc/postfix/main.cf</code>, debes poner la siguiente línea:</strong></p>
-</li>
-<li>
-<p><strong>Configura alguno de los CMS para utilizar tu servidor de correo y realiza una prueba de funcionamiento.</strong></p>
-</li>
-</ul>
-<p>Para llevar a cabo este ejercicio, voy a configurar la web <em>Drupal</em> que instalé anteriormente.</p>
-<p>Lo primero que debemos hacer, es dirigirnos hacia nuestra aplicación e instalarle el módulo llamado <strong>SMTP Authentication Support</strong>. Como ya sabemos, para instalar un módulo, debemos situarnos en la opción <strong>Ampliar</strong>, <em>clickamos</em> en <code>+ Instalar nuevo módulo</code>, introducimos el enlace de descarga del módulo que queremos añadir y listo.</p>
-<p>Lo instalo y lo añado:</p>
-<p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/modulocorreos.png"></p>
-<p>Debemos instalar <strong>composer</strong>, ya que vamos a necesitar hacer uso de una dependencia llamada <strong>phpmailer</strong>:</p>
-<pre>
-apt install composer -y
-</pre>
-
-<p>Instalado el manejador de dependencias, instalamos la propia dependencia:</p>
-<pre>
-root@buster:~# composer require phpmailer/phpmailer
-Do not run Composer as root/super user! See https://getcomposer.org/root for details
-Continue as root/super user [yes]? yes
-Using version ^6.2 for phpmailer/phpmailer
-./composer.json has been created
-Running composer update phpmailer/phpmailer
-Loading composer repositories with package information
-Updating dependencies
-Lock file operations: 1 install, 0 updates, 0 removals
-  - Locking phpmailer/phpmailer (v6.2.0)
-Writing lock file
-Installing dependencies from lock file (including require-dev)
-Package operations: 1 install, 0 updates, 0 removals
-  - Downloading phpmailer/phpmailer (v6.2.0)
-  - Installing phpmailer/phpmailer (v6.2.0): Extracting archive
-5 package suggestions were added by new dependencies, use `composer suggest` to see details.
-Generating autoload files
-1 package you are using is looking for funding.
-Use the `composer fund` command to find out more!
-</pre>
-
-<p>Hecho esto, tan solo nos quedaría configurar <em>Drupal</em>. Nos dirigimos a nuestra web, y vamos a proceder a configurar el nuevo módulo instalado.</p>
-<p>.</p>
+<p>Ya hemos instalado <em>Pico</em> y habríamos terminado con este <em>post</em>.</p>
     </article>
 
         <div class="tags">
