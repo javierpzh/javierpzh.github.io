@@ -349,6 +349,7 @@ root@buster:~# tar xf tar.gz -C /srv/www/
 #<\/Directory\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Esto indica que mostrará todos los ficheros de las páginas alojadas en la ruta <code>/var/www/</code>. Lo que debemos hacer es comentar estas líneas y descomentar las de abajo que hacen referencia a la ruta <code>/srv/</code> y todos sus hijos:</p>
 <pre>
 #<\Directory /var/www/\>
@@ -364,6 +365,7 @@ root@buster:~# tar xf tar.gz -C /srv/www/
 <\/Directory\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Además conviene crear un enlace simbólico sobre el directorio de <em>Drupal</em> para tener un nombre sin números de versión. Hemos otorgado al usuario <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
 <pre>
 root@buster:~# ln -s /srv/www/drupal-9.1.0/ /srv/www/drupal
