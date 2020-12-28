@@ -829,24 +829,24 @@ root@buster:~# mysql_secure_installation
 
 <p>Creamos el usuario <strong>anchor</strong> de la base de datos y le otorgamos los permisos:</p>
 <pre>
-root@buster:/home/vagrant# mysql -u root -p
+root@buster:~# mysql -u root -p
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 44
-Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
 MariaDB [(none)]> CREATE DATABASE anchor;
-Query OK, 1 row affected (0.000 sec)
+Query OK, 1 row affected (0.002 sec)
 
 MariaDB [(none)]> CREATE USER anchor IDENTIFIED BY 'contraseña';
-Query OK, 0 rows affected (0.000 sec)
+Query OK, 0 rows affected (0.003 sec)
 
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON anchor. * TO 'anchor';
-Query OK, 0 rows affected (0.001 sec)
+Query OK, 0 rows affected (0.002 sec)
 
 MariaDB [(none)]> exit
 Bye
