@@ -238,7 +238,7 @@ systemctl enable apache2
 apt install php libapache2-mod-php php-mysql -y
 </pre>
 
-<p>También he instalado las <strong>librerías php</strong> de <em>apache</em> y <em>mysql</em>, para que todos los sistemas puedan funcionar de manera conjunta.</p>
+<p>También he instalado las <strong>librerías php</strong> de <em>Apache</em> y <em>MySQL</em>, para que todos los sistemas puedan funcionar de manera conjunta.</p>
 <p>Activamos el módulo de <strong>PHP</strong> de <strong>Apache</strong>.</p>
 <pre>
 a2enmod php7.3
@@ -1001,7 +1001,7 @@ root@buster:/etc/apache2/sites-available# nano anchor.conf
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el sitio web para que <em>Apache</em> lo muestre y reiniciamos el servidor, como siempre hay que hacer cuando hagamos un cambio:</p>
 <pre>
-a2ensite anchor.conf
+root@buster:/etc/apache2/sites-available# a2ensite anchor.conf
 </pre>
 
 <p>Por último, añadimos esta línea al fichero <code>/etc/hosts</code> del equipo anfitrión para que podamos ver la web en nuestro navegador.</p>
@@ -1197,7 +1197,7 @@ root@buster:/srv/www# php composer.phar create-project picocms/pico-composer pic
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el despliegue de la página:</p>
 <pre>
-a2ensite pico.conf
+root@buster:/etc/apache2/sites-available# a2ensite pico.conf
 </pre>
 
 <p>Reiniciamos el servicio:</p>
