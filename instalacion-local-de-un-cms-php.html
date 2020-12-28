@@ -385,7 +385,7 @@ root@buster:~# chown -R www-data:www-data /srv/www/drupal/
 
 <p>También necesitamos algunas extensiones de <em>PHP</em>:</p>
 <pre>
-apt install php-apcu php-gd php-mbstring php-uploadprogress php-xml -y
+apt install php-gd php-mbstring php-xml -y
 </pre>
 
 <p><em>Drupal</em> puede hacer uso del sistema de reescritura de <em>URLs</em>, basado en el módulo <strong>Rewrite</strong> de <em>Apache</em>, que no está activado por defecto. Este módulo permite crear direcciones <em>URL</em> alternativas a las dinámicas generadas por la programación de nuestros sitio web, de tal modo que sean más legibles y fáciles de recordar. Activamos el módulo <strong>Rewrite</strong>:</p>
@@ -393,14 +393,7 @@ apt install php-apcu php-gd php-mbstring php-uploadprogress php-xml -y
 a2enmod rewrite
 </pre>
 
-<p>Generamos un fichero de configuración para <em>Drupal</em> que permita el uso de archivos <code>.htaccess</code> que configuren el módulo <code>Rewrite</code>:</p>
-<pre>
-root@buster:/var/www/html# cd /etc/apache2/conf-available/
-
-root@buster:/etc/apache2/conf-available# nano drupal.conf
-</pre>
-
-<p>El archivo <code>drupal.conf</code> tiene que contener:</p>
+<p>Ya tendríamos activado el módulo <em>Rewrite</em> de <em>Apache</em>, pero nos quedaría por configurar nuestra aplicación <em>Drupal</em> para que haga uso de él. Para ello, nos dirigimos al fichero de configuración del <em>virtualhost</em> de <em>Drupal</em> e introducimos el siguiente bloque, que permite, entre ellos, el uso de archivos <code>.htaccess</code>.</p>
 <pre>
 <\Directory /var/www/html/drupal>
         AllowOverride all
@@ -408,20 +401,33 @@ root@buster:/etc/apache2/conf-available# nano drupal.conf
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
-<p>Activamos la configuración:</p>
+<p>¿Y para qué hacemos esto?</p>
+<p>Pues bien, porque en la carpeta <em>drupal</em> que hemos obtenido al descomprimir el paquete descargado, ya nos encontramos con un fichero de este tipo, que viene configurado para solucionar el problema de las <em>URLs</em> limpias.</p>
+<p>De manera que el fichero del <em>virtualhost</em> quedaría con el siguiente aspecto:</p>
 <pre>
-root@buster:/etc/apache2/conf-available# a2enconf drupal.conf
-Enabling conf drupal.
-To activate the new configuration, you need to run:
-  systemctl reload apache2
+<\VirtualHost *:80\>
+        ServerName www.javierperezhidalgo-drupal.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/drupal
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <\Directory /srv/drupal/\>
+          AllowOverride All
+        <\/Directory\>
+
+<\/VirtualHost\>
 </pre>
 
-<p>Reiniciamos el servidor web:</p>
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Aplicamos los cambios en la configuración reiniciando el servidor web:</p>
 <pre>
 systemctl restart apache2
 </pre>
 
-<p>En este punto ya podemos hacer uso del <strong>Instalador Web de Drupal</strong>. Accedemos a la web que hemos configurado antes con la URL <code>http://www.javierperezhidalgo-drupal.org</code> y le añadimos <code>/drupal</code>, y se nos abrirá el instalador.</p>
+<p>En este punto ya podemos hacer uso del <strong>Instalador Web de Drupal</strong>. Accedemos a la web que hemos configurado antes con la URL <code>http://www.javierperezhidalgo-drupal.org</code>, y se nos abrirá el instalador.</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/instaladorwebdrupal.png"></p>
 <ul>
 <li>Seleccionamos el idioma deseado.</li>
