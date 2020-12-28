@@ -749,12 +749,12 @@ apt remove --purge mariadb-server mariadb-client -y && apt autoremove -y
 
 <p>Probamos a acceder a la página de <em>Drupal</em> ahora:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/bbddeliminada.png"></p>
+<p>Obviamente, no podemos acceder a la web, ya que ahora mismo no se encuentra conectada a ninguna base de datos.</p>
 <ul>
 <li><strong>Realiza los cambios de configuración necesarios en <em>Drupal</em> para que la página funcione.</strong></li>
 </ul>
-<p><strong>Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea. En este momento, muestra al profesor la aplicación funcionando en local.</strong></p>
 <p>En este punto, queremos volver a tener disponible nuestra web de <em>Drupal</em>, pero funcionando con la base de datos en la nueva máquina, es decir, en <strong>maquina2</strong>.</p>
-<p>Tenemos que cambiar la configuración de <em>Drupal</em>, para ello nos dirigimos al fichero que se encuentra en la ruta <code>/srv/www/drupal-9.1.0/sites/default/settings.php</code> de la máquina <strong>servidor1</strong>, y al final del archivo, se encuentra la configuración de la base de datos que utiliza Drupal. Como es obvio, está configurada como que la base de datos está en el mismo equipo, por tanto está configurado en <strong>localhost</strong>. Aquí viene el primer cambio, pues debemos remover <em>localhost</em> y sustituirlo por la IP de la máquina donde se encuentra la nueva base de datos sobre la que va a funcionar Drupal, que es la <strong>192.168.30.30</strong>.</p>
+<p>Tenemos que cambiar la configuración de <em>Drupal</em>, para ello nos dirigimos al fichero que se encuentra en la ruta <code>/srv/www/drupal-9.1.0/sites/default/settings.php</code> de la máquina <strong>servidor1</strong>, y al final del archivo, se encuentra la configuración de la base de datos que utiliza <em>Drupal</em>. Como es obvio, está configurada como que la base de datos está en el mismo equipo, por tanto está configurado en <strong>localhost</strong>. Aquí viene el primer cambio, pues debemos remover <em>localhost</em> y sustituirlo por la IP de la máquina donde se encuentra la nueva base de datos sobre la que va a funcionar Drupal, que es la <strong>192.168.30.30</strong>.</p>
 <pre>
 $databases['default']['default'] = array (
   'database' => 'drupal',
@@ -816,7 +816,7 @@ systemctl restart mysqld
 <p><strong>Configura otro Virtualhost y elige otro nombre en el mismo dominio.</strong></p>
 </li>
 </ul>
-<p>He decidido elegir el CMS llamado <strong>Anchor</strong>. Este CMS cuenta con una interfaz de usuario muy simple. Instalar Anchor CMS te llevará muy poco tiempo. Soporta <em>Markdown editor</em>, campos personalizados, múltiples idiomas y la posibilidad de instalar múltiples temas.</p>
+<p>He decidido elegir el CMS llamado <strong>Anchor</strong>. Este CMS cuenta con una interfaz de usuario muy simple. Instalar <em>Anchor</em> nos llevará muy poco tiempo. Soporta <em>Markdown editor</em>, campos personalizados, múltiples idiomas y la posibilidad de instalar múltiples temas.</p>
 <p>Si nos ayudamos de la página oficial de <a href="https://anchorcms.com/">Anchor</a>, la descarga la podemos realizar desde <a href="https://anchorcms.com/download">aquí</a>.</p>
 <p>Como antes para realizar la migración, desinstalé <em>MySQL</em> de la máquina <strong>servidor1</strong>, voy a volver a realizar la instalación y configuración, esta vez sin tantos detalles.</p>
 <pre>
@@ -1029,6 +1029,31 @@ a2ensite anchor.conf
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/instalacioncompletadaanchor.png"></p>
 <p>Así luce nuestra nueva página:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/terminadoanchor.png"></p>
+<p>Hemos terminado la instalación de <em>Anchor</em>, pero me gustaría hacer una modificación. Y no es más, sino que volver a migrar nuestra base de datos a nuestra segunda máquina, es decir, a la <strong>maquina2</strong>, para así acceder a la base de datos remotamente.</p>
+<p>Volvemos a repetir el mismo proceso que realizamos con <em>Drupal</em>, y en primer lugar, vamos a realizar una copia de seguridad y a copiarla a la segunda máquina:</p>
+<pre>
+root@buster:~# mysqldump -u anchor -p anchor > copiaseguridadanchor.sql
+
+root@buster:~# ls
+copiaseguridadanchor.sql  copiaseguridaddrupal.sql
+</pre>
+
+<p>Le pasamos dos parámetros: la opción <strong>-u</strong> indica el nombre de usuario y la opción <strong>-p</strong> el nombre de la base de datos.</p>
+<p>En este punto, ya podríamos desinstalar la base de datos existente en la máquina llamada <strong>servidor1</strong>.</p>
+<pre>
+apt remove --purge mariadb-server mariadb-client -y && apt autoremove -y
+</pre>
+
+<p>Si probamos a acceder ahora a nuestra web <em>Anchor</em>:</p>
+<p>Vemos como efectivamente hemos eliminado correctamente la base de datos.</p>
+<p>Copiamos el nuevo archivo a la <em>maquina2</em>, donde vamos a restaurar la copia de seguridad con el siguiente comando:</p>
+<pre>
+root@buster:~# mysql -u anchor -p anchor < copiaseguridadanchor.sql
+Enter password:
+
+root@buster:~#
+</pre>
+
 <h2>Instalación de un CMS PHP que no utiliza base de datos</h2>
 <p>También voy a instalar un CMS llamado <strong>Pico</strong>. No tiene un <em>backend</em> para editar los datos (aunque existe un <em>plugin</em> para ello). No utiliza consultas a la base de datos, por lo tanto, es súper rápido. Es compatible con el formato <em>Markdown</em> y las plantillas <em>twig</em>.</p>
 <p>Vamos a proceder a instalarlo.</p>
