@@ -816,12 +816,15 @@ systemctl restart mysqld
 <p><strong>Configura otro Virtualhost y elige otro nombre en el mismo dominio.</strong></p>
 </li>
 </ul>
-<p>He decidido elegir el CMS llamado <strong>Anchor</strong>. Este CMS cuenta con una interfaz de usuario muy simple. Instalar Anchor CMS te llevará muy poco tiempo. Soporta <em>Markdown</em> editor, campos personalizados, múltiples idiomas y la posibilidad de instalar múltiples temas.</p>
+<p>He decidido elegir el CMS llamado <strong>Anchor</strong>. Este CMS cuenta con una interfaz de usuario muy simple. Instalar Anchor CMS te llevará muy poco tiempo. Soporta <em>Markdown editor</em>, campos personalizados, múltiples idiomas y la posibilidad de instalar múltiples temas.</p>
 <p>Si nos ayudamos de la página oficial de <a href="https://anchorcms.com/">Anchor</a>, la descarga la podemos realizar desde <a href="https://anchorcms.com/download">aquí</a>.</p>
 <p>Como antes para realizar la migración, desinstalé <em>MySQL</em> de la máquina <strong>servidor1</strong>, voy a volver a realizar la instalación y configuración, esta vez sin tantos detalles.</p>
 <pre>
-apt install mariadb-server mariadb-client -y
-mysql_secure_installation
+root@buster:~# apt install mariadb-server mariadb-client -y
+
+root@buster:~# mysql_secure_installation
+
+...
 </pre>
 
 <p>Creamos el usuario <strong>anchor</strong> de la base de datos y le otorgamos los permisos:</p>
