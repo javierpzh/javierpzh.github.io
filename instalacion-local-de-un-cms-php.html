@@ -852,9 +852,9 @@ MariaDB [(none)]> exit
 Bye
 </pre>
 
-<p>Vamos a instalar la utilidad para descargar archivos <code>curl</code>, ya que estamos siguiendo los pasos de la web de <em>Anchor</em> y utiliza este comando:</p>
+<p>Vamos a instalar la utilidad para descargar archivos <code>curl</code>, ya que estamos siguiendo los pasos de la web de <em>Anchor</em> y utiliza este comando. También necesitamos tener instalado el paquete <code>git</code>, ya que nos hará falta durante la instalación:</p>
 <pre>
-apt install curl -y
+apt install curl git -y
 </pre>
 
 <p>Necesitamos instalar <em>Composer</em> en el sistema, que es un administrador de dependencias PHP. Lo descargamos, instalamos y ejecutamos mediante el siguiente comando:</p>
@@ -864,7 +864,7 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
 <p>Descargamos y creamos la página de <em>Anchor</em> utilizando <em>Composer</em> con el comando:</p>
 <pre>
-root@buster:/var/www/html# composer create-project anchorcms/anchor-cms
+root@buster:/srv/www# composer create-project anchorcms/anchor-cms
 Do not run Composer as root/super user! See https://getcomposer.org/root for details
 Continue as root/super user [yes]? yes
 Creating a "anchorcms/anchor-cms" project at "./anchor-cms"
@@ -874,7 +874,7 @@ Your command-line PHP is using multiple ini files. Run `php --ini` to show them.
     Now trying to download from source
   - Syncing anchorcms/anchor-cms (0.12.7) into cache
   - Installing anchorcms/anchor-cms (0.12.7): Cloning 08e8e50790 from cache
-Created project in /var/www/html/anchor-cms
+Created project in /srv/www/anchor-cms
 
   [Composer\Json\JsonValidationException]                    
   "./composer.json" does not match the expected JSON schema  
@@ -885,12 +885,12 @@ create-project [-s|--stability STABILITY] [--prefer-source] [--prefer-dist] [--r
 
 <p>Antes de pasar con el error del que nos ha informado, he cambiado el nombre del directorio:</p>
 <pre>
-root@buster:/var/www/html# mv anchor-cms anchor
+root@buster:/srv/www# mv anchor-cms anchor
 </pre>
 
 <p>Si nos fijamos, nos ha reportado un mensaje de error. Nos indica que ha detectado un fallo en el fichero <code>composer.json</code>. Para solucionar este error, debemos editar el fichero:</p>
 <pre>
-root@buster:/var/www/html/anchor# nano composer.json
+root@buster:/srv/www/anchor# nano composer.json
 </pre>
 
 <p>En la línea que hace referencia al tipo, debemos cambiar el valor, que por defecto viene <em>CMS</em>, debemos indicar el tipo con letras minúsculas, de forma que quede así:</p>
@@ -900,7 +900,7 @@ root@buster:/var/www/html/anchor# nano composer.json
 
 <p>Corremos el instalador de nuevo:</p>
 <pre>
-root@buster:/var/www/html/anchor# composer install
+root@buster:/srv/www/anchor# composer install
 Do not run Composer as root/super user! See https://getcomposer.org/root for details
 Continue as root/super user [yes]? yes
 Installing dependencies from lock file (including require-dev)
@@ -978,49 +978,44 @@ Generating autoload files
 <p>Ahora sí hemos instalado correctamente <em>Anchor</em> como nuestro CMS.</p>
 <p>Hemos otorgado a <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
 <pre>
-root@buster:/var/www/html# chown -R www-data:www-data ./anchor/
-
-root@buster:/var/www/html# ls -l
-total 28
-drwxr-xr-x 10 www-data www-data  4096 Oct 30 12:05 anchor
-lrwxrwxrwx  1 root     root        27 Oct 28 09:52 drupal -> /var/www/html/drupal-9.0.7/
-drwxr-xr-x  8 www-data www-data  4096 Oct 28 11:14 drupal-9.0.7
--rw-r--r--  1 root     root     10701 Oct 28 09:44 index.html
--rw-r--r--  1 root     root        20 Oct 28 09:45 phpinfo.php
-drwxr-xr-x 13 www-data www-data  4096 Oct 29 17:59 Pico
+root@buster:/srv/www/anchor# chown -R www-data:www-data /srv/
 </pre>
 
 <p>Solo nos quedaría configurar nuestro servidor web <em>Apache</em> para que sirviera la web. Para ello vamos a generar un fichero de configuración para <em>Anchor</em>:</p>
 <pre>
-root@buster:/etc/apache2/sites-available# cp javierperezhidalgodrupal.conf anchor.conf
+root@buster:/etc/apache2/sites-available# cp javierperezhidalgo-drupal.conf anchor.conf
 
 root@buster:/etc/apache2/sites-available# nano anchor.conf
 </pre>
 
-<p>Dentro de este fichero especificamos la dirección de la web y el DocumentRoot:</p>
+<p>Dentro de este fichero especificamos la dirección de la web (<em>ServerName</em>) y el <em>DocumentRoot</em>, quedaría así:</p>
 <pre>
-ServerName www.javierperezhidalgoanchor.com
-DocumentRoot /var/www/html/anchor
+<\VirtualHost *:80\>
+        ServerName www.javierperezhidalgo-anchor.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/anchor
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el sitio web para que <em>Apache</em> lo muestre y reiniciamos el servidor, como siempre hay que hacer cuando hagamos un cambio:</p>
 <pre>
-root@buster:/etc/apache2/sites-available# a2ensite anchor.conf
-Enabling site anchor.
-To activate the new configuration, you need to run:
-  systemctl reload apache2
-
-root@buster:/etc/apache2/sites-available# systemctl restart apache2
+a2ensite anchor.conf
 </pre>
 
 <p>Por último, añadimos esta línea al fichero <code>/etc/hosts</code> del equipo anfitrión para que podamos ver la web en nuestro navegador.</p>
 <pre>
-192.168.30.15   www.javierperezhidalgoanchor.com
+192.168.30.15   www.javierperezhidalgo-anchor.com
 </pre>
 
-<p>Introducimos en el navegador la dirección <code>www.javierperezhidalgoanchor.com</code> y nos saldrá el instalador de Anchor:</p>
+<p>Introducimos en el navegador la dirección <code>www.javierperezhidalgo-anchor.com</code> y nos saldrá el instalador de <em>Anchor</em>:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/anchor.png"></p>
-<p>Vamos a realizar una instalación rápida, ya que es muy parecido al proceso que hemos realizado para Drupal.</p>
+<p>Vamos a realizar una instalación rápida, ya que es muy parecido al proceso que hemos realizado para <em>Drupal</em>.</p>
 <p>En primer lugar indicamos el idioma y la zona horaria:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/idiomaanchor.png"></p>
 <p>Especificamos la base de datos que va utilizar. La que previamente hemos creado en <em>MySQL</em>:</p>
