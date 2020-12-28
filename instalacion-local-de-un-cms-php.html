@@ -1030,43 +1030,50 @@ a2ensite anchor.conf
 <p>Así luce nuestra nueva página:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/terminadoanchor.png"></p>
 <h2>Instalación de un CMS PHP que no utiliza base de datos</h2>
-<p>También voy a instalar un CMS llamado <strong>Pico</strong>. No tiene un backend para editar los datos (aunque existe un plugin para ello). No utiliza consultas a la base de datos, por lo tanto, es súper rápido. Es compatible con el formato Markdown y las plantillas twig.</p>
+<p>También voy a instalar un CMS llamado <strong>Pico</strong>. No tiene un <em>backend</em> para editar los datos (aunque existe un <em>plugin</em> para ello). No utiliza consultas a la base de datos, por lo tanto, es súper rápido. Es compatible con el formato <em>Markdown</em> y las plantillas <em>twig</em>.</p>
 <p>Vamos a proceder a instalarlo.</p>
-<p>Si nos ayudamos de la página oficial de <a href="http://picocms.org/">Pico</a>, la descarga la podemos realizar clonando un repositorio de GitHub. Por tanto necesitamos el paquete <code>git</code> en nuestro sistema:</p>
+<p>Si nos ayudamos de la página oficial de <a href="http://picocms.org/">Pico</a>, la descarga la podemos realizar clonando un repositorio de <em>GitHub</em>. Por tanto necesitamos el paquete <code>git</code> en nuestro sistema:</p>
 <pre>
 apt install git -y
 </pre>
 
-<p>Clonamos el repositorio en <code>/var/www/html</code>:</p>
+<p>Clonamos el repositorio en <code>/srv/www</code>:</p>
 <pre>
-git clone https://github.com/picocms/Pico.git
+root@buster:/srv/www# git clone https://github.com/picocms/Pico.git
 </pre>
 
 <p>Hemos otorgado a <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
 <pre>
-root@buster:/var/www/html# chown -R www-data:www-data ./Pico/
-
-root@buster:/var/www/html# ls -l
-total 24
-lrwxrwxrwx  1 root     root        27 Oct 28 09:52 drupal -> /var/www/html/drupal-9.0.7/
-drwxr-xr-x  8 www-data www-data  4096 Oct 28 11:14 drupal-9.0.7
--rw-r--r--  1 root     root     10701 Oct 28 09:44 index.html
--rw-r--r--  1 root     root        20 Oct 28 09:45 phpinfo.php
-drwxr-xr-x 12 www-data www-data  4096 Oct 29 17:54 Pico
+root@buster:/srv/www# chown -R www-data:www-data /srv/
 </pre>
 
 <p>Descargamos el instalador y lo lanzamos mediante los siguientes comandos:</p>
 <pre>
-curl -sSL https://getcomposer.org/installer | php
-php composer.phar create-project picocms/pico-composer pico
+root@buster:/srv/www# curl -sSL https://getcomposer.org/installer | php
+
+...
+
+root@buster:/srv/www# php composer.phar create-project picocms/pico-composer pico
+
+...
 </pre>
 
-<p>Hemos instalado el CMS Pico. Solo nos quedaría configurar apache para que sirva este sitio web en la dirección <code>http://www.javierperezhidalgopico.com/Pico/pico/</code>. Primero creamos el fichero de configuración en <code>/etc/apache2/sites-available</code>, lo voy a llamar <code>pico.conf</code>. Añado las siguientes líneas:</p>
+<p>Hemos instalado el CMS <em>Pico</em>. Solo nos quedaría configurar <em>Apache</em> para que sirva este sitio web en la dirección <code>www.javierperezhidalgopico.com/</code>. Primero creamos el fichero de configuración en <code>/etc/apache2/sites-available</code>, lo voy a llamar <code>pico.conf</code>. Añado las siguientes líneas:</p>
 <pre>
-ServerName www.javierperezhidalgopico.com
-DocumentRoot /var/www/html/Pico
+<\VirtualHost *:80\>
+
+        ServerName www.javierperezhidalgopico.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/pico
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el despliegue de la página:</p>
 <pre>
 a2ensite pico.conf
@@ -1079,10 +1086,10 @@ systemctl restart apache2
 
 <p>Acabamos de lanzar nuestra página en Pico, si queremos visualizarla en nuestra máquina anfitrión, añadimos la siguiente línea al fichero <code>/etc/hosts</code>:</p>
 <pre>
-192.168.30.15   www.javierperezhidalgopico.com
+192.168.30.15   www.javierperezhidalgopico.org
 </pre>
 
-<p>Nos dirigimos a la web <code>http://www.javierperezhidalgopico.com/Pico/pico/</code>:</p>
+<p>Nos dirigimos a la web <code>www.javierperezhidalgopico.org</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/pico.png"></p>
 <h2>Tarea 5: Necesidad de otros servicios</h2>
 <ul>
