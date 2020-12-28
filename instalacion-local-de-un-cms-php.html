@@ -299,7 +299,7 @@ root@buster:/var/www/html# mysql -u root -p
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 65
-Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
@@ -582,7 +582,7 @@ root@buster:/home/vagrant# mysql -u root -p
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
 Your MariaDB connection id is 57
-Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
@@ -608,25 +608,28 @@ Bye
 <p>Podríamos haberlo hecho con el típico comando <code>scp</code>, pero en caso de querer utilizarlo, tendríamos que establecer una contraseña en las máquinas, ya que <em>Vagrant</em> por defecto no deja que nos conectemos por <strong>SSH</strong> si no utilizamos la clave privada, y luego configurar en el fichero <code>/etc/ssh/sshd_config</code> la línea <code>PasswordAuthentication no</code> y sustituir el <strong>no</strong> por un <strong>yes</strong>, y reiniciar el servicio <em>SSH</em>, ya que hemos tocado su configuración.</p>
 <p>Ahora voy a configurar la misma cuenta de <em>Dropbox</em> con <em>rclone</em> en la máquina <strong>maquina2</strong>, y voy a descargar la copia de seguridad de la base de datos.</p>
 <pre>
-root@buster:/home/vagrant# rclone copy dropbox:/rclone/copiaseguridaddrupal.sql /home/vagrant/
+root@buster:~# rclone copy dropbox:/rclone/copiaseguridaddrupal.sql /home/vagrant/
 
-root@buster:/home/vagrant# ls
+root@buster:~# ls
 copiaseguridaddrupal.sql
 </pre>
 
 <p>Ya tengo la copia de seguridad en la <strong>maquina2</strong>, que es donde quiero restaurarla. Para restaurar una copia de seguridad de una base de datos en <em>MySQL</em>, introducimos el siguiente comando:</p>
 <pre>
-mysql -u drupal -p drupal < copiaseguridaddrupal.sql
+root@buster:~# mysql -u drupal -p drupal < copiaseguridaddrupal.sql
+Enter password:
+
+root@buster:~#
 </pre>
 
 <p>El parámetro <strong>-u</strong> indica el nombre de usuario y <strong>-p</strong> el nombre de la base de datos, donde se va a restaurar la copia.</p>
 <p>Si miramos las bases de datos del usuario <strong>drupal</strong>:</p>
 <pre>
-root@buster:/home/vagrant# mysql -u drupal -p
+root@buster:~# mysql -u drupal -p
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 63
-Server version: 10.3.25-MariaDB-0+deb10u1 Debian 10
+Your MariaDB connection id is 59
+Server version: 10.3.27-MariaDB-0+deb10u1 Debian 10
 
 Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
 
@@ -744,10 +747,10 @@ MariaDB [drupal]>
 apt remove --purge mariadb-server mariadb-client -y && apt autoremove -y
 </pre>
 
-<p>Probamos a acceder a la página de Drupal ahora:</p>
+<p>Probamos a acceder a la página de <em>Drupal</em> ahora:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/bbddeliminada.png"></p>
 <ul>
-<li><strong>Realiza los cambios de configuración necesarios en drupal para que la página funcione.</strong></li>
+<li><strong>Realiza los cambios de configuración necesarios en <em>Drupal</em> para que la página funcione.</strong></li>
 </ul>
 <p><strong>Entrega una documentación resumida donde expliques los pasos fundamentales para realizar esta tarea. En este momento, muestra al profesor la aplicación funcionando en local.</strong></p>
 <p>En este punto, queremos volver a tener disponible nuestra web de Drupal, pero funcionando con la base de datos en la nueva máquina, es decir, en <strong>maquina2</strong>.</p>
