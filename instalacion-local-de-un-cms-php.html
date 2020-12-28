@@ -1221,15 +1221,18 @@ systemctl restart apache2
 <h2>Tarea 5: Necesidad de otros servicios</h2>
 <p><strong>La mayoría de los CMS tienen la posibilidad de mandar correos electrónicos (por ejemplo para notificar una nueva versión, notificar un comentario,…)</strong></p>
 <ul>
-<li><strong>Instala un servidor de correo electrónico en tu servidor. Debes configurar un <em>servidor relay de correo</em>, para ello en el fichero <code>/etc/postfix/main.cf</code>, debes poner la siguiente línea:</strong></li>
+<li>
+<p><strong>Instala un servidor de correo electrónico en tu servidor. Debes configurar un <em>servidor relay de correo</em>, para ello en el fichero <code>/etc/postfix/main.cf</code>, debes poner la siguiente línea:</strong></p>
+</li>
+<li>
+<p><strong>Configura alguno de los CMS para utilizar tu servidor de correo y realiza una prueba de funcionamiento.</strong></p>
+</li>
 </ul>
-<pre>
-relayhost = babuino-smtp.gonzalonazareno.org
-</pre>
-
-<ul>
-<li><strong>Configura alguno de los CMS para utilizar tu servidor de correo y realiza una prueba de funcionamiento.</strong></li>
-</ul>
+<p>Para llevar a cabo este ejercicio, voy a configurar la web <em>Drupal</em> que instalé anteriormente.</p>
+<p>Lo primero que debemos hacer, es dirigirnos hacia nuestra aplicación e instalarle el módulo llamado <strong>SMTP Authentication Support</strong>. Como ya sabemos, para instalar un módulo, debemos situarnos en la opción <strong>Ampliar</strong>, <em>clickamos</em> en <code>+ Instalar nuevo módulo</code>, introducimos el enlace de descarga del módulo que queremos añadir y listo.</p>
+<p>Lo instalo y lo añado:</p>
+<p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/modulocorreos.png"></p>
+<p>.</p>
     </article>
 
         <div class="tags">
