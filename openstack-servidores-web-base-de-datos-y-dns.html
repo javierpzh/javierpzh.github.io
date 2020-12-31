@@ -283,28 +283,61 @@ www             IN      CNAME   dulcinea
 <p>Los registros de tipo <strong>CNAME</strong> sirven para apuntar hacia otro de los registros de tipo <strong>A</strong> ya existentes. De manera que es mucho más fácil y cómodo hacer referencia a una dirección a través de un nombre en vez de con la propia dirección en sí.</p>
 <p>Explicados estos detalles, vamos a continuar con la siguiente zona que se empleará para la vista de la <strong>red DMZ</strong>. Vuelvo a copiar el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla:</p>
 <pre>
-root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.externa.javierpzh.gonzalonazareno.org
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.DMZ.javierpzh.gonzalonazareno.org
 </pre>
 
 <p>Hecho esto, empezamos a editar nuestro archivo <code>db.DMZ.javierpzh.gonzalonazareno.org</code>:</p>
 <pre>
 $TTL    86400
-@       IN      SOA     dulcinea.javierpzh.gonzalonazareno.org. root.localhost. (
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
                         20123001        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      dulcinea.javierpzh.gonzalonazareno.org.
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
 
 $ORIGIN javierpzh.gonzalonazareno.org.
 
-dulcinea        IN      A       172.22.200.183
-www             IN      CNAME   dulcinea
+freston         IN      A       10.0.1.6
+dulcinea        IN      A       10.0.1.11
+ubuntu          IN      A       10.0.1.8
+quijote         IN      A       10.0.2.6
+www             IN      CNAME   quijote
+bd              IN      CNAME   sancho
+ldap            IN      CNAME   freston
 </pre>
 
-<p>tomar como plantilla otro archivo, esta vez será el <code>/etc/bind/db.127</code> y lo copiaremos tres veces, ya que vamos a configurar 3 zonas inversas. Lo guardaremos de nuevo en <code>/var/cache/bind</code> con los nombres <code>db.1.0.10</code> y <code>db.2.0.10</code>.</p>
+<p>Seguimos con la siguiente zona, esta, se empleará para la vista de la <strong>red interna</strong>. Vuelvo a copiar el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla:</p>
+<pre>
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.interna.javierpzh.gonzalonazareno.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code>db.interna.javierpzh.gonzalonazareno.org</code>:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
+
+$ORIGIN javierpzh.gonzalonazareno.org.
+
+freston         IN      A       10.0.1.6
+dulcinea        IN      A       10.0.1.11
+ubuntu          IN      A       10.0.1.8
+quijote         IN      A       10.0.2.6
+www             IN      CNAME   quijote
+bd              IN      CNAME   sancho
+</pre>
+
+<p>Ya hemos creado y configurado las tres zonas de <strong>resolución directa</strong> que necesitamos, ahora vamos a pasar con las de <strong>resolución inversa</strong>.</p>
+<p>Para estas, podemos tomar como plantilla otro archivo, el <code>/etc/bind/db.127</code>. Lo guardaremos de nuevo en <code>/var/cache/bind</code> con los nombres <code>db.1.0.10</code> y <code>db.2.0.10</code>.</p>
 <pre>
 root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.1.0.10
 
@@ -315,35 +348,37 @@ root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.2.0.10
 <p>En mi caso, el fichero <code>/var/cache/bind/db.1.0.10</code> tendría este aspecto:</p>
 <pre>
 $TTL    604800
-@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
-                        20121501        ; Serial
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      javierpzh.gonzalonazareno.org.
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
 
 $ORIGIN 1.0.10.in-addr.arpa.
 
-183     IN      PTR     javierpzh.gonzalonazareno.org.
+11     IN      PTR     dulcinea.javierpzh.gonzalonazareno.org.
+6      IN      PTR     freston.javierpzh.gonzalonazareno.org.
+8      IN      PTR     sancho.javierpzh.gonzalonazareno.org.
 </pre>
 
 <p>En mi caso, el fichero <code>/var/cache/bind/db.2.0.10</code> tendría este aspecto:</p>
 <pre>
 $TTL    604800
-@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
-                        20121501        ; Serial
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
-@       IN      NS      javierpzh.gonzalonazareno.org.
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
 
 $ORIGIN 2.0.10.in-addr.arpa.
 
-183     IN      PTR     javierpzh.gonzalonazareno.org.
+6     IN      PTR     quijote.javierpzh.gonzalonazareno.org.
 </pre>
 
 <hr>
