@@ -217,7 +217,12 @@ view red_interna {
 <p>En primer lugar, vemos que hemos añadido tres vistas distintas, una para cada una de las redes con las que vamos a interaccionar. La primera está destinada a la <strong>red externa</strong>, la segunda a la <strong>red DMZ</strong>, y la tercera a la <strong>red interna</strong>.</p>
 <p>Podemos ver que he escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
 <p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code>, y sus correspondientes <strong>zonas de resolución inversa</strong> <code>1.0.10.in-addr.arpa</code> y <code>2.0.10.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
-<p>Una vez explicado, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, y aquí debemos introducir las siguientes líneas:</p>
+<p>Una vez explicado, como vamos a utilizar distintas vistas, debemos dirigirnos al fichero <code>/etc/bind/named.conf</code> y comentar (para comentar se utilizan dos caracteres <code>/</code>) o eliminar la siguiente línea:</p>
+<pre>
+include "/etc/bind/named.conf.default-zones";
+</pre>
+
+<p>Hecho esto, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, e introducir las siguientes líneas:</p>
 <pre>
 allow-query { 172.22.0.0/15;10.0.1.0/24;10.0.2.0/24;192.168.202.2; };
 
@@ -388,18 +393,28 @@ iptables -t nat -A PREROUTING -p udp --dport 53 -i eth0 -j DNAT --to 10.0.1.6:53
 </pre>
 
 <p>Esta regla, lo que hace, es redirigir el tráfico que proviene desde la interfaz <strong>eth0</strong> y su destino es el puerto <strong>53</strong>, a la dirección <strong>10.0.1.6:53</strong>, es decir, la IP de <strong>Freston</strong> y el puerto <strong>53</strong> de dicha máquina.</p>
-<hr>
 <p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
 <pre>
 systemctl restart bind9
 </pre>
 
-<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> de las máquinas clientes la siguiente línea con la IP del servidor DNS:</p>
+<p>Bien, hemos terminado de configurar nuestro servidor DNS, pero debemos configurar nuestros clientes para que hagan uso de este servidor. Para ello debemos realizar las siguientes modificaciones en cada máquina:</p>
+<p><strong>Dulcinea, Freston y Sancho:</strong></p>
+<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> las siguientes líneas con la información del servidor DNS:</p>
 <pre>
-nameserver 172.22.200.183
+nameserver 10.0.1.6
+search javierpzh.gonzalonazareno.org
+</pre>
+
+<p><strong>Quijote:</strong></p>
+<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> las siguientes líneas con la información del servidor DNS:</p>
+<pre>
+nameserver 10.0.1.6
+search javierpzh.gonzalonazareno.org
 </pre>
 
 <p>Hecho esto, ahora nuestros clientes utilizarán nuestro servidor DNS <em>bind9</em> ubicado en <em>Freston</em>.</p>
+<p>Como ya poseemos un servidor DNS bien configurado, podemos eliminar las entradas referentes a los distintos equipos en el fichero <code>/etc/hosts</code> de manera que no nos hará falta hacer uso de la resolución estática.</p>
 <h2>Servidor Web</h2>
 <p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Vamos a configurar el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
 <p>Antes de instalar el servidor web, vamos a dirigirnos a <strong>Dulcinea</strong> y vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
