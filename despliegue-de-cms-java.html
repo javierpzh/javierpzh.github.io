@@ -218,9 +218,27 @@ root@buster:/etc/apache2/sites-available# nano guacamole.conf
 </pre>
 
 <pre>
+<\VirtualHost *:80\>
 
+        ServerName www.guacamole-javierpzh.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/guacamole
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <\Location /guacamole/\>
+          Order allow,deny
+          Allow from all
+          ProxyPass http://localhost:8080/guacamole-1.2.0/ flushpackets=on
+          ProxyPassReverse http://localhost:8080/guacamole-1.2.0/
+        <\/Location\>
+
+<\/VirtualHost\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <pre>
 <\Directory /srv/\>
         Options Indexes FollowSymLinks
@@ -229,6 +247,7 @@ root@buster:/etc/apache2/sites-available# nano guacamole.conf
 <\/Directory\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>.</p>
     </article>
 
