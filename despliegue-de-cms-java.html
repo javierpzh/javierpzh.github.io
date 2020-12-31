@@ -263,6 +263,12 @@ root@buster:/etc/apache2/sites-available# nano guacamole.conf
 systemctl restart apache2
 </pre>
 
+<p>Voy a añadir a mi máquina anfitriona la siguiente línea en el fichero <code>/etc/hosts</code> para poder utilzar la
+resolución estática:</p>
+<pre>
+192.168.200.20  www.guacamole-javierpzh.com
+</pre>
+
 <p>Nos dirigimos a nuestro navegador e introducimos la dirección <code>www.guacamole-javierpzh.com</code>:</p>
 <p><img alt="." src="images/iaw_despliegue_de_CMS_Java/proxyinverso.png"></p>
 <p>Hacemos <em>click</em> para dirigirnos al enlace:</p>
