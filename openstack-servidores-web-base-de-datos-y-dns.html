@@ -111,7 +111,7 @@
     <!-- Post Content -->
     <article>
         <h2>Servidor DNS</h2>
-<p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Cada alumno va a poseer un servidor dns con autoridad sobre un subdominio de nuestro dominio principal <code>gonzalonazareno.org</code>, que se llamará <code>(nombre).gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
+<p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Mi subdominio dentro del dominio principal <code>gonzalonazareno.org</code>, se llamará <code>javierpzh.gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
 <p><strong>Determina la regla DNAT en <em>Dulcinea</em> para que podamos hacer consultas DNS desde el exterior</strong></p>
 <p><strong>Configura de forma adecuada todas las máquinas para que usen como servidor DNS a <em>Freston</em>.</strong></p>
 <p><strong>Indica al profesor el nombre de tu dominio para que pueda realizar la delegación en el servidor DNS principal <em>papion-dns</em>.</strong></p>
@@ -154,43 +154,79 @@
 apt install bind9 -y
 </pre>
 
-<p>Una vez instalado, debemos modificar su fichero de configuración, para ello nos dirigimos a <code>/etc/bind/named.conf.local</code> y añadimos el siguiente bloque:</p>
+<p>Una vez instalado, vamos a pasar a definir las vistas que vamos a crear posteriormente. Para ello, nos dirigimos al fichero <code>/etc/bind/named.conf.local</code> y añadimos los siguientes bloques que definirán cada una de las vistas:</p>
 <pre>
-include "/etc/bind/zones.rfc1918";
+view red_externa {
+        match-clients {172.22.0.0/15; 192.168.202.2;};
+        allow-recursion { any; };
 
-zone "javierpzh.gonzalonazareno.org" {
-        type master;
-        file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
 };
 
-zone "0.0.10.in-addr.arpa" {
-        type master;
-        file "/var/cache/bind/db.0.0.10";
+view red_DMZ {
+        match-clients {10.0.2.0/24;};
+        allow-recursion { any; };
+
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
+
+        zone "1.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.1.0.10";
+        };
+
+        zone "2.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.2.0.10";
+        };
 };
 
-zone "1.0.10.in-addr.arpa" {
-        type master;
-        file "/var/cache/bind/db.1.0.10";
-};
+view red_interna {
+        match-clients {10.0.1.0/24;};
+        allow-recursion { any; };
 
-zone "2.0.10.in-addr.arpa" {
-        type master;
-        file "/var/cache/bind/db.2.0.10";
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
+
+        zone "1.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.1.0.10";
+        };
+
+        zone "2.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.2.0.10";
+        };
 };
 </pre>
 
 <p>Vamos a explicar las líneas que acabamos de añadir.</p>
-<p>En primer lugar, hemos escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
-<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code> con sus correspondientes <strong>zonas de resolución inversa</strong> <code>0.0.10.in-addr.arpa</code>, <code>1.0.10.in-addr.arpa</code> y <code>2.0.10.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
+<p>En primer lugar, vemos que hemos añadido tres vistas distintas, una para cada una de las redes con las que vamos a interaccionar. La primera está destinada a la <strong>red externa</strong>, la segunda a la <strong>red DMZ</strong>, y la tercera a la <strong>red interna</strong>.</p>
+<p>Podemos ver que he escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
+<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code>, y sus correspondientes <strong>zonas de resolución inversa</strong> <code>1.0.10.in-addr.arpa</code> y <code>2.0.10.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
 <p>Una vez explicado, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, y aquí debemos introducir las siguientes líneas:</p>
 <pre>
-recursion yes;
+allow-query { 172.22.0.0/15;10.0.1.0/24;10.0.2.0/24;192.168.202.2; };
+
 allow-recursion { any; };
-listen-on { any; };
-allow-transfer { none; };
+
+allow-query-cache { any; };
 </pre>
 
-<p>De manera, que el fichero <code>/etc/bind/named.conf.options</code> quedaría así:</p>
+<p>De manera que el contenido total del fichero sería:</p>
 <pre>
 options {
         directory "/var/cache/bind";
@@ -201,7 +237,11 @@ options {
 
         recursion yes;
 
+        allow-query { 172.22.0.0/15;10.0.1.0/24;10.0.2.0/24;192.168.202.2; };
+
         allow-recursion { any; };
+
+        allow-query-cache { any; };
 
         listen-on { any; };
 
@@ -210,31 +250,28 @@ options {
 };
 </pre>
 
-<p>Ahora, vamos a configurar las zonas que definimos en el paso anterior. En mi caso copio el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla del nuevo archivo de configuración de esta <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code>.</p>
+<p>Ahora, vamos a configurar las zonas que definimos en el paso anterior. En mi caso copio el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla de los nuevos archivos de configuración.</p>
+<p>En primer lugar, voy a definir y configurar la zona que utilizaremos en la vista destinada para la <strong>red externa</strong>:</p>
 <pre>
-root@freston:~# cp /etc/bind/db.empty /var/cache/bind/javierpzh.gonzalonazareno.org
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.externa.javierpzh.gonzalonazareno.org
 </pre>
 
-<p>Hecho esto, empezamos a editar nuestro archivo <code>javierpzh.gonzalonazareno.org</code>:</p>
+<p>Hecho esto, empezamos a editar nuestro archivo <code>db.externa.javierpzh.gonzalonazareno.org</code>:</p>
 <pre>
 $TTL    86400
-@       IN      SOA     javierpzh.gonzalonazareno.org. root.localhost. (
-                        20121801        ; Serial
+@       IN      SOA     dulcinea.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
                          604800         ; Refresh
                           86400         ; Retry
                         2419200         ; Expire
                           86400 )       ; Negative Cache TTL
 ;
-@       IN      NS      javierpzh.gonzalonazareno.org.
+@       IN      NS      dulcinea.javierpzh.gonzalonazareno.org.
 
 $ORIGIN javierpzh.gonzalonazareno.org.
 
-dulcinea        IN      A       10.0.0.8
-dulcinea        IN      A       10.0.1.11
-dulcinea        IN      A       10.0.2.10
-sancho          IN      A       10.0.1.8
-freston         IN      A       10.0.1.6
-quijote         IN      A       10.0.2.6
+dulcinea        IN      A       172.22.200.183
+www             IN      CNAME   dulcinea
 </pre>
 
 <p>Voy a explicar el bloque añadido.</p>
@@ -318,7 +355,7 @@ nameserver 172.22.200.183
 
 <p>Hecho esto, ahora nuestros clientes utilizarán nuestro servidor DNS <em>bind9</em> ubicado en <em>Freston</em>.</p>
 <h2>Servidor Web</h2>
-<p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Configura el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
+<p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Vamos a configurar el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
 <p>Antes de instalar el servidor web, vamos a dirigirnos a <strong>Dulcinea</strong> y vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
 <pre>
 
