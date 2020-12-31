@@ -239,6 +239,7 @@ root@buster:/etc/apache2/sites-available# nano guacamole.conf
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Podemos ver, como he especificado que el contenido de esta web, estará en <code>/srv/www/guacamole</code>, pues bien, para que <em>Apache</em> sea capaz de buscar en dicho directorio, debemos dirigirnos al fichero <code>/etc/apache2/apache2.conf</code>, y descomentar o añadir el siguiente bloque, ya que por defecto, solo nos proporciona el contenido almacenado en <code>/var/</code>:</p>
 <pre>
 <\Directory /srv/\>
         Options Indexes FollowSymLinks
