@@ -251,6 +251,16 @@ root@buster:/etc/apache2/sites-available# nano guacamole.conf
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>En este punto, solo nos quedaría crear un fichero <code>index.html</code> en la ruta <code>/srv/www/guacamole</code>. En mi caso el contenido de este fichero es el siguiente:</p>
+<pre>
+
+</pre>
+
+<p>Por último, vamos a reiniciar nuestro servidor web:</p>
+<pre>
+systemctl restart apache2
+</pre>
+
 <p>.</p>
     </article>
 
