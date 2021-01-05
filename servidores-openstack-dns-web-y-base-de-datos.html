@@ -532,11 +532,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/php-fpm.service → 
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
-<p>En la ruta <code>/var/www/iesgn</code> voy a crear un archivo llamado <code>info.php</code> que contendrá la siguiente línea:</p>
-<pre>
-<?php phpinfo(); ?>
-</pre>
-
+<p>En la ruta <code>/var/www/iesgn</code> voy a crear un archivo llamado <code>info.php</code> que contendrá la siguiente línea: <code>&lt;?php phpinfo(); ?&gt;</code>.</p>
 <p>Si accedemos a la dirección <code>www.javierpzh.gonzalonazareno.org/info.php</code>:</p>
 <p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapachephpinfo.png"></p>
 <p>Vemos como nuestro servidor ejecuta código <em>PHP</em>, por lo que habríamos terminado.</p>
