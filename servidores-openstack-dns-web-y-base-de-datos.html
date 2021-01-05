@@ -456,9 +456,9 @@ success
 Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
 </pre>
 
-<p>Hecho esto, si nos dirigimos nuestro navegador e introducimos la dirección IP de <em>Dulcinea</em>, nos debe aparecer una página como esta:</p>
+<p>Hecho esto, si nos dirigimos nuestro navegador e introducimos la dirección <code>www.javierpzh.gonzalonazareno.org</code>, nos debe aparecer una página como esta:</p>
 <p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapache.png"></p>
-<p>Vemos que accediendo a la IP de <em>Dulcinea</em> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que, tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, funcionan correctamente.</p>
+<p>Vemos que accediendo a <code>www.javierpzh.gonzalonazareno.org</code> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que, tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, funcionan correctamente.</p>
 <p>En <em>Centos</em>, la instalación de un servidor <em>Apache</em> es distinta respecto a lo que estamos acostumbrados a utilizar, <em>Debian</em>. Podemos apreciar que no poseemos ni la carpeta <code>sites-availables</code> ni la carpeta de <code>sites-enabled</code>, por lo que nosotros mismos vamos a proceder a crearlas, para ello nos dirigimos al directorio <code>/etc/httpd</code> y las creamos:</p>
 <pre>
 [root@quijote ~]# ls /etc/httpd/
@@ -494,7 +494,20 @@ IncludeOptional sites-enabled/*.conf
 [root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.conf /etc/httpd/sites-enabled/
 </pre>
 
-<p>En este punto, tan solo nos quedaría crear un fichero <code>index.html</code> en la ruta especificada en el apartado <strong>DocumentRoot</strong>, que en mi caso, es <code>/var/www/iesgn</code>.</p>
+<p>En este punto, tan solo nos quedaría crear un fichero <code>index.html</code> en la ruta especificada en el apartado <strong>DocumentRoot</strong>, que en mi caso, es <code>/var/www/iesgn</code>. Mi fichero <code>index.html</code> quedaría así:</p>
+<pre>
+<\h1\>Pagina de Javier Perez Hidalgo, alumno del Gonzalo Nazareno<\/h1\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>También debemos crear dentro del directorio <code>/var/www/iesgn</code>, una carpeta llamada <code>log</code>.</p>
+<p>Reiniciamos nuestro servidor web:</p>
+<pre>
+systemctl restart httpd
+</pre>
+
+<p>Y accedemos de nuevo a la dirección <code>www.javierpzh.gonzalonazareno.org</code>:</p>
+<p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapachevirtualhost.png"></p>
 <h2>Servidor de base de datos</h2>
 <p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
 <p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
