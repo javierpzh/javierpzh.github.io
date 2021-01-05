@@ -393,6 +393,11 @@ iptables -t nat -A PREROUTING -p udp --dport 53 -i eth0 -j DNAT --to 10.0.1.6:53
 </pre>
 
 <p>Esta regla, lo que hace, es redirigir el tráfico que proviene desde la interfaz <strong>eth0</strong> y su destino es el puerto <strong>53</strong>, a la dirección <strong>10.0.1.6:53</strong>, es decir, la IP de <strong>Freston</strong> y el puerto <strong>53</strong> de dicha máquina, donde se encontrará nuestro servidor DNS.</p>
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente, siempre y cuando las guardemos en el fichero <code>/etc/iptables/rules.v4</code>. Por tanto vamos a guardar esta regla para que se levente en cada inicio:</p>
+<pre>
+iptables-save > /etc/iptables/rules.v4
+</pre>
+
 <p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
 <pre>
 systemctl restart bind9
@@ -423,6 +428,11 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80
 </pre>
 
 <p>Esta regla, lo que hace, es redirigir el tráfico que proviene desde la interfaz <strong>eth0</strong> y su destino es el puerto <strong>80</strong>, a la dirección <strong>10.0.2.6:80</strong>, es decir, la IP de <strong>Quijote</strong> y el puerto <strong>80</strong> de dicha máquina, donde se encontrará nuestro servidor web.</p>
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code>iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente, siempre y cuando las guardemos en el fichero <code>/etc/iptables/rules.v4</code>. Por tanto vamos a guardar esta regla para que se levente en cada inicio:</p>
+<pre>
+iptables-save > /etc/iptables/rules.v4
+</pre>
+
 <p>Una vez tenemos creada la regla <em>DNAT</em> en <em>Dulcinea</em>, procedemos a instalar el servidor web <strong>Apache</strong> en <em>Quijote</em>, que lo vamos a instalar con este comando, ya que en <strong>CentOS</strong> <em>Apache</em> se incluye en el paquete <strong>httpd</strong>:</p>
 <pre>
 dnf install httpd -y
