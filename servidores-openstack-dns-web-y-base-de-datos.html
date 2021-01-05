@@ -457,7 +457,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /u
 </pre>
 
 <p>Hecho esto, si nos dirigimos nuestro navegador e introducimos la dirección IP de <em>Dulcinea</em>, nos debe aparecer una página como esta:</p>
-<p><img alt="." src="images/sri_OpenStack_Servidores_Web_Base_de_Datos_y_DNS/quijoteapache.png"></p>
+<p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapache.png"></p>
 <p>Vemos que accediendo a la IP de <em>Dulcinea</em> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que, tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, funcionan correctamente.</p>
 <p>En <em>Centos</em>, la instalación de un servidor <em>Apache</em> es distinta respecto a lo que estamos acostumbrados a utilizar, <em>Debian</em>. Podemos apreciar que no poseemos ni la carpeta <code>sites-availables</code> ni la carpeta de <code>sites-enabled</code>, por lo que nosotros mismos vamos a proceder a crearlas, para ello nos dirigimos al directorio <code>/etc/httpd</code> y las creamos:</p>
 <pre>
