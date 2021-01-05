@@ -433,7 +433,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80
 iptables-save > /etc/iptables/rules.v4
 </pre>
 
-<p>Una vez tenemos creada la regla <em>DNAT</em> en <em>Dulcinea</em>, procedemos a instalar el servidor web <strong>Apache</strong> en <strong>Quijote</strong>, que lo vamos a instalar con este comando, ya que en <strong>CentOS</strong> <em>Apache</em> se incluye en el paquete <strong>httpd</strong>:</p>
+<p>Una vez tenemos creada la regla <em>DNAT</em> en <em>Dulcinea</em>, procedemos a instalar el servidor web <strong>Apache</strong> en <strong>Quijote</strong>, que lo vamos a instalar con este comando, ya que en <strong>CentOS</strong>, <em>Apache</em> se incluye en el paquete <strong>httpd</strong>:</p>
 <pre>
 dnf install httpd -y
 </pre>
