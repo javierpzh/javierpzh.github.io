@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Servidores OpenStack: DNS, Web y Base de Datos | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Servidor DNS Vamos a instalar un servidor DNS en Freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="OpenStack">
+        <meta name="tags" content="bind9">
+        <meta name="tags" content="Apache">
+        <meta name="tags" content="MySQL">
+        <meta name="tags" content="MariaDB">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/servidores-openstack-dns-web-y-base-de-datos.html">
+	<meta property="og:title" content="Servidores OpenStack: DNS, Web y Base de Datos">
+	<meta property="article:published_time" content="2021-01-04 00:00:00+01:00">
+            <meta property="og:description" content="Servidor DNS Vamos a instalar un servidor DNS en Freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-servidores-openstack-dns-web-y-base-de-datos">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Servidores OpenStack: DNS, Web y Base de Datos</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el lun 04 enero 2021
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Servidor DNS</h2>
+<p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Mi subdominio dentro del dominio principal <code>gonzalonazareno.org</code>, se llamará <code>javierpzh.gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
+<p><strong>Determina la regla DNAT en <em>Dulcinea</em> para que podamos hacer consultas DNS desde el exterior</strong></p>
+<p><strong>Configura de forma adecuada todas las máquinas para que usen como servidor DNS a <em>Freston</em>.</strong></p>
+<p><strong>Indica al profesor el nombre de tu dominio para que pueda realizar la delegación en el servidor DNS principal <em>papion-dns</em>.</strong></p>
+<p><strong>Comprueba que los servidores tienen configurados el nuevo nombre de dominio de forma adecuada después de volver a reiniciar el servidor (o tomar una nueva configuración DHCP). Para que el servidor tenga el <em>FQDN</em> debes tener configurado de forma correcta el parámetro <em>domain</em> y el parámetro <em>search</em> en el fichero <code>/etc/resolv.conf</code>, además debemos evitar que este fichero se sobreescriba con los datos que manda el servidor DHCP de <em>OpenStack</em>. Quizás sea buena idea mirar la configuración de <em>cloud-init</em>. Documenta la configuración que has tenido que modificar y muestra el contenido del fichero <code>/etc/resolv.conf</code> y la salida del comando <code>hostname -f</code> después de un reinicio.</strong></p>
+<p><strong>El servidor DNS se va a configurar en un principio de la siguiente manera:</strong></p>
+<ul>
+<li>
+<p><strong>El servidor DNS se llama <code>freston.(nombre).gonzalonazareno.org</code> y va a ser el servidor con autoridad para la zona <code>(nombre).gonzalonazareno.org</code>.</strong></p>
+</li>
+<li>
+<p><strong>El servidor debe resolver el nombre de todas las máquinas.</strong></p>
+</li>
+<li>
+<p><strong>El servidor debe resolver los distintos servicios (virtualhost, servidor de base de datos, servidor LDAP, ...).</strong></p>
+</li>
+<li>
+<p><strong>Debes determinar cómo vas a nombrar a <em>Dulcinea</em>, para que seamos capaz de resolver la IP flotante y la ip fija. Para ello vamos a usar vistas en bind9.</strong></p>
+</li>
+<li>
+<p><strong>Debes considerar la posibilidad de hacer tres zonas de resolución inversa: para las redes <code>10.0.0.0/24</code>, <code>10.0.1.0/24</code> y <code>10.0.2.0/24</code> (no vamos a crear la zona inversa para la red externa de IP flotantes), para resolver IP fijas y flotantes del <em>cloud</em>.</strong></p>
+</li>
+</ul>
+<p><strong>Entrega el resultado de las siguientes consultas desde un cliente interno a nuestra red y otro externo:</strong></p>
+<ul>
+<li>
+<p><strong>El servidor DNS con autoridad sobre la zona del dominio <code>(nombre).gonzalonazareno.org</code></strong></p>
+</li>
+<li>
+<p><strong>La dirección IP de <em>Dulcinea</em>.</strong></p>
+</li>
+<li>
+<p><strong>Una resolución de <code>www</code>.</strong></p>
+</li>
+<li>
+<p><strong>Un resolución inversa de IP fija en cada una de las redes. (Esta consulta sólo funcionará desde una máquina interna).</strong></p>
+</li>
+</ul>
+<p>Vamos a instalar el servidor bind9:</p>
+<pre>
+apt install bind9 -y
+</pre>
+
+<p>Una vez instalado, vamos a pasar a definir las vistas que vamos a crear posteriormente. Para ello, nos dirigimos al fichero <code>/etc/bind/named.conf.local</code> y añadimos los siguientes bloques que definirán cada una de las vistas:</p>
+<pre>
+view red_externa {
+        match-clients {172.22.0.0/15; 192.168.202.2;};
+        allow-recursion { any; };
+
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
+};
+
+view red_DMZ {
+        match-clients {10.0.2.0/24;};
+        allow-recursion { any; };
+
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
+
+        zone "1.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.1.0.10";
+        };
+
+        zone "2.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.2.0.10";
+        };
+};
+
+view red_interna {
+        match-clients {10.0.1.0/24;};
+        allow-recursion { any; };
+
+        include "/etc/bind/zones.rfc1918";
+
+        zone "javierpzh.gonzalonazareno.org" {
+          type master;
+          file "/var/cache/bind/db.javierpzh.gonzalonazareno.org";
+        };
+
+        zone "1.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.1.0.10";
+        };
+
+        zone "2.0.10.in-addr.arpa" {
+          type master;
+          file "/var/cache/bind/db.2.0.10";
+        };
+};
+</pre>
+
+<p>Vamos a explicar las líneas que acabamos de añadir.</p>
+<p>En primer lugar, vemos que hemos añadido tres vistas distintas, una para cada una de las redes con las que vamos a interaccionar. La primera está destinada a la <strong>red externa</strong>, la segunda a la <strong>red DMZ</strong>, y la tercera a la <strong>red interna</strong>.</p>
+<p>Podemos ver que he escrito una línea que hacer referencia a un archivo llamado <code>zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
+<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code>javierpzh.gonzalonazareno.org</code>, y sus correspondientes <strong>zonas de resolución inversa</strong> <code>1.0.10.in-addr.arpa</code> y <code>2.0.10.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
+<p>Una vez explicado, como vamos a utilizar distintas vistas, debemos dirigirnos al fichero <code>/etc/bind/named.conf</code> y comentar (para comentar se utilizan dos caracteres <code>/</code>) o eliminar la siguiente línea:</p>
+<pre>
+include "/etc/bind/named.conf.default-zones";
+</pre>
+
+<p>Hecho esto, tenemos que dirigirnos al fichero <code>/etc/bind/named.conf.options</code>, e introducir las siguientes líneas:</p>
+<pre>
+allow-query { 172.22.0.0/15;10.0.1.0/24;10.0.2.0/24;192.168.202.2; };
+
+allow-recursion { any; };
+
+allow-query-cache { any; };
+</pre>
+
+<p>De manera que el contenido total del fichero sería:</p>
+<pre>
+options {
+        directory "/var/cache/bind";
+
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+
+        recursion yes;
+
+        allow-query { 172.22.0.0/15;10.0.1.0/24;10.0.2.0/24;192.168.202.2; };
+
+        allow-recursion { any; };
+
+        allow-query-cache { any; };
+
+        listen-on { any; };
+
+        allow-transfer { none; };
+
+};
+</pre>
+
+<p>Ahora, vamos a configurar las zonas que definimos en el paso anterior. En mi caso copio el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla de los nuevos archivos de configuración.</p>
+<p>En primer lugar, voy a definir y configurar la zona que utilizaremos en la vista destinada para la <strong>red externa</strong>:</p>
+<pre>
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.externa.javierpzh.gonzalonazareno.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code>db.externa.javierpzh.gonzalonazareno.org</code>:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     dulcinea.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      dulcinea.javierpzh.gonzalonazareno.org.
+
+$ORIGIN javierpzh.gonzalonazareno.org.
+
+dulcinea        IN      A       172.22.200.183
+www             IN      CNAME   dulcinea
+</pre>
+
+<p>Voy a explicar el bloque añadido.</p>
+<p>Vemos que hay un apartado llamado <strong>Serial</strong>, este apartado es muy importante, ya que es el identificador de la zona, que debemos incrementar cada vez que hagamos un cambio. Se recomienda que el valor sea de este formato <strong>YYMMDDNN</strong>, es decir, la fecha de modificación y el número de la modificación. En mi caso he establecido <strong>20123001</strong> pues estoy realizando esta práctica el <em>30 de diciembre de 2020</em> y es la primera modificación que hago.</p>
+<p>Los registros de tipo <strong>SOA</strong> representan la autoridad sobre la zona.</p>
+<p>El registro de tipo <strong>NS</strong> define el servidor con privilegios sobre la zona.</p>
+<p>El registro <strong>$ORIGIN</strong> se usa para que las líneas que se especifiquen debajo de él, sean autocompletadas con el dominio especificado en dicho registro. Esto nos sirve para evitar poner en cada registro que creemos, la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code>javierpzh.gonzalonazareno.org</code>.</p>
+<p>Los registros de tipo <strong>A</strong> especifican la direcciones IP correspondientes al dominio.</p>
+<p>Los registros de tipo <strong>CNAME</strong> sirven para apuntar hacia otro de los registros de tipo <strong>A</strong> ya existentes. De manera que es mucho más fácil y cómodo hacer referencia a una dirección a través de un nombre en vez de con la propia dirección en sí.</p>
+<p>Explicados estos detalles, vamos a continuar con la siguiente zona que se empleará para la vista de la <strong>red DMZ</strong>. Vuelvo a copiar el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla:</p>
+<pre>
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.DMZ.javierpzh.gonzalonazareno.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code>db.DMZ.javierpzh.gonzalonazareno.org</code>:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
+
+$ORIGIN javierpzh.gonzalonazareno.org.
+
+freston         IN      A       10.0.1.6
+dulcinea        IN      A       10.0.1.11
+ubuntu          IN      A       10.0.1.8
+quijote         IN      A       10.0.2.6
+www             IN      CNAME   quijote
+bd              IN      CNAME   sancho
+ldap            IN      CNAME   freston
+</pre>
+
+<p>Seguimos con la siguiente zona, esta, se empleará para la vista de la <strong>red interna</strong>. Vuelvo a copiar el fichero <code>/etc/bind/db.empty</code> para utilizarlo como plantilla:</p>
+<pre>
+root@freston:~# cp /etc/bind/db.empty /var/cache/bind/db.interna.javierpzh.gonzalonazareno.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code>db.interna.javierpzh.gonzalonazareno.org</code>:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
+
+$ORIGIN javierpzh.gonzalonazareno.org.
+
+freston         IN      A       10.0.1.6
+dulcinea        IN      A       10.0.1.11
+ubuntu          IN      A       10.0.1.8
+quijote         IN      A       10.0.2.6
+www             IN      CNAME   quijote
+bd              IN      CNAME   sancho
+</pre>
+
+<p>Ya hemos creado y configurado las tres zonas de <strong>resolución directa</strong> que necesitamos, ahora vamos a pasar con las de <strong>resolución inversa</strong>.</p>
+<p>Para estas, podemos tomar como plantilla otro archivo, el <code>/etc/bind/db.127</code>. Lo guardaremos de nuevo en <code>/var/cache/bind</code> con los nombres <code>db.1.0.10</code> y <code>db.2.0.10</code>.</p>
+<pre>
+root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.1.0.10
+
+root@freston:~# cp /etc/bind/db.127 /var/cache/bind/db.2.0.10
+</pre>
+
+<p>Antes de mostrar como quedarían estos ficheros, hay que decir que por cada registro de tipo <strong>A</strong> que tengamos en nuestro archivo que contiene la zona directa, tenemos que añadir un registro de tipo <strong>PTR</strong>.</p>
+<p>En mi caso, el fichero <code>/var/cache/bind/db.1.0.10</code> tendría este aspecto:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
+
+$ORIGIN 1.0.10.in-addr.arpa.
+
+11     IN      PTR     dulcinea.javierpzh.gonzalonazareno.org.
+6      IN      PTR     freston.javierpzh.gonzalonazareno.org.
+8      IN      PTR     sancho.javierpzh.gonzalonazareno.org.
+</pre>
+
+<p>En mi caso, el fichero <code>/var/cache/bind/db.2.0.10</code> tendría este aspecto:</p>
+<pre>
+$TTL    604800
+@       IN      SOA     freston.javierpzh.gonzalonazareno.org. root.localhost. (
+                        20123001        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      freston.javierpzh.gonzalonazareno.org.
+
+$ORIGIN 2.0.10.in-addr.arpa.
+
+6     IN      PTR     quijote.javierpzh.gonzalonazareno.org.
+</pre>
+
+<p>Hemos terminado de crear las diferentes zonas, y tan solo nos quedaría crear la regla <strong>DNAT</strong> en <strong>Dulcinea</strong> para poder realizar las consultas a nuestro servidor DNS instalado en <strong>Freston</strong>.</p>
+<p>Añadimos la siguiente regla:</p>
+<pre>
+iptables -t nat -A PREROUTING -p udp --dport 53 -i eth0 -j DNAT --to 10.0.1.6:53
+</pre>
+
+<p>Esta regla, lo que hace, es redirigir el tráfico que proviene desde la interfaz <strong>eth0</strong> y su destino es el puerto <strong>53</strong>, a la dirección <strong>10.0.1.6:53</strong>, es decir, la IP de <strong>Freston</strong> y el puerto <strong>53</strong> de dicha máquina.</p>
+<p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Bien, hemos terminado de configurar nuestro servidor DNS, pero debemos configurar nuestros clientes para que hagan uso de este servidor. Para ello debemos realizar las siguientes modificaciones en cada máquina:</p>
+<p><strong>Dulcinea, Freston y Sancho:</strong></p>
+<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> las siguientes líneas con la información del servidor DNS:</p>
+<pre>
+nameserver 10.0.1.6
+search javierpzh.gonzalonazareno.org
+</pre>
+
+<p><strong>Quijote:</strong></p>
+<p>Vamos a añadir al fichero <code>/etc/resolv.conf</code> las siguientes líneas con la información del servidor DNS:</p>
+<pre>
+nameserver 10.0.1.6
+search javierpzh.gonzalonazareno.org
+</pre>
+
+<p>Hecho esto, ahora nuestros clientes utilizarán nuestro servidor DNS <em>bind9</em> ubicado en <em>Freston</em>.</p>
+<p>Como ya poseemos un servidor DNS bien configurado, podemos eliminar las entradas referentes a los distintos equipos en el fichero <code>/etc/hosts</code> de manera que no nos hará falta hacer uso de la resolución estática.</p>
+<h2>Servidor Web</h2>
+<p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Vamos a configurar el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
+<p>Antes de instalar el servidor web, vamos a dirigirnos a <strong>Dulcinea</strong> y vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
+<pre>
+
+</pre>
+
+<p>Una vez tenemos creada la regla <em>DNAT</em> en <em>Dulcinea</em>, procedemos a instalar el servidor web <strong>Apache</strong> en <em>Quijote</em>, que lo vamos a instalar con este comando, ya que en <strong>CentOS</strong> <em>Apache</em> se incluye en el paquete <strong>httpd</strong>:</p>
+<pre>
+dnf install httpd -y
+</pre>
+
+<p>Una vez instalado, debemos abrir los puertos <em>80</em> y <em>443</em>, que utilizará <em>Apache</em>, ya que por defecto, en el <em>firewall</em> de <em>CentOS</em>, vienen cerrados.</p>
+<pre>
+[root@quijote ~]# firewall-cmd --permanent --add-service=http
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-service=https
+success
+
+[root@quijote ~]# firewall-cmd --reload
+success
+</pre>
+
+<p>Habilitamos para que este servicio se inicie en cada arranque del sistema.</p>
+<pre>
+[root@quijote ~]# systemctl enable httpd
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
+</pre>
+
+<p>Hecho esto, si nos dirigimos nuestro navegador e introducimos la dirección IP de <em>Dulcinea</em>, nos debe aparecer una página como esta:</p>
+<p><img alt="." src="images/sri_OpenStack_Servidores_Web_Base_de_Datos_y_DNS/quijoteapache.png"></p>
+<p>Vemos accediendo a la IP de <em>Dulcinea</em> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, están bien.</p>
+<h2>Servidor de base de datos</h2>
+<p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
+<p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
+<pre>
+apt install mariadb-server mariadb-client -y
+</pre>
+
+<p>Una vez lo hemos instalado, vamos a configurar una serie de opciones con el comando <code>mysql_secure_installation</code>. Vamos a especificarle una <strong>contraseña de root</strong>, vamos a <strong>eliminar los usuarios anónimos</strong>, vamos a especificar que queremos <strong>desactivar el acceso remoto</strong> a la base de datos, en resumen, vamos a restablecer la base de datos, con nuestras preferencias. Esta es una manera de asegurar el servicio. Aquí muestro el proceso:</p>
+<pre>
+root@sancho:~# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user.  If you've just installed MariaDB, and
+you haven't set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none):
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MariaDB
+root user without the proper authorisation.
+
+You already have a root password set, so you can safely answer 'n'.
+
+Change the root password? [Y/n] y
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</pre>
+
+<p>Es el turno de crear un usuario propio, asignarle privilegios y especificarle que sea accesible desde <em>Quijote</em>, es decir, desde cualquier dirección IP dentro de <strong>10.0.2.XXX</strong>. En realidad, podría poner que solo sea accesible para la IP de <em>Quijote</em>, ya que éste tiene la IP estática, pero prefiero hacerlo así por si en algún momento tenemos que cambiar la IP de <em>Quijote</em>. Para hacer esto debemos conectarnos como <em>root</em>:</p>
+<pre>
+root@sancho:~# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 57
+Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> CREATE USER 'javier'@'10.0.2.*' IDENTIFIED BY 'contraseña';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON *.* TO 'javier'@'10.0.2.*';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> exit
+Bye
+</pre>
+
+<p>Una vez tenemos el usuario al que accederemos remotamente, nos quedaría configurar el acceso remoto a nuestro servidor <em>MySQL</em>, para ello, debemos modificar el fichero de configuración <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> y buscar la línea <code>bind-address = 127.0.0.1</code> y sustituirla por la siguiente:</p>
+<pre>
+bind-address = 0.0.0.0
+</pre>
+
+<p>Esto hará que el servidor escuche las peticiones que provienen de todas las interfaces, a diferencia del punto anterior, que estaba configurado para que solo escuchara en <em>localhost</em>.</p>
+<hr>
+<p>Hecho esto podemos dirigirnos al <strong>cliente</strong>, es decir, vamos a comprobar el acceso remoto desde <em>Quijote</em>. Para ello necesitamos instalar <em>MySQL</em>:</p>
+<pre>
+dnf install mysql-server -y
+</pre>
+
+<p>Ahora probamos a acceder:</p>
+<pre>
+mysql -h 10.0.1.8 -u javier -p
+</pre>
+
+<p>El parámetro <strong>-h</strong> indica la dirección del servidor, y los parámetros <strong>-u</strong> y <strong>-p</strong>, como ya sabemos, indican el usuario y la autenticación mediante contraseña.</p>
+<p>Obtenemos este resultado:</p>
+<pre>
+[root@quijote ~]# mysql -h sancho -u javier -p
+</pre>
+
+<p>.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/openstack.html">OpenStack</a>, <a href="/tag/bind9.html">bind9</a>, <a href="/tag/apache.html">Apache</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
