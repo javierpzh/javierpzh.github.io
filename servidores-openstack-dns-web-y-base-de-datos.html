@@ -508,6 +508,12 @@ systemctl restart httpd
 
 <p>Y accedemos de nuevo a la dirección <code>www.javierpzh.gonzalonazareno.org</code>:</p>
 <p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapachevirtualhost.png"></p>
+<p>Vemos como nos muestra el nuevo <em>virtualhost</em>.</p>
+<p>Por último, vamos a configurar este servidor para que ejecute código <strong>PHP</strong>. Utilizaremos el servidor de aplicaciones <code>php-fpm</code>.</p>
+<pre>
+dnf install php php-fpm -y
+</pre>
+
 <h2>Servidor de base de datos</h2>
 <p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
 <p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
