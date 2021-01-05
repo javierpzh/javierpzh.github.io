@@ -458,7 +458,24 @@ Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /u
 
 <p>Hecho esto, si nos dirigimos nuestro navegador e introducimos la dirección IP de <em>Dulcinea</em>, nos debe aparecer una página como esta:</p>
 <p><img alt="." src="images/sri_OpenStack_Servidores_Web_Base_de_Datos_y_DNS/quijoteapache.png"></p>
-<p>Vemos accediendo a la IP de <em>Dulcinea</em> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, están bien.</p>
+<p>Vemos que accediendo a la IP de <em>Dulcinea</em> nos muestra la página servida por nuestro servidor web, que se encuentra en <em>Quijote</em>, por lo que, tanto la regla <em>DNAT</em> creada en <em>Dulcinea</em>, como el servidor <em>httpd</em>, funcionan correctamente.</p>
+<p>En <em>Centos</em>, la instalación de un servidor <em>Apache</em> es distinta respecto a lo que estamos acostumbrados a utilizar, <em>Debian</em>. Podemos apreciar que no poseemos ni la carpeta <code>sites-availables</code> ni la carpeta de <code>sites-enabled</code>, por lo que nosotros mismos vamos a proceder a crearlas, para ello nos dirigimos al directorio <code>/etc/httpd</code> y las creamos:</p>
+<pre>
+[root@quijote ~]# ls /etc/httpd/
+conf  conf.d  conf.modules.d  logs  modules  run  state
+
+[root@quijote ~]# mkdir /etc/httpd/{sites-availble,sites-enabled}
+
+[root@quijote ~]# ls /etc/httpd/
+conf  conf.d  conf.modules.d  logs  modules  run  sites-availble  sites-enabled  state
+</pre>
+
+<p>Una vez disponemos de las carpetas donde almacenaremos nuestros <em>virtualhost</em>, debemos dirigirnos al fichero <code>/etc/httpd/conf/httpd.conf</code> e indicar que los <em>virtualhost</em> se almacenan en la carpeta <code>sites-enabled</code>. Para ello añadimos la siguiente línea en dicho fichero:</p>
+<pre>
+IncludeOptional sites-enabled/*.conf
+</pre>
+
+<p>Hecho esto, ya procederemos a crear nuestro primer <em>virtualhost</em>. </p>
 <h2>Servidor de base de datos</h2>
 <p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
 <p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
