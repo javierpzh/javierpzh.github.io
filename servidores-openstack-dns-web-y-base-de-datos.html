@@ -475,7 +475,26 @@ conf  conf.d  conf.modules.d  logs  modules  run  sites-availble  sites-enabled 
 IncludeOptional sites-enabled/*.conf
 </pre>
 
-<p>Hecho esto, ya procederemos a crear nuestro primer <em>virtualhost</em>. </p>
+<p>Hecho esto, ya procederemos a crear nuestro primer <em>virtualhost</em>. En mi caso recibirá el nombre de <code>javierpzh.gonzalonazareno.conf</code> y poseerá este aspecto:</p>
+<pre>
+<\VirtualHost *:80\>
+
+    ServerName www.javierpzh.gonzalonazareno.org
+    DocumentRoot /var/www/iesgn
+
+    ErrorLog /var/www/iesgn/log/error.log
+    CustomLog /var/www/iesgn/log/requests.log combined
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Ahora, vamos a habilitar este nuevo <em>virtualhost</em>, creando un enlace simbólico hacia la ruta <code>/etc/httpd/sites-enabled</code>.</p>
+<pre>
+[root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.conf /etc/httpd/sites-enabled/
+</pre>
+
+<p>En este punto, tan solo nos quedaría crear un fichero <code>index.html</code> en la ruta especificada en el apartado <strong>DocumentRoot</strong>, que en mi caso, es <code>/var/www/iesgn</code>.</p>
 <h2>Servidor de base de datos</h2>
 <p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
 <p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
