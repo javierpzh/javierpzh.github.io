@@ -37,9 +37,11 @@
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
+        <meta name="tags" content="OpenStack">
         <meta name="tags" content="Python">
         <meta name="tags" content="Django">
-        <meta name="tags" content="OpenStack">
+        <meta name="tags" content="virtualenv">
+        <meta name="tags" content="git">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -110,13 +112,18 @@
     <article>
         <p><strong>En esta tarea vamos a desplegar un <em>CMS Python</em>. Tienes que realizar la instalación de un <em>CMS Python</em> basado en <em>Django</em>. Puedes encontrar varios en el siguiente <a href="https://djangopackages.org/grids/g/cms/">enlace</a>.</strong></p>
 <h4>Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.</h4>
+<p>En primer lugar voy a proceder a crear el entorno virtual donde trabajaré en el entorno de desarrollo, se encontrará en <code>entornos_virtuales/web_python_openstack</code>. Para crear el entorno virtual, empleamos el siguiente comando:</p>
+<pre>
+python3 -m venv webpython
+</pre>
+
 <h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/python.html">Python</a>, <a href="/tag/django.html">Django</a>, <a href="/tag/openstack.html">OpenStack</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/openstack.html">OpenStack</a>, <a href="/tag/python.html">Python</a>, <a href="/tag/django.html">Django</a>, <a href="/tag/virtualenv.html">virtualenv</a>, <a href="/tag/git.html">git</a></p>
         </div>
 
     <hr>
