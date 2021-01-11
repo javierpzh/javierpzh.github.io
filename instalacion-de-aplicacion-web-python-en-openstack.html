@@ -114,7 +114,17 @@
 <h4>Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.</h4>
 <p>En primer lugar voy a proceder a crear el entorno virtual donde trabajaré en el entorno de desarrollo, se encontrará en <code>entornos_virtuales/web_python_openstack</code>. Para crear el entorno virtual, empleamos el siguiente comando:</p>
 <pre>
-python3 -m venv webpython
+javier@debian:~/entornos_virtuales/web_python_openstack$ python3 -m venv webpython
+</pre>
+
+<p>Una vez creado, vamos a activarlo mediante el siguiente comando:</p>
+<pre>
+javier@debian:~/entornos_virtuales/web_python_openstack$ source webpython/bin/activate
+</pre>
+
+<p>Si nos fijamos, vemos como el aspecto del <em>prompt</em> ha cambiado y ahora aparece el entorno virtual como activo:</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/web_python_openstack$
 </pre>
 
 <h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
