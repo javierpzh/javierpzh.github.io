@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Python | Javier Pérez HidalgoPython</title>
+        <title>Instalación de aplicación web Python en OpenStack | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +31,28 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="En esta tarea vamos a desplegar un CMS Python. Tienes que realizar la instalación de un CMS Python basado en django. Puedes encontrar...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Python">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/instalacion-de-aplicacion-web-python-en-openstack.html">
+	<meta property="og:title" content="Instalación de aplicación web Python en OpenStack">
+	<meta property="article:published_time" content="2021-01-11 00:00:00+01:00">
+            <meta property="og:description" content="En esta tarea vamos a desplegar un CMS Python. Tienes que realizar la instalación de un CMS Python basado en django. Puedes encontrar...">
+
+            <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
 </head>
 
-<body class="tag-python">
+<body class="article-instalacion-de-aplicacion-web-python-en-openstack">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -65,12 +82,18 @@
         <!-- /.container -->
     </nav>
 
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-aplicacionesweb.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>tag - Python</h1>
+                        <h1>Instalación de aplicación web Python en OpenStack</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el lun 11 enero 2021
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -81,34 +104,30 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/instalacion-de-aplicacion-web-python-en-openstack.html" rel="bookmark" title="Permalink to Instalación de aplicación web Python en OpenStack">
-                <h2 class="post-title">
-                    Instalación de aplicación web Python en OpenStack
-                </h2>
-            </a>
-                <p class="article-summary">
-                    En esta tarea vamos a desplegar un CMS Python. Tienes que realizar la instalación de un CMS Python basado en django. Puedes encontrar...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el lun 11 enero 2021
-            </p>
+    <!-- Post Content -->
+    <article>
+        <p>En esta tarea vamos a desplegar un <strong>CMS Python</strong>. Tienes que realizar la instalación de un <em>CMS Python</em> basado en <em>django</em>. Puedes encontrar varios en el siguiente enlace: https://djangopackages.org/grids/g/cms/</p>
+<ul>
+<li>
+<p>Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.</p>
+</li>
+<li>
+<p>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</p>
+</li>
+<li>
+<p>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la bese de datos. Te en cuenta que en el entorno de desarrolla vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para más información: https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata</p>
+</li>
+<li>
+<p>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el cloud). Utiliza un entorno virtual. Como servidor de aplicación puedes usar gunicorn o uwsgi (crea una unidad systemd para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</p>
+</li>
+</ul>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/python.html">Python</a></p>
         </div>
-        <div class="post-preview">
-            <a href="/despliegue-de-aplicaciones-python.html" rel="bookmark" title="Permalink to Despliegue de aplicaciones Python">
-                <h2 class="post-title">
-                    Despliegue de aplicaciones Python
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Tarea 1: Entorno de desarrollo Vamos a desarrollar la aplicación del tutorial de django 3.1. Vamos a configurar tu equipo como entorno...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mié 09 diciembre 2020
-            </p>
-        </div>
+
+    <hr>
 
             </div>
         </div>
