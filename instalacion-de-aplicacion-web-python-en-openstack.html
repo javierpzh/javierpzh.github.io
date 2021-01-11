@@ -112,24 +112,29 @@
     <article>
         <p><strong>En esta tarea vamos a desplegar un <em>CMS Python</em>. Tienes que realizar la instalación de un <em>CMS Python</em> basado en <em>Django</em>. Puedes encontrar varios en el siguiente <a href="https://djangopackages.org/grids/g/cms/">enlace</a>.</strong></p>
 <h4>Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.</h4>
-<p>En primer lugar voy a proceder a crear el entorno virtual donde trabajaré en el entorno de desarrollo, se encontrará en <code>entornos_virtuales/web_python_openstack</code>. Para crear un entorno virtual necesitamos tener instalado este paquete:</p>
+<p>Vamos a utilizar un repositorio de <em>GitHub</em> en el que guardaremos los ficheros que se generen durante la instalación del <em>CMS</em>. He creado un nuevo repositorio y lo voy a clonar en la dirección <code>entornos_virtuales</code>:</p>
+<pre>
+javier@debian:~/entornos_virtuales$ git clone git@github.com:javierpzh/Web-Python-OpenStack.git
+</pre>
+
+<p>En segundo lugar, vamos a crear el entorno virtual donde trabajaremos en el entorno de desarrollo, en mi caso, se encontrará en <code>entornos_virtuales/Web_Python_OpenStack</code>. Para crear un entorno virtual necesitamos tener instalado este paquete:</p>
 <pre>
 apt install python3-venv -y
 </pre>
 
-<p>Ya instalado, tenemos que crear el entorno virtual, empleamos el siguiente comando:</p>
+<p>Ya instalado, podemos crear el entorno virtual, y para ello, empleamos el siguiente comando:</p>
 <pre>
-javier@debian:~/entornos_virtuales/web_python_openstack$ python3 -m venv webpython
+javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ python3 -m venv webpython
 </pre>
 
 <p>Una vez creado, vamos a activarlo mediante el siguiente comando:</p>
 <pre>
-javier@debian:~/entornos_virtuales/web_python_openstack$ source webpython/bin/activate
+javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ source webpython/bin/activate
 </pre>
 
 <p>Si nos fijamos, vemos como el aspecto del <em>prompt</em> ha cambiado y ahora aparece el entorno virtual como activo:</p>
 <pre>
-(webpython) javier@debian:~/entornos_virtuales/web_python_openstack$
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$
 </pre>
 
 <p>Para actualizar <code>pip</code>:</p>
@@ -137,6 +142,7 @@ javier@debian:~/entornos_virtuales/web_python_openstack$ source webpython/bin/ac
 pip install --upgrade pip
 </pre>
 
+<p>Ya tendríamos el entorno virtual listo para trabajar con él.</p>
 <h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
