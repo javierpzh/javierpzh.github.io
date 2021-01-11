@@ -437,6 +437,10 @@ search openstacklocal
 </pre>
 
 <p>Podemos apreciar como ha obtenido otros servidores por DHCP, pero en primer lugar se encuentra mi DNS, y por tanto, será al que se le consulte siempre que esté disponible y sea capaz de resolver la petición.</p>
+<pre>
+apt install resolvconf -y
+</pre>
+
 <p>Hecho esto, ahora nuestros clientes utilizarán nuestro servidor DNS <em>bind9</em> ubicado en <em>Freston</em>.</p>
 <p>Como ya poseemos un servidor DNS bien configurado, podemos eliminar las entradas referentes a los distintos equipos en el fichero <code>/etc/hosts</code> de manera que no nos hará falta hacer uso de la resolución estática.</p>
 <h2>Servidor Web</h2>
