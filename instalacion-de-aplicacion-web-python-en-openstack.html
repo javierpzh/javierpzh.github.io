@@ -112,7 +112,12 @@
     <article>
         <p><strong>En esta tarea vamos a desplegar un <em>CMS Python</em>. Tienes que realizar la instalación de un <em>CMS Python</em> basado en <em>Django</em>. Puedes encontrar varios en el siguiente <a href="https://djangopackages.org/grids/g/cms/">enlace</a>.</strong></p>
 <h4>Instala el CMS en el entorno de desarrollo. Debes utilizar un entorno virtual.</h4>
-<p>En primer lugar voy a proceder a crear el entorno virtual donde trabajaré en el entorno de desarrollo, se encontrará en <code>entornos_virtuales/web_python_openstack</code>. Para crear el entorno virtual, empleamos el siguiente comando:</p>
+<p>En primer lugar voy a proceder a crear el entorno virtual donde trabajaré en el entorno de desarrollo, se encontrará en <code>entornos_virtuales/web_python_openstack</code>. Para crear un entorno virtual necesitamos tener instalado este paquete:</p>
+<pre>
+apt install python3-venv -y
+</pre>
+
+<p>Ya instalado, tenemos que crear el entorno virtual, empleamos el siguiente comando:</p>
 <pre>
 javier@debian:~/entornos_virtuales/web_python_openstack$ python3 -m venv webpython
 </pre>
@@ -125,6 +130,11 @@ javier@debian:~/entornos_virtuales/web_python_openstack$ source webpython/bin/ac
 <p>Si nos fijamos, vemos como el aspecto del <em>prompt</em> ha cambiado y ahora aparece el entorno virtual como activo:</p>
 <pre>
 (webpython) javier@debian:~/entornos_virtuales/web_python_openstack$
+</pre>
+
+<p>Para actualizar <code>pip</code>:</p>
+<pre>
+pip install --upgrade pip
 </pre>
 
 <h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
