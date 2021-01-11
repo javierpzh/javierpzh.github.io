@@ -109,9 +109,105 @@
     <article>
         <p><strong>En este <em>post</em> vamos a configurar de forma adecuada el protocolo HTTPS en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado <em>wildcard</em> en la entidad certificadora Gonzalo Nazareno.</strong></p>
 <ul>
-<li>
-<p><strong>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.</strong></p>
-</li>
+<li><strong>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.</strong></li>
+</ul>
+<p>Lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
+<p>(Este certificado ya lo creé anteriormente para el uso del protocolo <em>LDAPs</em>, puedes ver el <em>post</em> <a href="https://javierpzh.github.io/ldaps.html">aquí</a> y por ello el proceso lo llevo a cabo en la máquina <em>Freston</em>. La clave privada la he copiado a la máquina <em>Quijote</em>)</p>
+<p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code>openssl</code>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
+<pre>
+root@freston:~# openssl genrsa 4096 > /etc/ssl/private/freston.key
+Generating RSA private key, 4096 bit long modulus (2 primes)
+.........................................++++
+...........................................................................................................................++++
+e is 65537 (0x010001)
+</pre>
+
+<p>Debemos cambiarle los permisos a la clave privada a <strong>400</strong>, así únicamente el propietario podrá leer el contenido. Para ello, haremos uso de la herramienta <code>chmod</code>:</p>
+<pre>
+root@freston:/etc/ssl/private# ls -l
+total 4
+-rw-r--r-- 1 root root 3243 Dec 18 08:59 freston.key
+
+root@freston:/etc/ssl/private# chmod 400 /etc/ssl/private/freston.key
+
+root@freston:/etc/ssl/private# ls -l
+total 4
+-r-------- 1 root root 3243 Dec 18 08:59 freston.key
+</pre>
+
+<p>Pero claro, también hay que pensar que el usuario de <strong>LDAP</strong> debe poder leer esta clave, así que, para ello, he decidido crear una <strong>ACL</strong> para que únicamente este usuario, llamado <strong>openldap</strong> tenga acceso a la clave privada. Para ello instalamos el paquete <code>acl</code>:</p>
+<pre>
+apt install acl -y
+</pre>
+
+<p>Y creamos la <em>ACL</em> adecuada:</p>
+<pre>
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/
+
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/freston.key
+</pre>
+
+<p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>.csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
+<p>Para generar nuestro archivo <em>.csr</em>:</p>
+<pre>
+root@freston:~# openssl req -new -key /etc/ssl/private/freston.key -out /root/wildcard.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Sevilla
+Locality Name (eg, city) []:Dos Hermanas
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES Gonzalo Nazareno
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (e.g. server FQDN or YOUR name) []:*.javierpzh.gonzalonazareno.org
+Email Address []:javierperezhidalgo01@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+root@freston:~# ls
+wildcard.csr
+</pre>
+
+<p>Como <strong>Freston</strong> es una instancia del <em>cloud</em>, voy a pasarme este fichero <code>wildcard.csr</code> a mi máquina anfitriona para enviárselo a la entidad certificadora, que en este caso es el <strong>Gonzalo Nazareno</strong>.
+Si quieres entender mejor la estructura del escenario donde estamos trabajando puedes echarle un vistazo a este <em>post</em>, <a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a>.</p>
+<p>Por tanto, pasaré este archivo a mi equipo mediante <code>scp</code>.</p>
+<p>Una vez tenemos el certificado firmado por la entidad certificadora, lo pasamos a <em>Freston</em>. También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover también a <em>Freston</em>.</p>
+<pre>
+root@freston:~# ls
+gonzalonazareno.crt  wildcard.crt  wildcard.csr
+</pre>
+
+<p>Lógicamente, estos certificados no debemos dejarlos en esta directorio, por lo que, los vamos a mover a la ruta <code>/etc/ssl/certs</code>:</p>
+<pre>
+root@freston:~# mv gonzalonazareno.crt /etc/ssl/certs/
+
+root@freston:~# mv wildcard.crt /etc/ssl/certs/
+</pre>
+
+<p>Es importante que ambos archivos, posean a <strong>root</strong> como usuario y grupo propietario, por tanto le cambio el propietario y el grupo:</p>
+<pre>
+root@freston:/etc/ssl/certs# chown -R root:root wildcard.crt
+
+root@freston:/etc/ssl/certs# chown -R root:root gonzalonazareno.crt
+</pre>
+
+<p>Aquí podemos ver el resultado:</p>
+<pre>
+root@freston:~# ls -l /etc/ssl/certs/ | grep gonzalo
+-rw-r--r-- 1 root root   3634 Dec 18 09:34 gonzalonazareno.crt
+
+root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
+-rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
+</pre>
+
+<ul>
 <li>
 <p><strong>Debes hacer una redirección para forzar el protocolo HTTPSs.</strong></p>
 </li>
