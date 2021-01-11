@@ -202,12 +202,20 @@ total 20
 </pre>
 
 <ul>
-<li>
-<p><strong>Debes hacer una redirección para forzar el protocolo HTTPs.</strong></p>
-</li>
-<li>
-<p><strong>Investiga la regla DNAT en el cortafuego para abrir el puerto 443.</strong></p>
-</li>
+<li><strong>Debes hacer una redirección para forzar el protocolo HTTPs.</strong></li>
+</ul>
+<p>En este punto, vamos a pasar con la configuración del protocolo <em>HTTPs</em>, para ello es necesario tener instalado el módulo <code>mod_ssl</code>. Lo instalamos:</p>
+<pre>
+dnf install mod_ssl -y
+</pre>
+
+<p>Para forzar que se acceda a la página a través del protocolo <strong>HTTPs</strong>, vamos a añadir al fichero de configuración de nuestro <em>virtualhost</em> la siguiente línea:</p>
+<pre>
+Redirect / https://www.javierpzh.gonzalonazareno.org/
+</pre>
+
+<ul>
+<li><strong>Investiga la regla DNAT en el cortafuego para abrir el puerto 443.</strong></li>
 </ul>
 <p>Vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
 <pre>
