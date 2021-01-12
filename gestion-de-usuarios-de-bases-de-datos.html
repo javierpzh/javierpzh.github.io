@@ -296,6 +296,27 @@
 </ul>
 </li>
 </ul>
+<p>Una vez explicados todos los roles que vienen definidos por defecto en <em>MongoDB</em>, vamos a ver como se asignan sobre los usuarios.</p>
+<p>Hay que decir que podemos asignar un rol, tanto a la hora de crear el usuario, como, con el usuario ya creado con anterioridad.</p>
+<ul>
+<li><strong>En el momento de crear el usuario</strong></li>
+</ul>
+<pre>
+\> db.createUser(
+{
+   user: "nombreusuario",
+   pwd: "contraseña",
+   roles: [ { role: "nombredelrol", db: "nombrebd" } ]
+})
+</pre>
+
+<ul>
+<li><strong>Después de haber creado el usuario</strong></li>
+</ul>
+<pre>
+
+</pre>
+
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
 <p>.</p>
     </article>
