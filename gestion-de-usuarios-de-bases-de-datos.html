@@ -159,6 +159,97 @@
 <li>A nivel de <em>cluster</em>: representa operaciones sobre el conjunto de réplicas o el <em>cluster</em> de <em>shards</em>.</li>
 </ul>
 <p>Un rol puede además heredar privilegios de uno o varios roles.</p>
+<p><em>MongoDB</em> dispone de dos tipos de roles:</p>
+<ul>
+<li>
+<p><strong>Roles predefinidos en el sistema:</strong> son los que ya se encuentran creados de manera predeterminada y listos para utilizarse.</p>
+</li>
+<li>
+<p><strong>Roles definidos por el usuario:</strong> son los creados por el administrador del sistema.</p>
+</li>
+</ul>
+<p>En este caso, nos interesan los <strong>roles predefinidos</strong>.</p>
+<p>Dentro de éstos, podemos clasificar los distintos roles en varias categorías.</p>
+<ul>
+<li>
+<p>Usuario de base de datos</p>
+</li>
+<li>
+<p>Administración de base de datos</p>
+</li>
+<li>
+<p>Administración de <em>cluster</em></p>
+</li>
+<li>
+<p>Copia de seguridad/restauración</p>
+</li>
+<li>
+<p>Superusuario</p>
+</li>
+</ul>
+<p>Ahora sí, vamos a ver cada uno de los roles que existen en <em>MongoDB</em>.</p>
+<ul>
+<li>
+<p><strong>Usuario de base de datos</strong></p>
+<ul>
+<li><strong>Nivel de Base de Datos</strong><ul>
+<li><strong>read:</strong></li>
+<li><strong>readWrite:</strong></li>
+</ul>
+</li>
+<li><strong>Todas las Bases de Datos</strong><ul>
+<li><strong>readAnyDatabase:</strong></li>
+<li><strong>readWriteAnyDatabase:</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Administración de base de datos</strong>
+            Nivel de Base de Datos
+                dbAdmin permite gestionar datos, pero no puede acceder a información sobre los usuarios
+                    collStats
+                    dbHash
+                    dbStats
+                    killCursors
+                    listIndexes
+                    listCollections
+                    bypassDocumentValidation
+                    collMod
+                    collStats
+                    compact
+                    convertToCapped
+                userAdmin permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos
+                    changeCustomData
+                    changePassword
+                    createRole
+                    createUser
+                    dropRole
+                    dropUser
+                    grantRole
+                    revokeRole
+                    setAuthenticationRestriction
+                    viewRole
+                    viewUser
+                dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.
+            Todas las Bases de Datos
+                dbAdminAnyDatabase
+                userAdminAnyDatabase</p>
+</li>
+<li><strong>Administración de <em>cluster</em>.</strong>
+            Nivel de Base de Datos
+                clusterAdmin
+                clusterManager
+                clusterMonitor
+                hostManager</li>
+<li><strong>Copia de seguridad/restauración</strong>
+            Nivel de Base de Datos
+                backup
+                restore</li>
+<li><strong>Superusuario</strong>
+            Actúa a nivel de todo el sistema
+                root</li>
+</ul>
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
 <p>.</p>
     </article>
