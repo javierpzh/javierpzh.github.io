@@ -190,22 +190,20 @@
 <p>Ahora sí, vamos a ver cada uno de los roles que existen en <em>MongoDB</em>.</p>
 <h5>Usuario de base de datos</h5>
 <ul>
-<li><strong>Actúan a nivel de Base de Datos</strong><ul>
+<li><strong>Roles que actúan a nivel de Base de Datos</strong><ul>
 <li><code>read</code>:</li>
 <li><code>readWrite</code>:</li>
 </ul>
 </li>
-<li>
-<p><strong>Actúan a nivel de todas las Bases de Datos</strong></p>
-<ul>
+<li><strong>Roles que actúan a nivel de todas las Bases de Datos</strong><ul>
 <li><code>readAnyDatabase</code>:</li>
 <li><code>readWriteAnyDatabase</code>:</li>
 </ul>
 </li>
-<li>
-<p><strong>Administración de base de datos</strong></p>
+</ul>
+<h5>Administración de base de datos</h5>
 <ul>
-<li><strong>Actúan a nivel de Base de Datos</strong><ul>
+<li><strong>Roles que actúan a nivel de Base de Datos</strong><ul>
 <li><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios<ul>
 <li><code>collStats</code>:</li>
 <li><code>dbHash</code>:</li>
@@ -237,17 +235,15 @@
 <li><code>dbOwner</code>: puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de <code>readWrite</code>, <code>dbAdmin</code> y <code>userAdmin</code>.</li>
 </ul>
 </li>
-<li><strong>Actúan a nivel de todas las Bases de Datos</strong><ul>
+<li><strong>Roles que actúan a nivel de todas las Bases de Datos</strong><ul>
 <li><code>dbAdminAnyDatabase</code>:</li>
 <li><code>userAdminAnyDatabase</code>:</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>
-<p><strong>Administración de <em>cluster</em>.</strong></p>
+<h5>Administración de <em>cluster</em></h5>
 <ul>
-<li><strong>Actúan a nivel de Base de Datos</strong><ul>
+<li><strong>Roles que actúan a nivel de Base de Datos</strong><ul>
 <li><code>clusterAdmin</code>:</li>
 <li><code>clusterManager</code>:</li>
 <li><code>clusterMonitor</code>:</li>
@@ -255,24 +251,18 @@
 </ul>
 </li>
 </ul>
-</li>
-<li>
-<p><strong>Copia de seguridad/restauración</strong></p>
+<h5>Copia de seguridad/restauración</h5>
 <ul>
-<li><strong>Actúan a nivel de Base de Datos</strong><ul>
+<li><strong>Roles que actúan a nivel de Base de Datos</strong><ul>
 <li><code>backup</code>:</li>
 <li><code>restore</code>:</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>
-<p><strong>Superusuario</strong></p>
+<h5>Superusuario</h5>
 <ul>
-<li><strong>Actúan a nivel de todo el sistema</strong><ul>
+<li><strong>Roles que actúan a nivel de todo el sistema</strong><ul>
 <li><code>root</code>:</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
