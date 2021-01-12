@@ -208,10 +208,10 @@
 <p><strong>Roles que actúan a nivel de base de datos</strong></p>
 <ul>
 <li>
-<p><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios.</p>
+<p><code>dbAdmin</code>: permite realizar tareas administrativas.</p>
 </li>
 <li>
-<p><code>userAdmin</code>: permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos.</p>
+<p><code>userAdmin</code>: permite crear y modificar usuarios y roles en la base de datos actual</p>
 </li>
 <li>
 <p><code>dbOwner</code>: puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de <code>readWrite</code>, <code>dbAdmin</code> y <code>userAdmin</code>.</p>
@@ -225,7 +225,7 @@
 <p><strong>Roles que actúan a nivel de todo el sistema</strong></p>
 <ul>
 <li>
-<p><code>clusterMonitor</code>:</p>
+<p><code>clusterMonitor</code>: permite acceso de solo lectura a las herramientas de supervisión</p>
 </li>
 <li>
 <p><code>clusterManager</code>:</p>
