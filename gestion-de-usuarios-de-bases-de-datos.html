@@ -192,63 +192,81 @@
 <li>
 <p><strong>Usuario de base de datos</strong></p>
 <ul>
-<li><strong>Nivel de Base de Datos</strong><ul>
-<li><strong>read:</strong></li>
-<li><strong>readWrite:</strong></li>
+<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><code>read</code>:</li>
+<li><code>readWrite</code>:</li>
 </ul>
 </li>
-<li><strong>Todas las Bases de Datos</strong><ul>
-<li><strong>readAnyDatabase:</strong></li>
-<li><strong>readWriteAnyDatabase:</strong></li>
+<li><strong>Actúa a nivel de todas las Bases de Datos</strong><ul>
+<li><code>readAnyDatabase</code>:</li>
+<li><code>readWriteAnyDatabase</code>:</li>
 </ul>
 </li>
 </ul>
 </li>
 <li>
-<p><strong>Administración de base de datos</strong>
-            Nivel de Base de Datos
-                dbAdmin permite gestionar datos, pero no puede acceder a información sobre los usuarios
-                    collStats
-                    dbHash
-                    dbStats
-                    killCursors
-                    listIndexes
-                    listCollections
-                    bypassDocumentValidation
-                    collMod
-                    collStats
-                    compact
-                    convertToCapped
-                userAdmin permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos
-                    changeCustomData
-                    changePassword
-                    createRole
-                    createUser
-                    dropRole
-                    dropUser
-                    grantRole
-                    revokeRole
-                    setAuthenticationRestriction
-                    viewRole
-                    viewUser
-                dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.
-            Todas las Bases de Datos
-                dbAdminAnyDatabase
-                userAdminAnyDatabase</p>
+<p><strong>Administración de base de datos</strong></p>
+<ul>
+<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios<ul>
+<li><strong>collStats</strong>
+        dbHash<strong>
+        dbStats</strong>
+        killCursors**
+        listIndexes
+        listCollections
+        bypassDocumentValidation
+        collMod
+        collStats
+        compact
+        convertToCapped
+    userAdmin permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos
+        changeCustomData
+        changePassword
+        createRole
+        createUser
+        dropRole
+        dropUser
+        grantRole
+        revokeRole
+        setAuthenticationRestriction
+        viewRole
+        viewUser
+    dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.
+Todas las Bases de Datos
+    dbAdminAnyDatabase
+    userAdminAnyDatabase</li>
+</ul>
 </li>
-<li><strong>Administración de <em>cluster</em>.</strong>
-            Nivel de Base de Datos
-                clusterAdmin
-                clusterManager
-                clusterMonitor
-                hostManager</li>
-<li><strong>Copia de seguridad/restauración</strong>
-            Nivel de Base de Datos
-                backup
-                restore</li>
-<li><strong>Superusuario</strong>
-            Actúa a nivel de todo el sistema
-                root</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Administración de <em>cluster</em>.</strong><ul>
+<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><code>clusterAdmin</code>:</li>
+<li><code>clusterManager</code>:</li>
+<li><code>clusterMonitor</code>:</li>
+<li><code>hostManager</code>:</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Copia de seguridad/restauración</strong><ul>
+<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><code>backup</code>:</li>
+<li><code>restore</code>:</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Superusuario</strong><ul>
+<li><strong>Actúa a nivel de todo el sistema</strong><ul>
+<li><code>root</code>:</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
 <p>.</p>
