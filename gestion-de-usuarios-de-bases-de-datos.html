@@ -209,32 +209,34 @@
 <ul>
 <li><strong>Actúan a nivel de Base de Datos</strong><ul>
 <li><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios<ul>
-<li><strong>collStats</strong>
-        dbHash<strong>
-        dbStats</strong>
-        killCursors**
-        listIndexes
-        listCollections
-        bypassDocumentValidation
-        collMod
-        collStats
-        compact
-        convertToCapped
-    userAdmin permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos
-        changeCustomData
-        changePassword
-        createRole
-        createUser
-        dropRole
-        dropUser
-        grantRole
-        revokeRole
-        setAuthenticationRestriction
-        viewRole
-        viewUser
-    dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.</li>
+<li><code>collStats</code>:</li>
+<li><code>dbHash</code>:</li>
+<li><code>dbStats</code>:</li>
+<li><code>killCursors</code>:</li>
+<li><code>listIndexes</code>:</li>
+<li><code>listCollections</code>:</li>
+<li><code>bypassDocumentValidation</code>:</li>
+<li><code>collMod</code>:</li>
+<li><code>collStats</code>:</li>
+<li><code>compact</code>:</li>
+<li><code>convertToCapped</code>:</li>
 </ul>
 </li>
+<li><code>userAdmin</code>: permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos<ul>
+<li><code>changeCustomData</code>:</li>
+<li><code>changePassword</code>:</li>
+<li><code>createRole</code>:</li>
+<li><code>createUser</code>:</li>
+<li><code>dropRole</code>:</li>
+<li><code>dropUser</code>:</li>
+<li><code>grantRole</code>:</li>
+<li><code>revokeRole</code>:</li>
+<li><code>setAuthenticationRestriction</code>:</li>
+<li><code>viewRole</code>:</li>
+<li><code>viewUser</code>:</li>
+</ul>
+</li>
+<li><code>dbOwner</code>: puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de <code>readWrite</code>, <code>dbAdmin</code> y <code>userAdmin</code>.</li>
 </ul>
 </li>
 <li><strong>Actúan a nivel de todas las Bases de Datos</strong><ul>
