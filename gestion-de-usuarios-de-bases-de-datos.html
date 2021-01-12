@@ -172,19 +172,19 @@
 <p>Dentro de éstos, podemos clasificar los distintos roles en varias categorías.</p>
 <ul>
 <li>
-<p>Usuario de base de datos</p>
+<p>Roles de usuarios de bases de datos</p>
 </li>
 <li>
-<p>Administración de base de datos</p>
+<p>Roles de administradores de base de datos</p>
 </li>
 <li>
-<p>Administración de <em>cluster</em></p>
+<p>Roles de administradores de <em>cluster</em></p>
 </li>
 <li>
-<p>Copia de seguridad/restauración</p>
+<p>Roles de copias de seguridad/restauración</p>
 </li>
 <li>
-<p>Superusuario</p>
+<p>Roles de superusuarios</p>
 </li>
 </ul>
 <p>Ahora sí, vamos a ver cada uno de los roles que existen en <em>MongoDB</em>.</p>
@@ -194,10 +194,10 @@
 <p><strong>Roles que actúan a nivel de base de datos</strong></p>
 <ul>
 <li>
-<p><code>read</code>:</p>
+<p><code>read</code>: permite leer datos de todas las colecciones.</p>
 </li>
 <li>
-<p><code>readWrite</code>:</p>
+<p><code>readWrite</code>: permite leer y escribir datos de todas las colecciones.</p>
 </li>
 </ul>
 </li>
@@ -208,10 +208,10 @@
 <p><strong>Roles que actúan a nivel de base de datos</strong></p>
 <ul>
 <li>
-<p><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios</p>
+<p><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios.</p>
 </li>
 <li>
-<p><code>userAdmin</code>: permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos</p>
+<p><code>userAdmin</code>: permite crear usuarios que únicamente tengan permiso para gestionar usuarios pero no puedan acceder a datos.</p>
 </li>
 <li>
 <p><code>dbOwner</code>: puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de <code>readWrite</code>, <code>dbAdmin</code> y <code>userAdmin</code>.</p>
