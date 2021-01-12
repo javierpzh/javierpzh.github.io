@@ -314,7 +314,10 @@
 <li><strong>Después de haber creado el usuario</strong></li>
 </ul>
 <pre>
-
+\> db.grantRolesToUser(
+   "nombreusuario",
+   [ { role : "nombredelrol", db : "nombrebd" }, "nombredelrol", … ]
+)
 </pre>
 
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
