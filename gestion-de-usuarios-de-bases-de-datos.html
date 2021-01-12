@@ -117,12 +117,26 @@
 <p><strong>3. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</strong></p>
 <p><strong>4. Crea un <em>tablespace</em> TS2 con tamaño de extensión de 256K. Realiza una consulta que genere un <em>script</em> que asigne ese <em>tablespace</em> como <em>tablespace</em> por defecto a los usuarios que no tienen privilegios para consultar ninguna tabla de <em>SCOTT</em>, excepto a <em>SYSTEM</em>.</strong></p>
 <p><strong>5. La vida de un <em>DBA</em> es dura. Tras pedirlo insistentemente, en tu empresa han contratado una persona para ayudarte. Decides que se encargará de las siguientes tareas:</strong></p>
-<p>• Resetear los archivos de <em>log</em> en caso de necesidad.
-• Crear funciones de complejidad de contraseña y asignárselas a usuarios.
-• Eliminar la información de <em>rollback</em>. (este privilegio podrá pasarlo a quien quiera)
-• Modificar información existente en la tabla dept del usuario scott. (este privilegio podrá pasarlo a quien quiera)
-• Realizar pruebas de todos los procedimientos existentes en la base de datos.
-• Poner un <em>tablespace</em> fuera de línea.</p>
+<ul>
+<li>
+<p><strong>Resetear los archivos de <em>log</em> en caso de necesidad.</strong></p>
+</li>
+<li>
+<p><strong>Crear funciones de complejidad de contraseña y asignárselas a usuarios.</strong></p>
+</li>
+<li>
+<p><strong>Eliminar la información de <em>rollback</em>. (este privilegio podrá pasarlo a quien quiera).</strong></p>
+</li>
+<li>
+<p><strong>Modificar información existente en la tabla dept del usuario scott. (este privilegio podrá pasarlo a quien quiera).</strong></p>
+</li>
+<li>
+<p><strong>Realizar pruebas de todos los procedimientos existentes en la base de datos.</strong></p>
+</li>
+<li>
+<p><strong>Poner un <em>tablespace</em> fuera de línea.</strong></p>
+</li>
+</ul>
 <p><strong>Crea un usuario llamado <code>Ayudante</code> y, sin usar los roles predefinidos de <em>Oracle</em>, dale los privilegios mínimos para que pueda resolver dichas tareas.</strong></p>
 <p><strong>Pista: Si no recuerdas el nombre de un privilegio, puedes buscarlo en el diccionario de datos.</strong></p>
 <p><strong>6. Muestra el texto de la última sentencia <em>SQL</em> que se ejecuto en el servidor, junto con el número de veces que se ha ejecutado desde que se cargó en el <em>Shared Pool</em> y el tiempo de CPU empleado en su ejecución.</strong></p>
