@@ -192,12 +192,12 @@
 <li>
 <p><strong>Usuario de base de datos</strong></p>
 <ul>
-<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><strong>Actúan a nivel de Base de Datos</strong><ul>
 <li><code>read</code>:</li>
 <li><code>readWrite</code>:</li>
 </ul>
 </li>
-<li><strong>Actúa a nivel de todas las Bases de Datos</strong><ul>
+<li><strong>Actúan a nivel de todas las Bases de Datos</strong><ul>
 <li><code>readAnyDatabase</code>:</li>
 <li><code>readWriteAnyDatabase</code>:</li>
 </ul>
@@ -207,7 +207,7 @@
 <li>
 <p><strong>Administración de base de datos</strong></p>
 <ul>
-<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li><strong>Actúan a nivel de Base de Datos</strong><ul>
 <li><code>dbAdmin</code>: permite gestionar datos, pero no puede acceder a información sobre los usuarios<ul>
 <li><strong>collStats</strong>
         dbHash<strong>
@@ -232,18 +232,22 @@
         setAuthenticationRestriction
         viewRole
         viewUser
-    dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.
-Todas las Bases de Datos
-    dbAdminAnyDatabase
-    userAdminAnyDatabase</li>
+    dbOwner puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de readWrite, dbAdmin y userAdmin.</li>
 </ul>
 </li>
 </ul>
 </li>
+<li><strong>Actúan a nivel de todas las Bases de Datos</strong><ul>
+<li><code>dbAdminAnyDatabase</code>:</li>
+<li><code>userAdminAnyDatabase</code>:</li>
 </ul>
 </li>
-<li><strong>Administración de <em>cluster</em>.</strong><ul>
-<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+</ul>
+</li>
+<li>
+<p><strong>Administración de <em>cluster</em>.</strong></p>
+<ul>
+<li><strong>Actúan a nivel de Base de Datos</strong><ul>
 <li><code>clusterAdmin</code>:</li>
 <li><code>clusterManager</code>:</li>
 <li><code>clusterMonitor</code>:</li>
@@ -252,16 +256,20 @@ Todas las Bases de Datos
 </li>
 </ul>
 </li>
-<li><strong>Copia de seguridad/restauración</strong><ul>
-<li><strong>Actúa a nivel de Base de Datos</strong><ul>
+<li>
+<p><strong>Copia de seguridad/restauración</strong></p>
+<ul>
+<li><strong>Actúan a nivel de Base de Datos</strong><ul>
 <li><code>backup</code>:</li>
 <li><code>restore</code>:</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><strong>Superusuario</strong><ul>
-<li><strong>Actúa a nivel de todo el sistema</strong><ul>
+<li>
+<p><strong>Superusuario</strong></p>
+<ul>
+<li><strong>Actúan a nivel de todo el sistema</strong><ul>
 <li><code>root</code>:</li>
 </ul>
 </li>
