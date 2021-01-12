@@ -118,44 +118,24 @@
 <p><strong>4. Crea un <em>tablespace</em> TS2 con tamaño de extensión de 256K. Realiza una consulta que genere un <em>script</em> que asigne ese <em>tablespace</em> como <em>tablespace</em> por defecto a los usuarios que no tienen privilegios para consultar ninguna tabla de <em>SCOTT</em>, excepto a <em>SYSTEM</em>.</strong></p>
 <p><strong>5. La vida de un <em>DBA</em> es dura. Tras pedirlo insistentemente, en tu empresa han contratado una persona para ayudarte. Decides que se encargará de las siguientes tareas:</strong></p>
 <p>• Resetear los archivos de <em>log</em> en caso de necesidad.
-• Crear funciones de complejidad de contraseña y asignárselas a  usuarios.
+• Crear funciones de complejidad de contraseña y asignárselas a usuarios.
 • Eliminar la información de <em>rollback</em>. (este privilegio podrá pasarlo a quien quiera)
 • Modificar información existente en la tabla dept del usuario scott. (este privilegio podrá pasarlo a quien quiera)
 • Realizar pruebas de todos los procedimientos existentes en la base de datos.
 • Poner un <em>tablespace</em> fuera de línea.</p>
-<p>Crea un usuario llamado Ayudante y, sin usar los roles predefinidos de <em>Oracle</em>, dale  los privilegios mínimos para que pueda resolver dichas tareas.</p>
-<p>Pista: Si no recuerdas el nombre de un privilegio, puedes buscarlo en el diccionario de datos.</p>
-<ol>
-<li>
-<p>Muestra el texto de la última sentencia <em>SQL</em> que se ejecuto en el servidor, junto con el número de veces que se ha ejecutado desde que se cargó en el <em>Shared Pool</em> y el tiempo de CPU empleado en su ejecución.</p>
-</li>
-<li>
-<p>Realiza un procedimiento que genere un <em>script</em> que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquél directamente o a través de roles. El nuevo rol deberá llamarse <code>BackupPrivsNombreUsuario</code>.</p>
-</li>
-</ol>
+<p><strong>Crea un usuario llamado <code>Ayudante</code> y, sin usar los roles predefinidos de <em>Oracle</em>, dale los privilegios mínimos para que pueda resolver dichas tareas.</strong></p>
+<p><strong>Pista: Si no recuerdas el nombre de un privilegio, puedes buscarlo en el diccionario de datos.</strong></p>
+<p><strong>6. Muestra el texto de la última sentencia <em>SQL</em> que se ejecuto en el servidor, junto con el número de veces que se ha ejecutado desde que se cargó en el <em>Shared Pool</em> y el tiempo de CPU empleado en su ejecución.</strong></p>
+<p><strong>7. Realiza un procedimiento que genere un <em>script</em> que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquél directamente o a través de roles. El nuevo rol deberá llamarse <code>BackupPrivsNombreUsuario</code>.</strong></p>
 <h2>MySQL</h2>
-<ol>
-<li>Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</li>
-</ol>
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</strong></p>
 <h2>PostgreSQL</h2>
-<ol>
-<li>Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</li>
-</ol>
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</strong></p>
 <h2>MongoDB</h2>
-<ol>
-<li>
-<p>Averigua si existe la posibilidad en <em>MongoDB</em> de limitar el acceso de un usuario a los datos de una colección determinada.</p>
-</li>
-<li>
-<p>Averigua si en <em>MongoDB</em> existe el concepto de privilegio del sistema y muestra las diferencias más importantes con <em>Oracle</em>.</p>
-</li>
-<li>
-<p>Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios.</p>
-</li>
-<li>
-<p>Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</p>
-</li>
-</ol>
+<p><strong>1. Averigua si existe la posibilidad en <em>MongoDB</em> de limitar el acceso de un usuario a los datos de una colección determinada.</strong></p>
+<p><strong>2. Averigua si en <em>MongoDB</em> existe el concepto de privilegio del sistema y muestra las diferencias más importantes con <em>Oracle</em>.</strong></p>
+<p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios.</strong></p>
+<p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
     </article>
 
         <div class="tags">
