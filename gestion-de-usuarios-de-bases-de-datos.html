@@ -302,6 +302,8 @@
 <li><strong>En el momento de crear el usuario</strong></li>
 </ul>
 <pre>
+\> use "nombrebd"
+
 \> db.createUser(
 {
    user: "nombreusuario",
@@ -314,6 +316,8 @@
 <li><strong>Después de haber creado el usuario</strong></li>
 </ul>
 <pre>
+\> use "nombrebd"
+
 \> db.grantRolesToUser(
    "nombreusuario",
    [ { role : "nombredelrol", db : "nombrebd" }, "nombredelrol", … ]
@@ -321,6 +325,16 @@
 </pre>
 
 <p>Bien, ¿y qué pasa si queremos <strong>remover un rol</strong> de un usuario?</p>
+<p>Pues para ello, debemos emplear el siguiente comando:</p>
+<pre>
+\> use "nombrebd"
+
+\> db.revokeRolesFromUser(
+   "nombreusuario",
+   [ { role : "nombredelrol", db : "nombrebd" } | "nombredelrol" ]
+)
+</pre>
+
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
 <p>.</p>
     </article>
