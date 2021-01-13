@@ -593,8 +593,29 @@ success
 [root@quijote ~]# firewall-cmd --permanent --add-service=https
 success
 
+[root@quijote ~]# firewall-cmd --permanent --add-port=80/tcp
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-port=443/tcp
+success
+
 [root@quijote ~]# firewall-cmd --reload
 success
+
+[root@quijote ~]# firewall-cmd --list-all
+public (active)
+  target: default
+  icmp-block-inversion: no
+  interfaces: eth0
+  sources:
+  services: dhcpv6-client http https ssh
+  ports: 443/tcp 80/tcp
+  protocols:
+  masquerade: no
+  forward-ports:
+  source-ports:
+  icmp-blocks:
+  rich rules:
 </pre>
 
 <p>Habilitamos para que este servicio se inicie en cada arranque del sistema.</p>
