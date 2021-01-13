@@ -210,19 +210,30 @@ total 20
 dnf install mod_ssl -y
 </pre>
 
-<p>Para forzar que se acceda a la página a través del protocolo <strong>HTTPs</strong>, vamos a añadir al fichero de configuración de nuestro <em>virtualhost</em>, es decir, <code>javierpzh.</code> la siguiente línea:</p>
+<p>Para forzar que se acceda a la página a través del protocolo <strong>HTTPs</strong>, vamos a añadir al fichero de configuración de nuestro <em>virtualhost</em>, es decir, <code>javierpzh.gonzalonazareno.conf</code> la siguiente línea:</p>
 <pre>
 Redirect / https://www.javierpzh.gonzalonazareno.org
 </pre>
 
+<p>Hecho esto, nos faltaría crear el <em>virtualhost</em> que defina la web con HTTPs. En mi caso recibirá el nombre de <code>javierpzh.gonzalonazareno.https.conf</code> y su contenido será el siguiente:</p>
+<pre>
+
+</pre>
+
+<p>Habilitamos el nuevo <em>virtualhost</em> creando un enlace simbólico hacia la ruta <code>/etc/httpd/sites-enabled</code>.</p>
 <pre>
 [root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.https.conf /etc/httpd/sites-enabled/
+</pre>
+
+<p>Por último, vamos a reiniciar nuestro servidor web para que se apliquen los nuevos cambios:</p>
+<pre>
+systemctl restart httpd
 </pre>
 
 <ul>
 <li><strong>Investiga la regla DNAT en el cortafuego para abrir el puerto 443.</strong></li>
 </ul>
-<p>Vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
+<p>Vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla debe estar en <strong>Dulcinea</strong> ya que es la máquina que posea conexión hacia el exterior, y es la siguiente:</p>
 <pre>
 iptables -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:443
 </pre>
@@ -236,6 +247,12 @@ iptables-save > /etc/iptables/rules.v4
 <ul>
 <li><strong>Instala el certificado del Gonzalo Nazareno en tu navegador para que se pueda verificar tu certificado.</strong></li>
 </ul>
+<p>Para poder utilizar el protocolo HTTPs, debemos tener instalado en nuestro navegador el certificado firmado por la CA, en mi caso, tengo que instalar el certificado del <em>Gonzalo Nazareno</em>.</p>
+<p>Yo lo haré sobre <em>Mozilla Firefox</em>, pero es bastante parecido en los demás navegadores.</p>
+<p>Nos dirigimos a <strong>Preferencias</strong>, a la sección <strong>Privacidad &amp; Seguridad</strong>, y al apartado <strong>Certificados</strong>, <em>clickamos</em> en <strong>Ver certificados</strong> y nos sale una ventana como esta:</p>
+<p><img alt="." src="images/sad_OpenStack_configuracion_HTTPS/importar.png"></p>
+<p>Seleccionamos <strong>Importar ...</strong>, e importamos el fichero <em>cacert.pem</em>:</p>
+<p>.</p>
     </article>
 
         <div class="tags">
