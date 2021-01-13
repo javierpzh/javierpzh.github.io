@@ -589,7 +589,75 @@ Error: error: {
 </pre>
 
 <p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen.</strong></p>
-<p>.</p>
+<p>Si queremos saber que roles posee un usuario en concreto, podemos hacer uso del siguiente comando:</p>
+<pre>
+db.getUser("nombreusuario")
+</pre>
+
+<p>Por ejemplo, vamos a comprobar que roles se le han concedido al usuario <strong>javier</strong> de mi sistema:</p>
+<pre>
+\> use admin
+switched to db admin
+
+\> db.getUser("javier")
+{
+    "_id" : "admin.javier",
+    "userId" : UUID("3da264ea-1f70-4fdc-8231-82bdc6d70cce"),
+    "user" : "javier",
+    "db" : "admin",
+    "roles" : [
+        {
+            "role" : "root",
+            "db" : "admin"
+        }
+    ],
+    "mechanisms" : [
+        "SCRAM-SHA-1",
+        "SCRAM-SHA-256"
+    ]
+}
+
+\>
+</pre>
+
+<p>Podemos ver como nos muestra que el usuario <strong>javier</strong>, posee el rol de <code>root</code> para la base de datos <strong>admin</strong>.</p>
+<p>Bien, ¿y si queremos saber que privilegios incluye un determinado rol?</p>
+<p>Para ello, podemos utilizar el comando:</p>
+<pre>
+db.system.roles.find("nombredelrol").pretty()
+</pre>
+
+<p>Por ejemplo, vamos a comprobar que privilegios incluye el rol <strong>rol_acceso_coleccion</strong> de mi sistema:</p>
+<pre>
+\> use admin
+switched to db admin
+
+\> db.system.roles.find().pretty("rol_acceso_coleccion")
+{
+    "_id" : "empresa_mongodb.rol_acceso_coleccion",
+    "role" : "rol_acceso_coleccion",
+    "db" : "empresa_mongodb",
+    "privileges" : [
+        {
+            "resource" : {
+                "db" : "empresa_mongodb",
+                "collection" : "Productos"
+            },
+            "actions" : [
+                "find",
+                "insert",
+                "remove",
+                "update"
+            ]
+        }
+    ],
+    "roles" : [ ]
+}
+
+\>
+</pre>
+
+<p>Vemos que incluye privilegios sobre las acciones <code>find</code>, <code>insert</code>, <code>remove</code> y <code>update</code>.</p>
     </article>
 
         <div class="tags">
