@@ -214,6 +214,10 @@ dnf install mod_ssl -y
 Redirect / https://www.javierpzh.gonzalonazareno.org
 </pre>
 
+<pre>
+[root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.https.conf /etc/httpd/sites-enabled/
+</pre>
+
 <ul>
 <li><strong>Investiga la regla DNAT en el cortafuego para abrir el puerto 443.</strong></li>
 </ul>

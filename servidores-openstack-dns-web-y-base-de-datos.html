@@ -669,6 +669,11 @@ IncludeOptional sites-enabled/*.conf
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>También debemos crear dentro del directorio <code>/var/www/iesgn</code>, una carpeta llamada <code>log</code>.</p>
+<p>Debemos modificar la política de <strong>SELinux</strong>:</p>
+<pre>
+setsebool -P httpd_unified 1
+</pre>
+
 <p>Reiniciamos nuestro servidor web:</p>
 <pre>
 systemctl restart httpd
