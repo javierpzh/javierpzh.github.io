@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/gestion-de-usuarios-de-bases-de-datos.html">
 	<meta property="og:title" content="Gestión de Usuarios de bases de datos">
-	<meta property="article:published_time" content="2018-01-12 00:00:00+01:00">
+	<meta property="article:published_time" content="2018-01-13 00:00:00+01:00">
             <meta property="og:description" content="Oracle 1. Realiza un procedimiento llamado MostrarObjetosAccesibles que reciba un nombre de usuario y muestre todos los objetos a los...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -96,7 +96,7 @@
                         <h1>Gestión de Usuarios de bases de datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el vie 12 enero 2018
+                             el sáb 13 enero 2018
                         </span>
                         
                     </div>
@@ -147,16 +147,259 @@
 <p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan.</strong></p>
 <h2>MongoDB</h2>
 <p><strong>1. Averigua si existe la posibilidad en <em>MongoDB</em> de limitar el acceso de un usuario a los datos de una colección determinada.</strong></p>
-<p>Podríamos revocarle al usuario el rol de leer y escribir en dicha colección, es decir, el rol <code>readWrite</code>.</p>
+<p>Antes de empezar, me gustaría aclarar el escenario sobre el que estoy trabajando, y se trata del que fue creado en el <em>post</em> acerca de la <a href="https://javierpzh.github.io/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a>, en el apartado de <strong>MongoDB</strong>.</p>
+<p>En primer lugar, vamos a crear un usuario llamado <strong>javier_trabajador</strong> que tenga acceso sobre la base de datos <strong>empresa_mongodb</strong>. Para ello, le asignaré un rol <code>readWrite</code>.</p>
 <pre>
-\> use "empresa_mongodb"
+\> db.createUser({user: "javier_trabajador", pwd: "contraseña", roles: ["readWrite"]})
+Successfully added user: { "user" : "javier_trabajador", "roles" : [ "readWrite" ] }
 
-\> db.revokeRolesFromUser(
-   "nombreusuario",
-   [ { role : "nombredelrol", db : "empresa_mongodb" } | "nombredelrol" ]
-)
+\> db.getUser("javier_trabajador")
+{
+    "_id" : "empresa_mongodb.javier_trabajador",
+    "userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+    "user" : "javier_trabajador",
+    "db" : "empresa_mongodb",
+    "roles" : [
+        {
+            "role" : "readWrite",
+            "db" : "empresa_mongodb"
+        }
+    ],
+    "mechanisms" : [
+        "SCRAM-SHA-1",
+        "SCRAM-SHA-256"
+    ]
+}
+
+\>
 </pre>
 
+<p>Podemos ver como he creado el nuevo usuario y que efectivamente se le ha asignado el rol que pretendíamos.</p>
+<p>Ahora, vamos a comprobar como el usuario <strong>javier_trabajador</strong>, posee acceso a los datos de la base de datos <strong>empresa_mongodb</strong>, en concreto, de la colección <strong>Productos</strong>.</p>
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("b5895a01-a384-4a58-8003-6530fa3ac687") }
+MongoDB server version: 4.4.2
+
+\> use empresa_mongodb
+switched to db empresa_mongodb
+
+\> show collections
+Empleados
+Estudios
+Productos
+
+\> db.Productos.find().pretty()
+{
+    "_id" : ObjectId("5fd10b94364af274079c314b"),
+    "Nombre" : "Javi s Phone 1",
+    "Tipo" : "Telefono",
+    "Descripcion" : "4,7 Pulgadas, Procesador 4 nucleos, 2 GB RAM",
+    "Precio" : 175
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314c"),
+    "Nombre" : "Javi s Phone 2",
+    "Tipo" : "Telefono",
+    "Descripcion" : "5,8 Pulgadas, Procesador 6 nucleos, 4 GB RAM",
+    "Precio" : 390
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314d"),
+    "Nombre" : "Javi s Phone 3",
+    "Tipo" : "Telefono",
+    "Descripcion" : "6,1 Pulgadas, Procesador 8 nucleos, 6 GB RAM",
+    "Precio" : 600
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314e"),
+    "Nombre" : "Javi s PC 1",
+    "Tipo" : "Ordenador",
+    "Descripcion" : "15,7 Pulgadas, Procesador 6 nucleos 12 hilos, 16 GB RAM",
+    "Precio" : 950
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314f"),
+    "Nombre" : "Javi s PC 2",
+    "Tipo" : "Ordenador",
+    "Descripcion" : "13,7 Pulgadas, Procesador 4 nucleos 8 hilos, 8 GB RAM",
+    "Precio" : 450
+}
+
+\>
+</pre>
+
+<p>Como esperábamos, así es.</p>
+<p>Podemos apreciar como esta base de datos incluye tres colecciones (<em>Empleados</em>, <em>Estudios</em> y <em>Productos</em>), pero, ¿qué pasa si deseamos que este usuario pueda acceder a los datos de la colección <em>Productos</em>, pero que no tenga acceso a las colecciones <em>Empleados</em> y <em>Estudios</em>?</p>
+<p>En este caso, deberíamos revocarle al usuario, el rol de leer y escribir en esta base de datos, es decir, el rol <code>readWrite</code>, ya que éste se asigna a todas las colecciones de la propia base de datos.</p>
+<pre>
+\> use empresa_mongodb
+
+\> db.revokeRolesFromUser(
+   "javier_trabajador",
+   [ { "role" : "readWrite", db : "empresa_mongodb" } ]
+)
+
+\> db.getUser("javier_trabajador")
+{
+    "_id" : "empresa_mongodb.javier_trabajador",
+    "userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+    "user" : "javier_trabajador",
+    "db" : "empresa_mongodb",
+    "roles" : [ ],
+    "mechanisms" : [
+        "SCRAM-SHA-1",
+        "SCRAM-SHA-256"
+    ]
+}
+
+\>
+</pre>
+
+<p>Si ahora intentáramos acceder a los datos de <strong>empresa_mongodb</strong>:</p>
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("ec7905cb-bf1d-49d3-b13f-9169ee5b59db") }
+MongoDB server version: 4.4.2
+
+\> use empresa_mongodb
+switched to db empresa_mongodb
+
+\> show collections
+Warning: unable to run listCollections, attempting to approximate collection names by parsing connectionStatus
+
+\> db.Productos.find().pretty()
+Error: error: {
+    "ok" : 0,
+    "errmsg" : "not authorized on empresa_mongodb to execute command { find: \"Productos\", filter: {}, lsid: { id: UUID(\"ec7905cb-bf1d-49d3-b13f-9169ee5b59db\") }, $db: \"empresa_mongodb\" }",
+    "code" : 13,
+    "codeName" : "Unauthorized"
+}
+
+\>
+</pre>
+
+<p>Lógicamente no tenemos acceso a ninguna de las colecciones.</p>
+<p>Para asignarle <strong>privilegios sobre una determinada colección</strong>, podemos crear un <strong>rol definido por el usuario</strong>, es decir, por nosotros mismos.</p>
+<p>Esto es lo que vamos a hacer. Como podemos ver a continuación, he creado el rol llamado <strong>rol_acceso_coleccion</strong>, que otorga privilegios de lectura y escritura sobre la colección <strong>Productos</strong> de la base de datos <strong>empresa_mongodb</strong>.</p>
+<p>Posteriormente se lo asignamos al usuario <strong>javier_trabajador</strong>.</p>
+<pre>
+\> db.createRole({role:"rol_acceso_coleccion", privileges:[{resource:{db:"empresa_mongodb", collection: "Productos"}, actions: ["find","remove","insert","update"]}], roles: []})
+{
+    "role" : "rol_acceso_coleccion",
+    "privileges" : [
+        {
+            "resource" : {
+                "db" : "empresa_mongodb",
+                "collection" : "Productos"
+            },
+            "actions" : [
+                "find",
+                "remove",
+                "insert",
+                "update"
+            ]
+        }
+    ],
+    "roles" : [ ]
+}
+
+\> db.grantRolesToUser(
+   "javier_trabajador",
+   [ { role : "rol_acceso_coleccion", db : "empresa_mongodb" } ]
+)
+
+\> db.getUser("javier_trabajador")
+{
+    "_id" : "empresa_mongodb.javier_trabajador",
+    "userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+    "user" : "javier_trabajador",
+    "db" : "empresa_mongodb",
+    "roles" : [
+        {
+            "role" : "rol_acceso_coleccion",
+            "db" : "empresa_mongodb"
+        }
+    ],
+    "mechanisms" : [
+        "SCRAM-SHA-1",
+        "SCRAM-SHA-256"
+    ]
+}
+
+\>
+</pre>
+
+<p>Hecho esto, supuestamente, tendríamos acceso a los datos de la colección <em>Productos</em>. Vamos a comprobarlo:</p>
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("3507c66f-5b8e-47a2-b9c1-47af2739b991") }
+MongoDB server version: 4.4.2
+
+\> use empresa_mongodb
+switched to db empresa_mongodb
+
+\> show collections
+Productos
+
+\> db.Productos.find().pretty()
+{
+    "_id" : ObjectId("5fd10b94364af274079c314b"),
+    "Nombre" : "Javi s Phone 1",
+    "Tipo" : "Telefono",
+    "Descripcion" : "4,7 Pulgadas, Procesador 4 nucleos, 2 GB RAM",
+    "Precio" : 175
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314c"),
+    "Nombre" : "Javi s Phone 2",
+    "Tipo" : "Telefono",
+    "Descripcion" : "5,8 Pulgadas, Procesador 6 nucleos, 4 GB RAM",
+    "Precio" : 390
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314d"),
+    "Nombre" : "Javi s Phone 3",
+    "Tipo" : "Telefono",
+    "Descripcion" : "6,1 Pulgadas, Procesador 8 nucleos, 6 GB RAM",
+    "Precio" : 600
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314e"),
+    "Nombre" : "Javi s PC 1",
+    "Tipo" : "Ordenador",
+    "Descripcion" : "15,7 Pulgadas, Procesador 6 nucleos 12 hilos, 16 GB RAM",
+    "Precio" : 950
+}
+{
+    "_id" : ObjectId("5fd10b95364af274079c314f"),
+    "Nombre" : "Javi s PC 2",
+    "Tipo" : "Ordenador",
+    "Descripcion" : "13,7 Pulgadas, Procesador 4 nucleos 8 hilos, 8 GB RAM",
+    "Precio" : 450
+}
+
+\> db.Estudios.find().pretty()
+Error: error: {
+    "ok" : 0,
+    "errmsg" : "not authorized on empresa_mongodb to execute command { find: \"Estudios\", filter: {}, lsid: { id: UUID(\"3507c66f-5b8e-47a2-b9c1-47af2739b991\") }, $db: \"empresa_mongodb\" }",
+    "code" : 13,
+    "codeName" : "Unauthorized"
+}
+
+\>
+</pre>
+
+<p>Genial, podemos ver como únicamente nos muestra la colección sobre la que poseemos privilegios, por tanto, ya habríamos terminado este apartado.</p>
 <p><strong>2. Averigua si en <em>MongoDB</em> existe el concepto de privilegio del sistema y muestra las diferencias más importantes con <em>Oracle</em>.</strong></p>
 <p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios.</strong></p>
 <p>Primeramente veo conveniente explicar lo que es un <strong>rol</strong>.</p>
@@ -312,7 +555,7 @@
 <li><strong>En el momento de crear el usuario</strong></li>
 </ul>
 <pre>
-\> use "nombrebd"
+\> use nombrebd
 
 \> db.createUser(
 {
@@ -326,7 +569,7 @@
 <li><strong>Después de haber creado el usuario</strong></li>
 </ul>
 <pre>
-\> use "nombrebd"
+\> use nombrebd
 
 \> db.grantRolesToUser(
    "nombreusuario",
@@ -337,7 +580,7 @@
 <p>Bien, ¿y qué pasa si queremos <strong>remover un rol</strong> de un usuario?</p>
 <p>Pues para ello, debemos emplear el siguiente comando:</p>
 <pre>
-\> use "nombrebd"
+\> use nombrebd
 
 \> db.revokeRolesFromUser(
    "nombreusuario",
