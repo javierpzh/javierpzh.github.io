@@ -258,11 +258,12 @@ Quit the server with CONTROL-C.
 
 <p>Si accedemos a la dirección <code>127.0.0.1:8000</code>:</p>
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhost.png"></p>
-<p>Nuestra aplicación ya se está ejecutando. Nos <em>logueamos</em>:</p>
+<p>Nuestra aplicación ya se está ejecutando. Ahora vamos a crear nuestro blog y vamos a personalizar un poco la web, para ello, nos <em>logueamos</em>:</p>
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhostlogin.png"></p>
 <p>Y así accederemos al panel de administración:</p>
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhostadmin.png"></p>
-<h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
+<p>Una vez aquí, lo configuramos a nuestro gusto y una vez finalizado, podemos ver el resultado:</p>
+<p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhostblog.png"></p>
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
     </article>
