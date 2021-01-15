@@ -299,6 +299,24 @@ To github.com:javierpzh/Web-Python-OpenStack.git
    69c2563..c41a53a  main -> main
 </pre>
 
+<p>Ya en el entorno de producción, en primer lugar en <strong>Quijote</strong>, que es donde se encuentra el servidor web <em>Apache</em>, vamos a dirigirnos a la ruta <code>/var/www/</code> y clonaremos el repositorio, por lo que tenemos que tener instalado el paquete <code>git</code>:</p>
+<pre>
+[root@quijote www]# dnf install git -y
+
+[root@quijote www]# git clone https://github.com/javierpzh/Web-Python-OpenStack.git
+Cloning into 'Web-Python-OpenStack'...
+remote: Enumerating objects: 12105, done.
+remote: Counting objects: 100% (12105/12105), done.
+remote: Compressing objects: 100% (7711/7711), done.
+remote: Total 12105 (delta 2845), reused 12102 (delta 2845), pack-reused 0
+Receiving objects: 100% (12105/12105), 22.34 MiB | 6.47 MiB/s, done.
+Resolving deltas: 100% (2845/2845), done.
+Updating files: 100% (8886/8886), done.
+
+[root@quijote www]# ls
+cgi-bin  html  iesgn  Web-Python-OpenStack
+</pre>
+
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
     </article>
