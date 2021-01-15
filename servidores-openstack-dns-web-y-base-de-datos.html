@@ -112,43 +112,6 @@
     <article>
         <h2>Servidor DNS</h2>
 <p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Mi subdominio dentro del dominio principal <code>gonzalonazareno.org</code>, se llamará <code>javierpzh.gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
-<p><strong>Determina la regla DNAT en <em>Dulcinea</em> para que podamos hacer consultas DNS desde el exterior</strong></p>
-<p><strong>Configura de forma adecuada todas las máquinas para que usen como servidor DNS a <em>Freston</em>.</strong></p>
-<p><strong>Indica al profesor el nombre de tu dominio para que pueda realizar la delegación en el servidor DNS principal <em>papion-dns</em>.</strong></p>
-<p><strong>Comprueba que los servidores tienen configurados el nuevo nombre de dominio de forma adecuada después de volver a reiniciar el servidor (o tomar una nueva configuración DHCP). Para que el servidor tenga el <em>FQDN</em> debes tener configurado de forma correcta el parámetro <em>domain</em> y el parámetro <em>search</em> en el fichero <code>/etc/resolv.conf</code>, además debemos evitar que este fichero se sobreescriba con los datos que manda el servidor DHCP de <em>OpenStack</em>. Quizás sea buena idea mirar la configuración de <em>cloud-init</em>. Documenta la configuración que has tenido que modificar y muestra el contenido del fichero <code>/etc/resolv.conf</code> y la salida del comando <code>hostname -f</code> después de un reinicio.</strong></p>
-<p><strong>El servidor DNS se va a configurar en un principio de la siguiente manera:</strong></p>
-<ul>
-<li>
-<p><strong>El servidor DNS se llama <code>freston.(nombre).gonzalonazareno.org</code> y va a ser el servidor con autoridad para la zona <code>(nombre).gonzalonazareno.org</code>.</strong></p>
-</li>
-<li>
-<p><strong>El servidor debe resolver el nombre de todas las máquinas.</strong></p>
-</li>
-<li>
-<p><strong>El servidor debe resolver los distintos servicios (virtualhost, servidor de base de datos, servidor LDAP, ...).</strong></p>
-</li>
-<li>
-<p><strong>Debes determinar cómo vas a nombrar a <em>Dulcinea</em>, para que seamos capaz de resolver la IP flotante y la ip fija. Para ello vamos a usar vistas en bind9.</strong></p>
-</li>
-<li>
-<p><strong>Debes considerar la posibilidad de hacer tres zonas de resolución inversa: para las redes <code>10.0.0.0/24</code>, <code>10.0.1.0/24</code> y <code>10.0.2.0/24</code> (no vamos a crear la zona inversa para la red externa de IP flotantes), para resolver IP fijas y flotantes del <em>cloud</em>.</strong></p>
-</li>
-</ul>
-<p><strong>Entrega el resultado de las siguientes consultas desde un cliente interno a nuestra red y otro externo:</strong></p>
-<ul>
-<li>
-<p><strong>El servidor DNS con autoridad sobre la zona del dominio <code>(nombre).gonzalonazareno.org</code></strong></p>
-</li>
-<li>
-<p><strong>La dirección IP de <em>Dulcinea</em>.</strong></p>
-</li>
-<li>
-<p><strong>Una resolución de <code>www</code>.</strong></p>
-</li>
-<li>
-<p><strong>Un resolución inversa de IP fija en cada una de las redes. (Esta consulta sólo funcionará desde una máquina interna).</strong></p>
-</li>
-</ul>
 <p>Vamos a instalar el servidor bind9:</p>
 <pre>
 apt install bind9 -y
@@ -487,33 +450,6 @@ search javierpzh.gonzalonazareno.org
 <p>(Aún no he conseguido configurarla para que permanezca a pesar de los reinicios, así que de momento la he añadido hasta que lo consiga.)</p>
 <p>Hecho esto, ahora nuestros clientes utilizarán el servidor DNS <em>bind9</em> ubicado en <em>Freston</em>.</p>
 <p>Como ya poseemos un servidor DNS bien configurado, podemos eliminar las entradas referentes a los distintos equipos en el fichero <code>/etc/hosts</code> de manera que no nos hará falta hacer uso de la resolución estática.</p>
-<pre>
-javier@debian:~$ dig ns javierpzh.gonzalonazareno.org
-
-; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> ns javierpzh.gonzalonazareno.org
-;; global options: +cmd
-;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 45561
-;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
-
-;; OPT PSEUDOSECTION:
-; EDNS: version: 0, flags:; udp: 4096
-; COOKIE: 83759d6cb786049bca2e87175ffc9f2c1efee589246e6f1a (good)
-;; QUESTION SECTION:
-;javierpzh.gonzalonazareno.org. IN  NS
-
-;; ANSWER SECTION:
-javierpzh.gonzalonazareno.org. 86400 IN NS  dulcinea.javierpzh.gonzalonazareno.org.
-
-;; ADDITIONAL SECTION:
-dulcinea.javierpzh.gonzalonazareno.org. 86400 IN A 172.22.200.183
-
-;; Query time: 84 msec
-;; SERVER: 172.22.200.183#53(172.22.200.183)
-;; WHEN: lun ene 11 19:55:40 CET 2021
-;; MSG SIZE  rcvd: 125
-</pre>
-
 <p>Voy a mostrar, como por ejemplo, puedo hacer uso del DNS desde <strong>Quijote</strong>:</p>
 <pre>
 [centos@quijote ~]$ ping dulcinea
@@ -567,8 +503,10 @@ PING freston.javierpzh.gonzalonazareno.org (10.0.1.6) 56(84) bytes of data.
 rtt min/avg/max/mdev = 1.226/1.550/1.747/0.230 ms
 </pre>
 
+<p>Vemos que nos resuelve todos los nombres, por tanto habríamos terminado el servidor DNS.</p>
+<p>(José Domingo, si quieres el próximo día en clase te muestro cualquier prueba de funcionamiento).</p>
 <h2>Servidor Web</h2>
-<p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Vamos a configurar el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>). Entrega una captura de pantalla accediendo a <code>www.(nombre).gonzalonazareno.org/info.php</code> donde se vea la salida del fichero <code>info.php</code>. Investiga la reglas <em>DNAT</em> de cortafuegos que tienes que configurar en <em>Dulcinea</em> para, cuando accedemos a la IP flotante se acceda al servidor web.</strong></p>
+<p><strong>En <em>Quijote (CentOS)</em> (Servidor que está en la DMZ) vamos a instalar un servidor web <em>Apache</em>. Vamos a configurar el servidor para que sea capaz de ejecutar código PHP (para ello vamos a usar un servidor de aplicaciones <code>php-fpm</code>).</strong></p>
 <p>Antes de instalar el servidor web, vamos a dirigirnos a <strong>Dulcinea</strong> y vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla es la siguiente:</p>
 <pre>
 iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80
@@ -710,7 +648,7 @@ Created symlink /etc/systemd/system/multi-user.target.wants/php-fpm.service → 
 <p><img alt="." src="images/sri_Servidores_OpenStack_DNS_Web_y_Base_de_Datos/quijoteapachephpinfo.png"></p>
 <p>Vemos como nuestro servidor ejecuta código <em>PHP</em>, por lo que habríamos terminado.</p>
 <h2>Servidor de base de datos</h2>
-<p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.(nombre).gonzalonazareno.org</code>. Entrega una prueba de funcionamiento donde se vea como se realiza una conexión a la base de datos desde <em>Quijote</em>.</strong></p>
+<p><strong>En <em>Sancho (Ubuntu)</em> vamos a instalar un servidor de base de datos <em>MariaDB</em> <code>bd.javierpzh.gonzalonazareno.org</code>.</strong></p>
 <p>El primer paso sería instalar nuestro gestor de base de datos, <strong>MySQL</strong>, por tanto, lo instalamos:</p>
 <pre>
 apt install mariadb-server mariadb-client -y
