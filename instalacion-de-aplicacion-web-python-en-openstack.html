@@ -149,7 +149,32 @@ pip install --upgrade pip
 </pre>
 
 <p>Ya tendríamos el entorno virtual listo para trabajar con él.</p>
-<p>Llegó el momento de decidir qué CMS instalaremos. En mi caso, he decidido instalar ****.</p>
+<p>Llegó el momento de decidir qué CMS instalaremos. En mi caso, he decidido instalar <strong>Mezzanine</strong>.</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ pip install mezzanine
+</pre>
+
+<p>Una vez instalado, vamos a crear nuestra web/proyecto con el siguiente comando:</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ mezzanine-project javierpzh
+</pre>
+
+<p>Hecho esto, podremos ver como nos ha creado una carpeta con el nombre que hayamos decidido establecerle a nuestro proyecto. Dentro de esta carpeta podremos encontrar varios directorios/ficheros, pero el que nos interesa en este punto es el llamado <code>local_settings.py</code>, ya que, en él se encuentra la configuración básica de la base de datos.</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ ls
+javierpzh  README.md  webpython
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ cd javierpzh/
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh$ ls
+deploy  fabfile.py  javierpzh  manage.py  requirements.txt
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh$ cd javierpzh/
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh/javierpzh$ ls
+__init__.py  local_settings.py  settings.py  urls.py  wsgi.py
+</pre>
+
 <h4>Personaliza la página (cambia el nombre al blog y pon tu nombre) y añade contenido (algún artículo con alguna imagen).</h4>
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
