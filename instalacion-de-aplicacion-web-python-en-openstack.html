@@ -264,6 +264,41 @@ Quit the server with CONTROL-C.
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhostadmin.png"></p>
 <p>Una vez aquí, lo configuramos a nuestro gusto y una vez finalizado, podemos ver el resultado:</p>
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/localhostblog.png"></p>
+<p>Es la hora de pasar esta aplicación al entorno de producción, para ello tendremos que realizar la copia de seguridad adecuada para restaurarla en este entorno. Como he comentado anteriormente, vamos a utilizar gestores de bases de datos distintos, por lo que, tendremos que buscar una solución para solventar esto.</p>
+<p>Es por ello que existe el comando:</p>
+<pre>
+python manage.py dumpdata
+</pre>
+
+<p>Este comando lo que hace es imprimirnos por pantalla toda la información almacenada en la base de datos en formato <strong>.json</strong>, es decir, información que se puede restaurar en <strong>MySQL</strong>. Genial, ya tendríamos el "problema" solventado, ya que con guardar la salida de dicho comando en un fichero tendríamos la copia de seguridad. Pues eso es lo que vamos a hacer con el siguiente comando:</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh$ python manage.py dumpdata> copiadeseguridad.json
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh$ ls
+copiadeseguridad.json  deploy  dev.db  fabfile.py  javierpzh  manage.py  requirements.txt  static
+</pre>
+
+<p>En el entorno de desarrollo ya hemos terminado nuestro trabajo, y si recordamos, íbamos a utilizar un repositorio de GitHub para almacenar esta información y descargarla en el entorno de desarrollo.</p>
+<p>Almacenamos todos los nuevos ficheros, entre los que se encuentra la copia de seguridad:</p>
+<pre>
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ git add *
+...
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ git commit -am "aplicación mezzanine"
+...
+
+(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ git push
+Enumerando objetos: 12103, listo.
+Contando objetos: 100% (12103/12103), listo.
+Compresión delta usando hasta 12 hilos
+Comprimiendo objetos: 100% (7709/7709), listo.
+Escribiendo objetos: 100% (12102/12102), 22.34 MiB | 4.51 MiB/s, listo.
+Total 12102 (delta 2845), reusado 12102 (delta 2845)
+remote: Resolving deltas: 100% (2845/2845), done.
+To github.com:javierpzh/Web-Python-OpenStack.git
+   69c2563..c41a53a  main -> main
+</pre>
+
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
     </article>
