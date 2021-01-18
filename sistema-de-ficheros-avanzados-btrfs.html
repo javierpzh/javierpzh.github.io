@@ -175,7 +175,7 @@
 <p>Desfragmentación sin desmontar</p>
 </li>
 </ul>
-<p>Para empezar a trabajar con este sistema de ficheros, he creado un escenario en <em>OpenStack</em> que se resume en una instancia con <em>Debian</em>, a la que le he añadido dos volúmenes de 1 GB cada uno, como podemos observar aquí:</p>
+<p>Para empezar a trabajar con este sistema de ficheros, he creado un escenario en <em>OpenStack</em> que se resume en una instancia con <em>Debian</em>, a la que le he añadido tres volúmenes de 1 GB cada uno, como podemos observar aquí:</p>
 <pre>
 root@btrfs:~# lsblk
 NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
@@ -183,6 +183,7 @@ vda    254:0    0   2G  0 disk
 └─vda1 254:1    0   2G  0 part /
 vdb    254:16   0   1G  0 disk
 vdc    254:32   0   1G  0 disk
+vdd    254:48   0   1G  0 disk
 </pre>
 
 <p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
@@ -190,38 +191,40 @@ vdc    254:32   0   1G  0 disk
 apt install btrfs-tools -y
 </pre>
 
-<p>En primer lugar, vamos a formatear estas particiones y asignarle como sistema de ficheros <em>Btrfs</em>. Para ello, hacemos uso de la herramienta <code>mkfs.()</code> seguido de los dispositivos:</p>
+<p>En primer lugar, vamos a formatear estos volúmenes y asignarle como sistema de ficheros <em>Btrfs</em>. Para ello, hacemos uso de la herramienta <code>mkfs.()</code> seguido de los dispositivos:</p>
 <pre>
-root@btrfs:~# mkfs.btrfs /dev/vdb /dev/vdc
+root@btrfs:~# mkfs.btrfs /dev/vdb /dev/vdc /dev/vdd
 btrfs-progs v4.20.1
 See http://btrfs.wiki.kernel.org for more information.
 
 Label:              (null)
-UUID:               e4a0df33-403d-40f7-8fbb-7ad67696807f
+UUID:               800a0dc3-d7d2-433a-8445-69e0d09d99cd
 Node size:          16384
 Sector size:        4096
-Filesystem size:    2.00GiB
+Filesystem size:    3.00GiB
 Block group profiles:
-  Data:             RAID0           204.75MiB
-  Metadata:         RAID1           102.38MiB
+  Data:             RAID0           307.12MiB
+  Metadata:         RAID1           153.56MiB
   System:           RAID1             8.00MiB
 SSD detected:       no
 Incompat features:  extref, skinny-metadata
-Number of devices:  2
+Number of devices:  3
 Devices:
    ID        SIZE  PATH
     1     1.00GiB  /dev/vdb
     2     1.00GiB  /dev/vdc
+    3     1.00GiB  /dev/vdd
 </pre>
 
-<p>Vemos como efectivamente ahora ambos poseen <em>Btrfs</em>:</p>
+<p>Vemos como efectivamente ahora poseen <em>Btrfs</em>:</p>
 <pre>
 root@btrfs:~# lsblk -f
 NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
 vda                                                                     
 └─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.4M    51% /
-vdb    btrfs        e4a0df33-403d-40f7-8fbb-7ad67696807f                
-vdc    btrfs        e4a0df33-403d-40f7-8fbb-7ad67696807f
+vdb    btrfs        800a0dc3-d7d2-433a-8445-69e0d09d99cd                
+vdc    btrfs        800a0dc3-d7d2-433a-8445-69e0d09d99cd                
+vdd    btrfs        800a0dc3-d7d2-433a-8445-69e0d09d99cd
 </pre>
 
 <p>.</p>
