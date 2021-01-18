@@ -126,6 +126,7 @@
 </li>
 </ul>
 <p>Esta tarea se puede realizar en una instancia de OpenStack y documentarla como habitualmente o bien grabar un vídeo con una demo de las características y hacer la entrega con el enlace del vídeo.</p>
+<hr>
 <p>En este <em>post</em> vamos a ver el sistema de ficheros <strong>Btrfs</strong>.</p>
 <p><strong>Btrfs</strong> <em>(B-tree FS)</em> es un sistema de archivos <strong>copy-on-write</strong> <em>(CoW)</em> anunciado por <em>Oracle Corporation</em> para <em>GNU/Linux</em>. <em>Btrfs</em> existe porque los desarrolladores querían expandir la funcionalidad de un sistema de archivos para incluir funcionalidades adicionales tales como agrupación, instantáneas y sumas de verificación.</p>
 <p>El proyecto comenzó en <em>Oracle</em>, pero desde entonces, otras compañías importantes han desempeñado un papel en el desarrollo, como pueden ser <em>Facebook</em>, <em>Intel</em>, <em>Netgear</em>, <em>Red Hat</em> y <em>SUSE</em>.</p>
@@ -174,9 +175,53 @@
 <p>Desfragmentación sin desmontar</p>
 </li>
 </ul>
+<p>Para empezar a trabajar con este sistema de ficheros, he creado un escenario en <em>OpenStack</em> que se resume en una instancia con <em>Debian</em>, a la que le he añadido dos volúmenes de 1 GB cada uno, como podemos observar aquí:</p>
+<pre>
+root@btrfs:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    254:0    0   2G  0 disk
+└─vda1 254:1    0   2G  0 part /
+vdb    254:16   0   1G  0 disk
+vdc    254:32   0   1G  0 disk
+</pre>
+
 <p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
 <pre>
 apt install btrfs-tools -y
+</pre>
+
+<p>En primer lugar, vamos a formatear estas particiones y asignarle como sistema de ficheros <em>Btrfs</em>. Para ello, hacemos uso de la herramienta <code>mkfs.()</code> seguido de los dispositivos:</p>
+<pre>
+root@btrfs:~# mkfs.btrfs /dev/vdb /dev/vdc
+btrfs-progs v4.20.1
+See http://btrfs.wiki.kernel.org for more information.
+
+Label:              (null)
+UUID:               e4a0df33-403d-40f7-8fbb-7ad67696807f
+Node size:          16384
+Sector size:        4096
+Filesystem size:    2.00GiB
+Block group profiles:
+  Data:             RAID0           204.75MiB
+  Metadata:         RAID1           102.38MiB
+  System:           RAID1             8.00MiB
+SSD detected:       no
+Incompat features:  extref, skinny-metadata
+Number of devices:  2
+Devices:
+   ID        SIZE  PATH
+    1     1.00GiB  /dev/vdb
+    2     1.00GiB  /dev/vdc
+</pre>
+
+<p>Vemos como efectivamente ahora ambos poseen <em>Btrfs</em>:</p>
+<pre>
+root@btrfs:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.4M    51% /
+vdb    btrfs        e4a0df33-403d-40f7-8fbb-7ad67696807f                
+vdc    btrfs        e4a0df33-403d-40f7-8fbb-7ad67696807f
 </pre>
 
 <p>.</p>
