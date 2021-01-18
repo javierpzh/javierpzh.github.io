@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/instalacion-de-aplicacion-web-python-en-openstack.html">
 	<meta property="og:title" content="Instalación de aplicación web Python en OpenStack">
-	<meta property="article:published_time" content="2021-01-15 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-01-18 00:00:00+01:00">
             <meta property="og:description" content="En esta tarea vamos a realizar la instalación de un CMS Python basado en Django. Puedes encontrar varios en el siguiente enlace. Instala...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
@@ -96,7 +96,7 @@
                         <h1>Instalación de aplicación web Python en OpenStack</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el vie 15 enero 2021
+                             el lun 18 enero 2021
                         </span>
                         
                     </div>
@@ -330,7 +330,41 @@ cgi-bin  html  iesgn  Web-Python-OpenStack
 (entornoproduccion) [root@quijote Web-Python-OpenStack]# pip install mezzanine
 </pre>
 
-<p>Una vez tenemos nuestro entorno virtual en producción, vamos a </p>
+<p>Una vez tenemos nuestro entorno virtual en producción, vamos a crear en nuestro usuario de <em>MySQL</em>, del servidor de <em>Sancho</em>, la base de datos <strong>webpython</strong>, para almacenar los datos de la copia de seguridad:</p>
+<pre>
+[root@quijote ~]# mysql -h sancho -u javierquijote -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 50
+Server version: 5.5.5-10.3.25-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> CREATE DATABASE webpython;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| webpython          |
++--------------------+
+4 rows in set (0.00 sec)
+</pre>
+
+<pre>
+ALLOWED_HOSTS = ["sancho"]
+</pre>
+
 <hr>
 <h4>Guarda los ficheros generados durante la instalación en un repositorio <em>GitHub</em>. Guarda también en ese repositorio la copia de seguridad de la base de datos. Ten en cuenta que en el entorno de desarrollo vas a tener una base de datos <strong>sqlite</strong>, y en el entorno de producción una <strong>MariaDB</strong>, por lo tanto, es recomendable para hacer la copia de seguridad y recuperarla los comandos: <code>python manage.py dumpdata</code> y <code>python manage.py loaddata</code>, para <a href="https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata">más información</a>.</h4>
 <h4>Realiza el despliegue de la aplicación en tu entorno de producción (servidor web y servidor de base de datos en el <em>cloud</em>). Utiliza un entorno virtual. Como servidor de aplicación puedes usar <em>gunicorn</em> o <em>uwsgi</em> (crea una unidad <em>systemd</em> para gestionar este servicio). El contenido estático debe servirlo el servidor web. La aplicación será accesible en la URL <code>python.javierpzh.gonzalonazareno.org</code>.</h4>
