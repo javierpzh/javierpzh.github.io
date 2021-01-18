@@ -125,7 +125,7 @@
 </ul>
 <p>Esta tarea se puede realizar en una instancia de OpenStack y documentarla como habitualmente o bien grabar un vídeo con una demo de las características y hacer la entrega con el enlace del vídeo.</p>
 <p>En este <em>post</em> vamos a ver el sistema de ficheros <strong>Btrfs</strong>.</p>
-<p><strong>Btrfs</strong> <em>(B-tree FS)</em> es un sistema de archivos <strong>copy-on-write</strong> anunciado por <em>Oracle Corporation</em> para <em>GNU/Linux</em>. <em>Btrfs</em> existe porque los desarrolladores querían expandir la funcionalidad de un sistema de archivos para incluir funcionalidades adicionales tales como agrupación, instantáneas y sumas de verificación.</p>
+<p><strong>Btrfs</strong> <em>(B-tree FS)</em> es un sistema de archivos <strong>copy-on-write</strong> <em>(CoW)</em> anunciado por <em>Oracle Corporation</em> para <em>GNU/Linux</em>. <em>Btrfs</em> existe porque los desarrolladores querían expandir la funcionalidad de un sistema de archivos para incluir funcionalidades adicionales tales como agrupación, instantáneas y sumas de verificación.</p>
 <p>El proyecto comenzó en <em>Oracle</em>, pero desde entonces, otras compañías importantes han desempeñado un papel en el desarrollo, como pueden ser <em>Facebook</em>, <em>Intel</em>, <em>Netgear</em>, <em>Red Hat</em> y <em>SUSE</em>.</p>
 <p>Veamos algunas características de este sistema de ficheros:</p>
 <ul>
@@ -172,6 +172,11 @@
 <p>Desfragmentación sin desmontar</p>
 </li>
 </ul>
+<p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
+<pre>
+apt install btrfs-tools -y
+</pre>
+
 <p>.</p>
     </article>
 
