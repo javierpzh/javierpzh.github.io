@@ -256,11 +256,76 @@ vdd    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932
 </pre>
 
 <p>Además de poseer este sistema de ficheros, apreciamos como los identificadores de los tres dispositivos son idénticos, esto se debe a que el sistema lo identifica como tan sólo uno.</p>
-<p>Vamos a probar a ver que pasaría en caso de que uno de los discos fallara. Para ello antes, vamos a montar el sistema RAID en nuestro sistema:</p>
+<p>Os preguntaréis como haríamos para añadir un nuevo disco a este RAID ya existente, antes de verlo, vamos a montar el sistema RAID en nuestro sistema:</p>
 <pre>
+root@btrfs:~# mount /dev/vdb /mnt/
 
+root@btrfs:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.1M    51% /
+vdb    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932  734.9M     1% /mnt
+vdc    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vdd    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+
+root@btrfs:~# btrfs scrub start /mnt/
+scrub started on /mnt/, fsid 1675b6b0-4741-4341-bb5b-403e1e7c2932 (pid=640)
+
+root@btrfs:~# btrfs scrub status /mnt/
+scrub status for 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    scrub started at Mon Jan 18 18:10:43 2021 and finished after 00:00:00
+    total bytes scrubbed: 512.00KiB with 0 errors
 </pre>
 
+<p>Una vez montado nuestro RAID, vamos a añadir un nuevo dispositivo, en este caso el llamado <code>vde</code>:</p>
+<pre>
+root@btrfs:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.1M    51% /
+vdb    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932  581.3M     1% /mnt
+vdc    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vdd    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vde
+</pre>
+
+<p>Vemos que no posee el sistema <em>Btrfs</em>, y es una unidad nueva, lo añadimos:</p>
+<pre>
+root@btrfs:~# btrfs device add /dev/vde /mnt/
+
+root@btrfs:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.1M    51% /
+vdb    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932    1.1G     1% /mnt
+vdc    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vdd    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vde    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+
+root@btrfs:~# btrfs filesystem show
+Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    Total devices 4 FS bytes used 320.00KiB
+    devid    1 size 1.00GiB used 595.12MiB path /dev/vdb
+    devid    2 size 1.00GiB used 665.56MiB path /dev/vdc
+    devid    3 size 1.00GiB used 441.56MiB path /dev/vdd
+    devid    4 size 1.00GiB used 0.00B path /dev/vde
+</pre>
+
+<p>Ya habríamos añadido este nuevo dispositivo pero aún nos faltaría activar el balanceo de carga para que se reparta la información entre los discos, incluyendo el nuevo que hemos añadido.</p>
+<pre>
+root@btrfs:~# btrfs balance start --full-balance /mnt/
+Done, had to relocate 5 out of 5 chunks
+
+root@btrfs:~# btrfs filesystem show
+Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    Total devices 4 FS bytes used 320.00KiB
+    devid    1 size 1.00GiB used 288.00MiB path /dev/vdb
+    devid    2 size 1.00GiB used 416.00MiB path /dev/vdc
+    devid    3 size 1.00GiB used 256.00MiB path /dev/vdd
+    devid    4 size 1.00GiB used 448.00MiB path /dev/vde
+</pre>
+
+<p>Vamos a probar a ver que pasaría en caso de que uno de los discos fallara.</p>
 <p>.</p>
     </article>
 
