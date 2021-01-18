@@ -209,7 +209,7 @@ vdd
 
 <p>Efectivamente ya estaríamos gestionando el dispositivo <code>vdb</code> con <em>Btrfs</em>.</p>
 <p>¿Y qué pasa si quisiéramos crear un sistema <strong>RAID</strong> con los 3 nuevos volúmenes? Bien, pues para llevar a cabo esto, nos valdría con introducir el mismo comando que hemos utilizado para formatear un dispositivo, pero indicando los tres discos en este caso.</p>
-<p>Esto ocurre ya que <em>Btrfs</em> lo interpreta como un RAID para su gestión aunque no lo estemos indicando. Si queremos indicar el tipo de RAID que debe crear, podemos utilizar los parámetros <code>-d</code> y <code>-m</code> para especificar el perfil de redundancia para los datos y metadatos. En mi caso, voy a crear un RAID 1:</p>
+<p>Esto ocurre ya que <em>Btrfs</em> lo interpreta como un RAID para su gestión aunque no lo estemos indicando. Si queremos indicar el tipo de RAID que debe crear, podemos utilizar los parámetros <code>-d</code> y <code>-m</code> para especificar el perfil de redundancia para los datos y metadatos. En mi caso, voy a crear un RAID 1, que recordemos que se caracteriza por duplicar el almacenamiento de los datos en todos los dispositivos:</p>
 <pre>
 root@btrfs:~# mkfs.btrfs -d raid1 -m raid1 /dev/vdb /dev/vdc /dev/vdd
 btrfs-progs v4.20.1
@@ -219,7 +219,7 @@ See http://btrfs.wiki.kernel.org for more information.
 ERROR: use the -f option to force overwrite of /dev/vdb
 </pre>
 
-<p>Al haber utilizado anteriormente el disco <code>vdb</code> nos avisa que ya tiene un sistema de ficheros y que si queremos asignarle nuevamente este sistema, tendremos que indicar el parámetro <code>-f</code> y de esta manera forzarlo.</p>
+<p>Al haber utilizado anteriormente el disco <code>vdb</code> nos avisa que ya tiene un sistema de ficheros y que si queremos asignarle nuevamente este <em>filesystem</em>, tendremos que indicar el parámetro <code>-f</code> y de esta manera forzarlo.</p>
 <pre>
 root@btrfs:~# mkfs.btrfs -f -d raid1 -m raid1 /dev/vdb /dev/vdc /dev/vdd
 btrfs-progs v4.20.1
@@ -253,6 +253,12 @@ vda
 vdb    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
 vdc    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
 vdd    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932
+</pre>
+
+<p>Además de poseer este sistema de ficheros, apreciamos como los identificadores de los tres dispositivos son idénticos, esto se debe a que el sistema lo identifica como tan sólo uno.</p>
+<p>Vamos a probar a ver que pasaría en caso de que uno de los discos fallara. Para ello antes, vamos a montar el sistema RAID en nuestro sistema:</p>
+<pre>
+
 </pre>
 
 <p>.</p>
