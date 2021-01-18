@@ -326,7 +326,40 @@ Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
 </pre>
 
 <p>En este punto, sí se habría añadido completamente el disco y su funcionamiento sería el correcto.</p>
-<p>Para seguir, vamos a probar a ver que pasaría en caso de que uno de los discos fallara.</p>
+<p>Para seguir, vamos a probar a ver que pasaría en caso de que uno de los discos fallara, por ejemplo el <code>vdd</code>, por tanto, el sistema ya no lo reconoce e identifica un fallo en el sistema RAID, y he añadido el nuevo disco <code>vdf</code> para que sustituya al anterior y así se pueda restaurar el RAID correctamente.</p>
+<pre>
+root@btrfs:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b  846.1M    51% /
+vdb    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932    1.5G     1% /mnt
+vdc    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vde    btrfs        1675b6b0-4741-4341-bb5b-403e1e7c2932                
+vdf
+
+root@btrfs:~# btrfs filesystem show
+Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    Total devices 4 FS bytes used 256.00KiB
+    devid    1 size 1.00GiB used 288.00MiB path /dev/vdb
+    devid    2 size 1.00GiB used 32.00MiB path /dev/vdc
+    devid    4 size 1.00GiB used 416.00MiB path /dev/vde
+    *** Some devices missing
+</pre>
+
+<p>Vemos como nos detecta el fallo debido a que falta un dispositivo, y procedemos a sustituirlo:</p>
+<pre>
+root@btrfs:~# btrfs device add /dev/vdf /mnt/ && btrfs device delete /dev/vdd /mnt/
+
+root@btrfs:~# btrfs filesystem show
+Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    Total devices 4 FS bytes used 320.00KiB
+    devid    1 size 1.00GiB used 288.00MiB path /dev/vdb
+    devid    2 size 1.00GiB used 448.00MiB path /dev/vdc
+    devid    4 size 1.00GiB used 256.00MiB path /dev/vde
+    devid    6 size 1.00GiB used 416.00MiB path /dev/vdf
+</pre>
+
+<p>Hecho esto, habríamos resuelto este problema y habríamos sustituido el disco estropeado.</p>
 <p>.</p>
     </article>
 
