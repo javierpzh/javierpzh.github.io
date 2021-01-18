@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-            <meta charset="utf-8">
+        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Sistema de ficheros "avanzados" Btrfs | Javier Pérez Hidalgo</title>
+        <title>Btrfs | Javier Pérez HidalgoBtrfs</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,29 +31,11 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-
-
-        <meta name="description" content="Elige uno de los dos sistemas de ficheros "avanzados". Crea un escenario que incluya una máquina y varios discos asociados a ella....">
-
-        <meta name="author" content="Javier Pérez Hidalgo">
-
-        <meta name="tags" content="FileSystem">
-        <meta name="tags" content="Btrfs">
-
-	                <meta property="og:locale" content="">
+                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
-
-	<meta property="og:type" content="article">
-            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
-	<meta property="og:url" content="/sistema-de-ficheros-avanzados-btrfs.html">
-	<meta property="og:title" content="Sistema de ficheros "avanzados" Btrfs">
-	<meta property="article:published_time" content="2021-01-18 00:00:00+01:00">
-            <meta property="og:description" content="Elige uno de los dos sistemas de ficheros "avanzados". Crea un escenario que incluya una máquina y varios discos asociados a ella....">
-
-            <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
 
-<body class="article-sistema-de-ficheros-avanzados-btrfs">
+<body class="tag-btrfs">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -83,18 +65,12 @@
         <!-- /.container -->
     </nav>
 
-    <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/banner-sistemas.jpg')">
+        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Sistema de ficheros "avanzados" Btrfs</h1>
-                        <span class="meta">Publicado por
-                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el lun 18 enero 2021
-                        </span>
-                        
+                        <h1>tag - Btrfs</h1>
                     </div>
                 </div>
             </div>
@@ -105,88 +81,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-    <!-- Post Content -->
-    <article>
-        <p>Elige uno de los dos sistemas de ficheros "avanzados".</p>
-<ul>
-<li>
-<p>Crea un escenario que incluya una máquina y varios discos asociados a ella.</p>
-</li>
-<li>
-<p>Instala si es necesario el software de Btrfs</p>
-</li>
-<li>
-<p>Gestiona los discos adicionales con Btrfs</p>
-</li>
-<li>
-<p>Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con <code>mdadm</code>.</p>
-</li>
-<li>
-<p>Realiza ejercicios con pruebas de funcionamiento de las principales funcionalidades: compresión, cow, deduplicación, cifrado, etc.</p>
-</li>
-</ul>
-<p>Esta tarea se puede realizar en una instancia de OpenStack y documentarla como habitualmente o bien grabar un vídeo con una demo de las características y hacer la entrega con el enlace del vídeo.</p>
-<p>En este <em>post</em> vamos a ver el sistema de ficheros <strong>Btrfs</strong>.</p>
-<p><strong>Btrfs</strong> <em>(B-tree FS)</em> es un sistema de archivos <strong>copy-on-write</strong> <em>(CoW)</em> anunciado por <em>Oracle Corporation</em> para <em>GNU/Linux</em>. <em>Btrfs</em> existe porque los desarrolladores querían expandir la funcionalidad de un sistema de archivos para incluir funcionalidades adicionales tales como agrupación, instantáneas y sumas de verificación.</p>
-<p>El proyecto comenzó en <em>Oracle</em>, pero desde entonces, otras compañías importantes han desempeñado un papel en el desarrollo, como pueden ser <em>Facebook</em>, <em>Intel</em>, <em>Netgear</em>, <em>Red Hat</em> y <em>SUSE</em>.</p>
-<p>Veamos algunas características de este sistema de ficheros:</p>
-<ul>
-<li>
-<p>2^64 bytes = 16 EiB <em>(Exbibyte)</em> tamaño máximo de archivo</p>
-</li>
-<li>
-<p>Empaquetado eficiente en espacio de archivos pequeños y directorios indexados</p>
-</li>
-<li>
-<p>Asignación dinámica de inodos (no se fija un número máximo de archivos al crear el sistema de archivos)</p>
-</li>
-<li>
-<p><em>Snapshots</em> escribibles y <em>snapshots</em> de <em>snapshots</em></p>
-</li>
-<li>
-<p>Subvolúmenes</p>
-</li>
-<li>
-<p><em>Mirroring</em> y <em>Striping</em> a nivel de objeto</p>
-</li>
-<li>
-<p>Comprobación de datos y metadatos</p>
-</li>
-<li>
-<p>Compresión</p>
-</li>
-<li>
-<p><em>Copy-on-write</em> del registro de todos los datos y metadatos</p>
-</li>
-<li>
-<p>Gran integración con <em>device-mapper</em> para soportar múltiples dispositivos, con varios algoritmos de RAID incluidos</p>
-</li>
-<li>
-<p>Comprobación del sistema de archivos sin desmontar y comprobación muy rápida del sistema de archivos desmontado</p>
-</li>
-<li>
-<p>Copias de seguridad incrementales eficaces y <em>mirroring</em> del sistema de archivos</p>
-</li>
-<li>
-<p>Modo optimizado para SSD</p>
-</li>
-<li>
-<p>Desfragmentación sin desmontar</p>
-</li>
-</ul>
-<p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
-<pre>
-apt install btrfs-tools -y
-</pre>
-
-<p>.</p>
-    </article>
-
-        <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/filesystem.html">FileSystem</a>, <a href="/tag/btrfs.html">Btrfs</a></p>
+        <div class="post-preview">
+            <a href="/sistema-de-ficheros-avanzados-btrfs.html" rel="bookmark" title="Permalink to Sistema de ficheros "avanzados" Btrfs">
+                <h2 class="post-title">
+                    Sistema de ficheros "avanzados" Btrfs
+                </h2>
+            </a>
+                <p class="article-summary">
+                    Elige uno de los dos sistemas de ficheros "avanzados". Crea un escenario que incluya una máquina y varios discos asociados a ella....
+                </p>
+            <p class="post-meta">Publicado por
+                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                 el lun 18 enero 2021
+            </p>
         </div>
-
-    <hr>
 
             </div>
         </div>
