@@ -109,9 +109,6 @@
     <article>
         <p><strong>En este <em>post</em> vamos a configurar de forma adecuada el protocolo HTTPs en nuestro servidor web para nuestra aplicaciones web. Para ello vamos a emitir un certificado <em>wildcard</em> en la entidad certificadora <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a>.</strong></p>
 <p>Este servidor web, fue creado en el <em>post</em> <a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a>, en el apartado <strong>Servidor Web</strong>.</p>
-<ul>
-<li><strong>Explica los pasos fundamentales para la creación del certificado. Especificando los campos que has rellenado en el fichero CSR.</strong></li>
-</ul>
 <p>Lo primero que debemos hacer es solicitar el certificado <strong>wildcard</strong>.</p>
 <p>(Este certificado ya lo creé anteriormente para el uso del protocolo <em>LDAPs</em>, puedes ver el <em>post</em> <a href="https://javierpzh.github.io/ldaps.html">aquí</a> y por ello el proceso lo llevo a cabo en la máquina <em>Freston</em>. La clave privada y los certificados <code>.crt</code> los he copiado a la máquina <em>Quijote</em>.)</p>
 <p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code>openssl</code>. Vamos a guardar esta clave en el directorio <code>/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
@@ -202,9 +199,6 @@ total 20
 [centos@quijote ~]$ sudo mv freston.key /etc/pki/tls/private/
 </pre>
 
-<ul>
-<li><strong>Debes hacer una redirección para forzar el protocolo HTTPs.</strong></li>
-</ul>
 <p>En este punto, vamos a pasar con la configuración del protocolo <em>HTTPs</em>, para ello es necesario tener instalado el módulo <code>mod_ssl</code>. Lo instalamos:</p>
 <pre>
 dnf install mod_ssl -y
@@ -217,9 +211,30 @@ Redirect / https://www.javierpzh.gonzalonazareno.org
 
 <p>Hecho esto, nos faltaría crear el <em>virtualhost</em> que defina la web con HTTPs. En mi caso recibirá el nombre de <code>javierpzh.gonzalonazareno.https.conf</code> y su contenido será el siguiente:</p>
 <pre>
+<\VirtualHost *:443\>
 
+    ServerName www.javierpzh.gonzalonazareno.org
+    DocumentRoot /var/www/iesgn
+
+    ErrorLog /var/www/iesgn/log/error.log
+    CustomLog /var/www/iesgn/log/requests.log combined
+
+    <\Proxy "unix:/run/php-fpm/www.sock|fcgi://php-fpm"\>
+        ProxySet disablereuse=off
+    <\/Proxy\>
+
+    <\FilesMatch \.php$\>
+        SetHandler proxy:fcgi://php-fpm
+    <\/FilesMatch\>
+
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/wildcard.crt
+    SSLCertificateKeyFile /etc/pki/tls/private/freston.key
+
+<\/VirtualHost\>
 </pre>
 
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el nuevo <em>virtualhost</em> creando un enlace simbólico hacia la ruta <code>/etc/httpd/sites-enabled</code>.</p>
 <pre>
 [root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.https.conf /etc/httpd/sites-enabled/
@@ -230,9 +245,6 @@ Redirect / https://www.javierpzh.gonzalonazareno.org
 systemctl restart httpd
 </pre>
 
-<ul>
-<li><strong>Investiga la regla DNAT en el cortafuego para abrir el puerto 443.</strong></li>
-</ul>
 <p>Vamos a crear la regla necesaria para hacer <strong>DNAT</strong>. La regla debe estar en <strong>Dulcinea</strong> ya que es la máquina que posea conexión hacia el exterior, y es la siguiente:</p>
 <pre>
 iptables -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:443
@@ -244,10 +256,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:4
 iptables-save > /etc/iptables/rules.v4
 </pre>
 
-<ul>
-<li><strong>Instala el certificado del Gonzalo Nazareno en tu navegador para que se pueda verificar tu certificado.</strong></li>
-</ul>
-<p>Para poder utilizar el protocolo HTTPs, debemos tener instalado en nuestro navegador el certificado firmado por la CA, en mi caso, tengo que instalar el certificado del <em>Gonzalo Nazareno</em>.</p>
+<p>Por último, para poder utilizar el protocolo HTTPs, debemos tener instalado en nuestro navegador el certificado firmado por la CA, en mi caso, tengo que instalar el certificado del <em>Gonzalo Nazareno</em>.</p>
 <p>Yo lo haré sobre <em>Mozilla Firefox</em>, pero es bastante parecido en los demás navegadores.</p>
 <p>Nos dirigimos a <strong>Preferencias</strong>, a la sección <strong>Privacidad &amp; Seguridad</strong>, y al apartado <strong>Certificados</strong>, <em>clickamos</em> en <strong>Ver certificados</strong> y nos sale una ventana como esta:</p>
 <p><img alt="." src="images/sad_OpenStack_configuración_HTTPS/importar.png"></p>
