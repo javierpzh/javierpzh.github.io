@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Servidor DNS Vamos a instalar un servidor DNS en Freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+        <meta name="description" content="En este post vamos a realizar la instalación de tres servidores: DNS, Web y Base de Datos. Estos servidores se encontrarán en el...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -51,7 +51,7 @@
 	<meta property="og:url" content="/servidores-openstack-dns-web-y-base-de-datos.html">
 	<meta property="og:title" content="Servidores OpenStack: DNS, Web y Base de Datos">
 	<meta property="article:published_time" content="2021-01-04 00:00:00+01:00">
-            <meta property="og:description" content="Servidor DNS Vamos a instalar un servidor DNS en Freston que nos permita gestionar la resolución directa e inversa de nuestros nombres....">
+            <meta property="og:description" content="En este post vamos a realizar la instalación de tres servidores: DNS, Web y Base de Datos. Estos servidores se encontrarán en el...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
 </head>
@@ -110,8 +110,13 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <h2>Servidor DNS</h2>
-<p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Mi subdominio dentro del dominio principal <code>gonzalonazareno.org</code>, se llamará <code>javierpzh.gonzalonazareno.org</code>. A partir de este momento no será necesario la resolución estática en los servidores.</strong></p>
+        <p>En este <em>post</em> vamos a realizar la instalación de tres servidores: DNS, Web y Base de Datos. Estos servidores se encontrarán en el escenario de OpenStack montado en artículos anteriores. Si quieres saber más acerca del escenario, puedes visitar los siguientes <em>posts</em>:</p>
+<ul>
+<li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+<li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+</ul>
+<h2>Servidor DNS</h2>
+<p><strong>Vamos a instalar un servidor DNS en <em>Freston</em> que nos permita gestionar la resolución directa e inversa de nuestros nombres. Mi subdominio dentro del dominio principal <code>gonzalonazareno.org</code>, se llamará <code>javierpzh.gonzalonazareno.org</code>.</strong></p>
 <p>Vamos a instalar el servidor bind9:</p>
 <pre>
 apt install bind9 -y
