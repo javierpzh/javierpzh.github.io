@@ -110,52 +110,69 @@
     <article>
         <p>Vamos a construir un cortafuegos en <strong>Dulcinea</strong> que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio.</p>
 <h2>Política por defecto</h2>
-<p>La política por defecto que vamos a configurar en nuestro cortafuegos será de tipo DROP.</p>
+<p>La política por defecto que vamos a configurar en nuestro cortafuegos será de tipo <strong>DROP</strong>.</p>
 <h2>NAT</h2>
-<div class="highlight"><pre><span></span><code><span class="err">Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</span>
-<span class="err">Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></p>
+</li>
+<li>
+<p><strong>Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</strong></p>
+</li>
+</ul>
 <h2>Reglas</h2>
 <p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma:</p>
 <h4>ping:</h4>
-<div class="highlight"><pre><span></span><code><span class="err">Todas las máquinas de las dos redes pueden hacer ping entre ellas.</span>
-<span class="err">Todas las máquinas pueden hacer ping a una máquina del exterior.</span>
-<span class="err">Desde el exterior se puede hacer ping a dulcinea.</span>
-<span class="err">A dulcinea se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</span>
-</code></pre></div>
-
-
-<h4>ssh</h4>
-<div class="highlight"><pre><span></span><code><span class="err">Podemos acceder por ssh a todas las máquinas.</span>
-<span class="err">Todas las máquinas pueden hacer ssh a máquinas del exterior.</span>
-<span class="err">La máquina dulcinea tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</span>
-</code></pre></div>
-
-
-<h4>dns</h4>
-<div class="highlight"><pre><span></span><code><span class="err">El único dns que pueden usar los equipos de las dos redes es freston, no pueden utilizar un DNS externo.</span>
-<span class="err">dulcinea puede usar cualquier servidor DNS.</span>
-<span class="err">Tenemos que permitir consultas dns desde el exterior a freston, para que, por ejemplo, papion-dns pueda preguntar.</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p><strong>Todas las máquinas de las dos redes pueden hacer ping entre ellas.</strong></p>
+</li>
+<li>
+<p><strong>Todas las máquinas pueden hacer ping a una máquina del exterior.</strong></p>
+</li>
+<li>
+<p><strong>Desde el exterior se puede hacer ping a dulcinea.</strong></p>
+</li>
+<li>
+<p><strong>A dulcinea se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></p>
+</li>
+</ul>
+<h4>SSH</h4>
+<ul>
+<li>
+<p><strong>Podemos acceder por ssh a todas las máquinas.</strong></p>
+</li>
+<li>
+<p><strong>Todas las máquinas pueden hacer ssh a máquinas del exterior.</strong></p>
+</li>
+<li>
+<p><strong>La máquina dulcinea tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</strong></p>
+</li>
+</ul>
+<h4>DNS</h4>
+<ul>
+<li>
+<p><strong>El único dns que pueden usar los equipos de las dos redes es freston, no pueden utilizar un DNS externo.</strong></p>
+</li>
+<li>
+<p><strong>Dulcinea puede usar cualquier servidor DNS.</strong></p>
+</li>
+<li>
+<p><strong>Tenemos que permitir consultas dns desde el exterior a freston, para que, por ejemplo, papion-dns pueda preguntar.</strong></p>
+</li>
+</ul>
 <h4>Base de datos</h4>
-<div class="highlight"><pre><span></span><code><span class="err">A la base de datos de sancho sólo pueden acceder las máquinas de la DMZ.</span>
-</code></pre></div>
-
-
+<ul>
+<li><strong>A la base de datos de sancho sólo pueden acceder las máquinas de la DMZ.</strong></li>
+</ul>
 <h4>Web</h4>
-<div class="highlight"><pre><span></span><code><span class="err">Las páginas web de quijote (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</span>
-</code></pre></div>
-
-
+<ul>
+<li><strong>Las páginas web de quijote (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
+</ul>
 <h4>Más servicios</h4>
-<div class="highlight"><pre><span></span><code><span class="err">Configura de manera adecuada el cortafuegos, para otros servicios que tengas instalado en tu red (ldap, correo, ...)</span>
-</code></pre></div>
-
-
+<ul>
+<li><strong>Configura de manera adecuada el cortafuegos, para otros servicios que tengas instalado en tu red (ldap, correo, ...)</strong></li>
+</ul>
 <p>.</p>
     </article>
 
