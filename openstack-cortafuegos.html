@@ -109,7 +109,13 @@
     <!-- Post Content -->
     <article>
         <p>Vamos a construir un cortafuegos en <strong>Dulcinea</strong> que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio.</p>
-<p>Empezaremos por instalar el paquete <code>nftables</code>:</p>
+<p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
+<ul>
+<li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+<li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+<li><a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a></li>
+</ul>
+<p>Comprendido esto, empezaremos por instalar el paquete <code>nftables</code>:</p>
 <pre>
 apt install nftables -y
 </pre>
@@ -135,12 +141,11 @@ nft list ruleset > firewall.config
 <p>iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80</p>
 <p>iptables -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:443</p>
 <ul>
-<li>
-<p><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></p>
-</li>
-<li>
-<p><strong>Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</strong></p>
-</li>
+<li><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></li>
+</ul>
+<p>En mi caso, poseo una serie de reglas que fueron creadas en artículos anteriores y las cuáles fueron creadas con <code>iptables</code>,</p>
+<ul>
+<li><strong>Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</strong></li>
 </ul>
 <h2>Reglas</h2>
 <p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma:</p>
