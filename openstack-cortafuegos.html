@@ -192,25 +192,25 @@ nft add rule ip nat PREROUTING iifname "eth0" tcp dport 443 counter dnat to 10.0
 <h4>SSH</h4>
 <ul>
 <li>
-<p><strong>Podemos acceder por ssh a todas las máquinas.</strong></p>
+<p><strong>Podemos acceder por SSH a todas las máquinas.</strong></p>
 </li>
 <li>
-<p><strong>Todas las máquinas pueden hacer ssh a máquinas del exterior.</strong></p>
+<p><strong>Todas las máquinas pueden hacer SSH a máquinas del exterior.</strong></p>
 </li>
 <li>
-<p><strong>La máquina dulcinea tiene un servidor ssh escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</strong></p>
+<p><strong>La máquina <em>Dulcinea</em> tiene un servidor SSH escuchando por el puerto 22, pero al acceder desde el exterior habrá que conectar al puerto 2222.</strong></p>
 </li>
 </ul>
 <h4>DNS</h4>
 <ul>
 <li>
-<p><strong>El único dns que pueden usar los equipos de las dos redes es freston, no pueden utilizar un DNS externo.</strong></p>
+<p><strong>El único DNS que pueden usar los equipos de las dos redes es <em>Freston</em>, no pueden utilizar un DNS externo.</strong></p>
 </li>
 <li>
 <p><strong>Dulcinea puede usar cualquier servidor DNS.</strong></p>
 </li>
 <li>
-<p><strong>Tenemos que permitir consultas dns desde el exterior a freston, para que, por ejemplo, papion-dns pueda preguntar.</strong></p>
+<p><strong>Tenemos que permitir consultas DNS desde el exterior a <em>Freston</em>, para que, por ejemplo, papion-dns pueda preguntar.</strong></p>
 </li>
 </ul>
 <h4>Base de datos</h4>
@@ -219,7 +219,7 @@ nft add rule ip nat PREROUTING iifname "eth0" tcp dport 443 counter dnat to 10.0
 </ul>
 <h4>Web</h4>
 <ul>
-<li><strong>Las páginas web de quijote (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
+<li><strong>Las páginas web de <em>Quijote</em> (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
 </ul>
 <h4>Más servicios</h4>
 <ul>
