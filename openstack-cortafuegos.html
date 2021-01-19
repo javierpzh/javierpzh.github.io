@@ -137,22 +137,41 @@ nft list ruleset > firewall.config
 <ul>
 <li><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></li>
 </ul>
-<p>En mi caso, poseo una serie de reglas que fueron creadas en artículos anteriores y las cuáles fueron creadas con <code>iptables</code>, pero no hay problema, ya que las podemos convertir a <code>nftables</code> utilizando la herramienta <code>iptables-translate</code>.</p>
+<p>En mi caso, ya poseo esta serie de reglas, ya que fueron creadas en artículos anteriores, pero fueron creadas con <code>iptables</code>. Tranquilidad, esto no supone un problema, ya que las podemos convertir a <code>nftables</code> utilizando la herramienta <code>iptables-translate</code>.</p>
 <p>Reglas creadas hasta el momento:</p>
 <p>iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE</p>
 <p>iptables -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE</p>
 <p>Las convierto a reglas de <code>nftables</code>:</p>
 <pre>
+root@dulcinea:~# iptables-translate -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE
+nft add rule ip nat POSTROUTING oifname "eth0" ip saddr 10.0.1.0/24 counter masquerade
 
+root@dulcinea:~# iptables-translate -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE
+nft add rule ip nat POSTROUTING oifname "eth0" ip saddr 10.0.2.0/24 counter masquerade
 </pre>
 
+<p>Listo, ya las tendríamos.</p>
 <ul>
 <li><strong>Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</strong></li>
 </ul>
+<p>Al igual que en el caso anterior, ya me encuentro con que estas reglas fueron creadas anteriormente con <code>iptables</code>.</p>
 <p>Reglas creadas hasta el momento:</p>
 <p>iptables -t nat -A PREROUTING -p udp --dport 53 -i eth0 -j DNAT --to 10.0.1.6:53</p>
 <p>iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80</p>
 <p>iptables -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:443</p>
+<p>Las convierto a reglas de <code>nftables</code>:</p>
+<pre>
+root@dulcinea:~# iptables-translate -t nat -A PREROUTING -p udp --dport 53 -i eth0 -j DNAT --to 10.0.1.6:53
+nft add rule ip nat PREROUTING iifname "eth0" udp dport 53 counter dnat to 10.0.1.6:53
+
+root@dulcinea:~# iptables-translate -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 10.0.2.6:80
+nft add rule ip nat PREROUTING iifname "eth0" tcp dport 80 counter dnat to 10.0.2.6:80
+
+root@dulcinea:~# iptables-translate -t nat -A PREROUTING -p tcp --dport 443 -i eth0 -j DNAT --to 10.0.2.6:443
+nft add rule ip nat PREROUTING iifname "eth0" tcp dport 443 counter dnat to 10.0.2.6:443
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
 <h2>Reglas</h2>
 <p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma:</p>
 <h4>ping:</h4>
