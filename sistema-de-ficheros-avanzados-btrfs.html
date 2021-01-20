@@ -188,12 +188,14 @@ vdc    254:32   0   1G  0 disk
 vdd    254:48   0   1G  0 disk
 </pre>
 
+<p>Pasemos con la instalación.</p>
 <h4>Instalación</h4>
 <p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
 <pre>
 apt install btrfs-tools -y
 </pre>
 
+<p>Ya habremos instalado las herramientas.</p>
 <h4>Gestión de los discos</h4>
 <p>En primer lugar, vamos a formatear uno de estos volúmenes y asignarle como sistema de ficheros <em>Btrfs</em>. Para ello, hacemos uso de la herramienta <code>mkfs.()</code> seguido del dispositivo:</p>
 <pre>
