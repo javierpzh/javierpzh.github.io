@@ -186,11 +186,13 @@ vdc    254:32   0   1G  0 disk
 vdd    254:48   0   1G  0 disk
 </pre>
 
+<h4>Instalación</h4>
 <p>Para instalar <em>Btrfs</em> en nuestro sistema <em>Debian</em>, tenemos disponible el paquete <strong>btrfs-tools</strong>, que incluye todas las herramientas y características de este sistema de ficheros.</p>
 <pre>
 apt install btrfs-tools -y
 </pre>
 
+<h4>Gestión de los discos</h4>
 <p>En primer lugar, vamos a formatear uno de estos volúmenes y asignarle como sistema de ficheros <em>Btrfs</em>. Para ello, hacemos uso de la herramienta <code>mkfs.()</code> seguido del dispositivo:</p>
 <pre>
 root@btrfs:~# mkfs.btrfs /dev/vdb
@@ -208,6 +210,7 @@ vdd
 </pre>
 
 <p>Efectivamente ya estaríamos gestionando el dispositivo <code>vdb</code> con <em>Btrfs</em>.</p>
+<h4>RAID</h4>
 <p>¿Y qué pasa si quisiéramos crear un sistema <strong>RAID</strong> con los 3 nuevos volúmenes? Bien, pues para llevar a cabo esto, nos valdría con introducir el mismo comando que hemos utilizado para formatear un dispositivo, pero indicando los tres discos en este caso.</p>
 <p>Esto ocurre ya que <em>Btrfs</em> lo interpreta como un RAID para su gestión aunque no lo estemos indicando. Si queremos indicar el tipo de RAID que debe crear, podemos utilizar los parámetros <code>-d</code> y <code>-m</code> para especificar el perfil de redundancia para los datos y metadatos. En mi caso, voy a crear un RAID 1, que recordemos que se caracteriza por duplicar el almacenamiento de los datos en todos los dispositivos:</p>
 <pre>
@@ -373,6 +376,7 @@ Filesystem      Size  Used Avail Use% Mounted on
 
 <p>¡Anda! Resulta que duplica el tamaño esperado, y esto es porque <em>Btrfs</em> gestiona el almacenamiento de una manera distinta, ya que reparte la información entre los diferentes dispositivos, aprovechando el máximo espacio posible, al mismo tiempo que asegura que la información se encuentra lo más segura posible. Así que imaginemos que creamos un RAID 1 con discos de distintos tamaños, ya no tendríamos el inconveniente de que el tamaño será igual al menor de sus discos.</p>
 <p>Lógicamente la elección de uno u otro es algo subjetivo y dependerá de gustos, costumbres y necesidades, pero en resumen, poseemos más flexibilidad y muchas más características útiles en el RAID con <em>Btrfs</em> respecto al RAID con <code>mdadm</code>.</p>
+<h4>Compresión</h4>
 <p>.</p>
     </article>
 
