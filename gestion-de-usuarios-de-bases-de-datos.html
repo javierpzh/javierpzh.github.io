@@ -115,7 +115,7 @@
 <p><strong>1. Realiza un procedimiento llamado <code>MostrarObjetosAccesibles</code> que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso. (20)</strong></p>
 <p>USER_TAB_PRIVS_RECD - Privilegios de objeto (de otros usuarios) concedidos al usuario actual</p>
 <p><strong>2. Realiza un procedimiento que reciba un nombre de usuario, un privilegio y un objeto y nos muestre el mensaje 'SI, DIRECTO' si el usuario tiene ese privilegio sobre objeto concedido directamente, 'SI, POR ROL' si el usuario lo tiene en alguno de los roles que tiene concedidos y un 'NO' si el usuario no tiene dicho privilegio. (25)</strong></p>
-<p><strong>3. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (18)</strong></p>
+<p><strong>3. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
 <p><strong>4. Crea un <em>tablespace</em> TS2 con tamaño de extensión de 256K. Realiza una consulta que genere un <em>script</em> que asigne ese <em>tablespace</em> como <em>tablespace</em> por defecto a los usuarios que no tienen privilegios para consultar ninguna tabla de <em>SCOTT</em>, excepto a <em>SYSTEM</em>. (10)</strong></p>
 <p><strong>5. La vida de un <em>DBA</em> es dura. Tras pedirlo insistentemente, en tu empresa han contratado una persona para ayudarte. Decides que se encargará de las siguientes tareas:</strong></p>
 <ul>
@@ -141,12 +141,153 @@
 <p><strong>Crea un usuario llamado <code>Ayudante</code> y, sin usar los roles predefinidos de <em>Oracle</em>, dale los privilegios mínimos para que pueda resolver dichas tareas. (18)</strong></p>
 <p>Pista: Si no recuerdas el nombre de un privilegio, puedes buscarlo en el diccionario de datos.</p>
 <p><strong>6. Muestra el texto de la última sentencia <em>SQL</em> que se ejecuto en el servidor, junto con el número de veces que se ha ejecutado desde que se cargó en el <em>Shared Pool</em> y el tiempo de CPU empleado en su ejecución. (10)</strong></p>
-<p>RUN</p>
+<pre>
+select distinct sql_text, executions, CPU_TIME
+from v$sqlarea
+order by first_load_TIME desc
+fetch first 1 rows only;
+</pre>
+
 <p><strong>7. Realiza un procedimiento que genere un <em>script</em> que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquel directamente o a través de roles. El nuevo rol deberá llamarse <code>BackupPrivsNombreUsuario</code>. (25)</strong></p>
 <h2>MySQL</h2>
-<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (18)</strong></p>
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
+<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottmysql.txt">script</a>:</p>
+<pre>
+CREATE TABLE scott.DEPT
+(
+DEPTNO NUMERIC(2),
+DNAME VARCHAR(14),
+LOC VARCHAR(13),
+CONSTRAINT PK_DEPT PRIMARY KEY (DEPTNO)
+);
+
+CREATE TABLE scott.EMP
+(
+EMPNO NUMERIC(4),
+ENAME VARCHAR(10),
+JOB VARCHAR(9),
+MGR NUMERIC(4),
+HIREDATE TIMESTAMP,
+SAL NUMERIC(7, 2),
+COMM NUMERIC(7, 2),
+DEPTNO NUMERIC(2),
+CONSTRAINT FK_DEPTNO FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO),
+CONSTRAINT PK_EMP PRIMARY KEY (EMPNO)
+);
+</pre>
+
+<p>Insertamos los registros:</p>
+<pre>
+
+</pre>
+
+<p>Ahora vamos a crear el <strong>script</strong> y le vamos a dar el privilegio <em>DELETE</em> sobre dichas tablas al usuario <em>javierpzh</em>:</p>
+<pre>
+GRANT DELETE ON TABLE 'scott.EMP' TO javierpzh;
+GRANT DELETE ON TABLE 'scott.DEPT' TO javierpzh;
+</pre>
+
+<p>Realizamos la consulta de la siguiente manera:</p>
+<pre>
+Select concat('Revoke Delete on ',table_schema,'.',table_name,' from ',grantee,';') as script
+from information_schema.table_privileges
+where table_schema='scott'
+and privilege_type='DELETE';
+</pre>
+
+<p>Da como resultado:</p>
+<pre>
++-----------------------------------------------+
+| script                                        |
++-----------------------------------------------+
+| Revoke Delete on scott.DEPT from 'SCOTT'@'%'; |
+| Revoke Delete on scott.EMP from 'SCOTT'@'%';  |
++-----------------------------------------------+
+2 rows in set (0.00 sec)
+</pre>
+
 <h2>PostgreSQL</h2>
-<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (18)</strong></p>
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
+<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottpostgres.txt">script</a>:</p>
+<pre>
+CREATE TABLE scott.DEPT
+(
+ DEPTNO NUMERIC(2),
+ DNAME VARCHAR(14),
+ LOC VARCHAR(13),
+ CONSTRAINT PK_DEPT PRIMARY KEY (DEPTNO)
+);
+
+CREATE TABLE scott.EMP
+(
+ EMPNO NUMERIC(4),
+ ENAME VARCHAR(10),
+ JOB VARCHAR(9),
+ MGR NUMERIC(4),
+ HIREDATE TIMESTAMP,
+ SAL NUMERIC(7, 2),
+ COMM NUMERIC(7, 2),
+ DEPTNO NUMERIC(2),
+ CONSTRAINT FK_DEPTNO FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO),
+ CONSTRAINT PK_EMP PRIMARY KEY (EMPNO)
+);
+</pre>
+
+<p>Insertamos los registros:</p>
+<pre>
+INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
+INSERT INTO DEPT VALUES (20, 'RESEARCH', 'DALLAS');
+INSERT INTO DEPT VALUES (30, 'SALES', 'CHICAGO');
+INSERT INTO DEPT VALUES (40, 'OPERATIONS', 'BOSTON');
+
+INSERT INTO EMP VALUES(7369, 'SMITH', 'CLERK', 7902,TO_TIMESTAMP('17-12-1980', 'DD-MM-YYYY'), 800, NULL, 20);
+INSERT INTO EMP VALUES(7499, 'ALLEN', 'SALESMAN', 7698,TO_TIMESTAMP('20-02-1981', 'DD-MM-YYYY'), 1600, 300, 30);
+INSERT INTO EMP VALUES(7521, 'WARD', 'SALESMAN', 7698,TO_TIMESTAMP('22-02-1981', 'DD-MM-YYYY'), 1250, 500, 30);
+INSERT INTO EMP VALUES(7566, 'JONES', 'MANAGER', 7839,TO_TIMESTAMP('02-04-1981', 'DD-MM-YYYY'), 2975, NULL, 20);
+INSERT INTO EMP VALUES(7654, 'MARTIN', 'SALESMAN', 7698,TO_TIMESTAMP('28-09-1981', 'DD-MM-YYYY'), 1250, 1400, 30);
+INSERT INTO EMP VALUES(7698, 'BLAKE', 'MANAGER', 7839,TO_TIMESTAMP('01-05-1981', 'DD-MM-YYYY'), 2850, NULL, 30);
+INSERT INTO EMP VALUES(7782, 'CLARK', 'MANAGER', 7839,TO_TIMESTAMP('09-06-1981', 'DD-MM-YYYY'), 2450, NULL, 10);
+INSERT INTO EMP VALUES(7788, 'SCOTT', 'ANALYST', 7566,TO_TIMESTAMP('09-12-1982', 'DD-MM-YYYY'), 3000, NULL, 20);
+INSERT INTO EMP VALUES(7839, 'KING', 'PRESIDENT', NULL,TO_TIMESTAMP('17-11-1981', 'DD-MM-YYYY'), 5000, NULL, 10);
+INSERT INTO EMP VALUES(7844, 'TURNER', 'SALESMAN', 7698,TO_TIMESTAMP('08-09-1981', 'DD-MM-YYYY'), 1500, 0, 30);
+INSERT INTO EMP VALUES(7876, 'ADAMS', 'CLERK', 7788,TO_TIMESTAMP('12-01-1983', 'DD-MM-YYYY'), 1100, NULL, 20);
+INSERT INTO EMP VALUES(7900, 'JAMES', 'CLERK', 7698,TO_TIMESTAMP('03-12-1981', 'DD-MM-YYYY'), 950, NULL, 30);
+INSERT INTO EMP VALUES(7902, 'FORD', 'ANALYST', 7566,TO_TIMESTAMP('03-12-1981', 'DD-MM-YYYY'), 3000, NULL, 20);
+INSERT INTO EMP VALUES(7934, 'MILLER', 'CLERK', 7782,TO_TIMESTAMP('23-01-1982', 'DD-MM-YYYY'), 1300, NULL, 10);
+</pre>
+
+<p>Comprobamos que se ha creado correctamente:</p>
+<p>scott=&gt; \d
+       List of relations
+ Schema | Name | Type  | Owner
+--------+------+-------+-------
+ scott  | dept | table | scott
+ scott  | emp  | table | scott
+(2 rows)</p>
+<p>Ahora vamos a crear el <strong>script</strong> y le vamos a dar el privilegio <em>DELETE</em> sobre dichas tablas al usuario <em>javierpzh</em>:</p>
+<pre>
+GRANT DELETE ON TABLE 'scott.EMP' TO javierpzh;
+GRANT DELETE ON TABLE 'scott.DEPT' TO javierpzh;
+</pre>
+
+<p>Realizamos la consulta de la siguiente manera:</p>
+<pre>
+select 'Revoke Delete on '||table_catalog||'.'||table_name||' from '||grantee||';'
+from information_schema.role_table_grants
+where table_catalog='scott'
+and privilege_type='DELETE'
+and table_schema='scott';
+</pre>
+
+<p>Da como resultado:</p>
+<pre>
+?column?                  
+-------------------------------------------
+Revoke Delete on scott.dept from scott;
+Revoke Delete on scott.emp from scott;
+Revoke Delete on scott.emp from postgres;
+</pre>
+
 <h2>MongoDB</h2>
 <p><strong>1. Averigua si existe la posibilidad en <em>MongoDB</em> de limitar el acceso de un usuario a los datos de una colección determinada. (6)</strong></p>
 <p>Antes de empezar, me gustaría aclarar el escenario sobre el que estoy trabajando, y se trata del que fue creado en el <em>post</em> acerca de la <a href="https://javierpzh.github.io/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a>, en el apartado de <strong>MongoDB</strong>.</p>
