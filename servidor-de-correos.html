@@ -125,7 +125,7 @@ apt install postfix bsd-mailx -y
 </ul>
 <p>Antes de realizar este paso, vamos a crear un registro de tipo <strong>SPF</strong> en nuestro DNS de OVH, esto le servirá a <strong>Gmail</strong> para identificar que nuestro correo no es <strong>Spam</strong>. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registrospf.png"></p>
-<p>Ahora vamos a probar a enviar un correo electrónico desde nuestro servidor local:</p>
+<p>Ahora vamos a probar a enviar un correo electrónico desde nuestro servidor local, para ello haremos uso de la herramienta <code>mail</code>:</p>
 <pre>
 debian@vpsjavierpzh:~$ mail javierperezhidalgo01@gmail.com
 Subject: Correo de prueba       
@@ -177,9 +177,33 @@ Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: disconnect from mail-io1-f43.
 You have mail in /var/mail/debian
 </pre>
 
-<p>Vaya, parece que tenemos un nuevo correo procedente de la dirección <code>javierperezhidalgo01@gmail.com</code> y que lo ha almacenado en la ruta <code>/var/mail/debian</code>, así que vamos a verificarlo:</p>
+<p>Vaya, parece que tenemos un nuevo correo procedente de la dirección <code>javierperezhidalgo01@gmail.com</code> y que lo ha almacenado en la ruta <code>/var/mail/debian</code>, así que vamos a verificarlo.</p>
+<p>Para leer los nuevos correos, haremos uso de la herramienta <code>mail</code>.</p>
 <pre>
+debian@vpsjavierpzh:~$ mail
+Mail version 8.1.2 01/15/2001.  Type ? for help.
+"/var/mail/debian": 1 message 1 new
+\>N  1 javierperezhidalg  Thu Jan 21 10:45   54/2768  Correo de prueba
+& 1
+</pre>
 
+<p>Vemos que nos indica que tenemos un correo sin leer, si indicamos su número y lo leemos:</p>
+<pre>
+Message 1:
+From javierperezhidalgo01@gmail.com  Thu Jan 21 10:45:33 2021
+X-Original-To: debian@iesgn15.es
+
+...
+
+Subject: Correo de prueba
+To: debian@iesgn15.es
+Content-Type:
+
+...
+
+Este es el correo de prueba enviado desde Gmail
+
+...
 </pre>
 
 <h4>Uso de alias y redirecciones</h4>
