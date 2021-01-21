@@ -164,12 +164,14 @@ root@dulcinea:~# nft list ruleset
 table ip FILTER {
     chain INPUT {
         type filter hook input priority 0; policy drop;
-        iif "eth0" tcp dport ssh counter packets 133 bytes 8241 accept
+        iif "eth0" tcp dport ssh counter packets 370 bytes 27194 accept
+        ct state established,related counter packets 0 bytes 0 accept
     }
 
     chain OUTPUT {
         type filter hook output priority 0; policy drop;
-        ct state established,related counter packets 138 bytes 16980 accept
+        ct state established,related counter packets 363 bytes 45733 accept
+        oif "eth0" tcp dport ssh counter packets 0 bytes 0 accept
     }
 
     chain FORWARD {
