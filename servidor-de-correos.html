@@ -161,9 +161,15 @@ MAILTO = root
 </li>
 <li>
 <p><strong>Tarea 9: Instala configura <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Configura <code>dovecot</code> de manera adecuada para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio mail.iesgn15.es. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
-<p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.
-IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.
+<ul>
+<li>
+<p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</p>
+</li>
+<li>
+<p>IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.
 Ofrecer las dos posibilidades.</p>
+</li>
+</ul>
 </li>
 </ul>
 <p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</p>
@@ -172,7 +178,7 @@ Ofrecer las dos posibilidades.</p>
 <p><strong>Tarea 10 (No obligatoria): Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></p>
 </li>
 <li>
-<p><strong>Tarea 11: Configura de manera adecuada postfix para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando dovecor y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
+<p><strong>Tarea 11: Configura de manera adecuada <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando <code>dovecot</code> y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
 <ul>
 <li>
 <p>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</p>
