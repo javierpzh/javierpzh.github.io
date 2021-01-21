@@ -48,7 +48,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/openstack-cortafuegos.html">
 	<meta property="og:title" content="OpenStack: Cortafuegos">
-	<meta property="article:published_time" content="2021-01-19 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-01-21 00:00:00+01:00">
             <meta property="og:description" content="Vamos a construir un cortafuegos en Dulcinea que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir...">
 
             <meta property="og:image" content="theme/images/banner-seguridad.jpg">
@@ -93,7 +93,7 @@
                         <h1>OpenStack: Cortafuegos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el mar 19 enero 2021
+                             el jue 21 enero 2021
                         </span>
                         
                     </div>
@@ -127,12 +127,33 @@ systemctl enable nftables.service
 
 <p>Al igual que pasa con <code>iptables</code>, <code>nftables</code> también permite guardar las reglas en un fichero para que así las configuraciones perduren a pesar de los reinicios del sistema. Para hacer esto empleamos el siguiente comando:</p>
 <pre>
-nft list ruleset > firewall.config
+nft list ruleset > /etc/nftables.conf
 </pre>
 
 <p>Explicado esto, podemos empezar con las configuraciones de nuestro cortafuegos.</p>
 <h2>Política por defecto</h2>
-<p>La política por defecto que vamos a configurar en nuestro cortafuegos será de tipo <strong>DROP</strong>.</p>
+<p>La política por defecto que vamos a configurar en nuestro cortafuegos será de tipo <strong>DROP</strong>, pero como estoy conectado por SSH, no voy a aplicar esta política de momento, ya que sino perdería la conexión Por tanto, empezaremos con crear la tabla <strong>FILTER</strong> y las cadenas.</p>
+<pre>
+nft add table ip FILTER
+nft add chain ip FILTER INPUT { type filter hook input priority 0 \;}
+nft add chain ip FILTER OUTPUT { type filter hook output priority 0 \; }
+nft add chain ip FILTER FORWARD { type filter hook forward priority 0 \; }
+</pre>
+
+<p>Ahora añadiré las reglas necesarias para poder acceder por SSH:</p>
+<pre>
+nft add rule ip FILTER INPUT iif eth0 tcp dport 22 counter accept
+nft add rule ip FILTER OUTPUT ct state established,related counter accept
+</pre>
+
+<p>En este punto, ya si podemos establecer la política por defecto a <strong>DROP</strong>, ya que poseemos la regla necesaria para tener acceso mediante SSH y no perderemos la conexión:</p>
+<pre>
+nft add chain ip FILTER INPUT { type filter hook input priority 0 \; policy drop \;}
+nft add chain ip FILTER OUTPUT { type filter hook output priority 0 \; policy drop \;}
+nft add chain ip FILTER FORWARD { type filter hook forward priority 0 \; policy drop \;}
+</pre>
+
+<p>Pasamos con las reglas.</p>
 <h2>NAT</h2>
 <ul>
 <li><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></li>
