@@ -166,7 +166,14 @@ Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.10
 <p>Enviamos correo desde gmail:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correoenviadogmail.png"></p>
 <pre>
-
+Jan 21 10:45:32 vpsjavierpzh postfix/smtpd[25717]: connect from mail-io1-f43.google.com[209.85.166.43]
+Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: 35244101016: client=mail-io1-f43.google.com[209.85.166.43]
+Jan 21 10:45:33 vpsjavierpzh postfix/cleanup[25726]: 35244101016: message-id=<CAMu5ax_BkYemDjV=A1yf1wrDBZ6w_tHZ0Ws+tnPX+3k2TF5ghw@mail.gmail.com>
+Jan 21 10:45:33 vpsjavierpzh postfix/qmgr[9341]: 35244101016: from=<javierperezhidalgo01@gmail.com>, size=2643, nrcpt=1 (queue active)
+Jan 21 10:45:33 vpsjavierpzh postfix/local[25727]: 35244101016: to=<debian@iesgn15.es>, relay=local, delay=0.02, delays=0.01/0.01/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Jan 21 10:45:33 vpsjavierpzh postfix/qmgr[9341]: 35244101016: removed
+Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: disconnect from mail-io1-f43.google.com[209.85.166.43] ehlo=2 starttls=1 mail=1 rcpt=1 bdat=1 quit=1 commands=7
+You have mail in /var/mail/debian
 </pre>
 
 <h4>Uso de alias y redirecciones</h4>
