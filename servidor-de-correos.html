@@ -157,7 +157,7 @@ Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.10
 
 <p>En estas líneas se aprecia como ha pasado correctamente y ha hecho uso del registro <strong>SPF</strong> y por tanto no nos muestra este mensaje como <em>Spam</em>.</p>
 <ul>
-<li><strong>Tarea 2: Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local. Muestra el <code>log</code> donde se vea el envío. Muestra cómo has leído el correo. Muestra el registro MX de tu dominio.</strong></li>
+<li><strong>Tarea 2: Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></li>
 </ul>
 <p>Al igual que en la tarea anterior, antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>MX</strong> en nuestro DNS de OVH, esto le servirá . He creado el siguiente registro:</p>
 <hr>
@@ -177,7 +177,7 @@ Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: disconnect from mail-io1-f43.
 You have mail in /var/mail/debian
 </pre>
 
-<p>Vaya, parece que tenemos un nuevo correo procedente de la dirección <code>javierperezhidalgo01@gmail.com</code> y que lo ha almacenado en la ruta <code>/var/mail/debian</code>, así que vamos a verificarlo.</p>
+<p>Vaya, parece que tenemos un nuevo correo procedente de la dirección <code>javierperezhidalgo01@gmail.com</code> y lo ha almacenado en la ruta <code>/var/mail/debian</code>, así que vamos a verificarlo.</p>
 <p>Para leer los nuevos correos, haremos uso de la herramienta <code>mail</code>.</p>
 <pre>
 debian@vpsjavierpzh:~$ mail
