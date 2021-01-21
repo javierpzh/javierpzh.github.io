@@ -188,12 +188,12 @@ nft add chain NAT POSTROUTING { type nat hook postrouting priority 1 \; }
 </ul>
 <p>En mi caso, ya poseo esta serie de reglas, ya que fueron creadas en artículos anteriores, pero fueron creadas con <code>iptables</code>. Tranquilidad, esto no supone un problema, ya que las podemos convertir a <code>nftables</code> utilizando la herramienta <code>iptables-translate</code>.</p>
 <p><em>Reglas creadas hasta el momento:</em></p>
-<p>Para que las máquinas de la red interna posean conexión:</p>
+<p>Para que las máquinas de la red interna posean conexión al exterior a través de <em>Dulcinea</em>:</p>
 <pre>
 iptables -t nat -A POSTROUTING -s 10.0.1.0/24 -o eth0 -j MASQUERADE
 </pre>
 
-<p>Para que las máquinas de la red DMZ posean conexión:</p>
+<p>Para que las máquinas de la red DMZ posean conexión al exterior a través de <em>Dulcinea</em>:</p>
 <pre>
 iptables -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE
 </pre>
