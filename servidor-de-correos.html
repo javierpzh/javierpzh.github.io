@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content=".">
+        <meta name="description" content="Instala y configura de manera adecuada el servidor de correos en tu máquina de OVH, para tu dominio iesgn15.es. El nombre del servidor...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -51,7 +51,7 @@
 	<meta property="og:url" content="/servidor-de-correos.html">
 	<meta property="og:title" content="Servidor de correos">
 	<meta property="article:published_time" content="2021-01-21 00:00:00+01:00">
-            <meta property="og:description" content=".">
+            <meta property="og:description" content="Instala y configura de manera adecuada el servidor de correos en tu máquina de OVH, para tu dominio iesgn15.es. El nombre del servidor...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
 </head>
@@ -110,7 +110,87 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>.</p>
+        <p><strong>Instala y configura de manera adecuada el servidor de correos en tu máquina de OVH, para tu dominio iesgn15.es. El nombre del servidor de correo será mail.iesgn15.es (Este es el nombre que deberá aparecer en el registro MX)</strong></p>
+<h4>Gestión de correos desde el servidor</h4>
+<ul>
+<li>
+<p><strong>Tarea 1: Documenta una prueba de funcionamiento, donde envíes desde tu servidor local al exterior. Muestra el <code>log</code> donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.</strong></p>
+</li>
+<li>
+<p><strong>Tarea 2: Documenta una prueba de funcionamiento, donde envíes un correo desde el exterior (gmail, hotmail,…) a tu servidor local. Muestra el <code>log</code> donde se vea el envío. Muestra cómo has leído el correo. Muestra el registro MX de tu dominio.</strong></p>
+</li>
+</ul>
+<h4>Uso de alias y redirecciones</h4>
+<ul>
+<li><strong>Tarea 3 (No obligatoria): Uso de alias y redirecciones.</strong></li>
+</ul>
+<p>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea <code>cron</code> podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario <strong>root</strong> del servidor, para ello:</p>
+<pre>
+crontab -e
+</pre>
+
+<p>E indico donde se envía el correo:</p>
+<pre>
+MAILTO = root
+</pre>
+
+<p>Puedes poner alguna tarea en el <em>cron</em> para ver como se mandan correo.</p>
+<p>Posteriormente usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</p>
+<p>Configura el <code>cron</code> para enviar correo al usuario <strong>root</strong>. Comprueba que están llegando esos correos al root. Crea un nuevo alias para que se manden a un usuario sin privilegios. Comprueban que llegan a ese usuario. Por último crea una redirección para enviar esos correo a tu correo personal (gmail,hotmail,…).</p>
+<h4>Para asegurar el envío</h4>
+<ul>
+<li><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM es tu sistema de correos. Comprueba el registro DKIM en la página https://mxtoolbox.com/dkim.aspx. Configura <code>postfix</code> para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></li>
+</ul>
+<h4>Para luchar contra el SPAM</h4>
+<ul>
+<li>
+<p><strong>Tarea 5 (No obligatorio): Configura de manera adecuada <code>Postfix</code> para que tenga en cuenta el registro SPF de los correos que recibe. Muestra el <em>log</em> del correo para comprobar que se está haciendo el testeo del registro SPF.</strong></p>
+</li>
+<li>
+<p><strong>Tarea 6 (No obligatoria): Configura un sistema antispam. Realiza comprobaciones para comprobarlo.</strong></p>
+</li>
+<li>
+<p><strong>Tarea 7 (No obligatoria): Configura un sistema antivirus. Realiza comprobaciones para comprobarlo.</strong></p>
+</li>
+</ul>
+<h4>Gestión de correos desde un cliente</h4>
+<ul>
+<li>
+<p><strong>Tarea 8: Configura el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
+</li>
+<li>
+<p><strong>Tarea 9: Instala configura <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Configura <code>dovecot</code> de manera adecuada para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio mail.iesgn15.es. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
+<p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.
+IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.
+Ofrecer las dos posibilidades.</p>
+</li>
+</ul>
+<p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</p>
+<ul>
+<li>
+<p><strong>Tarea 10 (No obligatoria): Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></p>
+</li>
+<li>
+<p><strong>Tarea 11: Configura de manera adecuada postfix para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando dovecor y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
+<ul>
+<li>
+<p>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</p>
+</li>
+<li>
+<p>SMTPS: Utiliza un puerto no estándar (465) para SMTPS (Simple Mail Transfer Protocol Secure). No es una extensión de smtp. Es muy parecido a HTTPS.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</p>
+<ul>
+<li><strong>Tarea 12 (No obligatoria): Configura el cliente webmail para el envío de correo. Realiza una prueba de envío con el webmail.</strong></li>
+</ul>
+<h4>Comprobación final</h4>
+<ul>
+<li><strong>Tarea 13 (No obligatoria): Prueba de envío de correo. En <a href="https://www.mail-tester.com/">https://www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos. Captura la pantalla y muestra la puntuación que has sacado.</strong></li>
+</ul>
+<p>.</p>
     </article>
 
         <div class="tags">
