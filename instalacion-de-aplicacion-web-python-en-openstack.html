@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/instalacion-de-aplicacion-web-python-en-openstack.html">
 	<meta property="og:title" content="Instalación de aplicación web Python en OpenStack">
-	<meta property="article:published_time" content="2021-01-18 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-01-21 00:00:00+01:00">
             <meta property="og:description" content="En esta tarea vamos a realizar la instalación de un CMS Python basado en Django. Puedes encontrar varios en el siguiente enlace. Instala...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
@@ -96,7 +96,7 @@
                         <h1>Instalación de aplicación web Python en OpenStack</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el lun 18 enero 2021
+                             el jue 21 enero 2021
                         </span>
                         
                     </div>
@@ -138,17 +138,17 @@ apt install python3-venv -y
 
 <p>Ya instalado, podemos crear el entorno virtual, y para ello, empleamos el siguiente comando:</p>
 <pre>
-javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ python3 -m venv webpython
+javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ python3 -m venv desarrollo
 </pre>
 
 <p>Una vez creado, vamos a activarlo mediante el siguiente comando:</p>
 <pre>
-javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ source webpython/bin/activate
+javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ source desarrollo/bin/activate
 </pre>
 
 <p>Si nos fijamos, vemos como el aspecto del <em>prompt</em> ha cambiado y ahora aparece el entorno virtual como activo:</p>
 <pre>
-(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$
+(desarrollo) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$
 </pre>
 
 <p>Para actualizar <code>pip</code>:</p>
@@ -159,17 +159,17 @@ pip install --upgrade pip
 <p>Ya tendríamos el entorno virtual listo para trabajar con él.</p>
 <p>Llegó el momento de decidir qué CMS instalaremos. En mi caso, he decidido instalar <strong>Mezzanine</strong>.</p>
 <pre>
-(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ pip install mezzanine
+(desarrollo) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ pip install mezzanine
 </pre>
 
 <p>Una vez instalado, vamos a crear nuestra web/proyecto con el siguiente comando:</p>
 <pre>
-(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ mezzanine-project javierpzh
+(desarrollo) javier@debian:~/entornos_virtuales/Web-Python-OpenStack$ mezzanine-project javierpzh
 </pre>
 
 <p>Hecho esto, podremos ver como nos ha creado una carpeta con el nombre que hayamos decidido establecerle a nuestro proyecto. Dentro de esta carpeta podremos encontrar varios directorios/ficheros, pero el que nos interesa en este punto es el llamado <code>javierpzh/local_settings.py</code>, ya que, en él se encuentra la configuración básica de la base de datos.</p>
 <pre>
-(webpython) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh/javierpzh$ ls
+(desarrollo) javier@debian:~/entornos_virtuales/Web-Python-OpenStack/javierpzh/javierpzh$ ls
 __init__.py  local_settings.py  settings.py  urls.py  wsgi.py
 </pre>
 
