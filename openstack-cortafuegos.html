@@ -146,8 +146,11 @@ nft add rule ip FILTER INPUT iif eth0 tcp dport 22 counter accept
 nft add rule ip FILTER OUTPUT ct state established,related counter accept
 </pre>
 
-<p>nft add rule ip FILTER OUTPUT oif eth0 tcp dport 22 counter accept</p>
-<p>nft add rule ip FILTER INPUT ct state established,related counter accept</p>
+<pre>
+nft add rule ip FILTER OUTPUT oif eth0 tcp dport 22 counter accept
+nft add rule ip FILTER INPUT ct state established,related counter accept
+</pre>
+
 <p>En este punto, ya si podemos establecer la política por defecto a <strong>DROP</strong>, ya que poseemos la regla necesaria para tener acceso mediante SSH y no perderemos la conexión:</p>
 <pre>
 nft add chain ip FILTER INPUT { type filter hook input priority 0 \; policy drop \;}
