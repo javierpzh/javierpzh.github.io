@@ -148,6 +148,14 @@ Jan 21 10:24:30 vpsjavierpzh postfix/qmgr[9341]: A492F101017: removed
 <p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmail.png"></p>
 <p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmailinfo.png"></p>
 <p>Vemos que efectivamente hemos recibido el correo procedente de <code>debian@iesgn15.es</code>.</p>
+<p>Antes de terminar, vamos a analizar más a fondo el código del correo, para ello hacemos <em>click</em> en <em>Mostrar original</em>:</p>
+<pre>
+...
+Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.105.17 as permitted sender) client-ip=51.210.105.17;
+...
+</pre>
+
+<p>En estas líneas se apreciar como ha pasado correctamente y ha hecho uso del registro <strong>SPF</strong> y por tanto no nos muestra este mensaje como <em>Spam</em>.</p>
 <ul>
 <li><strong>Tarea 2: Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local. Muestra el <code>log</code> donde se vea el envío. Muestra cómo has leído el correo. Muestra el registro MX de tu dominio.</strong></li>
 </ul>
