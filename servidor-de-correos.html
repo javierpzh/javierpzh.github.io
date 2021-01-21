@@ -113,10 +113,12 @@
     <article>
         <p>En este <em>post</em> vamos a instalar y configurar de manera adecuada un servidor de correos en una máquina de <strong>OVH</strong>. Mi dominio es <code>iesgn15.es</code>. El nombre del servidor de correo será <code>mail.iesgn15.es</code> (Este es el nombre que deberá aparecer en el registro MX).</p>
 <h4>Instalación</h4>
+<p>Para comenzar el artículo vamos a instalar las utilidades principales que necesitamos para crear nuestro servidor de correos. Empezaremos por instalar los paquetes <code>postfix</code> y <code>bsd-mailx</code> que corresponden al servidor y a las utilidades del cliente respectivamente.</p>
 <pre>
 apt install postfix bsd-mailx -y
 </pre>
 
+<p>Comencemos.</p>
 <h4>Gestión de correos desde el servidor</h4>
 <ul>
 <li><strong>Tarea 1: Vamos a enviar un correo desde nuestro servidor local al exterior. Muestra el <code>log</code> donde se vea el envío. Muestra el correo que has recibido. Muestra el registro SPF.</strong></li>
