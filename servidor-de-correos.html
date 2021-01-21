@@ -136,10 +136,10 @@ Cc:
 <p>Parece que ya hemos enviado el correo, pero para asegurarnos vamos a visualizar los <em>logs</em> de nuestro servidor, que se encuentran en el fichero <code>/var/log/mail.log</code>:</p>
 <pre>
 ...
-Jan 21 10:24:22 vpsjavierpzh postfix/pickup[24623]: A492F101017: uid=1000 from=<debian>
-Jan 21 10:24:22 vpsjavierpzh postfix/cleanup[25286]: A492F101017: message-id=<20210121092422.A492F101017@vpsjavierpzh.iesgn15.es>
-Jan 21 10:24:22 vpsjavierpzh postfix/qmgr[9341]: A492F101017: from=<debian@iesgn15.es>, size=488, nrcpt=1 (queue active)
-Jan 21 10:24:30 vpsjavierpzh postfix/smtp[25289]: A492F101017: to=<javierperezhidalgo01@gmail.com>, relay=gmail-smtp-in.l.google.com[173.194.76.26]:25, delay=7.8, delays=0.05/0.01/0.26/7.5, dsn=2.0.0, status=sent (250 2.0.0 OK  1611221070 h17si4006834wmq.57 - gsmtp)
+Jan 21 10:24:22 vpsjavierpzh postfix/pickup[24623]: A492F101017: uid=1000 from=<\debian\>
+Jan 21 10:24:22 vpsjavierpzh postfix/cleanup[25286]: A492F101017: message-id=<\20210121092422.A492F101017@vpsjavierpzh.iesgn15.es\>
+Jan 21 10:24:22 vpsjavierpzh postfix/qmgr[9341]: A492F101017: from=<\debian@iesgn15.es\>, size=488, nrcpt=1 (queue active)
+Jan 21 10:24:30 vpsjavierpzh postfix/smtp[25289]: A492F101017: to=<\javierperezhidalgo01@gmail.com\>, relay=gmail-smtp-in.l.google.com[173.194.76.26]:25, delay=7.8, delays=0.05/0.01/0.26/7.5, dsn=2.0.0, status=sent (250 2.0.0 OK  1611221070 h17si4006834wmq.57 - gsmtp)
 Jan 21 10:24:30 vpsjavierpzh postfix/qmgr[9341]: A492F101017: removed
 ...
 </pre>
