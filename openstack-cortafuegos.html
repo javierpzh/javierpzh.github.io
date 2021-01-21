@@ -182,6 +182,7 @@ table ip FILTER {
 
 <p>Perfecto, ya poseemos una política por defecto <strong>DROP</strong>.</p>
 <h2>NAT</h2>
+<p>Comenzaremos por crear una tabla llamada <strong>NAT</strong> y añadimos las siguientes cadenas;</p>
 <pre>
 nft add table NAT
 nft add chain NAT PREROUTING { type nat hook prerouting priority 1 \; }
