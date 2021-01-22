@@ -735,6 +735,42 @@ Unallocated:
 </pre>
 
 <p>¡Bien! Efectivamente la deduplicación ha surgido efecto y tan solo estamos ocupando <strong>100 MB</strong> en nuestro dispositivo gracias a <em>Btrfs</em>.</p>
+<h4>Redimensión</h4>
+<p>En este apartado vamos a analizar las redimensiones del espacio en dispositivos que disponen de <em>Btrfs</em>.</p>
+<p>Empezaremos viendo el caso de disminuir el espacio, para el que tendríamos que utilizar el siguiente comando:</p>
+<pre>
+root@btrfs:~# btrfs filesystem show /mnt/
+Label: none  uuid: 6e1e1285-8652-445b-b44f-af22438387fc
+    Total devices 1 FS bytes used 100.31MiB
+    devid    1 size 1.00GiB used 238.38MiB path /dev/vdf
+
+root@btrfs:~# btrfs filesystem resize -100M /mnt/
+Resize '/mnt/' of '-100M'
+
+root@btrfs:~# btrfs filesystem show /mnt/
+Label: none  uuid: 6e1e1285-8652-445b-b44f-af22438387fc
+    Total devices 1 FS bytes used 100.31MiB
+    devid    1 size 924.00MiB used 238.38MiB path /dev/vdf
+</pre>
+
+<p>Hemos reducido el espacio del dispositivo en 100 MB.</p>
+<p>Por el contrario, si lo que quisiéramos fuera aumentar el espacio utilizaríamos el mismo comando pero cambiando el signo a <code>+</code>:</p>
+<pre>
+root@btrfs:~# btrfs filesystem show /mnt/
+Label: none  uuid: 6e1e1285-8652-445b-b44f-af22438387fc
+    Total devices 1 FS bytes used 100.31MiB
+    devid    1 size 924.00MiB used 238.38MiB path /dev/vdf
+
+root@btrfs:~# btrfs filesystem resize +100M /mnt/
+Resize '/mnt/' of '+100M'
+
+root@btrfs:~# btrfs filesystem show /mnt/
+Label: none  uuid: 6e1e1285-8652-445b-b44f-af22438387fc
+    Total devices 1 FS bytes used 100.31MiB
+    devid    1 size 1.00GiB used 238.38MiB path /dev/vdf
+</pre>
+
+<p>Hemos aumentado el espacio del dispositivo en 100 MB.</p>
 <h4>Cifrado</h4>
 <p>.
 Primero, asegúrese de que el sistema no se encuentra montada:
