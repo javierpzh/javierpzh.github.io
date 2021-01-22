@@ -39,6 +39,11 @@
 
         <meta name="tags" content="FileSystem">
         <meta name="tags" content="Btrfs">
+        <meta name="tags" content="Compresión">
+        <meta name="tags" content="CoW">
+        <meta name="tags" content="Copy on Write">
+        <meta name="tags" content="Deduplicación">
+        <meta name="tags" content="Cifrado">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -439,14 +444,15 @@ Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
 </pre>
 
 <p>Y efectivamente, estamos almacenando un fichero comprimido de 55 GB en un espacio real de 1.79 GiB.</p>
-<h4>CoW</h4>
+<h4>Copy on Write (CoW)</h4>
+<p><strong>Copy on Write</strong> conocido también por sus siglas <strong>CoW</strong>, es una optimización que permite almacenar una sola vez copias de datos indistinguibles. Es en el momento en el que una de estas copias se modifica en el que se realiza físicamente la copia. Así, aquellas copias que no llegan a modificarse nunca, solo existen en apariencia y remiten a los datos originales.</p>
 <h4>Deduplicación</h4>
 <h4>Cifrado</h4>
 <p>.</p>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/filesystem.html">FileSystem</a>, <a href="/tag/btrfs.html">Btrfs</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/filesystem.html">FileSystem</a>, <a href="/tag/btrfs.html">Btrfs</a>, <a href="/tag/compresion.html">Compresión</a>, <a href="/tag/cow.html">CoW</a>, <a href="/tag/copy-on-write.html">Copy on Write</a>, <a href="/tag/deduplicacion.html">Deduplicación</a>, <a href="/tag/cifrado.html">Cifrado</a></p>
         </div>
 
     <hr>
