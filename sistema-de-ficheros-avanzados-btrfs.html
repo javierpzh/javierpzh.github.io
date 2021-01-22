@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Elige uno de los dos sistemas de ficheros "avanzados". Crea un escenario que incluya una máquina y varios discos asociados a ella....">
+        <meta name="description" content="En este post vamos a ver el sistema de ficheros Btrfs. Características Btrfs (B-tree FS) es un sistema de archivos copy-on-write (CoW)...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -53,7 +53,7 @@
 	<meta property="og:url" content="/sistema-de-ficheros-avanzados-btrfs.html">
 	<meta property="og:title" content="Sistema de ficheros "avanzados" Btrfs">
 	<meta property="article:published_time" content="2021-01-22 00:00:00+01:00">
-            <meta property="og:description" content="Elige uno de los dos sistemas de ficheros "avanzados". Crea un escenario que incluya una máquina y varios discos asociados a ella....">
+            <meta property="og:description" content="En este post vamos a ver el sistema de ficheros Btrfs. Características Btrfs (B-tree FS) es un sistema de archivos copy-on-write (CoW)...">
 
             <meta property="og:image" content="theme/images/banner-hlc.jpg">
 </head>
@@ -112,27 +112,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>Elige uno de los dos sistemas de ficheros "avanzados".</p>
-<ul>
-<li>
-<p>Crea un escenario que incluya una máquina y varios discos asociados a ella.</p>
-</li>
-<li>
-<p>Instala si es necesario el software de Btrfs</p>
-</li>
-<li>
-<p>Gestiona los discos adicionales con Btrfs</p>
-</li>
-<li>
-<p>Configura los discos en RAID, haciendo pruebas de fallo de algún disco y sustitución, restauración del RAID. Comenta ventajas e inconvenientes respecto al uso de RAID software con <code>mdadm</code>.</p>
-</li>
-<li>
-<p>Realiza ejercicios con pruebas de funcionamiento de las principales funcionalidades: compresión, cow, deduplicación, cifrado, etc.</p>
-</li>
-</ul>
-<p>Esta tarea se puede realizar en una instancia de OpenStack y documentarla como habitualmente o bien grabar un vídeo con una demo de las características y hacer la entrega con el enlace del vídeo.</p>
-<hr>
-<p>En este <em>post</em> vamos a ver el sistema de ficheros <strong>Btrfs</strong>.</p>
+        <p>En este <em>post</em> vamos a ver el sistema de ficheros <strong>Btrfs</strong>.</p>
 <h4>Características</h4>
 <p><strong>Btrfs</strong> <em>(B-tree FS)</em> es un sistema de archivos <strong>copy-on-write</strong> <em>(CoW)</em> anunciado por <em>Oracle Corporation</em> para <em>GNU/Linux</em>. <em>Btrfs</em> existe porque los desarrolladores querían expandir la funcionalidad de un sistema de archivos para incluir funcionalidades adicionales tales como agrupación, instantáneas y sumas de verificación.</p>
 <p>El proyecto comenzó en <em>Oracle</em>, pero desde entonces, otras compañías importantes han desempeñado un papel en el desarrollo, como pueden ser <em>Facebook</em>, <em>Intel</em>, <em>Netgear</em>, <em>Red Hat</em> y <em>SUSE</em>.</p>
