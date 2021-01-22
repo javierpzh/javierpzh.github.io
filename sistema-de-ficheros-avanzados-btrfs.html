@@ -381,6 +381,15 @@ Filesystem      Size  Used Avail Use% Mounted on
 <p>¡Anda! Resulta que duplica el tamaño esperado, y esto es porque <em>Btrfs</em> gestiona el almacenamiento de una manera distinta, ya que reparte la información entre los diferentes dispositivos, aprovechando el máximo espacio posible, al mismo tiempo que asegura que la información se encuentra lo más segura posible. Así que imaginemos que creamos un RAID 1 con discos de distintos tamaños, ya no tendríamos el inconveniente de que el tamaño será igual al menor de sus discos.</p>
 <p>Lógicamente la elección de uno u otro es algo subjetivo y dependerá de gustos, costumbres y necesidades, pero en resumen, poseemos más flexibilidad y muchas más características útiles en el RAID con <em>Btrfs</em> respecto al RAID con <code>mdadm</code>.</p>
 <h4>Compresión</h4>
+<p>Como vimos al principio del artículo cuando enumerábamos las características de <em>Btrfs</em>, este sistema de ficheros posee la capacidad para realizar la llamada <strong>compresión al vuelo</strong>, por tanto, en este apartado vamos a realizar algunos ejercicios y pruebas de este funcionamiento.</p>
+<p>Antes de empezar, me gustaría explicar un poco que significa este término y para qué nos sirve. Es la posibilidad de almacenar la información comprimida, y en el momento que necesitemos hacer uso de esta información, el propio sistema es capaz de descomprimirla, leerla y acto seguido, volverla a comprimir para almacenarla.</p>
+<p>Existen dos maneras de compresión al vuelo, que son las llamadas <strong>ZLIB</strong> y <strong>LZO</strong>.</p>
+<p>¿Y qué diferencias hay entre estas dos opciones?</p>
+<ul>
+<li><strong>LZO</strong>: es una compresión mas rápida pero menos exigente, lo que penaliza la capacidad de compresión, es decir, no llega a comprimir tanto la información.</li>
+<li><strong>ZLIB</strong>: es más exigente y por ello, comprime más la información, con el <em>hándicap</em> en cuanto a tiempo y en cuanto a la carga de CPU, que es un poco mayor.</li>
+</ul>
+<p>En mi caso voy a utilizar la opción <em>LZIB</em>.</p>
 <h4>CoW</h4>
 <h4>Deduplicación</h4>
 <h4>Cifrado</h4>
