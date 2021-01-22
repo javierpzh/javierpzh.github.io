@@ -676,7 +676,65 @@ Unallocated:
 </pre>
 
 <p>Podemos ver como ahora se encuentran en uso <strong>200 MB</strong>.</p>
-<p>Es el momento de aplicar la deduplicación </p>
+<p>Es el momento de aplicar la deduplicación, para ello aplicamos el siguiente comando:</p>
+<pre>
+root@btrfs:~# duperemove -dr /mnt
+Gathering file list...
+Using 1 threads for file hashing phase
+[1/2] (50.00%) csum: /mnt/pruebadeduplicacion
+[2/2] (100.00%) csum: /mnt/pruebadeduplicacion2
+Total files:  2
+Total hashes: 1600
+Loading only duplicated hashes from hashfile.
+Hashing completed. Using 1 threads to calculate duplicate extents. This may take some time.
+[########################################]
+Search completed with no errors.             
+Simple read and compare of file data found 1 instances of extents that might benefit from deduplication.
+Showing 2 identical extents of length 104857600 with id 19b81479
+Start       Filename
+0   "/mnt/pruebadeduplicacion2"
+0   "/mnt/pruebadeduplicacion"
+Using 1 threads for dedupe phase
+[0x5649765e0c00] (1/1) Try to dedupe extents with id 19b81479
+[0x5649765e0c00] Dedupe 1 extents (id: 19b81479) with target: (0, 104857600), "/mnt/pruebadeduplicacion2"
+Comparison of extent info shows a net change in shared extents of: 209715200
+</pre>
+
+<p>Si observamos la salida del comando, podemos ver como nos hace referencia a ambos ficheros, pero, ¿realmente habremos ahorrado el espacio? Vamos a comprobarlo:</p>
+<pre>
+root@btrfs:~# ls /mnt
+pruebadeduplicacion  pruebadeduplicacion2
+
+root@btrfs:~# df -h /mnt
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/vdf        1.0G  117M  805M  13% /mnt
+
+root@btrfs:~# btrfs fi usage /mnt
+Overall:
+    Device size:           1.00GiB
+    Device allocated:        238.38MiB
+    Device unallocated:      785.62MiB
+    Device missing:          0.00B
+    Used:            100.62MiB
+    Free (estimated):        805.50MiB  (min: 412.69MiB)
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:       16.00MiB  (used: 0.00B)
+
+Data,single: Size:120.00MiB, Used:100.12MiB
+   /dev/vdf  120.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:240.00KiB
+   /dev/vdf  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB
+   /dev/vdf   16.00MiB
+
+Unallocated:
+   /dev/vdf  785.62MiB
+</pre>
+
+<p>¡Bien! Efectivamente la deduplicación ha surgido efecto y tan solo estamos ocupando <strong>100 MB</strong> en nuestro dispositivo gracias a <em>Btrfs</em>.</p>
 <h4>Cifrado</h4>
 <p>.
 Primero, asegúrese de que el sistema no se encuentra montada:
