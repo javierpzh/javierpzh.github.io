@@ -458,6 +458,64 @@ Filesystem      Size  Used Avail Use% Mounted on
 /dev/vdb        2.0G   17M  1.7G   1% /mnt
 </pre>
 
+<p>En el apartado anterior trabajamos con el RAID, así que vamos a cambiar y ahora simplemente vamos a trabajar con un disco, para ello voy a eliminar el disco <code>vdf</code> del RAID y posteriormente desmontaré el sistema RAID, y montaré el nuevo disco en el sistema:</p>
+<pre>
+root@btrfs:~# btrfs device delete /dev/vdf /mnt/
+
+root@btrfs:~# btrfs filesystem show
+Label: none  uuid: 1675b6b0-4741-4341-bb5b-403e1e7c2932
+    Total devices 3 FS bytes used 6.91MiB
+    devid    1 size 1.00GiB used 352.00MiB path /dev/vdb
+    devid    2 size 1.00GiB used 32.00MiB path /dev/vdc
+    devid    4 size 1.00GiB used 320.00MiB path /dev/vde
+
+root@btrfs:~# umount /mnt/
+
+root@btrfs:~# mkfs.btrfs /dev/vdf
+btrfs-progs v4.20.1
+See http://btrfs.wiki.kernel.org for more information.
+
+Label:              (null)
+UUID:               d59c6498-b013-4bd5-bf6e-6e2838ce8894
+Node size:          16384
+Sector size:        4096
+Filesystem size:    1.00GiB
+Block group profiles:
+  Data:             single            8.00MiB
+  Metadata:         DUP              51.19MiB
+  System:           DUP               8.00MiB
+SSD detected:       no
+Incompat features:  extref, skinny-metadata
+Number of devices:  1
+Devices:
+   ID        SIZE  PATH
+    1     1.00GiB  /dev/vdf
+
+root@btrfs:~# mount /dev/vdf /mnt/
+</pre>
+
+<p>Ahora voy a proceder a crear un fichero que será con el que trabajaremos:</p>
+<pre>
+root@btrfs:~# dd if=/dev/zero of=/mnt/ficheroprueba bs=2048 count=100k
+102400+0 records in
+102400+0 records out
+209715200 bytes (210 MB, 200 MiB) copied, 2.06027 s, 102 MB/s
+
+root@btrfs:~# ls /mnt/
+ficheroprueba
+
+root@btrfs:~# du -h /mnt/
+201M    /mnt/
+
+root@btrfs:~# du -h /mnt/ficheroprueba
+200M    /mnt/ficheroprueba
+</pre>
+
+<p>Vemos que el fichero ocupa un espacio de <strong>200 MB</strong>. Bien, ahora vamos a realizar una copia de éste. Le indicamos el parámetro <code>--reflink=always</code> para que nos permita realizar un clon de un fichero, es decir, una copia aparente basada en <em>CoW</em>.</p>
+<pre>
+cp --reflink=always /mnt/ficheroprueba /mnt/ficheropruebaCoW
+</pre>
+
 <h4>Deduplicación</h4>
 <h4>Cifrado</h4>
 <p>.</p>
