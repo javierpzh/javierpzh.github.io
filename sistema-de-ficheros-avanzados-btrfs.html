@@ -389,7 +389,17 @@ Filesystem      Size  Used Avail Use% Mounted on
 <li><strong>LZO</strong>: es una compresión mas rápida pero menos exigente, lo que penaliza la capacidad de compresión, es decir, no llega a comprimir tanto la información.</li>
 <li><strong>ZLIB</strong>: es más exigente y por ello, comprime más la información, con el <em>hándicap</em> en cuanto a tiempo y en cuanto a la carga de CPU, que es un poco mayor.</li>
 </ul>
-<p>En mi caso voy a utilizar la opción <em>LZIB</em>.</p>
+<p>En mi caso voy a utilizar la opción <em>LZIB</em>. La compresión con esta opción, se lleva a cabo con el siguiente comando:</p>
+<pre>
+mount -o compress=zlib /dev/(dispositivo) /(punto de montaje)/
+</pre>
+
+<p>En mi caso, voy a comprimir el volumen denominado <code>vdb</code>, por lo que utilizo el siguiente comando:</p>
+<pre>
+mount -o compress=zlib /dev/vdb /mnt/
+</pre>
+
+<p>Hay que recordar que esta unidad, pertenece al RAID 1 creado anteriormente, por lo que,</p>
 <h4>CoW</h4>
 <h4>Deduplicación</h4>
 <h4>Cifrado</h4>
