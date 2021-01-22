@@ -784,7 +784,6 @@ root@btrfs:~# btrfs filesystem defrag -r /mnt
 </pre>
 
 <p>Listo.</p>
-<h4>Cifrado</h4>
 <h4>Conversión de sistemas de ficheros basados en ext*</h4>
 <p>Otra de las características de <em>Btrfs</em>, es que permite convertir sistemas <strong>ext2</strong>, <strong>ext3</strong> y <strong>ext4</strong> a <strong>Btrfs</strong>.</p>
 <p>Las conversiones deben realizarse en sistemas de ficheros que se encuentran desmontados.</p>
@@ -810,10 +809,13 @@ vdf    ext4         a8e136e4-06a5-4183-ae6a-e22dca2a4658
 
 <p>Hecho esto, y desmontado, vamos a usar <code>btrfs-convert</code> para convertir el dispositivo con formato <em>ext4</em> a un dispositivo formateado en <em>Btrfs</em>:</p>
 <pre>
-btrfs-convert /dev/vdf
+root@btrfs:~# btrfs-convert /dev/vdf
+-bash: btrfs-convert: command not found
 </pre>
 
-<p>Asegúrese de editar el fichero /etc/fstab después de que el dispositivo haya sido formateado para cambiar la columna de sistema de ficheros de ext4 a Btrfs:</p>
+<p>Como se puede ver, me aparece que no dispongo del comando <code>btrfs-convert</code> y según lo que he leído, esta herramienta se incluye en el paquete <code>btrfs-progs</code> y dicho paquete se encuentra instalado. Bueno, en caso de tener disponible el comando <code>btrfs-convert</code>, esta sería la manera de utilizarlo.</p>
+<p>Por último, debemos editar el fichero <code>/etc/fstab</code> para cambiar la columna del sistema de ficheros de <em>ext4</em> a <em>Btrfs</em>.</p>
+<h4>Cifrado</h4>
 <p>.</p>
     </article>
 
