@@ -504,18 +504,64 @@ root@btrfs:~# dd if=/dev/zero of=/mnt/ficheroprueba bs=2048 count=100k
 root@btrfs:~# ls /mnt/
 ficheroprueba
 
-root@btrfs:~# du -h /mnt/
-201M    /mnt/
+root@btrfs:~# btrfs fi usage /mnt
+Overall:
+    Device size:           1.00GiB
+    Device allocated:        462.38MiB
+    Device unallocated:      561.62MiB
+    Device missing:          0.00B
+    Used:            200.92MiB
+    Free (estimated):        705.42MiB  (min: 424.61MiB)
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:       16.00MiB  (used: 0.00B)
 
-root@btrfs:~# du -h /mnt/ficheroprueba
-200M    /mnt/ficheroprueba
+Data,single: Size:344.00MiB, Used:200.20MiB
+   /dev/vdf  344.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:352.00KiB
+   /dev/vdf  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB
+   /dev/vdf   16.00MiB
+
+Unallocated:
+   /dev/vdf  561.62MiB
 </pre>
 
-<p>Vemos que el fichero ocupa un espacio de <strong>200 MB</strong>. Bien, ahora vamos a realizar una copia de éste. Le indicamos el parámetro <code>--reflink=always</code> para que nos permita realizar un clon de un fichero, es decir, una copia aparente basada en <em>CoW</em>.</p>
+<p>Vemos que el fichero ocupa un espacio de <strong>200 MB</strong>. Bien, ahora vamos a realizar una copia de éste. Le indicamos el parámetro <code>--reflink=always</code> para que nos permita realizar un clon del fichero, es decir, una copia aparente basada en <em>CoW</em>.</p>
 <pre>
-cp --reflink=always /mnt/ficheroprueba /mnt/ficheropruebaCoW
+root@btrfs:~# cp --reflink=always /mnt/ficheroprueba /mnt/ficheropruebaCoW
+
+root@btrfs:~# ls /mnt/
+ficheroprueba  ficheropruebaCoW
+
+root@btrfs:~# btrfs fi usage /mnt
+Overall:
+    Device size:           1.00GiB
+    Device allocated:        462.38MiB
+    Device unallocated:      561.62MiB
+    Device missing:          0.00B
+    Used:            200.92MiB
+    Free (estimated):        705.42MiB  (min: 424.61MiB)
+    Data ratio:               1.00
+    Metadata ratio:           2.00
+    Global reserve:       16.00MiB  (used: 0.00B)
+
+Data,single: Size:344.00MiB, Used:200.20MiB
+   /dev/vdf  344.00MiB
+
+Metadata,DUP: Size:51.19MiB, Used:352.00KiB
+   /dev/vdf  102.38MiB
+
+System,DUP: Size:8.00MiB, Used:16.00KiB
+   /dev/vdf   16.00MiB
+
+Unallocated:
+   /dev/vdf  561.62MiB
 </pre>
 
+<p>Apreciamos que el nuevo fichero no ha afectado en absoluto al espacio ocupado del dispositivo, ya que aún no se ha realizado ninguna modificación. </p>
 <h4>Deduplicación</h4>
 <h4>Cifrado</h4>
 <p>.</p>
