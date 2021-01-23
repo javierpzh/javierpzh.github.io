@@ -388,7 +388,27 @@ dnf install gcc python3-devel -y
 (produccion) [root@quijote Web-Python-OpenStack]# uwsgi --http 8080 --plugin python35 --chdir /var/www/Web-Python-OpenStack/appmezzanine/ --wsgi-file /var/www/Web-Python-OpenStack/appmezzanine/appmezzanine/wsgi.py --process 4 --threads 2 --master
 </pre>
 
-<p>Una vez tenemos nuestro servidor de aplicaciones listo, tan sólo nos quedaría, restaurar la copia de seguridad en nuestra base de datos <em>MySQL</em>.  </p>
+<p>Una vez tenemos nuestro servidor de aplicaciones listo, tan sólo nos quedaría, restaurar la copia de seguridad en nuestra base de datos <em>MySQL</em>.</p>
+<p>Antes de realizar la restauración, vamos a configurar <em>Mezzanine</em> para que utilice dicha base de datos. Esta configuración se encuentra dentro del fichero <code>appmezzanine/settings.py</code>, en el siguiente bloque:</p>
+<pre>
+DATABASES = {
+    "default": {
+        # Add "postgresql_psycopg2", "mysql", "sqlite3" or "oracle".
+        "ENGINE": "django.db.mysql",
+        # DB name or path to database file if using sqlite3.
+        "NAME": "webpython",
+        # Not used with sqlite3.
+        "USER": "javierquijote",
+        # Not used with sqlite3.
+        "PASSWORD": "contraseña",
+        # Set to empty string for localhost. Not used with sqlite3.
+        "HOST": "sancho",
+        # Set to empty string for default. Not used with sqlite3.
+        "PORT": "3306",
+    }
+}
+</pre>
+
 <hr>
 <p><pre>
 ALLOWED_HOSTS = ["sancho"]
