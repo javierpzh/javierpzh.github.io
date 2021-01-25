@@ -422,12 +422,13 @@ DATABASES = {
 </pre>
 
 <p>Es importante asegurarnos que no poseemos el fichero llamado <code>local_settings.py</code>, ya que sino, la configuración realizada en el fichero <code>settings.py</code> la ignorará, y buscara los recursos de manera local.</p>
-<p>En el fichero <code>__init__</code> debemos comentar el siguiente bloque:</p>
+<p>Debemos realizar una modificación en un fichero que se encuentra dentro del directorio de nuestro entorno virtual, en mi caso, en la ruta <code>/produccion/lib64/python3.6/site-packages/django/conf/__init__.py</code>. En él debemos comentar el siguiente bloque:</p>
 <pre>
-
+if not self.SECRET_KEY:
+ ImproperlyConfigured("The SECRET_KEY setting must not be empty.")
 </pre>
 
-<p>Es hora de crear las tablas en nuestra base de datos mediante el comando <code>python manage.py migrate</code>:</p>
+<p>Hecho esto, es hora de crear las tablas en nuestra base de datos mediante el comando <code>python manage.py migrate</code>:</p>
 <pre>
 (produccion) [root@quijote appmezzanine]# python manage.py migrate
 /var/www/Web-Python-OpenStack/produccion/lib64/python3.6/site-packages/mezzanine/utils/conf.py:65: UserWarning: You haven't defined the ALLOWED_HOSTS settings, which Django requires. Will fall back to the domains configured as sites.
