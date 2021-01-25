@@ -489,7 +489,7 @@ Running migrations:
 Installed 126 object(s) from 1 fixture(s)
 </pre>
 
-<p><em>http</em>:</p>
+<p>Bien, ya tenemos restaurada la copia de seguridad en nuestra base de datos de producción, por lo que nos tocaría crear los ficheros <em>virtualhost</em>, que recordemos que se almacenan en el directorio <code>/etc/httpd/sites-availables</code>, tanto para el protocolo <em>HTTP</em> (puerto 80), como para <em>HTTPs</em> (puerto 443). Veremos primero el fichero para el puerto 80, que recibirá el nombre de <code>python.javierpzh.gonzalonazareno.conf</code> y tendrá este aspecto:</p>
 <pre>
 <\VirtualHost *:80\>
 
@@ -505,7 +505,7 @@ Installed 126 object(s) from 1 fixture(s)
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
-<p><em>https</em>:</p>
+<p>El fichero para el protocolo <em>HTTPs</em> se identifica como <code>python.javierpzh.gonzalonazareno.https.conf</code> e incluye estas líneas:</p>
 <pre>
 <\VirtualHost *:443\>
 
@@ -531,6 +531,7 @@ Installed 126 object(s) from 1 fixture(s)
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Como ya sabemos, una vez creados los <em>virtualhost</em>, para que el servidor web los sirva, debemos habilitarlos almacenándolos en el directorio <code>/etc/httpd/sites-enabled</code>, para ello crearemos dos enlaces simbólicos:</p>
 <pre>
 [root@quijote sites-availables]# ln -s /etc/httpd/sites-availables/python.javierpzh.gonzalonazareno.conf /etc/httpd/sites-enabled/
 
@@ -542,8 +543,11 @@ lrwxrwxrwx 1 root root 58 Jan 25 17:26 javierpzh.gonzalonazareno.conf -> /etc/ht
 lrwxrwxrwx 1 root root 64 Jan 25 17:25 javierpzh.gonzalonazareno.https.conf -> /etc/httpd/sites-availables/javierpzh.gonzalonazareno.https.conf
 lrwxrwxrwx 1 root root 65 Jan 25 17:24 python.javierpzh.gonzalonazareno.conf -> /etc/httpd/sites-availables/python.javierpzh.gonzalonazareno.conf
 lrwxrwxrwx 1 root root 71 Jan 25 17:24 python.javierpzh.gonzalonazareno.https.conf -> /etc/httpd/sites-availables/python.javierpzh.gonzalonazareno.https.conf
+</pre>
 
-[root@quijote sites-availables]# systemctl restart httpd
+<p>Una vez terminados todos los cambios y configuraciones, reiniciamos el servidor web:</p>
+<pre>
+systemctl restart httpd
 </pre>
 
 <hr>
