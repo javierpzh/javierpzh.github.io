@@ -575,10 +575,10 @@ Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /u
 [root@quijote ~]# ls /etc/httpd/
 conf  conf.d  conf.modules.d  logs  modules  run  state
 
-[root@quijote ~]# mkdir /etc/httpd/{sites-availble,sites-enabled}
+[root@quijote ~]# mkdir /etc/httpd/{sites-availables,sites-enabled}
 
 [root@quijote ~]# ls /etc/httpd/
-conf  conf.d  conf.modules.d  logs  modules  run  sites-availble  sites-enabled  state
+conf  conf.d  conf.modules.d  logs  modules  run  sites-availables  sites-enabled  state
 </pre>
 
 <p>Una vez disponemos de las carpetas donde almacenaremos nuestros <em>virtualhost</em>, debemos dirigirnos al fichero <code>/etc/httpd/conf/httpd.conf</code> e indicar que los <em>virtualhost</em> se almacenan en la carpeta <code>sites-enabled</code>. Para ello añadimos la siguiente línea en dicho fichero:</p>
@@ -602,7 +602,7 @@ IncludeOptional sites-enabled/*.conf
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Ahora, vamos a habilitar este nuevo <em>virtualhost</em>, creando un enlace simbólico hacia la ruta <code>/etc/httpd/sites-enabled</code>.</p>
 <pre>
-[root@quijote sites-availble]# ln -s /etc/httpd/sites-availble/javierpzh.gonzalonazareno.conf /etc/httpd/sites-enabled/
+[root@quijote sites-availables]# ln -s /etc/httpd/sites-availables/javierpzh.gonzalonazareno.conf /etc/httpd/sites-enabled/
 </pre>
 
 <p>En este punto, tan solo nos quedaría crear un fichero <code>index.html</code> en la ruta especificada en el apartado <strong>DocumentRoot</strong>, que en mi caso, es <code>/var/www/iesgn</code>. Mi fichero <code>index.html</code> quedaría así:</p>
