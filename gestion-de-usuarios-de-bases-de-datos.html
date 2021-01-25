@@ -560,10 +560,8 @@ Error: error: {
 <p><strong>Object</strong></p>
 <p>Permite al usuario realizar ciertas acciones en objetos de la base de datos, como una tabla, una vista, un procedimiento, una función, ... Si a un usuario no se le dan estos permisos sólo puede acceder a sus propios objetos.</p>
 <p>Este tipo de permisos los da el dueño del objeto, el administrador o alguien que haya recibido este permiso explícitamente.</p>
-<p>Por el contrario, en <strong>MongoDB</strong>,</p>
-<p>.</p>
-<p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios. (6)</strong></p>
-<p>Primeramente veo conveniente explicar lo que es un <strong>rol</strong>.</p>
+<p>Por el contrario, en <strong>MongoDB</strong>, no existe el concepto de privilegio como tal, sino que nos encontramos con los determinados <strong>roles</strong>.</p>
+<p>¿Y qué son los <em>roles</em>?</p>
 <p>Un <em>rol</em> se define como un conjunto de privilegios. Cuando a un usuario se le asigna un rol, los privilegios de ese rol son accesibles por el usuario.</p>
 <p>Un privilegio define una acción o acciones que se pueden efectuar sobre un recurso. Los recursos pueden ser de varios tipos:</p>
 <ul>
@@ -582,7 +580,9 @@ Error: error: {
 <p><strong>Roles definidos por el usuario:</strong> son los creados por el administrador del sistema.</p>
 </li>
 </ul>
-<p>En este caso, nos interesan los <strong>roles predefinidos</strong>.</p>
+<p>.</p>
+<p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios. (6)</strong></p>
+<p>Como ya sabemos lo qué es un <strong>rol</strong> gracias al apartado anterior, vamos a pasar, en este caso, con os roles que nos interesan, los <strong>roles predefinidos</strong>.</p>
 <p>Dentro de éstos, podemos clasificar los distintos roles en varias categorías.</p>
 <ul>
 <li>
