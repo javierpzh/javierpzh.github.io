@@ -580,8 +580,8 @@ Error: error: {
 <p><strong>Roles definidos por el usuario:</strong> son los creados por el administrador del sistema.</p>
 </li>
 </ul>
-<p>Una vez explicado como funcionan los privilegios en un gestor y otro, vamos a señalar las diferencias más importantes, aunque creo que se pueden ver con bastante facilidad.</p>
-<p>Por ejemplo, si quisiéramos que un usuario pudiera acceder a una tabla, o una colección, de la cuál no es dueño, en <em>Oracle</em> nos bastaría con ejecutar una sentencia (<em>GRANT</em>) que le permitiera acceder a ese recurso, y en <em>MongoDB</em> deberíamos asignarle el rol adecuado para que pudiera tener acceso a dicho recurso.</p>
+<p>Una vez explicado como funcionan los privilegios en un gestor y otro, creo que se pueden ver las diferencias más importantes con bastante facilidad, pero por si acaso, voy a poner un ejemplo práctico.</p>
+<p>Supongamos que quisiéramos que un usuario pudiera acceder a una tabla, o una colección, de la cuál no es dueño. Por un lado, en <em>Oracle</em> nos bastaría con ejecutar una sentencia (<em>GRANT</em>) que le permitiera al usuario acceder a ese recurso, y por otro lado, en <em>MongoDB</em>, al usuario deberíamos asignarle el rol que poseiera el privilegio adecuado que le permitiera realizar dicha acción en el recurso.</p>
 <p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios. (6)</strong></p>
 <p>Como ya sabemos lo qué es un <strong>rol</strong> gracias al apartado anterior, vamos a pasar, en este caso, con los que nos interesan, los <strong>roles predefinidos</strong>.</p>
 <p>Dentro de éstos, podemos clasificar los distintos roles en varias categorías.</p>
