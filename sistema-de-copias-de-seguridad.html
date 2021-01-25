@@ -33,9 +33,13 @@
 
 
 
+        <meta name="description" content="Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
+        <meta name="tags" content="OpenStack">
+        <meta name="tags" content="Bacula">
+        <meta name="tags" content="Backup">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -45,6 +49,7 @@
 	<meta property="og:url" content="/sistema-de-copias-de-seguridad.html">
 	<meta property="og:title" content="Sistema de copias de seguridad">
 	<meta property="article:published_time" content="2021-01-24 00:00:00+01:00">
+            <meta property="og:description" content="Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:...">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
@@ -103,9 +108,28 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        
+        <p>Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:</p>
+<ul>
+<li>Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc.</li>
+<li>Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él.</li>
+<li>El proceso debe realizarse de forma completamente automática</li>
+<li>Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.)</li>
+<li>Realiza semanalmente una copia completa</li>
+<li>Realiza diariamente una copia incremental, diferencial o delta diferencial (decidir cual es más adecuada)</li>
+<li>Implementa una planificación del almacenamiento de copias de seguridad para una ejecución prevista de varios años, detallando qué copias completas se almacenarán de forma permanente y cuales se irán borrando.</li>
+<li>Crea un registro de las copias, indicando fecha, tipo de copia, si se realizó correctamente o no y motivo.</li>
+<li>Selecciona un directorio de datos "críticos" que deberá almacenarse cifrado en la copia de seguridad, bien encargándote de hacer la copia manualmente o incluyendo la contraseña de cifrado en el sistema</li>
+<li>Incluye en la copia los datos de las nuevas aplicaciones que se vayan instalando durante el resto del curso</li>
+<li>Utiliza saturno u otra opción que se te facilite como equipo secundario para almacenar las copias de seguridad. Solicita acceso o la instalación de las aplicaciones que sean precisas.</li>
+</ul>
+<p>El sistema de copias debe estar operativo para la fecha de entrega, aunque se podrán hacer correcciones menores que se detecten a medida que vayan ejecutándose las copias. La corrección se realizará la última semana de curso y consistirá tanto en la restauración puntual de un fichero en cualquier fecha como la restauración completa de una de las máquinas.</p>
+<hr>
+<p>.</p>
     </article>
 
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/openstack.html">OpenStack</a>, <a href="/tag/bacula.html">Bacula</a>, <a href="/tag/backup.html">Backup</a></p>
+        </div>
 
     <hr>
 
