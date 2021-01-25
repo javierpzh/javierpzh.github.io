@@ -499,7 +499,7 @@ Installed 126 object(s) from 1 fixture(s)
     ErrorLog /var/www/iesgn/log/error.log
     CustomLog /var/www/iesgn/log/requests.log combined
 
-    Redirect / https://www.python.javierpzh.gonzalonazareno.org
+    Redirect / https://python.javierpzh.gonzalonazareno.org
 
 <\/VirtualHost\>
 </pre>
@@ -509,7 +509,7 @@ Installed 126 object(s) from 1 fixture(s)
 <pre>
 <\VirtualHost *:443\>
 
-    ServerName www.python.javierpzh.gonzalonazareno.org
+    ServerName python.javierpzh.gonzalonazareno.org
     DocumentRoot /var/www/Web-Python-OpenStack
 
     ErrorLog /var/www/iesgn/log/error.log
@@ -550,6 +550,34 @@ lrwxrwxrwx 1 root root 71 Jan 25 17:24 python.javierpzh.gonzalonazareno.https.co
 systemctl restart httpd
 </pre>
 
+<p>En este momento nuestro servidor <em>Apache</em> debería estar sirviendo <em>Mezzanine</em>, pero recordemos que <em>Quijote</em>, máquina donde se encuentra <em>Apache</em>, pertenece a la red DMZ de nuestro escenario, y accederemos a ella mediante <em>Dulcinea</em>. Esto quiere decir, que necesitaremos añadir un nuevo registro en la zona externa de nuestro DNS, instalado en <em>Freston</em>. De manera que ahora, el fichero de nuestra zona externa quedaría de tal manera:</p>
+<pre>
+$TTL    86400
+@       IN      SOA     dulcinea.javierpzh.gonzalonazareno.org. root.localhost. (
+                        21012501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      dulcinea.javierpzh.gonzalonazareno.org.
+
+$ORIGIN javierpzh.gonzalonazareno.org.
+
+dulcinea        IN      A       172.22.200.183
+www             IN      CNAME   dulcinea
+python          IN      CNAME   dulcinea
+
+@       IN      MX 10   dulcinea.javierpzh.gonzalonazareno.org.
+</pre>
+
+<p>Reiniciamos el servidor DNS:</p>
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Y ahora sí, llegó la hora de la verdad, vamos a probar a acceder a la dirección <code>python.javierpzh.gonzalonazareno.org</code> en nuestro navegador:</p>
+<p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/apache.png"></p>
 <hr>
     </article>
 
