@@ -544,6 +544,21 @@ Error: error: {
 
 <p>Genial, podemos ver como únicamente nos muestra la colección sobre la que poseemos privilegios, por tanto, ya habríamos terminado este apartado.</p>
 <p><strong>2. Averigua si en <em>MongoDB</em> existe el concepto de privilegio del sistema y muestra las diferencias más importantes con <em>Oracle</em>. (6)</strong></p>
+<p>En <em>Oracle</em> existen dos tipos de privilegios de usuario:</p>
+<ul>
+<li>
+<p><strong>System</strong></p>
+</li>
+<li>
+<p><strong>Object</strong></p>
+</li>
+</ul>
+<p><strong>System</strong></p>
+<p>Permite al usuario hacer ciertas tareas sobre la base de datos, como por ejemplo crear un <em>tablespace</em>. Estos permisos son otorgados por el administrador o por alguien que haya recibido el permiso para administrar ese tipo de privilegio. Existen como 100 tipos distintos de privilegios de este tipo.</p>
+<p>En general los permisos de sistema, permiten ejecutar comandos del tipo <strong>DDL</strong>, como <em>CREATE</em>, <em>ALTER</em> y <em>DROP</em> o del tipo <strong>DML</strong>.</p>
+<p>Los privilegios de sistema más importantes son: <strong>SYSDBA</strong> y <strong>SYSOPER</strong>, que son dados a usuarios que serán administradores de base de datos.</p>
+<p><strong>Object</strong></p>
+<p>Permite al usuario realizar ciertas acciones en objetos de la base de datos, como una tabla, una vista, un procedimiento, una función, ... Si a un usuario no se le dan estos permisos sólo puede acceder a sus propios objetos. Este tipo de permisos los da el dueño del objeto, el administrador o alguien que haya recibido este permiso explícitamente.</p>
 <p>.</p>
 <p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios. (6)</strong></p>
 <p>Primeramente veo conveniente explicar lo que es un <strong>rol</strong>.</p>
