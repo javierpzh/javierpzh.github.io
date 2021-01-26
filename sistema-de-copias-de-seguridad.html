@@ -155,6 +155,22 @@
 <p><strong>File <em>(FD)</em>:</strong> este servicio, conocido como <em>cliente</em> o servidor de ficheros está instalado en cada máquina a salvaguardar y es específico al sistema operativo donde se ejecuta. Responsable para enviar al <em>Director</em> los datos cuando este lo requiera.</p>
 </li>
 </ul>
+<h4>Conceptos importantes</h4>
+<p>Para manejar mejor <em>Bacula</em> es importante conocer ciertos conceptos:</p>
+<ul>
+<li>
+<p>Un <strong>backup</strong> consiste en una tarea <em>(JOB)</em>, un conjunto de directorios/archivos <em>(FILESET)</em>, un cliente <em>(CLIENT)</em>, un horario <em>(SCHEDULE)</em> y unos recursos <em>(POOL)</em>.</p>
+</li>
+<li>
+<p>En otros términos, el <strong>Fileset</strong> es lo que vamos a salvaguardar, el <em>Client</em> es la proveniencia de los datos, el <em>Schedule</em> determina cuando lo vamos a ejecutar y el <em>Pool</em> es el destino de la copia de seguridad.</p>
+</li>
+<li>
+<p>Típicamente una combinación <strong>CLIENT/FILESET</strong> generará un determinado <em>JOB</em>. Además de los <em>JOB</em> de <em>backup</em>, existirán también <em>JOB</em> de <em>restore</em> y otros de control y administración.</p>
+</li>
+<li>
+<p>Los medios de almacenamiento se definen como <strong>POOL</strong>. El <em>POOL</em> es un conjunto de volúmenes, son ficheros que actúan como un disco duro dentro de ellos están las copias de seguridad.</p>
+</li>
+</ul>
 <h2>Sistema de copias de seguridad</h2>
 <p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <em>Dulcinea</em>. Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
 <p>.</p>
