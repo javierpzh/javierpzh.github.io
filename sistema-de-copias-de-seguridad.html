@@ -285,9 +285,9 @@ JobDefs {
   Client = dulcinea-fd
   FileSet = "Full Set"
   Schedule = "Daily"
-  Storage = File1
+  Storage = volcopias
   Messages = Standard
-  Pool = File
+  Pool = Daily
   SpoolAttributes = yes
   Priority = 10
   Write Bootstrap = "/var/lib/bacula/%c.bsr"
@@ -300,9 +300,9 @@ JobDefs {
   Client = dulcinea-fd
   FileSet = "Full Set"
   Schedule = "Weekly"
-  Storage = File1
+  Storage = volcopias
   Messages = Standard
-  Pool = File
+  Pool = Weekly
   SpoolAttributes = yes
   Priority = 10
   Write Bootstrap = "/var/lib/bacula/%c.bsr"
@@ -315,9 +315,9 @@ JobDefs {
   Client = dulcinea-fd
   FileSet = "Full Set"
   Schedule = "Monthly"
-  Storage = File1
+  Storage = volcopias
   Messages = Standard
-  Pool = File
+  Pool = Monthly
   SpoolAttributes = yes
   Priority = 10
   Write Bootstrap = "/var/lib/bacula/%c.bsr"
@@ -331,18 +331,21 @@ Job {
   Name = "Dulcinea-Diario"
   Client = "dulcinea-fd"
   JobDefs = "BackupDiario"
+  FileSet= "Dulcinea-Datos"
 }
 
 Job {
   Name = "Dulcinea-Semanal"
   Client = "dulcinea-fd"
   JobDefs = "BackupSemanal"
+  FileSet= "Dulcinea-Datos"
 }
 
 Job {
   Name = "Dulcinea-Mensual"
   Client = "dulcinea-fd"
   JobDefs = "BackupMensual"
+  FileSet= "Dulcinea-Datos"
 }
 
 # Sancho
@@ -350,18 +353,21 @@ Job {
   Name = "Sancho-Diario"
   Client = "sancho-fd"
   JobDefs = "BackupDiario"
+  FileSet= "Sancho-Datos"
 }
 
 Job {
   Name = "Sancho-Semanal"
   Client = "sancho-fd"
   JobDefs = "BackupSemanal"
+  FileSet= "Sancho-Datos"
 }
 
 Job {
   Name = "Sancho-Mensual"
   Client = "sancho-fd"
   JobDefs = "BackupMensual"
+  FileSet= "Sancho-Datos"
 }
 
 # Freston
@@ -369,18 +375,21 @@ Job {
   Name = "Freston-Diario"
   Client = "freston-fd"
   JobDefs = "BackupDiario"
+  FileSet= "Freston-Datos"
 }
 
 Job {
   Name = "Freston-Semanal"
   Client = "freston-fd"
   JobDefs = "BackupSemanal"
+  FileSet= "Freston-Datos"
 }
 
 Job {
   Name = "Freston-Mensual"
   Client = "freston-fd"
   JobDefs = "BackupMensual"
+  FileSet= "Freston-Datos"
 }
 
 # Quijote
@@ -388,18 +397,21 @@ Job {
   Name = "Quijote-Diario"
   Client = "quijote-fd"
   JobDefs = "BackupDiario"
+  FileSet= "Quijote-Datos"
 }
 
 Job {
   Name = "Quijote-Semanal"
   Client = "quijote-fd"
   JobDefs = "BackupSemanal"
+  FileSet= "Quijote-Datos"
 }
 
 Job {
   Name = "Quijote-Mensual"
   Client = "quijote-fd"
   JobDefs = "BackupMensual"
+  FileSet= "Quijote-Datos"
 }
 </pre>
 
@@ -434,7 +446,7 @@ Job {
   Name = "DulcineaRestore"
   Type = Restore
   Client=dulcinea-fd
-  Storage = File1
+  Storage = volcopias
   FileSet="Dulcinea-Datos"
   Pool = File
   Messages = Standard
@@ -445,7 +457,7 @@ Job {
   Name = "SanchoRestore"
   Type = Restore
   Client=sancho-fd
-  Storage = File1
+  Storage = volcopias
   FileSet="Sancho-Datos"
   Pool = File
   Messages = Standard
@@ -456,7 +468,7 @@ Job {
   Name = "FrestonRestore"
   Type = Restore
   Client=freston-fd
-  Storage = File1
+  Storage = volcopias
   FileSet="Freston-Datos"
   Pool = File
   Messages = Standard
@@ -467,7 +479,7 @@ Job {
   Name = "QuijoteRestore"
   Type = Restore
   Client=quijote-fd
-  Storage = File1
+  Storage = volcopias
   FileSet="Quijote-Datos"
   Pool = File
   Messages = Standard
@@ -578,17 +590,17 @@ FileSet {
 <p>Llegamos a la sección de los bloques de tipo <strong>SCHEDULE</strong>, en éstos definiremos la programación de estas tareas, es decir, cuando se llevarán a cabo cada una. En mi caso:</p>
 <pre>
 Schedule {
- Name = "Diario"
+ Name = "Daily"
  Run = Level=Incremental Pool=Daily daily at 02:00
 }
 
 Schedule {
- Name = "Semanal"
+ Name = "Weekly"
  Run = Level=Full Pool=Weekly sun at 02:00
 }
 
 Schedule {
- Name = "Mensual"
+ Name = "Monthly"
  Run = Level=Full Pool=Monthly 1st sun at 02:00
 }
 </pre>
@@ -602,7 +614,7 @@ Schedule {
 <p><strong>Address:</strong> Direccion ip del cliente</p>
 </li>
 <li>
-<p><strong>FDPort:</strong> puerto que se utilizará en las conexiones</p>
+<p><strong>FDPort:</strong> el puerto, dejamos el valor por defecto</p>
 </li>
 <li>
 <p><strong>Catalog:</strong> dejamos el valor por defecto</p>
@@ -674,10 +686,13 @@ Client {
 <p>Una vez definidos los clientes, lo que tendremos que definir es que tipo de almacenamiento vamos a tener, en mi caso, los parámetros a modificar son:</p>
 <ul>
 <li>
-<p><strong>Nombre:</strong> para que concuerde con el que hacemos referencia al principio del fichero en el segundo apartado</p>
+<p><strong>Name:</strong> para que concuerde con el que hacemos referencia al principio del fichero en el segundo apartado</p>
 </li>
 <li>
-<p><strong>IP:</strong> indicaremos la de nuestro propio servidor para así indicar donde almacenar la información</p>
+<p><strong>Address:</strong> dirección IP, indicaremos la de nuestro propio servidor para así indicar donde almacenar la información</p>
+</li>
+<li>
+<p><strong>SDPort:</strong> el puerto, dejamos el valor por defecto</p>
 </li>
 <li>
 <p><strong>Password:</strong> para que sea la misma que hemos indicado anteriormente</p>
@@ -685,11 +700,17 @@ Client {
 <li>
 <p><strong>Device:</strong> tipo de dispositivo que en nuestro caso es <em>File</em></p>
 </li>
+<li>
+<p><strong>Media Type:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>Maximum Concurrent Jobs:</strong> dejamos el valor por defecto</p>
+</li>
 </ul>
 <p>Nos quedaría un bloque como este:</p>
 <pre>
 Storage {
- Name = File
+ Name = volcopias
  Address = 10.0.1.11
  SDPort = 9103
  Password = "bacula"
@@ -707,8 +728,69 @@ Catalog {
 }
 </pre>
 
+<p>Nos encontramos frente a la última sección a editar, que no es otra que dónde se encuentran los bloques <strong>Pool</strong>. En ellos nos encontramos con estos parámetros:</p>
+<ul>
+<li>
+<p><strong>Name:</strong> nombre del <em>pool</em></p>
+</li>
+<li>
+<p><strong>Pool type:</strong> tipo de <em>pool</em></p>
+</li>
+<li>
+<p><strong>Recycle:</strong> reciclado automático de los volúmenes, está activado por defecto</p>
+</li>
+<li>
+<p><strong>AutoPrune:</strong> expirador automáticos de los volúmenes, está activado por defecto</p>
+</li>
+<li>
+<p><strong>Volume Retention:</strong> tiempo de retención que deseamos almacenar los <em>backups</em> realizados</p>
+</li>
+<li>
+<p><strong>Maximum Volume Bytes:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>Maximum Volumes:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>Label Format:</strong> dejamos el valor por defecto</p>
+</li>
+</ul>
+<p>Introduzco los siguientes bloques:</p>
 <pre>
+Pool {
+ Name = Daily
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 8d
+}
 
+Pool {
+ Name = Weekly
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 32d
+}
+
+Pool {
+ Name = Monthly
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 365d
+}
+
+Pool {
+ Name = Vol-Backup
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ Volume Retention = 366 days
+ Maximum Volume Bytes = 50G
+ Maximum Volumes = 100
+ Label Format = "Remoto"
+}
 </pre>
 
 <p>.</p>
