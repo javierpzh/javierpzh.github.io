@@ -178,9 +178,31 @@
 <p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <em>Dulcinea</em>. Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
 <p>Empezaremos por instalar el <em>software</em> de <em>Bacula</em> y <em>MySQL</em>.</p>
 <pre>
-
+apt install mariadb-server mariadb-client bacula bacula-common-mysql bacula-director-mysql -y
 </pre>
 
+<p>Durante la instalación de <em>Bacula</em>, nos saldrá este mensaje emergente, en el que seleccionaremos <strong>Yes</strong>, para especificarle a la aplicación que deseamos configurarla con la base de datos <em>MySQL</em>:</p>
+<pre>
+┌───────────────────────────────┤ Configuring bacula-director-mysql ├───────────────────────────────┐
+│                                                                                                   │
+│ The bacula-director-mysql package must have a database installed and configured before it can be  │
+│ used. This can be optionally handled with dbconfig-common.                                        │
+│                                                                                                   │
+│ If you are an advanced database administrator and know that you want to perform this              │
+│ configuration manually, or if your database has already been installed and configured, you        │
+│ should refuse this option. Details on what needs to be done should most likely be provided in     │
+│ /usr/share/doc/bacula-director-mysql.                                                             │
+│                                                                                                   │
+│ Otherwise, you should probably choose this option.                                                │
+│                                                                                                   │
+│ Configure database for bacula-director-mysql with dbconfig-common?                                │
+│                                                                                                   │
+│                            <\Yes\>                               <\No\>                           │
+│                                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>A continuación, nos pedirá que introduzcamos una contraseña.</p>
 <p>.</p>
     </article>
 
