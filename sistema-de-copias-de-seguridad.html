@@ -133,9 +133,30 @@
 </ul>
 <p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
 <p>Respecto al equipo de <strong>OVH</strong>, se trata de un <em>VPS</em> con un sistema <em>Debian</em>.</p>
-<p>Explicado esto, vamos a pasar con el contenido del <em>post</em> en cuestión.</p>
+<p>Explicado esto, vamos a pasar con el contenido del <em>post</em> en cuestión, no sin antes explicar un poco la aplicación que vamos a utilizar y sus componentes.</p>
+<h2>Bacula</h2>
 <p>He decidido escoger <strong>Bacula</strong> como aplicación para llevar a cabo este sistema de <em>backups</em>.</p>
 <p><em>Bacula</em> es una colección de herramientas de respaldo capaz de cubrir las necesidades de respaldo de equipos bajo redes IP. Se basa en una arquitectura cliente-servidor que resulta eficaz y fácil de manejar, dada la amplia gama de funciones y características que brinda. Además, debido a su desarrollo y estructura modular, <em>Bacula</em> se adapta tanto al uso personal como profesional, desde un equipo hasta grandes parques de servidores. Todo el conjunto de elementos que forman <em>Bacula</em> trabajan en sincronía y son totalmente compatibles con bases de datos como <strong>MySQL</strong>, <strong>SQLite</strong> y <strong>PostgreSQL</strong>.</p>
+<h4>Componentes de <em>Bacula</em>:</h4>
+<ul>
+<li>
+<p><strong>Director*<em> *(DIR, bacula-director)</em></strong>:<em><em> es el programa servidor que supervisa todas las funciones necesarias para las operaciones de copia de seguridad y restauración. Es el eje central de </em>Bacula</em> y en él se declaran todos los parámetros necesarios. Se ejecuta como un <em>demonio</em> en el servidor.</p>
+</li>
+<li>
+<p><strong>Storage*<em> *(SD, bacula-sd)</em></strong>:<em><em> es el programa que gestiona las unidades de almacenamiento donde se almacenarán los datos. Es el responsable de escribir y leer en los medios que utilizaremos para nuestras copias de seguridad. Se ejecuta como un </em>demonio</em> en la máquina propietaria de los medios utilizados. En muchos casos será en el propio servidor, pero también puede ser otro equipo independiente.</p>
+</li>
+<li>
+<p><strong>Catalog</strong>: es la base de datos (<em>MySQL</em> en mi caso) que almacena la información necesaria para localizar donde se encuentran los datos salvaguardados de cada archivo, de cada cliente, ... En muchos casos será en el propio servidor, pero también puede ser otro equipo independiente.</p>
+</li>
+<li>
+<p><strong>Console*<em> *(bconsole)</em></strong>:<em><em> es el programa que permite la interacción con el </em>Director</em> para todas las funciones del servidor. La versión original es una aplicación en modo texto <em>(bconsole)</em>. Existen igualmente aplicaciones GUI para Windows y Linux <em>(Webmin, Bacula Admin Tool, Bacuview, Webacula, Reportula, Bacula-Web, ...)</em>.</p>
+</li>
+<li>
+<p><strong>File <em>(FD)</em> </strong>:<strong> Este servicio, conocido como </strong>cliente<em><em> o servidor de ficheros está instalado en cada máquina a salvaguardar y es específico al sistema operativo donde se ejecuta. Responsable para enviar al </em>Director</em> los datos cuando este lo requiera.</p>
+</li>
+</ul>
+<h2>Sistema de copias de seguridad</h2>
+<p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <em>Dulcinea</em>. Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
 <p>.</p>
     </article>
 
