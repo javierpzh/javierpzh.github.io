@@ -212,7 +212,7 @@ Director {
   WorkingDirectory = "/var/lib/bacula"
   PidDirectory = "/run/bacula"
   Maximum Concurrent Jobs = 20
-  Password = "contraseña"
+  Password = "bacula"
   Messages = Daemon
   DirAddress = 127.0.0.1
 }
@@ -593,7 +593,84 @@ Schedule {
 }
 </pre>
 
-<p>Estamos llegando al final de la configuración de este fichero, en este caso nos encontramos con los equipos clientes, </p>
+<p>Estamos llegando al final de la configuración de este fichero, en este caso nos encontramos con los equipos clientes, cuyos bloques incluirán las siguientes opciones:</p>
+<ul>
+<li>
+<p><strong>Name:</strong> Nombre distintivo del cliente</p>
+</li>
+<li>
+<p><strong>Address:</strong> Direccion ip del cliente</p>
+</li>
+<li>
+<p><strong>FDPort:</strong> puerto que se utilizará en las conexiones</p>
+</li>
+<li>
+<p><strong>Catalog:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>Password:</strong> contraseña del cliente</p>
+</li>
+<li>
+<p><strong>File Retention:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>Job Retention:</strong> dejamos el valor por defecto</p>
+</li>
+<li>
+<p><strong>AutoPrune:</strong> dejamos el valor por defecto</p>
+</li>
+</ul>
+<p>Añado mis clientes:</p>
+<pre>
+# Dulcinea
+Client {
+ Name = dulcinea-fd
+ Address = 10.0.1.11
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Sancho
+Client {
+ Name = sancho-fd
+ Address = 10.0.1.8
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Freston
+Client {
+ Name = freston-fd
+ Address = 10.0.1.6
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Quijote
+Client {
+ Name = quijote-fd
+ Address = 10.0.2.6
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+</pre>
+
 <p>.</p>
     </article>
 
