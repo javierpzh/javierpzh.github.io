@@ -324,14 +324,83 @@ JobDefs {
 }
 </pre>
 
-<p>A continuación nos encontramos con la sección donde definiremos las tareas de los clientes a los que vamos a realizar las copias de seguridad. En los siguientes bloques indicamos</p>
+<p>A continuación nos encontramos con la sección donde definiremos las tareas de los clientes a los que vamos a realizar las copias de seguridad. Dentro de los siguientes bloques, indicamos el nombre de la tarea con la que va a ir relacionado y el nombre del cliente (se definirá más adelante). Introduciremos tantos bloques <strong>Job</strong> como tareas tengamos que asignar a los clientes. En mi caso:</p>
 <pre>
+# Dulcinea
 Job {
-  Name = "BackupClient1"
-  Client = 
-  JobDefs = "DefaultJob"
+  Name = "Dulcinea-Diario"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupDiario"
 }
 
+Job {
+  Name = "Dulcinea-Semanal"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupSemanal"
+}
+
+Job {
+  Name = "Dulcinea-Mensual"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupMensual"
+}
+
+# Sancho
+Job {
+  Name = "Sancho-Diario"
+  Client = "sancho-fd"
+  JobDefs = "BackupDiario"
+}
+
+Job {
+  Name = "Sancho-Semanal"
+  Client = "sancho-fd"
+  JobDefs = "BackupSemanal"
+}
+
+Job {
+  Name = "Sancho-Mensual"
+  Client = "sancho-fd"
+  JobDefs = "BackupMensual"
+}
+
+# Freston
+Job {
+  Name = "Freston-Diario"
+  Client = "freston-fd"
+  JobDefs = "BackupDiario"
+}
+
+Job {
+  Name = "Freston-Semanal"
+  Client = "freston-fd"
+  JobDefs = "BackupSemanal"
+}
+
+Job {
+  Name = "Freston-Mensual"
+  Client = "freston-fd"
+  JobDefs = "BackupMensual"
+}
+
+# Quijote
+Job {
+  Name = "Quijote-Diario"
+  Client = "quijote-fd"
+  JobDefs = "BackupDiario"
+}
+
+Job {
+  Name = "Quijote-Semanal"
+  Client = "quijote-fd"
+  JobDefs = "BackupSemanal"
+}
+
+Job {
+  Name = "Quijote-Mensual"
+  Client = "quijote-fd"
+  JobDefs = "BackupMensual"
+}
 </pre>
 
 <p>.</p>
