@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:...">
+        <meta name="description" content="En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de OpenStack y la máquina de OVH....">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -48,8 +48,8 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/sistema-de-copias-de-seguridad.html">
 	<meta property="og:title" content="Sistema de copias de seguridad">
-	<meta property="article:published_time" content="2021-01-24 00:00:00+01:00">
-            <meta property="og:description" content="Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:...">
+	<meta property="article:published_time" content="2021-01-26 00:00:00+01:00">
+            <meta property="og:description" content="En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de OpenStack y la máquina de OVH....">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
@@ -93,7 +93,7 @@
                         <h1>Sistema de copias de seguridad</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el dom 24 enero 2021
+                             el mar 26 enero 2021
                         </span>
                         
                     </div>
@@ -108,7 +108,16 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>Implementa un sistema de copias de seguridad para las instancias del cloud y el VPS, teniendo en cuenta las siguientes características:</p>
+        <p><strong>En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de <em>OpenStack</em> y la máquina de <em>OVH</em>.</strong></p>
+<p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
+<ul>
+<li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+<li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+<li><a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a></li>
+</ul>
+<p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
+<p>Explicado esto, vamos a pasar con el contenido del <em>post</em> en cuestión.</p>
+<hr>
 <ul>
 <li>Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc.</li>
 <li>Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él.</li>
