@@ -203,11 +203,79 @@ apt install mariadb-server mariadb-client bacula bacula-common-mysql bacula-dire
 </pre>
 
 <p>A continuación, nos pedirá que introduzcamos una contraseña y habremos finalizado el proceso de instalación.</p>
-<p>Vamos a pasar directamente con el fichero de configuración del servidor <em>Bacula</em>, que se encuentra en <code>/etc/bacula/bacula-dir.conf</code>,</p>
+<p>Vamos a pasar directamente con el fichero de configuración del director <em>Bacula</em>, que se encuentra en <code>/etc/bacula/bacula-dir.conf</code>. En este archivo nos encontraremos diferentes secciones, que tenemos que diferenciar, veamos la primera, que se trata de la configuración del <strong>director</strong> de copias de seguridad:</p>
 <pre>
-
+Director {
+  Name = dulcinea-dir
+  DIRport = 9101
+  QueryFile = "/etc/bacula/scripts/query.sql"
+  WorkingDirectory = "/var/lib/bacula"
+  PidDirectory = "/run/bacula"
+  Maximum Concurrent Jobs = 20
+  Password = "contraseña"
+  Messages = Daemon
+  DirAddress = 127.0.0.1
+}
 </pre>
 
+<p>La siguiente sección trata de las tareas que se van a realizar, es decir, los procesos encargados de hacer las copias de seguridad.</p>
+<p>En este apartado tendremos bloques como el siguiente:</p>
+<pre>
+JobDefs {
+ Name =
+ Type =
+ Level =
+ Client =
+ FileSet =
+ Schedule =
+ Storage =
+ Messages =
+ Pool =
+ SpoolAttributes =
+ Priority =
+ Write Bootstrap =
+}
+</pre>
+
+<p>Os preguntaréis qué es cada apartado, pues vamos a verlos uno a uno:</p>
+<ul>
+<li>
+<p><strong>Name:</strong> nombre de la tarea</p>
+</li>
+<li>
+<p><strong>Type:</strong> tipo de tarea (<em>backup</em>)</p>
+</li>
+<li>
+<p><strong>Level:</strong> nivel de la tarea</p>
+</li>
+<li>
+<p><strong>Client:</strong> nombre del cliente en el que se va a ejecutar esta tarea</p>
+</li>
+<li>
+<p><strong>FileSet:</strong> información que va a copiar. Será definida más adelante en el apartado <em>FileSet</em></p>
+</li>
+<li>
+<p><strong>Schedule:</strong> programación que tendrá dicha tarea</p>
+</li>
+<li>
+<p><strong>Storage:</strong> nombre del cargador virtual automático que cargará el recurso de almacenamiento</p>
+</li>
+<li>
+<p><strong>Messages:</strong> tipo de mensaje, indica como mandará los mensajes de sucesos</p>
+</li>
+<li>
+<p><strong>Pool:</strong> indicaremos el nombre del apartado <em>Pool</em> que se configurará mas adelante y en él estamos indicando el volumen de almacenamiento donde se creará y almacenará las copias</p>
+</li>
+<li>
+<p><strong>SpoolAttributes:</strong> esta opción permite trabajar con los atributos del <em>Spool</em> en un fichero temporal</p>
+</li>
+<li>
+<p><strong>Priority:</strong> indica el nivel de prioridad</p>
+</li>
+<li>
+<p><strong>Write Bootstrap:</strong> este apartado indica donde esta el fichero <em>bacula</em></p>
+</li>
+</ul>
 <p>.</p>
     </article>
 
