@@ -410,6 +410,28 @@ Job {
   JobDefs = "BackupMensual"
   FileSet= "Quijote-Datos"
 }
+
+# vpsjavierpzh
+Job {
+  Name = "vpsjavierpzh-Diario"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "vpsjavierpzh-Datos"
+}
+
+Job {
+  Name = "vpsjavierpzh-Semanal"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "vpsjavierpzh-Datos"
+}
+
+Job {
+  Name = "vpsjavierpzh-Mensual"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "vpsjavierpzh-Datos"
+}
 </pre>
 
 <p>Igualmente que hemos definido en los clientes las tareas de <em>backups</em>, debemos definir las tareas de restauración (<em>restore</em>), para poder restaurar las copias de seguridad. En esta sección, tendremos bloques con el siguiente aspecto:</p>
@@ -478,6 +500,17 @@ Job {
   Client=quijote-fd
   Storage = volcopias
   FileSet="Quijote-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# vpsjavierpzh
+Job {
+  Name = "vpsjavierpzhRestore"
+  Type = Restore
+  Client=vpsjavierpzh-fd
+  Storage = volcopias
+  FileSet="vpsjavierpzh-Datos"
   Pool = Backup-Restore
   Messages = Standard
 }
@@ -607,6 +640,30 @@ FileSet {
    File = /.fsck
  }
 }
+
+# vpsjavierpzh
+FileSet {
+ Name = "vpsjavierpzh-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
 </pre>
 
 <p>Llegamos a la sección de los bloques de tipo <strong>SCHEDULE</strong>, en éstos definiremos la programación de estas tareas, es decir, cuando se llevarán a cabo cada una. En mi caso:</p>
@@ -696,6 +753,18 @@ Client {
 Client {
  Name = quijote-fd
  Address = 10.0.2.6
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# vpsjavierpzh
+Client {
+ Name = vpsjavierpzh-fd
+ Address = 51.210.105.17
  FDPort = 9102
  Catalog = MyCatalog
  Password = "bacula"
@@ -1136,6 +1205,35 @@ Messages {
 }
 </pre>
 
+<p>En la máquina de <strong>OVH</strong> el fichero tendría este aspecto:</p>
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = vpsjavierpzh-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 51.210.105.17
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
 <p>En teoría, ya tendríamos configurados todos los clientes, por lo que supuestamente ya podrían conectar con nuestro director ubicado en <em>Dulcinea</em>. Vamos a ver si es así, pero antes, debemos reiniciar los servicios del director:</p>
 <pre>
 root@dulcinea:~# restart bacula-fd.service
@@ -1148,13 +1246,15 @@ root@dulcinea:~# bconsole
 Connecting to Director 10.0.1.11:9101
 1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
 Enter a period to cancel a command.
-*status client=
+
+*status client
 The defined Client resources are:
      1: dulcinea-fd
      2: sancho-fd
      3: freston-fd
      4: quijote-fd
-Select Client (File daemon) resource (1-4): 1
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 1
 Connecting to Client dulcinea-fd at 10.0.1.11:9102
 
 dulcinea-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
@@ -1170,13 +1270,15 @@ No Jobs running.
 
 Terminated Jobs:
 ====
+
 *status client
 The defined Client resources are:
      1: dulcinea-fd
      2: sancho-fd
      3: freston-fd
      4: quijote-fd
-Select Client (File daemon) resource (1-4): 2
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 2
 Connecting to Client sancho-fd at 10.0.1.8:9102
 
 sancho-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu ubuntu 20.04
@@ -1192,13 +1294,16 @@ No Jobs running.
 
 Terminated Jobs:
 ====
+
 *status client
+The defined Client resources are:
 The defined Client resources are:
      1: dulcinea-fd
      2: sancho-fd
      3: freston-fd
      4: quijote-fd
-Select Client (File daemon) resource (1-4): 3
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 3
 Connecting to Client freston-fd at 10.0.1.6:9102
 
 freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
@@ -1214,15 +1319,41 @@ No Jobs running.
 
 Terminated Jobs:
 ====
+
 *status client
 The defined Client resources are:
      1: dulcinea-fd
      2: sancho-fd
      3: freston-fd
      4: quijote-fd
-Select Client (File daemon) resource (1-4): 4
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 4
 Connecting to Client quijote-fd at 10.0.2.6:9102
 Failed to connect to Client quijote-fd.
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 5
+Connecting to Client vpsjavierpzh-fd at 51.210.105.17:9102
+
+vpsjavierpzh-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 14:52. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=22,016 max_bytes=22,033 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:58
+No Jobs running.
+====
+
+Terminated Jobs:
+====
 </pre>
 
 <p>Vaya, parece que con <em>Quijote</em> no llega a conectar, pero con los otros equipos sí. La cuestión es que hay que recordar que <em>CentOS</em> incorpora un <em>firewall</em> por defecto bastante restrictivo, por lo que debemos abrir los puertos que utiliza <em>Bacula</em>:</p>
@@ -1240,19 +1371,21 @@ success
 success
 </pre>
 
-<p>Vamos a probar de nuevo a ver si ahora se produce la conexión:</p>
+<p>Vamos a probar de nuevo a ver si ahora se produce la conexión con <em>Quijote</em>:</p>
 <pre>
 root@dulcinea:~# bconsole
 Connecting to Director 10.0.1.11:9101
 1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
 Enter a period to cancel a command.
+
 *status client
 The defined Client resources are:
      1: dulcinea-fd
      2: sancho-fd
      3: freston-fd
      4: quijote-fd
-Select Client (File daemon) resource (1-4): 4
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 4
 Connecting to Client quijote-fd at 10.0.2.6:9102
 
 quijote-fd Version: 9.0.6 (20 November 2017) x86_64-redhat-linux-gnu redhat (Core)
@@ -1271,6 +1404,83 @@ Terminated Jobs:
 </pre>
 
 <p>Ahora sí se conecta, problema resuelto.</p>
+<p>Una vez hemos comprobado que las conexiones se realizan, debemos crear los nodos de almacenamiento, donde se irán guardando las diferentes copias.</p>
+<pre>
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+
+*label
+Automatically selected Catalog: MyCatalog
+Using Catalog "MyCatalog"
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-diario
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 2
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-diario" Slot 0 ...
+3000 OK label. VolBytes=255 VolABytes=0 VolType=1 Volume="backup-diario" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-diario", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+
+*label
+Automatically selected Catalog: MyCatalog
+Using Catalog "MyCatalog"
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-semanal
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 7
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-semanal" Slot 0 ...
+3000 OK label. VolBytes=257 VolABytes=0 VolType=1 Volume="backup-semanal" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-semanal", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+
+*label
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-mensual
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 5
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-mensual" Slot 0 ...
+3000 OK label. VolBytes=258 VolABytes=0 VolType=1 Volume="backup-mensual" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-mensual", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+</pre>
+
+<pre>
+root@dulcinea:~# ls -l /bacula/backup/
+total 12
+-rw-r----- 1 bacula tape 255 Jan 28 14:44 backup-diario
+-rw-r----- 1 bacula tape 258 Jan 28 14:45 backup-mensual
+-rw-r----- 1 bacula tape 257 Jan 28 14:45 backup-semanal
+</pre>
+
 <p>.</p>
     </article>
 
