@@ -113,9 +113,6 @@
 <li>Selecciona una aplicación para realizar el proceso: bacula, amanda, shell script con tar, rsync, dar, afio, etc.</li>
 <li>Utiliza una de las instancias como servidor de copias de seguridad, añadiéndole un volumen y almacenando localmente las copias de seguridad que consideres adecuadas en él.</li>
 <li>El proceso debe realizarse de forma completamente automática</li>
-</ul>
-<hr>
-<ul>
 <li>Selecciona qué información es necesaria guardar (listado de paquetes, ficheros de configuración, documentos, datos, etc.)</li>
 <li>Realiza semanalmente una copia completa</li>
 <li>Realiza diariamente una copia incremental, diferencial o delta diferencial (decidir cual es más adecuada)</li>
@@ -175,7 +172,7 @@
 </li>
 </ul>
 <h2>Sistema de copias de seguridad</h2>
-<p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <strong>Dulcinea</strong>. Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
+<p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <strong>Dulcinea</strong> (máquina que también actuará como cliente). Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
 <p>Empezaremos por instalar el <em>software</em> de <em>Bacula</em> y <em>MySQL</em>.</p>
 <pre>
 apt install mariadb-server mariadb-client bacula bacula-common-mysql bacula-director-mysql -y
@@ -1001,9 +998,50 @@ Director {
 }
 </pre>
 
-<p>Hecho esto, habremos terminado la configuración en la parte del director, es decir, en <em>Dulcinea</em>.</p>
+<p>Hecho esto, habremos terminado la configuración en la parte del director.</p>
 <p>Pasamos a la parte de los <strong>clientes</strong>.</p>
-<p>Empezaremos con la máquina <strong>Sancho</strong>.</p>
+<p>Aunque hayamos terminado de configurar el servidor, aún no hemos terminado nuestro trabajo en <strong>Dulcinea</strong>, ya que esta máquina también va a formar parte de los clientes como hemos visto antes. Hay que decir que las configuraciones de los clientes se realizan todas de la misma forma, por lo que, explicaré ésta primera con más detalle y las siguientes obviando los hechos.</p>
+<p>El primer paso sería instalar el <em>software</em> necesario, que en <em>Dulcinea</em> ya se encuentra instalado:</p>
+<pre>
+apt install bacula-client -y
+</pre>
+
+<p>El fichero que debemos modificar es el que se encuentra en la ruta <code>/etc/bacula/bacula-fd.conf</code>.</p>
+<p>En dicho archivo indicaremos los parámetros del director, que en este primer caso, es el propio equipo. Además, indicaremos el director que gestionará el <em>demonio</em>. También tendremos que definir el cliente, del que debemos indicar el nombre y la dirección IP. Por último, en el bloque llamado <em>Messages</em>, indicaremos el nombre del director, esto nos permitirá realizar un <em>restore</em> cuando nos sea necesario.</p>
+<p>En mi caso, el fichero <code>/etc/bacula/bacula-fd.conf</code> de la máquina <em>Dulcinea</em> queda de esta forma:</p>
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = dulcinea-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.11
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>Una vez terminada la configuración, reiniciamos el servicio y aplicaremos los cambios:</p>
+<pre>
+systemctl restart bacula-fd.service
+</pre>
+
 <p>.</p>
     </article>
 
