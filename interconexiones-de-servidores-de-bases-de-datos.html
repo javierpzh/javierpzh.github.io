@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-        <meta charset="utf-8">
+            <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-        <title>Administración de Bases de Datos | Javier Pérez Hidalgo</title>
+        <title>Interconexiones de Servidores de bases de datos | Javier Pérez Hidalgo</title>
 
         <!-- Bootstrap Core CSS -->
         <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
@@ -31,11 +31,32 @@
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
 
-                <meta property="og:locale" content="">
+
+
+        <meta name="description" content="Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Base de Datos">
+        <meta name="tags" content="Oracle">
+        <meta name="tags" content="MySQL">
+        <meta name="tags" content="MariaDB">
+        <meta name="tags" content="PostgreSQL">
+
+	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/interconexiones-de-servidores-de-bases-de-datos.html">
+	<meta property="og:title" content="Interconexiones de Servidores de bases de datos">
+	<meta property="article:published_time" content="2018-01-28 00:00:00+01:00">
+            <meta property="og:description" content="Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se...">
+
+            <meta property="og:image" content="theme/images/banner-basededatos.png">
 </head>
 
-<body class="category-administracion-de-bases-de-datos">
+<body class="article-interconexiones-de-servidores-de-bases-de-datos">
 
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -66,12 +87,17 @@
     </nav>
 
     <!-- Page Header -->
-        <header class="intro-header" style="background-image: url('/theme/images/banner-conexiones.jpg')">
+        <header class="intro-header" style="background-image: url('/theme/images/banner-basededatos.png')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Administración de Bases de Datos</h1>
+                        <h1>Interconexiones de Servidores de bases de datos</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el dom 28 enero 2018
+                        </span>
+                        
                     </div>
                 </div>
             </div>
@@ -82,48 +108,20 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-preview">
-            <a href="/instalacion-de-servidores-y-clientes-de-bases-de-datos.html" rel="bookmark" title="Permalink to Instalación de Servidores y Clientes de bases de datos">
-                <h2 class="post-title">
-                    Instalación de Servidores y Clientes de bases de datos
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Con esta práctica aprenderéis la instalación y configuración de distintos servidores y clientes de bases de datos. Tras la instalación...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el mar 08 diciembre 2020
-            </p>
+    <!-- Post Content -->
+    <article>
+        <p><strong>Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se trata de acceder a datos que no están almacenados en nuestra base de datos, pudiendo combinarlos con los que ya tenemos.</strong></p>
+<p><strong>En este artículo veremos varias formas de crear un enlace entre distintos servidores de bases de datos. Los servidores enlazados siempre estarán instalados en máquinas diferentes.</strong></p>
+<h4>Enlace entre dos servidores de bases de datos ORACLE.</h4>
+<h4>Enlace entre dos servidores de bases de datos Postgres.</h4>
+<h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services.</h4>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/base-de-datos.html">Base de Datos</a>, <a href="/tag/oracle.html">Oracle</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/postgresql.html">PostgreSQL</a></p>
         </div>
-        <div class="post-preview">
-            <a href="/interconexiones-de-servidores-de-bases-de-datos.html" rel="bookmark" title="Permalink to Interconexiones de Servidores de bases de datos">
-                <h2 class="post-title">
-                    Interconexiones de Servidores de bases de datos
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el dom 28 enero 2018
-            </p>
-        </div>
-        <div class="post-preview">
-            <a href="/gestion-de-usuarios-de-bases-de-datos.html" rel="bookmark" title="Permalink to Gestión de Usuarios de bases de datos">
-                <h2 class="post-title">
-                    Gestión de Usuarios de bases de datos
-                </h2>
-            </a>
-                <p class="article-summary">
-                    Oracle 1. Realiza un procedimiento llamado MostrarObjetosAccesibles que reciba un nombre de usuario y muestre todos los objetos a los...
-                </p>
-            <p class="post-meta">Publicado por
-                    <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                 el jue 25 enero 2018
-            </p>
-        </div>
+
+    <hr>
 
             </div>
         </div>
