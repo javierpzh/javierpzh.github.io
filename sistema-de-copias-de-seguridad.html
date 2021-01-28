@@ -825,6 +825,56 @@ bacula-dir -tc /etc/bacula/bacula-dir.conf
 </pre>
 
 <p>¿No nos reporta ningún error? Perfecto, podemos seguir con el siguiente punto.</p>
+<p>Al principio comenté que había añadido un nuevo volumen en el que iría almacenando las distintas copias, pero ese nuevo disco aún no se encuentra montado en el sistema, por tanto vamos a proceder a prepararlo para su correcto funcionamiento.</p>
+<p>Vamos a crear en él una partición nueva:</p>
+<pre>
+root@dulcinea:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    254:0    0  10G  0 disk
+└─vda1 254:1    0  10G  0 part /
+vdb    254:16   0  10G  0 disk
+
+root@dulcinea:~# gdisk /dev/vdb
+GPT fdisk (gdisk) version 1.0.3
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+Creating new GPT entries.
+
+Command (? for help): n
+Partition number (1-128, default 1):
+First sector (34-20971486, default = 2048) or {+-}size{KMGTP}:
+Last sector (2048-20971486, default = 20971486) or {+-}size{KMGTP}:
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300):
+Changed type of partition to 'Linux filesystem'
+
+Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/vdb.
+The operation has completed successfully.
+
+root@dulcinea:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    254:0    0  10G  0 disk
+└─vda1 254:1    0  10G  0 part /
+vdb    254:16   0  10G  0 disk
+└─vdb1 254:17   0  10G  0 part
+</pre>
+
+<p>Bien, ahora nos quedaría montarlo en nuestro sistema, pero además me interesa que se monte automáticamente en cada arranque del sistema, por tanto, también lo añadiré al fichero <code>/etc/fstab</code>:</p>
+<pre>
+
+</pre>
+
 <p>.</p>
     </article>
 
