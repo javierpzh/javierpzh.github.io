@@ -1136,6 +1136,141 @@ Messages {
 }
 </pre>
 
+<p>En teoría, ya tendríamos configurados todos los clientes, por lo que supuestamente ya podrían conectar con nuestro director ubicado en <em>Dulcinea</em>. Vamos a ver si es así, pero antes, debemos reiniciar los servicios del director:</p>
+<pre>
+root@dulcinea:~# restart bacula-fd.service
+
+root@dulcinea:~# restart bacula-sd.service
+
+root@dulcinea:~# restart bacula-director.service
+
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+*status client=
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+Select Client (File daemon) resource (1-4): 1
+Connecting to Client dulcinea-fd at 10.0.1.11:9102
+
+dulcinea-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 14:11. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=23,250 max_bytes=23,267 bufs=70 max_bufs=70
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+Select Client (File daemon) resource (1-4): 2
+Connecting to Client sancho-fd at 10.0.1.8:9102
+
+sancho-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu ubuntu 20.04
+Daemon started 28-Jan-21 13:27. Jobs: run=0 running=0.
+ Heap: heap=110,592 smbytes=22,002 max_bytes=22,019 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+Select Client (File daemon) resource (1-4): 3
+Connecting to Client freston-fd at 10.0.1.6:9102
+
+freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 13:29. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=23,242 max_bytes=23,260 bufs=70 max_bufs=70
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+Select Client (File daemon) resource (1-4): 4
+Connecting to Client quijote-fd at 10.0.2.6:9102
+Failed to connect to Client quijote-fd.
+</pre>
+
+<p>Vaya, parece que con <em>Quijote</em> no llega a conectar, pero con los otros equipos sí. La cuestión es que hay que recordar que <em>CentOS</em> incorpora un <em>firewall</em> por defecto bastante restrictivo, por lo que debemos abrir los puertos que utiliza <em>Bacula</em>:</p>
+<pre>
+[root@quijote ~]# firewall-cmd --permanent --add-port=9101/tcp
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-port=9102/tcp
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-port=9103/tcp
+success
+
+[root@quijote ~]# firewall-cmd --reload
+success
+</pre>
+
+<p>Vamos a probar de nuevo a ver si ahora se produce la conexión:</p>
+<pre>
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+Select Client (File daemon) resource (1-4): 4
+Connecting to Client quijote-fd at 10.0.2.6:9102
+
+quijote-fd Version: 9.0.6 (20 November 2017) x86_64-redhat-linux-gnu redhat (Core)
+Daemon started 28-Jan-21 13:43. Jobs: run=0 running=0.
+ Heap: heap=102,400 smbytes=21,976 max_bytes=21,993 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:28
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+</pre>
+
+<p>Ahora sí se conecta, problema resuelto.</p>
 <p>.</p>
     </article>
 
