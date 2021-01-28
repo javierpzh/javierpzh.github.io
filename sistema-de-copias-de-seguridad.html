@@ -926,6 +926,82 @@ vdb
 └─vdb1 ext4         436fe1ec-96a3-4531-9815-74254d6a730d    9.2G     0% /bacula
 </pre>
 
+<p>Pasamos con el fichero <code>/etc/bacula/bacula-sd.conf</code>. En él se encuentran los paŕametros del director, que, al fin y al cabo, será el encargado de utilizar el nuevo volumen.</p>
+<p>Haré igual que con el primer fichero, y lo he ordenado por secciones. En ésta primera, nos encontramos con la definición del nombre del director, además de su dirección IP:</p>
+<pre>
+Storage {                             # definition of myself
+  Name = dulcinea-sd
+  SDPort = 9103                  # Director's port
+  WorkingDirectory = "/var/lib/bacula"
+  Pid Directory = "/run/bacula"
+  Plugin Directory = "/usr/lib/bacula"
+  Maximum Concurrent Jobs = 20
+  SDAddress = 10.0.1.11
+}
+</pre>
+
+<p>La siguiente sección define el director encargado de conectar con el <em>demonio</em> <strong>Storage</strong>, que acabamos de definir anteriormente. Como en mi caso, es el mismo director, los diferencio con las terminaciones ("<em>-sd</em>" y "<em>-dir</em>"). También indicamos la contraseña que estamos utilizando:</p>
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+</pre>
+
+<p>Este apartado se encargará de proporcionarle al director los permisos adecuados para que pueda ver el estado del proceso de almacenamiento de las copias. Se le añade la terminación "<em>-mon</em>":</p>
+<pre>
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+</pre>
+
+<p>Nos encontramos ante la última sección del fichero, en ella se define el cargador automático virtual, que si recordamos hicimos mención a él en el primer fichero. En el primer bloque hacemos referencia al dispositivo que se configura en el segundo bloque:</p>
+<pre>
+Autochanger {
+  Name = FileChgr1
+  Device = FileStorage
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileStorage
+  Media Type = File
+  Archive Device = /bacula/backup
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+</pre>
+
+<p>Al igual que con el primer fichero, para comprobar que no hay ningún error en nuestra configuración, vamos a emplear el siguiente comando:</p>
+<pre>
+bacula-sd -tc /etc/bacula/bacula-sd.conf
+</pre>
+
+<p>¿No nos reporta ningún error? Perfecto, podemos seguir con el siguiente y último fichero por parte del servidor.</p>
+<p>Vamos a reiniciar los servicios que hacen uso de los ficheros modificados hasta este punto para que las nuevas configuraciones sean cargadas:</p>
+<pre>
+systemctl restart bacula-sd.service
+systemctl restart bacula-director.service
+</pre>
+
+<p>Estamos a punto de terminar las configuraciones del servidor, de hecho nos falta tan sólo un fichero, y es el <code>/etc/bacula/bconsole.conf</code>. Este fichero contiene la configuración que nos permite acceder a la consola, y dentro de él tendremos que asegurarnos que los apartados de nombre, dirección y contraseña se encuentran correctamente.</p>
+<pre>
+Director {
+  Name = dulcinea-dir
+  DIRport = 9101
+  address = 10.0.1.11
+  Password = "bacula"
+}
+</pre>
+
+<p>Hecho esto, habremos terminado la configuración en la parte del director.</p>
 <p>.</p>
     </article>
 
