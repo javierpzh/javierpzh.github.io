@@ -420,9 +420,9 @@ DATABASES = {
 }
 </pre>
 
-<p>En este fichero, también tenemos que establecer en la directiva <strong>ALLOWED_HOSTS</strong>, la dirección de nuestro servidor de base de datos, y también hacer referencia a <em>localhost</em>, ya que el servidor de aplicaciones <em>uWSGI</em> servirá en esa dirección, de manera que quedaría así:</p>
+<p>En este fichero, también tenemos que establecer en la directiva <strong>ALLOWED_HOSTS*<em>, el valor </em></strong>**, ya que en mi caso deseo que pueda acceder quien quiera, de manera que quedaría así:</p>
 <pre>
-ALLOWED_HOSTS = ["10.0.1.8","127.0.0.1"]
+ALLOWED_HOSTS = ["*"]
 </pre>
 
 <p>Es importante asegurarnos que no poseemos el fichero llamado <code>local_settings.py</code>, ya que sino, la configuración realizada en el fichero <code>settings.py</code> la ignorará, y buscara los recursos de manera local.</p>
