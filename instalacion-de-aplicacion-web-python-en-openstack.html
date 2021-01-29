@@ -520,7 +520,6 @@ Installed 126 object(s) from 1 fixture(s)
       Options FollowSymlinks
     <\/Directory\>
 
-    ProxyPass /static !
     ProxyPass / http://127.0.0.1:8080/
 
     SSLEngine on
@@ -578,7 +577,12 @@ systemctl restart bind9
 
 <p>Y ahora sí, llegó la hora de la verdad, vamos a probar a acceder a la dirección <code>python.javierpzh.gonzalonazareno.org</code> en nuestro navegador:</p>
 <p><img alt="." src="images/iaw_instalación_de_aplicación_web_Python/produccionsinhojadeestilo.png"></p>
-<hr>
+<p>Parece que nos sirve la aplicación pero podemos apreciar que no hace uso de las hojas de estilos.</p>
+<pre>
+ProxyPass /static !
+</pre>
+
+<p>.</p>
     </article>
 
         <div class="tags">
