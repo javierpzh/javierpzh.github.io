@@ -399,7 +399,7 @@ dnf install gcc python3-devel -y
 (produccion) [root@quijote Web-Python-OpenStack]# uwsgi --http :8080 --plugin python35 --chdir /var/www/Web-Python-OpenStack/appmezzanine/ --wsgi-file /var/www/Web-Python-OpenStack/appmezzanine/appmezzanine/wsgi.py --process 4 --threads 2 --master
 </pre>
 
-<p>Una vez tenemos nuestro servidor de aplicaciones listo, tan sólo nos quedaría, restaurar la copia de seguridad en nuestra base de datos <em>MySQL</em>.</p>
+<p>Una vez tenemos nuestro servidor de aplicaciones listo, tan sólo nos quedaría, restaurar la copia de seguridad en nuestra base de datos <em>MySQL</em>. Hay que decir, que para acceder a nuestra aplicación, debe estar ejecutándose el comando anterior.</p>
 <p>Antes de realizar la restauración, vamos a configurar <em>Mezzanine</em> para que utilice dicha base de datos. Esta configuración se encuentra dentro del fichero <code>appmezzanine/settings.py</code>, en el siguiente bloque:</p>
 <pre>
 DATABASES = {
