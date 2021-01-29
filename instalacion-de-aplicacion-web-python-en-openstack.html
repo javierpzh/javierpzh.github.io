@@ -420,9 +420,9 @@ DATABASES = {
 }
 </pre>
 
-<p>En este fichero, también tenemos que establecer en la directiva <strong>ALLOWED_HOSTS</strong>, la dirección de nuesto servidor de base de datos, de manera que quedaría así:</p>
+<p>En este fichero, también tenemos que establecer en la directiva <strong>ALLOWED_HOSTS</strong>, la dirección de nuestro servidor de base de datos, y también hacer referencia a <em>localhost</em>, ya que el servidor de aplicaciones <em>uWSGI</em> servirá en esa dirección, de manera que quedaría así:</p>
 <pre>
-ALLOWED_HOSTS = ["sancho"]
+ALLOWED_HOSTS = ["sancho","127.0.0.1"]
 </pre>
 
 <p>Es importante asegurarnos que no poseemos el fichero llamado <code>local_settings.py</code>, ya que sino, la configuración realizada en el fichero <code>settings.py</code> la ignorará, y buscara los recursos de manera local.</p>
@@ -493,7 +493,7 @@ Installed 126 object(s) from 1 fixture(s)
 <pre>
 <\VirtualHost *:80\>
 
-    ServerName www.python.javierpzh.gonzalonazareno.org
+    ServerName python.javierpzh.gonzalonazareno.org
     DocumentRoot /var/www/Web-Python-OpenStack/appmezzanine
 
     ErrorLog /var/www/iesgn/log/error.log
@@ -510,7 +510,7 @@ Installed 126 object(s) from 1 fixture(s)
 <\VirtualHost *:443\>
 
     ServerName python.javierpzh.gonzalonazareno.org
-    DocumentRoot /var/www/Web-Python-OpenStack
+    DocumentRoot /var/www/Web-Python-OpenStack/appmezzanine
 
     ErrorLog /var/www/iesgn/log/error.log
     CustomLog /var/www/iesgn/log/requests.log combined
