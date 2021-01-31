@@ -349,48 +349,50 @@ nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10
 
 <p>En teoría ya tendríamos</p>
 <pre>
-debian@dulcinea:~$ ping sancho
-PING sancho.javierpzh.gonzalonazareno.org (10.0.1.8) 56(84) bytes of data.
-64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=1 ttl=64 time=2.17 ms
-64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=2 ttl=64 time=1.41 ms
-64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=3 ttl=64 time=1.60 ms
+debian@dulcinea:~$ ping 10.0.1.8
+PING 10.0.1.8 (10.0.1.8) 56(84) bytes of data.
+64 bytes from 10.0.1.8: icmp_seq=1 ttl=64 time=1.31 ms
+64 bytes from 10.0.1.8: icmp_seq=2 ttl=64 time=1.20 ms
+64 bytes from 10.0.1.8: icmp_seq=3 ttl=64 time=1.18 ms
 ^C
---- sancho.javierpzh.gonzalonazareno.org ping statistics ---
+--- 10.0.1.8 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 5ms
-rtt min/avg/max/mdev = 1.411/1.727/2.170/0.325 ms
+rtt min/avg/max/mdev = 1.181/1.232/1.314/0.070 ms
 
-debian@dulcinea:~$ ping freston
-PING freston.javierpzh.gonzalonazareno.org (10.0.1.6) 56(84) bytes of data.
-64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=1 ttl=64 time=2.24 ms
-64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=2 ttl=64 time=1.35 ms
-64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=3 ttl=64 time=1.06 ms
+debian@dulcinea:~$ ping 10.0.2.6
+PING 10.0.2.6 (10.0.2.6) 56(84) bytes of data.
+64 bytes from 10.0.2.6: icmp_seq=1 ttl=64 time=1.18 ms
+64 bytes from 10.0.2.6: icmp_seq=2 ttl=64 time=0.815 ms
+64 bytes from 10.0.2.6: icmp_seq=3 ttl=64 time=0.671 ms
 ^C
---- freston.javierpzh.gonzalonazareno.org ping statistics ---
+--- 10.0.2.6 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 5ms
-rtt min/avg/max/mdev = 1.064/1.550/2.241/0.503 ms
+rtt min/avg/max/mdev = 0.671/0.889/1.183/0.218 ms
+debian@dulcinea:~$
 
-debian@dulcinea:~$ ping quijote
-PING quijote.javierpzh.gonzalonazareno.org (10.0.2.6) 56(84) bytes of data.
-64 bytes from quijote.javierpzh.gonzalonazareno.org (10.0.2.6): icmp_seq=1 ttl=64 time=1.29 ms
-64 bytes from quijote.javierpzh.gonzalonazareno.org (10.0.2.6): icmp_seq=2 ttl=64 time=0.768 ms
-64 bytes from quijote.javierpzh.gonzalonazareno.org (10.0.2.6): icmp_seq=3 ttl=64 time=0.749 ms
+--------------------------------------------------------------------------------
+
+ubuntu@sancho:~$ ping 10.0.2.6
+PING 10.0.2.6 (10.0.2.6) 56(84) bytes of data.
+64 bytes from 10.0.2.6: icmp_seq=1 ttl=63 time=2.18 ms
+64 bytes from 10.0.2.6: icmp_seq=2 ttl=63 time=1.87 ms
+64 bytes from 10.0.2.6: icmp_seq=3 ttl=63 time=2.28 ms
 ^C
---- quijote.javierpzh.gonzalonazareno.org ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 22ms
-rtt min/avg/max/mdev = 0.749/0.935/1.290/0.253 ms
+--- 10.0.2.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.870/2.109/2.278/0.173 ms
 
 --------------------------------------------------------------------------------
 
-
-
---------------------------------------------------------------------------------
-
-
-
---------------------------------------------------------------------------------
-
-
-
+[centos@quijote ~]$ ping 10.0.1.6
+PING 10.0.1.6 (10.0.1.6) 56(84) bytes of data.
+64 bytes from 10.0.1.6: icmp_seq=1 ttl=63 time=2.96 ms
+64 bytes from 10.0.1.6: icmp_seq=2 ttl=63 time=2.04 ms
+64 bytes from 10.0.1.6: icmp_seq=3 ttl=63 time=1.80 ms
+^C
+--- 10.0.1.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 4ms
+rtt min/avg/max/mdev = 1.796/2.266/2.963/0.502 ms
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
