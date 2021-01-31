@@ -397,14 +397,73 @@ rtt min/avg/max/mdev = 1.796/2.266/2.963/0.502 ms
 
 <p>Listo, ya las tendríamos.</p>
 <ul>
+<li><strong>Todas las máquinas pueden hacer <em>ping</em> a una máquina del exterior.</strong></li>
+</ul>
+<p><em>Dulcinea</em>:</p>
+<pre>
+nft add rule inet filter output oifname "eth0" icmp type echo-request counter accept
+
+nft add rule inet filter input iifname "eth0" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red interna:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" icmp type echo-request counter accept
+
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red DMZ:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" icmp type echo-request counter accept
+
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>Pruebas de funcionamiento:</p>
+<pre>
+root@dulcinea:~# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=112 time=309 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=112 time=803 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=112 time=198 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 3ms
+rtt min/avg/max/mdev = 198.008/436.717/803.381/263.184 ms
+
+--------------------------------------------------------------------------------
+
+[centos@quijote ~]$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=42.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=42.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=102 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 42.648/62.541/102.104/27.975 ms
+
+--------------------------------------------------------------------------------
+
+debian@freston:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=43.2 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=43.5 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=43.0 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 43.019/43.247/43.492/0.193 ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+<ul>
 <li>
-<p><strong>Todas las máquinas pueden hacer ping a una máquina del exterior.</strong></p>
+<p><strong>Desde el exterior se puede hacer <em>ping</em> a <em>Dulcinea</em>.</strong></p>
 </li>
 <li>
-<p><strong>Desde el exterior se puede hacer ping a dulcinea.</strong></p>
-</li>
-<li>
-<p><strong>A dulcinea se le puede hacer ping desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></p>
+<p><strong>A <em>Dulcinea</em> se le puede hacer <em>ping</em> desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></p>
 </li>
 </ul>
 <h4>DNS</h4>
