@@ -207,12 +207,41 @@ nft add rule ip nat prerouting iifname "eth0" tcp dport 443 counter dnat to 10.0
 <p>La primera hace referencia al servidor DNS ubicado en <em>Freston</em>, y las dos siguientes al servidor web ubicado en <em>Quijote</em>.</p>
 <p>Listo, ya las tendríamos.</p>
 <h2>Reglas</h2>
-<p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma:</p>
+<p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma.</p>
 <h4>ping:</h4>
 <ul>
-<li>
-<p><strong>Todas las máquinas de las dos redes pueden hacer ping entre ellas.</strong></p>
-</li>
+<li><strong>Todas las máquinas de las dos redes pueden hacer <em>ping</em> entre ellas.</strong></li>
+</ul>
+<p>Para permitir que todas las máquinas puedan hacer <em>ping</em> entre sí, debemos añadir las siguientes reglas que he ordenado de la siguiente manera para que quede más claro.</p>
+<p><em>Dulcinea</em> a la red interna:</p>
+<pre>
+nft add rule inet filter output ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
+
+nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p><em>Dulcinea</em> a la red DMZ:</p>
+<pre>
+nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
+
+nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red interna a la red DMZ:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
+
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red DMZ a la red interna:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
+
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<ul>
 <li>
 <p><strong>Todas las máquinas pueden hacer ping a una máquina del exterior.</strong></p>
 </li>
