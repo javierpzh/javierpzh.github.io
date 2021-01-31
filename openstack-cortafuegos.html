@@ -520,6 +520,71 @@ PING 10.0.1.11 (10.0.1.11) 56(84) bytes of data.
 
 <p>Listo, ya las tendríamos.</p>
 <h4>DNS</h4>
+<p>Estado:</p>
+<pre>
+root@dulcinea:~# nft list ruleset
+table inet filter {
+    chain input {
+        type filter hook input priority 0; policy drop;
+        ip saddr 172.22.0.0/15 iifname "eth0" tcp dport ssh ct state established,new counter packets 2910 bytes 220322 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-reply counter packets 13 bytes 1092 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-reply counter packets 6 bytes 504 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" tcp sport ssh ct state established counter packets 349 bytes 48261 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" tcp sport ssh ct state established counter packets 843 bytes 120672 accept
+        iifname "eth0" tcp sport ssh ct state established counter packets 35 bytes 5745 accept
+        iifname "eth0" icmp type echo-reply counter packets 3 bytes 252 accept
+        iifname "eth0" icmp type echo-request counter packets 3 bytes 252 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-request counter packets 3 bytes 252 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-request counter packets 4 bytes 336 reject
+    }
+
+    chain forward {
+        type filter hook forward priority 0; policy drop;
+        ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter packets 9 bytes 756 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-reply counter packets 9 bytes 756 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter packets 3 bytes 252 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter packets 3 bytes 252 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport ssh ct state established,new counter packets 41 bytes 4745 accept
+        ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport ssh ct state established counter packets 37 bytes 5921 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport ssh ct state established,new counter packets 43 bytes 5005 accept
+        ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport ssh ct state established counter packets 43 bytes 6425 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter packets 0 bytes 0 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter packets 0 bytes 0 accept
+        ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" icmp type echo-request counter packets 3 bytes 252 accept
+        ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" icmp type echo-reply counter packets 3 bytes 252 accept
+        ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" icmp type echo-request counter packets 3 bytes 252 accept
+        ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" icmp type echo-reply counter packets 3 bytes 252 accept
+    }
+
+    chain output {
+        type filter hook output priority 0; policy drop;
+        ip daddr 172.22.0.0/15 oifname "eth0" tcp sport ssh ct state established counter packets 1874 bytes 268502 accept
+        ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter packets 13 bytes 1092 accept
+        ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter packets 6 bytes 504 accept
+        ip daddr 10.0.1.0/24 oifname "eth1" tcp dport ssh ct state established,new counter packets 1026 bytes 102728 accept
+        ip daddr 10.0.2.0/24 oifname "eth2" tcp dport ssh ct state established,new counter packets 569 bytes 53837 accept
+        oifname "eth0" tcp dport ssh ct state established,new counter packets 39 bytes 4641 accept
+        oifname "eth0" icmp type echo-request counter packets 3 bytes 252 accept
+        oifname "eth0" icmp type echo-reply counter packets 3 bytes 252 accept
+        ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter packets 3 bytes 252 accept
+    }
+}
+table ip nat {
+    chain postrouting {
+        type nat hook postrouting priority 100; policy accept;
+        oifname "eth0" ip saddr 10.0.1.0/24 counter packets 2 bytes 144 snat to 10.0.0.8
+        oifname "eth0" ip saddr 10.0.2.0/24 counter packets 2 bytes 144 snat to 10.0.0.8
+    }
+
+    chain prerouting {
+        type nat hook prerouting priority 0; policy accept;
+        iifname "eth0" udp dport domain counter packets 0 bytes 0 dnat to 10.0.1.6
+        iifname "eth0" tcp dport http counter packets 0 bytes 0 dnat to 10.0.2.6
+        iifname "eth0" tcp dport https counter packets 0 bytes 0 dnat to 10.0.2.6
+    }
+}
+</pre>
+
 <ul>
 <li>
 <p><strong>El único DNS que pueden usar los equipos de las dos redes es <em>Freston</em>, no pueden utilizar un DNS externo.</strong></p>
