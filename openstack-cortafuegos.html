@@ -459,13 +459,41 @@ rtt min/avg/max/mdev = 43.019/43.247/43.492/0.193 ms
 
 <p>Listo, ya las tendríamos.</p>
 <ul>
-<li>
-<p><strong>Desde el exterior se puede hacer <em>ping</em> a <em>Dulcinea</em>.</strong></p>
-</li>
-<li>
-<p><strong>A <em>Dulcinea</em> se le puede hacer <em>ping</em> desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></p>
-</li>
+<li><strong>Desde el exterior se puede hacer <em>ping</em> a <em>Dulcinea</em>.</strong></li>
 </ul>
+<p>Reglas a añadir:</p>
+<pre>
+nft add rule inet filter input iifname "eth0" icmp type echo-request counter accept
+
+nft add rule inet filter output oifname "eth0" icmp type echo-reply counter accept
+</pre>
+
+<p>Prueba de funcionamiento:</p>
+<pre>
+javier@debian:~$ ping dulcinea
+PING dulcinea (172.22.200.183) 56(84) bytes of data.
+64 bytes from dulcinea (172.22.200.183): icmp_seq=1 ttl=61 time=88.3 ms
+64 bytes from dulcinea (172.22.200.183): icmp_seq=2 ttl=61 time=87.8 ms
+64 bytes from dulcinea (172.22.200.183): icmp_seq=3 ttl=61 time=88.2 ms
+^C
+--- dulcinea ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 3ms
+rtt min/avg/max/mdev = 87.803/88.115/88.308/0.222 ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+<ul>
+<li><strong>A <em>Dulcinea</em> se le puede hacer <em>ping</em> desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></li>
+</ul>
+<pre>
+
+</pre>
+
+<pre>
+
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
 <h4>DNS</h4>
 <ul>
 <li>
