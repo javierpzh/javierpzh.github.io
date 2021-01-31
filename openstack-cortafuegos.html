@@ -227,6 +227,29 @@ nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" tcp dport 22
 nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" tcp sport 22 ct state established counter accept
 </pre>
 
+<p>Vamos a probar su funcionamiento:</p>
+<pre>
+debian@dulcinea:~$ ssh freston
+Linux freston 4.19.0-13-cloud-amd64 #1 SMP Debian 4.19.160-2 (2020-11-28) x86_64
+...
+Last login: Sun Jan 31 19:12:18 2021 from 10.0.1.11
+debian@freston:~$
+
+--------------------------------------------------------------------------------
+
+debian@dulcinea:~$ ssh ubuntu@sancho
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-64-generic x86_64)
+...
+Last login: Fri Jan 29 08:45:37 2021 from 10.0.1.11
+ubuntu@sancho:~$
+
+--------------------------------------------------------------------------------
+
+debian@dulcinea:~$ ssh centos@quijote
+Last login: Fri Jan 29 10:08:13 2021 from 10.0.2.10
+[centos@quijote ~]$
+</pre>
+
 <p>Listo, ya las tendríamos.</p>
 <ul>
 <li>
