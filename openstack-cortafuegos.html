@@ -575,6 +575,7 @@ nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0"
 <ul>
 <li><strong>A la base de datos de sancho sólo pueden acceder las máquinas de la DMZ.</strong></li>
 </ul>
+<p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.8 oifname "eth1" tcp dport 3306 ct state new,established counter accept
 
@@ -591,6 +592,7 @@ nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10
 <ul>
 <li><strong>Las páginas web de <em>Quijote</em> (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
 </ul>
+<p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.6 oifname "eth2" tcp dport 80 ct state new,established counter accept
 
@@ -611,6 +613,11 @@ nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10
 <ul>
 <li><strong>Configura de manera adecuada el cortafuegos, para otros servicios que tengas instalado en tu red (ldap, correo, ...)</strong></li>
 </ul>
+<p>Creamos las siguientes reglas para <strong>Bacula</strong>:</p>
+<pre>
+
+</pre>
+
 <p>Listo, ya las tendríamos.</p>
 <p>.</p>
     </article>
