@@ -525,40 +525,66 @@ nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10
 
 <p>Pruebas de funcionamiento:</p>
 <pre>
-debian@freston:~$ ping www.google.es
-PING www.google.es (216.58.215.131) 56(84) bytes of data.
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=43.4 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=611 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=550 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=4 ttl=112 time=123 ms
-^C
---- www.google.es ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 4ms
-rtt min/avg/max/mdev = 43.364/331.710/611.155/251.229 ms
+ubuntu@sancho:~$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN NS  freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.1.6
+
+;; Query time: 4 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:05:59 CET 2021
+;; MSG SIZE  rcvd: 166
 
 --------------------------------------------------------------------------------
 
-ubuntu@sancho:~$ ping www.google.es
-PING www.google.es (216.58.215.131) 56(84) bytes of data.
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=586 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=473 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=133 ms
-^C
---- www.google.es ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 2003ms
-rtt min/avg/max/mdev = 133.200/397.179/585.780/192.299 ms
+debian@freston:~$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN NS  freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.1.6
+
+;; Query time: 0 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:05:13 CET 2021
+;; MSG SIZE  rcvd: 166
 
 --------------------------------------------------------------------------------
 
-[centos@quijote ~]$ ping www.google.es
-PING www.google.es (216.58.215.131) 56(84) bytes of data.
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=42.8 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=43.2 ms
-64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=87.8 ms
-^C
---- www.google.es ping statistics ---
-3 packets transmitted, 3 received, 0% packet loss, time 5ms
-rtt min/avg/max/mdev = 42.818/57.951/87.790/21.100 ms
+[centos@quijote ~]$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN NS  freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN A 10.0.1.6
+
+;; Query time: 2 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:06:46 CET 2021
+;; MSG SIZE  rcvd: 166
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
@@ -573,7 +599,17 @@ nft add rule inet filter input udp sport 53 ct state established counter accept
 
 <p>Prueba de funcionamiento:</p>
 <pre>
+debian@dulcinea:~$ dig @8.8.8.8 www.google.es
 
+...
+
+;; ANSWER SECTION:
+www.google.es.      53  IN  A   216.58.201.131
+
+;; Query time: 65 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Mon Feb 01 21:07:44 CET 2021
+;; MSG SIZE  rcvd: 58
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
@@ -646,11 +682,6 @@ nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0"
 
 nft add rule inet filter forward ip daddr 10.0.2.6 iifname "eth0" oifname "eth2" tcp dport 443 ct state new,established counter accept
 nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0" tcp sport 443 ct state established counter accept
-</pre>
-
-<p>Prueba de funcionamiento:</p>
-<pre>
-
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
