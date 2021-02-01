@@ -137,7 +137,6 @@ nft list ruleset > /etc/nftables.conf
 <p>Añadimos las reglas para SSH para poder acceder a <em>Dulcinea</em>:</p>
 <pre>
 nft add rule inet filter input ip saddr 172.22.0.0/15 iifname "eth0" tcp dport 22 ct state new,established counter accept
-
 nft add rule inet filter output ip daddr 172.22.0.0/15 oifname "eth0" tcp sport 22 ct state established counter accept
 </pre>
 
@@ -216,14 +215,12 @@ nft add rule ip nat prerouting iifname "eth0" tcp dport 443 counter dnat to 10.0
 <p>Reglas para las máquinas de la red interna:</p>
 <pre>
 nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" tcp sport 22 ct state established counter accept
-
 nft add rule inet filter output ip daddr 10.0.1.0/24 oifname "eth1" tcp dport 22 ct state new, established counter accept
 </pre>
 
 <p>Reglas para las máquinas de la red DMZ:</p>
 <pre>
 nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" tcp dport 22 ct state new,established counter accept
-
 nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" tcp sport 22 ct state established counter accept
 </pre>
 
@@ -258,21 +255,18 @@ Last login: Fri Jan 29 10:08:13 2021 from 10.0.2.10
 <p>Reglas para <em>Dulcinea</em>:</p>
 <pre>
 nft add rule inet filter output oifname "eth0" tcp dport 22 ct state new,established counter accept
-
 nft add rule inet filter input iifname "eth0" tcp sport 22 ct state established counter accept
 </pre>
 
 <p>Reglas para las máquinas de la red interna:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 22 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 22 ct state established counter accept
 </pre>
 
 <p>Reglas para las máquinas de la red DMZ:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 22 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 22 ct state established counter accept
 </pre>
 
@@ -322,28 +316,24 @@ debian@vpsjavierpzh:~$
 <p><em>Dulcinea</em> a la red interna:</p>
 <pre>
 nft add rule inet filter output ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
-
 nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-reply counter accept
 </pre>
 
 <p><em>Dulcinea</em> a la red DMZ:</p>
 <pre>
 nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
-
 nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-reply counter accept
 </pre>
 
 <p>Máquinas de la red interna a la red DMZ:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
-
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-reply counter accept
 </pre>
 
 <p>Máquinas de la red DMZ a la red interna:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
-
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter accept
 </pre>
 
@@ -402,21 +392,18 @@ rtt min/avg/max/mdev = 1.796/2.266/2.963/0.502 ms
 <p><em>Dulcinea</em>:</p>
 <pre>
 nft add rule inet filter output oifname "eth0" icmp type echo-request counter accept
-
 nft add rule inet filter input iifname "eth0" icmp type echo-reply counter accept
 </pre>
 
 <p>Máquinas de la red interna:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" icmp type echo-request counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" icmp type echo-reply counter accept
 </pre>
 
 <p>Máquinas de la red DMZ:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" icmp type echo-request counter accept
-
 nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" icmp type echo-reply counter accept
 </pre>
 
@@ -464,7 +451,6 @@ rtt min/avg/max/mdev = 43.019/43.247/43.492/0.193 ms
 <p>Reglas a añadir:</p>
 <pre>
 nft add rule inet filter input iifname "eth0" icmp type echo-request counter accept
-
 nft add rule inet filter output oifname "eth0" icmp type echo-reply counter accept
 </pre>
 
@@ -488,7 +474,6 @@ rtt min/avg/max/mdev = 87.803/88.115/88.308/0.222 ms
 <p>Reglas para las máquinas de la red DMZ:</p>
 <pre>
 nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-request counter accept
-
 nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter accept
 </pre>
 
@@ -526,18 +511,15 @@ PING 10.0.1.11 (10.0.1.11) 56(84) bytes of data.
 <p>Creamos las siguientes reglas para que el servidor DNS de <em>Freston</em> pueda hacer las preguntas recursivas en el caso de que sea necesario, es decir, pueda consultar a un DNS externo:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" udp dport 53 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" udp sport 53 ct state established counter accept
 
 nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" tcp dport 53 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" tcp sport 53 ct state established counter accept
 </pre>
 
 <p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.6 oifname "eth1" udp dport 53 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10.0.1.6 oifname "eth2" udp sport 53 ct state established counter accept
 </pre>
 
@@ -586,7 +568,6 @@ rtt min/avg/max/mdev = 42.818/57.951/87.790/21.100 ms
 <p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter output udp dport 53 ct state new,established counter accept
-
 nft add rule inet filter input udp sport 53 ct state established counter accept
 </pre>
 
@@ -602,7 +583,6 @@ nft add rule inet filter input udp sport 53 ct state established counter accept
 <p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" udp dport 53 ct state new,established counter accept
-
 nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" udp sport 53 ct state established counter accept
 </pre>
 
@@ -619,7 +599,6 @@ nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0"
 <p>Creamos las siguientes reglas:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.8 oifname "eth1" tcp dport 3306 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10.0.1.8 oifname "eth2" tcp sport 3306 ct state established counter accept
 </pre>
 
@@ -643,15 +622,30 @@ MariaDB [(none)]>
 <ul>
 <li><strong>Las páginas web de <em>Quijote</em> (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
 </ul>
-<p>Creamos las siguientes reglas:</p>
+<p>Creamos las siguientes reglas para <em>Dulcinea</em>:</p>
+<pre>
+nft add rule inet filter output ip daddr 10.0.2.6 oifname "eth2" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter input ip saddr 10.0.2.6 iifname "eth2" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter output ip daddr 10.0.2.6 oifname "eth2" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter input ip saddr 10.0.2.6 iifname "eth2" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Creamos las siguientes reglas para las demás máquinas:</p>
 <pre>
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.6 oifname "eth2" tcp dport 80 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10.0.2.6 oifname "eth1" tcp sport 80 ct state established counter accept
 
 nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.6 oifname "eth2" tcp dport 443 ct state new,established counter accept
-
 nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10.0.2.6 oifname "eth1" tcp sport 443 ct state established counter accept
+
+--------------------------------------------------------------------------------
+
+nft add rule inet filter forward ip daddr 10.0.2.6 iifname "eth0" oifname "eth2" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip daddr 10.0.2.6 iifname "eth0" oifname "eth2" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0" tcp sport 443 ct state established counter accept
 </pre>
 
 <p>Prueba de funcionamiento:</p>
@@ -661,16 +655,46 @@ nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10
 
 <p>Listo, ya las tendríamos.</p>
 <h4>Más servicios</h4>
-<ul>
-<li><strong>Configura de manera adecuada el cortafuegos, para otros servicios que tengas instalado en tu red (ldap, correo, ...)</strong></li>
-</ul>
-<p>Creamos las siguientes reglas para <strong>Bacula</strong>:</p>
+<h5>Bacula</h5>
+<p>Creamos las siguientes reglas para <strong>Bacula</strong>.</p>
+<hr>
+<p>Para conectar con la máquina de OVH:</p>
 <pre>
-
+nft add rule inet filter output oifname "eth0" tcp dport 9101 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state established counter accept
 </pre>
 
-<p>Listo, ya las tendríamos.</p>
-<p>.</p>
+<hr>
+<h5>Webs exteriores</h5>
+<p>Al terminar el cortafuegos me dí cuenta que no podía conectar con ninguna web del exterior, ya que no poseía ninguna regla con la que pudiera conectar con ellas, ni por el puerto 80, ni por el 443, por tanto vamos a crearlas:</p>
+<p>Reglas para <em>Dulcinea</em>:</p>
+<pre>
+nft add rule inet filter output oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter output oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red interna:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red DMZ:</p>
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Listo, ya las tendríamos, y ahora sí, habríamos terminado con este <em>firewall</em>.</p>
     </article>
 
         <div class="tags">
