@@ -243,6 +243,9 @@ root: debian
 newaliases
 </pre>
 
+<p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code>root@iesgn15.es</code>:</p>
+<p><img alt="." src="images/sri_servidor_de_correos/correoenviadogmailparareenvioadebian.png"></p>
+<p>Una vez enviado, vamos a comprobar que lo hayamos recibido en nuestro servidor local, en el usuario <strong>debian</strong>, para leer los nuevos correos, haremos uso de la herramienta anterior en el usuario <em>debian</em>.</p>
 <pre>
 debian@vpsjavierpzh:~$ mail
 Mail version 8.1.2 01/15/2001.  Type ? for help.
@@ -252,6 +255,7 @@ Mail version 8.1.2 01/15/2001.  Type ? for help.
  & 2
 </pre>
 
+<p>Vemos que nos indica que tenemos dos correos sin leer (el primero es una prueba), si indicamos su número, en esta caso el 2, y lo leemos:</p>
 <pre>
 Message 2:
 From javierperezhidalgo01@gmail.com  Tue Feb  2 13:53:29 2021
@@ -270,6 +274,7 @@ hola, llega al usuario debian?
 ...
 </pre>
 
+<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>.</p>
 <p>Una redirección se utiliza para enviar el correo que llegue a un usuario, a una cuenta de correo externa. Para usuarios reales, las redirecciones se definen en el fichero <code>~/.forward</code> y el formato de este fichero es simplemente un listado de cuentas de correo a las que se quiere redirigir el correo.</p>
 <p>En mi caso, en dicho fichero introduzco mi dirección de correo externa:</p>
 <pre>
