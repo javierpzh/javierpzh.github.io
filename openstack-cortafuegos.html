@@ -624,7 +624,31 @@ nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0"
 
 <p>Prueba de funcionamiento:</p>
 <pre>
+javier@debian:~$ dig www.javierpzh.gonzalonazareno.org
 
+; <<>> DiG 9.11.5-P4-5.1+deb10u2-Debian <<>> www.javierpzh.gonzalonazareno.org
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 2373
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 0730df91c1792814964dae846018fef15b7db48cb2c29bbf (good)
+;; QUESTION SECTION:
+;www.javierpzh.gonzalonazareno.org. IN  A
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME dulcinea.javierpzh.gonzalonazareno.org.
+dulcinea.javierpzh.gonzalonazareno.org. 86400 IN A 172.22.200.183
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN NS  dulcinea.javierpzh.gonzalonazareno.org.
+
+;; Query time: 10 msec
+;; SERVER: 192.168.202.2#53(192.168.202.2)
+;; WHEN: mar feb 02 08:27:45 CET 2021
+;; MSG SIZE  rcvd: 143
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
@@ -686,16 +710,6 @@ nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0"
 
 <p>Listo, ya las tendríamos.</p>
 <h4>Más servicios</h4>
-<h5>Bacula</h5>
-<p>Creamos las siguientes reglas para <strong>Bacula</strong>.</p>
-<hr>
-<p>Para conectar con la máquina de OVH:</p>
-<pre>
-nft add rule inet filter output oifname "eth0" tcp dport 9101 ct state new,established counter accept
-nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state established counter accept
-</pre>
-
-<hr>
 <h5>Webs exteriores</h5>
 <p>Al terminar el cortafuegos me dí cuenta que no podía conectar con ninguna web del exterior, ya que no poseía ninguna regla con la que pudiera conectar con ellas, ni por el puerto 80, ni por el 443, por tanto vamos a crearlas:</p>
 <p>Reglas para <em>Dulcinea</em>:</p>
@@ -725,6 +739,17 @@ nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "et
 nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 443 ct state established counter accept
 </pre>
 
+<p>Listo, ya las tendríamos.</p>
+<h5>Bacula</h5>
+<p>Creamos las siguientes reglas para <strong>Bacula</strong>.</p>
+<hr>
+<p>Para conectar con la máquina de OVH:</p>
+<pre>
+nft add rule inet filter output oifname "eth0" tcp dport 9101 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state established counter accept
+</pre>
+
+<hr>
 <p>Listo, ya las tendríamos, y ahora sí, habríamos terminado con este <em>firewall</em>.</p>
     </article>
 
