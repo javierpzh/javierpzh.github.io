@@ -231,6 +231,7 @@ MAILTO = root
 <p>Puedes poner alguna tarea en el <em>cron</em> para ver como se mandan correo.</p>
 <p>Posteriormente usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</p>
 <p>Configura el <code>cron</code> para enviar correo al usuario <strong>root</strong>. Comprueba que están llegando esos correos al root. Crea un nuevo alias para que se manden a un usuario sin privilegios. Comprueban que llegan a ese usuario. Por último crea una redirección para enviar esos correo a tu correo personal (gmail,hotmail,…).</p>
+<hr>
 <p>En primer lugar vamos a configurar un nuevo <strong>alias</strong>, para que los correos que tengan como destinatario al usuario <strong>root</strong>, también lleguen al buzón del usuario <strong>debian</strong>. Para ello vamos a editar el fichero <code>/etc/aliases</code> y añadiremos la siguiente línea:</p>
 <pre>
 root: debian
