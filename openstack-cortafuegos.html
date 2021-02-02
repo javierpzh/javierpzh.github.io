@@ -710,7 +710,9 @@ nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0"
 
 <p>Listo, ya las tendríamos.</p>
 <h4>Más servicios</h4>
-<h5>Webs exteriores</h5>
+<ul>
+<li><strong>Webs exteriores</strong></li>
+</ul>
 <p>Al terminar el cortafuegos me dí cuenta que no podía conectar con ninguna web del exterior, ya que no poseía ninguna regla con la que pudiera conectar con ellas, ni por el puerto 80, ni por el 443, por tanto vamos a crearlas:</p>
 <p>Reglas para <em>Dulcinea</em>:</p>
 <pre>
@@ -740,8 +742,10 @@ nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "et
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
-<h5>Bacula</h5>
-<p>Creamos las siguientes reglas para <strong>Bacula</strong>.</p>
+<ul>
+<li><strong>Bacula</strong></li>
+</ul>
+<p>Creamos las siguientes reglas para <em>Bacula</em>.</p>
 <hr>
 <p>Para conectar con la máquina de OVH:</p>
 <pre>
