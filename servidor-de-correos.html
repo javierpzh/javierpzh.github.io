@@ -280,13 +280,17 @@ hola, llega al usuario debian?
 ...
 </pre>
 
-<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>.</p>
-<p>Una redirección se utiliza para enviar el correo que llegue a un usuario, a una cuenta de correo externa. Para usuarios reales, las redirecciones se definen en el fichero <code>~/.forward</code> y el formato de este fichero es simplemente un listado de cuentas de correo a las que se quiere redirigir el correo.</p>
-<p>En mi caso, en dicho fichero introduzco mi dirección de correo externa:</p>
+<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>, por tanto el alias estaría bien configurado.</p>
+<p>Pasamos a realizar una redirección. Se utilizan para enviar el correo que llegue a un usuario, a una cuenta de correo externa. Para usuarios reales, las redirecciones se definen en el fichero <code>~/.forward</code> y el formato de este fichero es simplemente un listado de cuentas de correo a las que se quiere redirigir el correo.</p>
+<p>En mi caso, creo dicho fichero en el usuario <strong>debian</strong> e introduzco una dirección de correo externa distinta de la que va a enviar el correo:</p>
 <pre>
-javierperezhidalgo01@gmail.com
+reyole111@gmail.com
 </pre>
 
+<p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code>root@iesgn15.es</code>:</p>
+<p><img alt="." src="images/sri_servidor_de_correos/correoenviadogmailparareenvioadebianygmail.png"></p>
+<p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmailreyole.png"></p>
+<p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmailreyoleinfo.png"></p>
 <h4>Para asegurar el envío</h4>
 <ul>
 <li><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM es tu sistema de correos. Comprueba el registro DKIM en la página https://mxtoolbox.com/dkim.aspx. Configura <code>postfix</code> para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></li>
