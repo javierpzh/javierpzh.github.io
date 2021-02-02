@@ -280,7 +280,7 @@ hola, llega al usuario debian?
 ...
 </pre>
 
-<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>, por tanto el alias estaría bien configurado.</p>
+<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>, por tanto el alias está bien configurado.</p>
 <p>Pasamos a realizar una redirección. Las redirecciones se utilizan para enviar los correos que lleguen a un usuario, a una cuenta de correo externa. Para usuarios reales, las redirecciones se definen en el fichero <code>~/.forward</code> y el formato de este fichero es simplemente un listado de cuentas de correo a las que se quiere redirigir el correo.</p>
 <p>En mi caso, creo dicho fichero en el usuario <strong>debian</strong> e introduzco una dirección de correo externa distinta de la que va a enviar el correo:</p>
 <pre>
@@ -289,10 +289,16 @@ reyole111@gmail.com
 
 <p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code>root@iesgn15.es</code>:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correoenviadogmailparareenvioadebianygmail.png"></p>
-<p>Supuestamente, lo que ahora debería ocurrir es lo siguiente. El correo cuyo destinatario es <strong>root</strong>, debe llegar a <strong>debian</strong>, lo cuál es señal de que el alias está actuando correctamente, y acto después, el usuario <strong>debian</strong> debe reenviar dicho correo a la dirección <strong>reyole111@gmail.com</strong>.</p>
-<p>Vamos a ver si hemos recibido el correo en la bandeja de entrada de <strong>reyole111@gmail.com</strong>.</p>
+<p>Supuestamente, lo que ahora debería ocurrir es lo siguiente. El correo cuyo destinatario es <strong>root</strong>, debe llegar a <strong>debian</strong>, lo cuál es señal de que el alias está actuando correctamente, y acto después, el correo debe ser reenviado a la dirección <strong>reyole111@gmail.com</strong>.</p>
+<p>Vamos a ver si hemos recibido el correo en la bandeja de entrada del usuario <strong>debian</strong>.</p>
+<pre>
+
+</pre>
+
+<p>Efectivamente lo hemos recibido, así que por último, vamos a ver si hemos recibido el correo en la bandeja de entrada de <strong>reyole111@gmail.com</strong>.</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmailreyole.png"></p>
 <p><img alt="." src="images/sri_servidor_de_correos/correorecibidogmailreyoleinfo.png"></p>
+<p>Efectivamente, también hemos recibido el correo en la dirección <em>reyole111@gmail.com</em>, por tanto la redirección está bien configurada.</p>
 <h4>Para asegurar el envío</h4>
 <ul>
 <li><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM es tu sistema de correos. Comprueba el registro DKIM en la página https://mxtoolbox.com/dkim.aspx. Configura <code>postfix</code> para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></li>
