@@ -1,0 +1,15 @@
+create table Marcas
+(
+Codigo VARCHAR(6),
+Nombre VARCHAR(20),
+Sede VARCHAR(15),
+CONSTRAINT pk_Codigo PRIMARY KEY(Codigo)
+);
+
+
+
+insert into Marcas(Codigo,Nombre,Sede) values ('000100','VeteCat','Barcelona');
+insert into Marcas(Codigo,Nombre,Sede) values ('000200','Nike','Lisboa');
+insert into Marcas(Codigo,Nombre,Sede) values ('000300','Danone','New York');
+insert into Marcas(Codigo,Nombre,Sede) values ('000400','Samsung','Tokyo');
+insert into Marcas(Codigo,Nombre,Sede) values ('000500','Zara','Berlin');

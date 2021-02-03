@@ -50,7 +50,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/interconexiones-de-servidores-de-bases-de-datos.html">
 	<meta property="og:title" content="Interconexiones de Servidores de bases de datos">
-	<meta property="article:published_time" content="2018-01-28 00:00:00+01:00">
+	<meta property="article:published_time" content="2018-02-03 00:00:00+01:00">
             <meta property="og:description" content="Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -95,7 +95,7 @@
                         <h1>Interconexiones de Servidores de bases de datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el dom 28 enero 2018
+                             el sáb 03 febrero 2018
                         </span>
                         
                     </div>
@@ -116,7 +116,7 @@
 <h4>Enlace entre dos servidores de bases de datos ORACLE</h4>
 <p>En este primer caso, vamos a ver que configuraciones son necesarias para enlazar dos servidores <strong>Oracles</strong>.</p>
 <p>Nos situamos en la primera de las máquinas, que recordemos que recibe el nombre de <strong>servidor</strong>.</p>
-<p>Nos dirigiremos a los ficheros <code>listener.ora</code> y <code>tnsname.ora</code>, ambos se encuentran en la ruta <code>$ORACLE_HOME/network/admin</code>, ya que en ellos es donde realizaremos la configuración.</p>
+<p>Nos dirigiremos a los ficheros <code>listener.ora</code> y <code>tnsnames.ora</code>, ambos se encuentran en la ruta <code>$ORACLE_HOME/network/admin</code>, ya que en ellos es donde realizaremos la configuración.</p>
 <p>Primeramente, para habilitar el acceso remoto al servidor, debemos modificar el fichero <code>listener.ora</code>. Por defecto, posee este aspecto:</p>
 <pre>
 SID_LIST_LISTENER =
@@ -214,6 +214,279 @@ Conexiones activas
   TCP    [fe80::c9ee:eb4d:5f0b:a64f%4]:49703  DESKTOP-IGG1O7P:1521   TIME_WAIT
 </pre>
 
+<p>Vemos que efectivamente está escuchando en dicho puerto.</p>
+<p>Hecho esto, ya habríamos habilitado al servidor para que permita el acceso remoto, por tanto, vamos a dirigirnos al segundo y último fichero de configuración, el llamado <code>tnsnames.ora</code>, que por defecto posee esta configuración:</p>
+<pre>
+LISTENER_ORCL =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+
+ORACLR_CONNECTION_DATA =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+    (CONNECT_DATA =
+      (SID = CLRExtProc)
+      (PRESENTATION = RO)
+    )
+  )
+
+ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+</pre>
+
+<p>Editaremos el último bloque que definirá la conexión con el segundo servidor <em>Oracle</em>, quedando de esta manera:</p>
+<pre>
+ORCL =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.0.56)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = orcl)
+    )
+  )
+</pre>
+
+<p>Una vez modificado este fichero, debemos parar el proceso <strong>listener</strong> y volverlo a iniciar para que así se apliquen los nuevos cambios.</p>
+<pre>
+C:\Windows\system32>lsnrctl stop
+
+LSNRCTL for 64-bit Windows: Version 19.0.0.0.0 - Production on 03-FEB-2021 17:53:36
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Conectßndose a (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+El comando ha terminado correctamente
+
+C:\Windows\system32>lsnrctl start
+
+LSNRCTL for 64-bit Windows: Version 19.0.0.0.0 - Production on 03-FEB-2021 17:53:58
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Iniciando tnslsnr: espere...
+
+TNSLSNR for 64-bit Windows: Version 19.0.0.0.0 - Production
+El archivo de parßmetros del sistema es C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\network\admin\listener.ora
+Mensajes de log escritos en C:\Users\servidor\Desktop\diag\tnslsnr\DESKTOP-IGG1O7P\listener\alert\log.xml
+Recibiendo en: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+Recibiendo en: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))
+
+Conectßndose a (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+ESTADO del LISTENER
+------------------------
+Alias                     LISTENER
+Versi¾n                   TNSLSNR for 64-bit Windows: Version 19.0.0.0.0 - Production
+Fecha de Inicio       03-FEB-2021 17:54:02
+Tiempo Actividad   0 dÝas 0 hr. 0 min. 10 seg.
+Nivel de Rastreo        off
+Seguridad               ON: Local OS Authentication
+SNMP                      OFF
+Parßmetros del Listener   C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\network\admin\listener.ora
+Log del Listener          C:\Users\servidor\Desktop\diag\tnslsnr\DESKTOP-IGG1O7P\listener\alert\log.xml
+Recibiendo Resumen de Puntos Finales...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))
+Resumen de Servicios...
+El servicio "CLRExtProc" tiene 1 instancia(s).
+  La instancia "CLRExtProc", con estado UNKNOWN, tiene 1 manejador(es) para este servicio...
+El comando ha terminado correctamente
+
+C:\Windows\system32>
+</pre>
+
+<p>Bien, ahora debemos dirigirnos al segundo servidor, que es al que vamos a realizarle la consulta, y en su fichero <code>listener.ora</code>, habilitar el acceso remoto como hicimos anteriormente:</p>
+<pre>
+SID_LIST_LISTENER =
+  (SID_LIST =
+    (SID_DESC =
+      (SID_NAME = CLRExtProc)
+      (ORACLE_HOME = C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home)
+      (PROGRAM = extproc)
+      (ENVS = "EXTPROC_DLLS=ONLY:C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\bin\oraclr19.dll")
+    )
+  )
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = DESKTOP-IGG1O7P)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</pre>
+
+<p>Cuando hayamos realizado la modificación, iniciaremos de nuevo el <strong>listener</strong> y aplicaremos los cambios:</p>
+<pre>
+C:\Windows\system32>lsnrctl start
+
+LSNRCTL for 64-bit Windows: Version 19.0.0.0.0 - Production on 03-FEB-2021 18:02:49
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Iniciando tnslsnr: espere...
+
+TNSLSNR for 64-bit Windows: Version 19.0.0.0.0 - Production
+El archivo de parßmetros del sistema es C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\network\admin\listener.ora
+Mensajes de log escritos en C:\Users\servidor\Desktop\diag\tnslsnr\DESKTOP-IGG1O7P\listener\alert\log.xml
+Recibiendo en: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+Recibiendo en: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))
+
+Conectßndose a (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+ESTADO del LISTENER
+------------------------
+Alias                     LISTENER
+Versi¾n                   TNSLSNR for 64-bit Windows: Version 19.0.0.0.0 - Production
+Fecha de Inicio       03-FEB-2021 18:02:55
+Tiempo Actividad   0 dÝas 0 hr. 0 min. 12 seg.
+Nivel de Rastreo        off
+Seguridad               ON: Local OS Authentication
+SNMP                      OFF
+Parßmetros del Listener   C:\Users\servidor\Desktop\WINDOWS.X64_193000_db_home\network\admin\listener.ora
+Log del Listener          C:\Users\servidor\Desktop\diag\tnslsnr\DESKTOP-IGG1O7P\listener\alert\log.xml
+Recibiendo Resumen de Puntos Finales...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=DESKTOP-IGG1O7P)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))
+Resumen de Servicios...
+El servicio "CLRExtProc" tiene 1 instancia(s).
+  La instancia "CLRExtProc", con estado UNKNOWN, tiene 1 manejador(es) para este servicio...
+El comando ha terminado correctamente
+</pre>
+
+<p>Cuando ya poseamos todas las configuraciones listas, vamos a proceder a crear la conexión entre los servidores.</p>
+<p>Pero antes de esto, voy a crear un usuario y alguna tabla que poder consultar, ya que este servidor, es totalmente virgen, por decirlo de alguna forma:</p>
+<pre>
+C:\Windows\system32>sqlplus
+
+SQL*Plus: Release 19.0.0.0.0 - Production on MiÚ Feb 3 18:06:19 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Introduzca el nombre de usuario: system
+Introduzca la contrase±a:
+Hora de ┌ltima Conexi¾n Correcta: Jue Ene 28 2021 18:56:11 +01:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> CREATE USER c##javierserv2 IDENTIFIED BY contraseña;
+
+Usuario creado.
+
+SQL> GRANT ALL PRIVILEGES TO c##javierserv2;
+
+Concesi¾n terminada correctamente.
+</pre>
+
+<p>Vamos a crear la tabla <strong>Marcas</strong>, que será la que consultaremos luego a partir de este <a href="images/abd_interconexiones_de_servidores_de_bases_de_datos/scriptoracle.txt">script</a>:</p>
+<pre>
+C:\Windows\system32>sqlplus
+
+SQL*Plus: Release 19.0.0.0.0 - Production on MiÚ Feb 3 18:07:21 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Introduzca el nombre de usuario: c##javierserv2
+Introduzca la contrase±a:
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> create table Marcas
+  2  (
+  3  Codigo VARCHAR(6),
+  4  Nombre VARCHAR(20),
+  5  Sede VARCHAR(15),
+  6  CONSTRAINT pk_Codigo PRIMARY KEY(Codigo)
+  7  );
+
+Tabla creada.
+
+SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000100','VeteCat','Barcelona');
+
+1 fila creada.
+
+SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000200','Nike','Lisboa');
+
+1 fila creada.
+
+SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000300','Danone','New York');
+
+1 fila creada.
+
+SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000400','Samsung','Tokyo');
+
+1 fila creada.
+
+SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000500','Zara','Berlin');
+
+1 fila creada.
+</pre>
+
+<p>Ahora sí, vamos a crear el propio enlace.</p>
+<p>Para ello nos dirigimos al primer servidor y con el usuario <strong>sys</strong>, crearemos el enlace hacia el segundo servidor.</p>
+<p>La sintáxis para crear un enlace es la siguiente:</p>
+<pre>
+create database link linkserv2
+connect to c##javierserv2
+identified by contraseña
+using 'orcl';
+</pre>
+
+<p>Vemos el resultado de la creación del enlace:</p>
+<pre>
+C:\Windows\system32>sqlplus
+
+SQL*Plus: Release 19.0.0.0.0 - Production on MiÚ Feb 3 18:07:21 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Introduzca el nombre de usuario: system
+Introduzca la contrase±a:
+Hora de ┌ltima Conexi¾n Correcta: Mar Ene 19 2021 19:32:59 +01:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> create database link linkserv2
+  2  connect to c##javierserv2
+  3  identified by contraseña
+  4  using 'orcl';
+
+Enlace con la base de datos creado.
+</pre>
+
+<p>Vamos a probar a hacer una consulta desde el primer servidor a la tabla <strong>Marcas</strong> que acabamos de crear y se encuentra en el segundo servidor:</p>
+<pre>
+SQL> select * from marcas@linkserv2;
+
+CODIGO NOMBRE               SEDE
+------ -------------------- ---------------
+000100 VeteCat              Barcelona
+000200 Nike                 Lisboa
+000300 Danone               New York
+000400 Samsung              Tokyo
+000500 Zara                 Berlin
+</pre>
+
+<p>¡Bien! Ya tenemos el enlace creado y utilizable, y por último vamos a realizar una consulta que una la tabla <strong>Tiendas</strong> (tabla almacenada en el primer servidor) y la tabla <strong>Marcas</strong> (tabla almacenada en el segundo servidor):</p>
+<pre>
+
+</pre>
+
+<p>Como hemos visto, hemos podido realizar la consulta correctamente, por lo que habríamos terminado este ejercicio.</p>
 <h4>Enlace entre dos servidores de bases de datos Postgres</h4>
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
