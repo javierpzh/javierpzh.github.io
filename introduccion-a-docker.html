@@ -257,12 +257,17 @@ Nextcloud
 
 <p>Listo.</p>
 <ul>
-<li>
-<p><strong>Crea un contenedor nuevo con la misma configuración de volúmenes. Comprueba que la información que teníamos (ficheros, usuaurio, …), sigue existiendo.</strong></p>
-</li>
-<li>
-<p><strong>Comprueba el contenido de directorio que se ha creado en el <em>host</em>.</strong></p>
-</li>
+<li><strong>Crea un contenedor nuevo con la misma configuración de volúmenes. Comprueba que la información que teníamos (ficheros, usuaurio, …), sigue existiendo.</strong></li>
+</ul>
+<pre>
+javier@debian:~$ docker run -d --name Nextcloud2 -v /home/javier/nextcloud:/var/www/html -p 8080:80 nextcloud
+b102fd06e36cba2e26db09414359892e3ad403a64715f7e4311cad460b2d7684
+</pre>
+
+<p><img alt="." src="images/iaw_introducción_a_docker/nextcloud3.png"></p>
+<p><img alt="." src="images/iaw_introducción_a_docker/nextcloud4.png"></p>
+<ul>
+<li><strong>Comprueba el contenido de directorio que se ha creado en el <em>host</em>.</strong></li>
 </ul>
 <p>.</p>
     </article>
