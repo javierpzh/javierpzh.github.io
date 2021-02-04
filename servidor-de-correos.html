@@ -298,6 +298,15 @@ reyole111@gmail.com
 <ul>
 <li><strong>Tarea 4 (No obligatoria): Vamos a configurar <em>DKIM</em> en nuestro sistema de correos. Comprobaremos el registro <em>DKIM</em> en la página <a href="https://mxtoolbox.com/dkim.aspx">https://mxtoolbox.com/dkim.aspx</a>. Configuraremos <code>Postfix</code> para que firme los correos que envíe. Mandaremos un correo y comprobaremos la verificación de las firmas en ellos.</strong></li>
 </ul>
+<hr>
+<p>Si queremos que los correos enviados desde nuestro servidor <em>Postfix</em> salgan firmados, debemos instalar y configurar <strong>DKIM</strong>.</p>
+<p>Y para trabajar con <em>DKIM</em> es necesario instalar los siguientes paquetes:</p>
+<pre>
+apt install opendkim opendkim-tools -y
+</pre>
+
+<p>Una vez instalados, nos dirigimos al fichero de configuración de <em>DKIM</em>, que es el llamado <code>/etc/opendkim.conf</code>.</p>
+<hr>
 <h4>Para luchar contra el SPAM</h4>
 <ul>
 <li>
@@ -312,11 +321,23 @@ reyole111@gmail.com
 </ul>
 <h4>Gestión de correos desde un cliente</h4>
 <ul>
+<li><strong>Tarea 8: Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></li>
+</ul>
+<p>Como ya sabemos, por defecto al instalar <em>Postfix</em>, estaremos utilizando el formato <strong>mbox</strong> para almacenar los correos electrónicos, pero, ¿como hacemos para cambiar al formato <strong>Maildir</strong>?</p>
+<p>Primeramente vamos a ver que diferencias encontramos entre los dos.</p>
+<ul>
 <li>
-<p><strong>Tarea 8: Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
+<p><strong>mbox:</strong> guarda todos los mensajes en un solo archivo.</p>
 </li>
 <li>
-<p><strong>Tarea 9: Instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio <code>mail.iesgn15.es</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
+<p><strong>Maildir:</strong> utiliza un directorio, con subdirectorios, para guardar los mensajes en ficheros individuales.</p>
+</li>
+</ul>
+<p>Explicado esto, vamos a proceder a configurar <em>Postfix</em> para que empiece a utilizar el formato <em>Maildir</em>.</p>
+<p>En primer lugar, nos dirigimos al fichero <code>/etc/postfix/main.cf</code> y </p>
+<ul>
+<li>
+<p><strong>Tarea 9: Instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en <em>LetsEncrypt</em> para el dominio <code>mail.iesgn15.es</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
 <ul>
 <li>
 <p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</p>
