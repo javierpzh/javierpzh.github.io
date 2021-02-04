@@ -494,6 +494,11 @@ CODIGO NOMBRE               SEDE
 apt install postgresql-contrib -y
 </pre>
 
+<p>Hecho esto, procederemos a editar el fichero de configuración de ambos servidores <code>/etc/postgresql/XXX/main/postgresql.conf</code>, y en él descomentaremos la línea llamada <code>listen_addresses</code>. Como valor le estableceremos la IP que nos interese que escuche nuestro servidor, en mi caso introduzco el valor <strong>*</strong> para que así escuche cualquier petición. De manera que la línea resultante sería la siguiente:</p>
+<pre>
+listen_addresses = '*'
+</pre>
+
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
 
