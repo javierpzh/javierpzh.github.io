@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/servidor-de-correos.html">
 	<meta property="og:title" content="Servidor de correos">
-	<meta property="article:published_time" content="2021-01-21 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-02-05 00:00:00+01:00">
             <meta property="og:description" content="En este post vamos a instalar y configurar de manera adecuada un servidor de correos en una máquina de OVH. Mi dominio es iesgn15.es. El...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
@@ -96,7 +96,7 @@
                         <h1>Servidor de correos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el jue 21 enero 2021
+                             el vie 05 febrero 2021
                         </span>
                         
                     </div>
@@ -296,27 +296,27 @@ reyole111@gmail.com
 <p>Efectivamente, también hemos recibido el correo en la dirección <em>reyole111@gmail.com</em>, por tanto la redirección está bien configurada.</p>
 <h4>Para asegurar el envío</h4>
 <ul>
-<li><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM es tu sistema de correos. Comprueba el registro DKIM en la página https://mxtoolbox.com/dkim.aspx. Configura <code>postfix</code> para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></li>
+<li><strong>Tarea 4 (No obligatoria): Configura de manera adecuada DKIM en tu sistema de correos. Comprueba el registro DKIM en la página <a href="https://mxtoolbox.com/dkim.aspx">https://mxtoolbox.com/dkim.aspx</a>. Configura <code>postfix</code> para que firme los correos que envía. Manda un correo y comprueba la verificación de las firmas en ellos.</strong></li>
 </ul>
 <h4>Para luchar contra el SPAM</h4>
 <ul>
 <li>
-<p><strong>Tarea 5 (No obligatorio): Configura de manera adecuada <code>Postfix</code> para que tenga en cuenta el registro SPF de los correos que recibe. Muestra el <em>log</em> del correo para comprobar que se está haciendo el testeo del registro SPF.</strong></p>
+<p><strong>Tarea 5 (No obligatoria): Vamos a configurar <code>Postfix</code> para que tenga en cuenta el registro <em>SPF</em> de los correos que recibe. Mostraremos el <em>log</em> del correo para comprobar que se está haciendo el <em>testeo</em> del registro <em>SPF</em>.</strong></p>
 </li>
 <li>
-<p><strong>Tarea 6 (No obligatoria): Configura un sistema antispam. Realiza comprobaciones para comprobarlo.</strong></p>
+<p><strong>Tarea 6 (No obligatoria): Vamos a configurar un sistema <em>antispam</em>. Realizaremos comprobaciones para comprobarlo.</strong></p>
 </li>
 <li>
-<p><strong>Tarea 7 (No obligatoria): Configura un sistema antivirus. Realiza comprobaciones para comprobarlo.</strong></p>
+<p><strong>Tarea 7 (No obligatoria): Vamos a configurar un sistema antivirus. Realizaremos comprobaciones para comprobarlo.</strong></p>
 </li>
 </ul>
 <h4>Gestión de correos desde un cliente</h4>
 <ul>
 <li>
-<p><strong>Tarea 8: Configura el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
+<p><strong>Tarea 8: Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
 </li>
 <li>
-<p><strong>Tarea 9: Instala configura <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Configura <code>dovecot</code> de manera adecuada para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio mail.iesgn15.es. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
+<p><strong>Tarea 9: Instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en LetsEncrypt para el dominio <code>mail.iesgn15.es</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
 <ul>
 <li>
 <p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</p>
