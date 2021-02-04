@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. Crea un contenedor desde la imagen...">
+        <meta name="description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. javier@debian:~$ docker volume...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -47,7 +47,7 @@
 	<meta property="og:url" content="/introduccion-a-docker.html">
 	<meta property="og:title" content="Introducción a Docker">
 	<meta property="article:published_time" content="2021-02-04 00:00:00+01:00">
-            <meta property="og:description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. Crea un contenedor desde la imagen...">
+            <meta property="og:description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. javier@debian:~$ docker volume...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
 </head>
@@ -110,28 +110,78 @@
 <h2>Almacenamiento</h2>
 <h4>1. Vamos a trabajar con volúmenes docker:</h4>
 <ul>
-<li>
-<p><strong>Crea un volumen docker que se llame <code>miweb</code>.</strong></p>
-</li>
-<li>
-<p><strong>Crea un contenedor desde la imagen <code>php:7.4-apache</code> donde montes en el directorio <code>/var/www/html</code> (que sabemos que es el <em>document root</em> del servidor que nos ofrece esa imagen) el volumen docker que has creado.</strong></p>
-</li>
-<li>
-<p><strong>Utiliza el comando <code>docker cp</code> para copiar un fichero <code>info.php</code> en el directorio <code>/var/www/html</code>.</strong></p>
-</li>
-<li>
-<p><strong>Accede al contenedor desde el navegador para ver la información ofrecida por el fichero <code>info.php</code>.</strong></p>
-</li>
-<li>
-<p><strong>Borra el contenedor.</strong></p>
-</li>
-<li>
-<p><strong>Crea un nuevo contenedor y monta el mismo volumen como en el ejercicio anterior.</strong></p>
-</li>
-<li>
-<p><strong>Accede al contenedor desde el navegador para ver la información ofrecida por el fichero <code>info.php</code>. ¿Seguía existiendo ese fichero?</strong></p>
-</li>
+<li><strong>Crea un volumen docker que se llame <code>miweb</code>.</strong></li>
 </ul>
+<pre>
+javier@debian:~$ docker volume create miweb
+miweb
+
+javier@debian:~$ docker volume ls
+DRIVER              VOLUME NAME
+local               051b59979e0527c228be360c9b7568856a8cf37b16b9ce415f3e5fa48b812891
+local               e1be424428521f02e06f73a92c2100b8cc42aaf813680bc3ee792c1353ae3abf
+local               miweb
+</pre>
+
+<ul>
+<li><strong>Crea un contenedor desde la imagen <code>php:7.4-apache</code> donde montes en el directorio <code>/var/www/html</code>, (que sabemos que es el <em>document root</em> del servidor que nos ofrece esa imagen) el volumen docker que has creado.</strong></li>
+</ul>
+<pre>
+javier@debian:~$ docker pull php:7.4-apache
+7.4-apache: Pulling from library/php
+a076a628af6f: Already exists
+02bab8795938: Already exists
+657d9d2c68b9: Already exists
+f47b5ee58e91: Already exists
+2b62153f094c: Already exists
+60b09083723b: Already exists
+1701d4d0a478: Already exists
+bae0c4dc63ea: Already exists
+a1c05958a901: Already exists
+5964d339be93: Already exists
+1319bb6aacaa: Already exists
+71860efe761d: Already exists
+c5a84dbdd6a5: Already exists
+Digest: sha256:584d2109fa4f3f0cf25358828254dc5668882167634384ad68537a3069d31652
+Status: Downloaded newer image for php:7.4-apache
+
+</pre>
+
+<ul>
+<li><strong>Utiliza el comando <code>docker cp</code> para copiar un fichero <code>info.php</code> en el directorio <code>/var/www/html</code>.</strong></li>
+</ul>
+<pre>
+
+</pre>
+
+<ul>
+<li><strong>Accede al contenedor desde el navegador para ver la información ofrecida por el fichero <code>info.php</code>.</strong></li>
+</ul>
+<pre>
+
+</pre>
+
+<ul>
+<li><strong>Borra el contenedor.</strong></li>
+</ul>
+<pre>
+
+</pre>
+
+<ul>
+<li><strong>Crea un nuevo contenedor y monta el mismo volumen como en el ejercicio anterior.</strong></li>
+</ul>
+<pre>
+
+</pre>
+
+<ul>
+<li><strong>Accede al contenedor desde el navegador para ver la información ofrecida por el fichero <code>info.php</code>. ¿Seguía existiendo ese fichero?</strong></li>
+</ul>
+<pre>
+
+</pre>
+
 <h4>2. Vamos a trabajar con bind mount:</h4>
 <ul>
 <li>
