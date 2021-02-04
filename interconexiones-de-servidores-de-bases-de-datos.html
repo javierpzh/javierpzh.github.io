@@ -504,7 +504,7 @@ listen_addresses = '*'
 host    all             all             127.0.0.1/32            md5
 </pre>
 
-<p>Esta línea actualmente define que no se permita la conexión remota, ya que por defecto solo escucha peticiones de <em>localhost</em>. Por tanto cambiamos este valor y la línea queda de esta manera:</p>
+<p>Esta línea actualmente define que no se permita la conexión remota, ya que por defecto solo escucha peticiones de <em>localhost</em>. Por tanto cambiamos este valor, en mi caso especifico que escuche peticiones desde cualquier interfaz, y la línea queda de esta manera:</p>
 <pre>
 host    all             all             0.0.0.0/0            md5
 </pre>
