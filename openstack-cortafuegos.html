@@ -753,6 +753,11 @@ nft add rule inet filter output oifname "eth0" tcp dport 9101 ct state new,estab
 nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state established counter accept
 </pre>
 
+<pre>
+nft add rule inet filter output oifname "eth1" tcp dport 9102 ct state new,established counter accept
+nft add rule inet filter input iifname "eth1" tcp sport 9102 ct state established counter accept
+</pre>
+
 <hr>
 <p>Listo, ya las tendríamos, y ahora sí, habríamos terminado con este <em>firewall</em>.</p>
     </article>
