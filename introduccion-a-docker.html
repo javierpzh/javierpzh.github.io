@@ -189,9 +189,6 @@ javier@debian:~$ docker run -d --name pruebavolumendocker2 -v miweb:/var/www/htm
 javier@debian:~$ mkdir pruebadocker
 
 javier@debian:~$ nano pruebadocker/index.html
-
-javier@debian:~$ cat pruebadocker/index.html
-<h1>Esto es una prueba con volumenes Docker</h1>
 </pre>
 
 <ul>
@@ -207,9 +204,14 @@ javier@debian:~$ docker run -d --name bindmount -v /home/javier/pruebadocker:/va
 </ul>
 <p><img alt="." src="images/iaw_introducción_a_docker/bindmount1.png"></p>
 <ul>
-<li>
-<p><strong>Modifica el contenido del fichero <code>index.html</code> en tu <em>host</em> y comprueba que al refrescar la página ofrecida por el contenedor, el contenido ha cambiado.</strong></p>
-</li>
+<li><strong>Modifica el contenido del fichero <code>index.html</code> en tu <em>host</em> y comprueba que al refrescar la página ofrecida por el contenedor, el contenido ha cambiado.</strong></li>
+</ul>
+<pre>
+javier@debian:~$ nano pruebadocker/index.html
+</pre>
+
+<p><img alt="." src="images/iaw_introducción_a_docker/bindmount2.png"></p>
+<ul>
 <li>
 <p><strong>Borra el contenedor</strong></p>
 </li>
