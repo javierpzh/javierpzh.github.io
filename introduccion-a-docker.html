@@ -263,7 +263,7 @@ javier@debian:~$ docker run -d --name bindmount2 -v /home/javier/pruebadocker:/v
 </ul>
 <p>Creamos el contenedor:</p>
 <pre>
-javier@debian:~$ mkdir pruebadockernextcloud
+javier@debian:~$ mkdir nextcloud
 
 javier@debian:~$ docker run -d --name Nextcloud -v /home/javier/nextcloud:/var/www/html -p 8080:80 nextcloud
 1fd90edb9161d28a68c58799ddeea2c58ce0acec3e85663997baae9987709274
@@ -301,7 +301,15 @@ b102fd06e36cba2e26db09414359892e3ad403a64715f7e4311cad460b2d7684
 <ul>
 <li><strong>Comprueba el contenido de directorio que se ha creado en el <em>host</em>.</strong></li>
 </ul>
-<p>.</p>
+<p>Visualizamos el contenido del directorio <code>/home/javier/nextcloud</code>:</p>
+<pre>
+javier@debian:~/nextcloud$ ls
+3rdparty  config       core         data        lib           ocs           remote.php  status.php
+apps      console.php  cron.php     index.html  occ           ocs-provider  resources   themes
+AUTHORS   COPYING      custom_apps  index.php   ocm-provider  public.php    robots.txt  version.php
+</pre>
+
+<p>Podemos ver como efectivamente se encuentran todos los datos de la web.</p>
     </article>
 
         <div class="tags">
