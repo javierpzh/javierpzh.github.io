@@ -334,7 +334,17 @@ apt install opendkim opendkim-tools -y
 </li>
 </ul>
 <p>Explicado esto, vamos a proceder a configurar <em>Postfix</em> para que empiece a utilizar el formato <em>Maildir</em>.</p>
-<p>En primer lugar, nos dirigimos al fichero <code>/etc/postfix/main.cf</code> y </p>
+<p>En primer lugar, nos dirigimos al fichero <code>/etc/postfix/main.cf</code> e introduciremos la siguiente línea en él:</p>
+<pre>
+home_mailbox = Maildir/
+</pre>
+
+<p>(Es importante la <code>/</code> final.)</p>
+<p>Hecho esto, ya habremos configurado <em>Postfix</em> para que utilice <em>Maildir</em>, por tanto vamos a reiniciar el servicio y a hacer una prueba para comprobar el cambio.</p>
+<pre>
+systemctl restart postfix
+</pre>
+
 <ul>
 <li>
 <p><strong>Tarea 9: Instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en <em>LetsEncrypt</em> para el dominio <code>mail.iesgn15.es</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
