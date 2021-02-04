@@ -499,6 +499,21 @@ apt install postgresql-contrib -y
 listen_addresses = '*'
 </pre>
 
+<p>Como segunda modificación, que también debe realizarse en ambos servidores, tenemos que dirigirnos al fichero <code>/etc/postgresql/XXX/main/pg_hba.conf</code> y buscar la siguiente línea:</p>
+<pre>
+host    all             all             127.0.0.1/32            md5
+</pre>
+
+<p>Esta línea actualmente define que no se permita la conexión remota, ya que por defecto solo escucha peticiones de <em>localhost</em>. Por tanto cambiamos este valor y la línea queda de esta manera:</p>
+<pre>
+host    all             all             0.0.0.0/0            md5
+</pre>
+
+<p>Realizados los cambios, vamos a reiniciar los servicios de los dos servidores para así aplicar los nuevos cambios:</p>
+<pre>
+systemctl restart postgresql
+</pre>
+
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
 
