@@ -742,6 +742,7 @@ nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "et
 </pre>
 
 <p>Listo, ya las tendríamos.</p>
+<h4>Zona en pruebas</h4>
 <ul>
 <li><strong>Bacula</strong></li>
 </ul>
@@ -756,11 +757,14 @@ nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state establishe
 <p>nft add chain inet filter input { policy accept \;}</p>
 <p>nft add chain inet filter output { policy accept \;}</p>
 <p>nft add chain inet filter forward { policy accept \;}</p>
-<pre>
-nft add rule inet filter output oifname "eth1" tcp dport 9102 ct state new,established counter accept
-nft add rule inet filter input iifname "eth1" tcp sport 9102 ct state established counter accept
-</pre>
-
+<p>-A INPUT -i eth1 -s 0.0.0.0/0 -p tcp --dport 9101 --ctstate new,established
+-A OUTPUT -o eth0 -d 0.0.0.0/0 -p tcp --sport 9101 state established</p>
+<p>-A OUTPUT -o eth0 -d 0.0.0.0/0 --dport 9102 new,established
+-A INPUT -i eth0 -s 0.0.0.0/0 --sport 9102 established</p>
+<p>nft add rule inet filter input ip saddr 0.0.0.0/0 iifname "eth1" tcp dport 9101 ct state new,established counter accept
+nft add rule inet filter output ip daddr 0.0.0.0/0 oifname "eth0" tcp sport 9101 ct state established counter accept</p>
+<p>nft add rule inet filter output ip daddr 0.0.0.0/0 oifname "eth0" tcp dport 9102 ct state new,established counter accept
+nft add rule inet filter input ip saddr 0.0.0.0/0 iifname "eth0" tcp sport 9102 ct state established counter accept</p>
 <hr>
 <p>Listo, ya las tendríamos, y ahora sí, habríamos terminado con este <em>firewall</em>.</p>
     </article>
