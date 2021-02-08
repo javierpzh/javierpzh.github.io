@@ -333,9 +333,12 @@ unzip nrpe-4.0.3.zip
 [root@quijote nrpe-4.0.3]# make install-plugin
 </pre>
 
-<p>Una vez terminada la instalación, vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/usr/local/nagios/etc/objects/commands.cfg</code>:</p>
+<p>Una vez terminada la instalación, vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/usr/local/nagios/etc/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
 <pre>
-
+define command {
+        command_name    check_nrpe
+        command_line    $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
 </pre>
 
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
