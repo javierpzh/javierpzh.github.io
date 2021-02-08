@@ -346,6 +346,80 @@ define command {
 cfg_dir=/usr/local/nagios/etc/servers
 </pre>
 
+<p>El subdirectorio <code>servers/</code> que acabamos de habilitar en la configuración no existe, así que lo creamos antes de continuar:</p>
+<pre>
+mkdir /usr/local/nagios/etc/servers
+</pre>
+
+<p>Dentro de éste, crearemos un archivo de configuración por cada cliente que deseemos monitorizar, en mi caso creo los siguientes ficheros:</p>
+<pre>
+nano /usr/local/nagios/etc/servers/dulcinea.cfg
+
+nano /usr/local/nagios/etc/servers/sancho.cfg
+
+nano /usr/local/nagios/etc/servers/freston.cfg
+
+nano /usr/local/nagios/etc/servers/ovh.cfg
+</pre>
+
+<p>El contenido de estos ficheros será el siguiente:</p>
+<pre>
+# Dulcinea
+
+define host {
+        use                     linux-server
+        host_name               dulcinea
+        alias                   Debian 10 (remota)
+        address                 dulcinea
+        max_check_attempts      5
+        check_period            24x7
+        notification_interval   30
+        notification_period     24x7
+}
+
+
+# Sancho
+
+define host {
+        use                     linux-server
+        host_name               sancho
+        alias                   Ubuntu (remota)
+        address                 sancho
+        max_check_attempts      5
+        check_period            24x7
+        notification_interval   30
+        notification_period     24x7
+}
+
+
+# Freston
+
+define host {
+        use                     linux-server
+        host_name               freston
+        alias                   Debian 10 (remota)
+        address                 freston
+        max_check_attempts      5
+        check_period            24x7
+        notification_interval   30
+        notification_period     24x7
+}
+
+
+# OVH
+
+define host {
+        use                     linux-server
+        host_name               ovh
+        alias                   Debian 10 (remota)
+        address                 51.210.105.17
+        max_check_attempts      5
+        check_period            24x7
+        notification_interval   30
+        notification_period     24x7
+}
+</pre>
+
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
 <pre>
 firewall-cmd --permanent --add-service=nrpe
