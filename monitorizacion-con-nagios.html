@@ -169,7 +169,7 @@
 <p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
 <p>Explicado esto, vamos a proceder con la instalación de nuestro sistema de monitorización.</p>
 <p>En mi caso, voy a llevar a cabo la instalación de <em>Nagios</em> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
-<p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriomente, donde llevo a cabo la instalación de estos requisitos.</p>
+<p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
 <p>Para seguir con la instalación necesitamos tener instalados los siguientes paquetes.</p>
 <p>En <em>Debian/Ubuntu</em>:</p>
 <pre>
@@ -245,6 +245,27 @@ Adding password for user nagiosadmin
 </pre>
 
 <p>Introducida la contraseña, habremos terminado.</p>
+<p>Llegó el turno de activar el módulo CGI de <em>Apache</em>.</p>
+<p>En <em>Debian/Ubuntu</em>:</p>
+<pre>
+a2enmod cgi
+
+systemctl restart apache2
+</pre>
+
+<p>En <em>CentOS</em>:</p>
+<pre>
+dnf install perl perl-CGI
+
+systemctl restart httpd
+</pre>
+
+<p>Si nos dirigimos a nuestra dirección web <em>/nagios</em>, según esté configurado en nuestro servidor web, en mi caso <code>www.javierpzh.gonzalonazareno.org/nagios</code> nos aparecerá esta ventana:</p>
+<p><img alt="." src="images/aso_monitorización_con_Nagios/nagiosautentificacion.png"></p>
+<p>Si introducimos el usuario y la contraseña que hemos creado anteriormente:</p>
+<p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanel1.png"></p>
+<p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios</em> en nuestro sistema.</p>
+<h2>Configuración en los clientes</h2>
 <p>.</p>
     </article>
 
