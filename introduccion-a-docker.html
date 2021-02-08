@@ -46,7 +46,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/introduccion-a-docker.html">
 	<meta property="og:title" content="Introducción a Docker">
-	<meta property="article:published_time" content="2021-02-04 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-02-08 00:00:00+01:00">
             <meta property="og:description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. Creamos el nuevo volumen:...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
@@ -91,7 +91,7 @@
                         <h1>Introducción a Docker</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el jue 04 febrero 2021
+                             el lun 08 febrero 2021
                         </span>
                         
                     </div>
@@ -310,6 +310,22 @@ AUTHORS   COPYING      custom_apps  index.php   ocm-provider  public.php    robo
 </pre>
 
 <p>Podemos ver como efectivamente se encuentran todos los datos de la web.</p>
+<h2>Redes</h2>
+<ul>
+<li>
+<p><strong>Ejecuta una instrucción docker para visualizar el contenido del fichero <code>wp-config.php</code> y verifica que los parámetros de conexión a la base de datos son los mismo que los indicados en las variables de entorno.</strong></p>
+</li>
+<li>
+<p><strong>Ejecuta una instrucción docker para comprobar que desde el <em>servidor_wp</em> podemos hacer <em>ping</em> usando el nombre <em>servidor_mysql</em>. (Tendrás que instalar el paquete <code>iputils-ping</code> en el contenedor).</strong></p>
+</li>
+<li>
+<p><strong>Visualiza el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> del contenedor con la base de datos y comprueba cómo está configurado el parámetro <code>bind-address</code>.</strong></p>
+</li>
+<li>
+<p><strong>Instala otro CMS PHP siguiendo la documentación de <a href="https://hub.docker.com/">Docker Hub</a> de la aplicación seleccionada.</strong></p>
+</li>
+</ul>
+<p>.</p>
     </article>
 
         <div class="tags">
