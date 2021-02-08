@@ -328,6 +328,8 @@ docker run -d --name servidor_mysql \
            -e MYSQL_ROOT_PASSWORD=asdasd \
            mariadb
 
+--------------------------------------------------------------------------------
+
 docker run -d --name servidor_wp \
              --network red_wp \
              -v /opt/wordpress:/var/www/html/wp-content \
@@ -338,6 +340,7 @@ docker run -d --name servidor_wp \
              -p 80:80  
              wordpress
 
+--------------------------------------------------------------------------------
 
 docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
