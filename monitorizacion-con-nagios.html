@@ -307,6 +307,17 @@ systemctl start nrpe && systemctl enable nrpe
 </pre>
 
 <p>Listo.</p>
+<h2>Configuración en el servidor del plugin NRPE</h2>
+<p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
+<pre>
+firewall-cmd --permanent --add-service=nrpe
+</pre>
+
+<p>Recargamos la configuración del <em>firewall</em> para aplicar los cambios:</p>
+<pre>
+firewall-cmd --reload
+</pre>
+
 <h2>Configuración en los clientes</h2>
 <p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
 <p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en el directorio <code>/usr/local/nagios/etc/</code>. En él, buscaremos la directiva <code>allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
