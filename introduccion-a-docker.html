@@ -354,7 +354,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <p>El contenedor <em>servidor_mysql</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code> que es el encargado, a partir de las variables de entorno, de configurar la base de datos: crea un usuario, crea la base de datos, cambia la contraseña del usuario <em>root</em>, ... y termina ejecutando el servidor <em>mariadb</em>.</p>
 </li>
 <li>
-<p>Al crear la imagen <em>mariadb</em> han tenido en cuenta de que tiene que permitir la conexión desde otra máquina, por lo que en la configuración tenemos comentado el parámetro <code>bind-address</code>.</p>
+<p>Los creadores de la imagen <em>mariadb</em>, han tenido en cuenta que tiene que permitir la conexión desde otra máquina, por lo que, en su configuración, se encuentra descomentado el parámetro <code>bind-address</code>.</p>
 </li>
 <li>
 <p>Del mismo modo, el contenedor <em>servidor_wp</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code>, que entre otras cosas, a partir de las variables de entorno, ha creado el fichero <code>wp-config.php</code> de <em>wordpress</em>, por lo que durante la instalación no nos pedirá las credenciales de la base de datos.</p>
