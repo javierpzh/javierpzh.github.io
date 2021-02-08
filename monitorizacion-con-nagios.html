@@ -420,6 +420,7 @@ define host {
 }
 </pre>
 
+<p>A continuación añadiremos otros para definir los distintos servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
 <pre>
 firewall-cmd --permanent --add-service=nrpe
