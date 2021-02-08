@@ -360,8 +360,11 @@ f70f22aed3d1        mariadb             "docker-entrypoint.s…"   9 minutes ago
 <p>Si nos fijamos, la variable de entorno <code>WORDPRESS_DB_HOST</code> la hemos inicializado al nombre del servidor de base de datos. Como ambos contenedores están conectados a la misma red definida por el usuario, el contenedor <em>wordpress</em> al intentar acceder al nombre <em>servidor_mysql</em>, estará accediendo al contenedor de la base de datos.</p>
 </li>
 <li>
-<p>Al servicio al que vamos a acceder desde el exterior es al servidor web, es por lo que hemos mapeado los puertos con la opción <code>-p</code>. Sin embargo en el contenedor de la base de datos no es necesario mapear los puertos porque no vamos a acceder a ella desde el exterior. Sin embargo, el contenedor <em>servidor_wp</em> puede acceder al puerto 3306 del <em>servidor_mysql</em> sin problemas ya que están conectados a la misma red.</p>
+<p>El servicio al que vamos a acceder desde el exterior es al servidor web, es por lo que hemos mapeado los puertos con la opción <code>-p</code>. Sin embargo, en el contenedor de la base de datos no es necesario mapear los puertos porque no vamos a acceder a ella desde el exterior. Eso sí, el contenedor <em>servidor_wp</em>, sí puede acceder al puerto 3306 del <em>servidor_mysql</em> sin problemas, ya que están conectados a la misma red.</p>
 </li>
+</ul>
+<h4>Ejercicios</h4>
+<ul>
 <li>
 <p><strong>Ejecuta una instrucción docker para visualizar el contenido del fichero <code>wp-config.php</code> y verifica que los parámetros de conexión a la base de datos son los mismo que los indicados en las variables de entorno.</strong></p>
 </li>
