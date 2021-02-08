@@ -303,13 +303,13 @@ unzip nrpe-4.0.3.zip
 
 <p>Con esto habríamos terminado la instalación de <em>Nagios NRPE</em> y para finalizar, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
 <pre>
-[root@quijote nrpe-4.0.3]# systemctl start nrpe
-
-[root@quijote nrpe-4.0.3]# systemctl enable nrpe
+systemctl start nrpe && systemctl enable nrpe
 </pre>
 
 <p>Listo.</p>
 <h2>Configuración en los clientes</h2>
+<p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
+<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en el directorio <code>/usr/local/nagios/etc/</code>.</p>
 <p>.</p>
     </article>
 
