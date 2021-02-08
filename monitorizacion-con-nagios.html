@@ -341,6 +341,12 @@ define command {
 }
 </pre>
 
+<p>Hecho esto, nos toca configurar el fichero <code>nagios.cfg</code>, que se encuentra en la ruta <code>/usr/local/nagios/etc/nagios.cfg</code>, para que incluya los archivos de configuración de los clientes:</p>
+<pre>
+
+</pre>
+
+<p>nano /usr/local/nagios/etc/nagios.cfg</p>
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
 <pre>
 firewall-cmd --permanent --add-service=nrpe
