@@ -168,7 +168,7 @@
 </ul>
 <p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
 <p>Explicado esto, vamos a proceder con la instalación de nuestro sistema de monitorización.</p>
-<p>En mi caso, voy a llevar a cabo la instalación de <em>Nagios</em> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
+<p>En mi caso, voy a llevar a cabo la instalación de <strong>Nagios Core</strong> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
 <p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
 <p>Para seguir con la instalación necesitamos tener instalados los siguientes paquetes.</p>
 <p>En <em>Debian/Ubuntu</em>:</p>
@@ -216,7 +216,7 @@ make install
 make install-webconf
 </pre>
 
-<p>archivos de configuración de <em>Nagios</em>:</p>
+<p>Instalamos los archivos de configuración de <em>Nagios</em>:</p>
 <pre>
 make install-config
 </pre>
@@ -274,6 +274,8 @@ systemctl restart httpd
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanel1.png"></p>
 <p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios</em> en nuestro sistema.</p>
 <h2>Configuración en los clientes</h2>
+<p>Ya tenemos instalado <em>Nagios</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <em>Dulcinea</em>, <em>Sancho</em>, <em>Freston</em> y nuestra VPS, la máquina de <em>OVH</em>.</p>
+<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>.</p>
 <p>.</p>
     </article>
 
