@@ -273,9 +273,9 @@ systemctl restart httpd
 <p>Si introducimos el usuario y la contraseña que hemos creado anteriormente:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanel1.png"></p>
 <p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios</em> en nuestro sistema.</p>
-<h2>Configuración en los clientes</h2>
+<h2>Instalación en los clientes</h2>
 <p>Ya tenemos instalado <em>Nagios</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
-<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>.</p>
+<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Quijote</em>, ya que en todas las máquinas es de la misma manera.</p>
 <p>La descarga la llevaremos a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>. Al igual que antes, dejo <a href="images/aso_monitorización_con_Nagios/nrpe-4.0.3.zip">aquí</a> la última versión disponible a día de hoy, que es la 4.0.3.</p>
 <pre>
 wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
@@ -286,6 +286,30 @@ wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-
 unzip nrpe-4.0.3.zip
 </pre>
 
+<p>El proceso es similar al anterior. Empezaremos por configurar la compilación:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# ./configure
+</pre>
+
+<p>Y compilamos:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# make nrpe
+</pre>
+
+<p>Terminada la compilación instalamos los binarios, archivos de configuración, <em>scripts</em>, ... :</p>
+<pre>
+[root@quijote nrpe-4.0.3]# make install-groups-users install-daemon install-config install-init
+</pre>
+
+<p>Con esto habríamos terminado la instalación de <em>Nagios NRPE</em> y para finalizar, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# systemctl start nrpe
+
+[root@quijote nrpe-4.0.3]# systemctl enable nrpe
+</pre>
+
+<p>Listo.</p>
+<h2>Configuración en los clientes</h2>
 <p>.</p>
     </article>
 
