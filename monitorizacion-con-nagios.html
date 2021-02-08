@@ -200,6 +200,51 @@ tar xf nagios-4.4.6.tar.gz
 [root@quijote nagios-4.4.6]# make all
 </pre>
 
+<p>La instalación de <em>Nagios</em> está repartida en una serie de objetos distintos, que veremos a continuación.</p>
+<p>Comenzaremos creando el usuario y el grupo que utilizará el servicio <em>Nagios</em> en nuestro sistema:</p>
+<pre>
+make install-groups-users
+</pre>
+
+<p>Seguimos con la instalación de los archivos de <em>Nagios</em>:</p>
+<pre>
+make install
+</pre>
+
+<p>Ahora pasaremos con los archivos de configuración necesarias para nuestro futuro panel de administración web:</p>
+<pre>
+make install-webconf
+</pre>
+
+<p>archivos de configuración de <em>Nagios</em>:</p>
+<pre>
+make install-config
+</pre>
+
+<p>Instalamos los <em>scripts</em> del servicio:</p>
+<pre>
+make install-init
+</pre>
+
+<p>Instalamos y habilitamos el servicio de <em>Nagios</em>:</p>
+<pre>
+make install-daemoninit
+</pre>
+
+<p>Configuramos el directorio para comandos externos:</p>
+<pre>
+make install-commandmode
+</pre>
+
+<p>Para poder acceder a <em>Nagios</em>, debemos crear el usuario administrador, en mi caso, <strong>nagiosadmin</strong>:</p>
+<pre>
+[root@quijote ~]# htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+New password:
+Re-type new password:
+Adding password for user nagiosadmin
+</pre>
+
+<p>Introducida la contraseña, habremos terminado.</p>
 <p>.</p>
     </article>
 
