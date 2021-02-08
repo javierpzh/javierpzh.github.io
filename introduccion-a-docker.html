@@ -354,7 +354,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <p>El contenedor <em>servidor_mysql</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code> que es el encargado, a partir de las variables de entorno, de configurar la base de datos: crea un usuario, crea la base de datos, cambia la contraseña del usuario <em>root</em>, ... y termina ejecutando el servidor <em>mariadb</em>.</p>
 </li>
 <li>
-<p>Los creadores de la imagen <em>mariadb</em>, han tenido en cuenta que tiene que permitir la conexión desde otra máquina, por lo que, en su configuración, se encuentra descomentado el parámetro <code>bind-address</code>.</p>
+<p>Los creadores de la imagen <em>mariadb</em>, han tenido en cuenta que el contenedor, tiene que permitir la conexión desde otra máquina, por lo que, en su configuración, se encuentra comentado el parámetro <code>bind-address</code>.</p>
 </li>
 <li>
 <p>Del mismo modo, el contenedor <em>servidor_wp</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code>, que entre otras cosas, a partir de las variables de entorno, ha creado el fichero <code>wp-config.php</code> de <em>WordPress</em>, por lo que durante la instalación no nos pedirá las credenciales de la base de datos.</p>
@@ -366,10 +366,8 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <p>El servicio al que vamos a acceder desde el exterior es al servidor web, es por lo que hemos mapeado los puertos con la opción <code>-p</code>. Sin embargo, en el contenedor de la base de datos no es necesario mapear los puertos porque no vamos a acceder a ella desde el exterior. Eso sí, el contenedor <em>servidor_wp</em>, sí puede acceder al puerto 3306 del <em>servidor_mysql</em> sin problemas, ya que están conectados a la misma red.</p>
 </li>
 </ul>
-<h4>Ejercicios</h4>
-<ul>
-<li><strong>Ejecuta una instrucción docker para visualizar el contenido del fichero <code>wp-config.php</code> y verifica que los parámetros de conexión a la base de datos son los mismo que los indicados en las variables de entorno.</strong></li>
-</ul>
+<p>Para terminar, vamos a ver si realmente las configuraciones que hemos realizado mediante parámetros a la hora de crear los contenedores se han llevado a cabo.</p>
+<p>Primeramente, vamos a comprobar en el fichero <code>wp-config.php</code> del contenedor de <em>WordPress</em>, que los parámetros de conexión a la base de datos son los mismos que los indicados en las variables de entorno.</p>
 <pre>
 javier@debian:~$ docker exec servidor_wp cat wp-config.php
 
@@ -391,9 +389,8 @@ define( 'DB_HOST', 'servidor_mysql');
 ...
 </pre>
 
-<ul>
-<li><strong>Ejecuta una instrucción docker para comprobar que desde el <em>servidor_wp</em> podemos hacer <em>ping</em> usando el nombre <em>servidor_mysql</em>. (Tendrás que instalar el paquete <code>iputils-ping</code> en el contenedor).</strong></li>
-</ul>
+<p>Bien, vemos que sí.</p>
+<p>Ahora vamos a comprobar que los contenedores posean conexión entre sí mediante resolución de nombres, para ello, vamos a intentar realizar un <em>ping</em> desde el contenedor <em>servidor_wp</em> usando el nombre <em>servidor_mysql</em> (tendremos que instalar el paquete <code>iputils-ping</code> en el contenedor).</p>
 <pre>
 javier@debian:~$ docker exec -it servidor_wp /bin/bash
 
@@ -414,9 +411,8 @@ PING servidor_mysql (172.18.0.2) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.093/0.104/0.127/0.019 ms
 </pre>
 
-<ul>
-<li><strong>Visualiza el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> del contenedor con la base de datos y comprueba cómo está configurado el parámetro <code>bind-address</code>.</strong></li>
-</ul>
+<p>Efectivamente el <em>ping</em> se ha realizado correctamente.</p>
+<p>Por último, vamos a comprobar que en el fichero <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> del contenedor con la base de datos, se encuentre comentado el parámetro <code>bind-address</code> como he indicado anteriormente.</p>
 <pre>
 javier@debian:~$ docker exec servidor_mysql cat /etc/mysql/mariadb.conf.d/50-server.cnf
 ...
@@ -428,9 +424,7 @@ javier@debian:~$ docker exec servidor_mysql cat /etc/mysql/mariadb.conf.d/50-ser
 ...
 </pre>
 
-<ul>
-<li><strong>Instala otro CMS PHP siguiendo la documentación de <a href="https://hub.docker.com/">Docker Hub</a> de la aplicación seleccionada.</strong></li>
-</ul>
+<p>En este caso la respuesta vuelve a ser afirmativa, por lo que acabamos de comprobar que todas las configuraciones se han llevado a cabo de la manera esperada.</p>
 <p>.</p>
     </article>
 
