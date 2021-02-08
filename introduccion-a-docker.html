@@ -357,10 +357,10 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <p>Los creadores de la imagen <em>mariadb</em>, han tenido en cuenta que tiene que permitir la conexión desde otra máquina, por lo que, en su configuración, se encuentra descomentado el parámetro <code>bind-address</code>.</p>
 </li>
 <li>
-<p>Del mismo modo, el contenedor <em>servidor_wp</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code>, que entre otras cosas, a partir de las variables de entorno, ha creado el fichero <code>wp-config.php</code> de <em>wordpress</em>, por lo que durante la instalación no nos pedirá las credenciales de la base de datos.</p>
+<p>Del mismo modo, el contenedor <em>servidor_wp</em> ejecuta un <em>script</em> <code>docker-entrypoint.sh</code>, que entre otras cosas, a partir de las variables de entorno, ha creado el fichero <code>wp-config.php</code> de <em>WordPress</em>, por lo que durante la instalación no nos pedirá las credenciales de la base de datos.</p>
 </li>
 <li>
-<p>Si nos fijamos, la variable de entorno <code>WORDPRESS_DB_HOST</code> la hemos inicializado al nombre del servidor de base de datos. Como ambos contenedores están conectados a la misma red definida por el usuario, el contenedor <em>wordpress</em> al intentar acceder al nombre <em>servidor_mysql</em>, estará accediendo al contenedor de la base de datos.</p>
+<p>Si nos fijamos, la variable de entorno <code>WORDPRESS_DB_HOST</code> la hemos inicializado al nombre del servidor de base de datos. Como ambos contenedores están conectados a la misma red definida por el usuario, el contenedor <em>WordPress</em> al intentar acceder al nombre <em>servidor_mysql</em>, estará accediendo al contenedor de la base de datos.</p>
 </li>
 <li>
 <p>El servicio al que vamos a acceder desde el exterior es al servidor web, es por lo que hemos mapeado los puertos con la opción <code>-p</code>. Sin embargo, en el contenedor de la base de datos no es necesario mapear los puertos porque no vamos a acceder a ella desde el exterior. Eso sí, el contenedor <em>servidor_wp</em>, sí puede acceder al puerto 3306 del <em>servidor_mysql</em> sin problemas, ya que están conectados a la misma red.</p>
