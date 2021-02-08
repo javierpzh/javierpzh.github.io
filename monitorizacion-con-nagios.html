@@ -184,12 +184,12 @@ dnf install gcc make unzip wget
 <p>Hecha la introducción, es el momento de empezar con la propia instalación en sí.</p>
 <p>Para descargar <em>Nagios Core</em> nos dirigiremos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y copiaremos el enlace del archivo <code>.tar.gz</code>, para posteriormente descargarlo en nuestro sistema mediante la herramienta <code>wget</code>. En mi caso, cuando estoy escribiendo este <em>post</em>, la última versión disponible es la 4.4.6. Puedes descargarlo desde <a href="images/aso_monitorización_con_Nagios/nagios-4.4.6.zip">aquí</a>.</p>
 <pre>
-wget https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-4.4.6/nagios-4.4.6.tar.gz
+wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nagios-4.4.6.zip
 </pre>
 
 <p>Una vez descargado, lo descomprimimos:</p>
 <pre>
-tar xf nagios-4.4.6.tar.gz
+unzip nagios-4.4.6.zip
 </pre>
 
 <p>Accedemos a la carpeta y llevaremos a cabo la instalación mediantes los siguientes comandos. El primero para configurar la instalación y el segundo para compilar los <em>plugins</em>:</p>
@@ -277,6 +277,15 @@ systemctl restart httpd
 <p>Ya tenemos instalado <em>Nagios</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
 <p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>.</p>
 <p>La descarga la llevaremos a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>. Al igual que antes, dejo <a href="images/aso_monitorización_con_Nagios/nrpe-4.0.3.zip">aquí</a> la última versión disponible a día de hoy, que es la 4.0.3.</p>
+<pre>
+wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
+</pre>
+
+<p>Una vez descargado, lo descomprimimos:</p>
+<pre>
+unzip nrpe-4.0.3.zip
+</pre>
+
 <p>.</p>
     </article>
 
