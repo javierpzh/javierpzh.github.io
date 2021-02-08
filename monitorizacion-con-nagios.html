@@ -275,7 +275,7 @@ systemctl restart httpd
 <p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios</em> en nuestro sistema.</p>
 <h2>Instalación en los clientes</h2>
 <p>Ya tenemos instalado <em>Nagios</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
-<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Quijote</em>, ya que en las demás máquinas es de la misma manera, lo único que debemos saber, es que es necesario tener instalado el paquete <code>libssl-dev</code>.</p>
+<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico. Hay que decir, que es necesario tener instalado el paquete <code>libssl-dev</code>.</p>
 <p>La descarga la llevaremos a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>. Al igual que antes, dejo <a href="images/aso_monitorización_con_Nagios/nrpe-4.0.3.zip">aquí</a> la última versión disponible a día de hoy, que es la 4.0.3.</p>
 <pre>
 wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
@@ -288,17 +288,17 @@ unzip nrpe-4.0.3.zip
 
 <p>El proceso es similar al anterior. Empezaremos por configurar la compilación:</p>
 <pre>
-[root@quijote nrpe-4.0.3]# ./configure
+root@dulcinea:~/nrpe-4.0.3#./configure
 </pre>
 
 <p>Y compilamos:</p>
 <pre>
-[root@quijote nrpe-4.0.3]# make nrpe
+root@dulcinea:~/nrpe-4.0.3#make nrpe
 </pre>
 
 <p>Terminada la compilación instalamos los binarios, archivos de configuración, <em>scripts</em>, ... :</p>
 <pre>
-[root@quijote nrpe-4.0.3]# make install-groups-users install-daemon install-config install-init
+root@dulcinea:~/nrpe-4.0.3#make install-groups-users install-daemon install-config install-init
 </pre>
 
 <p>Con esto habríamos terminado la instalación de <em>Nagios NRPE</em> y para finalizar, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
@@ -308,6 +308,36 @@ systemctl start nrpe && systemctl enable nrpe
 
 <p>Listo.</p>
 <h2>Configuración en el servidor del plugin NRPE</h2>
+<p>Es el momento de instalar el <em>plugin NRPE</em> en nuestro servidor <em>Quijote</em>, por lo que empezaremos descomprimiendo el paquete que descargamos anteriormente. Si aún no lo has descargado te dejo este comando por aquí:</p>
+<pre>
+wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
+</pre>
+
+<p>Una vez descargado, lo descomprimimos:</p>
+<pre>
+unzip nrpe-4.0.3.zip
+</pre>
+
+<p>Configuramos la compilación:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# ./configure
+</pre>
+
+<p>En este caso, a diferencia de las máquinas clientes, vamos a compilar el <em>plugin</em> en lugar del servicio:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# make check_nrpe
+</pre>
+
+<p>Realizamos la instalación:</p>
+<pre>
+[root@quijote nrpe-4.0.3]# make install-plugin
+</pre>
+
+<p>Una vez terminada la instalación, vamos a </p>
+<pre>
+
+</pre>
+
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
 <pre>
 firewall-cmd --permanent --add-service=nrpe
