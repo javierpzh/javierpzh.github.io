@@ -159,7 +159,7 @@
 <p>Las alertas que genera pueden ser recibidas por correo electrónico y mensajes SMS, entre otros.</p>
 <p>Así luce el panel web de <em>Nagios</em>:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagios.png"></p>
-<h2>Instalación</h2>
+<h2>Instalación del servidor</h2>
 <p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
 <ul>
 <li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
@@ -170,19 +170,6 @@
 <p>Explicado esto, vamos a proceder con la instalación de nuestro sistema de monitorización.</p>
 <p>En mi caso, voy a llevar a cabo la instalación de <strong>Nagios Core</strong> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
 <p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
-<hr>
-<p>Para seguir con la instalación necesitamos tener instalados los siguientes paquetes.</p>
-<p>En <em>Debian/Ubuntu</em>:</p>
-<pre>
-apt install gcc make unzip wget
-</pre>
-
-<p>En <em>CentOS</em>:</p>
-<pre>
-dnf install gcc make unzip wget
-</pre>
-
-<hr>
 <p>Hecha la introducción, es el momento de empezar con la propia instalación en sí.</p>
 <p>Para descargar <em>Nagios Core</em> tenemos dos opciones, o bien nos dirigimos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y descargamos directamente el archivo <code>.tar.gz</code>, o, como prefiero hacer en mi caso, descargar los paquetes desde los repositorios oficiales.</p>
 <pre>
@@ -214,13 +201,77 @@ systemctl start nagios-nrpe-server && systemctl enable nagios-nrpe-server
 </pre>
 
 <p>Listo.</p>
+<h2>Configuración en los clientes</h2>
+<p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
+<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nrpe.cfg</code>. En él, buscaremos la directiva <code>allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
+<p>En <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>:</p>
+<pre>
+allowed_hosts=127.0.0.1,::1,10.0.2.6
+</pre>
+
+<p>En la máquina de <em>OVH</em>:</p>
+<pre>
+allowed_hosts=127.0.0.1,::1,172.22.200.183
+</pre>
+
+<p>Regla DNAT:</p>
+<pre>
+
+</pre>
+
+<p>También debemos buscar la siguiente línea, y habilitar los permisos para que el servidor <em>Nagios Core</em> pueda obtener los datos necesarios. Para ello, debemos asegurarnos que el valor de la directiva <code>dont_blame_nrpe</code> sea <strong>1</strong>, es decir, esté habilitado:</p>
+<pre>
+dont_blame_nrpe=1
+</pre>
+
+<p>Por último, este archivo contiene también varias definiciones de muestra de comandos que pueden ser admitidos en las peticiones desde el servidor <em>Nagios Core</em>, y en una de ellas, se hace referencia a un dispositivo <code>/dev/hda1</code> que en mi caso, no existe, sino que debería tratarse de <code>/dev/vda1</code>, para las máquinas del <em>cloud</em>, y de <code>/dev/sda1</code>, para la máquina de <em>OVH</em>, así que modificamos el comando <code>check_hda1</code> de forma adecuada. Por defecto posee este aspecto:</p>
+<pre>
+command[check_hda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
+</pre>
+
+<p>En mi caso, en las máquinas <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>, queda con el siguiente aspecto:</p>
+<pre>
+command[check_vda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/vda1
+</pre>
+
+<p>Y en la máquina de <em>OVH</em>, con el siguiente aspecto:</p>
+<pre>
+command[check_sda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/sda1
+</pre>
+
+<p>Hechas estas modificaciones, tendremos que reiniciar el servicio para que se apliquen los cambios:</p>
+<pre>
+systemctl restart nagios-nrpe-server
+</pre>
+
 <h2>Configuración en el servidor del plugin NRPE</h2>
 <p>Es el momento de instalar el <em>plugin NRPE</em> en nuestro servidor <em>Quijote</em>, por lo que empezaremos descargando el paquete que comentamos anteriormente.</p>
 <pre>
 dnf install nagios-plugins-nrpe -y
 </pre>
 
-<p>Una vez terminada la instalación, vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
+<p>Una vez terminada la instalación, probamos que nuestro servidor puede comunicarse con los clientes:</p>
+<pre>
+[root@quijote ~]# cd /usr/lib64/nagios/plugins
+
+# Dulcinea
+[root@quijote plugins]# ./check_nrpe -H 10.0.2.10
+NRPE v3.2.1
+
+# Sancho
+[root@quijote plugins]# ./check_nrpe -H 10.0.1.8
+NRPE v4.0.0
+
+# Freston
+[root@quijote plugins]# ./check_nrpe -H 10.0.1.6
+NRPE v3.2.1
+
+# OVH
+[root@quijote plugins]# ./check_nrpe -H 51.210.105.17
+^C
+</pre>
+
+<p>vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
 <pre>
 define command {
         command_name    check_nrpe
@@ -316,39 +367,6 @@ firewall-cmd --permanent --add-service=nrpe
 <p>Recargamos la configuración del <em>firewall</em> para aplicar los cambios:</p>
 <pre>
 firewall-cmd --reload
-</pre>
-
-<h2>Configuración en los clientes</h2>
-<p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
-<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nrpe.cfg</code>. En él, buscaremos la directiva <code>allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
-<p>En <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>:</p>
-<pre>
-allowed_hosts=127.0.0.1,::1,10.0.2.6
-</pre>
-
-<p>En la máquina de <em>OVH</em>:</p>
-<pre>
-allowed_hosts=127.0.0.1,::1,172.22.200.183
-</pre>
-
-<p>Regla DNAT:</p>
-<pre>
-
-</pre>
-
-<p>Este archivo contiene también varias definiciones de muestra de comandos que pueden ser admitidos en las peticiones desde el servidor <em>Nagios Core</em>, y en una de ellas, se hace referencia a un dispositivo <code>/dev/hda1</code> que no existe, sino que debería tratarse de <code>/dev/vda1</code>, así que modificamos el comando <code>check_hda1</code> de forma adecuada. Por defecto posee este aspecto:</p>
-<pre>
-command[check_hda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
-</pre>
-
-<p>En mi caso, queda con el siguiente aspecto:</p>
-<pre>
-command[check_vda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/vda1
-</pre>
-
-<p>Hechas estas modificaciones, tendremos que reiniciar el servicio para que se apliquen los cambios:</p>
-<pre>
-systemctl restart nagios-nrpe-server
 </pre>
 
 <p>.</p>
