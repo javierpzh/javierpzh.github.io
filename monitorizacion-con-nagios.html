@@ -355,6 +355,13 @@ firewall-cmd --permanent --add-service=nrpe
 firewall-cmd --reload
 </pre>
 
+<p>Para terminar, reiniciamos el servidor <em>Nagios Core</em>:</p>
+<pre>
+systemctl restart nagios
+</pre>
+
+<p>Si nos dirigimos a nuestro panel web, en la sección <strong>Hosts</strong>, ahora además de <em>Quijote</em>, nos aparecen los nuevos clientes:</p>
+<p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanelfinal.png"></p>
 <p>.</p>
     </article>
 
