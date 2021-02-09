@@ -170,6 +170,7 @@
 <p>Explicado esto, vamos a proceder con la instalación de nuestro sistema de monitorización.</p>
 <p>En mi caso, voy a llevar a cabo la instalación de <strong>Nagios Core</strong> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
 <p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
+<hr>
 <p>Para seguir con la instalación necesitamos tener instalados los siguientes paquetes.</p>
 <p>En <em>Debian/Ubuntu</em>:</p>
 <pre>
@@ -181,159 +182,45 @@ apt install gcc make unzip wget
 dnf install gcc make unzip wget
 </pre>
 
+<hr>
 <p>Hecha la introducción, es el momento de empezar con la propia instalación en sí.</p>
-<p>Para descargar <em>Nagios Core</em> nos dirigiremos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y copiaremos el enlace del archivo <code>.tar.gz</code>, para posteriormente descargarlo en nuestro sistema mediante la herramienta <code>wget</code>. En mi caso, cuando estoy escribiendo este <em>post</em>, la última versión disponible es la 4.4.6. Puedes descargarlo desde <a href="images/aso_monitorización_con_Nagios/nagios-4.4.6.zip">aquí</a>.</p>
+<p>Para descargar <em>Nagios Core</em> tenemos dos opciones, o bien nos dirigimos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y descargamos directamente el archivo <code>.tar.gz</code>, o, como prefiero hacer en mi caso, descargar los paquetes desde los repositorios oficiales.</p>
 <pre>
-wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nagios-4.4.6.zip
+dnf install nagios -y
 </pre>
 
-<p>Una vez descargado, lo descomprimimos:</p>
+<p>Una vez descargado, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
 <pre>
-unzip nagios-4.4.6.zip
+systemctl start nagios && systemctl enable nagios
 </pre>
 
-<p>Accedemos a la carpeta y llevaremos a cabo la instalación mediantes los siguientes comandos. El primero para configurar la instalación y el segundo para compilar los <em>plugins</em>:</p>
-<pre>
-[root@quijote nagios-4.4.6]# ./configure
-...
-
-[root@quijote nagios-4.4.6]# make all
-</pre>
-
-<p>La instalación de <em>Nagios</em> está repartida en una serie de objetos distintos, que veremos a continuación.</p>
-<p>Comenzaremos creando el usuario y el grupo que utilizará el servicio <em>Nagios</em> en nuestro sistema:</p>
-<pre>
-make install-groups-users
-</pre>
-
-<p>Seguimos con la instalación de los archivos de <em>Nagios</em>:</p>
-<pre>
-make install
-</pre>
-
-<p>Ahora pasaremos con los archivos de configuración necesarias para nuestro futuro panel de administración web:</p>
-<pre>
-make install-webconf
-</pre>
-
-<p>Instalamos los archivos de configuración de <em>Nagios</em>:</p>
-<pre>
-make install-config
-</pre>
-
-<p>Instalamos los <em>scripts</em> del servicio:</p>
-<pre>
-make install-init
-</pre>
-
-<p>Instalamos y habilitamos el servicio de <em>Nagios</em>:</p>
-<pre>
-make install-daemoninit
-</pre>
-
-<p>Configuramos el directorio para comandos externos:</p>
-<pre>
-make install-commandmode
-</pre>
-
-<p>Para poder acceder a <em>Nagios</em>, debemos crear el usuario administrador, en mi caso, <strong>nagiosadmin</strong>:</p>
-<pre>
-[root@quijote ~]# htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
-New password:
-Re-type new password:
-Adding password for user nagiosadmin
-</pre>
-
-<p>Introducida la contraseña, habremos terminado.</p>
-<p>Llegó el turno de activar el módulo CGI de <em>Apache</em>.</p>
-<p>En <em>Debian/Ubuntu</em>:</p>
-<pre>
-a2enmod cgi
-
-systemctl restart apache2
-</pre>
-
-<p>En <em>CentOS</em>:</p>
-<pre>
-dnf install perl perl-CGI
-
-systemctl restart httpd
-</pre>
-
-<p>Nos aseguramos que el módulo CGI se encuentre cargado en <em>Apache</em>:</p>
-<pre>
-[root@quijote ~]# apachectl -t -D DUMP_MODULES | grep 'cgi'
- proxy_fcgi_module (shared)
- proxy_scgi_module (shared)
- cgid_module (shared)
-</pre>
-
-<p>Si nos dirigimos a nuestra dirección web <em>/nagios</em>, según esté configurado en nuestro servidor web, en mi caso <code>www.javierpzh.gonzalonazareno.org/nagios</code> nos aparecerá esta ventana:</p>
+<p>Listo. Ahora podremos acceder al panel web de <em>Nagios</em>, y os preguntaréis, ¿no debemos crear el usuario administrador? Pues no, ya que por defecto <em>Nagios</em> incorpora un usuario administrador llamado <strong>nagiosadmin</strong>, cuya contraseña también es <strong>nagiosadmin</strong>.</p>
+<p>Por tanto, si nos dirigimos a nuestra dirección web <em>/nagios</em>, según esté configurado en nuestro servidor web, en mi caso <code>www.javierpzh.gonzalonazareno.org/nagios</code> nos aparecerá esta ventana:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagiosautentificacion.png"></p>
 <p>Si introducimos el usuario y la contraseña que hemos creado anteriormente:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanel1.png"></p>
-<p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios</em> en nuestro sistema.</p>
+<p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>, por lo que habríamos finalizado la instalación de <em>Nagios Core</em> en nuestro sistema.</p>
 <h2>Instalación en los clientes</h2>
-<p>Ya tenemos instalado <em>Nagios</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
-<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que el mismo paquete contiene, tanto el servicio <em>Nagios NRPE</em> para las máquinas remotas, como el <em>plugin NRPE</em> para el servidor <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico. Hay que decir, que es necesario tener instalado el paquete <code>libssl-dev</code>.</p>
-<p>La descarga la llevaremos a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>. Al igual que antes, dejo <a href="images/aso_monitorización_con_Nagios/nrpe-4.0.3.zip">aquí</a> la última versión disponible a día de hoy, que es la 4.0.3.</p>
+<p>Ya tenemos instalado <em>Nagios Core</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
+<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que ambos lo necesitan. En la parte del cliente el propio paquete <em>Nagios NRPE</em>, y en el servidor el <em>plugin NRPE</em> para <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico.</p>
+<p>La descarga, al igual que antes, la podremos llevar a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>, o desde repositorios.</p>
 <pre>
-wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
+apt install nagios-nrpe-server nagios-plugins-basic nagios-plugins -y
 </pre>
 
-<p>Una vez descargado, lo descomprimimos:</p>
-<pre>
-unzip nrpe-4.0.3.zip
-</pre>
-
-<p>El proceso es similar al anterior. Empezaremos por configurar la compilación:</p>
-<pre>
-root@dulcinea:~/nrpe-4.0.3#./configure
-</pre>
-
-<p>Y compilamos:</p>
-<pre>
-root@dulcinea:~/nrpe-4.0.3#make nrpe
-</pre>
-
-<p>Terminada la compilación instalamos los binarios, archivos de configuración, <em>scripts</em>, ... :</p>
-<pre>
-root@dulcinea:~/nrpe-4.0.3#make install-groups-users install-daemon install-config install-init
-</pre>
-
-<p>Con esto habríamos terminado la instalación de <em>Nagios NRPE</em> y para finalizar, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
+<p>Terminada la instalación de <em>Nagios NRPE</em>, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
 <pre>
 systemctl start nrpe && systemctl enable nrpe
 </pre>
 
 <p>Listo.</p>
 <h2>Configuración en el servidor del plugin NRPE</h2>
-<p>Es el momento de instalar el <em>plugin NRPE</em> en nuestro servidor <em>Quijote</em>, por lo que empezaremos descomprimiendo el paquete que descargamos anteriormente. Si aún no lo has descargado te dejo este comando por aquí:</p>
+<p>Es el momento de instalar el <em>plugin NRPE</em> en nuestro servidor <em>Quijote</em>, por lo que empezaremos descargando el paquete que comentamos anteriormente.</p>
 <pre>
-wget https://javierpzh.github.io/images/aso_monitorizaci%C3%B3n_con_Nagios/nrpe-4.0.3.zip
+dnf install nagios-plugins-nrpe -y
 </pre>
 
-<p>Una vez descargado, lo descomprimimos:</p>
-<pre>
-unzip nrpe-4.0.3.zip
-</pre>
-
-<p>Configuramos la compilación:</p>
-<pre>
-[root@quijote nrpe-4.0.3]# ./configure
-</pre>
-
-<p>En este caso, a diferencia de las máquinas clientes, vamos a compilar el <em>plugin</em> en lugar del servicio:</p>
-<pre>
-[root@quijote nrpe-4.0.3]# make check_nrpe
-</pre>
-
-<p>Realizamos la instalación:</p>
-<pre>
-[root@quijote nrpe-4.0.3]# make install-plugin
-</pre>
-
-<p>Una vez terminada la instalación, vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/usr/local/nagios/etc/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
+<p>Una vez terminada la instalación, vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
 <pre>
 define command {
         command_name    check_nrpe
@@ -341,25 +228,25 @@ define command {
 }
 </pre>
 
-<p>Hecho esto, nos toca configurar el fichero <code>nagios.cfg</code>, que se encuentra en la ruta <code>/usr/local/nagios/etc/nagios.cfg</code>, para que incluya los archivos de configuración de los clientes. Para hacer esto, debemos buscar la siguiente línea y descomentarla, ya que inicialmente se encuentra comentada:</p>
+<p>Hecho esto, nos toca configurar el fichero <code>nagios.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nagios.cfg</code>, para que incluya los archivos de configuración de los clientes. Para hacer esto, debemos buscar la siguiente línea y descomentarla, ya que inicialmente se encuentra comentada:</p>
 <pre>
-cfg_dir=/usr/local/nagios/etc/servers
+cfg_dir=/etc/nagios/servers
 </pre>
 
 <p>El subdirectorio <code>servers/</code> que acabamos de habilitar en la configuración no existe, así que lo creamos antes de continuar:</p>
 <pre>
-mkdir /usr/local/nagios/etc/servers
+mkdir /etc/nagios/servers
 </pre>
 
 <p>Dentro de éste, crearemos un archivo de configuración por cada cliente que deseemos monitorizar, en mi caso creo los siguientes ficheros:</p>
 <pre>
-nano /usr/local/nagios/etc/servers/dulcinea.cfg
+nano /etc/nagios/servers/dulcinea.cfg
 
-nano /usr/local/nagios/etc/servers/sancho.cfg
+nano /etc/nagios/servers/sancho.cfg
 
-nano /usr/local/nagios/etc/servers/freston.cfg
+nano /etc/nagios/servers/freston.cfg
 
-nano /usr/local/nagios/etc/servers/ovh.cfg
+nano /etc/nagios/servers/ovh.cfg
 </pre>
 
 <p>El contenido de estos ficheros será el siguiente:</p>
@@ -433,7 +320,7 @@ firewall-cmd --reload
 
 <h2>Configuración en los clientes</h2>
 <p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
-<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en el directorio <code>/usr/local/nagios/etc/</code>. En él, buscaremos la directiva <code>allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
+<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code>nrpe.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nrpe.cfg</code>. En él, buscaremos la directiva <code>allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
 <p>En <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>:</p>
 <pre>
 allowed_hosts=127.0.0.1,::1,10.0.2.6
