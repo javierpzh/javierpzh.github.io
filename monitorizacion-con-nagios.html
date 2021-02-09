@@ -281,7 +281,7 @@ define command {
 }
 </pre>
 
-<p>Hecho esto, nos toca configurar el fichero <code>nagios.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nagios.cfg</code>, para que incluya los archivos de configuración de los clientes. Para hacer esto, debemos buscar la siguiente línea y descomentarla, ya que inicialmente se encuentra comentada:</p>
+<p>Hecho esto, nos toca configurar el fichero <code>nagios.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/nagios.cfg</code>, para que incluya las de configuraciones de los clientes. Para hacer esto, debemos buscar la siguiente línea y descomentarla, ya que inicialmente se encuentra comentada:</p>
 <pre>
 cfg_dir=/etc/nagios/servers
 </pre>
@@ -291,22 +291,17 @@ cfg_dir=/etc/nagios/servers
 mkdir /etc/nagios/servers
 </pre>
 
-<p>Dentro de éste, crearemos un archivo de configuración por cada cliente que deseemos monitorizar, en mi caso creo los siguientes ficheros:</p>
+<p>Dentro de éste, crearemos un archivo de configuración en el que definiremos a cada cliente que deseemos monitorizar, en mi caso creo el siguiente fichero:</p>
 <pre>
-nano /etc/nagios/servers/dulcinea.cfg
-
-nano /etc/nagios/servers/sancho.cfg
-
-nano /etc/nagios/servers/freston.cfg
-
-nano /etc/nagios/servers/ovh.cfg
+nano /etc/nagios/servers/config.cfg
 </pre>
 
-<p>En estos ficheros de configuración, vamos a definir al respectivo cliente y posteriormente, los servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
-<p>El contenido de estos ficheros será el siguiente:</p>
+<p>En este fichero de configuración, vamos a definir al respectivo cliente y posteriormente, los servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
+<p>El contenido de este fichero será el siguiente:</p>
 <pre>
-# Dulcinea
+# HOSTS
 
+# Dulcinea
 define host {
         use                     linux-server
         host_name               dulcinea
@@ -314,9 +309,7 @@ define host {
         address                 10.0.2.10
 }
 
-
 # Sancho
-
 define host {
         use                     linux-server
         host_name               sancho
@@ -324,9 +317,7 @@ define host {
         address                 10.0.1.8
 }
 
-
 # Freston
-
 define host {
         use                     linux-server
         host_name               freston
@@ -334,15 +325,16 @@ define host {
         address                 10.0.1.6
 }
 
-
 # OVH
-
 define host {
         use                     linux-server
         host_name               ovh
         alias                   OVH
         address                 51.210.105.17
 }
+
+
+# SERVICIOS
 </pre>
 
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
