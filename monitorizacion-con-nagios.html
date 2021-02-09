@@ -271,7 +271,9 @@ NRPE v3.2.1
 ^C
 </pre>
 
-<p>vamos a añadir una configuración para el uso del comando en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
+<p>(falta ovh)</p>
+<p>Podemos observar como la versión de la dirección <code>10.0.1.8</code>, que corresponde a <em>Sancho</em>, es distinta a las demás versiones. Esto seguramente sea, porque todos los equipos menos <em>Sancho</em>, poseen <em>Debian 10</em>, y <em>Sancho</em> un sistema <em>Ubuntu</em>, por lo que seguramente en <em>Ubuntu</em>, han desarrollado una versión más reciente de este paquete, que aún en <em>Debian</em> no se encuentra.</p>
+<p>Para seguir con el proceso de configuración, vamos a añadir una serie de líneas en el fichero <code>commands.cfg</code>, que se encuentra en la ruta <code>/etc/nagios/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
 <pre>
 define command {
         command_name    check_nrpe
@@ -300,6 +302,7 @@ nano /etc/nagios/servers/freston.cfg
 nano /etc/nagios/servers/ovh.cfg
 </pre>
 
+<p>En estos ficheros de configuración, vamos a definir al respectivo cliente y posteriormente, los servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
 <p>El contenido de estos ficheros será el siguiente:</p>
 <pre>
 # Dulcinea
@@ -307,12 +310,8 @@ nano /etc/nagios/servers/ovh.cfg
 define host {
         use                     linux-server
         host_name               dulcinea
-        alias                   Debian 10 (remota)
-        address                 dulcinea
-        max_check_attempts      5
-        check_period            24x7
-        notification_interval   30
-        notification_period     24x7
+        alias                   Dulcinea
+        address                 10.0.2.10
 }
 
 
@@ -321,12 +320,8 @@ define host {
 define host {
         use                     linux-server
         host_name               sancho
-        alias                   Ubuntu (remota)
-        address                 sancho
-        max_check_attempts      5
-        check_period            24x7
-        notification_interval   30
-        notification_period     24x7
+        alias                   Sancho
+        address                 10.0.1.8
 }
 
 
@@ -335,12 +330,8 @@ define host {
 define host {
         use                     linux-server
         host_name               freston
-        alias                   Debian 10 (remota)
-        address                 freston
-        max_check_attempts      5
-        check_period            24x7
-        notification_interval   30
-        notification_period     24x7
+        alias                   Freston
+        address                 10.0.1.6
 }
 
 
@@ -349,16 +340,11 @@ define host {
 define host {
         use                     linux-server
         host_name               ovh
-        alias                   Debian 10 (remota)
+        alias                   OVH
         address                 51.210.105.17
-        max_check_attempts      5
-        check_period            24x7
-        notification_interval   30
-        notification_period     24x7
 }
 </pre>
 
-<p>A continuación añadiremos otros para definir los distintos servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
 <pre>
 firewall-cmd --permanent --add-service=nrpe
