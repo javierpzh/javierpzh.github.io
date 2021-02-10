@@ -634,12 +634,28 @@ empresa1-> where Tiendas.Codigo=Empleados.Cod_Tienda;
 <p>(El resultado de la consulta no tiene mucho sentido, pero lo importante es mostrar el funcionamiento).</p>
 <p>Para terminar con este apartado, haremos la misma consulta pero esta vez desde el segundo servidor, y de esta manera asegurarnos que ambos enlaces funcionan.</p>
 <pre>
+postgres@cliente:~$ psql -h 127.0.0.1 -U javierserv2 -d empresa2
+Password for user javierserv2:
+psql (11.9 (Debian 11.9-0+deb10u1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
 
+empresa2=> select Tiendas.Codigo AS Codigo, Tiendas.Nombre AS NombreTienda, Tiendas.Especialidad AS Especialidad, Tiendas.Localizacion AS Localizacion, Empleados.NIF AS NIF, Empleados.Nombre AS NombreEmpleado, Empleados.AnyoNacimiento AS AnyoNacimiento, Empleados.Cod_Tienda AS Cod_Tienda
+
+empresa2-> from Empleados, dblink('dbname=empresa1 host=192.168.0.43 user=javierserv1 password=contraseña', 'select * from Tiendas') AS Tiendas (Codigo VARCHAR, Nombre VARCHAR, Especialidad VARCHAR, Localizacion VARCHAR)
+
+empresa2-> where Empleados.Cod_Tienda=Tiendas.Codigo;
+
+codigo |   nombretienda    | especialidad | localizacion |    nif    |  nombreempleado   | anyonacimiento | cod_tienda
+--------+-------------------+--------------+--------------+-----------+-------------------+----------------+------------
+000001 | Javi s Pet        | Animales     | Sevilla      | 12345678A | Rodrigo Fernandez |           1974 | 000001
+000002 | Javi s Sport      | Deportes     | Cordoba      | 12345678B | Cristina Perez    |           1976 | 000002
+000003 | Javi s Food       | Comida       | Granada      | 12345678C | Ramon Fuentes     |           1983 | 000003
+000004 | Javi s Technology | Tecnologia   | Cadiz        | 12345678D | Maria Diaz        |           1969 | 000004
+000005 | Javi s Clothes    | Ropa         | Huelva       | 12345678E | Alejandro Cortes  |           1978 | 000005
+(5 rows)
 </pre>
 
-<p>select Tiendas.Codigo AS Codigo, Tiendas.Nombre AS NombreTienda, Tiendas.Especialidad AS Especialidad, Tiendas.Localizacion AS Localizacion, Empleados.NIF AS NIF, Empleados.Nombre AS NombreEmpleado, Empleados.AnyoNacimiento AS AnyoNacimiento, Empleados.Cod_Tienda AS Cod_Tienda</p>
-<p>from Tiendas, dblink('dbname=empresa2 host=192.168.0.44 user=javierserv2 password=contraseña', 'select * from Empleados') AS Empleados (NIF VARCHAR, Nombre VARCHAR, AnyoNacimiento NUMERIC, Cod_Tienda VARCHAR)</p>
-<p>where Tiendas.Codigo=Empleados.Cod_Tienda;</p>
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
 
