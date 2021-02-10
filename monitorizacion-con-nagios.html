@@ -212,7 +212,9 @@ systemctl start nagios && systemctl enable nagios
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagiospanel.png"></p>
 <p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>. Si accedemos al apartado <strong>Hosts</strong>:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagioshosts.png"></p>
-<p>Vemos que actualmente nos muestra nuestro equipo local, por lo que habríamos finalizado la instalación de <em>Nagios Core</em> en nuestro sistema.</p>
+<p>Vemos que actualmente nos muestra nuestro equipo local. Si accedemos al apartado <strong>Services</strong>:</p>
+<p><img alt="." src="images/aso_monitorización_con_Nagios/nagiosservicios.png"></p>
+<p>Vemos que actualmente nos muestra los servicios de nuestro equipo local, por lo que habríamos finalizado la instalación de <em>Nagios Core</em> en nuestro sistema.</p>
 <h2>Instalación en los clientes</h2>
 <p>Ya tenemos instalado <em>Nagios Core</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
 <p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que ambos lo necesitan. En la parte del cliente el propio paquete <em>Nagios NRPE</em>, y en el servidor el <em>plugin NRPE</em> para <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico.</p>
