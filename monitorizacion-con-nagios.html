@@ -359,6 +359,35 @@ define host {
 
 
 # SERVICIOS
+
+# Dulcinea
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Numero usuarios
+        check_command           check_nrpe_1arg!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Carga CPU
+        check_command           check_nrpe_1arg!check_load
+}
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Total Procesos
+        check_command           check_nrpe_1arg!check_total_procs
+}
 </pre>
 
 <p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
