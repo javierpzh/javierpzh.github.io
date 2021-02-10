@@ -572,14 +572,10 @@ empresa1=# exit
 </pre>
 
 <pre>
-SELECT Empleados.DNI AS DNI, Empleados.Nombre AS Nombre, Empleados.Direccion AS Direccion, Empleados.Telefono AS Telefono, Empleados.FechaNacimiento AS FechaNacimiento, Empleados.Salario AS Salario, Departamentos.Nombre AS Departamento prueba1
 
-FROM Empleados, dblink('dbname=prueba2 host=192.168.1.161 user=alvaro2 password=alvaro2', 'SELECT Identificador, Nombre FROM Departamentos') AS Departamentos (Identificador NUMERIC, Nombre VARCHAR) prueba1
-
-WHERE Empleados.Departamento = Departamentos.Identificador;
 </pre>
 
-<p>select * from dblink('dbname=prueba1 host=192.168.0.44 user=javierserv2 password=martaguapa7', 'select * from paises') as paises (codigo varchar, nombre varchar, capital varchar);</p>
+<p>select * from dblink('dbname=empresa2 host=192.168.0.44 user=javierserv2 password=martaguapa7', 'select * from Empleados') as Empleados (codigo varchar, nombre varchar, capital varchar);</p>
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
 
