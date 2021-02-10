@@ -218,7 +218,7 @@ systemctl start nagios && systemctl enable nagios
 <h2>Instalación en los clientes</h2>
 <p>Ya tenemos instalado <em>Nagios Core</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
 <p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que ambos lo necesitan. En la parte del cliente el propio paquete <em>Nagios NRPE</em>, y en el servidor el <em>plugin NRPE</em> para <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico.</p>
-<p>La descarga, al igual que antes, la podremos llevar a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>, o desde repositorios.</p>
+<p>La descarga, al igual que antes, la podremos llevar a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>, o desde repositorios, y en este caso, sí realizaré la descarga desde los repositorios oficiales.</p>
 <pre>
 apt install nagios-nrpe-server nagios-plugins-basic nagios-plugins -y
 </pre>
@@ -240,11 +240,6 @@ allowed_hosts=127.0.0.1,::1,10.0.2.6
 <p>En la máquina de <em>OVH</em>:</p>
 <pre>
 allowed_hosts=127.0.0.1,::1,172.22.200.183
-</pre>
-
-<p>Regla DNAT:</p>
-<pre>
-
 </pre>
 
 <p>También debemos buscar la siguiente línea, y habilitar los permisos para que el servidor <em>Nagios Core</em> pueda obtener los datos necesarios. Para ello, debemos asegurarnos que el valor de la directiva <code>dont_blame_nrpe</code> sea <strong>1</strong>, es decir, esté habilitado:</p>
@@ -382,6 +377,7 @@ systemctl restart nagios
 
 <p>Si nos dirigimos a nuestro panel web, en la sección <strong>Hosts</strong>, ahora además de <em>Quijote</em>, nos aparecen los nuevos clientes:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagioshostsfinal.png"></p>
+<p>Perfecto, ya habríamos añadido y estaríamos monitorizando todos los clientes deseados, pero aún no hemos llevado a cabo la configuración que indica los servicios a monitorizar en cada cliente.</p>
 <p>.</p>
     </article>
 
