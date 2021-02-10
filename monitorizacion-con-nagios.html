@@ -181,12 +181,17 @@ make install
 </pre>
 
 <p>Una vez instalados los <em>plugins</em> de <em>Nagios</em>, quedan instalados como comandos ejecutables en la ruta <code>/usr/local/nagios/libexec/</code>, y pueden ser utilizados directamente desde consola.</p>
-<p>Una vez instalados los <em>plugins</em> es el momento de instalar <strong>Nagios Core</strong>. Para ello, descomprimimos el archivo descargado anteriormente, accedemos al directorio resultante y </p>
+<p>Una vez instalados los <em>plugins</em> es el momento de instalar <strong>Nagios Core</strong>. Para ello, descomprimimos el archivo descargado anteriormente, accedemos al directorio resultante y configuramos su compilación:</p>
 <pre>
-dnf install nagios -y
+./configure
 </pre>
 
-<p>Una vez descargado, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
+<p>Y procedemos con el proceso de compilación:</p>
+<pre>
+make all
+</pre>
+
+<p>Terminada la instalación, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
 <pre>
 systemctl start nagios && systemctl enable nagios
 </pre>
