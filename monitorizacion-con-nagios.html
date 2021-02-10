@@ -157,7 +157,10 @@
 <p>En mi caso, voy a llevar a cabo la instalación de <strong>Nagios Core</strong> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
 <p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
 <p>Hecha la introducción, es el momento de empezar con la propia instalación en sí.</p>
-<p>Para descargar <em>Nagios Core</em> tenemos dos opciones, o bien nos dirigimos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y descargamos directamente el archivo <code>.tar.gz</code>, o, como prefiero hacer en mi caso, descargar los paquetes desde los repositorios oficiales.</p>
+<p>Para descargar <em>Nagios Core</em> tenemos dos opciones, o bien descargar los paquetes desde los repositorios oficiales, o, como prefiero hacer en mi caso, nos dirigimos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y descargamos directamente el archivo <code>.tar.gz</code>.</p>
+<p>Pero antes de ello, debemos descargar los <em>plugins</em> de <em>Nagios</em>. Esto es algo que se debe hacer tanto en la máquina servidor como en cada cliente que queramos supervisar.</p>
+<p>Para descargar estos <em>plugins</em>, nos dirigimos a su <a href="https://nagios-plugins.org/">sitio web</a> y descargamos directamente el archivo <code>.tar.gz</code>. A día de hoy, la versión más reciente disponible es la 2.3.3, la dejo <a href="iages/aso_monitorización_con_Nagios/nagios-plugins-2.3.3.zip">aquí</a>.</p>
+<p>Una vez descargado y descomprimido el archivo, </p>
 <pre>
 dnf install nagios -y
 </pre>
