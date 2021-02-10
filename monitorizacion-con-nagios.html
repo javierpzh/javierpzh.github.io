@@ -365,7 +365,7 @@ define service{
         use                     generic-service
         host_name               dulcinea
         service_description     Numero usuarios
-        check_command           check_nrpe_1arg!check_users
+        check_command           check_nrpe!check_users
 }
 
 
@@ -380,13 +380,104 @@ define service{
         use                     generic-service
         host_name               dulcinea
         service_description     Carga CPU
-        check_command           check_nrpe_1arg!check_load
+        check_command           check_nrpe!check_load
 }
+
 define service{
         use                     generic-service
         host_name               dulcinea
         service_description     Total Procesos
-        check_command           check_nrpe_1arg!check_total_procs
+        check_command           check_nrpe!check_total_procs
+}
+
+# Sancho
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+
+# Freston
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+
+# OVH
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
 }
 </pre>
 
