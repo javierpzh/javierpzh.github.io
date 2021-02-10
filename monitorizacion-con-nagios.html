@@ -191,6 +191,11 @@ make install
 make all
 </pre>
 
+<p>Llegó la hora de la instalación, que consta de varios pasos, aunque lo resumiremos en el siguiente comando:</p>
+<pre>
+make install-groups-users install install-webconf install-config install-init install-daemoninit install-commandmode
+</pre>
+
 <p>Terminada la instalación, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
 <pre>
 systemctl start nagios && systemctl enable nagios
