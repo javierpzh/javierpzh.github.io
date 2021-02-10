@@ -605,8 +605,14 @@ empresa1=> select * from dblink('dbname=empresa2 host=192.168.0.44 user=javierse
 (5 rows)
 </pre>
 
-<p>Vemos que nos muestra la información correctamente. Pero, ¿y si quisiera unir una consulta de la tabla del primer servidor y de la tabla del segundo servidor? Pues vamos a ver si podríamos hacerlo:</p>
+<p>Vemos que nos muestra la información correctamente. Pero, ¿y si quisiéramos unir una consulta de la tabla del primer servidor y de la tabla del segundo servidor? Pues vamos a ver si podríamos hacerlo:</p>
 <pre>
+postgres@servidor:~$ psql -h 127.0.0.1 -U javierserv1 -d empresa1
+Password for user javierserv1:
+psql (11.9 (Debian 11.9-0+deb10u1))
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+Type "help" for help.
+
 empresa1=> select Tiendas.Codigo AS Codigo, Tiendas.Nombre AS NombreTienda, Tiendas.Especialidad AS Especialidad, Tiendas.Localizacion AS Localizacion, Empleados.NIF AS NIF, Empleados.Nombre AS NombreEmpleado, Empleados.AnyoNacimiento AS AnyoNacimiento, Empleados.Cod_Tienda AS Cod_Tienda
 
 empresa1-> from Tiendas, dblink('dbname=empresa2 host=192.168.0.44 user=javierserv2 password=contraseña', 'select * from Empleados') AS Empleados (NIF VARCHAR, Nombre VARCHAR, AnyoNacimiento NUMERIC, Cod_Tienda VARCHAR)
@@ -624,6 +630,16 @@ empresa1-> where Tiendas.Codigo=Empleados.Cod_Tienda;
 
 </pre>
 
+<p>Efectivamente podemos unir ambas consultas, ¡esto es maravilloso!</p>
+<p>(El resultado de la consulta no tiene mucho sentido, pero lo importante es mostrar el funcionamiento).</p>
+<p>Para terminar con este apartado, haremos la misma consulta pero esta vez desde el segundo servidor, y de esta manera asegurarnos que ambos enlaces funcionan.</p>
+<pre>
+
+</pre>
+
+<p>select Tiendas.Codigo AS Codigo, Tiendas.Nombre AS NombreTienda, Tiendas.Especialidad AS Especialidad, Tiendas.Localizacion AS Localizacion, Empleados.NIF AS NIF, Empleados.Nombre AS NombreEmpleado, Empleados.AnyoNacimiento AS AnyoNacimiento, Empleados.Cod_Tienda AS Cod_Tienda</p>
+<p>from Tiendas, dblink('dbname=empresa2 host=192.168.0.44 user=javierserv2 password=contraseña', 'select * from Empleados') AS Empleados (NIF VARCHAR, Nombre VARCHAR, AnyoNacimiento NUMERIC, Cod_Tienda VARCHAR)</p>
+<p>where Tiendas.Codigo=Empleados.Cod_Tienda;</p>
 <h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
     </article>
 
