@@ -134,7 +134,8 @@
 <p>Y por el otro lado, nos encontramos con el <strong>iniciador iSCSI</strong>. El iniciador es el cliente de <em>iSCSI</em>. Generalmente el iniciador consta de dos partes: los módulos o <em>drivers</em> que proveen soporte para que el sistema operativo pueda reconocer discos de tipo <em>iSCSI</em> y un programa que gestiona las conexiones a dichos discos. En <em>Linux</em> hay varias opciones, y en las últimas versiones de <em>Windows</em> nos encontramos con un iniciador instalado por defecto.</p>
 <p><img alt="." src="images/hlc_iSCSI/iscsi2.png"></p>
 <p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos de dicho servidor en sistemas <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
-<h2>Configuración</h2>
+<h2>Configuración del target iSCSI</h2>
+<p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="images/hlc_iSCSI/Vagrantfile">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el primer cliente, en este caso, el cliente <em>Linux</em>. El cliente <em>Windows</em> lo he creado con interfaz gráfica y también se encuentra conectado en modo puente a mi red doméstica, al igual que estas dos máquinas.</p>
 <p>.</p>
     </article>
 
