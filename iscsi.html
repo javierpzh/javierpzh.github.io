@@ -120,6 +120,8 @@
 <p><img alt="." src="images/hlc_iSCSI/iscsi.png"></p>
 <p>Y respecto a la <strong>velocidad</strong>, ¿es rápido, es lento? Un requisito indispensable de un buen disco es que sea rápido. Los discos <em>SCSI</em> suelen entregar excelentes tasas de transferencia. Pero recordemos que <em>iSCSI</em> se lleva sobre la red, por eso mismo, <em>iSCSI</em> es recomendado solo para redes conmutadas de alta velocidad.</p>
 <p>La velocidad de transferencia del <em>iSCSI</em> es de <strong>1000 MB/seg</strong>, aunque debido al protocolo, la velocidad baja hasta <em>800 MB/seg</em>. En caso de que utilicemos tarjetas <em>DUAL CHANNEL</em>, podremos llegar a <em>1600 MB/seg</em>, teniendo en cuenta las pérdidas por protocolo.</p>
+<p>Respecto al <strong>acceso a los datos</strong>, en teoría, <em>iSCSI</em> no soporta múltiples conexiones a la vez. Por ejemplo, dos equipos no podrían utilizar el mismo disco <em>iSCSI</em> para escribir en él. Eso sería como tener un disco rígido conectado a dos máquinas a la vez. Lo más probable es que surgieran inconsistencias en los datos o problemas en los accesos de lectura y escritura de la información.</p>
+<p>Aún así, existen alternativas para que <em>iSCSI</em> pueda soportar múltiples usuarios. Por ejemplo, el global <em>filesystem (GFS)</em> de <em>RedHat</em>, que es un <em>filesystem</em> especialmente diseñado para permitir concurrencia de usuarios en dispositivos que normalmente no lo permiten, como <em>iSCSI</em>.</p>
 <p>.</p>
     </article>
 
