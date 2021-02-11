@@ -112,7 +112,7 @@
 <li>Crea un target con 2 LUN y autenticación por CHAP y conéctala a un cliente windows. Explica cómo se escanea la red en windows y cómo se utilizan las unidades nuevas (formateándolas con NTFS)</li>
 </ul>
 <hr>
-<p>En este artículo vamos a configurar un escenario con <em>Vagrant</em> que incluirá varias máquinas, y permitirá realizar la configuración de un servidor <strong>iSCSI</strong> y dos clientes, (uno linux y otro windows).</p>
+<p>En este artículo vamos a configurar un escenario con <em>Vagrant</em> que incluirá varias máquinas, y permitirá realizar la configuración de un servidor <strong>iSCSI</strong> y dos clientes, uno <em>Linux</em> y otro <em>Windows</em>.</p>
 <h2>¿Qué es iSCSI? ¿Cómo funciona?</h2>
 <p><strong>iSCSI</strong> es un extensión de <em>SCSI</em>, que es un protocolo para comunicación de dispositivos. <em>SCSI</em> suele usarse en dispositivos conectados físicamente a un <em>host</em> o servidor, tales como discos duros, lectoras de CDs, ... En <em>iSCSI</em>, los comandos <em>SCSI</em> que manejan el dispositivo, se envían a través de la red. De forma que en vez de tener un disco <em>SCSI</em> conectado físicamente a nuestro equipo, lo conectamos por medio de la red.</p>
 <p>¿Eso quiere decir que es lo mismo que <em>Samba</em> o <em>NFS</em>? Pues no, ya que esos sistemas trabajan importando un sistema de archivos mediante la red, mientras que <em>iSCSI</em> importa todo el dispositivo hardware por la red, de manera que en el cliente es detectado como un dispositivo <em>SCSI</em> más. Todo esto se hace de forma transparente, como si el disco estuviera conectado directamente al hardware.</p>
@@ -134,7 +134,7 @@
 <p>Y por el otro lado, nos encontramos con el <strong>iniciador iSCSI</strong>. El iniciador es el cliente de <em>iSCSI</em>. Generalmente el iniciador consta de dos partes: los módulos o <em>drivers</em> que proveen soporte para que el sistema operativo pueda reconocer discos de tipo <em>iSCSI</em> y un programa que gestiona las conexiones a dichos discos. En <em>Linux</em> hay varias opciones, y en las últimas versiones de <em>Windows</em> nos encontramos con un iniciador instalado por defecto.</p>
 <p><img alt="." src="images/hlc_iSCSI/iscsi2.png"></p>
 <p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos de dicho servidor en sistemas <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
-<h2></h2>
+<h2>Configuración</h2>
 <p>.</p>
     </article>
 
