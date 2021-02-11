@@ -122,6 +122,18 @@
 <p>La velocidad de transferencia del <em>iSCSI</em> es de <strong>1000 MB/seg</strong>, aunque debido al protocolo, la velocidad baja hasta <em>800 MB/seg</em>. En caso de que utilicemos tarjetas <em>DUAL CHANNEL</em>, podremos llegar a <em>1600 MB/seg</em>, teniendo en cuenta las pérdidas por protocolo.</p>
 <p>Respecto al <strong>acceso a los datos</strong>, en teoría, <em>iSCSI</em> no soporta múltiples conexiones a la vez. Por ejemplo, dos equipos no podrían utilizar el mismo disco <em>iSCSI</em> para escribir en él. Eso sería como tener un disco rígido conectado a dos máquinas a la vez. Lo más probable es que surgieran inconsistencias en los datos o problemas en los accesos de lectura y escritura de la información.</p>
 <p>Aún así, existen alternativas para que <em>iSCSI</em> pueda soportar múltiples usuarios. Por ejemplo, el global <em>filesystem (GFS)</em> de <em>RedHat</em>, que es un <em>filesystem</em> especialmente diseñado para permitir concurrencia de usuarios en dispositivos que normalmente no lo permiten, como <em>iSCSI</em>.</p>
+<p>Hablemos sobre el <strong>target iSCSI</strong>. En pocas palabras, es el servidor. Un <em>target</em> puede ofrecer uno o más recursos <em>iSCSI</em> por la red. En las soluciones <em>Linux</em> para <em>iSCSI</em>, no hace falta que el dispositivo a exportar sea necesariamente un disco <em>SCSI</em>. Se pueden usar medios de almacenamiento de distinta naturaleza como:</p>
+<ul>
+<li>Particiones RAID</li>
+<li>Particiones LVM</li>
+<li>Discos enteros</li>
+<li>Particiones comunes</li>
+<li>Archivos</li>
+<li>Dispositivos de CD, cintas, etc.</li>
+</ul>
+<p>Y por el otro lado, nos encontramos con el <strong>iniciador iSCSI</strong>. El iniciador es el cliente de <em>iSCSI</em>. Generalmente el iniciador consta de dos partes: los módulos o <em>drivers</em> que proveen soporte para que el sistema operativo pueda reconocer discos de tipo <em>iSCSI</em> y un programa que gestiona las conexiones a dichos discos. En <em>Linux</em> hay varias opciones, y en las últimas versiones de <em>Windows</em> nos encontramos con un iniciador instalado por defecto.</p>
+<p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos en dicho <em>target</em> en un sistema <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
+<h2></h2>
 <p>.</p>
     </article>
 
