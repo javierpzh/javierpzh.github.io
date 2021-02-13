@@ -1456,7 +1456,97 @@ Requesting to mount FileChgr1 ...
 3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
 </pre>
 
-<p>.</p>
+<p>Para terminar, y escribiendo esto varias semanas más tarde, vamos a comprobar que las copias se están realizando de manera correcta y por supuesto, automática.</p>
+<pre>
+*status client=dulcinea-fd
+Connecting to Client dulcinea-fd at 10.0.1.11:9102
+
+dulcinea-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 09-Feb-21 12:34. Jobs: run=4 running=0.
+ Heap: heap=126,976 smbytes=23,327 max_bytes=681,576 bufs=77 max_bufs=161
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level    Files      Bytes   Status   Finished        Name
+===================================================================
+    47  Incr        101    18.23 M  OK       06-Feb-21 02:00 Dulcinea-Diario
+    52  Incr        126    18.70 M  OK       07-Feb-21 02:00 Dulcinea-Diario
+    53  Full      4,952    47.55 M  OK       07-Feb-21 02:31 Dulcinea-Semanal
+    54  Full      4,953    53.34 M  OK       07-Feb-21 03:01 Dulcinea-Mensual
+    67  Incr        100    29.05 M  OK       08-Feb-21 02:00 Dulcinea-Diario
+    72  Incr        580    51.11 M  OK       09-Feb-21 02:00 Dulcinea-Diario
+    77  Incr        560    31.45 M  OK       10-Feb-21 02:00 Dulcinea-Diario
+    82  Incr        141    29.21 M  OK       11-Feb-21 02:00 Dulcinea-Diario
+    87  Incr        103    30.76 M  OK       12-Feb-21 02:00 Dulcinea-Diario
+    92  Incr        103    30.89 M  OK       13-Feb-21 02:00 Dulcinea-Diario
+====
+
+*status client=freston-fd
+Connecting to Client freston-fd at 10.0.1.6:9102
+
+freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 09-Feb-21 12:33. Jobs: run=4 running=0.
+ Heap: heap=126,976 smbytes=23,325 max_bytes=679,213 bufs=77 max_bufs=155
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level    Files      Bytes   Status   Finished        Name
+===================================================================
+    49  Incr         48    2.348 M  OK       06-Feb-21 02:00 Freston-Diario
+    58  Incr         60    2.920 M  OK       07-Feb-21 02:00 Freston-Diario
+    59  Full      3,277    53.23 M  OK       07-Feb-21 02:30 Freston-Semanal
+    60  Full      3,277    53.24 M  OK       07-Feb-21 03:01 Freston-Mensual
+    69  Incr         48    1.487 M  OK       08-Feb-21 02:00 Freston-Diario
+    74  Incr        482    84.39 M  OK       09-Feb-21 02:00 Freston-Diario
+    79  Incr        642    29.99 M  OK       10-Feb-21 02:00 Freston-Diario
+    84  Incr         94    27.96 M  OK       11-Feb-21 02:00 Freston-Diario
+    89  Incr         50    963.8 K  OK       12-Feb-21 02:00 Freston-Diario
+    94  Incr         50    1.001 M  OK       13-Feb-21 02:00 Freston-Diario
+====
+
+*status client=quijote-fd
+Connecting to Client quijote-fd at 10.0.2.6:9102
+
+quijote-fd Version: 9.0.6 (20 November 2017) x86_64-redhat-linux-gnu redhat (Core)
+Daemon started 02-Feb-21 12:54. Jobs: run=11 running=0.
+ Heap: heap=8,192 smbytes=23,297 max_bytes=1,139,409 bufs=77 max_bufs=281
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level      Files    Bytes   Status   Finished        Name
+===================================================================
+    50  Incr          49    21.17 M  OK       06-Feb-21 02:00 Quijote-Diario
+    61  Incr          49    21.17 M  OK       07-Feb-21 02:00 Quijote-Diario
+    62  Full      21,048    209.2 M  OK       07-Feb-21 02:31 Quijote-Semanal
+    63  Full      21,048    209.2 M  OK       07-Feb-21 03:02 Quijote-Mensual
+    70  Incr          78    21.20 M  OK       08-Feb-21 02:00 Quijote-Diario
+    75  Incr       1,977    75.43 M  OK       09-Feb-21 02:00 Quijote-Diario
+    80  Incr         245    51.14 M  OK       10-Feb-21 02:00 Quijote-Diario
+    85  Incr      14,058    101.5 M  OK       11-Feb-21 02:01 Quijote-Diario
+    90  Incr          52    21.32 M  OK       12-Feb-21 02:00 Quijote-Diario
+    95  Incr          62    22.35 M  OK       13-Feb-21 02:00 Quijote-Diario
+====
+</pre>
+
+<p>Podemos ver, como he puesto de ejemplo a las máquinas <strong>Dulcinea</strong>, <strong>Freston</strong> y <strong>Quijote</strong>, y en todas ellas se están realizando correctamente todas las copias, lo que significa que el sistema de copias de seguridad se encuentra funcionando correctamente, y el contenido del <em>post</em> habría finalizado.</p>
     </article>
 
         <div class="tags">
