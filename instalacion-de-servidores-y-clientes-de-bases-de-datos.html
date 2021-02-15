@@ -433,6 +433,13 @@ Database configuration completed successfully. The passwords were auto generated
 <p>Es el momento de pasar con las configuraciones. En primer lugar, vamos a definir las variables de entorno necesarias en el usuario <strong>oracle</strong>, ¿y esto para qué? Pues esto nos facilitará mucho el trabajo con <em>Oracle</em>, ya que nos ahorrará indicar la ruta completa de cada binario ejecutable, cada vez que vayamos a hacer uso de ellos.</p>
 <p>Para esto, vamos a modificar el fichero <code>.bash_profile</code> del usuario <strong>oracle</strong>, que por defecto posee esta configuración:</p>
 <pre>
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+</pre>
+
+<p>En este archivo, definimos las siguientes variables de entorno:</p>
+<pre>
 
 </pre>
 
