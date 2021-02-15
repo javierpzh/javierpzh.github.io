@@ -481,6 +481,19 @@ Base de datos abierta.
 SQL>
 </pre>
 
+<p>En este punto, crearemos un usuario personal y le asignaremos permisos:</p>
+<pre>
+SQL> CREATE USER c##javier IDENTIFIED BY contraseña;
+
+Usuario creado.
+
+SQL> GRANT ALL PRIVILEGES TO c##javier;
+
+Concesion terminada correctamente.
+
+SQL>
+</pre>
+
 <p>En este punto, nos faltaría configurar el acceso remoto. El proceso es muy parecido al que hemos seguido en <em>Windows</em>, por lo que no supone nada nuevo.</p>
 <h4>Instalación de un servidor MySQL y configuración para permitir el acceso remoto desde la red local</h4>
 <p>Para realizar este ejercicio he decidido crear dos máquinas virtuales conectadas en modo puente a mi red local, las dos poseen un sistema <strong>Debian 10</strong>, y una actuará como servidor y la otra como cliente. Las he creado con <strong>Vagrant</strong>, con el siguiente fichero <em>Vagrantfile</em>:</p>
