@@ -478,6 +478,7 @@ Database Buffers      264241152 bytes
 Redo Buffers            3440640 bytes
 Base de datos montada.
 Base de datos abierta.
+
 SQL>
 </pre>
 
@@ -495,6 +496,13 @@ SQL>
 </pre>
 
 <p>En este punto, nos faltaría configurar el acceso remoto. El proceso es muy parecido al que hemos seguido en <em>Windows</em>, por lo que no supone nada nuevo.</p>
+<p>Volvemos al usuario <strong>root</strong>, y en primer lugar, debemos configurar el fichero <code>/etc/hosts</code> para establecer una resolución estática de nombres en la máquina.</p>
+<p>Tendremos que añadir una nueva línea en la que indicaremos, la IP de nuestra máquina, con su respectivo <em>hostname</em> y su respectivo <em>alias</em>. La línea que en mi caso añado es la siguiente:</p>
+<pre>
+192.168.0.47   servidororacle     servidororacle
+</pre>
+
+<p>Tras ello, debemos reiniciar nuestro sistema para aplicar los cambios.</p>
 <h4>Instalación de un servidor MySQL y configuración para permitir el acceso remoto desde la red local</h4>
 <p>Para realizar este ejercicio he decidido crear dos máquinas virtuales conectadas en modo puente a mi red local, las dos poseen un sistema <strong>Debian 10</strong>, y una actuará como servidor y la otra como cliente. Las he creado con <strong>Vagrant</strong>, con el siguiente fichero <em>Vagrantfile</em>:</p>
 <pre>
