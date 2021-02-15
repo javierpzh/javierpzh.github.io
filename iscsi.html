@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y...">
+        <meta name="description" content="En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -47,7 +47,7 @@
 	<meta property="og:url" content="/iscsi.html">
 	<meta property="og:title" content="iSCSI">
 	<meta property="article:published_time" content="2021-02-10 00:00:00+01:00">
-            <meta property="og:description" content="Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y...">
+            <meta property="og:description" content="En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un...">
 
             <meta property="og:image" content="theme/images/banner-hlc.jpg">
 </head>
@@ -106,13 +106,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <ul>
-<li>Crea un target con una LUN y conéctala a un cliente GNU/Linux. Explica cómo escaneas desde el cliente buscando los targets disponibles y utiliza la unidad lógica proporcionada, formateándola si es necesario y montándola.</li>
-<li>Utiliza systemd mount para que el target se monte automáticamente al arrancar el cliente</li>
-<li>Crea un target con 2 LUN y autenticación por CHAP y conéctala a un cliente windows. Explica cómo se escanea la red en windows y cómo se utilizan las unidades nuevas (formateándolas con NTFS)</li>
-</ul>
-<hr>
-<p>En este artículo vamos a configurar un escenario con <em>Vagrant</em> que incluirá varias máquinas, y permitirá realizar la configuración de un servidor <strong>iSCSI</strong> y dos clientes, uno <em>Linux</em> y otro <em>Windows</em>.</p>
+        <p>En este artículo vamos a configurar un escenario con <em>Vagrant</em> que incluirá varias máquinas, y permitirá realizar la configuración de un servidor <strong>iSCSI</strong> y dos clientes, uno <em>Linux</em> y otro <em>Windows</em>.</p>
 <h2>¿Qué es iSCSI? ¿Cómo funciona?</h2>
 <p><strong>iSCSI</strong> es un extensión de <em>SCSI</em>, que es un protocolo para comunicación de dispositivos. <em>SCSI</em> suele usarse en dispositivos conectados físicamente a un <em>host</em> o servidor, tales como discos duros, lectoras de CDs, ... En <em>iSCSI</em>, los comandos <em>SCSI</em> que manejan el dispositivo, se envían a través de la red. De forma que en vez de tener un disco <em>SCSI</em> conectado físicamente a nuestro equipo, lo conectamos por medio de la red.</p>
 <p>¿Eso quiere decir que es lo mismo que <em>Samba</em> o <em>NFS</em>? Pues no, ya que esos sistemas trabajan importando un sistema de archivos mediante la red, mientras que <em>iSCSI</em> importa todo el dispositivo hardware por la red, de manera que en el cliente es detectado como un dispositivo <em>SCSI</em> más. Todo esto se hace de forma transparente, como si el disco estuviera conectado directamente al hardware.</p>
