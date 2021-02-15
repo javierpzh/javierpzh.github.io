@@ -503,6 +503,119 @@ SQL>
 </pre>
 
 <p>Tras ello, debemos reiniciar nuestro sistema para aplicar los cambios.</p>
+<p>Hecho esto, ya nos tocaría tocar los archivos de configuración propios para habilitar el acceso remoto al servidor. Como hemos visto antes, debemos modificar el fichero <code>listener.ora</code>. Este fichero se encuentra en la ruta <code>/opt/oracle/product/19c/dbhome_1/network/admin/listener.ora</code>:</p>
+<p>Por defecto, posee este aspecto:</p>
+<pre>
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = servidororacle)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</pre>
+
+<p>Si nos fijamos, dentro del bloque <strong>LISTENER</strong>, en la línea que define la regla para el protocolo <em>TCP</em>, que es la que nos interesa, podemos ver que en el campo <strong>HOST</strong> está configurado para que solo escuche las peticiones cuyo origen es <strong>localhost</strong>. También está configurado para que el puerto por el que escuche sea el <strong>1521</strong>, que es el que viene configurado por defecto, a mí me vale, por eso lo dejo. Obviamente lo que hay que cambiar es el valor del campo <strong>HOST</strong>, y establecerle como valor la interfaz desde la que queremos escuchar las peticiones. En mi caso, voy a especificar el <strong>nombre de mi máquina</strong> para que así escuche todas las peticiones.</p>
+<p>En mi caso, añado el siguiente bloque:</p>
+<pre>
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = servidororacle)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+</pre>
+
+<p>Una vez hemos realizado este cambio, podemos iniciar el <strong>listener</strong>. El <em>listener</em> se maneja con estos comandos:</p>
+<ul>
+<li><strong>lsnrctl start:</strong> inicia el servicio.</li>
+<li><strong>lsnrctl stop:</strong> detiene el servicio.</li>
+<li><strong>lsnrctl status:</strong> muestra información sobre el estado.</li>
+</ul>
+<p>Lo iniciamos:</p>
+<pre>
+[oracle@servidororacle ~]$ lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 15-FEB-2021 11:36:53
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/diag/tnslsnr/servidororacle/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=servidororacle)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=servidororacle)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                15-FEB-2021 11:36:55
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/servidororacle/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=servidororacle)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+The listener supports no services
+The command completed successfully
+</pre>
+
+<p>Vemos que lo ha iniciado correctamente. Ahora, para asegurarnos que realmente está escuchando peticiones desde el puerto <strong>1521</strong> vamos a utilizar el comando <code>netstat</code>:</p>
+<pre>
+[oracle@servidororacle ~]$ netstat -tln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp6       0      0 :::111                  :::*                    LISTEN     
+tcp6       0      0 :::1521                 :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN
+</pre>
+
+<p>Vemos que efectivamente está escuchando en dicho puerto, pero ojo, aún no podríamos conectar con nuestro servidor <em>Oracle</em>, ya que, por defecto, <em>CentOS</em> incorpora su característico <em>firewall</em>, que bloquea las peticiones en el puerto <em>1521</em>. Por tanto, añadiremos la siguiente regla para cambiar este comportamiento:</p>
+<pre>
+[root@servidororacle ~]# firewall-cmd --permanent --add-port=1521/tcp
+success
+
+[root@servidororacle ~]# firewall-cmd --reload
+success
+</pre>
+
+<p>Hecho esto, ya habríamos habilitado al servidor para que permita el acceso remoto, por tanto, vamos a intentar acceder a él desde el <strong>cliente</strong>, pero antes vamos a probar si verdaderamente el <em>cliente</em> posee conectividad al puerto <em>1521</em> del <em>servidor</em>. Para esto vamos a utilizar la herramienta <code>tnsping</code>, que se encarga de realizar un <em>ping</em> a la IP que indiquemos, pero haciendo referencia al puerto <em>1521</em>:</p>
+<pre>
+[oracle@clienteoracle ~]$ tnsping 192.168.0.47
+
+TNS Ping Utility for Linux: Version 19.0.0.0.0 - Production on 15-FEB-2021 11:43:08
+
+Copyright (c) 1997, 2019, Oracle.  All rights reserved.
+
+Used parameter files:
+/opt/oracle/product/19c/dbhome_1/network/admin/sqlnet.ora
+
+Used HOSTNAME adapter to resolve the alias
+Attempting to contact (DESCRIPTION=(CONNECT_DATA=(SERVICE_NAME=))(ADDRESS=(PROTOCOL=tcp)(HOST=192.168.0.47)(PORT=1521)))
+OK (10 msec)
+</pre>
+
+<p>Vemos como tenemos conectividad con el puerto <em>1521</em> del <em>servidor</em>.</p>
+<p>Si queremos acceder remotamente con <strong>sqlplus</strong> hay que utilizar un comando como este:</p>
+<pre>
+sqlplus usuario/contraseña@X.X.X.X/nombrebasededatos
+</pre>
+
+<p>Accedo a mi servidor de base de datos desde la máquina <em>cliente</em>:</p>
+<pre>
+sqlplus c##javier/contraseña@192.168.0.47/orcl
+</pre>
+
 <h4>Instalación de un servidor MySQL y configuración para permitir el acceso remoto desde la red local</h4>
 <p>Para realizar este ejercicio he decidido crear dos máquinas virtuales conectadas en modo puente a mi red local, las dos poseen un sistema <strong>Debian 10</strong>, y una actuará como servidor y la otra como cliente. Las he creado con <strong>Vagrant</strong>, con el siguiente fichero <em>Vagrantfile</em>:</p>
 <pre>
