@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. Creamos el nuevo volumen:...">
+        <meta name="description" content="Almacenamiento Los contenedores son efímeros Los contenedores son efímeros, es decir, los ficheros, datos y configuraciones que creamos...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -46,8 +46,8 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/introduccion-a-docker.html">
 	<meta property="og:title" content="Introducción a Docker">
-	<meta property="article:published_time" content="2021-02-08 00:00:00+01:00">
-            <meta property="og:description" content="Almacenamiento 1. Vamos a trabajar con volúmenes docker: Crea un volumen docker que se llame miweb. Creamos el nuevo volumen:...">
+	<meta property="article:published_time" content="2021-02-15 00:00:00+01:00">
+            <meta property="og:description" content="Almacenamiento Los contenedores son efímeros Los contenedores son efímeros, es decir, los ficheros, datos y configuraciones que creamos...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
 </head>
@@ -91,7 +91,7 @@
                         <h1>Introducción a Docker</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el lun 08 febrero 2021
+                             el lun 15 febrero 2021
                         </span>
                         
                     </div>
@@ -108,7 +108,78 @@
     <article>
         <hr>
 <h2>Almacenamiento</h2>
-<h4>1. Vamos a trabajar con volúmenes docker:</h4>
+<h4>Los contenedores son efímeros</h4>
+<p><strong>Los contenedores son efímeros</strong>, es decir, los ficheros, datos y configuraciones que creamos en los contenedores sobreviven a las paradas de los mismos, pero, sin embargo, son destruidos si el contenedor es destruido.</p>
+<p>Veamos un ejemplo:</p>
+<pre>
+$ docker run -d --name my-apache-app -p 8080:80 httpd:2.4
+ac50cc24ef71ae0263be7794278600d5cc4f085b88cebbf97b7b268212f2a82f
+
+$ docker exec my-apache-app bash -c 'echo "<h1>Hola</h1>" > htdocs/index.html'
+
+$ curl http://localhost:8080
+<h1>Hola</h1>
+
+$ docker rm -f my-apache-app
+my-apache-app
+
+$ docker run -d --name my-apache-app -p 8080:80 httpd:2.4
+bb94716205c780ec4a3a2695722fb35ac616ae4cea573308d9446208afb164dc
+
+$ curl http://localhost:8080
+<html><body><h1>It works!</h1></body></html>
+</pre>
+
+<p>Vemos como al eliminar el contenedor, la información que habíamos guardado en el fichero <code>index.html</code> se pierde, y al crear un nuevo contenedor ese fichero tendrá el contenido original.</p>
+<p><strong>NOTA: En la instrucción <code>docker exec</code> hemos ejecutado el comando con <em>bash</em> <code>-c</code> que nos permite ejecutar uno o más comandos en el contenedor de forma más compleja (por ejemplo, indicando ficheros dentro del contenedor).</strong></p>
+<h4>Los datos en los contenedores</h4>
+<p><img alt="." src="images/iaw_introducción_a_docker/docker.png"></p>
+<p>Ante la situación anteriormente descrita, <em>Docker</em> nos proporciona varias soluciones para persistir los datos de los contenedores. En este <em>post</em> nos vamos a centrar en las dos que considero que son más importantes:</p>
+<ul>
+<li><strong>volúmenes docker</strong></li>
+<li><strong>bind mount</strong></li>
+<li><strong>tmpfs mounts</strong>: almacenan en memoria la información (no lo vamos a ver con detalle)</li>
+</ul>
+<h4>Volúmenes docker y bind mount</h4>
+<ul>
+<li>
+<p><strong>Volúmenes docker:</strong> si elegimos conseguir la persistencia usando volúmenes, estamos haciendo que los datos de los contenedores que nosotros decidamos, se almacenen en una parte del sistema de ficheros que es gestionada por <em>Docker</em> y a la que, debido a sus permisos, sólo <em>Docker</em> tendrá acceso. En Linux se guardan en la ruta <code>/var/lib/docker/volumes</code>. Este tipo de volúmenes se suele usar en los siguiente casos:</p>
+<ul>
+<li>Para compartir datos entre contenedores. Simplemente tendrán que usar el mismo volumen.</li>
+<li>Para copias de seguridad ya sea para que sean usadas posteriormente por otros contenedores o para mover esos volúmenes a otros <em>hosts</em>.</li>
+<li>Cuando quiero almacenar los datos de mi contenedor no localmente, sino en un proveedor <em>cloud</em>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Bind mounts:</strong> si elegimos conseguir la persistencia de los datos de los contenedores usando <em>bind mount</em>, lo que estamos haciendo es “mapear” (montar) una parte de nuestro sistema de ficheros, de la que normalmente tenemos el control, con una parte del sistema de ficheros del contenedor. De esta manera conseguimos:</p>
+<ul>
+<li>Compartir ficheros entre el <em>host</em> y los <em>containers</em>.</li>
+<li>Que otras aplicaciones que no sean <em>Docker</em> tengan acceso a esos ficheros, ya sean código, ficheros, ...</li>
+</ul>
+</li>
+</ul>
+<h4>Gestionando volúmenes</h4>
+<p>Algunos comando útiles para trabajar con volúmenes <em>Docker</em>:</p>
+<ul>
+<li><strong>docker volumen create:</strong> crea un volumen con el nombre indicado.</li>
+<li><strong>docker volume rm:</strong> elimina el volumen indicado.</li>
+<li><strong>docker volumen prune:</strong> para eliminar los volúmenes que no están siendo usados por ningún contenedor.</li>
+<li><strong>docker volume ls:</strong> nos proporciona una lista de los volúmenes creados y algo de información adicional.</li>
+<li><strong>docker volume inspect:</strong> nos dará una información mucho más detallada de el volumen que hayamos elegido.</li>
+</ul>
+<h4>Asociando almacenamiento a los contenedores</h4>
+<p>Veamos como podemos usar los volúmenes y los <em>bind mounts</em> en los contenedores. Para cualquiera de los dos casos lo haremos mediante el uso de dos <em>flags</em> de la orden <em>docker run</em>:</p>
+<ul>
+<li>El <em>flag</em> <code>--volume</code> o <code>-v</code></li>
+<li>El <em>flag</em> <code>--mount</code></li>
+</ul>
+<p>Es importante que tengamos en cuenta dos cosas importantes a la hora de realizar estas operaciones:</p>
+<ul>
+<li>Al usar tanto volúmenes como <em>bind mounts</em>, el contenido de lo que tenemos sobrescribirá la carpeta destino en el sistema de ficheros del contenedor en caso de que exista.</li>
+<li>Si nuestra carpeta origen no existe y hacemos un <em>bind mount</em>, esa carpeta se creará pero lo que tendremos en el contenedor es una carpeta vacía.</li>
+<li>Si usamos imágenes de <em>DockerHub</em>, debemos leer la información que cada imagen nos proporciona en su página, ya que esa información suele indicar cómo persistir los datos de esa imagen, ya sea con volúmenes o <em>bind mounts</em>, y cuáles son las carpetas importantes en caso de ser imágenes que contengan ciertos servicios (web, base de datos, ...).</li>
+</ul>
+<h4>Trabajando con volúmenes docker:</h4>
 <ul>
 <li><strong>Crea un volumen docker que se llame <code>miweb</code>.</strong></li>
 </ul>
@@ -193,7 +264,7 @@ javier@debian:~$ docker run -d --name pruebavolumendocker2 -v miweb:/var/www/htm
 </ul>
 <p>Podemos ver que sí, ya que estamos utilizando el mismo volumen.</p>
 <p><img alt="." src="images/iaw_introducción_a_docker/info.php2.png"></p>
-<h4>2. Vamos a trabajar con bind mount:</h4>
+<h4>Trabajando con bind mount:</h4>
 <ul>
 <li><strong>Crea un directorio en tu <em>host</em> y dentro crea un fichero <code>index.html</code>.</strong></li>
 </ul>
@@ -257,7 +328,7 @@ javier@debian:~$ docker run -d --name bindmount2 -v /home/javier/pruebadocker:/v
 </ul>
 <p>Al igual que en el ejercicio anterior, podemos ver que sí, ya que estamos utilizando el mismo volumen.</p>
 <p><img alt="." src="images/iaw_introducción_a_docker/bindmount2.png"></p>
-<h4>Contenedores con almacenamiento persistente</h4>
+<h4>Trabajando con contenedores con almacenamiento persistente</h4>
 <ul>
 <li><strong>Crea un contenedor desde la imagen <em>Nextcloud</em> (usando <em>sqlite</em>) configurando el almacenamiento como nos muestra la documentación de la imagen en <em>Docker Hub</em> (pero utilizando bind mount). Sube algún fichero.</strong></li>
 </ul>
