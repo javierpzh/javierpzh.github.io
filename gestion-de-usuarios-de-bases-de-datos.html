@@ -150,31 +150,7 @@ fetch first 1 rows only;
 <p><strong>7. Realiza un procedimiento que genere un <em>script</em> que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquel directamente o a través de roles. El nuevo rol deberá llamarse <code>BackupPrivsNombreUsuario</code>. (25)</strong></p>
 <h2>MySQL</h2>
 <p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
-<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottmysql.txt">script</a>:</p>
-<pre>
-CREATE TABLE scott.DEPT
-(
-DEPTNO NUMERIC(2),
-DNAME VARCHAR(14),
-LOC VARCHAR(13),
-CONSTRAINT PK_DEPT PRIMARY KEY (DEPTNO)
-);
-
-CREATE TABLE scott.EMP
-(
-EMPNO NUMERIC(4),
-ENAME VARCHAR(10),
-JOB VARCHAR(9),
-MGR NUMERIC(4),
-HIREDATE TIMESTAMP,
-SAL NUMERIC(7, 2),
-COMM NUMERIC(7, 2),
-DEPTNO NUMERIC(2),
-CONSTRAINT FK_DEPTNO FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO),
-CONSTRAINT PK_EMP PRIMARY KEY (EMPNO)
-);
-</pre>
-
+<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottmysql.txt">script</a>.</p>
 <p>Insertamos los registros:</p>
 <pre>
 
@@ -207,31 +183,7 @@ and privilege_type='DELETE';
 
 <h2>PostgreSQL</h2>
 <p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
-<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottpostgres.txt">script</a>:</p>
-<pre>
-CREATE TABLE scott.DEPT
-(
- DEPTNO NUMERIC(2),
- DNAME VARCHAR(14),
- LOC VARCHAR(13),
- CONSTRAINT PK_DEPT PRIMARY KEY (DEPTNO)
-);
-
-CREATE TABLE scott.EMP
-(
- EMPNO NUMERIC(4),
- ENAME VARCHAR(10),
- JOB VARCHAR(9),
- MGR NUMERIC(4),
- HIREDATE TIMESTAMP,
- SAL NUMERIC(7, 2),
- COMM NUMERIC(7, 2),
- DEPTNO NUMERIC(2),
- CONSTRAINT FK_DEPTNO FOREIGN KEY (DEPTNO) REFERENCES DEPT (DEPTNO),
- CONSTRAINT PK_EMP PRIMARY KEY (EMPNO)
-);
-</pre>
-
+<p>Creamos las tablas en la base de datos <strong>Scott</strong> mediante el siguiente <a href="images/abd_gestion_de_usuarios/scriptcreacionscottpostgres.txt">script</a>.</p>
 <p>Insertamos los registros:</p>
 <pre>
 INSERT INTO DEPT VALUES (10, 'ACCOUNTING', 'NEW YORK');
