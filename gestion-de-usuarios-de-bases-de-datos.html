@@ -174,13 +174,7 @@ MariaDB [scott]> select * from DEPT;
 4 rows in set (0.001 sec)
 </pre>
 
-<p>Ahora vamos a crear el <strong>script</strong> y le vamos a dar el privilegio <em>DELETE</em> sobre dichas tablas al usuario <em>javierpzh</em>:</p>
-<pre>
-GRANT DELETE ON TABLE 'scott.EMP' TO javierpzh;
-GRANT DELETE ON TABLE 'scott.DEPT' TO javierpzh;
-</pre>
-
-<p>Realizamos la consulta de la siguiente manera:</p>
+<p>Ahora vamos a crear el <strong>script</strong>, para el que realizamos la consulta de la siguiente manera:</p>
 <pre>
 Select concat('Revoke Delete on ',table_schema,'.',table_name,' from ',grantee,';') as script
 from information_schema.table_privileges
@@ -222,13 +216,7 @@ scott=> select * from dept;
 (4 rows)
 </pre>
 
-<p>Ahora vamos a crear el <strong>script</strong> y le vamos a dar el privilegio <em>DELETE</em> sobre dichas tablas al usuario <em>javierpzh</em>:</p>
-<pre>
-GRANT DELETE ON TABLE 'scott.EMP' TO javierpzh;
-GRANT DELETE ON TABLE 'scott.DEPT' TO javierpzh;
-</pre>
-
-<p>Realizamos la consulta de la siguiente manera:</p>
+<p>Ahora vamos a crear el <strong>script</strong>, para el que realizamos la consulta de la siguiente manera:</p>
 <pre>
 select 'Revoke Delete on '||table_catalog||'.'||table_name||' from '||grantee||';'
 from information_schema.role_table_grants
@@ -243,7 +231,6 @@ and table_schema='scott';
 -------------------------------------------
 Revoke Delete on scott.dept from scott;
 Revoke Delete on scott.emp from scott;
-Revoke Delete on scott.emp from postgres;
 </pre>
 
 <h2>MongoDB</h2>
