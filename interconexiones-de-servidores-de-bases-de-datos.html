@@ -807,30 +807,8 @@ Service "PSQLU" has 1 instance(s).
 The command completed successfully
 </pre>
 
-<p>Vemos que lo ha iniciado correctamente. Ahora, para asegurarnos que realmente está escuchando peticiones desde el puerto <em>1521</em> vamos a utilizar el comando <code>netstat</code>:</p>
-<pre>
-[oracle@servidororacle ~]$ netstat -tln
-Active Internet connections (only servers)
-Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
-tcp6       0      0 :::111                  :::*                    LISTEN     
-tcp6       0      0 :::1521                 :::*                    LISTEN     
-tcp6       0      0 :::22                   :::*                    LISTEN     
-tcp6       0      0 :::5500                 :::*                    LISTEN     
-tcp6       0      0 :::27775                :::*                    LISTEN
-</pre>
-
-<p>Vemos que efectivamente está escuchando en dicho puerto, pero ojo, aún no podríamos conectar con nuestro servidor <em>Oracle</em>, ya que, por defecto, <em>CentOS</em> incorpora su característico <em>firewall</em>, que bloquea las peticiones en el puerto <em>1521</em>. Por tanto, añadiremos la siguiente regla para cambiar este comportamiento:</p>
-<pre>
-[root@servidororacle ~]# firewall-cmd --permanent --add-port=1521/tcp
-success
-
-[root@servidororacle ~]# firewall-cmd --reload
-success
-</pre>
-
-<p>Cuando ya poseamos todas las configuraciones listas, vamos a proceder a crear la conexión entre los servidores.</p>
+<p>Vemos que lo ha iniciado correctamente.</p>
+<p>Cuando ya poseemos todas las configuraciones listas, procederemos a crear la conexión entre los servidores.</p>
 <p>Pero antes de esto, voy a crear un usuario:</p>
 <pre>
 [oracle@servidororacle ~]$ sqlplus / as sysdba
@@ -864,6 +842,7 @@ identified by "contraseña"
 using 'PSQLU';
 </pre>
 
+<p><strong>NOTA:</strong> Es importante utilizar comillas dobles para el nombre de usuario y la contraseña, y comillas simples para el nombre del alias.</p>
 <p>El usuario y la contraseña hacen referencia a las credenciales de la base de datos remota.</p>
 <p>Vemos el resultado de la creación del enlace:</p>
 <pre>
@@ -889,7 +868,6 @@ SQL> create database link linkservpostgresql
 Enlace con la base de datos creado.
 </pre>
 
-<p><strong>NOTA:</strong> Es importante utilizar comillas dobles para el nombre de usuario y la contraseña, y comillas simples para el nombre del alias.</p>
 <p>Con esto, habríamos terminado la creación del enlace.</p>
 <p>Vamos a probarlo haciendo una consulta sencilla:</p>
 <pre>
