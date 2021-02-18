@@ -114,9 +114,9 @@
 <p><strong>En este artículo veremos varias formas de crear un enlace entre distintos servidores de bases de datos. Los servidores enlazados siempre estarán instalados en máquinas diferentes.</strong></p>
 <p><strong>Hay que decir que trabajaré sobre los escenarios creados en el <em>post</em> anterior, que trataba sobre <a href="https://javierpzh.github.io/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a>, por lo que ya dispongo de los servidores instalados y con las configuraciones básicas.</strong></p>
 <h4>Enlace entre dos servidores de bases de datos ORACLE</h4>
-<p>En este primer caso, vamos a ver que configuraciones son necesarias para enlazar dos servidores <strong>Oracles</strong>.</p>
+<p>En este primer caso, vamos a ver que configuraciones son necesarias para enlazar dos servidores <strong>Oracle</strong>. Ambos servidores se encuentran instalados sobre <em>Windows</em>, aunque esto no es algo que influya en el proceso.</p>
 <p>Nos situamos en la primera de las máquinas, que recordemos que recibe el nombre de <strong>servidor</strong>.</p>
-<p>Nos dirigiremos a los ficheros <code>listener.ora</code> y <code>tnsnames.ora</code>, ambos se encuentran en la ruta <code>$ORACLE_HOME/network/admin</code>, ya que en ellos es donde realizaremos la configuración.</p>
+<p>Nos dirigiremos a los ficheros <code>listener.ora</code> y <code>tnsnames.ora</code>, ambos se encuentran en la ruta <code>$ORACLE_HOME/network/admin/</code>, ya que en ellos es donde realizaremos la configuración.</p>
 <p>Primeramente, para habilitar el acceso remoto al servidor, debemos modificar el fichero <code>listener.ora</code>. Por defecto, posee este aspecto:</p>
 <pre>
 SID_LIST_LISTENER =
@@ -138,7 +138,7 @@ LISTENER =
   )
 </pre>
 
-<p>Si nos fijamos, dentro del bloque <strong>LISTENER</strong>, en la línea que define la regla para el protocolo TCP, que es la que nos interesa, podemos ver que en el campo <strong>HOST</strong> está configurado para que solo escuche las peticiones cuyo origen es <strong>localhost</strong>. También está configurado para que el puerto por el que escuche sea el <strong>1521</strong>, que es el que viene configurado por defecto, a mí me vale, por eso lo dejo. Obviamente lo que hay que cambiar es el valor del campo <strong>HOST</strong>, y establecerle como valor la interfaz desde la que queremos escuchar las peticiones. En mi caso, voy a especificar el <strong>nombre de mi máquina</strong> para que así escuche todas las peticiones.</p>
+<p>Si nos fijamos, dentro del bloque <strong>LISTENER</strong>, en la línea que define la regla para el protocolo <em>TCP</em>, que es la que nos interesa, podemos ver que en el campo <strong>HOST</strong> está configurado para que solo escuche las peticiones cuyo origen es <strong>localhost</strong>. También está configurado para que el puerto por el que escuche sea el <strong>1521</strong>, que es el que viene configurado por defecto, a mí me vale, por eso lo dejo. Obviamente lo que hay que cambiar es el valor del campo <strong>HOST</strong>, y establecerle como valor la interfaz desde la que queremos escuchar las peticiones. En mi caso, voy a especificar el <strong>nombre de mi máquina</strong> para que así escuche todas las peticiones.</p>
 <pre>
 SID_LIST_LISTENER =
   (SID_LIST =
@@ -159,7 +159,7 @@ LISTENER =
   )
 </pre>
 
-<p>Una vez hemos realizado este cambio, podemos iniciar el listener. El listener se maneja con estos comandos:</p>
+<p>Una vez hemos realizado este cambio, podemos iniciar el <em>listener</em>. El <em>listener</em> se maneja con estos comandos:</p>
 <ul>
 <li><strong>lsnrctl start:</strong> inicia el servicio.</li>
 <li><strong>lsnrctl stop:</strong> detiene el servicio.</li>
@@ -202,7 +202,7 @@ El servicio "CLRExtProc" tiene 1 instancia(s).
 El comando ha terminado correctamente
 </pre>
 
-<p>Vemos que lo ha iniciado correctamente. Ahora, para asegurarnos que realmente está escuchando peticiones desde el puerto 1521 vamos a utilizar el comando <code>netstat</code>:</p>
+<p>Vemos que lo ha iniciado correctamente. Ahora, para asegurarnos que realmente está escuchando peticiones desde el puerto <em>1521</em> vamos a utilizar el comando <code>netstat</code>:</p>
 <pre>
 C:\Users\servidor>netstat
 
@@ -435,7 +435,7 @@ SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000500','Zara','Berlin');
 
 <p>Ahora sí, vamos a crear el propio enlace.</p>
 <p>Para ello nos dirigimos al primer servidor y con el usuario <strong>sys</strong>, crearemos el enlace hacia el segundo servidor.</p>
-<p>La sintáxis para crear un enlace es la siguiente:</p>
+<p>La sintaxis para crear un enlace es la siguiente:</p>
 <pre>
 create database link linkserv2
 connect to c##javierserv2
@@ -488,7 +488,7 @@ CODIGO NOMBRE               SEDE
 
 <p>Como hemos visto, hemos podido realizar la consulta correctamente, por lo que habríamos terminado este ejercicio.</p>
 <h4>Enlace entre dos servidores de bases de datos PostgreSQL</h4>
-<p>En este apartado vamos a realizar un enlace entre dos servidores <strong>PostgreSQL</strong>.</p>
+<p>En este apartado vamos a realizar un enlace entre dos servidores <strong>PostgreSQL</strong>. Ambos servidores se encuentran instalados sobre <em>Debian</em>, aunque esto no es algo que influya en el proceso.</p>
 <p><em>PostgreSQL</em> hace uso de la extensión <code>dblink</code> para realizar o aceptar consultas desde enlaces, por lo que debemos instalar esta herramienta que se encuentra en el paquete llamado <code>postgresql-contrib</code></p>
 <pre>
 apt install postgresql-contrib -y
@@ -657,7 +657,255 @@ codigo |   nombretienda    | especialidad | localizacion |    nif    |  nombreem
 </pre>
 
 <p>Lógicamente funciona igualmente, por lo que este apartado habría terminado.</p>
-<h4>Enlace entre un servidor ORACLE y otro PostgreSQL o MySQL empleando Heterogeneus Services</h4>
+<h4>Enlace entre un servidor ORACLE y un servidor PostgreSQL empleando Heterogeneus Services</h4>
+<p>En este último caso, vamos a enlazar un servidor <strong>Oracle</strong> y otro <strong>PostgreSQL</strong>. El servidor <em>Oracle</em> se encuentra instalado sobre un sistema <em>CentOS</em> y el servidor <em>PostgreSQL</em>, sobre <em>Debian</em> (es el que he utilizado en el apartado anterior), aunque esto no es algo que influya en el proceso.</p>
+<p>Algo importante es que, ambos servidores ya están configurados previamente y permiten conexiones remotas.</p>
+<h5>ORACLE a PostgreSQL</h5>
+<p>Nos situamos en la máquina que contiene el servidor <strong>Oracle</strong>.</p>
+<p>El primer paso que debemos realizar consiste en instalar el paquete <code>unixODBC</code>, que contiene el <em>software</em> necesario para crear dicho enlace, y junto a él, el <em>driver</em> específico llamado <code>postgresql-odbc</code>:</p>
+<pre>
+[root@servidororacle ~]# dnf install unixODBC postgresql-odbc -y
+</pre>
+
+<p>Una vez instalados, procederemos a visualizar el fichero de configuración <code>/etc/odbcinst.ini</code>. En él podremos apreciar todos los <em>drivers</em> existentes, pero en nuestra caso nos interesa el que hace referencia a <em>PostgreSQL</em>.</p>
+<p>El próximo paso consiste en la creación del fichero <code>/etc/odbc.ini</code>, ya que dicho fichero será el utilizado para determinar la manera de conectarse al servidor <em>PostgreSQL</em>. En él introduciremos el siguiente contenido:</p>
+<pre>
+[PSQLU]
+Debug = 0
+CommLog = 0
+ReadOnly = 0
+Driver = PostgreSQL
+Servername = 192.168.0.43
+Username = javierserv1
+Password = contraseña
+Port = 5432
+Database = empresa1
+Trace = 0
+TraceFile = /tmp/sql.log
+</pre>
+
+<p>Las informaciones como pueden ser <strong>Servername</strong>, <strong>Username</strong>, <strong>Password</strong>, <strong>Port</strong> y <strong>Database</strong>, hacen referencia al servidor al que nos vamos a conectar, por lo que debemos introducir nuestros datos de <em>PostgreSQL</em>.</p>
+<p>Creado este fichero, habríamos terminado la configuración del <em>driver</em> de <em>ODBC</em>. Para comprobar que el funcionamiento es el correcto, podemos hacer uso del comando <code>isql</code>, como vemos a continuación:</p>
+<pre>
+[root@servidororacle ~]# isql PSQLU
++---------------------------------------+
+| Connected!                            |
+|                                       |
+| sql-statement                         |
+| help [tablename]                      |
+| quit                                  |
+|                                       |
++---------------------------------------+
+SQL>
+</pre>
+
+<p>Vemos como se nos abre una especie de cliente en el que podemos ejecutar órdenes <em>SQL</em>:</p>
+<pre>
+SQL> select * from Tiendas;
++-------+---------------------+-------------+-----------------------------------------+
+| codigo| nombre              | especialidad| localizacion                            |
++-------+---------------------+-------------+-----------------------------------------+
+| 000001| Javi s Pet          | Animales    | Sevilla                                 |
+| 000002| Javi s Sport        | Deportes    | Cordoba                                 |
+| 000003| Javi s Food         | Comida      | Granada                                 |
+| 000004| Javi s Technology   | Tecnologia  | Cadiz                                   |
+| 000005| Javi s Clothes      | Ropa        | Huelva                                  |
++-------+---------------------+-------------+-----------------------------------------+
+SQLRowCount returns 5
+5 rows fetched
+</pre>
+
+<p>Parece que la conexión hacia el servidor <em>PostgreSQL</em> es correcta, así que ahora sería el turno de configurar <em>Oracle</em> para utilizar este <em>driver</em>.</p>
+<p>Para ello debemos crear el fichero <code>initPSQLU.ora</code>, en el que tendremos que especificar los parámetros que veremos a continuación. Este fichero debemos crearlo en la ruta <code>/opt/oracle/product/19c/dbhome_1/hs/admin/initPSQLU.ora</code> y su contenido sería el siguiente:</p>
+<pre>
+HS_FDS_CONNECT_INFO = PSQLU
+HS_FDS_TRACE_LEVEL = DEBUG
+HS_FDS_SHAREABLE_NAME = /usr/lib64/psqlodbcw.so
+HS_LANGUAGE = AMERICAN_AMERICA.WE8ISO8859P1
+set ODBCINI=/etc/odbc.ini
+</pre>
+
+<p>Podemos apreciar que hemos definido varios parámetros que hacen referencia al <em>driver</em> configurado anteriormente, al fichero que define la conexión con <em>PostgreSQL</em>, ...</p>
+<p>Tras ello, ya estaría todo listo para dirigirnos a los ficheros <code>listener.ora</code> y <code>tnsnames.ora</code>, ambos se encuentran en la ruta <code>/opt/oracle/product/19c/dbhome_1/network/admin/</code>, y en ellos es donde realizaremos las siguientes configuraciones.</p>
+<p>Primeramente, debemos modificar el fichero <code>listener.ora</code> y añadir la siguiente entrada:</p>
+<pre>
+SID_LIST_LISTENER=
+ (SID_LIST=
+   (SID_DESC=
+     (SID_NAME=PSQLU)
+     (ORACLE_HOME=/opt/oracle/product/19c/dbhome_1)
+     (PROGRAM=dg4odbc)
+   )
+ )
+</pre>
+
+<p>Hecho esto, vamos a dirigirnos al segundo y último fichero de configuración, el llamado <code>tnsnames.ora</code>, que por defecto posee esta configuración:</p>
+<pre>
+ORCLCDB =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = servidororacle)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = ORCLCDB)
+    )
+  )
+
+LISTENER_ORCLCDB =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = servidororacle)(PORT = 1521))
+</pre>
+
+<p>Añadiremos este último bloque:</p>
+<pre>
+PSQLU =
+  (DESCRIPTION=
+     (ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))
+     (CONNECT_DATA=(SID=PSQLU))
+     (HS=OK)
+  )
+</pre>
+
+<p>Una vez hemos realizado todos los cambios, podemos iniciar el <em>listener</em>. El <em>listener</em> se maneja con estos comandos:</p>
+<ul>
+<li><strong>lsnrctl start:</strong> inicia el servicio.</li>
+<li><strong>lsnrctl stop:</strong> detiene el servicio.</li>
+<li><strong>lsnrctl status:</strong> muestra información sobre el estado.</li>
+</ul>
+<p>Lo iniciamos:</p>
+<pre>
+[oracle@servidororacle ~]$ lsnrctl start
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 18-FEB-2021 20:35:40
+
+Copyright (c) 1991, 2019, Oracle.  All rights reserved.
+
+Starting /opt/oracle/product/19c/dbhome_1/bin/tnslsnr: please wait...
+
+TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+System parameter file is /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Log messages written to /opt/oracle/diag/tnslsnr/servidororacle/listener/alert/log.xml
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=servidororacle)(PORT=1521)))
+Listening on: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=servidororacle)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER
+Version                   TNSLSNR for Linux: Version 19.0.0.0.0 - Production
+Start Date                18-FEB-2021 20:35:40
+Uptime                    0 days 0 hr. 0 min. 0 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /opt/oracle/product/19c/dbhome_1/network/admin/listener.ora
+Listener Log File         /opt/oracle/diag/tnslsnr/servidororacle/listener/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=servidororacle)(PORT=1521)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(KEY=EXTPROC1521)))
+Services Summary...
+Service "PSQLU" has 1 instance(s).
+  Instance "PSQLU", status UNKNOWN, has 1 handler(s) for this service...
+The command completed successfully
+</pre>
+
+<p>Vemos que lo ha iniciado correctamente. Ahora, para asegurarnos que realmente está escuchando peticiones desde el puerto <em>1521</em> vamos a utilizar el comando <code>netstat</code>:</p>
+<pre>
+[oracle@servidororacle ~]$ netstat -tln
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State      
+tcp        0      0 0.0.0.0:111             0.0.0.0:*               LISTEN     
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
+tcp6       0      0 :::111                  :::*                    LISTEN     
+tcp6       0      0 :::1521                 :::*                    LISTEN     
+tcp6       0      0 :::22                   :::*                    LISTEN     
+tcp6       0      0 :::5500                 :::*                    LISTEN     
+tcp6       0      0 :::27775                :::*                    LISTEN
+</pre>
+
+<p>Vemos que efectivamente está escuchando en dicho puerto, pero ojo, aún no podríamos conectar con nuestro servidor <em>Oracle</em>, ya que, por defecto, <em>CentOS</em> incorpora su característico <em>firewall</em>, que bloquea las peticiones en el puerto <em>1521</em>. Por tanto, añadiremos la siguiente regla para cambiar este comportamiento:</p>
+<pre>
+[root@servidororacle ~]# firewall-cmd --permanent --add-port=1521/tcp
+success
+
+[root@servidororacle ~]# firewall-cmd --reload
+success
+</pre>
+
+<p>Cuando ya poseamos todas las configuraciones listas, vamos a proceder a crear la conexión entre los servidores.</p>
+<p>Pero antes de esto, voy a crear un usuario:</p>
+<pre>
+[oracle@servidororacle ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Feb 18 19:39:08 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> CREATE USER c##javier1 IDENTIFIED BY contraseña;
+
+Usuario creado.
+
+SQL> GRANT ALL PRIVILEGES TO c##javier1;
+
+Concesion terminada correctamente.
+</pre>
+
+<p>Ahora sí, vamos a crear el propio enlace.</p>
+<p>Para ello accederemos con el nuevo usuario <strong>c##javier1</strong> y crearemos el enlace hacia el servidor <em>PostgreSQL</em>.</p>
+<p>La sintaxis para crear un enlace es la siguiente:</p>
+<pre>
+create database link linkservpostgresql
+connect to "javierserv1"
+identified by "contraseña"
+using 'PSQLU';
+</pre>
+
+<p>El usuario y la contraseña hacen referencia a las credenciales de la base de datos remota.</p>
+<p>Vemos el resultado de la creación del enlace:</p>
+<pre>
+[oracle@servidororacle ~]$ sqlplus c##javier1
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Thu Feb 18 20:42:15 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+Enter password:
+Hora de Ultima Conexion Correcta: Jue Feb 18 2021 20:38:21 +01:00
+
+Conectado a:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> create database link linkservpostgresql
+  2  connect to "javierserv1"
+  3  identified by "contraseña"
+  4  using 'PSQLU';
+
+Enlace con la base de datos creado.
+</pre>
+
+<p><strong>NOTA:</strong> Es importante utilizar comillas dobles para el nombre de usuario y la contraseña, y comillas simples para el nombre del alias.</p>
+<p>Con esto, habríamos terminado la creación del enlace.</p>
+<p>Vamos a probarlo haciendo una consulta sencilla:</p>
+<pre>
+SQL> select "nombre" from "tiendas"@linkservpostgresql;
+
+nombre
+--------------------------------------------------------------------------------
+Javi s Pet
+Javi s Sport
+Javi s Food
+Javi s Technology
+Javi s Clothes
+</pre>
+
+<p>Obviamente, gracias a este enlace también podremos realizar consultas combinadas, es decir, que incluyan informaciones de ambos servidores.</p>
+<h4>PostgreSQL a ORACLE</h4>
     </article>
 
         <div class="tags">
