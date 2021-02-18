@@ -1,15 +1,15 @@
-create table Marcas
+create table Empleados
 (
-Codigo VARCHAR(6),
-Nombre VARCHAR(20),
-Sede VARCHAR(15),
-CONSTRAINT pk_Codigo PRIMARY KEY(Codigo)
+NIF VARCHAR(9),
+Nombre VARCHAR(150),
+AnyoNacimiento NUMERIC(4),
+Cod_Tienda VARCHAR(6),
+CONSTRAINT pk_NIF PRIMARY KEY(NIF)
 );
 
 
-
-insert into Marcas(Codigo,Nombre,Sede) values ('000100','VeteCat','Barcelona');
-insert into Marcas(Codigo,Nombre,Sede) values ('000200','Nike','Lisboa');
-insert into Marcas(Codigo,Nombre,Sede) values ('000300','Danone','New York');
-insert into Marcas(Codigo,Nombre,Sede) values ('000400','Samsung','Tokyo');
-insert into Marcas(Codigo,Nombre,Sede) values ('000500','Zara','Berlin');
+insert into Empleados (NIF,Nombre,AnyoNacimiento,Cod_Tienda) values ('12345678A','Rodrigo Fernandez','1974','000001');
+insert into Empleados (NIF,Nombre,AnyoNacimiento,Cod_Tienda) values ('12345678B','Cristina Perez','1976','000002');
+insert into Empleados (NIF,Nombre,AnyoNacimiento,Cod_Tienda) values ('12345678C','Ramon Fuentes','1983','000003');
+insert into Empleados (NIF,Nombre,AnyoNacimiento,Cod_Tienda) values ('12345678D','Maria Diaz','1969','000004');
+insert into Empleados (NIF,Nombre,AnyoNacimiento,Cod_Tienda) values ('12345678E','Alejandro Cortes','1978','000005');

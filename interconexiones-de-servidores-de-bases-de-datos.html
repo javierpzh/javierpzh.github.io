@@ -301,7 +301,7 @@ El comando ha terminado correctamente
 C:\Windows\system32>
 </pre>
 
-<p>Bien, ahora debemos dirigirnos al segundo servidor, que es al que vamos a realizarle la consulta, y en su fichero <code>listener.ora</code>, habilitar el acceso remoto como hicimos anteriormente:</p>
+<p>Bien, ahora debemos dirigirnos al <strong>segundo servidor</strong>, que es al que vamos a realizarle la consulta, y en su fichero <code>listener.ora</code>, habilitar el acceso remoto como hicimos anteriormente:</p>
 <pre>
 SID_LIST_LISTENER =
   (SID_LIST =
@@ -386,55 +386,9 @@ SQL> GRANT ALL PRIVILEGES TO c##javierserv2;
 Concesi¾n terminada correctamente.
 </pre>
 
-<p>Vamos a crear la tabla <strong>Marcas</strong>, que será la que consultaremos luego a partir de este <a href="images/abd_interconexiones_de_servidores_de_bases_de_datos/scriptoracle.txt">script</a>:</p>
-<pre>
-C:\Windows\system32>sqlplus
-
-SQL*Plus: Release 19.0.0.0.0 - Production on MiÚ Feb 3 18:07:21 2021
-Version 19.3.0.0.0
-
-Copyright (c) 1982, 2019, Oracle.  All rights reserved.
-
-Introduzca el nombre de usuario: c##javierserv2
-Introduzca la contrase±a:
-
-Conectado a:
-Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
-Version 19.3.0.0.0
-
-SQL> create table Marcas
-  2  (
-  3  Codigo VARCHAR(6),
-  4  Nombre VARCHAR(20),
-  5  Sede VARCHAR(15),
-  6  CONSTRAINT pk_Codigo PRIMARY KEY(Codigo)
-  7  );
-
-Tabla creada.
-
-SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000100','VeteCat','Barcelona');
-
-1 fila creada.
-
-SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000200','Nike','Lisboa');
-
-1 fila creada.
-
-SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000300','Danone','New York');
-
-1 fila creada.
-
-SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000400','Samsung','Tokyo');
-
-1 fila creada.
-
-SQL> insert into Marcas(Codigo,Nombre,Sede) values ('000500','Zara','Berlin');
-
-1 fila creada.
-</pre>
-
+<p>Vamos a crear la tabla <strong>Empleados</strong>, que será la que consultaremos luego a partir de este <a href="images/abd_interconexiones_de_servidores_de_bases_de_datos/scriptoracle.txt">script</a>.</p>
 <p>Ahora sí, vamos a crear el propio enlace.</p>
-<p>Para ello nos dirigimos al primer servidor y con el usuario <strong>sys</strong>, crearemos el enlace hacia el segundo servidor.</p>
+<p>Para ello nos dirigimos al <strong>primer servidor</strong> y con el usuario <strong>sys</strong>, crearemos el enlace hacia el segundo servidor.</p>
 <p>La sintaxis para crear un enlace es la siguiente:</p>
 <pre>
 create database link linkserv2
@@ -468,24 +422,128 @@ SQL> create database link linkserv2
 Enlace con la base de datos creado.
 </pre>
 
-<p>Vamos a probar a hacer una consulta desde el primer servidor a la tabla <strong>Marcas</strong> que acabamos de crear y se encuentra en el segundo servidor:</p>
+<p>Vamos a probar a hacer una consulta desde el primer servidor a la tabla <strong>Empleados</strong> que acabamos de crear y se encuentra en el segundo servidor:</p>
 <pre>
-SQL> select * from marcas@linkserv2;
+SQL> select * from empleados@linkserv2;
 
-CODIGO NOMBRE               SEDE
------- -------------------- ---------------
-000100 VeteCat              Barcelona
-000200 Nike                 Lisboa
-000300 Danone               New York
-000400 Samsung              Tokyo
-000500 Zara                 Berlin
+NIF
+---------
+NOMBRE
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+12345678A
+Rodrigo Fernandez
+          1974 000001
+
+12345678B
+Cristina Perez
+          1976 000002
+
+NIF
+---------
+NOMBRE
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+
+12345678C
+Ramon Fuentes
+          1983 000003
+
+12345678D
+Maria Diaz
+
+NIF
+---------
+NOMBRE
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+          1969 000004
+
+12345678E
+Alejandro Cortes
+          1978 000005
 </pre>
 
-<p>¡Bien! Ya tenemos el enlace creado y utilizable, y por último vamos a realizar una consulta que una la tabla <strong>Tiendas</strong> (tabla almacenada en el primer servidor) y la tabla <strong>Marcas</strong> (tabla almacenada en el segundo servidor):</p>
+<p>¡Bien! Ya tenemos el enlace creado y utilizable, y por último vamos a realizar una consulta combinada que una la tabla <strong>Tiendas</strong> (tabla almacenada en el primer servidor) y la tabla <strong>Empleados</strong> (tabla almacenada en el segundo servidor):</p>
 <pre>
+SQL> SELECT Tiendas.Codigo AS Codigo, Tiendas.Nombre AS NombreTienda, Tiendas.Especialidad AS Especialidad, Tiendas.Localizacion AS Localizacion, Empleados.NIF AS NIF, Empleados.Nombre AS NombreEmpleado, Empleados.AnyoNacimiento AS AnyoNacimiento, Empleados.Cod_Tienda AS Cod_Tienda
+  2  FROM Tiendas, Empleados@linkserv2 Empleados
+  3  WHERE Tiendas.Codigo = Empleados.Cod_Tienda;
 
+CODIGO NOMBRETIENDA         ESPECIALID LOCALIZACION
+------ -------------------- ---------- ----------------------------------------
+NIF
+---------
+NOMBREEMPLEADO
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+000001 Javi s Pet           Animales   Sevilla
+12345678A
+Rodrigo Fernandez
+          1974 000001
+
+
+CODIGO NOMBRETIENDA         ESPECIALID LOCALIZACION
+------ -------------------- ---------- ----------------------------------------
+NIF
+---------
+NOMBREEMPLEADO
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+000002 Javi s Sport         Deportes   Cordoba
+12345678B
+Cristina Perez
+          1976 000002
+
+
+CODIGO NOMBRETIENDA         ESPECIALID LOCALIZACION
+------ -------------------- ---------- ----------------------------------------
+NIF
+---------
+NOMBREEMPLEADO
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+000003 Javi s Food          Comida     Granada
+12345678C
+Ramon Fuentes
+          1983 000003
+
+
+CODIGO NOMBRETIENDA         ESPECIALID LOCALIZACION
+------ -------------------- ---------- ----------------------------------------
+NIF
+---------
+NOMBREEMPLEADO
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+000004 Javi s Technology    Tecnologia Cadiz
+12345678D
+Maria Diaz
+          1969 000004
+
+
+CODIGO NOMBRETIENDA         ESPECIALID LOCALIZACION
+------ -------------------- ---------- ----------------------------------------
+NIF
+---------
+NOMBREEMPLEADO
+--------------------------------------------------------------------------------
+ANYONACIMIENTO COD_TI
+-------------- ------
+000005 Javi s Clothes       Ropa       Huelva
+12345678E
+Alejandro Cortes
+          1978 000005
 </pre>
 
+<p>(El resultado de la consulta no tiene mucho sentido, pero lo importante es mostrar el funcionamiento).</p>
 <p>Como hemos visto, hemos podido realizar la consulta correctamente, por lo que habríamos terminado este ejercicio.</p>
 <h4>Enlace entre dos servidores de bases de datos PostgreSQL</h4>
 <p>En este apartado vamos a realizar un enlace entre dos servidores <strong>PostgreSQL</strong>. Ambos servidores se encuentran instalados sobre <em>Debian</em>, aunque esto no es algo que influya en el proceso.</p>
