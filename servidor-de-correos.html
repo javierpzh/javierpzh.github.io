@@ -120,9 +120,9 @@ apt install postfix bsd-mailx -y
 
 <p>Comencemos.</p>
 <h4>Gestión de correos desde el servidor</h4>
-<ul>
-<li><strong>1 Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></li>
-</ul>
+<ol>
+<li><strong>Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></li>
+</ol>
 <p>Antes de realizar este paso, vamos a crear un registro de tipo <strong>SPF</strong> en nuestro DNS de OVH, esto le servirá a <strong>Gmail</strong> para identificar que nuestro correo no es <strong>Spam</strong>. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registrospf.png"></p>
 <p>Ahora vamos a probar a enviar un correo electrónico desde nuestro servidor local, para ello haremos uso de la herramienta <code>mail</code>:</p>
