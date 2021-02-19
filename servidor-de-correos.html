@@ -338,6 +338,40 @@ Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: disconnect from mail-io1-f42.
 
 <p>Podemos ver como ahora si está llevando a cabo la comprobación del registro <em>SPF</em>.</p>
 <p><strong>5. Vamos a configurar un sistema <em>antispam</em>. Realizaremos comprobaciones para comprobarlo.</strong></p>
+<p>En este apartado vamos a ver como instalar un sistema <em>antispam</em> en nuestro servidor de correos. Para ello necesitaremos instalar los siguientes paquetes:</p>
+<pre>
+apt install spamc spamassassin -y
+</pre>
+
+<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
+<pre>
+systemctl enable spamassassin && systemctl start spamassassin
+</pre>
+
+<p>Posteriormente, nos dirigiremos al fichero <code>/etc/postfix/master.cf</code> y añadiremos las siguientes líneas para que tenga en cuenta el sistema que implementaremos a continuación:</p>
+<pre>
+smtp      inet  n       -       y       -       -       smtpd
+-o content_filter=spamassassin
+
+submission inet n       -       y       -       -       smtpd
+-o content_filter=spamassassin
+
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</pre>
+
+<p>Por último, tendremos que configurar <strong>Spamassassin</strong>. Su configuración es bastante simple y se llevará a cabo en el fichero <code>/etc/spamassassin/local.cf</code>. En él necesitaremos descomentar la siguiente línea, ya que por defecto aparece comentada:</p>
+<pre>
+rewrite_header Subject *****SPAM*****
+</pre>
+
+<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando ambos servicios:</p>
+<pre>
+systemctl restart postfix
+systemctl restart spamassassin
+</pre>
+
+<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em> </p>
 <p><strong>6. Vamos a configurar un sistema antivirus. Realizaremos comprobaciones para comprobarlo.</strong></p>
 <h4>Gestión de correos desde un cliente</h4>
 <p><strong>7. Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
