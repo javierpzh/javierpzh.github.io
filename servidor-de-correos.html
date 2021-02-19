@@ -337,7 +337,8 @@ Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: disconnect from mail-io1-f42.
 </pre>
 
 <p>Podemos ver como ahora si está llevando a cabo la comprobación del registro <em>SPF</em>.</p>
-<p><strong>5. Vamos a configurar un sistema <em>antispam</em>. Realizaremos comprobaciones para comprobarlo.</strong></p>
+<hr>
+<p><strong>5. Vamos a configurar un sistema <em>antispam</em>.</strong></p>
 <p>En este apartado vamos a ver como instalar un sistema <em>antispam</em> en nuestro servidor de correos. Para ello necesitaremos instalar los siguientes paquetes:</p>
 <pre>
 apt install spamc spamassassin -y
@@ -371,8 +372,13 @@ systemctl restart postfix
 systemctl restart spamassassin
 </pre>
 
-<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em> </p>
-<p><strong>6. Vamos a configurar un sistema antivirus. Realizaremos comprobaciones para comprobarlo.</strong></p>
+<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em></p>
+<pre>
+
+</pre>
+
+<hr>
+<p><strong>6. Vamos a configurar un sistema antivirus.</strong></p>
 <h4>Gestión de correos desde un cliente</h4>
 <p><strong>7. Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
 <p>Como ya sabemos, por defecto al instalar <em>Postfix</em>, estaremos utilizando el formato <strong>mbox</strong> para almacenar los correos electrónicos, pero, ¿como hacemos para cambiar al formato <strong>Maildir</strong>?</p>
@@ -398,13 +404,15 @@ systemctl restart postfix
 </pre>
 
 <p><strong>8. Instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. Vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado. Para realizar el cifrado de la comunicación crea un certificado en <em>LetsEncrypt</em> para el dominio <code>mail.iesgn15.es</code>. Recuerda que para el ofrecer el cifrado tiene varias soluciones:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">IMAP</span> <span class="n">con</span> <span class="n">STARTTLS</span><span class="p">:</span> <span class="n">STARTTLS</span> <span class="n">transforma</span> <span class="n">una</span> <span class="n">conexión</span> <span class="n">insegura</span> <span class="n">en</span> <span class="n">una</span> <span class="n">segura</span> <span class="n">mediante</span> <span class="n">el</span> <span class="n">uso</span> <span class="n">de</span> <span class="n">SSL</span><span class="o">/</span><span class="n">TLS</span><span class="p">.</span> <span class="n">Por</span> <span class="n">lo</span> <span class="n">tanto</span> <span class="n">usando</span> <span class="n">el</span> <span class="n">mismo</span> <span class="n">puerto</span> <span class="mi">143</span><span class="o">/</span><span class="n">tcp</span> <span class="n">tenemos</span> <span class="n">cifrada</span> <span class="n">la</span> <span class="n">comunicación</span><span class="p">.</span>
-
-<span class="o">-</span> <span class="n">IMAPS</span><span class="p">:</span> <span class="n">Versión</span> <span class="n">segura</span> <span class="n">del</span> <span class="n">protocolo</span> <span class="n">IMAP</span> <span class="n">que</span> <span class="n">usa</span> <span class="n">el</span> <span class="n">puerto</span> <span class="mi">993</span><span class="o">/</span><span class="n">tcp</span><span class="p">.</span>
-<span class="n">Ofrecer</span> <span class="n">las</span> <span class="n">dos</span> <span class="n">posibilidades</span><span class="p">.</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p>IMAP con STARTTLS: STARTTLS transforma una conexión insegura en una segura mediante el uso de SSL/TLS. Por lo tanto usando el mismo puerto 143/tcp tenemos cifrada la comunicación.</p>
+</li>
+<li>
+<p>IMAPS: Versión segura del protocolo IMAP que usa el puerto 993/tcp.
+Ofrecer las dos posibilidades.</p>
+</li>
+</ul>
 <p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</p>
 <p><strong>9. Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></p>
 <p><strong>10. Configura de manera adecuada <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando <code>dovecot</code> y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
