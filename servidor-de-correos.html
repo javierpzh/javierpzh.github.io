@@ -299,7 +299,44 @@ reyole111@gmail.com
 <p><img alt="." src="images/sri_servidor_de_correos/correocron.png"></p>
 <p>Se puede apreciar la salida de los comandos que indiqué en la tarea del <em>cron</em>, por lo que, además de ver como nuestro <em>cron</em> nos ha notificado por correo, podemos ver que una vez más han actuado tanto el alias como la redirección configurada.</p>
 <h4>Para luchar contra el SPAM</h4>
-<p><strong>4. Vamos a configurar <code>Postfix</code> para que tenga en cuenta el registro <em>SPF</em> de los correos que recibe. Mostraremos el <em>log</em> del correo para comprobar que se está haciendo el <em>testeo</em> del registro <em>SPF</em>.</strong></p>
+<p><strong>4. Vamos a configurar <code>Postfix</code> para que tenga en cuenta el registro <em>SPF</em> de los correos que recibe.</strong></p>
+<p>En primer lugar, necesitaremos instalar el paquete <code>postfix-policyd-spf-python</code>:</p>
+<pre>
+apt install postfix-policyd-spf-python -y
+</pre>
+
+<p>Una vez instalado, en el fichero <code>/etc/postfix/master.cf</code> debemos crear un <em>socket UNIX</em> que será el encargado de realizar la comprobación. Para ello introduciremos la siguiente línea:</p>
+<pre>
+policyd-spf  unix  -       n       n       -       0       spawn     user=policyd-spf argv=/usr/bin/policyd-spf
+</pre>
+
+<p>Para terminar, debemos editar el fichero <code>/etc/postfix/main.cf</code> y en él, indicaremos que haga uso de dicho <em>socket UNIX</em>. Añadimos esta línea:</p>
+<pre>
+policyd-spf_time_limit = 3600
+smtpd_recipient_restrictions = check_policy_service unix:private/policyd-spf
+</pre>
+
+<p>Hecho esto, aplicaremos los cambios reiniciando el servicio:</p>
+<pre>
+systemctl restart postfix
+</pre>
+
+<p>Vamos a hacer la prueba visualizando los <em>logs</em> y enviando un nuevo correo desde <em>Gmail</em>:</p>
+<pre>
+root@vpsjavierpzh:~# tail -f /var/log/mail.log
+Feb 19 19:14:21 vpsjavierpzh postfix/smtpd[19227]: connect from mail-io1-f42.google.com[209.85.166.42]
+Feb 19 19:14:22 vpsjavierpzh policyd-spf[19234]: prepend Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.42; helo=mail-io1-f42.google.com; envelope-from=javierperezhidalgo01@gmail.com; receiver=<UNKNOWN>
+Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: 7ED0310115E: client=mail-io1-f42.google.com[209.85.166.42]
+Feb 19 19:14:22 vpsjavierpzh postfix/cleanup[19237]: 7ED0310115E: message-id=<CAMu5ax89DXzEtwWTeLm-OmDK18zXgXDocqiuk0XLn+9OnAu3cA@mail.gmail.com>
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 7ED0310115E: from=<javierperezhidalgo01@gmail.com>, size=2710, nrcpt=1 (queue active)
+Feb 19 19:14:22 vpsjavierpzh postfix/cleanup[19237]: 81C7710115F: message-id=<CAMu5ax89DXzEtwWTeLm-OmDK18zXgXDocqiuk0XLn+9OnAu3cA@mail.gmail.com>
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 81C7710115F: from=<javierperezhidalgo01@gmail.com>, size=2845, nrcpt=1 (queue active)
+Feb 19 19:14:22 vpsjavierpzh postfix/local[19238]: 7ED0310115E: to=<root@iesgn15.es>, relay=local, delay=0.36, delays=0.35/0.01/0/0, dsn=2.0.0, status=sent (forwarded as 81C7710115F)
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 7ED0310115E: removed
+Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: disconnect from mail-io1-f42.google.com[209.85.166.42] ehlo=2 starttls=1 mail=1 rcpt=1 bdat=1 quit=1 commands=7
+</pre>
+
+<p>Podemos ver como ahora si está llevando a cabo la comprobación del registro <em>SPF</em>.</p>
 <p><strong>5. Vamos a configurar un sistema <em>antispam</em>. Realizaremos comprobaciones para comprobarlo.</strong></p>
 <p><strong>6. Vamos a configurar un sistema antivirus. Realizaremos comprobaciones para comprobarlo.</strong></p>
 <h4>Gestión de correos desde un cliente</h4>
