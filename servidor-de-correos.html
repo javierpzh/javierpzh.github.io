@@ -220,7 +220,18 @@ crontab -e
 MAILTO = root
 </pre>
 
-<p>Puedes poner alguna tarea en el <em>cron</em> para ver como se mandan correo.</p>
+<p>Voy a añadir una nueva tarea en el <em>cron</em> para ver como se manda el correo cuando se lleve dicha tarea. Añado la siguiente línea a mi <em>crontab</em>:</p>
+<pre>
+40 18 * * * apt update && apt upgrade -y
+</pre>
+
+<p>Esta tarea lo que hará básicamente es una actualización de todos los paquetes que haya instalados en el sistema, y se llevará a cabo todos los días a las 18:40.</p>
+<pre>
+root@vpsjavierpzh:~# crontab -e
+crontab: installing new crontab
+</pre>
+
+<p><img alt="." src="images/sri_servidor_de_correos/crontab.png"></p>
 <p>Posteriormente usando alias y redirecciones podemos hacer llegar esos correos a nuestro correo personal.</p>
 <p>Configura el <code>cron</code> para enviar correo al usuario <strong>root</strong>. Comprueba que están llegando esos correos al root. Crea un nuevo alias para que se manden a un usuario sin privilegios. Comprueban que llegan a ese usuario. Por último crea una redirección para enviar esos correo a tu correo personal (gmail,hotmail,…).</p>
 <hr>
