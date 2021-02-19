@@ -336,12 +336,14 @@ systemctl restart postfix
 <p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes leer los correos enviado a tu usuario.</p>
 <p><strong>10. Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></p>
 <p><strong>11. Configura de manera adecuada <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando <code>dovecot</code> y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="o">-</span> <span class="n">ESMTP</span> <span class="o">+</span> <span class="n">STARTTLS</span><span class="p">:</span> <span class="n">Usando</span> <span class="n">el</span> <span class="n">puerto</span> <span class="mi">567</span><span class="o">/</span><span class="n">tcp</span> <span class="n">enviamos</span> <span class="n">de</span> <span class="n">forma</span> <span class="n">segura</span> <span class="n">el</span> <span class="n">correo</span> <span class="n">al</span> <span class="n">servidor</span><span class="p">.</span>
-
-<span class="o">-</span> <span class="n">SMTPS</span><span class="p">:</span> <span class="n">Utiliza</span> <span class="n">un</span> <span class="n">puerto</span> <span class="k">no</span> <span class="n">estándar</span> <span class="p">(</span><span class="mi">465</span><span class="p">)</span> <span class="n">para</span> <span class="n">SMTPS</span> <span class="p">(</span><span class="k">Simple</span> <span class="n">Mail</span> <span class="n">Transfer</span> <span class="n">Protocol</span> <span class="n">Secure</span><span class="p">).</span> <span class="k">No</span> <span class="n">es</span> <span class="n">una</span> <span class="n">extensión</span> <span class="n">de</span> <span class="n">smtp</span><span class="p">.</span> <span class="n">Es</span> <span class="n">muy</span> <span class="n">parecido</span> <span class="n">a</span> <span class="n">HTTPS</span><span class="p">.</span>
-</code></pre></div>
-
-
+<ul>
+<li>
+<p>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</p>
+</li>
+<li>
+<p>SMTPS: Utiliza un puerto no estándar (465) para SMTPS (Simple Mail Transfer Protocol Secure). No es una extensión de smtp. Es muy parecido a HTTPS.</p>
+</li>
+</ul>
 <p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</p>
 <p><strong>12. Configura el cliente webmail para el envío de correo. Realiza una prueba de envío con el webmail.</strong></p>
 <h4>Comprobación final</h4>
