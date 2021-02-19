@@ -39,8 +39,6 @@
 
         <meta name="tags" content="Base de Datos">
         <meta name="tags" content="Oracle">
-        <meta name="tags" content="MySQL">
-        <meta name="tags" content="MariaDB">
         <meta name="tags" content="PostgreSQL">
 
 	                <meta property="og:locale" content="">
@@ -112,6 +110,7 @@
     <article>
         <p><strong>Las interconexiones de servidores de bases de datos son operaciones que pueden ser muy útiles en diferentes contextos. Básicamente, se trata de acceder a datos que no están almacenados en nuestra base de datos, pudiendo combinarlos con los que ya tenemos.</strong></p>
 <p><strong>En este artículo veremos varias formas de crear un enlace entre distintos servidores de bases de datos. Los servidores enlazados siempre estarán instalados en máquinas diferentes.</strong></p>
+<p><strong>Es muy importante recordar que los enlaces son unidireccionales, es decir, si creamos un enlace en el <em>servidor1</em> hacia el <em>servidor2</em>, será el <em>servidor1</em> el que pueda acceder a los datos del <em>servidor2</em>, pero el <em>servidor2</em> no podrá acceder a los datos del <em>servidor1</em>.</strong></p>
 <p><strong>Hay que decir que trabajaré sobre los escenarios creados en el <em>post</em> anterior, que trataba sobre <a href="https://javierpzh.github.io/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a>, por lo que ya dispongo de los servidores instalados y con las configuraciones básicas.</strong></p>
 <h4>Enlace entre dos servidores de bases de datos ORACLE</h4>
 <p>En este primer caso, vamos a ver que configuraciones son necesarias para enlazar dos servidores <strong>Oracle</strong>. Ambos servidores se encuentran instalados sobre <em>Windows</em>, aunque esto no es algo que influya en el proceso.</p>
@@ -1090,12 +1089,12 @@ COD_TIENDA
 <p>Podemos apreciar como efectivamente podemos realizar la consulta correctamente.</p>
 <h5>PostgreSQL a ORACLE</h5>
 <p>Nos situamos en la máquina que contiene el servidor <strong>PostgreSQL</strong>.</p>
-<p>El primer paso que debemos realizar consiste en la instalación de un <strong><em>Data Wrappers</em></strong>, pero, ¿qué son estos <em>Data Wrappers</em>?</p>
+<p>El primer paso que debemos realizar consiste en la instalación de un <strong><em>Data Wrappers</em></strong>, pero, ¿qué son estos <em>Data Wrappers</em>? Pues son una especie de extensiones que permiten conectar servidores <em>PostgreSQL</em> con otros gestores de bases de datos, como pueden ser <em>Oracle</em>, <em>MySQL</em> o <em>MongoDB</em>. En el caso de <em>Oracle</em>, que es el que nos interesa, podemos recurrir al paquete <code>oracle_fdw</code>.</p>
 <p>.</p>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/base-de-datos.html">Base de Datos</a>, <a href="/tag/oracle.html">Oracle</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/postgresql.html">PostgreSQL</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/base-de-datos.html">Base de Datos</a>, <a href="/tag/oracle.html">Oracle</a>, <a href="/tag/postgresql.html">PostgreSQL</a></p>
         </div>
 
     <hr>
