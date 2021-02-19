@@ -111,7 +111,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>En este <em>post</em> vamos a instalar y configurar de manera adecuada un servidor de correos en una <strong>VPS</strong> alojada en <strong>OVH</strong>. Mi dominio es <code>iesgn15.es</code>. El nombre del servidor de correo será <code>mail.iesgn15.es</code> (Este es el nombre que deberá aparecer en el registro MX).</p>
+        <p>En este <em>post</em> vamos a instalar y configurar de manera adecuada un servidor de correos en una <strong>VPS</strong> alojada en <strong>OVH</strong>. Mi dominio es <code>iesgn15.es</code>. El nombre del servidor de correo será <code>mail.iesgn15.es</code> (este es el nombre que deberá aparecer en el registro MX).</p>
 <h4>Instalación</h4>
 <p>Para comenzar el artículo vamos a instalar las utilidades principales que necesitamos para crear nuestro servidor de correos. Empezaremos por instalar los paquetes <code>postfix</code> y <code>bsd-mailx</code> que corresponden al servidor y a las utilidades del cliente respectivamente.</p>
 <pre>
@@ -156,13 +156,11 @@ Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.10
 </pre>
 
 <p>En estas líneas se aprecia como ha pasado correctamente y ha hecho uso del registro <strong>SPF</strong> y por tanto no nos muestra este mensaje como <em>Spam</em>.</p>
-<ul>
-<li><strong>Tarea 2: Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></li>
-</ul>
-<p>Al igual que en la tarea anterior, antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>MX</strong> en nuestro DNS de OVH, esto le servirá . He creado el siguiente registro:</p>
-<hr>
+<ol>
+<li><strong>Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></li>
+</ol>
+<p>Al igual que en la tarea anterior, antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>MX</strong> en nuestro DNS de OVH. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registromx.png"></p>
-<hr>
 <p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code>debian@iesgn15.es</code>:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correoenviadogmail.png"></p>
 <p>Una vez enviado, vamos a comprobar que lo hayamos recibido en nuestro servidor local, para ello vamos a visualizar de nuevo los <em>logs</em> del fichero <code>/var/log/mail.log</code>:</p>
@@ -215,9 +213,9 @@ Saved 1 message in /home/debian/mbox
 
 <p>Explicado esto, vamos a pasar con el siguiente ejercicio.</p>
 <h4>Uso de alias y redirecciones</h4>
-<ul>
-<li><strong>Tarea 3 (No obligatoria): Uso de alias y redirecciones.</strong></li>
-</ul>
+<ol>
+<li><strong>Uso de alias y redirecciones.</strong></li>
+</ol>
 <p>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea <code>cron</code> podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario <strong>root</strong> del servidor, para ello:</p>
 <pre>
 crontab -e
