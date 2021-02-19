@@ -120,9 +120,7 @@ apt install postfix bsd-mailx -y
 
 <p>Comencemos.</p>
 <h4>Gestión de correos desde el servidor</h4>
-<ol>
-<li><strong>Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></li>
-</ol>
+<p><strong>1. Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></p>
 <p>Antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>SPF</strong> en nuestro DNS de OVH, esto le servirá a <strong>Gmail</strong> para identificar que nuestro correo no es <strong>Spam</strong>. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registrospf.png"></p>
 <p>Ahora vamos a probar a enviar un correo electrónico desde nuestro servidor local, para ello haremos uso de la herramienta <code>mail</code>:</p>
@@ -156,9 +154,7 @@ Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.10
 </pre>
 
 <p>En estas líneas se aprecia como ha pasado correctamente y ha hecho uso del registro <strong>SPF</strong> y por tanto no nos muestra este mensaje como <em>Spam</em>.</p>
-<ol>
-<li><strong>Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></li>
-</ol>
+<p><strong>2. Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></p>
 <p>Al igual que en la tarea anterior, antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>MX</strong> en nuestro DNS de OVH. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registromx.png"></p>
 <p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code>debian@iesgn15.es</code>:</p>
@@ -213,9 +209,7 @@ Saved 1 message in /home/debian/mbox
 
 <p>Explicado esto, vamos a pasar con el siguiente ejercicio.</p>
 <h4>Uso de alias y redirecciones</h4>
-<ol>
-<li><strong>Uso de alias y redirecciones.</strong></li>
-</ol>
+<p><strong>3. Uso de alias y redirecciones.</strong></p>
 <p>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea <code>cron</code> podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario <strong>root</strong> del servidor, para ello:</p>
 <pre>
 crontab -e
