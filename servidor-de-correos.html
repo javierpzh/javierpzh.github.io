@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/servidor-de-correos.html">
 	<meta property="og:title" content="Servidor de correos">
-	<meta property="article:published_time" content="2021-02-05 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-02-19 00:00:00+01:00">
             <meta property="og:description" content="En este post vamos a instalar y configurar de manera adecuada un servidor de correos en una máquina de OVH. Mi dominio es iesgn15.es. El...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
@@ -96,7 +96,7 @@
                         <h1>Servidor de correos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el vie 05 febrero 2021
+                             el vie 19 febrero 2021
                         </span>
                         
                     </div>
@@ -121,7 +121,7 @@ apt install postfix bsd-mailx -y
 <p>Comencemos.</p>
 <h4>Gestión de correos desde el servidor</h4>
 <ul>
-<li><strong>Tarea 1: Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></li>
+<li><strong>1 Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></li>
 </ul>
 <p>Antes de realizar este paso, vamos a crear un registro de tipo <strong>SPF</strong> en nuestro DNS de OVH, esto le servirá a <strong>Gmail</strong> para identificar que nuestro correo no es <strong>Spam</strong>. He creado el siguiente registro:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/registrospf.png"></p>
