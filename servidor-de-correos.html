@@ -337,97 +337,8 @@ Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: disconnect from mail-io1-f42.
 </pre>
 
 <p>Podemos ver como ahora si está llevando a cabo la comprobación del registro <em>SPF</em>.</p>
-<hr>
-<p><strong>5. Vamos a configurar un sistema <em>antispam</em>.</strong></p>
-<p>En este apartado vamos a ver como instalar un sistema <em>antispam</em> en nuestro servidor de correos. Para ello necesitaremos instalar los siguientes paquetes:</p>
-<pre>
-apt install spamc spamassassin -y
-</pre>
-
-<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
-<pre>
-systemctl enable spamassassin && systemctl start spamassassin
-</pre>
-
-<p>Posteriormente, nos dirigiremos al fichero <code>/etc/postfix/master.cf</code> y veremos que nos encontramos con las siguientes líneas:</p>
-<pre>
-smtp      inet  n       -       y       -       -       smtpd
-...
-#submission inet n       -       y       -       -       smtpd
-</pre>
-
-<p>Una vez localizadas, tendremos que hacer unas modificaciones en ellas para que <em>Postfix</em> tenga en cuenta el sistema <em>antispam</em>, además de añadir una nueva directiva. Realizadas las modificaciones, las líneas tendrían el siguiente aspecto:</p>
-<pre>
-smtp      inet  n       -       y       -       -       smtpd -o content_filter=spamassassin
-...
-submission inet n       -       y       -       -       smtpd -o content_filter=spamassassin
-...
-spamassassin unix -     n       n       -       -       pipe user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
-</pre>
-
-<p>Por último, tendremos que configurar <strong>Spamassassin</strong>. Su configuración es bastante simple y se llevará a cabo en el fichero <code>/etc/spamassassin/local.cf</code>. En él necesitaremos descomentar la siguiente línea, ya que por defecto aparece comentada:</p>
-<pre>
-rewrite_header Subject *****SPAM*****
-</pre>
-
-<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando ambos servicios:</p>
-<pre>
-systemctl restart postfix
-systemctl restart spamassassin
-</pre>
-
-<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em>, y en el mensaje del correo, introduciré un mensaje de <em>spam</em>, que puedes encontrar <a href="images/sri_servidor_de_correos/correospam.txt">aquí</a>.</p>
-<p>Vamos a hacer la prueba visualizando los <em>logs</em>:</p>
-<pre>
-
-</pre>
-
-<hr>
-<p><strong>6. Vamos a configurar un sistema antivirus.</strong></p>
-<p>En este apartado vamos a ver como instalar un sistema antivirus en nuestro servidor de correos. En mi caso, voy a utilizar un antivirus llamado <strong>clamAV</strong>, que se instala mediante los siguientes paquetes:</p>
-<pre>
-apt install clamsmtp clamav-daemon arc arj bzip2 cabextract lzop nomarch p7zip pax tnef unrar-free unzip -y
-</pre>
-
-<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
-<pre>
-systemctl enable clamav-daemon && systemctl start clamav-daemon
-</pre>
-
-<p>Posteriormente, nos dirigiremos al fichero <code>/etc/postfix/main.cf</code> y añadiremos las siguientes líneas:</p>
-<pre>
-content_filter = scan:127.0.0.1:10025
-receive_override_options = no_address_mappings
-</pre>
-
-<p>También tendremos que editar el fichero <code>/etc/postfix/master.cf</code> y añadir las líneas siguientes. Estas líneas nos servirán para indicarle a nuestro servidor de correos, donde debe llevar a cabo las consultas referentes sobre si los diferentes correos llevan algún virus o no.</p>
-<pre>
-scan      unix  -       -       n       -       16      smtp
-        -o smtp_send_xforward_command=yes
-
-127.0.0.1:10026      inet  n       -       n       -       16      smtpd
-        -o content_filter=
-        -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
-        -o smtpd_helo_restrictions=
-        -o smtpd_client_restrictions=
-        -o smtpd_sender_restrictions=
-        -o smtpd_recipient_restrictions=permit_mynetworks,reject
-        -o mynetworks_style=host
-        -o smtpd_authorized_xforward_hosts=127.0.0.0/8
-</pre>
-
-<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando el servicio:</p>
-<pre>
-systemctl restart postfix
-</pre>
-
-<pre>
-
-</pre>
-
-<hr>
 <h4>Gestión de correos desde un cliente</h4>
-<p><strong>7. Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
+<p><strong>5. Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
 <p>Como ya sabemos, por defecto al instalar <em>Postfix</em>, estaremos utilizando el formato <strong>mbox</strong> para almacenar los correos electrónicos, pero, ¿cómo hacemos para cambiar al formato <strong>Maildir</strong>?</p>
 <p>Primeramente vamos a ver que diferencias encontramos entre los dos.</p>
 <ul>
@@ -471,7 +382,7 @@ set spoolfile="~/Maildir"
 <p>Abrimos el nuevo correo:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/mutt2.png"></p>
 <p>Podemos ver como ya estamos utilizando un nuevo cliente de correos.</p>
-<p><strong>8. Vamos a instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. También vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado.</strong></p>
+<p><strong>6. Vamos a instalar y configurar <code>dovecot</code> para ofrecer el protocolo <code>IMAP</code>. También vamos a configurar <code>dovecot</code> para ofrecer autentificación y cifrado.</strong></p>
 <p>En primer lugar, para realizar el cifrado de la comunicación tendremos que crear un certificado en <em>LetsEncrypt</em> para el dominio <code>mail.iesgn15.es</code>. Recordemos que para el ofrecer el cifrado poseemos varias opciones:</p>
 <ul>
 <li>
@@ -599,21 +510,8 @@ apt install thunderbird -y
 <p>Abrimos el nuevo correo:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correothunderbird.png"></p>
 <p>Podemos apreciar como el correo ha sido recibido correctamente en nuestro cliente <em>Thunderbird</em>.</p>
-<p><strong>9. Vamos a configurar <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor estará autentificada con <em>SASL</em> usando <code>dovecot</code> y además estará cifrada.</strong></p>
-<p>Para cifrar esta comunicación podemos usar dos opciones:</p>
-<ul>
-<li>
-<p><strong>ESMTP + STARTTLS:</strong> Usando el puerto <em>567/tcp</em> enviamos de forma segura el correo al servidor.</p>
-</li>
-<li>
-<p><strong>SMTPS:</strong> Utiliza un puerto no estándar <em>(465)</em> para <em>SMTPS (Simple Mail Transfer Protocol Secure)</em>. No es una extensión de <em>SMTP</em>. Es muy parecido a <em>HTTPS</em>.</p>
-</li>
-</ul>
-<p>En mi caso, he decidido escoger la segunda opción, es decir, utilizar el protocolo <strong>SMTPS</strong>.</p>
-<p><code>/etc/postfix/main.cf</code></p>
-<p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</p>
 <h4>Comprobación final</h4>
-<p><strong>12. En <a href="https://www.mail-tester.com/">www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos.</strong></p>
+<p><strong>En <a href="https://www.mail-tester.com/">www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos.</strong></p>
 <p>Voy a enviar un correo como el siguiente para que esta herramienta me lo examine.</p>
 <pre>
 echo "Esto es una prueba" | mutt  -s 'Test' test-6noihtep7@srv1.mail-tester.com
