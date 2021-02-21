@@ -613,8 +613,15 @@ apt install thunderbird -y
 <p><code>/etc/postfix/main.cf</code></p>
 <p>Elige una de las opciones anterior para realizar el cifrado. Y muestra la configuración de un cliente de correo (evolution, thunderbird, …) y muestra como puedes enviar los correos.</p>
 <h4>Comprobación final</h4>
-<p><strong>12. Prueba de envío de correo. En <a href="https://www.mail-tester.com/">www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos. Captura la pantalla y muestra la puntuación que has sacado.</strong></p>
-<p>.</p>
+<p><strong>12. En <a href="https://www.mail-tester.com/">www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos.</strong></p>
+<p>Voy a enviar un correo como el siguiente para que esta herramienta me lo examine.</p>
+<pre>
+echo "Esto es una prueba" | mutt  -s 'Test' test-6noihtep7@srv1.mail-tester.com
+</pre>
+
+<p>Veamos el resultado:</p>
+<p><img alt="." src="images/sri_servidor_de_correos/puntos.png"></p>
+<p>¡Genial, me ha dado un <strong>9/10</strong>!</p>
     </article>
 
         <div class="tags">
