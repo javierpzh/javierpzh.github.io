@@ -537,6 +537,7 @@ ssl = yes
 ...
 ssl_cert = </etc/letsencrypt/live/mail.iesgn15.es/fullchain.pem
 ssl_key = </etc/letsencrypt/live/mail.iesgn15.es/privkey.pem
+
 </pre>
 
 <p>Hecho esto, debemos comprobar que en el fichero <code>/etc/dovecot/conf.d/10-mail.conf</code>, el siguiente parámetro posea el siguiente valor:</p>
@@ -598,8 +599,8 @@ apt install thunderbird -y
 <p>Abrimos el nuevo correo:</p>
 <p><img alt="." src="images/sri_servidor_de_correos/correothunderbird.png"></p>
 <p>Podemos apreciar como el correo ha sido recibido correctamente en nuestro cliente <em>Thunderbird</em>.</p>
-<p><strong>9. Instala un webmail (roundcube, horde, rainloop) para gestionar el correo del equipo mediante una interfaz web. Muestra la configuración necesaria y cómo eres capaz de leer los correos que recibe tu usuario.</strong></p>
-<p><strong>10. Configura de manera adecuada <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor debe estar autentificada con SASL usando <code>dovecot</code> y además debe estar cifrada. Para cifrar esta comunicación puedes usar dos opciones:</strong></p>
+<p><strong>9. Vamos a configurar <code>postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor estará autentificada con <em>SASL</em> usando <code>dovecot</code> y además estará cifrada.</strong></p>
+<p>Para cifrar esta comunicación puedes usar dos opciones:</p>
 <ul>
 <li>
 <p>ESMTP + STARTTLS: Usando el puerto 567/tcp enviamos de forma segura el correo al servidor.</p>
