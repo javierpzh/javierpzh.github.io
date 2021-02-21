@@ -379,6 +379,55 @@ systemctl restart spamassassin
 
 <hr>
 <p><strong>6. Vamos a configurar un sistema antivirus.</strong></p>
+<p>En este apartado vamos a ver como instalar un sistema antivirus en nuestro servidor de correos. En mi caso, voy a utilizar un antivirus llamado <strong>clamAV</strong>, que se instala mediante los siguientes paquetes:</p>
+<pre>
+apt install clamav clamav-freshclam clamsmtp -y
+</pre>
+
+<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
+<pre>
+systemctl enable clamsmtp && systemctl start clamsmtp
+</pre>
+
+<p>Posteriormente, nos dirigiremos al fichero <code>/etc/postfix/main.cf</code> y añadiremos las siguientes líneas:</p>
+<pre>
+content_filter = scan:127.0.0.1:10025
+receive_override_options = no_address_mappings
+</pre>
+
+<p>También tendremos que editar el fichero <code>/etc/postfix/master.cf</code> y añadir las líneas siguientes. Estas líneas nos servirán para indicarle a nuestro servidor de correos, donde debe llevar a cabo las consultas referentes sobre si los diferentes correos llevan algún virus o no.</p>
+<pre>
+scan      unix  -       -       n       -       16      smtp
+        -o smtp_send_xforward_command=yes
+
+127.0.0.1:10026      inet  n       -       n       -       16      smtpd
+        -o content_filter=
+        -o receive_override_options=no_unknown_recipient_checks,no_header_body_checks
+        -o smtpd_helo_restrictions=
+        -o smtpd_client_restrictions=
+        -o smtpd_sender_restrictions=
+        -o smtpd_recipient_restrictions=permit_mynetworks,reject
+        -o mynetworks_style=host
+        -o smtpd_authorized_xforward_hosts=127.0.0.0/8
+</pre>
+
+<p>Por último, tendremos que configurar <em>clamAV</em>. Su configuración se llevará a cabo en el fichero <code>/etc/clamsmtpd.conf</code>. En él necesitaremos establecer los siguientes valores en los apartados <code>OutAddress</code> y <code>Listen</code>:</p>
+<pre>
+OutAddress: 10026
+...
+Listen: 127.0.0.1:10025
+</pre>
+
+<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando ambos servicios:</p>
+<pre>
+systemctl restart postfix
+systemctl restart clamsmtp
+</pre>
+
+<pre>
+
+</pre>
+
 <h4>Gestión de correos desde un cliente</h4>
 <p><strong>7. Vamos a configurar el buzón de los usuarios de tipo <code>Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code>Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code>mail</code>.</strong></p>
 <p>Como ya sabemos, por defecto al instalar <em>Postfix</em>, estaremos utilizando el formato <strong>mbox</strong> para almacenar los correos electrónicos, pero, ¿como hacemos para cambiar al formato <strong>Maildir</strong>?</p>
