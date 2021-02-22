@@ -108,13 +108,27 @@
     <article>
         <p><strong>1. Ejecución de una aplicación web PHP en Docker.</strong></p>
 <ul>
-<li>Queremos ejecutar en un contenedor <em>Docker</em> la aplicación web escrita en <em>PHP</em>: <a href="https://github.com/evilnapsis/bookmedik">bookMedik</a></li>
-<li>Es necesario tener un contenedor con <em>MariaDB</em> donde vamos a crear la base de datos y los datos de la aplicación. El <em>script</em> para generar la base de datos y los registros lo encuentras en el repositorio y se llama <code>schema.sql</code>. Debes crear un usuario con su contraseña en la base de datos. La base de datos se llama <em>bookmedik</em> y se crea al ejecutar el <em>script</em>.</li>
-<li>Ejecuta el contenedor <em>MariaDB</em> y carga los datos del <em>script</em> <code>schema.sql</code>. <a href="https://gist.github.com/spalladino/6d981f7b33f6e0afe6bb">Para más información</a>.</li>
-<li>El contenedor <em>MariaDB</em> debe tener un volumen para guardar la base de datos.</li>
-<li>El contenedor que creas debe tener un volumen para guardar los <em>logs</em> de <em>Apache2</em>.</li>
-<li>Crea una imagen <em>Docker</em> con la aplicación desde una imagen base de <em>debian</em> o <em>ubuntu</em>. Ten en cuenta que el fichero de configuración de la base de datos (<code>core\controller\Database.php</code>) lo tienes que configurar utilizando las variables de entorno del contenedor <em>MariaDB</em>. (Nota: Para obtener las variables de entorno en <em>PHP</em> usar la función <code>getenv</code>. <a href="https://www.php.net/manual/es/function.getenv.php">Para más infomación</a>.</li>
-<li>La imagen la tienes que crear en tu máquina con el comando <code>docker build</code>.</li>
+<li>
+<p>Queremos ejecutar en un contenedor <em>Docker</em> la aplicación web escrita en <em>PHP</em>: <a href="https://github.com/evilnapsis/bookmedik">bookMedik</a></p>
+</li>
+<li>
+<p>Es necesario tener un contenedor con <em>MariaDB</em> donde vamos a crear la base de datos y los datos de la aplicación. El <em>script</em> para generar la base de datos y los registros lo encuentras en el repositorio y se llama <code>schema.sql</code>. Debes crear un usuario con su contraseña en la base de datos. La base de datos se llama <em>bookmedik</em> y se crea al ejecutar el <em>script</em>.</p>
+</li>
+<li>
+<p>Ejecuta el contenedor <em>MariaDB</em> y carga los datos del <em>script</em> <code>schema.sql</code>. <a href="https://gist.github.com/spalladino/6d981f7b33f6e0afe6bb">Para más información</a>.</p>
+</li>
+<li>
+<p>El contenedor <em>MariaDB</em> debe tener un volumen para guardar la base de datos.</p>
+</li>
+<li>
+<p>El contenedor que creas debe tener un volumen para guardar los <em>logs</em> de <em>Apache2</em>.</p>
+</li>
+<li>
+<p>Crea una imagen <em>Docker</em> con la aplicación desde una imagen base de <em>debian</em> o <em>ubuntu</em>. Ten en cuenta que el fichero de configuración de la base de datos (<code>core\controller\Database.php</code>) lo tienes que configurar utilizando las variables de entorno del contenedor <em>MariaDB</em>. (Nota: Para obtener las variables de entorno en <em>PHP</em> usar la función <code>getenv</code>. <a href="https://www.php.net/manual/es/function.getenv.php">Para más infomación</a>.</p>
+</li>
+<li>
+<p>La imagen la tienes que crear en tu máquina con el comando <code>docker build</code>.</p>
+</li>
 <li>
 <p>Crea un <em>script</em> con <code>docker compose</code> que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).</p>
 </li>
