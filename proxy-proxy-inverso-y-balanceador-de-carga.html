@@ -236,9 +236,11 @@ root@proxy:~# tail -f /var/log/squid/access.log
 <p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
 <p>Ahora, vamos a dirigirnos de nuevo a la configuración del navegador, a la parte de la configuración del <em>proxy</em> e indicaremos que use la configuración <em>proxy</em> del sistema.</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/proxyfirefox2.png"></p>
-<p>Hecho esto, tendremos que configurar nuestro propio sistema para que por defecto utilice nuestro <em>proxy</em>. Este proceso lo realizaremos en el apartado <strong>Configuración del sistema</strong>, y dentro</p>
+<p>Hecho esto, tendremos que configurar nuestro propio sistema para que por defecto utilice nuestro <em>proxy</em>. Este proceso lo realizaremos en el apartado <strong>Configuración del sistema</strong>, en la sección de <strong>Red</strong>:</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/configuracionred.png"></p>
+<p>Configuraremos el <em>proxy</em> de manera manual de la siguiente manera:</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/configuracionredproxy.png"></p>
+<p>Con esto habríamos terminado de configurar nuestro sistema para que utilice el <em>proxy Squid</em>.</p>
 <p>Antes de dirigirnos a nuestro navegador para acceder a las webs, en la terminal, volveremos a dejar el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
 <pre>
 tail -f /var/log/squid/access.log
