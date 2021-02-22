@@ -138,6 +138,18 @@
 </li>
 </ul>
 <hr>
+<p>Proxy inverso</p>
+<p><strong>Opción 1</strong></p>
+<p>Para hacer esta práctica puedes utilizar el escenario del ejercicio anterior.</p>
+<p>En este caso queremos instalar dos servidores web en el apache1 y en apache2, estos servidores deben servir una web completa (con hoja de estilo, imágenes,…) busca alguna plantilla (debe tener algunas páginas html para probar los enlaces).</p>
+<p>Configura en el ordenador balanceador (tienes que detener haproxy) un proxy inverso para acceder a las aplicaciones de dos formas distintas:</p>
+<p><strong>Opción 2</strong></p>
+<p>En una máquina instala docker e instala con docker-compose dos aplicaciones: joomla y nextcloud. Instala un proxy inverso para acceder a las aplicaciones de dos formas distintas:</p>
+<ul>
+<li>Tarea 1: Para que se acceda a la primera aplicación con la URL www.app1.org y a la segunda aplicación con la URL www.app2.org.</li>
+<li>Tarea 2: Para que se acceda a la primera aplicación con la URL www.servidor.org\app1 y a la segunda aplicación con la URL www.servidor.org\app2.</li>
+</ul>
+<hr>
 <h2>Proxy</h2>
 <p>En este artículo vamos a instalar un <em>proxy</em> <strong>Squid</strong> para configurar nuestro cliente para que acceda a internet por medio de este <em>proxy</em>.</p>
 <p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/Vagrantfile.txt">Vagrantfile</a>.</p>
@@ -342,7 +354,7 @@ acl lista-negra dstdomain "/etc/squid/listanegra"
 http_access deny lista-negra
 </pre>
 
-<p>Podemos apreciar que hemos hecho referencia al fichero <code>/etc/squid/listanegra</code>. Este fichero será el que crearemos y en él indicaremos las URLs que estarán bloqueadas. En mi caso, si visualizamos su contenido: </p>
+<p>Podemos apreciar que hemos hecho referencia al fichero <code>/etc/squid/listanegra</code>. Este fichero será el que crearemos y en él indicaremos las URLs que estarán bloqueadas. En mi caso, si visualizamos su contenido:</p>
 <pre>
 root@proxy:~# cat /etc/squid/listanegra
 .facebook.com
@@ -362,7 +374,7 @@ tail -f /var/log/squid/access.log
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/facebook.png"></p>
 <p>Vemos que no nos permite acceder a la web, por lo que parece que el funcionamiento es el correcto, pero ahora, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> solo esté bloqueando la conexión a <em>Facebook</em> y no a todas las webs. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/amazon.png"></p>
-<p>Una vez comprobamos que no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<p>Una vez comprobamos que a ésta sí nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
 <pre>
 root@proxy:~# tail -f /var/log/squid/access.log
 1613988887.582      0 192.168.200.1 TCP_DENIED/403 3968 CONNECT www.facebook.com:443 - HIER_NONE/- text/html
@@ -388,6 +400,81 @@ root@proxy:~# tail -f /var/log/squid/access.log
 </pre>
 
 <p>¡Perfecto! Ya tendríamos funcionando nuestra lista negra.</p>
+<p>Ya sabemos como podríamos bloquear el acceso a determinadas webs, pero, ¿y si lo que quisiéramos es bloquear el acceso a todas las webs, menos a las que nosotros especifiquemos? O lo que sería lo mismo, implementar una lista blanca.</p>
+<p>Por ejemplo, imaginemos que somos los administradores de una empresa y queremos que nuestros trabajadores solo puedan acceder a determinadas webs. Esto lo podemos solucionar con una <em>whitelist</em>.</p>
+<p>Para añadir este tipo de filtro a nuestro <em>proxy</em>, nos dirigiremos al fichero <code>/etc/squid/squid.conf</code> y en él, en la parte de las <em>ACLs</em> introduciremos las siguientes líneas:</p>
+<pre>
+#LISTA BLANCA
+acl lista-blanca dstdomain "/etc/squid/listablanca"
+
+http_access allow lista-blanca
+</pre>
+
+<p>De manera que el resultado sería algo así:</p>
+<pre>
+acl localnet src 0.0.0.1-0.255.255.255  # RFC 1122 "this" network (LAN)
+acl localnet src 10.0.0.0/8             # RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10          # RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16         # RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12          # RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16         # RFC 1918 local private network (LAN)
+acl localnet src fc00::/7               # RFC 4193 local private network range
+acl localnet src fe80::/10              # RFC 4291 link-local (directly plugged) machines
+
+acl localnet src 172.22.9.28
+acl localnet src 192.168.15.151
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+
+#LISTA NEGRA
+#acl lista-negra dstdomain "/etc/squid/listanegra"
+
+#http_access deny lista-negra
+
+#LISTA BLANCA
+acl lista-blanca dstdomain "/etc/squid/listablanca"
+
+http_access allow lista-blanca
+</pre>
+
+<p>Podemos apreciar que hemos hecho referencia al fichero <code>/etc/squid/listanegra</code>. Este fichero será el que crearemos y en él indicaremos las URLs que estarán bloqueadas. En mi caso, si visualizamos su contenido:</p>
+<pre>
+root@proxy:~# cat /etc/squid/listablanca
+.javierpzh.github.io
+</pre>
+
+<p>Hecho esto, reiniciaremos el servicio:</p>
+<pre>
+systemctl restart squid
+</pre>
+
+<p>Antes de dirigirnos a nuestro navegador para acceder a mi web, en la terminal, volveremos a dejar el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>En mi caso, sigo teniendo establecida la configuración del <em>proxy</em>, de manera que vamos a probar a acceder a <a href="https://javierpzh.github.io/">javierpzh.github.io</a>.</p>
+<p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/mipagina.png"></p>
+<p>Vemos que nos permite acceder a la web, por lo de momento el funcionamiento es el correcto, pero ahora, para terminar de comprobarlo, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> esté bloqueando cualquier tipo de conexión que no sea a mi web. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
+<p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/amazon2.png"></p>
+<p>Una vez comprobamos que a ésta web no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>¡Perfecto! Ya tendríamos funcionando nuestra lista blanca.</p>
+<h2>Proxy inverso</h2>
 <p>.</p>
     </article>
 
