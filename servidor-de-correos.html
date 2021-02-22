@@ -428,6 +428,7 @@ scan unix -       -       n       -       16       smtp
 systemctl restart postfix
 </pre>
 
+<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em>, y en el mensaje del correo, introduciré un mensaje que es detectado como <em>virus</em>. El mensaje de virus es el siguiente: <code>X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*</code>.</p>
 <p>Vamos a hacer la prueba visualizando los <em>logs</em>:</p>
 <pre>
 Feb 19 19:43:56 vpsjavierpzh spamd[24888]: spamd: clean message (-0.1/5.0) for debian-spamd:112 in 0.2 seconds, 2794 bytes.
