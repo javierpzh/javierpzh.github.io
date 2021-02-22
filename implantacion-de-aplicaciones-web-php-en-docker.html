@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content=".">
+        <meta name="description" content="1. Ejecución de una aplicación web PHP en Docker. Queremos ejecutar en un contenedor docker la aplicación web escrita en PHP: bookMedik...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -47,7 +47,7 @@
 	<meta property="og:url" content="/implantacion-de-aplicaciones-web-php-en-docker.html">
 	<meta property="og:title" content="Implantación de aplicaciones web PHP en Docker">
 	<meta property="article:published_time" content="2018-02-21 00:00:00+01:00">
-            <meta property="og:description" content=".">
+            <meta property="og:description" content="1. Ejecución de una aplicación web PHP en Docker. Queremos ejecutar en un contenedor docker la aplicación web escrita en PHP: bookMedik...">
 
             <meta property="og:image" content="images/theme/banner-aplicacionesweb.jpg">
 </head>
@@ -106,7 +106,36 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>.</p>
+        <p><strong>1. Ejecución de una aplicación web PHP en Docker.</strong></p>
+<ul>
+<li>Queremos ejecutar en un contenedor docker la aplicación web escrita en PHP: bookMedik (https://github.com/evilnapsis/bookmedik).</li>
+<li>Es necesario tener un contenedor con mariadb donde vamos a crear la base de datos y los datos de la aplicación. El script para generar la base de datos y los registros lo encuentras en el repositorio y se llama schema.sql. Debes crear un usuario con su contraseña en la base de datos. La base de datos se llama bookmedik y se crea al ejecutar el script.</li>
+<li>Ejecuta el contenedor mariadb y carga los datos del script schema.sql. Para más información.</li>
+<li>El contenedor mariadb debe tener un volumen para guardar la base de datos.</li>
+<li>El contenedor que creas debe tener un volumen para guardar los logs de apache2.</li>
+<li>Crea una imagen docker con la aplicación desde una imagen base de debian o ubuntu. Ten en cuenta que el fichero de configuración de la base de datos (core\controller\Database.php) lo tienes que configurar utilizando las variables de entorno del contenedor mariadb. (Nota: Para obtener las variables de entorno en PHP usar la función getenv. Para más infomación).</li>
+<li>La imagen la tienes que crear en tu máquina con el comando docker build.</li>
+<li>
+<p>Crea un script con docker compose que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).</p>
+</li>
+<li>
+<p><strong>Entrega la url del repositorio GitHub donde tengas la construcción (directorio build y el despliegue (directorio deploy))</strong></p>
+</li>
+<li><strong>Entrega una captura de pantalla donde se vea funcionando la aplicación, una vez que te has logueado.</strong></li>
+</ul>
+<p><strong>2. Ejecución de una aplicación web PHP en Docker.</strong></p>
+<ul>
+<li>Realiza la imagen docker de la aplicación a partir de la imagen oficial PHP que encuentras en docker hub. Lee la documentación de la imagen para configurar una imagen con apache2 y php, además seguramente tengas que instalar alguna extensión de php.</li>
+<li>Crea esta imagen en docker hub.</li>
+<li>
+<p>Crea un script con docker compose que levante el escenario con los dos contenedores.</p>
+</li>
+<li>
+<p><strong>Entrega la url del repositorio GitHub donde tengas la construcción (directorio build y el despliegue (directorio deploy))</strong></p>
+</li>
+<li><strong>Entrega una captura de pantalla donde se vea funcionando la aplicación, una vez que te has logueado.</strong></li>
+</ul>
+<p>.</p>
     </article>
 
         <div class="tags">
