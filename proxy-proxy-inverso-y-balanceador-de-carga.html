@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Proxy, proxy inverso y balanceador de carga | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador. Tarea 2:...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Proxy">
+        <meta name="tags" content="Proxy inverso">
+        <meta name="tags" content="Balanceador de carga">
+        <meta name="tags" content="Squid">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/proxy-proxy-inverso-y-balanceador-de-carga.html">
+	<meta property="og:title" content="Proxy, proxy inverso y balanceador de carga">
+	<meta property="article:published_time" content="2018-02-21 00:00:00+01:00">
+            <meta property="og:description" content="Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador. Tarea 2:...">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-proxy-proxy-inverso-y-balanceador-de-carga">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Proxy, proxy inverso y balanceador de carga</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el mié 21 febrero 2018
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <ul>
+<li>
+<p>Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador.</p>
+</li>
+<li>
+<p>Tarea 2: Prueba que tu ordenador está navegando a través del proxy (HTTP/HTTPS) configurando el proxy de dos maneras diferentes:</p>
+<ul>
+<li>
+<p>Directamente indicándolo en el navegador.</p>
+</li>
+<li>
+<p>Configurando el proxy del sistema en el entorno gráfico (tienes que indicar en el navegador que vas a hacer uso del proxy del sistema).</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Muestra el contenido del fichero <code>/var/log/squid/access.log</code> para comprobar que está funcionando el proxy.</p>
+<ul>
+<li>
+<p>Tarea 3: Configura squid para que pueda ser utilizado desde el cliente interno. En el cliente interno configura el proxy desde la línea de comandos (con una variable de entorno). Fíjate que no hemos puesto ninguna regla SNAT y podemos navegar (protocolo HTTP), pero no podemos hacer ping o utilizar otro servicio.</p>
+</li>
+<li>
+<p>Tarea 4: Con squid podemos filtrar el acceso por url o dominios, realiza las configuraciones necesarias para implementar un filtro que funcione como lista negra (todo el acceso es permitido menos las url o dominios que indiquemos en un fichero.)</p>
+</li>
+<li>
+<p>Tarea 5: Realiza las configuraciones necesarias para implementar un filtro que funcione como lista blanca (todo el acceso es denegado menos las url o dominios que indiquemos en un fichero.)</p>
+</li>
+</ul>
+<hr>
+<h2>Proxy</h2>
+<p>En este artículo vamos a instalar un <em>proxy</em> <strong>Squid</strong> para configurar nuestro cliente para que acceda a internet por medio de este <em>proxy</em>.</p>
+<p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/Vagrantfile.txt">Vagrantfile</a>.</p>
+<p>En primer lugar, vamos a llevar a cabo la instalación de <em>Squid</em> en la primera máquina llamada <em>proxy</em>. Para ello empleamos el siguiente comando:</p>
+<pre>
+apt install squid -y
+</pre>
+
+<p>Y lo iniciaremos, además de habilitarlo en cada inicio del sistema:</p>
+<pre>
+systemctl enable squid && systemctl start squid
+</pre>
+
+<p>Una vez instalado, tendremos que llevar a cabo su configuración. En mi caso, me interesa que <em>Squid</em> permita conexiones desde mi red local. Por defecto, escuchará peticiones en el puerto <strong>3128</strong>. Para que no permita conexiones desde cualquier dirección, nos dirigiremos a su fichero de configuración <code>/etc/squid/squid.conf</code> y en él debemos buscar la siguiente línea:</p>
+<pre>
+http_access deny all
+</pre>
+
+<p>Puede ser que nos la encontramos con el siguiente aspecto:</p>
+<pre>
+http_access allow all
+</pre>
+
+<p>Si el valor establecido es <em>allow</em> significará que permitirá conexiones desde cualquier interfaz de red.</p>
+<p>También debemos asegurarnos que las siguientes líneas estén habilitadas, es decir, que no se encuentren comentadas:</p>
+<pre>
+http_access allow localnet
+http_access allow localhost
+</pre>
+
+<p>Comprobado estos detalles, añadiremos la siguiente línea:</p>
+<pre>
+acl localnet src 172.22.9.28
+</pre>
+
+<p>Esta línea se encarga de definir una ACL que permitirá a la IP indicada la conexión a nuestro <em>proxy</em>.</p>
+<p>Es muy <strong>importante</strong> añadir la línea junto a este bloque de ACLs, ya que el orden de las configuraciones influye:</p>
+<pre>
+acl localnet src 0.0.0.1-0.255.255.255  # RFC 1122 "this" network (LAN)
+acl localnet src 10.0.0.0/8             # RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10          # RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16         # RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12          # RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16         # RFC 1918 local private network (LAN)
+acl localnet src fc00::/7               # RFC 4193 local private network range
+acl localnet src fe80::/10              # RFC 4291 link-local (directly plugged) machines
+
+acl localnet src 172.22.9.28
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+</pre>
+
+<p>Hecho esto, reiniciaremos el servicio:</p>
+<pre>
+systemctl restart squid
+</pre>
+
+<p>Antes de dirigirnos a nuestro navegador para establecer el nuevo <em>proxy</em>, en la terminal, dejaremos el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>Para configurar el <em>proxy</em> en nuestro navegador, en mi caso, explicaré como es el proceso en <strong>Firefox</strong>, nos dirigimos a <strong>Preferencias</strong>, y en el apartado <strong>General</strong>, al final nos aparece una sección llamada <strong>Configuración de red</strong>, dentro de su configuración podremos establecer manualmente nuestro <em>proxy</em>.ç</p>
+<p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/proxyfirefox.png"></p>
+<p>Establecido el <em>proxy</em> vamos a probar a acceder a diferentes webs como pueden ser <a href="https://javierpzh.github.io/">https://javierpzh.github.io/</a>, <a href="https://www.youtube.com">https://www.youtube.com</a> y <a href="https://www.google.com/">https://www.google.com/</a>.</p>
+<p>Una vez comprobamos que podemos acceder correctamente, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1613639730.738     33 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/172.217.17.3 -
+1613639731.493    780 192.168.200.1 TCP_TUNNEL/200 39 CONNECT maxcdn.bootstrapcdn.com:443 - HIER_DIRECT/209.197.3.15 -
+1613639738.008    151 192.168.200.1 TCP_TUNNEL/200 5225 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/216.58.211.234 -
+1613639738.038    181 192.168.200.1 TCP_TUNNEL/200 5250 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/216.58.211.234 -
+1613639738.857     35 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/172.217.17.3 -
+1613639740.256     40 192.168.200.1 TCP_TUNNEL/200 39 CONNECT www.gstatic.com:443 - HIER_DIRECT/142.250.184.163 -
+1613639744.837     23 192.168.200.1 TCP_TUNNEL/200 39 CONNECT lh3.googleusercontent.com:443 - HIER_DIRECT/142.250.184.1 -
+</pre>
+
+<p>.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/proxy.html">Proxy</a>, <a href="/tag/proxy-inverso.html">Proxy inverso</a>, <a href="/tag/balanceador-de-carga.html">Balanceador de carga</a>, <a href="/tag/squid.html">Squid</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
