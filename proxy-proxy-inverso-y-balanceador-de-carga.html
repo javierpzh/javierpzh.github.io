@@ -141,6 +141,7 @@
 <h2>Proxy</h2>
 <p>En este artículo vamos a instalar un <em>proxy</em> <strong>Squid</strong> para configurar nuestro cliente para que acceda a internet por medio de este <em>proxy</em>.</p>
 <p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/Vagrantfile.txt">Vagrantfile</a>.</p>
+<h4>Instalación</h4>
 <p>En primer lugar, vamos a llevar a cabo la instalación de <em>Squid</em> en la primera máquina llamada <em>proxy</em>. Para ello empleamos el siguiente comando:</p>
 <pre>
 apt install squid -y
@@ -151,6 +152,7 @@ apt install squid -y
 systemctl enable squid && systemctl start squid
 </pre>
 
+<h4>Configuración Squid</h4>
 <p>Una vez instalado, tendremos que llevar a cabo su configuración. En mi caso, me interesa que <em>Squid</em> permita conexiones desde mi red local. Por defecto, escuchará peticiones en el puerto <strong>3128</strong>. Para que no permita conexiones desde cualquier dirección, nos dirigiremos a su fichero de configuración <code>/etc/squid/squid.conf</code> y en él debemos buscar la siguiente línea:</p>
 <pre>
 http_access deny all
@@ -206,6 +208,8 @@ acl CONNECT method CONNECT
 systemctl restart squid
 </pre>
 
+<p>Ya podríamos utilizar nuestro <em>proxy</em>.</p>
+<h4>Configuración en el cliente para que utilice el proxy Squid</h4>
 <p>Antes de dirigirnos a nuestro navegador para establecer el nuevo <em>proxy</em>, en la terminal, dejaremos el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
 <pre>
 tail -f /var/log/squid/access.log
@@ -292,6 +296,10 @@ root@proxy:~# tail -f /var/log/squid/access.log
 </pre>
 
 <p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
+<h4>Configuración en Squid y en el cliente interno para que utilice el proxy Squid</h4>
+<h4>Filtros de acceso</h4>
+<p>En este apartado vamos a ver como podemos configurar <em>Squid</em> para implementar distintos filtros que controlen el acceso a las diferentes webs.</p>
+<p>En primer lugar, implementaremos un filtro que funcionará como lista negra, es decir, limitaremos el acceso únicamente a determinadas webs.</p>
 <p>.</p>
     </article>
 
