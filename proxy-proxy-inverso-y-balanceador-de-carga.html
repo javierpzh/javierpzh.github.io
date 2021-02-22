@@ -164,6 +164,7 @@ apt install squid -y
 systemctl enable squid && systemctl start squid
 </pre>
 
+<p>Listo.</p>
 <h4>Configuración Squid</h4>
 <p>Una vez instalado, tendremos que llevar a cabo su configuración. En mi caso, me interesa que <em>Squid</em> permita conexiones desde mi red local. Por defecto, escuchará peticiones en el puerto <strong>3128</strong>. Para que no permita conexiones desde cualquier dirección, nos dirigiremos a su fichero de configuración <code>/etc/squid/squid.conf</code> y en él debemos buscar la siguiente línea:</p>
 <pre>
