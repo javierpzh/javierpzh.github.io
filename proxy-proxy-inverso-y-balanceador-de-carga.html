@@ -455,6 +455,7 @@ root@proxy:~# cat /etc/squid/listablanca
 .javierpzh.github.io
 </pre>
 
+<p>Ya casi </p>
 <p>Hecho esto, reiniciaremos el servicio:</p>
 <pre>
 systemctl restart squid
@@ -471,7 +472,9 @@ tail -f /var/log/squid/access.log
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/amazon2.png"></p>
 <p>Una vez comprobamos que a ésta web no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
 <pre>
-tail -f /var/log/squid/access.log
+root@proxy:~# tail -f /var/log/squid/access.log
+1614082229.707   1058 192.168.200.1 TCP_TUNNEL/200 39 CONNECT javierpzh.github.io:443 - HIER_DIRECT/185.199.110.153 -
+1614082237.344      0 192.168.200.1 TCP_DENIED/403 3959 CONNECT www.amazon.es:443 - HIER_NONE/- text/html
 </pre>
 
 <p>¡Perfecto! Ya tendríamos funcionando nuestra lista blanca.</p>
