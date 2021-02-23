@@ -307,11 +307,11 @@ ORA-01653: no se ha podido ampliar la tabla SYSTEM.TABLA3 con 128 en el tablespa
 <h4>Vamos a realizar una consulta al diccionario de datos que muestre qué índices existen para objetos pertenecientes al esquema de SCOTT y sobre qué columnas están definidos. ¿En qué fichero o ficheros de datos se encuentran las extensiones de sus segmentos correspondientes?</h4>
 <p>Realizamos la siguiente consulta:</p>
 <pre>
-SQL> SELECT a.TABLE_NAME, a.INDEX_NAME, a.COLUMN_NAME, c.FILE_NAME
-  2  FROM DBA_IND_COLUMNS a, DBA_EXTENTS b, DBA_DATA_FILES c
-  3  WHERE a.TABLE_NAME = b.SEGMENT_NAME
-  4  AND b.FILE_ID = c.FILE_ID
-  5  AND a.TABLE_OWNER='SCOTT';
+SQL> SELECT columns.TABLE_NAME, columns.INDEX_NAME, columns.COLUMN_NAME, files.FILE_NAME
+  2  FROM DBA_IND_COLUMNS columns, DBA_EXTENTS extents, DBA_DATA_FILES files
+  3  WHERE columns.TABLE_NAME = extents.SEGMENT_NAME
+  4  AND extents.FILE_ID = files.FILE_ID
+  5  AND columns.TABLE_OWNER='SCOTT';
 
 TABLE_NAME                     INDEX_NAME
 ------------------------------ ------------------------------
