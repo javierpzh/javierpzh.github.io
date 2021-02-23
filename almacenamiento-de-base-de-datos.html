@@ -357,13 +357,13 @@ Pepe tiene cuota ilimitada en todos los espacios, aunque el suyo por defecto es 
 <p>e) Lidia y Jaime dejan la empresa, borra los usuarios y el espacio de tablas correspondiente, detalla los pasos necesarios para que no quede rastro del espacio de tablas.</p>
 <h2>PostgreSQL</h2>
 <h4>Averigua si ¿Existen los conceptos de segmento y de extensión en PostgreSQL, en qué consisten? ¿Cuáles son las diferencias con los conceptos correspondientes de Oracle?</h4>
-<p>En <em>Oracle</em>, la organización del almacenamiento dentro de un <em>tablespace</em>, se organiza en <strong>segmentos</strong>, que a su vez, contienen una o varias <strong>extensiones</strong>.</p>
+<p>En <strong>Oracle</strong>, la organización del almacenamiento dentro de un <em>tablespace</em>, se organiza en <strong>segmentos</strong>, que a su vez, contienen una o varias <strong>extensiones</strong>.</p>
 <p>Cuando se crea un <em>segmento</em> en un <em>tablespace</em>, <em>Oracle</em> asigna una o varias <em>extensiones</em> en alguno de los archivos de datos del <em>tablespace</em>. Cuando el espacio inicialmente asignado se agota, <em>Oracle</em> asigna una nueva <em>extensión</em> al <em>segmento</em>, y así sucesivamente.</p>
 <p>Las <em>extensiones</em> asignadas a un <em>segmento</em> están en el <em>tablespace</em> de creación del <em>segmento</em>, aunque no tienen porque estar juntas, ni en el mismo archivo de datos (si el <em>tablespace</em> tuviera varios archivos de datos).</p>
 <p>Cuando se elimina un <em>segmento</em>, las <em>extensiones</em> que ocupa se liberan y vuelven a quedar disponibles.</p>
 <p>Este gráfico resume lo explicado:</p>
 <p><img alt="." src="images/abd_almacenamiento/grafico.ej.postgresql.png"></p>
-<p>Entendido lo que son los <em>segmentos</em> y las <em>extensiones</em> en <em>Oracle</em>, vamos a ver su comportamiento en <em>PostgreSQL</em>.</p>
+<p>Entendido lo que son los <em>segmentos</em> y las <em>extensiones</em> en <em>Oracle</em>, vamos a ver su comportamiento en <strong>PostgreSQL</strong>.</p>
 <h2>MySQL</h2>
 <h4>Averigua si existe el concepto de espacio de tablas en MySQL y las diferencias con los tablespaces de Oracle.</h4>
 <h2>MongoDB</h2>
