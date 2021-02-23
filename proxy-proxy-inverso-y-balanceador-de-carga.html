@@ -183,7 +183,7 @@ http_access allow localnet
 http_access allow localhost
 </pre>
 
-<p>Comprobado estos detalles, añadiremos la siguiente línea:</p>
+<p>Esto significa, que nos permitirá realizar peticiones desde ambas redes especificadas. Comprobado estos detalles, añadiremos la siguiente línea:</p>
 <pre>
 acl localnet src 172.22.9.28
 </pre>
@@ -373,7 +373,7 @@ tail -f /var/log/squid/access.log
 
 <p>En mi caso, sigo teniendo establecida la configuración del <em>proxy</em>, de manera que vamos a probar a acceder a <a href="https://www.facebook.com/">www.facebook.com</a>.</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/facebook.png"></p>
-<p>Vemos que no nos permite acceder a la web, por lo que parece que el funcionamiento es el correcto, pero ahora, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> solo esté bloqueando la conexión a <em>Facebook</em> y no a todas las webs. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
+<p>Vemos que no nos permite acceder a la web, por lo que, parece que el funcionamiento es el correcto, pero ahora, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> solo esté bloqueando la conexión a <em>Facebook</em> y no a todas las webs. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/amazon.png"></p>
 <p>Una vez comprobamos que a ésta sí nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
 <pre>
@@ -455,7 +455,11 @@ root@proxy:~# cat /etc/squid/listablanca
 .javierpzh.github.io
 </pre>
 
-<p>Ya casi </p>
+<p>Ya casi habríamos terminado, pero analicemos el cambio que hemos hecho. Hemos permitido el acceso a una determinada web, pero no hemos bloqueado el acceso a las demás webs. Para hacer esto y bloquear todas las webs menos las que especifiquemos en nuestra <em>whitelist</em>, debemos cambiar el valor de la siguiente línea:</p>
+<pre>
+http_access deny localnet
+</pre>
+
 <p>Hecho esto, reiniciaremos el servicio:</p>
 <pre>
 systemctl restart squid
@@ -468,7 +472,7 @@ tail -f /var/log/squid/access.log
 
 <p>En mi caso, sigo teniendo establecida la configuración del <em>proxy</em>, de manera que vamos a probar a acceder a <a href="https://javierpzh.github.io/">javierpzh.github.io</a>.</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/mipagina.png"></p>
-<p>Vemos que nos permite acceder a la web, por lo de momento el funcionamiento es el correcto, pero ahora, para terminar de comprobarlo, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> esté bloqueando cualquier tipo de conexión que no sea a mi web. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
+<p>Vemos que nos permite acceder a la web, por lo que, de momento el funcionamiento es el correcto, pero ahora, para terminar de comprobarlo, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> esté bloqueando cualquier tipo de conexión que no sea a mi web. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
 <p><img alt="." src="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/amazon2.png"></p>
 <p>Una vez comprobamos que a ésta web no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
 <pre>
