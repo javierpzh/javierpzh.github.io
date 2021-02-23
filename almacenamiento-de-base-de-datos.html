@@ -369,7 +369,7 @@ Pepe tiene cuota ilimitada en todos los espacios, aunque el suyo por defecto es 
 <p>Cada <em>tablespace</em> creado se asigna a un subdirectorio del directorio que hayamos definido como directorio de datos (<em>data_directory</em>) en la instalación de <em>PostgreSQL</em>. (Para consultar cuál es nuestro directorio de datos podemos emplear el siguiente comando: <code>SHOW data_directory;</code>).</p>
 <p>En dicho directorio del <em>tablespace</em> se crearán archivos distintos para cada uno de los <em>segmentos</em>. Es decir, cuando se crea un <em>segmento</em>, se crea un archivo de datos dentro del directorio asignado al <em>tablespace</em>. A este archivo no se le puede indicar el tamaño ni el nombre, y no es compartido por otras tablas.</p>
 <p>Respecto a las <em>extensiones</em>, no existe tal concepto en <em>PostgreSQL</em> como lo conocemos en <em>Oracle</em>. Pero sí existe este concepto como librerías o módulos que agregan funcionalidades específicas (se deben instalar con <code>create extension</code>).</p>
-<p>La única referencia al sistema de almacenamiento, es que la unidad mínima de almacenamiento se denomina pagina o bloque. Un bloque en <em>PostgreSQL</em> ocupa por defecto 8 <em>kilobytes</em>.</p>
+<p>La única referencia al sistema de almacenamiento, es que la unidad mínima de almacenamiento se denomina <em>página</em> o <em>bloque</em>. Un <em>bloque</em> en <em>PostgreSQL</em> ocupa por defecto 8 <em>kilobytes</em>.</p>
 <h2>MySQL</h2>
 <h4>Averigua si existe el concepto de espacio de tablas en MySQL y las diferencias con los tablespaces de Oracle.</h4>
 <h2>MongoDB</h2>
