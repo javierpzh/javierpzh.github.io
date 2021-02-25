@@ -374,8 +374,39 @@ Pepe tiene cuota ilimitada en todos los espacios, aunque el suyo por defecto es 
 <h2>MySQL</h2>
 <h4>¿Existe el concepto de espacio de tablas en MySQL?</h4>
 <h4>¿Qué diferencias presentan con los tablespaces de Oracle?</h4>
-<p>En <em>MySQL</em> también disponemos de <em>tablespaces</em>, aunque su comportamiento es distinto, según</p>
-<p>Los espacios de tabla (tablespaces) son unidades de almacenamiento lógicas de motores de base de datos relacionales como InnoDB, que contienen todos los datos del sistema de base de datos. Cada uno de los espacios de tabla contiene como mínimo un fichero de datos físico del sistema operativo subyacente en el que se almacenan tanto tablas de bases de datos como índices.</p>
+<p>La principal diferencia que presenta <em>MySQL</em> en comparación con <em>Oracle</em>, es que éste, sólo posee un tipo de motor de almacenamiento, y está pensado para una sola base de datos, al contrario que <em>MySQL</em>.</p>
+<p>En <em>MySQL</em> también disponemos de <em>tablespaces</em>, aunque su comportamiento puede variar según el motor de base de datos que escojamos.</p>
+<p>Los espacios de tabla (<em>tablespaces</em>) son unidades de almacenamiento lógicas de motores de base de datos relacionales como <strong>InnoDB</strong>, que contienen todos los datos del sistema de base de datos. Cada uno de los espacios de tabla contiene como mínimo, un fichero de datos físico del sistema operativo, en el que se almacenan tanto tablas de bases de datos, como índices.</p>
+<p>Dentro de los motores de base de datos, me centraré en el más conocido, que es el llamado <strong>InnoDB</strong>. Este motor nos permite controlar la lógica del almacenamiento físico y acceso a los datos. Sus principales ventajas son las siguientes:</p>
+<ul>
+<li>Soporte de transacciones</li>
+<li>Bloqueo de registros</li>
+<li><em>Rollback</em></li>
+<li>Nos permite tener las características <em>ACID</em>, garantizando la integridad de nuestras tablas</li>
+<li>Requiere bastante espacio de disco y bastante RAM</li>
+<li>Aumento de rendimiento a la hora de un uso elevado de sentencias <em>INSERT</em> y <em>UPDATE</em></li>
+</ul>
+<p>La sintaxis para crear un <em>tablespace</em> con <em>InnoDB</em> es la siguiente:</p>
+<pre>
+create tablespace {Nombre tablespace}
+    add datafile '{Nombre de archivo}'
+    use logfile group logfile_group
+    [extent_size [=] extent_size]
+    [initial_size [=] initial_size]
+    [autoextend_size [=] autoextend_size]
+    [max_size [=] max_size]
+    [nodegroup [=] nodegroup_id]
+    [wait]
+    [comment [=] comment_text]
+    [engine [=] engine_name]
+</pre>
+
+<p>Aunque me haya centrado principalmente en <em>InnoDB</em>, en <em>MySQL</em>, disponemos de muchos otros motores de almacenamiento, como por ejemplo <strong>MyISAM</strong>. Este motor de base de datos se utiliza para tablas que no requieran muchos espacio en disco ni mucha RAM. Sus principales ventajas son las siguientes:</p>
+<ul>
+<li>Gran velocidad a la hora de recuperar datos</li>
+<li>Recomendable para aplicaciones en las que dominan las sentencias <em>SELECT</em> ante los <em>INSERT/UPDATE</em></li>
+<li>Al no tener que hacer comprobaciones de la integridad referencial, ni bloquear las tablas para realizar las operaciones, nos proporciona una mayor velocidad</li>
+</ul>
 <h2>MongoDB</h2>
 <h4>¿Existe la posibilidad en MongoDB de decidir en qué archivo se almacena una colección?</h4>
 <p>.</p>
