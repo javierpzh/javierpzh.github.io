@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/almacenamiento-de-base-de-datos.html">
 	<meta property="og:title" content="Almacenamiento de Base de Datos">
-	<meta property="article:published_time" content="2018-02-22 00:00:00+01:00">
+	<meta property="article:published_time" content="2018-02-25 00:00:00+01:00">
             <meta property="og:description" content="Oracle Vamos a establecer que los objetos que se creen en el 'TS1' tengan un tamaño inicial de 200K, y que cada extensión sea del doble...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -96,7 +96,7 @@
                         <h1>Almacenamiento de Base de Datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el jue 22 febrero 2018
+                             el dom 25 febrero 2018
                         </span>
                         
                     </div>
@@ -409,7 +409,37 @@ create tablespace {Nombre tablespace}
 </ul>
 <h2>MongoDB</h2>
 <h4>¿Existe la posibilidad en MongoDB de decidir en qué archivo se almacena una colección?</h4>
-<p>.</p>
+<p>En primer lugar, vamos a ver donde guarda <em>MongoDB</em> los archivos de la base de datos. Por defecto, se guardan en la ruta que viene establecida en su archivo de configuración llamado <code>mongod.conf</code>. En mi caso, al tener instalado <em>MongoDB</em> sobre un sistema <em>Debian</em>, dicho archivo se encuentra en la ruta <code>/etc/mongod.conf</code>. Si nos dirigimos a él, al principio nos encontraremos un bloque como el siguiente:</p>
+<pre>
+# Where and how to store data.
+storage:
+  dbPath: /var/lib/mongodb
+...
+</pre>
+
+<p>Podemos apreciar como nos indica donde se están guardando los datos de nuestra base de datos, en mi caso, la ruta por defecto es <code>/var/lib/mongodb</code>. A continuación voy a mostrar una salida del contenido de dicha ruta para comprobar que mis documentos se estén almacenando en tal lugar:</p>
+<pre>
+root@servidor:~# ls /var/lib/mongodb
+collection-0-3377914449258320463.wt   index-1-3763332829671594932.wt   journal
+collection-0-3763332829671594932.wt   index-1--575804202552084677.wt   _mdb_catalog.wt
+collection-0--575804202552084677.wt   index-1--6595949044337281648.wt  mongod.lock
+collection-0--6595949044337281648.wt  index-2--6595949044337281648.wt  sizeStorer.wt
+collection-2-3763332829671594932.wt   index-3-3763332829671594932.wt   storage.bson
+collection-4-3377914449258320463.wt   index-5-3377914449258320463.wt   WiredTiger
+collection-4-3763332829671594932.wt   index-5-3763332829671594932.wt   WiredTigerHS.wt
+collection-7-3763332829671594932.wt   index-6-3763332829671594932.wt   WiredTiger.lock
+diagnostic.data               index-8-3763332829671594932.wt   WiredTiger.turtle
+index-1-3377914449258320463.wt        index-9-3763332829671594932.wt   WiredTiger.wt
+</pre>
+
+<p>Efectivamente aquí podemos encontrar los distintos documentos.</p>
+<p>Bien, ya sabríamos como localizar la ruta donde se están almacenando los datos de nuestra base de datos, pero, ¿y si quisiéramos indicar una nueva ruta para que <em>MongoDB</em> almacene una determinada colección?</p>
+<p>Esto también es posible en dicho gestor no relacional, y podríamos hacerlo utilizando la herramienta <code>mongod</code> mediante el siguiente comando:</p>
+<pre>
+mongod --dbpath {/ruta_a_almacenar} --fork --logpath {/ruta_a_almacenar/log}
+</pre>
+
+<p>Es importante que dicha ruta exista previamente y posea los permisos adecuados para que <code>mongod</code> pueda leer y escribir en ella.</p>
     </article>
 
         <div class="tags">
