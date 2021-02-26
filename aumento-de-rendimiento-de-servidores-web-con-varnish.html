@@ -135,6 +135,93 @@ ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
 <p>A partir de esa configuración vamos a intentar aumentar el rendimiento de nuestro servidor.</p>
 <p>Para ello vamos a llevar a cabo los siguientes apartados:</p>
 <p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecuta la receta <em>ansible</em> que encontraras en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>. Accede al <em>Wordpress</em> y termina la configuración del sitio.</strong></p>
+<p>Comenzaremos clonando el repositorio en nuestro sistema:</p>
+<pre>
+javier@debian:~/Ansible$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git
+Clonando en 'ansible_nginx_fpm_php'...
+remote: Enumerating objects: 40, done.
+remote: Counting objects: 100% (40/40), done.
+remote: Compressing objects: 100% (27/27), done.
+remote: Total 40 (delta 0), reused 36 (delta 0), pack-reused 0
+Desempaquetando objetos: 100% (40/40), listo.
+
+javier@debian:~/Ansible$ cd ansible_nginx_fpm_php/
+
+javier@debian:~/Ansible/ansible_nginx_fpm_php$ ls
+ansible.cfg  group_vars  hosts  LICENSE  README.md  roles  site.retry  site.yaml
+</pre>
+
+<p>En mi caso, he tenido que modificar el fichero <code>ansible.cfg</code> ya que voy a utilizar como equipo auxiliar una máquina construida en <em>Vagrant</em> y dichas máquinas no se crean con un usuario llamado <em>debian</em>, sino <em>vagrant</em>. Además de esta modificación, he editado el fichero <code>hosts</code> y en él he indicado la dirección IP correcta, es decir, la IP de dicha máquina <em>Vagrant</em>. Realizados estos cambios, vamos a ejecutar la receta de <em>Ansible</em>:</p>
+<pre>
+javier@debian:~/Ansible/ansible_nginx_fpm_php$ ansible-playbook site.yaml
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [nginx : install nginx, php-fpm] ******************************************************************
+changed: [nodo1]
+
+TASK [nginx : Copy info.php] ***************************************************************************
+changed: [nodo1]
+
+TASK [nginx : Copy virtualhost default] ****************************************************************
+changed: [nodo1]
+
+RUNNING HANDLER [nginx : restart nginx] ****************************************************************
+changed: [nodo1]
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [mariadb : ensure mariadb is installed] ***********************************************************
+changed: [nodo1]
+
+TASK [mariadb : ensure mariadb binds to internal interface] ********************************************
+changed: [nodo1]
+
+RUNNING HANDLER [mariadb : restart mariadb] ************************************************************
+changed: [nodo1]
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [wordpress : install unzip] ***********************************************************************
+changed: [nodo1]
+
+TASK [wordpress : download wordpress] ******************************************************************
+changed: [nodo1]
+
+TASK [wordpress : unzip wordpress] *********************************************************************
+changed: [nodo1]
+
+TASK [wordpress : create database wordpress] ***********************************************************
+changed: [nodo1]
+
+TASK [wordpress : create user mysql wordpress] *********************************************************
+changed: [nodo1] => (item=localhost)
+
+TASK [wordpress : copy wp-config.php] ******************************************************************
+changed: [nodo1]
+
+RUNNING HANDLER [wordpress : restart nginx] ************************************************************
+changed: [nodo1]
+
+PLAY RECAP *********************************************************************************************
+nodo1                      : ok=17   changed=14   unreachable=0    failed=0
+</pre>
+
+<p>Terminado el proceso, automáticamente tendremos listo nuestro servidor web, en la dirección IP especificada. En mi caso es la <em>192.168.0.35</em>, por lo que si me dirijo al navegador e introduzco dicha dirección me aparece la siguiente web:</p>
+<p><img alt="." src="images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/nginx.png"></p>
+<p>Podemos ver como efectivamente se encuentra ejecutándose el servidor <em>Nginx</em>, pero, ¿se estará ejecutando el proceso adecuado para <em>Wordpress</em>? Para comprobarlo, vamos a añadir a nuestra dirección <code>/wordpress</code>:</p>
+<p><img alt="." src="images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/wordpress.png"></p>
+<p>Parece ser que también disponemos de nuestro <em>Wordpress</em>, así que vamos a terminar la instalación de esta nueva web y acceder a su panel de administración:</p>
+<p><img alt="." src="images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/panelwordpress.png"></p>
 <p><strong>2. Vamos a hacer las pruebas de rendimiento desde la misma máquina, es decir vamos a ejecutar instrucciones similares a esta:</strong></p>
 <pre>
 ab -t 10 -c 200 -k http:/127.0.0.1/wordpress/index.php
