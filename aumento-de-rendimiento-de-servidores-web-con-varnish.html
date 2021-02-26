@@ -134,7 +134,7 @@ ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
 <p>Podemos determinar que la opción que nos ofrece más rendimiento es <strong>Nginx + PHP-FPM (socket unix)</strong>, cuyo resultado es aproximadamente unas 600 peticiones/segundo (parámetro <em>Requests per second</em> de <code>ab</code>).</p>
 <p>A partir de esa configuración vamos a intentar aumentar el rendimiento de nuestro servidor.</p>
 <p>Para ello vamos a llevar a cabo los siguientes apartados:</p>
-<p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecuta la receta <em>ansible</em> que encontraras en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>. Accede al <em>Wordpress</em> y termina la configuración del sitio.</strong></p>
+<p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecuta la receta <em>Ansible</em> que encontraras en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>. Accede al <em>Wordpress</em> y termina la configuración del sitio.</strong></p>
 <p>Comenzaremos clonando el repositorio en nuestro sistema:</p>
 <pre>
 javier@debian:~/Ansible$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git
@@ -222,13 +222,37 @@ nodo1                      : ok=17   changed=14   unreachable=0    failed=0
 <p><img alt="." src="images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/wordpress.png"></p>
 <p>Parece ser que también disponemos de nuestro <em>Wordpress</em>, así que vamos a terminar la instalación de esta nueva web y acceder a su panel de administración:</p>
 <p><img alt="." src="images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/panelwordpress.png"></p>
-<p><strong>2. Vamos a hacer las pruebas de rendimiento desde la misma máquina, es decir vamos a ejecutar instrucciones similares a esta:</strong></p>
+<p><strong>2. Vamos a hacer las pruebas de rendimiento desde la misma máquina. Para ello, vamos a ejecutar instrucciones similares a esta:</strong></p>
 <pre>
-ab -t 10 -c 200 -k http:/127.0.0.1/wordpress/index.php
+ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
 </pre>
 
-<p>Realiza algunas prueba de rendimiento con varios valores distintos para el nivel de concurrencia (50,100,250,500) y apunta el resultado de peticiones/segundo (parámetro Requests per second de ab). Puedes hacer varias pruebas y quedarte con la media. Reinicia el servidor nginx y el fpm-php entre cada prueba para que los resultados sean los más reales posibles.</p>
-<p><strong>3. Configura un <em>proxy inverso - caché Varnish</em> escuchando en el puerto 80 y que se comunica con el servidor web por el puerto 8080. Entrega y muestra una comprobación de que <em>Varnish</em> está funcionando con la nueva configuración. Realiza pruebas de rendimiento (quedate con el resultado del parámetro Requests per second) y comprueba si hemos aumentado el rendimiento. Si hacemos varias peticiones a la misma URL, ¿cuantas peticiones llegan al servidor web? (comprueba el fichero access.log para averiguarlo).</strong></p>
+<p>Hay que decir, que el comando <code>ab</code> se encuentra en el paquete <code>apache2-utils</code>, por lo que debemos instalarlo:</p>
+<pre>
+apt install apache2-utils -y
+</pre>
+
+<p>Procedo a realizar las pruebas de rendimiento con valores distintos para comprobar el nivel de concurrencia, para ello, nos centraremos en los resultados de <strong>peticiones/segundo</strong>. Hay que decir, que entre cada prueba, he reiniciado tanto el servidor <em>Nginx</em> y el como el servidor <em>PHP-FPM</em>, para que los resultados sean los más reales posibles.</p>
+<p>Veamos los resultados:</p>
+<pre>
+root@varnish:~# ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    163.73 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    169.80 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    13030.18 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    16449.18 [#/sec] (mean)
+</pre>
+
+<p><strong>3. Vistos los resultados, vamos a configurar un <em>proxy inverso - caché Varnish</em> escuchando en el puerto 80, que se comunicará con el servidor web por el puerto 8080. Posteriormente, volveremos a realizar varias pruebas de rendimiento.</strong></p>
 <p>.</p>
     </article>
 
