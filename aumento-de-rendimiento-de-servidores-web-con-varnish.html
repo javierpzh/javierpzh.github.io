@@ -303,12 +303,37 @@ systemctl restart varnish
 systemctl daemon-reload
 </pre>
 
-<p>Por fin podemos realizar de nuevo las pruebas de funcionamiento y comparar los resultados con los anteriores:</p>
+<p>Por fin podemos realizar de nuevo las pruebas de funcionamiento y comparar los resultados con los anteriores. De nuevo, los servidores han sido reiniciados entre cada una de las pruebas:</p>
 <pre>
+root@varnish:~# ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    38760.20 [#/sec] (mean)
+...
 
+root@varnish:~# ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    43572.91 [#/sec] (mean)
+...
+
+root@varnish:~# ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    42457.51 [#/sec] (mean)
+...
+
+root@varnish:~# ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    34078.54 [#/sec] (mean)
+...
 </pre>
 
-<p>.</p>
+<p>Podemos apreciar que los resultados son muy significativos y que la mejora de rendimiento es bastante abultada. Esto es debido a que nuestro <em>proxy inverso - caché</em>, a la hora de redirigir el trafico, lo hace tan sólo una vez, ya que para las próximas, ya lo tiene en <em>caché</em>, lo que hace que la respuesta sea mucho más rápida.</p>
+<p>Para demostrar que el <em>proxy Varnish</em> tan sólo ha realizado una petición a nuestro servidor web, vamos a consultar los <em>logs</em> de acceso de <em>Nginx</em>:</p>
+<pre>
+root@varnish:~# tail -f /var/log/nginx/access.log
+127.0.0.1 - - [26/Feb/2021:19:22:36 +0000] "GET /wordpress/index.php HTTP/1.1" 301 5 "-" "ApacheBench/2.3"
+</pre>
+
+<p>Como podemos apreciar tenemos una sola petición.</p>
     </article>
 
         <div class="tags">
