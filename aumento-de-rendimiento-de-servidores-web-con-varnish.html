@@ -134,7 +134,7 @@ ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
 <p>Podemos determinar que la opción que nos ofrece más rendimiento es <strong>Nginx + PHP-FPM (socket unix)</strong>, cuyo resultado es aproximadamente unas 600 peticiones/segundo (parámetro <em>Requests per second</em> de <code>ab</code>).</p>
 <p>A partir de esa configuración vamos a intentar aumentar el rendimiento de nuestro servidor.</p>
 <p>Para ello vamos a llevar a cabo los siguientes apartados:</p>
-<p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecuta la receta <em>Ansible</em> que encontraras en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>. Accede al <em>Wordpress</em> y termina la configuración del sitio.</strong></p>
+<p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecutaremos la receta <em>Ansible</em> que se encuentra en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>.</strong></p>
 <p>Comenzaremos clonando el repositorio en nuestro sistema:</p>
 <pre>
 javier@debian:~/Ansible$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git
