@@ -270,11 +270,40 @@ root@proxy:~# tail -f /var/log/squid/access.log
 <p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
 <h4>Configuración en Squid y en el cliente interno para que utilice el proxy Squid</h4>
 <p>Configuraremos nuestro cliente interno para que también navegue a través de nuestro <em>proxy</em>. Este cliente no posee entorno gráfico, por lo que la configuración se llevará a cabo por consola.</p>
-<p>Para configurar un <em>proxy</em> en un sistema <em>Linux</em>, bastará con configurar una variable de entorno. Ducha variable de entorno recibe el nombre <code>http_proxy</code>.</p>
+<p>Para configurar un <em>proxy</em> en un sistema <em>Linux</em>, bastará con configurar una variable de entorno. Dicha variable de entorno recibe el nombre <code>http_proxy</code>. La sintaxis para establecer esta variable de entorno es la siguiente:</p>
 <pre>
-export http_proxy=http://nombre-servidor:puerto/
+export http_proxy=http://(IP/URL):(PUERTO)/
 </pre>
 
+<p>En mi caso, como mi <em>servidor proxy</em> posee la dirección IP interna <code>10.0.0.10</code>, introduzco la siguiente línea:</p>
+<pre>
+root@buster:~# export http_proxy=http://10.0.0.10:3128/
+
+root@buster:~# echo $http_proxy
+http://10.0.0.10:3128/
+</pre>
+
+<p>Hecho esto, estaremos navegando por el <em>proxy</em>, así que vamos a hacer una prueba accediendo a cualquier web, pero antes dejaremos el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>Accedemos a <code>www.google.es</code>:</p>
+<pre>
+root@buster:~# wget www.google.es
+--2021-03-02 20:21:00--  http://www.google.es/
+Connecting to 10.0.0.10:3128... connected.
+Proxy request sent, awaiting response... 403 Forbidden
+2021-03-02 20:21:00 ERROR 403: Forbidden.
+</pre>
+
+<p>Si revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1614716460.773      0 10.0.0.11 TCP_DENIED/403 3937 GET http://www.google.es/ - HIER_NONE/- text/html
+</pre>
+
+<p>Podemos ver que efectivamente nuestro cliente interno está navegando por nuestro <em>proxy</em>.</p>
 <h4>Filtros de acceso</h4>
 <p>En este apartado vamos a ver como podemos configurar <em>Squid</em> para implementar distintos filtros que controlen el acceso a las diferentes webs.</p>
 <p>En primer lugar, implementaremos un filtro que funcionará como lista negra, es decir, limitaremos el acceso únicamente a determinadas webs.</p>
