@@ -270,6 +270,11 @@ root@proxy:~# tail -f /var/log/squid/access.log
 <p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
 <h4>Configuración en el cliente interno para que utilice el proxy Squid</h4>
 <p>Configuraremos nuestro cliente interno para que también navegue a través de nuestro <em>proxy</em>. Este cliente no posee entorno gráfico, por lo que la configuración se llevará a cabo por consola.</p>
+<p>En la parte del servidor, tan sólo debemos asegurarnos que la directiva siguiente esté habilitada:</p>
+<pre>
+http_access allow localnet
+</pre>
+
 <p>Para configurar un <em>proxy</em> en un sistema <em>Linux</em>, bastará con configurar una variable de entorno. Dicha variable de entorno recibe el nombre <code>http_proxy</code>. La sintaxis para establecer esta variable de entorno es la siguiente:</p>
 <pre>
 export http_proxy=http://(IP/URL):(PUERTO)/
@@ -291,16 +296,21 @@ tail -f /var/log/squid/access.log
 <p>Accedemos a <code>www.google.es</code>:</p>
 <pre>
 root@buster:~# wget www.google.es
---2021-03-02 20:21:00--  http://www.google.es/
+--2021-03-02 20:44:15--  http://www.google.es/
 Connecting to 10.0.0.10:3128... connected.
-Proxy request sent, awaiting response... 403 Forbidden
-2021-03-02 20:21:00 ERROR 403: Forbidden.
+Proxy request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html’
+
+index.html                    [ <=>                                  ]  13.60K  --.-KB/s    in 0.009s  
+
+2021-03-02 20:44:15 (1.49 MB/s) - ‘index.html’ saved [13930]
 </pre>
 
-<p>Si revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<p>Una vez comprobamos que podemos acceder correctamente, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
 <pre>
 root@proxy:~# tail -f /var/log/squid/access.log
-1614716460.773      0 10.0.0.11 TCP_DENIED/403 3937 GET http://www.google.es/ - HIER_NONE/- text/html
+1614717855.566    155 10.0.0.11 TCP_MISS/200 14718 GET http://www.google.es/ - HIER_DIRECT/142.250.184.3 text/html
 </pre>
 
 <p>Podemos ver que efectivamente nuestro cliente interno está navegando por nuestro <em>proxy</em>.</p>
