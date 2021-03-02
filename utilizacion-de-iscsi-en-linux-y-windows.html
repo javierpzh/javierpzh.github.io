@@ -132,12 +132,18 @@
 <p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos de dicho servidor en sistemas <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
 <h2>Configuración de target iSCSI y conexión con iniciador iSCSI</h2>
 <p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el cliente, en este caso, el cliente <em>Linux</em>.</p>
-<p>Explicado esto, vamos a empezar con la instalación de los siguientes paquetes en la parte del <strong>servidor</strong>. Por un lado, instalaremos el paquete <code>lvm2</code> para crear un grupo de volúmenes y posteriormente un volumen lógico en el disco adicional que hemos añadido, en resumen, para preparar el disco para su uso como <strong>iSCSI LUN</strong>. Y por otra parte, necesitaremos instalar el paquete <code>tgt</code> que es el que nos proporcionará todo el <em>software</em> necesario para trabajar con <em>iSCSI</em>.</p>
+<p>Explicado esto, vamos a empezar con la instalación del siguiente paquete en la parte del <strong>servidor</strong>.</p>
+<p>Necesitaremos instalar el paquete <code>tgt</code> que es el que nos proporcionará todo el <em>software</em> necesario para trabajar con <em>iSCSI</em>.</p>
 <pre>
-apt install lvm2 tgt -y
+apt install tgt -y
 </pre>
 
-<p>El primer paso que debemos llevar a cabo, es la creación del grupo de volúmenes con su correspondiente volumen lógico:</p>
+<p>Por otra parte, voy a instalar el paquete <code>lvm2</code> para crear un grupo de volúmenes y posteriormente un volumen lógico en el primero de los discos adicionales que he añadido, pero <strong>importante</strong>, no es necesario crear volúmenes lógicos para utilizarlos como discos <em>iSCSI</em>, yo lo voy a hacer para mostrar que <em>iSCSI</em> también puede trabajar con ellos.</p>
+<pre>
+apt install lvm2 -y
+</pre>
+
+<p>El primer paso que voy a llevar a cabo, es la creación del grupo de volúmenes con su correspondiente volumen lógico, si tú no vas a utilizar volúmenes lógicos, lógicamente no hace falta que lo hagas:</p>
 <pre>
 root@servidor:~# lsblk
 NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
@@ -170,7 +176,7 @@ root@servidor:~# lvcreate -L 500M -n vollog1 vollogs
 systemctl restart tgt
 </pre>
 
-<p>Reiniciado el servicio, debe haber detectado el nuevo disco <em>iSCSI</em>, así que vamos a comprobarlo:</p>
+<p>Reiniciado el servicio, debe haber detectado el nuevo <em>target iSCSI</em>, así que vamos a comprobarlo:</p>
 <pre>
 root@servidor:~# tgtadm --lld iscsi --op show --mode target
 Target 1: iqn.iSCSI.com:target1
@@ -391,9 +397,9 @@ sdb      8:16   0  500M  0 disk
 
 <p>La nueva unidad funciona correctamente, por lo que este apartado estaría terminado.</p>
 <h2>Configuración de target con 2 LUN y autenticación por CHAP</h2>
-<p>Para este apartado, he creado un nuevo escenario en <em>Vagrant</em>, construido mediante el siguiente fichero <a href="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile2.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em>. El cliente <em>Windows</em> lo he creado con interfaz gráfica y también se encuentra conectado en modo puente a mi red doméstica, al igual que esta máquina.</p>
-<p>Al igual que en el primer apartado, vamos a empezar con la instalación de los siguientes paquetes en la parte del <strong>servidor</strong>. Por un lado, instalaremos el paquete <code>lvm2</code> para crear un grupo de volúmenes y posteriormente un volumen lógico en el disco adicional que hemos añadido, en resumen, para preparar el disco para su uso como <strong>iSCSI LUN</strong>. Y por otra parte, necesitaremos instalar el paquete <code>tgt</code> que es el que nos proporcionará todo el <em>software</em> necesario para trabajar con <em>iSCSI</em>.</p>
-<p>Bien, una vez tenemos los volúmenes lógicos creados, vamos a pasar con la configuración del <strong>target</strong>, es decir, del servidor. Su principal fichero de configuración se encuentra en la ruta <code>/etc/tgt/targets.conf</code>, y en él debemos añadir el siguiente bloque que será el encargado de definir nuestro <em>target</em>.</p>
+<p>El cliente <em>Windows</em> lo he creado con interfaz gráfica y también se encuentra conectado en modo puente a mi red doméstica, al igual que esta máquina.</p>
+<p>En este caso, no utilizaré volúmenes lógicos como anteriormente.</p>
+<p>Al igual que en primer apartado, para crear un nuevo <em>target</em> en el <strong>servidor</strong>, deberemos crear un nuevo fichero en la ruta <code>/etc/tgt/conf.d/</code>, este recibirá el nombre <code>target2.conf</code> y su contenido será el siguiente:</p>
 <pre>
 <\target iqn.iSCSI2.com:target2\>
     backing-store /dev/sdc
@@ -408,7 +414,7 @@ sdb      8:16   0  500M  0 disk
 systemctl restart tgt
 </pre>
 
-<p>Reiniciado el servicio, debe haber detectado el nuevo disco <em>iSCSI</em>, así que vamos a comprobarlo:</p>
+<p>Reiniciado el servicio, debe haber detectado el nuevo <em>target iSCSI</em>, así que vamos a comprobarlo:</p>
 <pre>
 root@servidor:~# tgtadm --lld iscsi --op show --mode target
 Target 1: iqn.iSCSI.com:target1
@@ -513,6 +519,7 @@ Target 2: iqn.iSCSI2.com:target2
 <p>Añadido nuestro servidor, si nos dirigimos en la pestaña <strong>Destinos</strong>, podremos apreciar como se ha añadido a nuestra lista, aunque actualmente se encuentre en un estado inactivo. Para activar la conexión, <em>clickamos</em> en <strong>Conectar</strong>. Acto seguido nos aparecerá una ventana emergente, en la que tendremos que abrir las opciones avanzadas, y en ellas, activaremos la opción llamada <strong>Habilitar inicio de sesión CHAP</strong>, e introduciremos nuestras credenciales.</p>
 <p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows2.png"></p>
 <p>Tras ello, podremos disfrutar de nuestro cliente <em>Windows</em> conectado a nuestro <em>target</em>.</p>
+<p>Con esto, ya hemos visto todo el contenido referente a este <em>post</em>, por lo que finalizaría aquí.</p>
     </article>
 
         <div class="tags">
