@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador. Tarea 2:...">
+        <meta name="description" content="Proxy En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -50,7 +50,7 @@
 	<meta property="og:url" content="/proxy-proxy-inverso-y-balanceador-de-carga.html">
 	<meta property="og:title" content="Proxy, proxy inverso y balanceador de carga">
 	<meta property="article:published_time" content="2018-03-02 00:00:00+01:00">
-            <meta property="og:description" content="Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador. Tarea 2:...">
+            <meta property="og:description" content="Proxy En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
 </head>
@@ -109,48 +109,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <ul>
-<li>
-<p>Tarea 1: Instala squid en la máquina squid y configúralo para que permita conexiones desde la red donde este tu ordenador.</p>
-</li>
-<li>
-<p>Tarea 2: Prueba que tu ordenador está navegando a través del proxy (HTTP/HTTPS) configurando el proxy de dos maneras diferentes:</p>
-<ul>
-<li>
-<p>Directamente indicándolo en el navegador.</p>
-</li>
-<li>
-<p>Configurando el proxy del sistema en el entorno gráfico (tienes que indicar en el navegador que vas a hacer uso del proxy del sistema).</p>
-</li>
-</ul>
-</li>
-</ul>
-<p>Muestra el contenido del fichero <code>/var/log/squid/access.log</code> para comprobar que está funcionando el proxy.</p>
-<ul>
-<li>
-<p>Tarea 3: Configura squid para que pueda ser utilizado desde el cliente interno. En el cliente interno configura el proxy desde la línea de comandos (con una variable de entorno). Fíjate que no hemos puesto ninguna regla SNAT y podemos navegar (protocolo HTTP), pero no podemos hacer ping o utilizar otro servicio.</p>
-</li>
-<li>
-<p>Tarea 4: Con squid podemos filtrar el acceso por url o dominios, realiza las configuraciones necesarias para implementar un filtro que funcione como lista negra (todo el acceso es permitido menos las url o dominios que indiquemos en un fichero.)</p>
-</li>
-<li>
-<p>Tarea 5: Realiza las configuraciones necesarias para implementar un filtro que funcione como lista blanca (todo el acceso es denegado menos las url o dominios que indiquemos en un fichero.)</p>
-</li>
-</ul>
-<hr>
-<p>Proxy inverso</p>
-<p><strong>Opción 1</strong></p>
-<p>Para hacer esta práctica puedes utilizar el escenario del ejercicio anterior.</p>
-<p>En este caso queremos instalar dos servidores web en el apache1 y en apache2, estos servidores deben servir una web completa (con hoja de estilo, imágenes,…) busca alguna plantilla (debe tener algunas páginas html para probar los enlaces).</p>
-<p>Configura en el ordenador balanceador (tienes que detener haproxy) un proxy inverso para acceder a las aplicaciones de dos formas distintas:</p>
-<p><strong>Opción 2</strong></p>
-<p>En una máquina instala docker e instala con docker-compose dos aplicaciones: joomla y nextcloud. Instala un proxy inverso para acceder a las aplicaciones de dos formas distintas:</p>
-<ul>
-<li>Tarea 1: Para que se acceda a la primera aplicación con la URL www.app1.org y a la segunda aplicación con la URL www.app2.org.</li>
-<li>Tarea 2: Para que se acceda a la primera aplicación con la URL www.servidor.org\app1 y a la segunda aplicación con la URL www.servidor.org\app2.</li>
-</ul>
-<hr>
-<h2>Proxy</h2>
+        <h2>Proxy</h2>
 <p>En este artículo vamos a instalar un <em>proxy</em> <strong>Squid</strong> para configurar nuestro cliente para que acceda a internet por medio de este <em>proxy</em>.</p>
 <p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Proxy_ProxyInverso_y_Balanceador_de_Carga/Vagrantfile.txt">Vagrantfile</a>.</p>
 <h4>Instalación</h4>
