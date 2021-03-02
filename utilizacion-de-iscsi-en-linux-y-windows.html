@@ -113,7 +113,7 @@
 <p><strong>iSCSI</strong> es un extensión de <em>SCSI</em>, que es un protocolo para comunicación de dispositivos. <em>SCSI</em> suele usarse en dispositivos conectados físicamente a un <em>host</em> o servidor, tales como discos duros, lectoras de CDs, ... En <em>iSCSI</em>, los comandos <em>SCSI</em> que manejan el dispositivo, se envían a través de la red. De forma que en vez de tener un disco <em>SCSI</em> conectado físicamente a nuestro equipo, lo conectamos por medio de la red.</p>
 <p>¿Eso quiere decir que es lo mismo que <em>Samba</em> o <em>NFS</em>? Pues no, ya que esos sistemas trabajan importando un sistema de archivos mediante la red, mientras que <em>iSCSI</em> importa todo el dispositivo hardware por la red, de manera que en el cliente es detectado como un dispositivo <em>SCSI</em> más. Todo esto se hace de forma transparente, como si el disco estuviera conectado directamente al hardware.</p>
 <p>Es una gran alternativa económica a <em>FiberChannel</em>.</p>
-<p><img alt="." src="images/hlc_iSCSI/iscsi.png"></p>
+<p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi.png"></p>
 <p>Y respecto a la <strong>velocidad</strong>, ¿es rápido, es lento? Un requisito indispensable de un buen disco es que sea rápido. Los discos <em>SCSI</em> suelen entregar excelentes tasas de transferencia. Pero recordemos que <em>iSCSI</em> se lleva sobre la red, por eso mismo, <em>iSCSI</em> es recomendado solo para redes conmutadas de alta velocidad.</p>
 <p>La velocidad de transferencia del <em>iSCSI</em> es de <strong>1000 MB/seg</strong>, aunque debido al protocolo, la velocidad baja hasta <em>800 MB/seg</em>. En caso de que utilicemos tarjetas <em>DUAL CHANNEL</em>, podremos llegar a <em>1600 MB/seg</em>, teniendo en cuenta las pérdidas por protocolo.</p>
 <p>Respecto al <strong>acceso a los datos</strong>, en teoría, <em>iSCSI</em> no soporta múltiples conexiones a la vez. Por ejemplo, dos equipos no podrían utilizar el mismo disco <em>iSCSI</em> para escribir en él. Eso sería como tener un disco rígido conectado a dos máquinas a la vez. Lo más probable es que surgieran inconsistencias en los datos o problemas en los accesos de lectura y escritura de la información.</p>
@@ -128,10 +128,10 @@
 <li>Dispositivos de CD</li>
 </ul>
 <p>Y por el otro lado, nos encontramos con el <strong>iniciador iSCSI</strong>. El iniciador es el cliente de <em>iSCSI</em>. Generalmente el iniciador consta de dos partes: los módulos o <em>drivers</em> que proveen soporte para que el sistema operativo pueda reconocer discos de tipo <em>iSCSI</em> y un programa que gestiona las conexiones a dichos discos. En <em>Linux</em> hay varias opciones, y en las últimas versiones de <em>Windows</em> nos encontramos con un iniciador instalado por defecto.</p>
-<p><img alt="." src="images/hlc_iSCSI/iscsi2.png"></p>
+<p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi2.png"></p>
 <p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos de dicho servidor en sistemas <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
 <h2>Configuración de target iSCSI y conexión con iniciador iSCSI</h2>
-<p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="images/hlc_iSCSI/Vagrantfile.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el cliente, en este caso, el cliente <em>Linux</em>.</p>
+<p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el cliente, en este caso, el cliente <em>Linux</em>.</p>
 <p>Explicado esto, vamos a empezar con la instalación de los siguientes paquetes en la parte del <strong>servidor</strong>. Por un lado, instalaremos el paquete <code>lvm2</code> para crear un grupo de volúmenes y posteriormente un volumen lógico en el disco adicional que hemos añadido, en resumen, para preparar el disco para su uso como <strong>iSCSI LUN</strong>. Y por otra parte, necesitaremos instalar el paquete <code>tgt</code> que es el que nos proporcionará todo el <em>software</em> necesario para trabajar con <em>iSCSI</em>.</p>
 <pre>
 apt install lvm2 tgt -y
@@ -399,7 +399,7 @@ sdb      8:16   0  500M  0 disk
 
 <p>La nueva unidad funciona correctamente, por lo que este apartado estaría terminado.</p>
 <h2>Configuración de target con 2 LUN y autenticación por CHAP</h2>
-<p>Para este apartado, he creado un nuevo escenario en <em>Vagrant</em>, construido mediante el siguiente fichero <a href="images/hlc_iSCSI/Vagrantfile2.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em>. El cliente <em>Windows</em> lo he creado con interfaz gráfica y también se encuentra conectado en modo puente a mi red doméstica, al igual que esta máquina.</p>
+<p>Para este apartado, he creado un nuevo escenario en <em>Vagrant</em>, construido mediante el siguiente fichero <a href="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile2.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em>. El cliente <em>Windows</em> lo he creado con interfaz gráfica y también se encuentra conectado en modo puente a mi red doméstica, al igual que esta máquina.</p>
 <p>Al igual que en el primer apartado, vamos a empezar con la instalación de los siguientes paquetes en la parte del <strong>servidor</strong>. Por un lado, instalaremos el paquete <code>lvm2</code> para crear un grupo de volúmenes y posteriormente un volumen lógico en el disco adicional que hemos añadido, en resumen, para preparar el disco para su uso como <strong>iSCSI LUN</strong>. Y por otra parte, necesitaremos instalar el paquete <code>tgt</code> que es el que nos proporcionará todo el <em>software</em> necesario para trabajar con <em>iSCSI</em>.</p>
 <pre>
 apt install lvm2 tgt -y
@@ -505,9 +505,9 @@ Target 1: iqn.iSCSI2.com:target1
 <p>Efectivamente, nos muestra su información, por lo que el comportamiento es el esperado y el <em>target</em> se encuentra bien configurado.</p>
 <p>Es hora de pasar con la configuración del <strong>iniciador</strong>. Ya en la máquina <em>Windows</em>, vamos a dirigirnos a la configuración de <em>iSCSI</em>.</p>
 <p>Una vez estamos en la ventana de propiedades del <em>iniciador iSCSI</em>, nos situamos en la pestaña <strong>Detección</strong>, y <em>clickamos</em> en el botón llamado <strong>Detectar portal</strong>, hecho esto, se nos abrirá una ventana como la siguiente, en la que indicaremos la dirección IP del <em>target</em> y el puerto:</p>
-<p><img alt="." src="images/hlc_iSCSI/windows1.png"></p>
+<p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows1.png"></p>
 <p>Añadido nuestro servidor, si nos dirigimos en la pestaña <strong>Destinos</strong>, podremos apreciar como se ha añadido a nuestra lista, aunque actualmente se encuentre en un estado inactivo. Para activar la conexión, <em>clickamos</em> en <strong>Conectar</strong>. Acto seguido nos aparecerá una ventana emergente, en la que tendremos que abrir las opciones avanzadas, y en ellas, activaremos la opción llamada <strong>Habilitar inicio de sesión CHAP</strong>,</p>
-<p><img alt="." src="images/hlc_iSCSI/windows2.png"></p>
+<p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows2.png"></p>
 <p>.</p>
     </article>
 
