@@ -269,6 +269,12 @@ root@proxy:~# tail -f /var/log/squid/access.log
 
 <p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
 <h4>Configuración en Squid y en el cliente interno para que utilice el proxy Squid</h4>
+<p>Configuraremos nuestro cliente interno para que también navegue a través de nuestro <em>proxy</em>. Este cliente no posee entorno gráfico, por lo que la configuración se llevará a cabo por consola.</p>
+<p>Para configurar un <em>proxy</em> en un sistema <em>Linux</em>, bastará con configurar una variable de entorno. Ducha variable de entorno recibe el nombre <code>http_proxy</code>.</p>
+<pre>
+export http_proxy=http://nombre-servidor:puerto/
+</pre>
+
 <h4>Filtros de acceso</h4>
 <p>En este apartado vamos a ver como podemos configurar <em>Squid</em> para implementar distintos filtros que controlen el acceso a las diferentes webs.</p>
 <p>En primer lugar, implementaremos un filtro que funcionará como lista negra, es decir, limitaremos el acceso únicamente a determinadas webs.</p>
