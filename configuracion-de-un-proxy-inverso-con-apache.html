@@ -173,7 +173,8 @@ a2enmod proxy proxy_http
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
-<p>que será el encargado de redirigir la petición</p>
+<p>Podemos apreciar como este <em>virtualhost</em> actuará cuando se acceda a la web <code>www.app1.org</code>. Al acceder a esta web, lo que hará la máquina <em>balanceador</em> será redirigir la petición a la máquina cuya IP es <code>10.10.10.11</code>, que es la primera de las máquinas de nuestra red interna.</p>
+<p>Entendido el funcionamiento, vamos a ver el contenido del segundo fichero, el <code>/etc/apache2/sites-available/app1.conf</code>:</p>
 <pre>
 <\VirtualHost *:80\>
 
@@ -192,11 +193,15 @@ a2enmod proxy proxy_http
 </pre>
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>De igual manera, podemos ver como este <em>virtualhost</em> actuará cuando se acceda a la web <code>www.app2.org</code>, y al acceder a ella, la máquina <em>balanceador</em> redirigirá la petición a la máquina cuya IP es <code>10.10.10.22</code>, que es la segunda de las máquinas de nuestra red interna.</p>
+<p>De esta manera, lo que estaremos haciendo será utilizando la máquina <em>balanceador</em> como <em>proxy inverso</em> para acceder a las distintas webs de nuestra red interna.</p>
+<p>Vamos a comprobar que efectivamente el funcionamiento es el explicado, para ello antes, debemos habilitar los distintos ficheros de los <em>virtualhosts</em>:</p>
 <pre>
 a2ensite app1.conf
 a2ensite app2.conf
 </pre>
 
+<p>Reiniciamos el servidor web <em>Apache</em>:</p>
 <pre>
 systemctl restart apache2
 </pre>
