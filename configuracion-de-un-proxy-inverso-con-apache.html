@@ -217,7 +217,8 @@ systemctl restart apache2
 <p>Y si accedemos desde nuestro navegador a la web <code>www.app1.org</code>:</p>
 <p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png"></p>
 <p>Podemos ver como efectivamente, el funcionamiento es el correcto.</p>
-<p>Antes de finalizar el artículo, vamos a ver también como podemos configurar nuestro <em>proxy inverso</em> para que, en vez de distinguir por nombre de dominio, lo haga por URL, es decir, únicamente tendremos un nombre de dominio y nuestro <em>proxy inverso</em> distinguirá mediante URLs, de manera que si la URL es <code>www.proxyinverso.org/app1</code>, y que acceda a la segunda web si la URL es <code>www.proxyinverso.org/app2</code>.</p>
+<p>Antes de finalizar el artículo, vamos a ver también como podemos configurar el <em>proxy inverso</em> para que, en vez de distinguir por nombre de dominio, lo haga por URL.</p>
+<p>En este caso, únicamente poseeremos un nombre de dominio y nuestro <em>proxy inverso</em> distinguirá mediante URLs, de manera que accederá a la primera web si la URL es <code>www.proxyinverso.org/app1</code>, y accederá a la segunda web si la URL es <code>www.proxyinverso.org/app2</code>.</p>
 <p>.</p>
     </article>
 
