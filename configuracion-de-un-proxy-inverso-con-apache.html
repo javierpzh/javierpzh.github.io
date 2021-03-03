@@ -111,7 +111,14 @@
 <p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Configuración_de_un_ProxyInverso_con_Apache/Vagrantfile.txt">Vagrantfile</a>.</p>
 <p>Tendremos una máquina llamada <strong>balanceador</strong> que estará conectada a nuestra red doméstica, de manera que podremos acceder a ella, además de estar conectada a una red privada, a la que también pertenecerán dos máquinas, cada una con un servidor <em>Apache</em> y que servirán webs distintas.</p>
 <p>La máquina <strong>balanceador</strong> actuará como <em>proxy inverso</em> y se encargará de redirigir las distintas peticiones, a las diferentes máquinas internas.</p>
-<p>En primer lugar, vamos a </p>
+<p>En mi caso, ambas páginas webs serán de prueba, y puedes descargar ambas plantillas desde los siguientes enlaces: <a href="images/sri_Configuración_de_un_ProxyInverso_con_Apache/coffee-master">Coffee-Master</a> y <a href="images/sri_Configuración_de_un_ProxyInverso_con_Apache/original-master">Original-Master</a>.</p>
+<p>En primer lugar, vamos a</p>
+<p><code>/etc/hosts</code></p>
+<pre>
+192.168.0.74 www.app1.org
+192.168.0.74 www.app2.org
+</pre>
+
 <p>.</p>
     </article>
 
