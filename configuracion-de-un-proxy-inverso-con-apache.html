@@ -206,12 +206,17 @@ a2ensite app2.conf
 systemctl restart apache2
 </pre>
 
-<p><code>/etc/hosts</code></p>
+<p>Para poder acceder desde nuestro equipo, debemos añadir en nuestro fichero <code>/etc/hosts</code>, las siguientes líneas, haciendo referencia a la IP de nuestra red doméstica que posea la máquina <em>balanceador</em>:</p>
 <pre>
 192.168.0.74 www.app1.org
 192.168.0.74 www.app2.org
 </pre>
 
+<p>Si accedemos desde nuestro navegador a la web <code>www.app1.org</code>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.png"></p>
+<p>Y si accedemos desde nuestro navegador a la web <code>www.app1.org</code>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png"></p>
+<p>Podemos ver que como el funcionamiento es el correcto.</p>
 <p>.</p>
     </article>
 
