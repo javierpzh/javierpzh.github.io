@@ -153,7 +153,36 @@ root@apache2:~# cat /etc/apache2/sites-available/000-default.conf
 a2enmod proxy proxy_http
 </pre>
 
-<p>Hecho esto, necesitaremos crear los distintos <em>virtualhosts</em>, que en mi caso, se llamarán <code>/etc/apache2/sites-available/app1.conf</code> y <code>/etc/apache2/sites-available/app2.conf</code>. </p>
+<p>Hecho esto, necesitaremos crear los distintos <em>virtualhosts</em>, que en mi caso, se llamarán <code>/etc/apache2/sites-available/app1.conf</code> y <code>/etc/apache2/sites-available/app2.conf</code>.</p>
+<p>Vamos a ver en primer lugar el contenido del fichero <code>/etc/apache2/sites-available/app1.conf</code>:</p>
+<pre>
+<\VirtualHost *:80\>
+
+        ServerName www.app1.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        ProxyPass "/" "http://10.10.10.11/"
+        ProxyPassReverse "/" "http://10.10.10.11/"
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>que será el encargado de redirigir la petición</p>
+<pre>
+a2ensite app1.conf
+a2ensite app2.conf
+</pre>
+
+<pre>
+systemctl restart apache2
+</pre>
+
 <p><code>/etc/hosts</code></p>
 <pre>
 192.168.0.74 www.app1.org
