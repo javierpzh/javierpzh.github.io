@@ -112,8 +112,42 @@
 <p>Tendremos una máquina llamada <strong>balanceador</strong> que estará conectada a nuestra red doméstica, de manera que podremos acceder a ella, además de estar conectada a una red privada, a la que también pertenecerán dos máquinas, cada una con un servidor <em>Apache</em> y que servirán webs distintas.</p>
 <p>La máquina <strong>balanceador</strong> actuará como <em>proxy inverso</em> y se encargará de redirigir las distintas peticiones, a las diferentes máquinas internas.</p>
 <p>En mi caso, ambas páginas webs serán de prueba, y he utilizado dos plantillas cualquiera. Puedes descargar ambas desde los siguientes enlaces: <a href="https://themewagon.com/themes/free-coffee-shop-bootstrap-template/">Coffee-Master</a> y <a href="https://themewagon.com/themes/free-bootstrap-blog-website-template/">Original-Master</a>.</p>
-<p>He </p>
-<p>En primer lugar, vamos a</p>
+<p>He descargado una plantilla en cada máquina interna, y he almacenado ambas carpetas resultantes en el directorio <code>/var/www/html</code>.</p>
+<p>A continuación dejo el contenido de los ficheros de los diferentes <em>virtualhosts</em>:</p>
+<p><strong>Máquina apache1</strong>:</p>
+<pre>
+root@apache1:~# cat /etc/apache2/sites-available/000-default.conf
+
+<\VirtualHost *:80\>
+
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/coffee-master/
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p><strong>Máquina apache2</strong>:</p>
+<pre>
+root@apache2:~# cat /etc/apache2/sites-available/000-default.conf
+
+<\VirtualHost *:80\>
+
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/original-master/
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Explicado esto, vamos a empezar con las configuraciones del propio <em>post</em>.</p>
+<p>Pongámonos en situación, ahora mismo nos encontramos con las dos máquinas internas sirviendo cada una, una web distinta. </p>
 <p><code>/etc/hosts</code></p>
 <pre>
 192.168.0.74 www.app1.org
