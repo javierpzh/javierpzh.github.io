@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+            <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Configuración de un proxy Squid | Javier Pérez Hidalgo</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="/theme/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="/theme/css/clean-blog.min.css" rel="stylesheet">
+
+        <!-- Code highlight color scheme -->
+            <link href="/theme/css/code_blocks/darkly.css" rel="stylesheet">
+
+
+        <!-- Custom Fonts -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+
+
+        <meta name="description" content="Proxy En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este...">
+
+        <meta name="author" content="Javier Pérez Hidalgo">
+
+        <meta name="tags" content="Proxy">
+        <meta name="tags" content="Squid">
+
+	                <meta property="og:locale" content="">
+		<meta property="og:site_name" content="Javier Pérez Hidalgo">
+
+	<meta property="og:type" content="article">
+            <meta property="article:author" content="/author/javier-perez-hidalgo.html">
+	<meta property="og:url" content="/configuracion-de-un-proxy-squid.html">
+	<meta property="og:title" content="Configuración de un proxy Squid">
+	<meta property="article:published_time" content="2018-03-03 00:00:00+01:00">
+            <meta property="og:description" content="Proxy En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este...">
+
+            <meta property="og:image" content="theme/images/banner-servicios.jpg">
+</head>
+
+<body class="article-configuracion-de-un-proxy-squid">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <!--    <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>-->
+                <a class="navbar-brand" href="/">Inicio</a>
+                <a class="navbar-brand" href="/categories">Categorías</a>
+                <a class="navbar-brand" href="/authors">Sobre mí</a>
+
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Header -->
+        <header class="intro-header" style="background-image: url('/theme/images/banner-servicios.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Configuración de un proxy Squid</h1>
+                        <span class="meta">Publicado por
+                                <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
+                             el sáb 03 marzo 2018
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+    <!-- Post Content -->
+    <article>
+        <h2>Proxy</h2>
+<p>En este artículo vamos a instalar un <em>proxy</em> <strong>Squid</strong> para configurar nuestro cliente para que acceda a internet por medio de este <em>proxy</em>.</p>
+<p>El escenario en el que vamos a trabajar, está definido en este <a href="images/sri_Configuración_de_un_proxy_Squid/Vagrantfile.txt">Vagrantfile</a>.</p>
+<h4>Instalación</h4>
+<p>En primer lugar, vamos a llevar a cabo la instalación de <em>Squid</em> en la primera máquina llamada <em>proxy</em>. Para ello empleamos el siguiente comando:</p>
+<pre>
+apt install squid -y
+</pre>
+
+<p>Y lo iniciaremos, además de habilitarlo en cada inicio del sistema:</p>
+<pre>
+systemctl enable squid && systemctl start squid
+</pre>
+
+<p>Listo.</p>
+<h4>Configuración Squid</h4>
+<p>Una vez instalado, tendremos que llevar a cabo su configuración. En mi caso, me interesa que <em>Squid</em> permita conexiones desde mi red local. Por defecto, escuchará peticiones en el puerto <strong>3128</strong>. Para que no permita conexiones desde cualquier dirección, nos dirigiremos a su fichero de configuración <code>/etc/squid/squid.conf</code> y en él debemos buscar la siguiente línea:</p>
+<pre>
+http_access deny all
+</pre>
+
+<p>Puede ser que nos la encontramos con el siguiente aspecto:</p>
+<pre>
+http_access allow all
+</pre>
+
+<p>Si el valor establecido es <em>allow</em> significará que permitirá conexiones desde cualquier interfaz de red.</p>
+<p>También debemos asegurarnos que las siguientes líneas estén habilitadas, es decir, que no se encuentren comentadas:</p>
+<pre>
+http_access allow localnet
+http_access allow localhost
+</pre>
+
+<p>Esto significa, que nos permitirá realizar peticiones desde ambas redes especificadas. Comprobado estos detalles, añadiremos la siguiente línea:</p>
+<pre>
+acl localnet src 172.22.9.28
+</pre>
+
+<p>Esta línea se encarga de definir una ACL que permitirá a la IP indicada la conexión a nuestro <em>proxy</em>.</p>
+<p>Es muy <strong>importante</strong> añadir la línea junto a este bloque de ACLs, ya que el orden de las configuraciones influye:</p>
+<pre>
+acl localnet src 0.0.0.1-0.255.255.255  # RFC 1122 "this" network (LAN)
+acl localnet src 10.0.0.0/8             # RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10          # RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16         # RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12          # RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16         # RFC 1918 local private network (LAN)
+acl localnet src fc00::/7               # RFC 4193 local private network range
+acl localnet src fe80::/10              # RFC 4291 link-local (directly plugged) machines
+
+acl localnet src 172.22.9.28
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+</pre>
+
+<p>Hecho esto, reiniciaremos el servicio:</p>
+<pre>
+systemctl restart squid
+</pre>
+
+<p>Ya podríamos utilizar nuestro <em>proxy</em>.</p>
+<h4>Configuración en el cliente para que utilice el proxy Squid</h4>
+<p>Antes de dirigirnos a nuestro navegador para establecer el nuevo <em>proxy</em>, en la terminal, dejaremos el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>Para configurar el <em>proxy</em> en nuestro navegador, en mi caso, explicaré como es el proceso en <strong>Firefox</strong>, nos dirigimos a <strong>Preferencias</strong>, y en el apartado <strong>General</strong>, al final nos aparece una sección llamada <strong>Configuración de red</strong>, dentro de su configuración podremos establecer manualmente nuestro <em>proxy</em>.ç</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/proxyfirefox.png"></p>
+<p>Establecido el <em>proxy</em> vamos a probar a acceder a diferentes webs como pueden ser <a href="https://javierpzh.github.io/">javierpzh.github.io</a>, <a href="https://www.youtube.com">www.youtube.com</a> y <a href="https://www.google.com/">www.google.com</a>.</p>
+<p>Una vez comprobamos que podemos acceder correctamente, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1613985923.460     12 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/142.250.184.170 -
+1613985923.466     19 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/142.250.184.170 -
+1613985923.479     32 192.168.200.1 TCP_TUNNEL/200 39 CONNECT maxcdn.bootstrapcdn.com:443 - HIER_DIRECT/209.197.3.15 -
+1613985923.511      0 192.168.200.1 NONE/000 0 NONE error:transaction-end-before-headers - HIER_NONE/- -
+1613985923.521     10 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+1613985923.521     11 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+1613985926.218     98 192.168.200.1 TCP_TUNNEL/200 5461 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/142.250.184.170 -
+1613985926.221    102 192.168.200.1 TCP_TUNNEL/200 5121 CONNECT fonts.googleapis.com:443 - HIER_DIRECT/142.250.184.170 -
+1613985926.785     10 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+1613985926.880     18 192.168.200.1 TCP_TUNNEL/200 39 CONNECT lh3.googleusercontent.com:443 - HIER_DIRECT/142.250.184.1 -
+1613985928.513    170 192.168.200.1 TCP_TUNNEL/200 10059 CONNECT yt3.ggpht.com:443 - HIER_DIRECT/142.250.184.1 -
+1613985932.983     17 192.168.200.1 TCP_TUNNEL/200 39 CONNECT lh3.googleusercontent.com:443 - HIER_DIRECT/142.250.184.1 -
+1613985932.987     21 192.168.200.1 TCP_TUNNEL/200 39 CONNECT ssl.gstatic.com:443 - HIER_DIRECT/216.58.215.131 -
+1613985932.987     21 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+</pre>
+
+<p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
+<p>Ahora, vamos a configurar nuestra máquina para que haga uso del <em>proxy Squid</em>, pero esta vez la configuración no la haremos en el navegador, sino en el propio sistema.</p>
+<p>Para ello, antes, vamos a dirigirnos de nuevo a la configuración del navegador, a la parte de la configuración del <em>proxy</em> e indicaremos que use la configuración <em>proxy</em> del sistema.</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/proxyfirefox2.png"></p>
+<p>Hecho esto, tendremos que configurar el sistema para que por defecto utilice nuestro <em>proxy</em>. Este proceso lo realizaremos en el apartado <strong>Configuración del sistema</strong>, en la sección de <strong>Red</strong>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/configuracionred.png"></p>
+<p>Configuraremos el <em>proxy</em> de manera manual de la siguiente manera:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/configuracionredproxy.png"></p>
+<p>Con esto habríamos terminado de configurar nuestro sistema para que utilice el <em>proxy Squid</em>.</p>
+<p>Antes de dirigirnos a nuestro navegador para acceder a las webs, en la terminal, volveremos a dejar el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>Establecido el <em>proxy</em> vamos a probar a acceder a diferentes webs como pueden ser <a href="https://github.com">github.com</a>, y <a href="https://hub.docker.com/">hub.docker.com</a>.</p>
+<p>Una vez comprobamos que podemos acceder correctamente, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1613986400.038    327 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.038    326 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.038    249 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.039    328 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.039    249 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.045    113 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.045    256 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.045    256 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.045    334 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.045    334 192.168.200.1 TCP_TUNNEL/200 39 CONNECT github.githubassets.com:443 - HIER_DIRECT/185.199.111.154 -
+1613986400.098    386 192.168.200.1 TCP_TUNNEL/200 6018 CONNECT avatars.githubusercontent.com:443 - HIER_DIRECT/185.199.110.133 -
+1613986400.099    387 192.168.200.1 TCP_TUNNEL/200 7055 CONNECT avatars.githubusercontent.com:443 - HIER_DIRECT/185.199.110.133 -
+1613986400.244    532 192.168.200.1 TCP_TUNNEL/200 25697 CONNECT avatars.githubusercontent.com:443 - HIER_DIRECT/185.199.110.133 -
+1613986408.461    236 192.168.200.1 TCP_MISS/200 1171 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/54.230.104.69 application/ocsp-response
+1613986408.795   8858 192.168.200.1 TCP_TUNNEL/200 4450 CONNECT alive.github.com:443 - HIER_DIRECT/140.82.113.25 -
+1613986408.981    289 192.168.200.1 TCP_TUNNEL/200 19141 CONNECT d36jcksde1wxzq.cloudfront.net:443 - HIER_DIRECT/54.230.104.29 -
+1613986409.034    342 192.168.200.1 TCP_TUNNEL/200 116639 CONNECT d36jcksde1wxzq.cloudfront.net:443 - HIER_DIRECT/54.230.104.29 -
+1613986409.113    421 192.168.200.1 TCP_TUNNEL/200 794202 CONNECT d36jcksde1wxzq.cloudfront.net:443 - HIER_DIRECT/54.230.104.29 -
+1613986413.616   5897 192.168.200.1 TCP_TUNNEL/200 6879 CONNECT hub.docker.com:443 - HIER_DIRECT/34.202.113.184 -
+1613986416.414  61653 192.168.200.1 TCP_TUNNEL/200 4246 CONNECT profile.accounts.firefox.com:443 - HIER_DIRECT/54.148.210.55 -
+1613986463.364  62781 192.168.200.1 TCP_TUNNEL/200 4225 CONNECT collector.githubapp.com:443 - HIER_DIRECT/3.218.144.29 -
+1613986475.322  66631 192.168.200.1 TCP_TUNNEL/200 82917 CONNECT cdn-pci.optimizely.com:443 - HIER_DIRECT/104.126.101.248 -
+1613986475.571     68 192.168.200.1 TCP_MISS/200 1087 POST http://ocsp.sectigo.com/ - HIER_DIRECT/151.139.128.14 application/ocsp-response
+1613986476.296      0 192.168.200.1 NONE/000 0 NONE error:transaction-end-before-headers - HIER_NONE/- -
+1613986476.307     11 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+1613986476.308     19 192.168.200.1 TCP_TUNNEL/200 39 CONNECT fonts.gstatic.com:443 - HIER_DIRECT/216.58.211.227 -
+1613986477.279     60 192.168.200.1 TCP_MISS/200 895 POST http://ocsp.pki.goog/gts1d2 - HIER_DIRECT/216.58.211.227 application/ocsp-response
+1613986477.526    269 192.168.200.1 TCP_TUNNEL/200 13094 CONNECT d1q6f0aelx0por.cloudfront.net:443 - HIER_DIRECT/54.230.104.101 -
+1613986477.530    273 192.168.200.1 TCP_TUNNEL/200 22145 CONNECT d1q6f0aelx0por.cloudfront.net:443 - HIER_DIRECT/54.230.104.101 -
+1613986477.531    274 192.168.200.1 TCP_TUNNEL/200 15931 CONNECT d1q6f0aelx0por.cloudfront.net:443 - HIER_DIRECT/54.230.104.101 -
+1613986477.543    286 192.168.200.1 TCP_TUNNEL/200 13682 CONNECT d1q6f0aelx0por.cloudfront.net:443 - HIER_DIRECT/54.230.104.101 -
+1613986477.597    353 192.168.200.1 TCP_TUNNEL/200 22513 CONNECT d1q6f0aelx0por.cloudfront.net:443 - HIER_DIRECT/54.230.104.101 -
+1613986477.789     88 192.168.200.1 TCP_MISS/200 993 POST http://ocsp.digicert.com/ - HIER_DIRECT/93.184.220.29 application/ocsp-response
+1613986478.201    147 192.168.200.1 TCP_MISS/200 895 POST http://ocsp.pki.goog/gts1o1core - HIER_DIRECT/216.58.211.227 application/ocsp-response
+1613986478.470     18 192.168.200.1 TCP_TUNNEL/200 39 CONNECT www.gstatic.com:443 - HIER_DIRECT/142.250.184.3 -
+1613986482.408   7070 192.168.200.1 TCP_TUNNEL/200 6133 CONNECT hub.docker.com:443 - HIER_DIRECT/34.202.113.184 -
+1613986482.444   6668 192.168.200.1 TCP_TUNNEL/200 1808 CONNECT hub.docker.com:443 - HIER_DIRECT/34.202.113.184 -
+1613986486.742 119497 192.168.200.1 TCP_TUNNEL/200 1043044 CONNECT abs.twimg.com:443 - HIER_DIRECT/152.199.21.141 -
+</pre>
+
+<p>Vemos como nos muestra los <em>logs</em> referentes a los accesos que acabamos de realizar.</p>
+<h4>Configuración en el cliente interno para que utilice el proxy Squid</h4>
+<p>Configuraremos nuestro cliente interno para que también navegue a través de nuestro <em>proxy</em>. Este cliente no posee entorno gráfico, por lo que la configuración se llevará a cabo por consola.</p>
+<p>En la parte del servidor, tan sólo debemos asegurarnos que la directiva siguiente esté habilitada:</p>
+<pre>
+http_access allow localnet
+</pre>
+
+<p>Para configurar un <em>proxy</em> en un sistema <em>Linux</em>, bastará con configurar una variable de entorno. Dicha variable de entorno recibe el nombre <code>http_proxy</code>. La sintaxis para establecer esta variable de entorno es la siguiente:</p>
+<pre>
+export http_proxy=http://(IP/URL):(PUERTO)/
+</pre>
+
+<p>En mi caso, como mi <em>servidor proxy</em> posee la dirección IP interna <code>10.0.0.10</code>, introduzco la siguiente línea:</p>
+<pre>
+root@buster:~# export http_proxy=http://10.0.0.10:3128/
+
+root@buster:~# echo $http_proxy
+http://10.0.0.10:3128/
+</pre>
+
+<p>Hecho esto, estaremos navegando por el <em>proxy</em>, así que vamos a hacer una prueba accediendo a cualquier web, pero antes dejaremos el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>Accedemos a <code>www.google.es</code>:</p>
+<pre>
+root@buster:~# wget www.google.es
+--2021-03-02 20:44:15--  http://www.google.es/
+Connecting to 10.0.0.10:3128... connected.
+Proxy request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html’
+
+index.html                    [ <=>                                  ]  13.60K  --.-KB/s    in 0.009s  
+
+2021-03-02 20:44:15 (1.49 MB/s) - ‘index.html’ saved [13930]
+</pre>
+
+<p>Una vez comprobamos que podemos acceder correctamente, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1614717855.566    155 10.0.0.11 TCP_MISS/200 14718 GET http://www.google.es/ - HIER_DIRECT/142.250.184.3 text/html
+</pre>
+
+<p>Podemos ver que efectivamente nuestro cliente interno está navegando por nuestro <em>proxy</em>.</p>
+<h4>Filtros de acceso</h4>
+<p>En este apartado vamos a ver como podemos configurar <em>Squid</em> para implementar distintos filtros que controlen el acceso a las diferentes webs.</p>
+<p>En primer lugar, implementaremos un filtro que funcionará como lista negra, es decir, limitaremos el acceso únicamente a determinadas webs.</p>
+<p>Por ejemplo, imaginemos que somos los administradores de una empresa y queremos evitar que nuestros trabajadores accedan a sus redes sociales para que así no puedan distraerse del trabajo. Esto lo podemos solucionar con una <em>blacklist</em>.</p>
+<p>Para añadir este tipo de filtro a nuestro <em>proxy</em>, nos dirigiremos al fichero <code>/etc/squid/squid.conf</code> y en él, en la parte de las <em>ACLs</em> introduciremos las siguientes líneas:</p>
+<pre>
+#LISTA NEGRA
+acl lista-negra dstdomain "/etc/squid/listanegra"
+
+http_access deny lista-negra
+</pre>
+
+<p>De manera que el resultado sería algo así:</p>
+<pre>
+acl localnet src 0.0.0.1-0.255.255.255  # RFC 1122 "this" network (LAN)
+acl localnet src 10.0.0.0/8             # RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10          # RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16         # RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12          # RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16         # RFC 1918 local private network (LAN)
+acl localnet src fc00::/7               # RFC 4193 local private network range
+acl localnet src fe80::/10              # RFC 4291 link-local (directly plugged) machines
+
+acl localnet src 172.22.9.28
+acl localnet src 192.168.15.151
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+
+#LISTA NEGRA
+acl lista-negra dstdomain "/etc/squid/listanegra"
+
+http_access deny lista-negra
+</pre>
+
+<p>Podemos apreciar que hemos hecho referencia al fichero <code>/etc/squid/listanegra</code>. Este fichero será el que crearemos y en él indicaremos las URLs que estarán bloqueadas. En mi caso, si visualizamos su contenido:</p>
+<pre>
+root@proxy:~# cat /etc/squid/listanegra
+.facebook.com
+</pre>
+
+<p>Hecho esto, reiniciaremos el servicio:</p>
+<pre>
+systemctl restart squid
+</pre>
+
+<p>Antes de dirigirnos a nuestro navegador para acceder a la web de <em>Facebook</em>, en la terminal, volveremos a dejar el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>En mi caso, sigo teniendo establecida la configuración del <em>proxy</em>, de manera que vamos a probar a acceder a <a href="https://www.facebook.com/">www.facebook.com</a>.</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/facebook.png"></p>
+<p>Vemos que no nos permite acceder a la web, por lo que, parece que el funcionamiento es el correcto, pero ahora, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> solo esté bloqueando la conexión a <em>Facebook</em> y no a todas las webs. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/amazon.png"></p>
+<p>Una vez comprobamos que a ésta sí nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1613988887.582      0 192.168.200.1 TCP_DENIED/403 3968 CONNECT www.facebook.com:443 - HIER_NONE/- text/html
+1613988891.778    437 192.168.200.1 TCP_TUNNEL/200 39 CONNECT images-eu.ssl-images-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988891.778    437 192.168.200.1 TCP_TUNNEL/200 39 CONNECT images-eu.ssl-images-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.131    178 192.168.200.1 TCP_TUNNEL/200 13411 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.151    197 192.168.200.1 TCP_TUNNEL/200 12365 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.152    199 192.168.200.1 TCP_TUNNEL/200 14711 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.155    201 192.168.200.1 TCP_TUNNEL/200 14846 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.166    127 192.168.200.1 TCP_TUNNEL/200 5553 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.174    220 192.168.200.1 TCP_TUNNEL/200 11651 CONNECT m.media-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+1613988892.673    160 192.168.200.1 TCP_MISS/200 1170 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/13.33.234.111 application/ocsp-response
+1613988892.681    169 192.168.200.1 TCP_MISS/200 1170 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/13.33.234.111 application/ocsp-response
+1613988892.689    177 192.168.200.1 TCP_MISS/200 1170 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/13.33.234.111 application/ocsp-response
+1613988892.690    178 192.168.200.1 TCP_MISS/200 1170 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/13.33.234.111 application/ocsp-response
+1613988892.739    430 192.168.200.1 TCP_TUNNEL/200 6107 CONNECT fls-eu.amazon.es:443 - HIER_DIRECT/3.248.163.40 -
+1613988892.742    434 192.168.200.1 TCP_TUNNEL/200 6107 CONNECT fls-eu.amazon.es:443 - HIER_DIRECT/3.248.163.40 -
+1613988892.749    440 192.168.200.1 TCP_TUNNEL/200 6107 CONNECT fls-eu.amazon.es:443 - HIER_DIRECT/3.248.163.40 -
+1613988892.749    440 192.168.200.1 TCP_TUNNEL/200 6107 CONNECT fls-eu.amazon.es:443 - HIER_DIRECT/3.248.163.40 -
+1613988892.773    261 192.168.200.1 TCP_MISS/200 1170 POST http://ocsp.sca1b.amazontrust.com/ - HIER_DIRECT/13.33.234.111 application/ocsp-response
+1613988892.830    522 192.168.200.1 TCP_TUNNEL/200 6107 CONNECT fls-eu.amazon.es:443 - HIER_DIRECT/3.248.163.40 -
+1613988894.470    137 192.168.200.1 TCP_TUNNEL/200 30872 CONNECT images-na.ssl-images-amazon.com:443 - HIER_DIRECT/52.84.68.73 -
+</pre>
+
+<p>¡Perfecto! Ya tendríamos funcionando nuestra lista negra.</p>
+<p>Ya sabemos como podríamos bloquear el acceso a determinadas webs, pero, ¿y si lo que quisiéramos es bloquear el acceso a todas las webs, menos a las que nosotros especifiquemos? O lo que sería lo mismo, implementar una lista blanca.</p>
+<p>Por ejemplo, imaginemos que somos los administradores de una empresa y queremos que nuestros trabajadores solo puedan acceder a determinadas webs. Esto lo podemos solucionar con una <em>whitelist</em>.</p>
+<p>Para añadir este tipo de filtro a nuestro <em>proxy</em>, nos dirigiremos al fichero <code>/etc/squid/squid.conf</code> y en él, en la parte de las <em>ACLs</em> introduciremos las siguientes líneas:</p>
+<pre>
+#LISTA BLANCA
+acl lista-blanca dstdomain "/etc/squid/listablanca"
+
+http_access allow lista-blanca
+</pre>
+
+<p>De manera que el resultado sería algo así:</p>
+<pre>
+acl localnet src 0.0.0.1-0.255.255.255  # RFC 1122 "this" network (LAN)
+acl localnet src 10.0.0.0/8             # RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10          # RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16         # RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12          # RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16         # RFC 1918 local private network (LAN)
+acl localnet src fc00::/7               # RFC 4193 local private network range
+acl localnet src fe80::/10              # RFC 4291 link-local (directly plugged) machines
+
+acl localnet src 172.22.9.28
+acl localnet src 192.168.15.151
+
+acl SSL_ports port 443
+acl Safe_ports port 80          # http
+acl Safe_ports port 21          # ftp
+acl Safe_ports port 443         # https
+acl Safe_ports port 70          # gopher
+acl Safe_ports port 210         # wais
+acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 280         # http-mgmt
+acl Safe_ports port 488         # gss-http
+acl Safe_ports port 591         # filemaker
+acl Safe_ports port 777         # multiling http
+acl CONNECT method CONNECT
+
+#LISTA NEGRA
+#acl lista-negra dstdomain "/etc/squid/listanegra"
+
+#http_access deny lista-negra
+
+#LISTA BLANCA
+acl lista-blanca dstdomain "/etc/squid/listablanca"
+
+http_access allow lista-blanca
+</pre>
+
+<p>Podemos apreciar que hemos hecho referencia al fichero <code>/etc/squid/listablanca</code>. Este fichero será el que crearemos y en él indicaremos las URLs que estarán permitidas. En mi caso, si visualizamos su contenido:</p>
+<pre>
+root@proxy:~# cat /etc/squid/listablanca
+.javierpzh.github.io
+</pre>
+
+<p>Ya casi habríamos terminado, pero analicemos el cambio que hemos hecho. Hemos permitido el acceso a una determinada web, pero no hemos bloqueado el acceso a las demás webs. Para hacer esto y bloquear todas las webs menos las que especifiquemos en nuestra <em>whitelist</em>, debemos cambiar el valor de la siguiente línea:</p>
+<pre>
+http_access deny localnet
+</pre>
+
+<p>Hecho esto, reiniciaremos el servicio:</p>
+<pre>
+systemctl restart squid
+</pre>
+
+<p>Antes de dirigirnos a nuestro navegador para acceder a mi web, en la terminal, volveremos a dejar el siguiente proceso activo para ver a tiempo real los <em>logs</em> de acceso al <em>proxy</em>:</p>
+<pre>
+tail -f /var/log/squid/access.log
+</pre>
+
+<p>En mi caso, sigo teniendo establecida la configuración del <em>proxy</em>, de manera que vamos a probar a acceder a <a href="https://javierpzh.github.io/">javierpzh.github.io</a>.</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/mipagina.png"></p>
+<p>Vemos que nos permite acceder a la web, por lo que, de momento el funcionamiento es el correcto, pero ahora, para terminar de comprobarlo, voy a probar a acceder a cualquier otra web, para asegurarme que el <em>proxy</em> esté bloqueando cualquier tipo de conexión que no sea a mi web. Intento acceder a <a href="https://www.amazon.es/">www.amazon.es</a>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_proxy_Squid/amazon2.png"></p>
+<p>Una vez comprobamos que a ésta web no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:</p>
+<pre>
+root@proxy:~# tail -f /var/log/squid/access.log
+1614082229.707   1058 192.168.200.1 TCP_TUNNEL/200 39 CONNECT javierpzh.github.io:443 - HIER_DIRECT/185.199.110.153 -
+1614082237.344      0 192.168.200.1 TCP_DENIED/403 3959 CONNECT www.amazon.es:443 - HIER_NONE/- text/html
+</pre>
+
+<p>¡Perfecto! Ya tendríamos funcionando nuestra lista blanca.</p>
+    </article>
+
+        <div class="tags">
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/proxy.html">Proxy</a>, <a href="/tag/squid.html">Squid</a></p>
+        </div>
+
+    <hr>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                            <li>
+                                <a href="https://www.instagram.com/javierpzh/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-instagram fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/jperezhid_">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/javierpzh">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/javier.perezhidalgo.904">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:javierperezhidalgo01@gmail.com">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-envelope-square fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                    </ul>
+<p class="copyright text-muted">
+    Blog creado por <a href="http://www.instagram.com/javierpzh/">Javier Pérez Hidalgo</a>,
+    con la utilización de <a href="https://blog.getpelican.com/">Pelican</a>. <br />        &copy;  Javier Pérez Hidalgo
+</p>                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="/theme/js/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/theme/js/bootstrap.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="/theme/js/clean-blog.min.js"></script>
+
+</body>
+
+</html>
