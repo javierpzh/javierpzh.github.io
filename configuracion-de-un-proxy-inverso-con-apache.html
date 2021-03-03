@@ -147,7 +147,8 @@ root@apache2:~# cat /etc/apache2/sites-available/000-default.conf
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Explicado esto, vamos a empezar con las configuraciones del propio <em>post</em>.</p>
-<p>Pongámonos en situación, ahora mismo nos encontramos con las dos máquinas internas sirviendo cada una, una web distinta. </p>
+<p>Pongámonos en situación, ahora mismo nos encontramos con las dos máquinas internas sirviendo cada una, una web distinta. Obviamente para acceder a ellas tenemos que utilizar la máquina <strong>balanceador</strong>, que es la que posee una dirección de mi red local.</p>
+<p>Bien</p>
 <p><code>/etc/hosts</code></p>
 <pre>
 192.168.0.74 www.app1.org
