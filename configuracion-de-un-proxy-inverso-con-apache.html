@@ -47,7 +47,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/configuracion-de-un-proxy-inverso-con-apache.html">
 	<meta property="og:title" content="Configuración de un proxy inverso con Apache">
-	<meta property="article:published_time" content="2018-03-03 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-03-03 00:00:00+01:00">
             <meta property="og:description" content="En este artículo vamos a instalar un proxy inverso con Apache. El escenario en el que vamos a trabajar, está definido en este...">
 
             <meta property="og:image" content="theme/images/banner-servicios.jpg">
@@ -92,7 +92,7 @@
                         <h1>Configuración de un proxy inverso con Apache</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el sáb 03 marzo 2018
+                             el mié 03 marzo 2021
                         </span>
                         
                     </div>
@@ -216,10 +216,56 @@ systemctl restart apache2
 <p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.png"></p>
 <p>Y si accedemos desde nuestro navegador a la web <code>www.app1.org</code>:</p>
 <p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png"></p>
-<p>Podemos ver como efectivamente, el funcionamiento es el correcto.</p>
+<p>Podemos ver como efectivamente, el funcionamiento es el correcto y estamos accediendo a las distintas webs diferenciado mediante nombres de dominio.</p>
 <p>Antes de finalizar el artículo, vamos a ver también como podemos configurar el <em>proxy inverso</em> para que, en vez de distinguir por nombre de dominio, lo haga por URL.</p>
-<p>En este caso, únicamente poseeremos un nombre de dominio y nuestro <em>proxy inverso</em> distinguirá mediante URLs, de manera que accederá a la primera web si la URL es <code>www.proxyinverso.org/app1</code>, y accederá a la segunda web si la URL es <code>www.proxyinverso.org/app2</code>.</p>
-<p>.</p>
+<p>En este caso, únicamente poseeremos un nombre de dominio, y nuestro <em>proxy inverso</em> distinguirá mediante URLs, de manera que accederá a la primera web si la URL es <code>www.proxyinverso.org/app1/</code>, y accederá a la segunda web si la URL es <code>www.proxyinverso.org/app2/</code>.</p>
+<p>Para hacer esto, vamos a crear un nuevo <em>virtualhost</em> como el siguiente:</p>
+<pre>
+<\VirtualHost *:80\>
+
+        ServerName www.proxyinverso.org
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <\Location "/app1/"\>
+          ProxyPass "http://10.10.10.11/"
+          ProxyPassReverse "http://10.10.10.11/"
+        <\/Location\>
+
+        <\Location "/app2/"\>
+          ProxyPass "http://10.10.10.22/"
+          ProxyPassReverse "http://10.10.10.22/"
+        <\/Location\>
+
+<\/VirtualHost\>
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+<p>Vamos a comprobar que efectivamente el funcionamiento es el explicado, para ello antes, debemos habilitar el ficheros del <em>virtualhost</em>:</p>
+<pre>
+a2ensite proxyinverso.conf
+</pre>
+
+<p>Reiniciamos el servidor web <em>Apache</em>:</p>
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Para poder acceder desde nuestro equipo, debemos añadir en nuestro fichero <code>/etc/hosts</code>, la siguiente línea, haciendo referencia a la IP de nuestra red doméstica que posea la máquina <em>balanceador</em>:</p>
+<pre>
+192.168.0.74 www.proxyinverso.org
+</pre>
+
+<p>Si accedemos desde nuestro navegador a la URL <code>www.proxyinverso.org/app1/</code>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.2.png"></p>
+<p>Y si accedemos desde nuestro navegador a la URL <code>www.proxyinverso.org/app2/</code>:</p>
+<p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.2.png"></p>
+<p>Podemos ver como efectivamente, el funcionamiento es el correcto y ahora estamos accediendo a las distintas webs diferenciado mediante las URLs.</p>
+<p>Ya hemos visto todo lo relativo a esta entrada, por lo que este <em>post</em> finalizaría aquí.</p>
     </article>
 
         <div class="tags">
