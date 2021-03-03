@@ -147,8 +147,8 @@ root@apache2:~# cat /etc/apache2/sites-available/000-default.conf
 
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Explicado esto, vamos a empezar con las configuraciones del propio <em>post</em>.</p>
-<p>Pongámonos en situación, ahora mismo nos encontramos con las dos máquinas internas sirviendo cada una, una web distinta. Obviamente para acceder a ellas tenemos que utilizar la máquina <strong>balanceador</strong>, que es la que posee una dirección de mi red local.</p>
-<p>Bien, ahora lo que queremos hacer es acceder a las webs, a través de la máquina <strong>balanceador</strong>, y acceder a través del nombre que le indiquemos a cada web. Para llevar a cabo esto, primeramente debemos habilitar el siguiente módulo de <em>Apache</em>:</p>
+<p>Pongámonos en situación, ahora mismo nos encontramos con las dos máquinas internas sirviendo cada una, una web diferente. Obviamente para acceder a ellas tenemos que utilizar la máquina <strong>balanceador</strong>, que es la que posee una dirección de mi red local.</p>
+<p>Bien, ahora lo que vamos a hacer, es acceder a las webs a través de nombres de dominio. Para llevar a cabo esto, primeramente debemos habilitar el siguiente módulo de <em>Apache</em>:</p>
 <pre>
 a2enmod proxy proxy_http
 </pre>
@@ -217,6 +217,7 @@ systemctl restart apache2
 <p>Y si accedemos desde nuestro navegador a la web <code>www.app1.org</code>:</p>
 <p><img alt="." src="images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png"></p>
 <p>Podemos ver como efectivamente, el funcionamiento es el correcto.</p>
+<p>Antes de finalizar el artículo, vamos a ver también como podemos configurar nuestro <em>proxy inverso</em> para que, en vez de </p>
 <p>.</p>
     </article>
 
