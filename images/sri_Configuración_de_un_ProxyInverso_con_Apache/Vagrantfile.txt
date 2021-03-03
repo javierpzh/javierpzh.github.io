@@ -10,6 +10,8 @@ config.vm.define :balanceador do |balanceador|
     balanceador.vm.provision "shell", run: "always", inline: <<-SHELL
       sysctl -w net.ipv4.ip_forward=1
       iptables -t nat -A POSTROUTING -s 10.10.10.0/24 -j MASQUERADE
+      apt update && apt upgrade -y
+      apt install apache2 php7.3 libapache2-mod-php7.3 -y
     SHELL
   end
 
