@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Oracle Vamos a activar desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Vamos a activar la auditoría de las...">
+        <meta name="description" content="Oracle Vamos a activar las auditorías en nuestro servidor. Por defecto, Oracle incorpora las auditorías activadas, pero aún así, si...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -52,7 +52,7 @@
 	<meta property="og:url" content="/auditorias-de-bases-de-datos.html">
 	<meta property="og:title" content="Auditorías de bases de datos">
 	<meta property="article:published_time" content="2018-03-04 00:00:00+01:00">
-            <meta property="og:description" content="Oracle Vamos a activar desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema. Vamos a activar la auditoría de las...">
+            <meta property="og:description" content="Oracle Vamos a activar las auditorías en nuestro servidor. Por defecto, Oracle incorpora las auditorías activadas, pero aún así, si...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
 </head>
@@ -112,8 +112,131 @@
     <!-- Post Content -->
     <article>
         <h2>Oracle</h2>
-<h4>Vamos a activar desde SQL*Plus la auditoría de los intentos de acceso fallidos al sistema.</h4>
+<h4>Vamos a activar las auditorías en nuestro servidor.</h4>
+<p>Por defecto, <em>Oracle</em> incorpora las auditorías activadas, pero aún así, si queremos comprobar dicho funcionamiento por nosotros mismos, podríamos ejecutar la siguiente sentencia:</p>
+<pre>
+SQL> SELECT name, value
+  2  FROM v$parameter
+  3  WHERE name like 'audit_trail';
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+--------------------------------------------------------------------------------
+audit_trail
+DB
+</pre>
+
+<p>Podemos ver que efectivamente están activadas, ya que el parámetro <code>audit_trail</code>, posee el valor <code>db</code>, lo cual quiere decir que las auditorías se encuentran activadas y que los registros se almacenan en la base de datos.</p>
+<p>En caso de que estuviesen desactivadas, es decir, que el parámetro <code>audit_trail</code>, posea el valor <code>NONE</code>, podríamos activarlas ejecutando la siguiente sentencia:</p>
+<pre>
+ALTER SYSTEM SET audit_trail=db scope=spfile;
+</pre>
+
+<p>Listo.</p>
+<h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+<p>En este apartado vamos a activar la auditoría que se encarga de detectar los intentos de acceso fallidos:</p>
+<pre>
+SQL> AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+
+Auditoria terminada correctamente.
+</pre>
+
+<p>Una vez habilitada, para comprobar su funcionamiento, realizaremos un inicio de sesión erróneo y posteriormente, visualizaremos como se ha registrado dicho intento de acceso:</p>
+<pre>
+SQL> connect usuarioerror/error
+ERROR:
+ORA-01017: nombre de usuario/contrase?a no validos; conexion denegada
+
+SQL> connect sysdba
+Introduzca la contrase?a:
+...
+
+SQL> SELECT os_username, username, extended_timestamp, action_name, returncode
+  2  FROM DBA_AUDIT_SESSION;
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+ACTION_NAME          RETURNCODE
+---------------------------- ----------
+oracle
+USUARIOERROR
+04/03/21 15:38:26,163150 +01:00
+LOGON                  1017
+</pre>
+
+<p>Podemos ver como efectivamente nos muestra el intento de acceso fallido, además del nombre de usuario utilizado, la fecha exacta, ...</p>
 <h4>Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
+<p>En este apartado vamos a activar la auditoría de las operaciones DML realizadas por SCOTT, para ello ejecutamos la siguiente sentencia SQL:</p>
+<pre>
+SQL> AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT;
+
+Auditoria terminada correctamente.
+</pre>
+
+<p>Una vez habilitada, para comprobar su funcionamiento, realizaremos un <em>INSERT</em>, un <em>UPDATE</em> y un <em>DELETE</em> y posteriormente, visualizaremos como se han registrado en dicha auditoría:</p>
+<pre>
+SQL> INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
+
+1 fila creada.
+
+SQL> UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50;
+
+1 fila actualizada.
+
+SQL> DELETE FROM DEPT WHERE DEPTNO=50;
+
+1 fila suprimida.
+
+SQL> SELECT username, obj_name, action_name, extended_timestamp
+  2  FROM DBA_AUDIT_OBJECT;
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+INSERT
+04/03/21 16:21:19,163150 +01:00
+
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+UPDATE
+04/03/21 16:21:28,264893 +01:00
+
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+DELETE
+04/03/21 16:21:43,371902 +01:00
+</pre>
+
 <h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 en la tabla EMP de SCOTT.</h4>
 <h4>Diferencias entre auditar una operación by access o by session.</h4>
 <h4>Diferencias entre los valores db y db, extended del parámetro audit_trail. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h4>
