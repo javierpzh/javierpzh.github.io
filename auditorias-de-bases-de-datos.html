@@ -304,8 +304,19 @@ INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (90
 </pre>
 
 <p>Podemos ver como efectivamente nos muestra la información relativa a las acciones realizadas.</p>
-<h4>Diferencias entre auditar una operación by access o by session.</h4>
-<h4>Diferencias entre los valores db y db, extended del parámetro audit_trail. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h4>
+<h4>Diferencias entre auditar una operación 'BY ACCESS' o 'BY SESSION'.</h4>
+<p>La principal diferencia entre ambas operaciones es la siguiente:</p>
+<ul>
+<li><strong>BY ACCESS:</strong> almacena un registro por cada acción realizada independientemente de si es repetida o no.</li>
+<li><strong>BY SESSION:</strong> almacena un solo registro de una misma acción que hagamos, evitando repetirlas.</li>
+</ul>
+<p>Para terminar, hay que saber, que al activar una auditoría, podemos indicar el tipo que deseamos, si <strong>BY ACCESS</strong> o <strong>BY SESSION</strong>. Por ejemplo:</p>
+<pre>
+AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT BY {ACCESS/SESSION};
+</pre>
+
+<p>Listo.</p>
+<h4>Diferencias entre los valores 'DB' y 'DB, EXTENDED' del parámetro audit_trail. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h4>
 <h4>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</h4>
 <h2>PostgreSQL</h2>
 <h4>Averigua si en PostgreSQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h4>
