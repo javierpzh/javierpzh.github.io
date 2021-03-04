@@ -166,6 +166,8 @@ root@servidor:~# lvcreate -L 500M -n vollog1 vollogs
 <p>Bien, una vez tenemos el volumen lógico creado, vamos a pasar con la configuración del <strong>target</strong>, es decir, del servidor. Su fichero de configuración será creado en la ruta <code>/etc/tgt/conf.d/</code> y recibirá el nombre <code>target1.conf</code>. En él debemos añadir el siguiente bloque que será el encargado de definir nuestro <em>target</em>.</p>
 <pre>
 <\target iqn.iscsi.com:target1\>
+    driver iscsi
+    controller_tid 1
     backing-store /dev/vollogs/vollog1
 <\/target\>
 </pre>
@@ -402,6 +404,8 @@ sdb      8:16   0  500M  0 disk
 <p>Al igual que en primer apartado, para crear un nuevo <em>target</em> en el <strong>servidor</strong>, deberemos crear un nuevo fichero en la ruta <code>/etc/tgt/conf.d/</code>, este recibirá el nombre <code>target2.conf</code> y su contenido será el siguiente:</p>
 <pre>
 <\target iqn.iscsi2.com:target2\>
+    driver iscsi
+    controller_tid 2
     backing-store /dev/sdc
     backing-store /dev/sdd
     incominguser javier passwordjavier
@@ -477,7 +481,7 @@ Target 2: iqn.iscsi2.com:target2
             Thin-provisioning: No
             Backing store type: null
             Backing store path: None
-            Backing store flags:
+            Backing store flags: 
         LUN: 1
             Type: disk
             SCSI ID: IET     00020001
@@ -491,7 +495,7 @@ Target 2: iqn.iscsi2.com:target2
             Thin-provisioning: No
             Backing store type: rdwr
             Backing store path: /dev/sdc
-            Backing store flags:
+            Backing store flags: 
         LUN: 2
             Type: disk
             SCSI ID: IET     00020002
@@ -505,7 +509,7 @@ Target 2: iqn.iscsi2.com:target2
             Thin-provisioning: No
             Backing store type: rdwr
             Backing store path: /dev/sdd
-            Backing store flags:
+            Backing store flags: 
     Account information:
         javier
     ACL information:
@@ -529,6 +533,7 @@ Target 2: iqn.iscsi2.com:target2
 <p>Una vez los tengamos inicializados en nuestro sistema ya tendrán una tabla de particiones en su interior, de forma que tan sólo nos quedaría establecer un sistema de ficheros NTFS en ellos. Para ello, haremos <em>click</em> derecho sobre cada uno de ellos y seleccionaremos la opción llamada <strong>Nuevo volumen simple</strong>.</p>
 <p>Se nos abrirá una nueva emergente que nos guiará mediante el proceso, el cuál consiste en pulsar <strong>Siguiente</strong> en repetidas ocasiones. El resultado final sería el siguiente:</p>
 <p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows8.png"></p>
+<p>Podemos ver como efectivamente ya poseen un sistema de ficheros NTFS, de manera que ya se encontrarían totalmente operativos en el sistema.</p>
 <p><img alt="." src="images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows9.png"></p>
 <p>Con esto, ya hemos visto todo el contenido referente a este <em>post</em>, por lo que finalizaría aquí.</p>
     </article>
