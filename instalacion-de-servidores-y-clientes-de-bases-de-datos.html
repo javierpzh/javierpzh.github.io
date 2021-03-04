@@ -118,19 +118,19 @@
 <p>Lo primero que debemos hacer, sería descargarnos el paquete de instalación desde la <a href="https://www.oracle.com/es/database/technologies/oracle-database-software-downloads.html#19c">web oficial de Oracle</a>, para realizar la descarga nos hará falta estar registrados como usuarios de <em>Oracle</em>.</p>
 <p>Una vez descargado el archivo <em>.zip</em>, tenemos que extraerlo y ahora empezaremos el proceso de instalación.</p>
 <p>Debemos buscar en el directorio resultante este ejecutable llamado <strong>setup</strong>:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_setup.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_setup.png"></p>
 <p>Lo abrimos con permisos de administrador y se nos abrirá esta ventana que quedará cargando:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_setupcargando.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_setupcargando.png"></p>
 <p>Una vez haya terminado de cargar el instalador de <em>Oracle</em>, se nos abrirá este asistente en el que configuraremos todos los parámetros de los que queremos disponer en nuestro nuevo servidor de base de datos.</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion1.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_instalacion1.png"></p>
 <p>Seleccionamos de que tipo de sistema queremos disponer, en mi caso, selecciono la <em>clase de escritorio</em> ya que, si seleccionara la <em>case servidor</em>, el propio <em>Oracle</em> nos realizaría todo el proceso de configuración para el acceso remoto, y esto prefiero mostrar como hacerlo manualmente.</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion2.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_instalacion2.png"></p>
 <p>Este paso es bastante importante, pues debemos establecer la contraseña de administrador que poseerá nuestro nuevo <em>Oracle</em>:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion4.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_instalacion4.png"></p>
 <p>En este punto, nos redacta un resumen de las preferencias que hemos escogido, y después de esto, ya comenzará el proceso de instalación:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion5.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_instalacion5.png"></p>
 <p>Una vez terminada la instalación, obtendremos esta ventana:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/oracle_instalacion6.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/oracle_instalacion6.png"></p>
 <p>Bien, ya hemos instalado el servidor <em>Oracle</em> en nuestro sistema, vamos a acceder a él. Para ello vamos a abrir la aplicación <strong>SQLPlus</strong>. También podemos acceder a través de nuestro <strong>cmd</strong> con el comando:</p>
 <pre>
 sqlplus
@@ -168,7 +168,7 @@ SQL>
 </pre>
 
 <p>Con esto, ya tenemos nuestro usuario disponible.</p>
-<p>Voy a acceder a él y a crear una serie de tablas de prueba y a insertarle unos pocos registros a partir de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptoracle.txt">script</a>.</p>
+<p>Voy a acceder a él y a crear una serie de tablas de prueba y a insertarle unos pocos registros a partir de este <a href="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/scriptoracle.txt">script</a>.</p>
 <p>Hecho esto, es el momento de acceder a este servidor de manera remota.</p>
 <p>Para ello, he creado otra máquina virtual con <strong>Windows 10</strong>, que en este caso, actuará como <strong>cliente</strong> que accederá al servidor creado anteriormente. También está conectada en modo puente a mi red doméstica, por lo que tiene totalmente accesible al servidor y viceversa. En esta segunda máquina he instalado <em>Oracle</em> de igual manera que en la primera.</p>
 <p>Me he dado cuenta de un pequeño detalle, y es que por defecto, el cortafuegos de <em>Windows 10</em> (<em>firewall</em>), me bloqueaba la entrada de paquetes, es decir, me dejaba enviar paquetes pero no recibir, de manera que las máquinas virtuales no llegaban a establecer una conexión, ya que los paquetes sí salían pero nunca llegaban a su destino, por tanto, he tenido que desactivar los cortafuegos de ambas máquinas. Como estoy trabajando en máquinas virtuales en mi red local, no hay problema, pero obviamente no es nada recomendable desactivar todo el sistemas de cortafuegos del sistema. Para evitar tener que desactivar todo el <em>firewall</em>, podemos añadir esta regla al cortafuegos que nos solucionará el problema:</p>
@@ -800,7 +800,7 @@ Database changed
 MariaDB [empresa]>
 </pre>
 
-<p>En esta base de datos voy a crear una serie de tablas y a introducirle unos registros de prueba a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmysql.txt">script</a>.</p>
+<p>En esta base de datos voy a crear una serie de tablas y a introducirle unos registros de prueba a través de este <a href="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/scriptmysql.txt">script</a>.</p>
 <p>Vemos las tablas y algunos de los registros creados:</p>
 <pre>
 MariaDB [empresa]> show tables;
@@ -882,7 +882,7 @@ You are now connected to database "empresa" as user "debian".
 empresa=#
 </pre>
 
-<p>Vamos a crear unas tablas y unos registros, para ello, utilizamos el siguiente <a href="images/abd_instalacion_de_servidores_y_clientes/scriptpostgresql.txt">script</a>.</p>
+<p>Vamos a crear unas tablas y unos registros, para ello, utilizamos el siguiente <a href="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/scriptpostgresql.txt">script</a>.</p>
 <p>Si comprobamos las tablas:</p>
 <pre>
 empresa=# \d
@@ -965,7 +965,7 @@ $conf['servers'][1]['port'] = 5432;
 </pre>
 
 <p>Si accedemos a la dirección <code>.../phppgadmin</code> en nuestro navegador e iniciamos sesión con las credenciales de nuestro usuario de la base de datos, obtendremos un resultado como éste:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/postgresqlaplicacionweb.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/postgresqlaplicacionweb.png"></p>
 <p>Podemos ver como nuestra aplicación nos muestra las bases de datos existentes en el servidor, y podemos eliminarlas, modificarlas y establecer privilegios, entre otras cosas, ya que también podemos realizar consultas, ...</p>
 <h4>Instalación de una herramienta de administración para MongoDB y prueba desde un cliente remoto</h4>
 <p>Lo primero que voy a hacer, sería crear las dos máquinas virtuales con las que vamos a trabajar en este ejercicio. Como siempre, una actuará como servidor y la otra como cliente. Las dos <em>mv</em> están creadas con un sistema <strong>Debian 10</strong>, y conectadas a la misma red local. La máquina <strong>cliente</strong> tendrá <strong>entorno gráfico</strong> para así poder utilizar la herramienta de administración.</p>
@@ -1128,7 +1128,7 @@ MongoDB server version: 4.4.2
 switched to db empresa_mongodb
 </pre>
 
-<p>Es el momento de crear algunas <em>colecciones</em> e insertarle algunos <em>documentos</em>. Lo llevaré a cabo a través de este <a href="images/abd_instalacion_de_servidores_y_clientes/scriptmongodb.txt">script</a>.</p>
+<p>Es el momento de crear algunas <em>colecciones</em> e insertarle algunos <em>documentos</em>. Lo llevaré a cabo a través de este <a href="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/scriptmongodb.txt">script</a>.</p>
 <p>En este punto, vamos a configurar el acceso remoto para intentar acceder a estos datos desde la máquina <strong>cliente</strong>.</p>
 <p>Para hacer esto, debemos modificar el fichero <code>/etc/mongod.conf</code> y buscar el bloque llamado <strong>Network interfaces</strong> y sustituirle el valor del campo <em>bindIP</em>, que por defecto tendrá el valor <em>127.0.0.1</em>, es decir <em>localhost</em>. Si queremos permitir el acceso remoto, debe quedar así:</p>
 <pre>
@@ -1221,7 +1221,7 @@ sudo dpkg -i mongodb-compass_1.24.1_amd64.deb
 
 <p>Una vez instalado, ya podemos abrir la aplicación.</p>
 <p>Una vez en ella, nos aparecerá una ventana como esta:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/compass.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/compass.png"></p>
 <p>Vemos que nos aparece un recuadro, aquí es donde debemos introducir el comando para conectarnos a nuestro servidor remoto. Para ello, utilizamos este comando:</p>
 <pre>
 mongodb://usuario:contraseña@X.X.X.X:27017/?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
@@ -1234,7 +1234,7 @@ mongodb://javier:********@192.168.0.39:27017/?authSource=admin&readPreference=pr
 </pre>
 
 <p>Hecho esto, ya tendremos configurado el acceso remoto a nuestro servidor. Como podemos ver, tenemos acceso a todos los datos:</p>
-<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes/compassdatos.png"></p>
+<p><img alt="." src="images/abd_instalacion_de_servidores_y_clientes_de_bases_de_datos/compassdatos.png"></p>
 <p>Hemos finalizado el ejercicio.</p>
     </article>
 

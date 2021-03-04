@@ -355,7 +355,7 @@ C:\APP\JAVIER\ORADATA\ORCL\USERS01.DBF
 <p>Las <em>extensiones</em> asignadas a un <em>segmento</em> están en el <em>tablespace</em> de creación del <em>segmento</em>, aunque no tienen porque estar juntas, ni en el mismo archivo de datos (si el <em>tablespace</em> tuviera varios archivos de datos).</p>
 <p>Cuando se elimina un <em>segmento</em>, las <em>extensiones</em> que ocupa se liberan y vuelven a quedar disponibles.</p>
 <p>Este gráfico resume lo explicado:</p>
-<p><img alt="." src="images/abd_almacenamiento/grafico.ej.postgresql.png"></p>
+<p><img alt="." src="images/abd_almacenamiento_de_bases_de_datos/grafico.ej.postgresql.png"></p>
 <p>Entendido lo que son los <em>segmentos</em> y las <em>extensiones</em> en <em>Oracle</em>, vamos a ver su comportamiento en <strong>PostgreSQL</strong>.</p>
 <p>En <em>PostgreSQL</em> estos conceptos no existen como en <em>Oracle</em>, sino que se comportan de la siguiente manera.</p>
 <p>Cada <em>tablespace</em> creado se asigna a un subdirectorio del directorio que hayamos definido como directorio de datos (<em>data_directory</em>) en la instalación de <em>PostgreSQL</em>. (Para consultar cuál es nuestro directorio de datos podemos emplear el siguiente comando: <code>SHOW data_directory;</code>).</p>
