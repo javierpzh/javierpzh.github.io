@@ -240,11 +240,13 @@ DELETE
 <p>Podemos ver como efectivamente nos muestra el usuario que ha realizado la acción, qué acción ha realizado, la fecha exacta, ...</p>
 <h4>Auditoría de grano fino</h4>
 <p>Las auditorías de grano fino son auditorías que almacenan más datos sobre las sentencias que ejecutamos, como la estructura completa de la sentencias.</p>
+<p>Es decir, gracias a ellas, podríamos saber qué consulta ha sido ejecutada sobre una tabla o qué datos
+han sido insertados, modificados o borrados.</p>
 <h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
-<p>Ahora que ya sabemos lo que son las auditorías de grano fino (FGA), extiende la auditoría estándar y captura la sentencia SQL que ha sido ejecutada.</p>
-<p>Creamos la auditoría de grano fino:</p>
+<p>Ahora que ya sabemos lo que son las auditorías de grano fino (FGA), vamos a crear una que almacenen información sobre la inserción de empleados del departamento 10 de la tabla <em>EMP</em> de <em>SCOTT</em>.</p>
+<p>Vamos a crear la siguiente auditoría de grano fino para ello:</p>
 <pre>
-SQL> begin
+SQL> BEGIN
   2  DBMS_FGA.ADD_POLICY (
   3  OBJECT_SCHEMA      => 'SCOTT',
   4  OBJECT_NAME        => 'EMP',
@@ -258,18 +260,50 @@ SQL> begin
 Procedimiento PL/SQL terminado correctamente.
 </pre>
 
-<p>Realizamos un par de inserciones en el departamento especificado:</p>
+<p>Una vez creadas, vamos a realizar una serie de inserciones en el departamento 10, y posteriormente comprobaremos la información almacenada:</p>
 <pre>
-SQL> INSERT INTO EMP VALUES(7777,'FERNANDO','COCINERO',8000,'24-09-1995',80000,9000,10);
+SQL> INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (9000, 'Javier', 'Administr', 8500, '19-11-2001', 2000, NULL, 10);
 
 1 fila creada.
 
-SQL> INSERT INTO EMP VALUES(7778,'NAZO','QUIMICO',9000,'02-12-1987',90000,10000,10);
+SQL> INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (9001, 'Pablo', 'Administr', 8600, '22-01-1997', 2100, NULL, 10);
 
 1 fila creada.
+
+SQL> SELECT DB_USER, OBJECT_NAME, SQL_TEXT, EXTENDED_TIMESTAMP
+  2  FROM DBA_FGA_AUDIT_TRAIL
+  3  WHERE POLICY_NAME='AUDIT_FINO_JAVIER';
+
+DB_USER
+------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+EMP
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (90
+00, 'Javier', 'Administr', 8500, '19-11-2001', 2000, NULL, 10)
+04/03/21 17:30:24,253000 +01:00
+
+DB_USER
+------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+EMP
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (90
+01, 'Pablo', 'Administr', 8600, '22-01-1997', 2100, NULL, 10)
+04/03/21 17:31:23,488000 +01:00
 </pre>
 
-<p>Comprobamos la información almacenada:</p>
+<p>Podemos ver como efectivamente nos muestra la información relativa a las acciones realizadas.</p>
 <h4>Diferencias entre auditar una operación by access o by session.</h4>
 <h4>Diferencias entre los valores db y db, extended del parámetro audit_trail. Demuéstralas poniendo un ejemplo de la información sobre una operación concreta recopilada con cada uno de ellos.</h4>
 <h4>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</h4>
