@@ -109,19 +109,58 @@
         <p>En este artículo vamos a desplegar un <strong>cluster de Kubernetes (k8s)</strong> y para ello he decidido utilizar la distribución <strong>k3s</strong>.</p>
 <p>Todo el proceso se llevará a cabo en un escenario <em>Vagrant</em> que las siguientes máquinas:</p>
 <ul>
-<li><strong>controlador:</strong> máquina que controlará el <em>cluster</em>. Se encuentra conectada a mi red doméstica en modo puente.</li>
-<li><strong>worker1:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente.</li>
-<li><strong>worker2:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente.</li>
+<li><strong>controlador:</strong> máquina que controlará el <em>cluster</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.90</li>
+<li><strong>worker1:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.91</li>
+<li><strong>worker2:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.92</li>
 </ul>
 <p>Puedes ver el fichero <em>Vagrantfile</em> desde <a href="images/hlc_despliegue_de_un_cluster_de_kubernetes/Vagrantfile.txt">aquí</a>.</p>
 <h2>¿Qué es k3s?</h2>
 <p><strong>k3s</strong> es una distribución de <em>Kubernetes</em>, desarrollada por Rancher Labs, muy ligera y muy fácil de instalar, que requiere pocos requisitos y un uso de memoria mínimo.</p>
 <p>Para el planteamiento de un entorno de desarrollo, esto se convierte en una gran mejora sobre lo que hemos hablado anteriormente en <em>Kubernetes</em>; crear un entorno mínimo para desarrollo, donde la creación del entorno es compleja y requiere de muchos recursos, aunque sea <em>Ansible</em> el que realice el trabajo difícil.</p>
-<p>Entre las herramientas que nos proporciona se incluye <strong>kubectl</strong>.
-Esta herramienta, es una interfaz de línea de comandos desarrollada en <em>Go</em> para gestionar nuestros <em>clusters</em> de manera centralizada.</p>
+<p>Entre las herramientas que nos proporciona se incluye <strong>kubectl</strong>. Esta herramienta, es una interfaz de línea de comandos desarrollada en <em>Go</em> para gestionar nuestros <em>clusters</em> de manera centralizada.</p>
 <p>A continuación podemos ver un diagrama acerca de la estructura interna de <em>k3s</em>:</p>
 <p><img alt="." src="images/hlc_despliegue_de_un_cluster_de_kubernetes/estructurainterna.png"></p>
-<h2>Instalación de k3s</h2>
+<h2>Instalación de k3s en el controlador</h2>
+<p>Para llevar a cabo la instalación del <em>software</em> de <strong>k3s</strong>, vamos a utilizar el <em>script</em> de instalación que se nos proporciona. Para ello, necesitaremos disponer de la herramienta <code>curl</code> en nuestro sistema, así que vamos a instalarla:</p>
+<pre>
+apt install curl -y
+</pre>
+
+<p>Una vez instalada, procederemos a la descarga del propio <em>software</em> ejecutando el siguiente comando:</p>
+<pre>
+root@controlador:~# curl -sfL https://get.k3s.io | sh -
+[INFO]  Finding release for channel stable
+[INFO]  Using v1.20.4+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.20.4+k3s1/sha256sum-amd64.txt
+[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.20.4+k3s1/k3s
+[INFO]  Verifying binary download
+[INFO]  Installing k3s to /usr/local/bin/k3s
+[INFO]  Creating /usr/local/bin/kubectl symlink to k3s
+[INFO]  Creating /usr/local/bin/crictl symlink to k3s
+[INFO]  Creating /usr/local/bin/ctr symlink to k3s
+[INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
+[INFO]  Creating uninstall script /usr/local/bin/k3s-uninstall.sh
+[INFO]  env: Creating environment file /etc/systemd/system/k3s.service.env
+[INFO]  systemd: Creating service file /etc/systemd/system/k3s.service
+[INFO]  systemd: Enabling k3s unit
+Created symlink /etc/systemd/system/multi-user.target.wants/k3s.service → /etc/systemd/system/k3s.service.
+[INFO]  systemd: Starting k3s
+</pre>
+
+<p>Realizada la instalación, ya dispondríamos de todas las herramientas necesarias, incluyendo <code>kubectl</code>. Para comprobarlo vamos a listar los nodos existentes en el <em>cluster</em>:</p>
+<pre>
+root@controlador:~# kubectl get nodes
+NAME          STATUS   ROLES                  AGE     VERSION
+controlador   Ready    control-plane,master   2m24s   v1.20.4+k3s1
+</pre>
+
+<p>Lógicamente tan sólo nos muestra uno, que hace referencia al propio nodo que acabamos de instalar, ya que aún no hemos asociado ningún <em>worker</em>.</p>
+<p>Es el momento de vincular los <em>workers</em>, para ello, necesitaremos conocer el <em>token</em> del nodo maestro. Para conocer dicho <em>token</em> ejecutamos el siguiente comando:</p>
+<pre>
+root@controlador:~# cat /var/lib/rancher/k3s/server/node-token
+K1029e8b8d41dc51fdadcb3f1a27d19d552c0e6a33a393a0d21c7af242f7493fd5c::server:43add1f59252e7f700f6840d3dd9a700
+</pre>
+
 <p>.</p>
     </article>
 
