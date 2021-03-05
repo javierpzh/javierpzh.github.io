@@ -374,6 +374,18 @@ mongo        ClusterIP   10.43.108.67   <none>        27017/TCP        8m14s
 letschat     NodePort    10.43.5.244    <none>        8080:32094/TCP   111s
 </pre>
 
+<p>En este momento, ya tendríamos disponible nuestra aplicación y podríamos acceder a ella. Para ello nos dirigiremos a nuestro navegador e introduciremos la dirección IP del nodo maestro, pero además de esto, debemos indicar el puerto donde se está sirviendo <em>Let's Chat</em>. Para conocer este puerto, que por defecto nos lo asigna en el rango comprendido entre 30000 y 40000, podemos utilizar el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl describe service/letschat | grep NodePort
+Type:                     NodePort
+NodePort:                 http  32094/TCP
+</pre>
+
+<p>Podemos ver como, en mi caso, está utilizando el puerto 32094, por tanto yo introduciré en mi navegador la dirección <code>172.22.201.59:32094</code>:</p>
+<p><img alt="." src="images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat.png"></p>
+<p>¡Vaya! Aquí podemos ver como efectivamente poseemos nuestra aplicación.</p>
+<p>Pero, ¿no es demasiado incómodo tener que introducir este puerto tan inusual cada vez que queramos acceder a la aplicación? Para solucionar esto, pasaremos al siguiente apartado.</p>
+<h2></h2>
 <p>.</p>
     </article>
 
