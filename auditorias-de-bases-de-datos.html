@@ -370,18 +370,58 @@ audit_trail                          string      DB_EXTENDED
 <p>Esta herramienta consiste en una serie de <em>scripts</em> y <em>triggers</em> que realizan las acciones necesarias para simular las auditorías.</p>
 <p>Para descargarnos la herramienta debemos utilizar el siguiente comando:</p>
 <pre>
-wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
+  wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
 </pre>
 
 <p>Una vez descargada, nos conectaremos a nuestro servidor y ejecutaremos el siguiente comando:</p>
 <pre>
+postgres=# \i audit.sql
+CREATE EXTENSION
+CREATE SCHEMA
+REVOKE
+COMMENT
+CREATE TABLE
+REVOKE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+CREATE VIEW
+COMMENT
+</pre>
 
+<p>Por último, tan sólo nos faltaría activar la recogida de datos en dichas auditorías, para ello ejecutamos la siguiente sentencia:</p>
+<pre>
+select audit.audit_table('jugadores');
 </pre>
 
 <h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
 <h4>Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
 <h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
-<p><em>PostgreSQL</em> por defecto no tiene una herramiento de auditoría y para conseguir realizar algo parecido tenemos que descargarnos la herramienta Audit trigger 91plus, que consiste en una serie de scripts y trigger realizando la acciones necesarias para una auditoría.</p>
 <h2>MySQL</h2>
 <h4>Vamos a activar las auditorías en nuestro servidor.</h4>
 <h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
