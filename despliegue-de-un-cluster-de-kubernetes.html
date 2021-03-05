@@ -176,8 +176,23 @@ apt install curl -y
 <p>Llevamos a cabo las instalaciones:</p>
 <p><strong>worker1</strong></p>
 <pre>
-curl -sfL https://get.k3s.io | K3S\_URL=https://192.168.0.90:6443 K3S\_TOKEN=K1029e8b8d41dc51fdadcb3f1a27d19d552c0e6a33a393a0d21c7af242f7493fd5c::server:43add1f59252e7f700f6840d3dd9a700 sh -
-curl -sfL https://get.k3s.io | K3S\_URL=https://192.168.0.90:6443 K3S\_TOKEN=K1007e764762d120d437ad0ab8460e3710b2b8fb110f74829caf5b5d5e6ba41e1dc::server:da0b3b9a53d12bb2192394d61a59308a sh -
+root@worker1:~# curl -sfL https://get.k3s.io | K3S_URL=https://192.168.0.90:6443 K3S_TOKEN=K1029e8b8d41dc51fdadcb3f1a27d19d552c0e6a33a393a0d21c7af242f7493fd5c::server:43add1f59252e7f700f6840d3dd9a700 sh -
+[INFO]  Finding release for channel stable
+[INFO]  Using v1.20.4+k3s1 as release
+[INFO]  Downloading hash https://github.com/k3s-io/k3s/releases/download/v1.20.4+k3s1/sha256sum-amd64.txt
+[INFO]  Downloading binary https://github.com/k3s-io/k3s/releases/download/v1.20.4+k3s1/k3s
+[INFO]  Verifying binary download
+[INFO]  Installing k3s to /usr/local/bin/k3s
+[INFO]  Creating /usr/local/bin/kubectl symlink to k3s
+[INFO]  Creating /usr/local/bin/crictl symlink to k3s
+[INFO]  Creating /usr/local/bin/ctr symlink to k3s
+[INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
+[INFO]  Creating uninstall script /usr/local/bin/k3s-agent-uninstall.sh
+[INFO]  env: Creating environment file /etc/systemd/system/k3s-agent.service.env
+[INFO]  systemd: Creating service file /etc/systemd/system/k3s-agent.service
+[INFO]  systemd: Enabling k3s-agent unit
+Created symlink /etc/systemd/system/multi-user.target.wants/k3s-agent.service → /etc/systemd/system/k3s-agent.service.
+[INFO]  systemd: Starting k3s-agent
 </pre>
 
 <p><strong>worker2</strong></p>
