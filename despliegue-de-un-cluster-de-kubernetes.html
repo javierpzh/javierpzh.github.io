@@ -33,11 +33,12 @@
 
 
 
-        <meta name="description" content="En este artículo vamos a desplegar un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Todo el proceso...">
+        <meta name="description" content="En este artículo vamos a crear un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Posteriormente,...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
         <meta name="tags" content="Kubernetes">
+        <meta name="tags" content="Let's Chat">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -47,7 +48,7 @@
 	<meta property="og:url" content="/despliegue-de-un-cluster-de-kubernetes.html">
 	<meta property="og:title" content="Despliegue de un cluster de Kubernetes">
 	<meta property="article:published_time" content="2018-03-05 00:00:00+01:00">
-            <meta property="og:description" content="En este artículo vamos a desplegar un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Todo el proceso...">
+            <meta property="og:description" content="En este artículo vamos a crear un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Posteriormente,...">
 
             <meta property="og:image" content="theme/images/banner-kubernetes.jpg">
 </head>
@@ -106,7 +107,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>En este artículo vamos a desplegar un <strong>cluster de Kubernetes (k8s)</strong> y para ello he decidido utilizar la distribución <strong>k3s</strong>.</p>
+        <p>En este artículo vamos a crear un <strong>cluster de Kubernetes (k8s)</strong> y para ello he decidido utilizar la distribución <strong>k3s</strong>. Posteriormente, desplegaremos la aplicación <strong>Let's Chat</strong> en él.</p>
 <p>Todo el proceso se llevará a cabo en varias instancias de <em>OpenStack</em>:</p>
 <ul>
 <li><strong>controlador:</strong> máquina que controlará el <em>cluster</em>. Posee la dirección IP 172.22.201.59</li>
@@ -289,12 +290,12 @@ controlador   Ready      control-plane,master   37m   v1.20.4+k3s1
 </pre>
 
 <p>Efectivamente podemos ver los tanto el nodo maestro como los <em>workers</em> por lo que ya podríamos gestionar nuestro <em>cluster</em> de manera remota.</p>
-<h2></h2>
+<h2>Desplegando una aplicación en nuestro cluster</h2>
 <p>.</p>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/kubernetes.html">Kubernetes</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/kubernetes.html">Kubernetes</a>, <a href="/tag/lets-chat.html">Let&#39;s Chat</a></p>
         </div>
 
     <hr>
