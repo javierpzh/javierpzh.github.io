@@ -51,7 +51,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/auditorias-de-bases-de-datos.html">
 	<meta property="og:title" content="Auditorías de bases de datos">
-	<meta property="article:published_time" content="2018-03-04 00:00:00+01:00">
+	<meta property="article:published_time" content="2018-03-05 00:00:00+01:00">
             <meta property="og:description" content="Oracle Vamos a activar las auditorías en nuestro servidor. Por defecto, Oracle incorpora las auditorías activadas, pero aún así, si...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -96,7 +96,7 @@
                         <h1>Auditorías de bases de datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el dom 04 marzo 2018
+                             el lun 05 marzo 2018
                         </span>
                         
                     </div>
@@ -318,6 +318,52 @@ AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT BY {ACCESS/SESSION};
 <p>Listo.</p>
 <h4>Diferencias entre los valores 'DB' y 'DB, EXTENDED' del parámetro audit_trail.</h4>
 <p>Ambos valores activan la auditoría y almacenan los datos en la tabla <strong>SYS.AUD$</strong> de <em>Oracle</em>, pero, la principal diferencia que existe entre ellos es que, el valor <strong>DB, EXTENDED</strong>, además almacena los datos correspondientes en las columnas <strong>SQLBIND</strong> y <strong>SQLTEXT</strong> de dicha tabla, <em>SYS.AUD$</em>, mientras que el valor <strong>DB</strong> no lo hace.</p>
+<p>Ahora, vamos a ver como podríamos cambiar de un valor a otro.</p>
+<p>En primer lugar, para ver cuál de los dos estamos utilizando, ejecutaremos la siguiente sentencia:</p>
+<pre>
+SQL> SHOW PARAMETER AUDIT_TRAIL
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+audit_trail                          string      DB
+</pre>
+
+<p>Vemos como actualmente, en mi caso, poseo el valor <strong>DB</strong>. Ahora voy a cambiar al valor <strong>DB, EXTENDED</strong>:</p>
+<pre>
+SQL> ALTER SYSTEM SET audit_trail = "DB_EXTENDED" SCOPE=SPFILE;
+
+Sistema modificado.
+</pre>
+
+<p>Parece que ya se ha cambiado, pero no, para que se aplique este cambio, es necesario que reiniciemos la base de datos, por lo que vamos a ello:</p>
+<pre>
+SQL> shutdown
+Base de datos cerrada.
+Base de datos desmontada.
+Instancia ORACLE cerrada.
+
+SQL> startup
+Instancia ORACLE iniciada.
+
+Total System Global Area 1720328192 bytes
+Fixed Size                  2176448 bytes
+Variable Size            1073744448 bytes
+Database Buffers          637534208 bytes
+Redo Buffers                6873088 bytes
+Base de datos montada.
+Base de datos abierta.
+</pre>
+
+<p>Comprobamos de nuevo que valor estamos utilizando:</p>
+<pre>
+SQL> SHOW PARAMETER AUDIT_TRAIL
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+audit_trail                          string      DB_EXTENDED
+</pre>
+
+<p>Vemos como efectivamente ahora sí, hemos cambiado al nuevo valor.</p>
 <h4>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</h4>
 <h2>PostgreSQL</h2>
 <h4>Averigua si en PostgreSQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h4>
