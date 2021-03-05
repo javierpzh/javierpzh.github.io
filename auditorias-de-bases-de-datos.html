@@ -364,11 +364,29 @@ audit_trail                          string      DB_EXTENDED
 </pre>
 
 <p>Vemos como efectivamente ahora sí, hemos cambiado al nuevo valor.</p>
-<h4>Localiza en Enterprise Manager las posibilidades para realizar una auditoría e intenta repetir con dicha herramienta los apartados 1, 3 y 4.</h4>
 <h2>PostgreSQL</h2>
-<h4>Averigua si en PostgreSQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h4>
+<h4>Vamos a activar las auditorías en nuestro servidor.</h4>
+<p><em>PostgreSQL</em> por defecto no incorpora una herramienta de auditorías, por lo que, si queremos conseguir realizar auditorías, tendremos que descargarnos una herramienta que ha desarrollado la comunidad, llamada <strong>Audit trigger 91plus</strong>.</p>
+<p>Esta herramienta consiste en una serie de <em>scripts</em> y <em>triggers</em> que realizan las acciones necesarias para simular las auditorías.</p>
+<p>Para descargarnos la herramienta debemos utilizar el siguiente comando:</p>
+<pre>
+wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
+</pre>
+
+<p>Una vez descargada, nos conectaremos a nuestro servidor y ejecutaremos el siguiente comando:</p>
+<pre>
+
+</pre>
+
+<h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+<h4>Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
+<h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
+<p><em>PostgreSQL</em> por defecto no tiene una herramiento de auditoría y para conseguir realizar algo parecido tenemos que descargarnos la herramienta Audit trigger 91plus, que consiste en una serie de scripts y trigger realizando la acciones necesarias para una auditoría.</p>
 <h2>MySQL</h2>
-<h4>Averigua si en MySQL se pueden realizar los apartados 1, 3 y 4. Si es así, documenta el proceso adecuadamente.</h4>
+<h4>Vamos a activar las auditorías en nuestro servidor.</h4>
+<h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+<h4>Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
+<h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
 <h2>MongoDB</h2>
 <h4>Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento.</h4>
 <h4>Averigua si en MongoDB se pueden auditar los accesos al sistema.</h4>
