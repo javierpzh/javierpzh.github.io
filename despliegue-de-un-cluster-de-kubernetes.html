@@ -291,10 +291,17 @@ controlador   Ready      control-plane,master   37m   v1.20.4+k3s1
 
 <p>Efectivamente podemos ver los tanto el nodo maestro como los <em>workers</em> por lo que ya podríamos gestionar nuestro <em>cluster</em> de manera remota.</p>
 <h2>Desplegando una aplicación en nuestro cluster</h2>
-<p>Para desplegar la aplicación <strong>Let's Chat</strong> utilizaremos <a href="https://github.com/iesgn/kubernetes-storm/tree/master/unidad3/ejemplos-3.2/ejemplo8">este repositorio</a> de <em>GitHub</em>, que contiene todos los ficheros <code>.yaml</code> en los que se definen los <em>deployment</em>, los servicios, ...</p>
-<p>En primer lugar, lógicamente clonaremos dicho repositorio:</p>
+<p>Para desplegar la aplicación <strong>Let's Chat</strong> utilizaremos <a href="https://github.com/iesgn/kubernetes-storm">este repositorio</a> de <em>GitHub</em>, que contiene todos los ficheros <code>.yaml</code> en los que se definen los <em>deployment</em>, los servicios, ...</p>
+<p>En primer lugar, lógicamente clonaremos dicho repositorio. Si no disponemos de la herramienta <code>git</code>, tendremos que instalarla.</p>
 <pre>
-
+root@debian:/home/javier/Kubernetes# git clone https://github.com/iesgn/kubernetes-storm.git
+Clonando en 'kubernetes-storm'...
+remote: Enumerating objects: 288, done.
+remote: Counting objects: 100% (288/288), done.
+remote: Compressing objects: 100% (213/213), done.
+remote: Total 288 (delta 119), reused 224 (delta 60), pack-reused 0
+Recibiendo objetos: 100% (288/288), 6.36 MiB | 8.71 MiB/s, listo.
+Resolviendo deltas: 100% (119/119), listo.
 </pre>
 
 <p>.</p>
