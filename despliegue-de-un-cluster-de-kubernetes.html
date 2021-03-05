@@ -419,18 +419,25 @@ ingress-letschat   <none>   www.letschat.com   10.0.0.13   80      30s
 <p>Para terminar con el artículo, vamos a ver otras de las grandes ventajas de <em>Kubernetes</em>, y se trata de la gran facilidad que nos presenta para escalar nuestro <em>cluster</em>.</p>
 <p>En este caso, recordemos que posee dos <em>pods</em> en funcionamiento, uno para <em>MongoDB</em> y otro para <em>Let's Chat</em>.</p>
 <p>Pero, imaginemos que vamos a realizar un despliegue de nuestra aplicación en un entorno de producción, a la cuál accederán una gran multitud de usuarios simultáneamente. Obviamente, esto será bastante difícil que lo soporte un sólo <em>pod</em>, por lo que necesitaríamos desplegar <em>pods</em> adicionales para soportar un mayor número de peticiones.</p>
-<p>En <em>Kubernetes</em> ampliar este número de <em>pods</em> es muy sencillo. Vamos a demostrarlo, escalando el número total de <em>pods</em> a 3. Para ello, tan solo debemos ejecutar el siguiente comando:</p>
+<p>En <em>Kubernetes</em> ampliar este número de <em>pods</em> es muy sencillo. Vamos a demostrarlo, escalando el número total de <em>pods</em> a 4. Para ello, tan solo debemos ejecutar el siguiente comando:</p>
 <pre>
-root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl scale deployment.apps/letschat --replicas=3
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl scale deployment.apps/letschat --replicas=4
 deployment.apps/letschat scaled
 </pre>
 
-<p>Listo, con esto habríamos pasado de tener un <em>pod</em>, a tener 3 <em>pods</em>.</p>
+<p>Listo, con esto habríamos pasado de tener un <em>pod</em>, a tener 4 <em>pods</em>.</p>
 <p>Vamos a ver ahora los <em>pods</em> existentes en nuestro <em>cluster</em>:</p>
 <pre>
-
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl get po -o wide
+NAME                        READY   STATUS    RESTARTS   AGE   IP           NODE          NOMINATED NODE   READINESS GATES
+mongo-5c694c878b-m9zss      1/1     Running   0          27m   10.42.0.29   controlador   <none>           <none>
+letschat-7c66bd64f5-hvh7r   1/1     Running   0          18m   10.42.0.30   controlador   <none>           <none>
+letschat-7c66bd64f5-vtghs   1/1     Running   0          20m   10.42.1.8    worker2       <none>           <none>
+letschat-7c66bd64f5-bflgh   1/1     Running   0          64s   10.42.1.9    worker2       <none>           <none>
+letschat-7c66bd64f5-pl4gx   1/1     Running   0          4s    10.42.2.8    worker1       <none>           <none>
 </pre>
 
+<p>Podemos apreciar, como efectivamente el número de <em>pods</em> de <em>Let's Chat</em> se ha escalado a 4, donde uno de ellos se está ejecutando en el nodo maestro, dos de ellos en el <em>worker2</em>, y el último en el <em>worker1</em>. </p>
 <p>.</p>
 <p>Visto esto, habremos terminado con el contenido de este <em>post</em>.</p>
     </article>
