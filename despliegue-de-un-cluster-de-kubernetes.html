@@ -429,15 +429,15 @@ deployment.apps/letschat scaled
 <p>Vamos a ver ahora los <em>pods</em> existentes en nuestro <em>cluster</em>:</p>
 <pre>
 root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl get po -o wide
-NAME                        READY   STATUS    RESTARTS   AGE   IP           NODE          NOMINATED NODE   READINESS GATES
-mongo-5c694c878b-m9zss      1/1     Running   0          27m   10.42.0.29   controlador   <none>           <none>
-letschat-7c66bd64f5-hvh7r   1/1     Running   0          18m   10.42.0.30   controlador   <none>           <none>
-letschat-7c66bd64f5-vtghs   1/1     Running   0          20m   10.42.1.8    worker2       <none>           <none>
-letschat-7c66bd64f5-bflgh   1/1     Running   0          64s   10.42.1.9    worker2       <none>           <none>
-letschat-7c66bd64f5-pl4gx   1/1     Running   0          4s    10.42.2.8    worker1       <none>           <none>
+NAME                        READY   STATUS    RESTARTS   AGE    IP           NODE          NOMINATED NODE   READINESS GATES
+mongo-5c694c878b-m9zss      1/1     Running   0          240m   10.42.0.29   controlador   <none>           <none>
+letschat-7c66bd64f5-hvh7r   1/1     Running   0          208m   10.42.0.30   controlador   <none>           <none>
+letschat-7c66bd64f5-vtghs   1/1     Running   0          80s    10.42.1.8    worker2       <none>           <none>
+letschat-7c66bd64f5-bflgh   1/1     Running   0          64s    10.42.1.9    worker2       <none>           <none>
+letschat-7c66bd64f5-pl4gx   1/1     Running   0          4s     10.42.2.8    worker1       <none>           <none>
 </pre>
 
-<p>Podemos apreciar, como efectivamente el número de <em>pods</em> de <em>Let's Chat</em> se ha escalado a 4, donde uno de ellos se está ejecutando en el nodo maestro, dos de ellos en el <em>worker2</em>, y el último en el <em>worker1</em>. </p>
+<p>Podemos apreciar, como efectivamente el número de <em>pods</em> de <em>Let's Chat</em> se ha escalado a 4, donde uno de ellos se está ejecutando en el nodo maestro, dos de ellos en el <em>worker2</em>, y el último en el <em>worker1</em>.</p>
 <p>.</p>
 <p>Visto esto, habremos terminado con el contenido de este <em>post</em>.</p>
     </article>
