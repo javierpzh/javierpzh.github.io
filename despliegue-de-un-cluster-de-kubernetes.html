@@ -107,13 +107,12 @@
     <!-- Post Content -->
     <article>
         <p>En este artículo vamos a desplegar un <strong>cluster de Kubernetes (k8s)</strong> y para ello he decidido utilizar la distribución <strong>k3s</strong>.</p>
-<p>Todo el proceso se llevará a cabo en un escenario <em>Vagrant</em> que las siguientes máquinas:</p>
+<p>Todo el proceso se llevará a cabo en varias instancias de <em>OpenStack</em>:</p>
 <ul>
-<li><strong>controlador:</strong> máquina que controlará el <em>cluster</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.90</li>
-<li><strong>worker1:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.91</li>
-<li><strong>worker2:</strong> máquina que actuará como <em>worker</em>. Se encuentra conectada a mi red doméstica en modo puente, posee la dirección IP 192.168.0.92</li>
+<li><strong>controlador:</strong> máquina que controlará el <em>cluster</em>. Posee la dirección IP 172.22.201.59</li>
+<li><strong>worker1:</strong> máquina que actuará como <em>worker</em>. Posee la dirección IP 172.22.201.69</li>
+<li><strong>worker2:</strong> máquina que actuará como <em>worker</em>. Posee la dirección IP 172.22.201.79</li>
 </ul>
-<p>Puedes ver el fichero <em>Vagrantfile</em> desde <a href="images/hlc_despliegue_de_un_cluster_de_kubernetes/Vagrantfile.txt">aquí</a>.</p>
 <h2>¿Qué es k3s?</h2>
 <p><strong>k3s</strong> es una distribución de <em>Kubernetes</em>, desarrollada por Rancher Labs, muy ligera y muy fácil de instalar, que requiere pocos requisitos y un uso de memoria mínimo.</p>
 <p>Para el planteamiento de un entorno de desarrollo, esto se convierte en una gran mejora sobre lo que hemos hablado anteriormente en <em>Kubernetes</em>; crear un entorno mínimo para desarrollo, donde la creación del entorno es compleja y requiere de muchos recursos, aunque sea <em>Ansible</em> el que realice el trabajo difícil.</p>
