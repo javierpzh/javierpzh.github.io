@@ -226,6 +226,17 @@ worker2       Ready    <none>                 51s     v1.20.4+k3s1
 
 <p>Podemos ver como efectivamente, ahora sí nos muestra los dos <em>workers</em> que acabamos de vincular.</p>
 <h2>Conectando nuestro cluster a la máquina anfitriona</h2>
+<p>Una vez tenemos nuestro <em>cluster</em> listo, vamos a configurarlo para que en vez de gestionarlo desde la máquina <em>controlador</em>, lo podamos gestionar desde nuestra máquina anfitriona, lo cuál sería mucho más cómodo.</p>
+<p>Lo primero que debemos hacer, es instalar <code>kubectl</code> en nuestra máquina anfitriona. Para hacer esto, debemos ejecutar los siguientes comandos:</p>
+<pre>
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+apt update && apt install kubectl -y
+</pre>
+
+<p>Una vez disponemos de la herramienta, </p>
 <p>.</p>
     </article>
 
