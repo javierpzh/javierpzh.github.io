@@ -385,7 +385,31 @@ NodePort:                 http  32094/TCP
 <p><img alt="." src="images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat.png"></p>
 <p>¡Vaya! Aquí podemos ver como efectivamente poseemos nuestra aplicación.</p>
 <p>Pero, ¿no es demasiado incómodo tener que introducir este puerto tan inusual cada vez que queramos acceder a la aplicación? Para solucionar esto, pasaremos al siguiente apartado.</p>
-<h2></h2>
+<h2>Proxy inverso con Ingress</h2>
+<p>Gracias a los controladores <strong>Ingress</strong> o <strong>Ingress controller</strong> podemos realizar un <em>proxy inverso</em>, y así evitar tener que acceder a direcciones como la anterior, indicando nuestras aplicaciones por medio de nombres.</p>
+<p>Si recordamos, poseemos un fichero llamado <code>ingress.yaml</code> que aún no hemos utilizado. Al definir este fichero, cambiaremos el comportamiento y podremos acceder a nuestra aplicación en la dirección <code>www.letschat.com</code>, usando resolución estática claro. Ejecutamos el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f ingress.yaml
+Warning: networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+ingress.networking.k8s.io/ingress-letschat created
+</pre>
+
+<p>Parece que se ha generado el nuevo <em>ingress</em>, pero vamos a comprobarlo listando los <em>ingress</em> existentes en nuestro <em>cluster</em>:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl get ingress
+NAME               CLASS    HOSTS              ADDRESS     PORTS   AGE
+ingress-letschat   <none>   www.letschat.com   10.0.0.13   80      30s
+</pre>
+
+<p>Podemos apreciar como efectivamente se ha creado el <em>ingress</em> y ahora está utilizando el puerto 80.</p>
+<p>Por último, añadiremos la línea relativa al nodo maestro en nuestro fichero <code>/etc/hosts</code>. En mi caso, añado la siguiente línea:</p>
+<pre>
+172.22.201.59   www.letschat.com
+</pre>
+
+<p>Hecho esto, nos dirigimos a nuestro navegador e introducimos la dirección <code>www.letschat.com</code>:</p>
+<p><img alt="." src="images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat80.png"></p>
+<p>¡Bien! Ahora podremos acceder a <em>Let's Chat</em> siempre que queramos en la dirección <code>www.letschat.com</code>.</p>
 <p>.</p>
     </article>
 
