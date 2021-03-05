@@ -39,10 +39,9 @@
 
         <meta name="tags" content="Base de Datos">
         <meta name="tags" content="Oracle">
+        <meta name="tags" content="PostgreSQL">
         <meta name="tags" content="MySQL">
         <meta name="tags" content="MariaDB">
-        <meta name="tags" content="PostgreSQL">
-        <meta name="tags" content="MongoDB">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -51,7 +50,7 @@
             <meta property="article:author" content="/author/javier-perez-hidalgo.html">
 	<meta property="og:url" content="/auditorias-de-bases-de-datos.html">
 	<meta property="og:title" content="Auditorías de bases de datos">
-	<meta property="article:published_time" content="2018-03-05 00:00:00+01:00">
+	<meta property="article:published_time" content="2021-03-05 00:00:00+01:00">
             <meta property="og:description" content="Oracle Vamos a activar las auditorías en nuestro servidor. Por defecto, Oracle incorpora las auditorías activadas, pero aún así, si...">
 
             <meta property="og:image" content="theme/images/banner-basededatos.png">
@@ -96,7 +95,7 @@
                         <h1>Auditorías de bases de datos</h1>
                         <span class="meta">Publicado por
                                 <a href="/author/javier-perez-hidalgo.html">Javier Pérez Hidalgo</a>
-                             el lun 05 marzo 2018
+                             el vie 05 marzo 2021
                         </span>
                         
                     </div>
@@ -469,6 +468,8 @@ SET SESSION profiling = 1;
 <h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
 <p>No es posible activar este tipo de auditoría en <em>MySQL</em>.</p>
 <h4>Vamos a activar la auditoría de las operaciones DML.</h4>
+<p>En este apartado vamos a ver como se auditan las operaciones DML.</p>
+<p>Para comprobar su funcionamiento, realizaremos un <em>INSERT</em>, un <em>UPDATE</em> y un <em>DELETE</em> y posteriormente, visualizaremos como se han registrado dichas operaciones:</p>
 <pre>
 MariaDB [scott]> INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
 Query OK, 1 row affected (0.004 sec)
@@ -495,14 +496,10 @@ MariaDB [scott]> SHOW PROFILES;
 </pre>
 
 <p>Podemos ver como nos muestra las sentencias introducidas, por lo que esta auditoría sería de <strong>grano fino</strong>.</p>
-<h2>MongoDB</h2>
-<h4>Vamos a auditar los accesos al sistema.</h4>
-<h4>Averigua las posibilidades que ofrece MongoDB para auditar los cambios que va sufriendo un documento.</h4>
-<p>.</p>
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/base-de-datos.html">Base de Datos</a>, <a href="/tag/oracle.html">Oracle</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a>, <a href="/tag/postgresql.html">PostgreSQL</a>, <a href="/tag/mongodb.html">MongoDB</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/base-de-datos.html">Base de Datos</a>, <a href="/tag/oracle.html">Oracle</a>, <a href="/tag/postgresql.html">PostgreSQL</a>, <a href="/tag/mysql.html">MySQL</a>, <a href="/tag/mariadb.html">MariaDB</a></p>
         </div>
 
     <hr>
