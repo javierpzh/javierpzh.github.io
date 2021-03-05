@@ -285,7 +285,7 @@ kubectl --insecure-skip-tls-verify cluster-info dump
 root@debian:~# kubectl get nodes
 NAME          STATUS     ROLES                  AGE   VERSION
 worker1       Ready      <none>                 30m   v1.20.4+k3s1
-worker2       NotReady   <none>                 30m   v1.20.4+k3s1
+worker2       Ready      <none>                 30m   v1.20.4+k3s1
 controlador   Ready      control-plane,master   37m   v1.20.4+k3s1
 </pre>
 
@@ -304,9 +304,74 @@ Recibiendo objetos: 100% (288/288), 6.36 MiB | 8.71 MiB/s, listo.
 Resolviendo deltas: 100% (119/119), listo.
 </pre>
 
-<p>Cuando hayamos clonado el repositorio, tendremos que dirigirnos a la siguiente ruta que es donde se encuentran los ficheros de esta aplicación:</p>
+<p>Cuando hayamos clonado el repositorio, tendremos que dirigirnos a la ruta <code>unidad3/ejemplos-3.2/ejemplo8/</code> que es donde se encuentran los ficheros de esta aplicación:</p>
 <pre>
-cd kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8/
+root@debian:/home/javier/Kubernetes# cd kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8/
+
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# ls -l
+total 20
+-rw-r--r-- 1 root root 247 mar  5 20:15 ingress.yaml
+-rw-r--r-- 1 root root 394 mar  5 20:15 letschat-deployment.yaml
+-rw-r--r-- 1 root root 177 mar  5 20:15 letschat-srv.yaml
+-rw-r--r-- 1 root root 358 mar  5 20:15 mongo-deployment.yaml
+-rw-r--r-- 1 root root 149 mar  5 20:15 mongo-srv.yaml
+</pre>
+
+<p>Podemos observar que hay cinco ficheros. Dos de ellos definen los <strong>deployment</strong> para la base de datos <strong>MongoDB</strong> y para la propia aplicación <strong>Let's Chat</strong>. Otros dos nos ofrecerán los <strong>servicios</strong> de dichos procesos. El último fichero <code>ingress.yaml</code> lo veremos más adelante.</p>
+<p>En este punto, todo estaría listo para definir el primer <em>deployment</em>, en este caso el de <em>MongoDB</em>. Este <em>deployment</em> tendrá como consecuencia la generación de un <strong>ReplicaSet</strong> con un <strong>pod</strong>, que ejecutará una imagen <em>mongo</em>.</p>
+<p>Para definir dicho <em>deployment</em> utilizaremos el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f mongo-deployment.yaml
+deployment.apps/mongo created
+</pre>
+
+<p>Podemos apreciar en la salida del comando como efectivamente se ha definido dicho <em>deployment</em>.</p>
+<p>El siguiente paso, será definir el <em>servicio</em> de nuestra base de datos, esto nos permitirá poder acceder a ella. Ejecutamos el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f mongo-srv.yaml
+service/mongo created
+</pre>
+
+<p>Una vez hayamos creado el <em>servicio</em>, habremos terminado con lo relativo a <em>MongoDB</em>.</p>
+<p>El mismo proceso que hemos llevado a cabo con nuestra base de datos, tendremos que seguir con nuestra aplicación.</p>
+<p>Por tanto, empezaremos por definir su <em>deployment</em>, que al igual que el anterior, generará un <strong>ReplicaSet</strong> con sólo un <strong>pod</strong>, que ejecutará una imagen <em>sdelements/lets-chat</em>.</p>
+<p>Definiremos el <em>deployment</em> utilizando el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f letschat-deployment.yaml
+deployment.apps/letschat created
+</pre>
+
+<p>Podemos apreciar en la salida del comando como efectivamente se ha definido este <em>deployment</em>.</p>
+<p>El siguiente paso, será definir el <em>servicio</em> de nuestra aplicación, esto nos permitirá poder acceder a ella. Ejecutamos el siguiente comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f letschat-srv.yaml
+service/letschat created
+</pre>
+
+<p>Una vez hayamos creado el <em>servicio</em>, habremos terminado con lo relativo a <em>Let's Chat</em>, y por tanto todo estaría preparado.</p>
+<p>Para comprobar que los <em>deployment</em> han sido correctamente creados, vamos a utilizar este comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl get deploy,rs,po -o wide
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                 SELECTOR
+deployment.apps/mongo      1/1     1            1           34m   mongo        mongo                  name=mongo
+deployment.apps/letschat   1/1     1            1           30m   letschat     sdelements/lets-chat   name=letschat
+
+NAME                                  DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES                 SELECTOR
+replicaset.apps/mongo-5c694c878b      1         1         1       34m   mongo        mongo                  name=mongo,pod-template-hash=5c694c878b
+replicaset.apps/letschat-7c66bd64f5   1         1         1       30m   letschat     sdelements/lets-chat   name=letschat,pod-template-hash=7c66bd64f5
+
+NAME                            READY   STATUS    RESTARTS   AGE    IP          NODE      NOMINATED NODE   READINESS GATES
+pod/mongo-5c694c878b-bwhsr      1/1     Running   0          34m    10.42.1.3   worker1   <none>           <none>
+pod/letschat-7c66bd64f5-467dp   1/1     Running   0          105s   10.42.2.3   worker2   <none>           <none>
+</pre>
+
+<p>Y para comprobar que los <em>servicios</em> han sido correctamente creados, vamos a utilizar este comando:</p>
+<pre>
+root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl get svc
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes   ClusterIP   10.43.0.1      <none>        443/TCP          96m
+mongo        ClusterIP   10.43.108.67   <none>        27017/TCP        8m14s
+letschat     NodePort    10.43.5.244    <none>        8080:32094/TCP   111s
 </pre>
 
 <p>.</p>
