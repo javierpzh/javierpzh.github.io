@@ -411,7 +411,11 @@ ingress-letschat   <none>   www.letschat.com   10.0.0.13   80      30s
 <p><img alt="." src="images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat80.png"></p>
 <p>¡Bien! Ahora podremos acceder a <em>Let's Chat</em> siempre que queramos en la dirección <code>www.letschat.com</code>.</p>
 <h2>Escalabilidad del cluster</h2>
+<p>Para terminar con el artículo, vamos a ver otras de las grandes ventajas de <em>Kubernetes</em>, y se trata de la gran facilidad que nos presenta para escalar nuestro <em>cluster</em>.</p>
+<p>En este caso, recordemos que posee dos <em>pods</em> en funcionamiento, uno para <em>MongoDB</em> y otro para <em>Let's Chat</em>.</p>
+<p>Pero, imaginemos que vamos a realizar un despliegue de nuestra aplicación en un entorno de producción, a la cuál accederán una gran multitud de usuarios simultáneamente. Obviamente, esto será bastante difícil que lo soporte un sólo <em>pod</em>, por lo que necesitaríamos desplegar <em>pods</em> adicionales para soportar un mayor número de peticiones. </p>
 <p>.</p>
+<p>Visto esto, habremos terminado con el contenido de este <em>post</em>.</p>
     </article>
 
         <div class="tags">
