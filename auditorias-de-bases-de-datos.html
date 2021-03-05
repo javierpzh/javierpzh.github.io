@@ -370,12 +370,12 @@ audit_trail                          string      DB_EXTENDED
 <p>Esta herramienta consiste en una serie de <em>scripts</em> y <em>triggers</em> que realizan las acciones necesarias para simular las auditorías.</p>
 <p>Para descargarnos la herramienta debemos utilizar el siguiente comando:</p>
 <pre>
-  wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
+wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
 </pre>
 
 <p>Una vez descargada, nos conectaremos a nuestro servidor y ejecutaremos el siguiente comando:</p>
 <pre>
-postgres=# \i audit.sql
+scott=# \i audit.sql
 CREATE EXTENSION
 CREATE SCHEMA
 REVOKE
@@ -422,7 +422,20 @@ select audit.audit_table({nombretabla});
 <p>Listo.</p>
 <h4>Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
 <p>Este tipo de auditoría no es posible activar en PostgreSQL.</p>
-<h4>Vamos a activar la auditoría de las operaciones DML.</h4>
+<h4>Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
+<p>En este apartado vamos a activar la auditoría de las operaciones DML en la tabla <em>DEPT</em> del usuario <em>SCOTT</em>, para ello ejecutamos la siguiente sentencia SQL:</p>
+<pre>
+scott=# select audit.audit_table('dept');
+NOTICE:  trigger "audit_trigger_row" for relation "dept" does not exist, skipping
+NOTICE:  trigger "audit_trigger_stm" for relation "dept" does not exist, skipping
+NOTICE:  CREATE TRIGGER audit_trigger_row AFTER INSERT OR UPDATE OR DELETE ON dept FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func('true');
+NOTICE:  CREATE TRIGGER audit_trigger_stm AFTER TRUNCATE ON dept FOR EACH STATEMENT EXECUTE PROCEDURE audit.if_modified_func('true');
+ audit_table
+-------------
+
+(1 row)
+</pre>
+
 <h4>Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
 <h2>MySQL</h2>
 <h4>Vamos a activar las auditorías en nuestro servidor.</h4>
