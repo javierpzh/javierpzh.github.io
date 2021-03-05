@@ -161,6 +161,18 @@ root@controlador:~# cat /var/lib/rancher/k3s/server/node-token
 K1029e8b8d41dc51fdadcb3f1a27d19d552c0e6a33a393a0d21c7af242f7493fd5c::server:43add1f59252e7f700f6840d3dd9a700
 </pre>
 
+<p>Hecho esto, es el momento de pasar con la instalación de <em>k3s</em> en los <em>workers</em>.</p>
+<h2>Instalación de k3s en los workers</h2>
+<p>Para llevar a cabo la instalación del <em>software</em> de <strong>k3s</strong> en estas máquinas, volveremos a utilizar el <em>script</em> de instalación que se nos proporciona, pero esta vez, tendremos que indicarle dos parámetros para llevar a cabo la vinculación al nodo maestro. Dichos parámetros son:</p>
+<ul>
+<li><strong>K3S_URL:</strong></li>
+<li><strong>K3S_TOKEN:</strong></li>
+</ul>
+<p>Para ello, necesitaremos disponer de la herramienta <code>curl</code> en nuestro sistema, así que vamos a instalarla:</p>
+<pre>
+apt install curl -y
+</pre>
+
 <p>.</p>
     </article>
 
