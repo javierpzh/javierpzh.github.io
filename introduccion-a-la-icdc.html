@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="En esta práctica investiga como generar una página web estática con la herramienta que elegiste en la práctica 1 de la asignatura y...">
+        <meta name="description" content="En este artículo vamos a ver una pequeña introducción a la integración y el despliegue continuo. Integración continua (IC) / Continuous...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -47,7 +47,7 @@
 	<meta property="og:url" content="/introduccion-a-la-icdc.html">
 	<meta property="og:title" content="Introducción a la IC/DC">
 	<meta property="article:published_time" content="2021-01-25 00:00:00+01:00">
-            <meta property="og:description" content="En esta práctica investiga como generar una página web estática con la herramienta que elegiste en la práctica 1 de la asignatura y...">
+            <meta property="og:description" content="En este artículo vamos a ver una pequeña introducción a la integración y el despliegue continuo. Integración continua (IC) / Continuous...">
 
             <meta property="og:image" content="theme/images/banner-aplicacionesweb.jpg">
 </head>
@@ -106,21 +106,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p>En esta práctica investiga como generar una página web estática con la herramienta que elegiste en la práctica 1 de la asignatura y desplegarla en el servicio que utilizaste en esa práctica.</p>
-<ul>
-<li>
-<p>En el repositorio GitHub/GitLab sólo tienen que estar los ficheros markdown.</p>
-</li>
-<li>
-<p>La página se debe generar en el sistema de integración continúa, por lo tanto debemos instalar las herramientas necesarias.</p>
-</li>
-<li>
-<p>Investiga si podemos desplegar de forma automática en el servicio elegido (si es necesario cambia el servicio de hosting para el despliegue).</p>
-</li>
-</ul>
-<hr>
-<p>En este artículo vamos a ver una pequeña introducción a la <strong>integración y el despliegue continuo</strong>.</p>
-<p>Primeramente vamos a ver qué es esto de la integración y el despliegue continuo.</p>
+        <p>En este artículo vamos a ver una pequeña introducción a la <strong>integración y el despliegue continuo</strong>.</p>
 <ul>
 <li><strong>Integración continua (IC) / Continuous integration (CI):</strong> es el nombre que se le da a la automatización de las labores de compilación, test y análisis estático del código. Consiste en hacer integraciones automáticas de un proyecto lo más a menudo posible para así poder detectar fallos cuanto antes. Entendemos por integración la compilación y ejecución de pruebas de todo un proyecto.</li>
 </ul>
@@ -134,30 +120,7 @@
 </li>
 </ul>
 <p><img alt="." src="images/iaw_introducción_a_la_IC-DC/EC-DC.png"></p>
-<p>Explicados los diferentes conceptos, vamos a realizar una pequeña práctica que trata sobre generar una página web estática (en mi caso voy a automatizar el despliegue de este blog) que conste de despliegue continuo.</p>
-<p>En mi caso, he decidido utilizar la herramienta llamada <a href="https://www.cloudbees.com/products/codeship">CodeShip</a> para llevar a cabo este proceso. También necesitaremos un repositorio de <em>GitHub</em>, donde iremos guardando las distintas informaciones que se irán desplegando en nuestra nueva web.</p>
-<p>Como servicio de <em>hosting</em> he elegido <a href="https://surge.sh/">Surge</a> ya que es gratuito y ya tengo experiencia previa con él.</p>
-<p>Una vez presentada la práctica vamos a empezar el proceso.</p>
-<p>El primer paso que debemos realizar es la creación del repositorio que vayamos a utilizar. Una vez creado, vamos a dirigirnos a la web de <em>CodeShip</em> y nos registraremos.</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipregistro.png"></p>
-<p>En mi caso lo hago mediante mi cuenta de <em>GitHub</em> y de esta manera ya vinculo ambos servicios.</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipautorizacion.png"></p>
-<p>Introducimos un nombre para nuestra nueva organización:</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshiporganizacion.png"></p>
-<p>Una vez aquí ya hemos completado el proceso de registro, y vamos a hacer <em>click</em> en el botón <strong>New Project</strong>:</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipnewproject.png"></p>
-<p>Nos aparecerá esta ventana en la cuál debemos elegir cuál será nuestro proveedor, seleccionamos <em>GitHub</em>:</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipcms.png"></p>
-<p>Y en este punto tendremos que vincular el repositorio que queremos utilizar, para ello hacemos <em>click</em> en el enlace llamado <em>installed the CodeShip GitHub App</em> para instalar la aplicación llamada <strong>CodeShip GitHub App</strong>.</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeship1.png"></p>
-<p>En mi caso instalo la aplicación en todos los repositorios de mi cuenta de <em>GitHub</em>, aunque podemos seleccionar simplemente el repositorio en cuestión.</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipcuentagithub.png"></p>
-<p>Seleccionamos nuestro repositorio y hacemos <em>click</em> en <strong>Connect</strong>:</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshiprepositorio.png"></p>
-<p>Por último nos pedirá indicar que tipo de proyecto vamos a utilizar, en nuestro caso utilizaremos la versión básica y gratuita, ya que la versión <em>pro</em> es de pago.</p>
-<p><img alt="." src="images/iaw_introducción_a_la_IC-DC/codeshipbasic.png"></p>
-<p>Habríamos terminado la creación de nuestro proyecto, pero aún nos faltaría configurarlo y así indicarle que acciones tiene que llevar a cabo antes de cada despliegue.</p>
-<p>.</p>
+<p>Explicados los diferentes conceptos, habríamos terminado el contenido del <em>post</em>.</p>
     </article>
 
         <div class="tags">
