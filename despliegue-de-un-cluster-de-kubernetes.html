@@ -386,7 +386,7 @@ NodePort:                 http  32094/TCP
 <p>¡Vaya! Aquí podemos ver como efectivamente poseemos nuestra aplicación.</p>
 <p>Pero, ¿no es demasiado incómodo tener que introducir este puerto tan inusual cada vez que queramos acceder a la aplicación? Para solucionar esto, pasaremos al siguiente apartado.</p>
 <h2>Proxy inverso con Ingress</h2>
-<p>Gracias a los controladores <strong>Ingress</strong> o <strong>Ingress controller</strong> podemos realizar un <em>proxy inverso</em>, y así evitar tener que acceder a direcciones como la anterior, indicando nuestras aplicaciones por medio de nombres.</p>
+<p>Gracias a los controladores <strong>Ingress</strong> o <strong>Ingress controller</strong> podemos realizar un <em>proxy inverso</em>, y así evitar tener que acceder a direcciones tan incómodas como la anterior, indicando nuestras aplicaciones por medio de nombres.</p>
 <p>Si recordamos, poseemos un fichero llamado <code>ingress.yaml</code> que aún no hemos utilizado. Al definir este fichero, cambiaremos el comportamiento y podremos acceder a nuestra aplicación en la dirección <code>www.letschat.com</code>, usando resolución estática claro. Ejecutamos el siguiente comando:</p>
 <pre>
 root@debian:/home/javier/Kubernetes/kubernetes-storm/unidad3/ejemplos-3.2/ejemplo8# kubectl apply -f ingress.yaml
