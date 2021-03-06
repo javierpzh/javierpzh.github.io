@@ -112,7 +112,7 @@
         <p>En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en <strong>PHP</strong> en contenedores <strong>Docker</strong>.</p>
 <p>Todos los ficheros necesarios y utilizados, se pueden encontrar en <a href="https://github.com/javierpzh/Implantacion-de-aplicaciones-web-PHP-en-Docker">este repositorio</a> de <em>GitHub</em>.</p>
 <p>En todos los apartados utilizaremos dos directorios, el llamado <code>build</code>, destinado a la construcción, y el segundo directorio, <code>deploy</code>, utilizado para el despliegue.</p>
-<h4>Ejecución de la aplicación BookMedik en Docker</h4>
+<h4>Ejecución de la aplicación BookMedik</h4>
 <p>En este primer apartado, vamos a ver como sería el proceso para ejecutar la aplicación <strong>BookMedik</strong> en contenedores <em>Docker</em>.</p>
 <p>En primer lugar, nos situamos en el directorio <code>build</code> y en él, clonaremos el siguiente <a href="https://github.com/evilnapsis/bookmedik">repositorio</a> que contiene la aplicación <strong>BookMedik</strong>.</p>
 <p>Hecho esto, nos dirigiremos a nuestro directorio de despliegue, y en él crearemos nuestro fichero <code>docker-compose.yaml</code>, que inicialmente va a poseer este contenido:</p>
@@ -411,7 +411,7 @@ aef84a1160f0        mariadb                  "docker-entrypoint.s…"   About an
 <p>Vamos a <em>loguearnos</em> mediante las credenciales por defecto: <strong>admin/admin</strong>.</p>
 <p><img alt="." src="images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/tarea2bookmedik2.png"></p>
 <p>¡Bien! Vemos como nos sigue mostrando la aplicación <em>BookMedik</em>, pero ahora está ejecutándose en un contenedor creado a partir de una imagen distinta, en esta caso, la oficial de PHP.</p>
-<h2></h2>
+<h4>Ejecución de la aplicación BookMedik en Nginx</h4>
 <p>.</p>
     </article>
 
