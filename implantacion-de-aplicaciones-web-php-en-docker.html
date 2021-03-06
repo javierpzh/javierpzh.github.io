@@ -33,11 +33,14 @@
 
 
 
-        <meta name="description" content="1. Ejecución de una aplicación web PHP en Docker. Queremos ejecutar en un contenedor Docker la aplicación web escrita en PHP: bookMedik...">
+        <meta name="description" content="En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en PHP en contenedores Docker. Todos los ficheros...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
         <meta name="tags" content="Docker">
+        <meta name="tags" content="PHP">
+        <meta name="tags" content="contenedores">
+        <meta name="tags" content="BookMedik">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -47,7 +50,7 @@
 	<meta property="og:url" content="/implantacion-de-aplicaciones-web-php-en-docker.html">
 	<meta property="og:title" content="Implantación de aplicaciones web PHP en Docker">
 	<meta property="article:published_time" content="2018-03-06 00:00:00+01:00">
-            <meta property="og:description" content="1. Ejecución de una aplicación web PHP en Docker. Queremos ejecutar en un contenedor Docker la aplicación web escrita en PHP: bookMedik...">
+            <meta property="og:description" content="En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en PHP en contenedores Docker. Todos los ficheros...">
 
             <meta property="og:image" content="theme/images/banner-docker.png">
 </head>
@@ -106,57 +109,166 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
     <!-- Post Content -->
     <article>
-        <p><strong>1. Ejecución de una aplicación web PHP en Docker.</strong></p>
-<ul>
-<li>
-<p>Queremos ejecutar en un contenedor <em>Docker</em> la aplicación web escrita en <em>PHP</em>: <a href="https://github.com/evilnapsis/bookmedik">bookMedik</a></p>
-</li>
-<li>
-<p>Es necesario tener un contenedor con <em>MariaDB</em> donde vamos a crear la base de datos y los datos de la aplicación. El <em>script</em> para generar la base de datos y los registros lo encuentras en el repositorio y se llama <code>schema.sql</code>. Debes crear un usuario con su contraseña en la base de datos. La base de datos se llama <em>bookmedik</em> y se crea al ejecutar el <em>script</em>.</p>
-</li>
-<li>
-<p>Ejecuta el contenedor <em>MariaDB</em> y carga los datos del <em>script</em> <code>schema.sql</code>. <a href="https://gist.github.com/spalladino/6d981f7b33f6e0afe6bb">Para más información</a>.</p>
-</li>
-<li>
-<p>El contenedor <em>MariaDB</em> debe tener un volumen para guardar la base de datos.</p>
-</li>
-<li>
-<p>El contenedor que creas debe tener un volumen para guardar los <em>logs</em> de <em>Apache2</em>.</p>
-</li>
-<li>
-<p>Crea una imagen <em>Docker</em> con la aplicación desde una imagen base de <em>debian</em> o <em>ubuntu</em>. Ten en cuenta que el fichero de configuración de la base de datos (<code>core\controller\Database.php</code>) lo tienes que configurar utilizando las variables de entorno del contenedor <em>MariaDB</em>. (Nota: Para obtener las variables de entorno en <em>PHP</em> usar la función <code>getenv</code>. <a href="https://www.php.net/manual/es/function.getenv.php">Para más infomación</a>.</p>
-</li>
-<li>
-<p>La imagen la tienes que crear en tu máquina con el comando <code>docker build</code>.</p>
-</li>
-<li>
-<p>Crea un <em>script</em> con <code>docker compose</code> que levante el escenario con los dos contenedores.(Usuario: admin, contraseña: admin).</p>
-</li>
-<li>
-<p><strong>Entrega la URL del repositorio <em>GitHub</em> donde tengas la construcción (directorio build y el despliegue (directorio deploy))</strong></p>
-</li>
-<li><strong>Entrega una captura de pantalla donde se vea funcionando la aplicación, una vez que te has <em>logueado</em>.</strong></li>
-</ul>
-<p>Vamos a clonar el siguiente <a href="https://github.com/evilnapsis/bookmedik">repositorio</a> que contiene la aplicación <strong>bookMedik</strong>.</p>
+        <p>En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en <strong>PHP</strong> en contenedores <strong>Docker</strong>.</p>
+<p>Todos los ficheros necesarios y utilizados, se pueden encontrar en <a href="https://github.com/javierpzh/Implantacion-de-aplicaciones-web-PHP-en-Docker">este repositorio</a> de <em>GitHub</em>.</p>
+<p>En todos los apartados utilizaremos dos directorios, el llamado <code>build</code>, destinado a la construcción, y el segundo directorio, <code>deploy</code>, utilizado para el despliegue.</p>
+<h4>Ejecución de la aplicación BookMedik en Docker</h4>
+<p>En este primer apartado, vamos a ver como sería el proceso para ejecutar la aplicación <strong>BookMedik</strong> en contenedores <em>Docker</em>.</p>
+<p>En primer lugar, nos situamos en el directorio <code>build</code> y en él, clonaremos el siguiente <a href="https://github.com/evilnapsis/bookmedik">repositorio</a> que contiene la aplicación <strong>BookMedik</strong>.</p>
+<p>Hecho esto, nos dirigiremos a nuestro directorio de despliegue, y en él crearemos nuestro fichero <code>docker-compose.yaml</code>, que inicialmente va a poseer este contenido:</p>
 <pre>
-javier@debian:~$ mkdir Docker
+version: "3.1"
 
-javier@debian:~$ cd Docker/
+services:
 
-javier@debian:~/Docker$ git clone https://github.com/evilnapsis/bookmedik.git
-Clonando en 'bookmedik'...
-remote: Enumerating objects: 856, done.
-remote: Total 856 (delta 0), reused 0 (delta 0), pack-reused 856
-Recibiendo objetos: 100% (856/856), 1.90 MiB | 3.63 MiB/s, listo.
-Resolviendo deltas: 100% (372/372), listo.
-
-javier@debian:~/Docker$ ls
-bookmedik
-
-javier@debian:~/Docker$ ls bookmedik/
-assets  core  index.php  instalation.txt  logout.php  PhpWord  README.md  report  schema.sql
+  db:
+    container_name: bookmedik-mysql
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: bookmedik
+      MYSQL_USER: bookmedik
+      MYSQL_PASSWORD: bookmedik
+      MYSQL_ROOT_PASSWORD: javier
+    volumes:
+      - /home/javier/Docker/Volumes:/var/lib/mysql
 </pre>
 
+<p>Podemos apreciar como hemos definido el despliegue de un contenedor llamado <strong>bookmedik-mysql</strong> basado en una imagen <strong>mariadb</strong>. Como podremos imaginar, este contenedor será el encargado de ejecutar nuestra base de datos. Vamos a crearlo ejecutando el siguiente comando:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/deploy$ docker-compose up -d
+Creating bookmedik-mysql ... done
+</pre>
+
+<p>Bien, ya habríamos generado nuestro primer contenedor, ahora, necesitaremos ejecutar el siguiente <em>script</em> que se encargará de crear las tablas/datos imprescindibles para nuestra aplicación. Este <em>script</em> se encuentra dentro del repositorio clonado anteriormente y recibe el nombre <code>schema.sql</code>. Antes de volcar las instrucciones en nuestra base de datos, debemos comentar la siguiente línea que se encuentra al inicio de este <em>script</em>:</p>
+<pre>
+create database bookmedik;
+</pre>
+
+<p>Esto debemos hacerlo, ya que, al crear el primer contenedor que ejecuta <em>MySQL</em>, ya hemos creado una base de datos con este nombre.</p>
+<p>Hecho esto, podríamos ejecutar el <em>script</em>:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/deploy$ cat ../build/bookmedik/schema.sql | docker exec -i bookmedik-mysql /usr/bin/mysql -u bookmedik --password=bookmedik bookmedik
+</pre>
+
+<p>En este punto, ya disponemos de nuestra base de datos totalmente operativa, por lo que tan sólo nos faltaría crear el contenedor que ejecutará la aplicación. Para ello, crearemos en el directorio <code>build</code>, el siguiente fichero <code>Dockerfile</code>:</p>
+<pre>
+FROM debian
+MAINTAINER Javier Pérez "javierperezhidalgo01@gmail.com"
+
+EXPOSE 80
+
+ADD bookmedik /var/www/html/
+ADD script.sh /usr/local/bin/
+
+RUN apt-get update && apt-get install -y apache2 \
+libapache2-mod-php7.3 \
+php7.3 \
+php7.3-mysql \
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/* \
+&& chmod +x /usr/local/bin/script.sh
+
+ENV DATABASE_USER bookmedik
+ENV DATABASE_PASSWORD bookmedik
+ENV DATABASE_HOST db
+
+ENTRYPOINT ["script.sh"]
+</pre>
+
+<p>Por último, en la misma ruta, crearemos un fichero llamado <code>script.sh</code> con las siguientes líneas:</p>
+<pre>
+#!/bin/bash
+
+sed -i 's/$this->user="root";/$this->user="'${DATABASE_USER}'";/g' /var/www/html/core/controller/Database.php
+sed -i 's/$this->pass="";/$this->pass="'${DATABASE_PASSWORD}'";/g' /var/www/html/core/controller/Database.php
+sed -i 's/$this->host="localhost";/$this->host="'${DATABASE_HOST}'";/g' /var/www/html/core/controller/Database.php
+
+apache2ctl -D FOREGROUND
+</pre>
+
+<p>Esto nos ayudará a la hora de la asignación de variables.</p>
+<p>Pues ya estaría todo listo, por lo que procederíamos a crear la imagen que posteriormente ejecutará el contenedor de la aplicación:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/build$ docker build -t javierpzh/bookmedik:v1 .
+Sending build context to Docker daemon  5.774MB
+Step 1/10 : FROM debian
+ ---> 5890f8ba95f6
+Step 2/10 : MAINTAINER Javier Pérez "javierperezhidalgo01@gmail.com"
+ ---> Running in 597b0e74a1af
+Removing intermediate container 597b0e74a1af
+ ---> 2bd74e1c46ca
+Step 3/10 : EXPOSE 80
+ ---> Running in a626d30acc3a
+Removing intermediate container a626d30acc3a
+ ---> d5e3b4c5a31a
+Step 4/10 : ADD bookmedik /var/www/html/
+ ---> e3d721661a67
+Step 5/10 : ADD script.sh /usr/local/bin/
+ ---> 77688c1696ce
+Step 6/10 : RUN apt-get update && apt-get install -y apache2 libapache2-mod-php7.3 php7.3 php7.3-mysql && apt-get clean && rm -rf /var/lib/apt/lists/* && chmod +x /usr/local/bin/script.sh
+ ---> Running in 5c9ea292ceb8
+
+ ...
+
+ ---> 217f10aad8e5
+Step 7/10 : ENV DATABASE_USER bookmedik
+ ---> Running in 33177718555b
+Removing intermediate container 33177718555b
+ ---> 5c1d72d0d8f7
+Step 8/10 : ENV DATABASE_PASSWORD bookmedik
+ ---> Running in a81a444faa65
+Removing intermediate container a81a444faa65
+ ---> e50d8477e7ae
+Step 9/10 : ENV DATABASE_HOST db
+ ---> Running in 6d5caa1033d8
+Removing intermediate container 6d5caa1033d8
+ ---> 7a385cbb8132
+Step 10/10 : ENTRYPOINT ["script.sh"]
+ ---> Running in 4b6348f07a94
+Removing intermediate container 4b6348f07a94
+ ---> 58e4b5c7dcee
+Successfully built 58e4b5c7dcee
+Successfully tagged javierpzh/bookmedik:v1
+</pre>
+
+<p>Finalizado el proceso, vamos a ver que efectivamente nos ha creado la nueva imagen:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/build$ docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+javierpzh/bookmedik   v1                  58e4b5c7dcee        33 seconds ago      251MB
+</pre>
+
+<p>¡Bien! Disponemos de la nueva imagen, por lo que tan sólo nos quedaría crear el contenedor que ejecutará <em>BookMedik</em>. Para ello, añadiremos al fichero <code>docker-compose.yaml</code>, que creamos anteriormente en el directorio <code>deploy</code>, el siguiente bloque:</p>
+<pre>
+  bookmedik:
+    container_name: bookmedik
+    image: javierpzh/bookmedik:v1
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - /home/javier/Docker/Volumes:/var/log/apache2
+</pre>
+
+<p>Podemos apreciar como hemos definido un nuevo despliegue, en este caso, se trata de un contenedor llamado <strong>bookmedik</strong> basado en la imagen creada, y que va a <em>mapear</em> puertos para que podamos acceder desde nuestro navegador en el puerto 8080. Vamos a crearlo ejecutando el siguiente comando:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/deploy$ docker-compose up -d
+Creating bookmedik-mysql ...
+Creating bookmedik ... done
+</pre>
+
+<p>Bien, ya habríamos generado nuestro segundo contenedor, por lo que, en teoría, ya dispondríamos de nuestra aplicación. Antes de dirigirnos a nuestro navegador, vamos a listar los contenedores que poseemos activos:</p>
+<pre>
+javier@debian:~/Docker/Implantacion-de-aplicaciones-web-PHP-en-Docker/Tarea1/deploy$ docker ps
+CONTAINER ID        IMAGE                    COMMAND                  CREATED             STATUS              PORTS                  NAMES
+5dc207e7d56a        javierpzh/bookmedik:v1   "script.sh"              35 seconds ago      Up 33 seconds       0.0.0.0:8080->80/tcp   bookmedik
+aef84a1160f0        mariadb                  "docker-entrypoint.s…"   5 minutes ago       Up 5 minutes        3306/tcp               bookmedik-mysql
+</pre>
+
+<p>Efectivamente se están ejecutando los dos contenedores, por lo que es el momento de a acceder a la dirección <code>127.0.0.1:8080</code>:</p>
+<p><img alt="." src="images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik1.png"></p>
+<p><img alt="." src="images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik2.png"></p>
 <p><strong>2. Ejecución de una aplicación web PHP en Docker.</strong></p>
 <ul>
 <li>
@@ -177,7 +289,7 @@ assets  core  index.php  instalation.txt  logout.php  PhpWord  README.md  report
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/docker.html">Docker</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/docker.html">Docker</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/contenedores.html">contenedores</a>, <a href="/tag/bookmedik.html">BookMedik</a></p>
         </div>
 
     <hr>
