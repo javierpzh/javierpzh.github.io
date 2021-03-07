@@ -42,6 +42,9 @@
         <meta name="tags" content="contenedores">
         <meta name="tags" content="BookMedik">
         <meta name="tags" content="Nginx">
+        <meta name="tags" content="Prestashop">
+        <meta name="tags" content="Drupal">
+        <meta name="tags" content="CMS">
 
 	                <meta property="og:locale" content="">
 		<meta property="og:site_name" content="Javier Pérez Hidalgo">
@@ -622,7 +625,7 @@ RUN apt-get update \
 && apt-get -y install \
 unzip wget \
 zlib1g-dev libzip-dev libicu-dev libpng-dev \
-&& wget https://download.prestashop.com/download/releases/prestashop_1.7.7.2.zip -P /var/www/html/ \
+&& wget https://download.prestashop.com/download/releases/prestashop_1.7.7.2.zip -P /opt/ \
 && docker-php-ext-install zip gd pdo_mysql intl \
 && apt-get clean \
 && rm -rf /var/lib/apt/lists/* \
@@ -636,6 +639,7 @@ ENTRYPOINT ["script.sh"]
 <pre>
 #!/bin/bash
 
+mv /opt/prestashop_1.7.7.2.zip /var/www/html/
 unzip prestashop_1.7.7.2.zip
 unzip -o prestashop.zip
 rm -rf prestashop.zip prestashop_1.7.7.2.zip
@@ -733,6 +737,7 @@ Creating prestashop       ... done
 
 <p>Accedemos de nuevo a la dirección <code>127.0.0.1:8080</code>:</p>
 <p><img alt="." src="images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop5.png"></p>
+<p><img alt="." src="images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop4.png"></p>
 <p>¡Bien! Podemos ver como nuestra aplicación sigue manteniendo los datos de nuestra tienda, por lo que habría terminado el proceso.</p>
 <h4>Ejecución del CMS Drupal a partir de su imagen oficial</h4>
 <p>En este último apartado vamos a ver como desplegar el CMS PHP llamado <strong>Drupal</strong>.</p>
@@ -809,7 +814,7 @@ Creating drupal-mysql ... done
     </article>
 
         <div class="tags">
-            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/docker.html">Docker</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/contenedores.html">contenedores</a>, <a href="/tag/bookmedik.html">BookMedik</a>, <a href="/tag/nginx.html">Nginx</a></p>
+            <p><strong><a href="/tags">tags:</a></strong> <a href="/tag/docker.html">Docker</a>, <a href="/tag/php.html">PHP</a>, <a href="/tag/contenedores.html">contenedores</a>, <a href="/tag/bookmedik.html">BookMedik</a>, <a href="/tag/nginx.html">Nginx</a>, <a href="/tag/prestashop.html">Prestashop</a>, <a href="/tag/drupal.html">Drupal</a>, <a href="/tag/cms.html">CMS</a></p>
         </div>
 
     <hr>
