@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
+        <meta name="description" content="Compilación de un kérnel linux a medida Al ser Linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -48,7 +48,7 @@
 	<meta property="og:url" content="/compilacion-de-un-kernel-linux-a-medida.html">
 	<meta property="og:title" content="Compilación de un kérnel linux a medida">
 	<meta property="article:published_time" content="2020-11-14 00:00:00+01:00">
-            <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
+            <meta property="og:description" content="Compilación de un kérnel linux a medida Al ser Linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo....">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
@@ -108,22 +108,22 @@
     <!-- Post Content -->
     <article>
         <h2>Compilación de un kérnel linux a medida</h2>
-<p><strong>Al ser linux un kérnel libre, es posible descargar el código fuente, configurarlo y comprimirlo. Además, esta tarea a priori compleja, es más sencilla de lo que parece gracias a las herramientas disponibles.</strong></p>
-<p><strong>En esta tarea debes tratar de compilar un kérnel completamente funcional que reconozca todo el hardware básico de tu equipo y que sea a la vez lo más pequeño posible, es decir que incluya un vmlinuz lo más pequeño posible y que incorpore sólo los módulos imprescindibles. Para ello utiliza el método explicado en clase y entrega finalmente el fichero <code>deb</code> con el kérnel compilado por ti.</strong></p>
-<p><strong>El hardware básico incluye como mínimo el teclado, la interfaz de red y la consola gráfica (texto).</strong></p>
+<p>Al ser <em>Linux</em> un <em>kérnel</em> libre, es posible descargar el código fuente, configurarlo y comprimirlo. Además, esta tarea a <em>priori</em> compleja, es más sencilla de lo que parece gracias a las herramientas disponibles.</p>
+<p>En esta entrada voy a tratar de compilar un kérnel completamente funcional que reconozca todo el hardware básico de mi equipo y que sea a la vez lo más pequeño posible, es decir que incluya un <em>vmlinuz</em> lo más pequeño posible y que incorpore sólo los módulos imprescindibles.</p>
+<p>El hardware básico incluye como mínimo el teclado, la interfaz de red y la consola gráfica en modo texto.</p>
 <h3>Procedimiento a seguir</h3>
-<p><strong>1. Instala el paquete linux-source correspondiente al núcleo que estés usando en tu máquina</strong></p>
-<p>Voy a instalar el paquete <code>linux-source-4.19 (4.19.152-1)</code> que corresponde al kérnel <strong>4.19</strong>.</p>
+<p><strong>1. Instalo el paquete <code>linux-source</code> correspondiente al núcleo que estoy usando en mi máquina.</strong></p>
+<p>Voy a instalar el paquete <code>linux-source-4.19 (4.19.152-1)</code> que corresponde al <em>kérnel</em> <strong>4.19</strong>.</p>
 <p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-source-4.19">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz">enlace</a>.</p>
-<p><strong>2. Crea un directorio de trabajo (p.ej. mkdir ~/Linux)</strong></p>
+<p><strong>2. Creo un directorio de trabajo.</strong></p>
 <p>Creamos el directorio de trabajo.</p>
 <p><strong>Importante:</strong> hay que crear el directorio con nuestro usuario personal, es decir, no como <em>root</em>.</p>
 <pre>
 mkdir ~/kernelLinux/
 </pre>
 
-<p><strong>3. Descomprime el código fuente del kérnel dentro del directorio de trabajo:</strong></p>
-<p>Descargo y descomprimo el kérnel en el directorio de trabajo que hemos creado previamente:</p>
+<p><strong>3. Descomprimo el código fuente del <em>kérnel</em> dentro del directorio de trabajo.</strong></p>
+<p>Descargo y descomprimo el <em>kérnel</em> en el directorio de trabajo que he creado previamente:</p>
 <pre>
 javier@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
 --2020-11-06 10:26:31--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
@@ -145,7 +145,7 @@ linux-headers-4.19.0-11-common  linux-kbuild-4.19
 javier@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
 </pre>
 
-<p>Nos movemos al directorio <code>~/kernelLinux</code>, que va a ser nuestro área de trabajo:</p>
+<p>Me muevo al directorio <code>~/kernelLinux</code>, que va a ser mi área de trabajo:</p>
 <pre>
 javier@debian:/usr/src# cd ~/kernelLinux/
 
@@ -160,8 +160,8 @@ block  CREDITS  drivers        include  Kbuild   lib       Makefile README   sec
 certs  crypto   firmware       init Kconfig  LICENSES  mm       samples  sound     virt
 </pre>
 
-<p><strong>4. Utiliza como punto de partida la configuración actual del núcleo:</strong></p>
-<p>Es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Para instalarlo:</p>
+<p><strong>4. Utilizo como punto de partida la configuración actual del núcleo.</strong></p>
+<p>Para esto, es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Para instalarlo:</p>
 <pre>
 apt install build-essential -y
 </pre>
@@ -175,7 +175,7 @@ make[1]: *** [scripts/Makefile.lib:196: scripts/kconfig/zconf.tab.c] Error 127
 make: *** [Makefile:554: oldconfig] Error 2
 </pre>
 
-<p>Observamos como no nos realiza el <code>make oldconfig</code> deseado. He estado leyendo y he encontrado que en Debian, el paquete <code>build-essential</code> no incluye <code>bison</code> ni <code>flex</code>, que son necesarios para la compilación del kérnel. Los instalamos:</p>
+<p>Observamos como no nos realiza el <code>make oldconfig</code> deseado. Esto es debido a que el paquete <code>build-essential</code> en <em>Debian</em>, no incluye <code>bison</code> ni <code>flex</code>, que son necesarios para la compilación del <em>kérnel</em>. Por tanto, los instalamos:</p>
 <pre>
 apt install bison flex -y
 </pre>
@@ -306,8 +306,8 @@ NTFS file system support (NTFS_FS) [N/m/y/?] (NEW) n
 #
 </pre>
 
-<p><strong>5. Cuenta el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p>Vamos a contar el número de componentes que se van a incluir como módulos en el proceso de compilación y el número de componentes que se van a incluir en la parte estática:</p>
+<p><strong>5. Cuento el número de componentes que se han configurado para incluir en <em>vmlinuz</em> o como módulos.</strong></p>
+<p>Voy a contar el número de componentes que se van a incluir como módulos en el proceso de compilación y el número de componentes que se van a incluir en la parte estática:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 3378
@@ -316,10 +316,10 @@ javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 2008
 </pre>
 
-<p>Vemos que si realizáramos la compilación, incluiríamos 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
-<p>Son muchísimos componentes, por tanto vamos a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de la máquina y la conexión a internet, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
-<p><strong>6. Configura el núcleo en función de los módulos que está utilizando tu equipo (para no incluir en la compilación muchos controladores de dispositivos que no utiliza el equipo):</strong></p>
-<p>Vamos a realizar el primer proceso de eliminación de componentes, que nos va a reducir en una enorme cantidad el número de componentes que se van a incluir en nuestro fichero <code>.config</code>, que es el fichero que luego vamos a utilizar para realizar la compilación, ya que en él se indican todos los componentes que se van a incluir a la hora de compilar el núcleo.</p>
+<p>Vemos que si realizara la compilación, incluiría 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
+<p>Son muchísimos componentes, por tanto voy a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de mi máquina y la conexión a internet, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
+<p><strong>6. Configuro el núcleo en función de los módulos que está utilizando actualmente el equipo.</strong></p>
+<p>Voy a realizar el primer proceso de eliminación de componentes, que me va a reducir en una enorme cantidad el número de componentes que se van a incluir en mi fichero <code>.config</code>, que es el fichero que luego voy a utilizar para realizar la compilación, ya que en él se indican todos los componentes que se van a incluir a la hora de compilar el núcleo.</p>
 <p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code>.config</code>, es decir vamos a copiar todos los módulos y enlaces estáticos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
@@ -414,8 +414,8 @@ PCI sound devices (SND_PCI) [Y/n/?] y
 #
 </pre>
 
-<p><strong>7. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p>Si miramos de nuevo cuantos módulos y componentes de vmlinuz se incluirían ahora en el fichero <code>.config</code>:</p>
+<p><strong>7. Vuelvo a contar el número de componentes que se han configurado para incluir en <em>vmlinuz</em> o como módulos.</strong></p>
+<p>Si miro de nuevo cuantos módulos y componentes de <em>vmlinuz</em> se incluirían ahora en el fichero <code>.config</code>:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
 170
@@ -424,11 +424,11 @@ javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
 1423
 </pre>
 
-<p>Observamos que hemos eliminado 3200 módulos y casi 600 componentes enlazados estáticamente.</p>
-<p><strong>8. Realiza la primera compilación:</strong></p>
+<p>Observamos que he eliminado 3200 módulos y casi 600 componentes enlazados estáticamente.</p>
+<p><strong>8. Realizo la primera compilación.</strong></p>
 <p>Una vez tenemos el fichero <code>.config</code> reducido, vamos a realizar la compilación generando un paquete Debian (<code>.deb</code>), el cuál podremos instalar con la herramienta <code>dpkg -i</code>.</p>
-<p>El comando para realizar esta compilación es <code>make bindep-pkg</code>, pero esto nos realizaría la compilación con un solo hilo. Es decir, utilizaría un hilo en vez de todos los posibles que podría utilizar en función de cada procesador. En mi caso poseo de un <strong>i7-9750H</strong> que posee 6 núcleos y 12 hilos, por lo que estaría compilando con un solo hilo pudiendo realizar el proceso con 12 hilos, lo que disminuiría en una barbaridad el tiempo de compilación. Para establecer el número de hilos que van a llevar a cabo el proceso, introducimos la opción <code>-j</code> y el número de hilos.</p>
-<p>Al final introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
+<p>El comando para realizar esta compilación es <code>make bindep-pkg</code>, pero esto nos realizaría la compilación con un solo hilo. Es decir, utilizaría un hilo en vez de todos los posibles que podría utilizar en función de cada procesador. En mi caso poseo un <strong>i7-9750H</strong> que posee 6 núcleos y 12 hilos, por lo que estaría compilando con un solo hilo pudiendo realizar el proceso con 12 hilos, lo que disminuiría en una barbaridad el tiempo de compilación. Para establecer el número de hilos que van a llevar a cabo el proceso, introducimos la opción <code>-j</code> y el número de hilos.</p>
+<p>Al final, introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code>.deb</code> que posteriormente instalaremos con la utilidad <code>dpkg -i</code>.</p>
 <p>Voy a realizar el primer intento de compilación con 11 hilos:</p>
 <pre>
 javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
@@ -607,16 +607,16 @@ dpkg-genchanges: información: binary-only upload (no source code included)
 dpkg-buildpackage: información: subida sólo de binarios (no se incluye ninguna fuente)
 </pre>
 
-<p>Vemos como nos ha creado correctamente una serie de archivos <code>.deb</code>, entre los cuáles se encuentra el llamado <code>linux-image-4.19.152_4.19.152-1_amd64.deb</code>, que es el que posteriormente vamos a instalar con <code>dpkg -i</code>.</p>
-<p><strong>9. Instala el núcleo resultando de la compilación, reinicia el equipo y comprueba que funciona adecuadamente.</strong></p>
-<p>Instalo el nuevo kérnel:</p>
+<p>Vemos como me ha creado correctamente una serie de archivos <code>.deb</code>, entre los cuáles se encuentra el llamado <code>linux-image-4.19.152_4.19.152-1_amd64.deb</code>, que es el que posteriormente voy a instalar con <code>dpkg -i</code>.</p>
+<p><strong>9. Instalo el núcleo resultante de la compilación, reinicio el equipo y compruebo que funciona adecuadamente.</strong></p>
+<p>Instalo el nuevo <em>kérnel</em>:</p>
 <pre>
 dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </pre>
 
-<p>Reinicio el sistema arrancando con este nuevo kérnel y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
-<p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
-<p>Copiamos la configuración del kérnel reducido ya una vez, de esta manera estaremos generando una copia de seguridad por si durante las pruebas tocamos algún módulo imprescindible y deseamos volver un paso atrás, ya que vamos a seguir reduciendo su tamaño. En mi caso simplemente cuando compruebo que he conseguido reducir un poco más el kérnel, copio el archivo <code>.config</code> a un directorio cualquiera, y si me es necesario, luego lo vuelvo a trasladar al área de trabajo.</p>
+<p>Reinicio el sistema arrancando con este nuevo <em>kérnel</em> y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
+<p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir de nuevo el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
+<p>Copiamos la configuración del <em>kérnel</em> reducido ya una vez, de esta manera estaremos generando una copia de seguridad por si durante las pruebas tocamos algún módulo imprescindible y deseamos volver un paso atrás, ya que vamos a seguir reduciendo su tamaño. En mi caso simplemente cuando compruebo que he conseguido reducir un poco más el <em>kérnel</em>, copio el archivo <code>.config</code> a un directorio cualquiera, y si me es necesario, luego lo vuelvo a trasladar al área de trabajo.</p>
 <pre>
 cp .config /home/javier/Documentos
 </pre>
@@ -655,7 +655,7 @@ javier@debian:~/kernelLinux/linux-4.19.152$ make clean
   CLEAN   .tmp_versions
 </pre>
 
-<p>Ahora sí podemos volver a iniciar el proceso de reducción del núcleo, y por tanto, abrimos la herramienta gráfica con el comando:  </p>
+<p>Ahora sí, podemos volver a iniciar el proceso de reducción del núcleo, y por tanto, abrimos la herramienta gráfica con el comando:  </p>
 <pre>
 make xconfig
 </pre>
@@ -670,11 +670,7 @@ make -j 12 bindeb-pkg
 sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
 </pre>
 
-<p><strong>11. Vuelve a contar el número de componentes que se han configurado para incluir en vmlinuz o como módulos.</strong></p>
-<p><strong>12. Vuelve a compilar:</strong></p>
-<p><strong>13. Si se produce un error en la compilación, vuelve al paso de configuración, si la compilación termina correctamente, instala el nuevo núcleo y comprueba el arranque.</strong></p>
-<p><strong>14. Continuamos reiterando el proceso poco a poco hasta conseguir el núcleo lo más pequeño posible que pueda arrancar en nuestro equipo.</strong></p>
-<p>En mi caso, esto es lo máximo que he podido reducir el kérnel. A continuación dejo una lista de todos los componentes eliminados. Si empieza por <em>m_</em> indica que se trata de un módulo:</p>
+<p>En mi caso, esto es lo máximo que he podido reducir el <em>kérnel</em>. A continuación dejo una lista de todos los componentes eliminados. Si empieza por <em>m_</em> indica que se trata de un módulo:</p>
 <h5>General setup</h5>
 <ul>
 <li>Support for paging of anonymous memory (swap)</li>
