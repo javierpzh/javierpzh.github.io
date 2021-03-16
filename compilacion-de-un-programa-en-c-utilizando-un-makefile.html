@@ -33,7 +33,7 @@
 
 
 
-        <meta name="description" content="En esta nueva entrada, vamos a ver como compilar un programa escrito en lenguaje C, a través de un fichero Makefile. Realiza los pasos...">
+        <meta name="description" content="En esta nueva entrada, vamos a ver como compilar un programa escrito en lenguaje C, a través de un fichero Makefile. Como introducción,...">
 
         <meta name="author" content="Javier Pérez Hidalgo">
 
@@ -51,7 +51,7 @@
 	<meta property="og:url" content="/compilacion-de-un-programa-en-c-utilizando-un-makefile.html">
 	<meta property="og:title" content="Compilación de un programa en C utilizando un Makefile">
 	<meta property="article:published_time" content="2020-10-24 00:00:00+02:00">
-            <meta property="og:description" content="En esta nueva entrada, vamos a ver como compilar un programa escrito en lenguaje C, a través de un fichero Makefile. Realiza los pasos...">
+            <meta property="og:description" content="En esta nueva entrada, vamos a ver como compilar un programa escrito en lenguaje C, a través de un fichero Makefile. Como introducción,...">
 
             <meta property="og:image" content="theme/images/banner-sistemas.jpg">
 </head>
@@ -111,22 +111,21 @@
     <!-- Post Content -->
     <article>
         <p><strong>En esta nueva entrada, vamos a ver como compilar un programa escrito en lenguaje C, a través de un fichero <em>Makefile</em>.</strong></p>
-<p><strong>Realiza los pasos necesarios para compilarlo e instálalo en tu equipo en un directorio que no interfiera con tu sistema de paquetes (/opt, /usr/local, etc.)</strong></p>
-<p><strong>La corrección se hará en clase y deberás ser capaz de explicar qué son todos los ficheros que se hayan instalado y realizar una desinstalación limpia.</strong></p>
 <p>Como introducción, veo necesario explicar que significa la palabra <em>compilar</em> y en qué consiste el proceso que voy a realizar.</p>
 <p>Cuando nos referimos en términos informáticos a compilar un programa, a lo que nos estamos refiriendo, es a realizar una traducción del código fuente del programa, a un código ejecutable por un sistema. Esta traducción la lleva a cabo una herramienta de software llamada <strong>compilador</strong>.</p>
 <p><strong>¿Qué es el código fuente del programa?</strong> Pues son las líneas de código que forman el programa y están escritas en un lenguaje de programación. Este código escrito en un lenguaje de programación, no puede ser ejecutado por un sistema, ya que el sistema solo entiende su lenguaje binario.</p>
 <p><strong>¿Qué es un compilador?</strong> Es el programa encargado de hacer la traducción del código fuente de un programa, creado a través de un lenguaje de programación, a lenguaje de máquina o binario, que es el tipo de lenguaje que entienden los procesadores.</p>
 <p>He decidido elegir el programa <strong>wget</strong>, escrito en <strong>C</strong>, para compilarlo e instalarlo en mi equipo.</p>
-<p>El primer paso sería descargarlo. Para ello nos dirigimos a la <a href="https://www.debian.org/distrib/packages">página de Debian</a> y lo buscamos por su nombre. Si entramos en la <a href="https://packages.debian.org/buster/wget">información del paquete</a>, podemos ver en qué lenguaje está escrito, paquetes similares, paquetes relacionados, bugs, ...</p>
+<p>El primer paso sería descargarlo. Para ello nos dirigimos a la <a href="https://www.debian.org/distrib/packages">página de Debian</a> y lo buscamos por su nombre. Si entramos en la <a href="https://packages.debian.org/buster/wget">información del paquete</a>, podemos ver en qué lenguaje está escrito, paquetes similares, paquetes relacionados, <em>bugs</em>, ...</p>
 <p>Para descargar el paquete, nos dirigimos al apartado de la <a href="https://packages.debian.org/source/buster/wget">fuente del paquete</a>, y aquí nos descargamos el archivo que prefiramos, en mi caso voy a descargar <a href="http://deb.debian.org/debian/pool/main/w/wget/wget_1.20.1.orig.tar.gz">este</a>.</p>
-<p>Es importante, descargarlo en la ruta <code>/usr/local/bin</code> para que no interfiera con el sistema de paquetes. Lo descomprimimos:</p>
+<p>Es importante, descargarlo en la ruta <code>/usr/local/bin</code> para que no interfiera con el sistema de paquetes.</p>
+<p>Una vez descargado, lo descomprimimos:</p>
 <pre>
 tar -xf wget_1.20.1.orig.tar.gz
 </pre>
 
 <p>Vemos que nos ha generado una serie de ficheros y directorios, entre los cuáles se encuentran los archivos <strong><em>README</em></strong> y <strong><em>INSTALL</em></strong>. Es bastante recomendable leerlos antes de saltar al siguiente paso, ya que contienen información e instrucciones que nos resultarán bastantes útiles. Si no me equivoco, pero digo desde ya que no estoy seguro, hay algunos paquetes que no contienen estos archivos, pero son una gran minoría.</p>
-<p>Es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Se trata de un paquete que contiene una lista informativa de los paquetes que se consideran esenciales para la creación de paquetes Debian. Para instalarlo:</p>
+<p>Es necesario revisar que tenemos instalado el paquete <code>build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Se trata de un paquete que contiene una lista informativa de los paquetes que se consideran esenciales para la creación de paquetes <em>Debian</em>. Para instalarlo:</p>
 <pre>
 apt install build-essential -y
 </pre>
@@ -141,12 +140,13 @@ apt install pkg-config -y
 apt install libgnutls28-dev -y
 </pre>
 
-<p>En este punto, ya lo tenemos todo listo para empezar la compilación del paquete <code>wget</code> que queremos instalar. Ahora solo nos queda ejecutar el script <code>configure</code>, ejecutar el comando <code>make</code> que se encarga de la compilación y ejecutar el comando <code>make install</code> que instala la aplicación en el sistema.</p>
+<p>En este punto, ya lo tenemos todo listo para empezar la compilación del paquete <code>wget</code> que queremos instalar. Ahora solo nos queda ejecutar el <em>script</em> <code>configure</code>, ejecutar el comando <code>make</code> que se encarga de la compilación y ejecutar el comando <code>make install</code> que instala la aplicación en el sistema.</p>
 <pre>
 ./configure && make && make install
 </pre>
 
-<p>Siguiendo estos pasos ya habríamos instalado correctamente <code>wget</code> en nuestro equipo. Si quisiéramos desinstalarlo, tendríamos que dirigirnos al directorio donde hemos realizado la instalación, en mi caso <code>/usr/local/bin/wget-1.20.1</code> y una vez aquí, introducir el comando:</p>
+<p>Siguiendo estos pasos ya habríamos instalado correctamente <code>wget</code> en nuestro equipo.</p>
+<p>Si quisiéramos desinstalarlo, tendríamos que dirigirnos al directorio donde hemos realizado la instalación, en mi caso <code>/usr/local/bin/wget-1.20.1</code> y una vez aquí, introducir el comando:</p>
 <pre>
 make uninstall
 </pre>
