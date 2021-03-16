@@ -498,20 +498,7 @@ systemctl restart nagios
 
 <p>Si nos dirigimos a nuestro panel web, en la sección <strong>Hosts</strong>, ahora además de <em>Quijote</em>, nos aparecen los nuevos clientes:</p>
 <p><img alt="." src="images/aso_monitorización_con_Nagios/nagioshostsfinal.png"></p>
-<p>Perfecto, ya habríamos añadido y estaríamos monitorizando todos los clientes deseados.</p>
-<p><img alt="." src="images/aso_monitorización_con_Nagios/nagiosserviciosfinal.png"></p>
-<p>Por último y para finalizar el artículo, vamos a configurar <em>Nagios</em> para que nos notifique en el caso de que cualquier servicio no se esté comportando correctamente. Para ello, debemos editar el fichero <code>/usr/local/nagios/etc/objects/contacts.cfg</code> y definir el siguiente bloque de este manera:</p>
-<pre>
-define contact {
-
-    contact_name            nagiosadmin
-    use                     generic-contact
-    alias                   Nagios Admin
-    email                   javierperezhidalgo01@gmail.com
-}
-</pre>
-
-<p>.</p>
+<p>Perfecto, ya habríamos añadido y estaríamos monitorizando todos los clientes deseados, por lo que es hora de finalizar el artículo.</p>
     </article>
 
         <div class="tags">
