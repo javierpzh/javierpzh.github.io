@@ -128,6 +128,7 @@ Otra de sus ventajas es que al utilizar una conexión VPN, no tenemos ningún ti
 Como he dicho al principio, hoy en día nos encontramos con una gran monopolización en el ámbito de las VPNs de código abierto, donde lidera <em>OpenVPN</em>. He experimentado la creación de un servidor y sus respectivos clientes, con dicho software, y siempre me ha parecido un proceso algo complejo y bastante lento de realizar.</p>
 <p>Teniendo en cuenta estos aspectos, me interesé por <strong>WireGuard</strong>, y empecé a investigar un poco, dándome cuenta rápidamente y quedando gratamente sorprendido al ver sus sencillos procesos de configuración.</p>
 <h2>¿ Qué es WireGuard ?</h2>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/transparente-wireguard.png"></p>
 <p><em>WireGuard</em> es un protocolo de comunicación de software libre que implementa técnicas de VPN para crear conexiones seguras punto a punto en configuraciones enrutadas o puenteadas.</p>
 <p>Es una aplicación <strong>multiplataforma</strong> (Linux, Windows, macOS, Android e iOS). Se presenta como una solución más rápida y sencilla que las existentes hasta la fecha, para aquellos usuarios que necesiten o deseen hacer uso de una VPN.</p>
 <p>Nació en el año 2016, por lo que es una tecnología muy reciente, aún en desarrollo y no conocida por muchos. Está escrita por Jason A. Donenfeld en <strong>C++</strong> y en <strong>Go</strong>, y publicada bajo GPL.</p>
@@ -136,7 +137,6 @@ Como he dicho al principio, hoy en día nos encontramos con una gran monopolizac
 <p>Uno de los puntos fuertes de este software es que la configuración del cliente y servidor es exactamente igual en los diferentes sistemas operativos que soporta, lo que lo hace muy manejable y adaptable.</p>
 <p>Sus creadores, aseguran una gran superioridad frente a <em>OpenVPN</em>, en aspectos como la velocidad de transmisión y la incorporación de un cifrado de siguiente nivel.</p>
 <p>Hace uso del protocolo <strong>UDP</strong>, normalmente se utiliza el puerto 51820, aunque por defecto WireGuard utiliza puertos dinámicos. En mi caso, recomiendo asignar de manera estática el puerto <strong>51820</strong>, ya que es bastante más recomendable si vamos a implantar la aplicación detrás de un cortafuegos.</p>
-<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/transparente-wireguard.png"></p>
 <h3>Principales diferencias con OpenVPN</h3>
 <p>Para combatir a su principal rival e incitar al cambio a los clientes, <em>WireGuard</em> se ha visto en la obligación de tener que incorporar una serie de mejoras.</p>
 <p>Entre las más significativas, se encuentran las siguientes:</p>
