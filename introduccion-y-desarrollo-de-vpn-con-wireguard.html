@@ -149,12 +149,20 @@ Como he dicho al principio, hoy en día nos encontramos con una gran monopolizac
 </ul>
 <p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficospinglatencia.png"></p>
 <ul>
-<li>Configuraciones: Las configuraciones de WireGuard son bastante más sencillas y rápidas de realizar que las de OpenVPN. Esto es debido a que en WireGuard las conexiones se realizan mediante pares de claves públicas-privadas, no mediante nodos centrales, como es el caso de OpenVPN.</li>
-<li>Más seguro: WireGuard utiliza métodos criptográficos más recientes, mientras que el cifrado de OpenVPN está un poco des-actualizado, lo que afirma su lugar como el protocolo más seguro de los dos.</li>
-<li>Compatibilidad con roaming: WireGuard está diseñado para poder realizar roaming de manera fácil y rápida, es decir, si nuestro dispositivo cambia de red, y lógicamente cambia de IP pública, la conexión VPN seguirá levantada porque se volverán a autenticar rápidamente con el servidor VPN, de tal forma que siempre estaremos conectados a la VPN.</li>
-<li>Kill-Switch: En WireGuard podremos habilitar el Kill-Switch en los dispositivos, de esta forma, si la conexión VPN se interrumpe, el propio software también se encargará de interrumpir todo el tráfico de red hasta que se vuelva a reestablecer la conexión VPN, con el objetivo de que no naveguemos sin la protección que nos brinda esta VPN.
-En este punto, podemos hacernos una idea de todo el potencial de WireGuard, y de lo que promete llegar a ser en un futuro no muy lejano. Para verlo con un poco más de profundidad, y como no podía faltar, vamos a ver algunos ejemplos prácticos de este software.</li>
+<li>
+<p><strong>Configuraciones:</strong> Las configuraciones de <em>WireGuard</em> son bastante más sencillas y rápidas de realizar que las de <em>OpenVPN</em>. Esto es debido a que en <em>WireGuard</em> las conexiones se realizan mediante pares de claves públicas-privadas, no mediante nodos centrales, como es el caso de <em>OpenVPN</em>.</p>
+</li>
+<li>
+<p><strong>Más seguro:</strong> <em>WireGuard</em> utiliza métodos criptográficos más recientes, mientras que el cifrado de <em>OpenVPN</em> está un poco des-actualizado, lo que afirma su lugar como el protocolo más seguro de los dos.</p>
+</li>
+<li>
+<p><strong>Compatibilidad con roaming:</strong> <em>WireGuard</em> está diseñado para poder realizar <em>roaming</em> de manera fácil y rápida, es decir, si nuestro dispositivo cambia de red, y lógicamente cambia de IP pública, la conexión VPN seguirá levantada porque se volverán a autenticar rápidamente con el servidor VPN, de tal forma que siempre estaremos conectados a la VPN.</p>
+</li>
+<li>
+<p><strong>Kill-Switch:</strong> En <em>WireGuard</em> podremos habilitar el <em>Kill-Switch</em> en los dispositivos, de esta forma, si la conexión VPN se interrumpe, el propio software también se encargará de interrumpir todo el tráfico de red hasta que se vuelva a restablecer la conexión VPN, con el objetivo de que no naveguemos sin la protección que nos brinda esta VPN.</p>
+</li>
 </ul>
+<p>En este punto, podemos hacernos una idea de todo el potencial de <em>WireGuard</em>, y de lo que promete llegar a ser en un futuro no muy lejano. Para verlo con un poco más de profundidad, y como no podía faltar, vamos a ver algunos ejemplos prácticos de este software.</p>
 <h3>Conexión Side to Side</h3>
 <p>En primer lugar, para mostrar el funcionamiento de WireGuard, voy a mostrar cómo se realiza una conexión “Side to Side” mediante comandos. Esto nos servirá para comprender mejor la comodidad que nos brinda WireGuard, aunque no es lo recomendable para una puesta en producción.
 Para ello he grabado el siguiente vídeo donde se puede apreciar con todo detalle el proceso:
