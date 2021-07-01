@@ -116,6 +116,7 @@ He mencionado el término VPN, pero ¿qué es una VPN?</p>
 <p>También se puede hacer referencia a una red privada virtual como un túnel, pues realmente lo que hace es crear un canal para el tráfico entre el cliente y el servidor VPN en el que su contenido corre independientemente del resto y de manera cifrada.</p>
 <p>Básicamente, lo que te permite es crear una red local sin necesidad que sus integrantes estén físicamente conectados entre sí. Esto nos proporciona una flexibilidad absoluta, ya que, por ejemplo, podríamos crear una red privada con clientes de una punta del mundo, y clientes de la otra.</p>
 <p>Bien, una vez conocemos lo que es una VPN y las ventajas que nos ofrece, es el momento de preguntarnos, ¿necesitamos las VPNs?</p>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficoVPN.png"></p>
 <h2>¿ Son necesarias las VPNs ?</h2>
 <p>Habitualmente, cuando navegamos por internet tan solo hacemos uso de nuestra conexión mediante el proveedor contratado, de manera que todo el tráfico de datos, es posible que sea consultado por este proveedor de internet.</p>
 <p>¿Esto quiere decir que al usar una VPN nuestro tráfico no pasa por el proveedor?
@@ -136,10 +137,17 @@ Como he dicho al principio, hoy en día nos encontramos con una gran monopolizac
 <p>Sus creadores, aseguran una gran superioridad frente a <em>OpenVPN</em>, en aspectos como la velocidad de transmisión y la incorporación de un cifrado de siguiente nivel.</p>
 <p>Hace uso del protocolo <strong>UDP</strong>, normalmente se utiliza el puerto 51820, aunque por defecto WireGuard utiliza puertos dinámicos. En mi caso, recomiendo asignar de manera estática el puerto <strong>51820</strong>, ya que es bastante más recomendable si vamos a implantar la aplicación detrás de un cortafuegos.</p>
 <h3>Principales diferencias con OpenVPN</h3>
-<p>Para combatir a su principal rival e incitar al cambio a los clientes, WireGuard se ha visto en la obligación de tener que incorporar una serie de mejoras.
-Entre las más significativas, se encuentran las siguientes:
-- Notables mejoras de rendimiento: WireGuard casi toca el rendimiento del 100% de una conexión de 1 Gbps, y lo hace sin maximizar la CPU del servidor, esto, gracias a que su código está formado por unas 4 000 líneas de código, frente a las más de 100 000 que forman OpenVPN.
-- Mejoras de ping: WireGuard registra un tiempo de ping que es menos de la mitad del de OpenVPN.</p>
+<p>Para combatir a su principal rival e incitar al cambio a los clientes, <em>WireGuard</em> se ha visto en la obligación de tener que incorporar una serie de mejoras.</p>
+<p>Entre las más significativas, se encuentran las siguientes:</p>
+<ul>
+<li>
+<p><strong>Notables mejoras de rendimiento:</strong> <em>WireGuard</em> casi toca el rendimiento del 100% de una conexión de 1 Gbps, y lo hace sin maximizar la CPU del servidor, esto, gracias a que su código está formado por unas 4 000 líneas de código, frente a las más de 100 000 que forman <em>OpenVPN</em>.</p>
+</li>
+<li>
+<p><strong>Mejoras de ping:</strong> <em>WireGuard</em> registra un tiempo de ping que es menos de la mitad del de <em>OpenVPN</em>.</p>
+</li>
+</ul>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficoping.png"></p>
 <ul>
 <li>Configuraciones: Las configuraciones de WireGuard son bastante más sencillas y rápidas de realizar que las de OpenVPN. Esto es debido a que en WireGuard las conexiones se realizan mediante pares de claves públicas-privadas, no mediante nodos centrales, como es el caso de OpenVPN.</li>
 <li>Más seguro: WireGuard utiliza métodos criptográficos más recientes, mientras que el cifrado de OpenVPN está un poco des-actualizado, lo que afirma su lugar como el protocolo más seguro de los dos.</li>
