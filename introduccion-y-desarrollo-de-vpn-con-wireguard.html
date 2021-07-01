@@ -437,6 +437,7 @@ rtt min/avg/max/mdev = 18.946/20.402/21.957/1.231 ms
 <p>Una vez conocemos el proceso, seremos capaces de realizarlo en todos los clientes necesarios, así que esta parte la voy a tratar un poco más por encima, dando por hecho que ya hemos aprendido los conocimientos vistos en los apartados anteriores.</p>
 <p>Para los usuarios de <em>Windows</em>, <em>WireGuard</em> tiene disponible una aplicación de escritorio que podremos descargar desde su página oficial, en la cual realizaremos de manera gráfica su configuración, además de administrar todo lo relacionado con nuestro túnel.</p>
 <p>A continuación, voy a mostrar una captura de pantalla en la que visualizaremos la configuración de este nuevo cliente:</p>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/1-W10-config.jpeg"></p>
 <p>Antes de activar la conexión, añadiremos a nuestro servidor esta nueva sección <em>Peer</em> y lo reiniciaremos para aplicar cambios:</p>
 <pre>
 # W10 Client
@@ -447,6 +448,9 @@ PersistentKeepAlive = 25
 </pre>
 
 <p>Con el servidor listo, podremos activar el túnel desde nuestro cliente y automáticamente podremos visualizar la nueva interfaz con nuestra IP dentro de la red privada, además de poseer conexión a internet:</p>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/2-W10-activate.jpeg"></p>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/3-W10-direcciónIP.jpeg"></p>
+<p><img alt="." src="images/introducción_y_desarrollo_de_VPN_con_WireGuard/4-W10-ping.jpeg"></p>
 <p>Además de esto, he preparado una pequeña demo en la que podremos ver en tiempo real tanto el servidor como el cliente, cuando estamos navegando y realizando transmisiones de datos.</p>
 <p><a href="Demo Windows 10 - WireGuard"></a></p>
 <h4>Configuración cliente Android y cliente iOS</h4>
