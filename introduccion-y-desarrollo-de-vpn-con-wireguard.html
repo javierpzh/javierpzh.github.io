@@ -315,7 +315,7 @@ AllowedIPs = 0.0.0.0/0
 Endpoint = 192.168.0.49:51820
 </pre>
 
-<p>Podemos ver como en la sección Interface los campos son iguales que en el fichero del servidor, por lo que me centraré y trataré de explicar ahora la sección Peer:</p>
+<p>Podemos ver como en la sección <em>Interface</em> los campos son iguales que en el fichero del servidor, por lo que me centraré y trataré de explicar ahora la sección <em>Peer</em>:</p>
 <ul>
 <li>
 <p><strong>PublicKey:</strong> especificamos la clave pública del servidor.</p>
@@ -327,8 +327,8 @@ Endpoint = 192.168.0.49:51820
 <p><strong>Endpoint:</strong> define la dirección del servidor al que nos conectaremos.</p>
 </li>
 </ul>
-<p>Con esto habríamos terminado la configuración del cliente Linux.
-Como podemos ver es un proceso totalmente rápido y sencillo, así que tan solo faltaría iniciar el servicio y esperar a la conexión.</p>
+<p>Con esto habríamos terminado la configuración del cliente <em>Linux</em>.</p>
+<p>Como podemos ver es un proceso totalmente rápido y sencillo, así que tan solo faltaría iniciar el servicio y esperar a la conexión.</p>
 <h4>Configuración servidor Debian 11 (añadiendo cliente Linux)</h4>
 <p>Como he comentado, el cliente Linux ya se encontraría listo para poder navegar a través de nuestro servidor VPN, pero el servidor aún no lo hemos configurado para que sea capaz de tratar a este cliente, por lo que vamos a llevar a cabo dicho proceso.</p>
 <p>De nuevo editaremos el fichero de configuración <strong>“wg0.conf”</strong> y en él, ahora sí, añadiremos la sección <strong>Peer</strong>.</p>
@@ -431,13 +431,13 @@ PING www.google.es (172.217.17.3) 56(84) bytes of data.
 rtt min/avg/max/mdev = 18.946/20.402/21.957/1.231 ms
 </pre>
 
-<p>En este momento, ya habríamos terminado el proceso de añadir el cliente Linux, así que vamos a pasar con un nuevo cliente, es el turno de <em>Windows</em>.</p>
+<p>En este momento, ya habríamos terminado el proceso de añadir el cliente <em>Linux</em>, así que vamos a pasar con un nuevo cliente, es el turno de <em>Windows</em>.</p>
 <h4>Configuración cliente Windows</h4>
 <p>Bien, una vez hemos visto cómo se realiza una configuración cliente-servidor, hemos podido darnos cuenta de que consta de 2 partes diferenciadas, la primera llevada a cabo en el cliente, donde realizamos su configuración, y la segunda llevada a cabo en el servidor, donde es necesario añadir a este nuevo cliente. Esto es siempre así, independientemente del sistema operativo que estemos utilizando, algo que ya he comentado como una de las ventajas de WireGuard.
 Una vez conocemos el proceso, seremos capaces de realizarlo en todos los clientes necesarios, así que esta parte la voy a tratar un poco más por encima, dando por hecho que ya hemos aprendido los conocimientos vistos en los apartados anteriores.
 Para los usuarios de Windows, WireGuard tiene disponible una aplicación de escritorio que podremos descargar desde su página oficial, en la cual realizaremos de manera gráfica su configuración, además de administrar todo lo relacionado con nuestro túnel.
 A continuación, voy a mostrar una captura de pantalla en la que visualizaremos la configuración de este nuevo cliente:</p>
-<p>Antes de activar la conexión, añadiremos a nuestro servidor esta nueva sección Peer y lo reiniciaremos para aplicar cambios:</p>
+<p>Antes de activar la conexión, añadiremos a nuestro servidor esta nueva sección <em>Peer</em> y lo reiniciaremos para aplicar cambios:</p>
 <h1>W10 Client</h1>
 <p>[Peer]
 PublicKey = 7HopGKOY2C8f6jBfEkc8whKUSoNSDvsqgI0ZMzPQ8Bg=
