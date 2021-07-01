@@ -111,30 +111,30 @@
         <p>A día de hoy, nos encontramos con una situación de monopolio absoluto en el mundo de las VPN, liderado por <strong>OpenVPN</strong>, que ya todos conoceréis, o incluso habréis trabajado con él.
 He mencionado el término VPN, pero ¿qué es una VPN?</p>
 <h2>¿ Qué es una VPN ?</h2>
-<p>El término <strong>VPN</strong> viene de las siglas de <em>“Virtual Private Network”</em>, es una tecnología que permite a través de una conexión a internet, una conexión segura a otra red privada.
-Permite, además, enviar y recibir datos como si se formase parte de la red local o privada, obteniendo así las funcionalidades que dicha red ofrece.
-También se puede hacer referencia a una red privada virtual como un túnel, pues realmente lo que hace es crear un canal para el tráfico entre el cliente y el servidor VPN en el que su contenido corre independientemente del resto y de manera cifrada.
-Básicamente, lo que te permite es crear una red local sin necesidad que sus integrantes estén físicamente conectados entre sí. Esto nos proporciona una flexibilidad absoluta, ya que, por ejemplo, podríamos crear una red privada con clientes de una punta del mundo, y clientes de la otra.
-Bien, una vez conocemos lo que es una VPN y las ventajas que nos ofrece, es el momento de preguntarnos, ¿necesitamos las VPNs?</p>
+<p>El término <strong>VPN</strong> viene de las siglas de <em>“Virtual Private Network”</em>, es una tecnología que permite a través de una conexión a internet, una conexión segura a otra red privada.</p>
+<p>Permite, además, enviar y recibir datos como si se formase parte de la red local o privada, obteniendo así las funcionalidades que dicha red ofrece.</p>
+<p>También se puede hacer referencia a una red privada virtual como un túnel, pues realmente lo que hace es crear un canal para el tráfico entre el cliente y el servidor VPN en el que su contenido corre independientemente del resto y de manera cifrada.</p>
+<p>Básicamente, lo que te permite es crear una red local sin necesidad que sus integrantes estén físicamente conectados entre sí. Esto nos proporciona una flexibilidad absoluta, ya que, por ejemplo, podríamos crear una red privada con clientes de una punta del mundo, y clientes de la otra.</p>
+<p>Bien, una vez conocemos lo que es una VPN y las ventajas que nos ofrece, es el momento de preguntarnos, ¿necesitamos las VPNs?</p>
 <h2>¿ Son necesarias las VPNs ?</h2>
-<p>Habitualmente, cuando navegamos por internet tan solo hacemos uso de nuestra conexión mediante el proveedor contratado, de manera que todo el tráfico de datos, es posible que sea consultado por este proveedor de internet.
-¿Esto quiere decir que al usar una VPN nuestro tráfico no pasa por el proveedor?
-La respuesta es, no. Al usar una conexión VPN, el tráfico de red sigue yendo del dispositivo al proveedor, pero de este, se dirige directo al servidor VPN, desde donde partirá al destino. Normalmente la conexión está cifrada, de modo que el proveedor realmente no sabe a qué estás accediendo.
-Respondiendo a la primera pregunta, sí, son muy necesarias, desde la seguridad que aportan, hasta la posibilidad que nos ofrece al permitirnos el acceso a contenido restringido en una localización, pasando por el teletrabajo, que tan necesario se ha vuelto actualmente, y la posibilidad de ofrecernos confidencialidad que muchos buscamos.
-A efectos prácticos, al hacer uso de una VPN, tu dirección IP de cara a internet, es la del servidor VPN.
+<p>Habitualmente, cuando navegamos por internet tan solo hacemos uso de nuestra conexión mediante el proveedor contratado, de manera que todo el tráfico de datos, es posible que sea consultado por este proveedor de internet.</p>
+<p>¿Esto quiere decir que al usar una VPN nuestro tráfico no pasa por el proveedor?
+La respuesta es, no. Al usar una conexión VPN, el tráfico de red sigue yendo del dispositivo al proveedor, pero de este, se dirige directo al servidor VPN, desde donde partirá al destino. Normalmente la conexión está cifrada, de modo que el proveedor realmente no sabe a qué estás accediendo.</p>
+<p>Respondiendo a la primera pregunta, sí, son muy necesarias, desde la seguridad que aportan, hasta la posibilidad que nos ofrece al permitirnos el acceso a contenido restringido en una localización, pasando por el teletrabajo, que tan necesario se ha vuelto actualmente, y la posibilidad de ofrecernos confidencialidad que muchos buscamos.</p>
+<p>A efectos prácticos, al hacer uso de una VPN, tu dirección IP de cara a internet, es la del servidor VPN.
 Otra de sus ventajas es que al utilizar una conexión VPN, no tenemos ningún tipo de limitación, ya que funciona en todas las aplicaciones además de en un navegador.</p>
 <p>Vistas las ventajas y utilidades de las VPNs, vamos a retomar un poco el contenido en sí de este proyecto.
-Como he dicho al principio, hoy en día nos encontramos con una gran monopolización en el ámbito de las VPNs de código abierto, donde lidera OpenVPN. He experimentado la creación de un servidor y sus respectivos clientes, con dicho software, y siempre me ha parecido un proceso algo complejo y bastante lento de realizar.
-Teniendo en cuenta estos aspectos, me interesé por WireGuard, y empecé a investigar un poco, dándome cuenta rápidamente y quedando gratamente sorprendido al ver sus sencillos procesos de configuración.</p>
+Como he dicho al principio, hoy en día nos encontramos con una gran monopolización en el ámbito de las VPNs de código abierto, donde lidera <em>OpenVPN</em>. He experimentado la creación de un servidor y sus respectivos clientes, con dicho software, y siempre me ha parecido un proceso algo complejo y bastante lento de realizar.</p>
+<p>Teniendo en cuenta estos aspectos, me interesé por <strong>WireGuard</strong>, y empecé a investigar un poco, dándome cuenta rápidamente y quedando gratamente sorprendido al ver sus sencillos procesos de configuración.</p>
 <h2>¿ Qué es WireGuard ?</h2>
-<p>WireGuard es un protocolo de comunicación de software libre que implementa técnicas de VPN para crear conexiones seguras punto a punto en configuraciones enrutadas o puenteadas.
-Es una aplicación multiplataforma (Linux, Windows, macOS, Android e iOS). Se presenta como una solución más rápida y sencilla que las existentes hasta la fecha, para aquellos usuarios que necesiten o deseen hacer uso de una VPN.
-Nació en el año 2016, por lo que es una tecnología muy reciente, aún en desarrollo y no conocida por muchos. Está escrita por Jason A. Donenfeld en C++ y en Go, y publicada bajo GPL.
-Su objetivo es convertirse en un estándar en usuarios domésticos y en empresas, en lugar de IPsec u OpenVPN, que son más difíciles y más lentos, esto a consecuencia de que WireGuard consume muy pocos recursos del sistema.
-Es compatible con redes IPv4 y con redes IPv6, además de poder encapsular paquetes IPv4 en IPv6 y viceversa.
-Uno de los puntos fuertes de este software es que la configuración del cliente y servidor es exactamente igual en los diferentes sistemas operativos que soporta, lo que lo hace muy manejable y adaptable.
-Sus creadores, aseguran una gran superioridad frente a OpenVPN, en aspectos como la velocidad de transmisión y la incorporación de un cifrado de siguiente nivel.
-Hace uso del protocolo UDP, normalmente se utiliza el puerto 51820, aunque por defecto WireGuard utiliza puertos dinámicos. En mi caso, recomiendo asignar de manera estática el puerto 51820, ya que es bastante más recomendable si vamos a implantar la aplicación detrás de un cortafuegos.</p>
+<p><em>WireGuard</em> es un protocolo de comunicación de software libre que implementa técnicas de VPN para crear conexiones seguras punto a punto en configuraciones enrutadas o puenteadas.</p>
+<p>Es una aplicación <strong>multiplataforma</strong> (Linux, Windows, macOS, Android e iOS). Se presenta como una solución más rápida y sencilla que las existentes hasta la fecha, para aquellos usuarios que necesiten o deseen hacer uso de una VPN.</p>
+<p>Nació en el año 2016, por lo que es una tecnología muy reciente, aún en desarrollo y no conocida por muchos. Está escrita por Jason A. Donenfeld en <strong>C++</strong> y en <strong>Go</strong>, y publicada bajo GPL.</p>
+<p>Su objetivo es convertirse en un estándar en usuarios domésticos y en empresas, en lugar de <em>IPsec</em> u <em>OpenVPN</em>, que son más difíciles y más lentos, esto a consecuencia de que <em>WireGuard</em> consume muy pocos recursos del sistema.</p>
+<p>Es compatible con redes IPv4 y con redes IPv6, además de poder encapsular paquetes IPv4 en IPv6 y viceversa.</p>
+<p>Uno de los puntos fuertes de este software es que la configuración del cliente y servidor es exactamente igual en los diferentes sistemas operativos que soporta, lo que lo hace muy manejable y adaptable.</p>
+<p>Sus creadores, aseguran una gran superioridad frente a <em>OpenVPN</em>, en aspectos como la velocidad de transmisión y la incorporación de un cifrado de siguiente nivel.</p>
+<p>Hace uso del protocolo <strong>UDP</strong>, normalmente se utiliza el puerto 51820, aunque por defecto WireGuard utiliza puertos dinámicos. En mi caso, recomiendo asignar de manera estática el puerto <strong>51820</strong>, ya que es bastante más recomendable si vamos a implantar la aplicación detrás de un cortafuegos.</p>
 <h3>Principales diferencias con OpenVPN</h3>
 <p>Para combatir a su principal rival e incitar al cambio a los clientes, WireGuard se ha visto en la obligación de tener que incorporar una serie de mejoras.
 Entre las más significativas, se encuentran las siguientes:
