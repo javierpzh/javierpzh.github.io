@@ -235,13 +235,14 @@ config.vm.network "private_network", ip: "192.168.33.10"
 <\/Directory>
 </pre>
 
-<p>Ahora creamos la estructura de directorios que queremos y copiamos los mismos 'index.html' que hemos utilizado antes:
+<p>Ahora creamos la estructura de directorios que queremos y copiamos los mismos 'index.html' que hemos utilizado antes:</p>
 <pre>
 cd /var/www/iesgn
 cp index.html /srv/www/iesgn/
 cd ../departamentos/
 cp index.html /srv/www/departamentos/
-</pre></p>
+</pre>
+
 <p>Ahora ya solo nos quedaría modificar los archivos <code>iesgn.conf</code> y <code>departamentos.conf</code> que se encuentran en el directorio <code>/etc/apache2/sites-available</code>. En mi caso he utilizado los mismos ficheros de configuración que había generado antes, por tanto solo tendría que cambiar la ruta del 'DocumentRoot', pero también se podrían generar otros archivos de configuración, si deseamos conservar estos:</p>
 <p>La línea del fichero <code>iesgn.conf</code> quedaría:</p>
 <pre>

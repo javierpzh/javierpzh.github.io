@@ -560,10 +560,9 @@ ssl_key = /etc/letsencrypt/live/mail.iesgn15.es/privkey.pem
 
 <p><strong>Atención:</strong> al principio de los valores de los parámetros <strong>ssl_cert</strong> y <strong>ssl_key</strong>, debemos introducir el carácter <code>&lt;</code>. Yo lo he omitido por una cuestión de formato. Ejemplo: <code>ssl_cert = &lt;/etc/letsencrypt/live/mail.iesgn15.es/fullchain.pem</code>.</p>
 <p>Hecho esto, debemos comprobar que en el fichero <code>/etc/dovecot/conf.d/10-mail.conf</code>, el siguiente parámetro posea el siguiente valor:</p>
-<pre>
+<p><pre>
 mail_location = maildir:~/Maildir
-</pre>
-
+</pre></p>
 <p>Por último, para terminar de configurar <em>dovecot</em>, nos situamos en el archivo <code>/etc/dovecot/conf.d/10-master.conf</code>. Buscaremos el siguiente bloque que se encuentra por defecto:</p>
 <pre>
 service imap-login {

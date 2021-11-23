@@ -557,7 +557,7 @@ backupdrupal.sql  backupnextcloud.sql  nextclouddat.tar.gz
 <pre>
 root@buster:~# scp ./backupnextcloud.sql debian@vpsjavierpzh.iesgn15.es:/home/debian/
 debian@vpsjavierpzh.iesgn15.es's password:
-backupnextcloud.sql                                                   100%  137KB 776.4KB/s   00:00
+backupnextcloud.sql                                                   100%  137KB 776.4KB/s   00:00    
 
 root@buster:~# scp ./nextclouddat.tar.gz debian@vpsjavierpzh.iesgn15.es:/home/debian/
 debian@vpsjavierpzh.iesgn15.es's password:
@@ -929,7 +929,6 @@ $CONFIG = array (
   'installed' => true,
 );
 </pre>
-
 <p>Si probamos de nuevo a acceder a <code>http://www.iesgn15.es/cloud/</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_migracion_de_aplicaciones_web_PHP/nextcloudovh.png"></p>
 <p>Vemos que ya podemos <em>loguearnos</em> correctamente. Si accedemos con nuestro usuario:</p>
@@ -939,7 +938,6 @@ $CONFIG = array (
 <pre>
 apt install nextcloud-desktop -y
 </pre>
-
 <p>Si abrimos la aplicación de escritorio y seguimos estos pasos:</p>
 <ul>
 <li>
@@ -963,7 +961,6 @@ javier@debian:~/Nextcloud$ ls
  Documents             'Nextcloud Manual.pdf'   Photos                          Talk
 'Nextcloud intro.mp4'   Nextcloud.png          'Reasons to use Nextcloud.pdf'
 </pre>
-
 <p>Vemos que se ha sincronizado correctamente con nuestra nube.</p>
     </article>
 

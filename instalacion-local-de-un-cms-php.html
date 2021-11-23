@@ -872,6 +872,7 @@ Your command-line PHP is using multiple ini files. Run `php --ini` to show them.
   - Installing anchorcms/anchor-cms (0.12.7): Cloning 08e8e50790 from cache
 Created project in /srv/www/anchor-cms
 
+
   [Composer\Json\JsonValidationException]                    
   "./composer.json" does not match the expected JSON schema  
 
@@ -1147,7 +1148,6 @@ return [
     ]
 ];
 </pre>
-
 <p>Hecho esto, vamos a reiniciar nuestro servidor web y a comprobar que nuestro CMS vuelve a funcionar:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/bbddremotaanchor.png"></p>
 <p>La respuesta es afirmativa, por tanto habríamos terminado el ejercicio.</p>
@@ -1158,17 +1158,14 @@ return [
 <pre>
 apt install git -y
 </pre>
-
 <p>Clonamos el repositorio en <code>/srv/www</code>:</p>
 <pre>
 root@buster:/srv/www# git clone https://github.com/picocms/Pico.git
 </pre>
-
 <p>Hemos otorgado al usuario <code>www-data</code> como dueño del directorio y su contenido al servidor web.</p>
 <pre>
 root@buster:/srv/www# chown -R www-data:www-data /srv/
 </pre>
-
 <p>Descargamos el instalador y lo lanzamos mediante los siguientes comandos:</p>
 <pre>
 root@buster:/srv/www# apt install composer -y
@@ -1179,7 +1176,6 @@ root@buster:/srv/www# php composer.phar create-project picocms/pico-composer pic
 
 ...
 </pre>
-
 <p>Hemos instalado el CMS <em>Pico</em>. Solo nos quedaría configurar <em>Apache</em> para que sirva este sitio web en la dirección <code>www.javierperezhidalgopico.com</code>. Primero creamos el fichero de configuración en <code>/etc/apache2/sites-available</code>, lo voy a llamar <code>pico.conf</code>. Añado las siguientes líneas:</p>
 <pre>
 <\VirtualHost *:80\>
@@ -1194,23 +1190,19 @@ root@buster:/srv/www# php composer.phar create-project picocms/pico-composer pic
 
 <\/VirtualHost\>
 </pre>
-
 <p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code>\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
 <p>Habilitamos el despliegue de la página:</p>
 <pre>
 root@buster:/etc/apache2/sites-available# a2ensite pico.conf
 </pre>
-
 <p>Reiniciamos el servicio:</p>
 <pre>
 systemctl restart apache2
 </pre>
-
 <p>Acabamos de lanzar nuestra página en <em>Pico</em>, si queremos visualizarla en nuestra máquina anfitriona, añadimos la siguiente línea al fichero <code>/etc/hosts</code>:</p>
 <pre>
 192.168.30.15   www.javierperezhidalgopico.org
 </pre>
-
 <p>Nos dirigimos a la web <code>www.javierperezhidalgopico.org</code>:</p>
 <p><img alt="." src="images/iaw_instalacion_local_de_un_cms_php/pico.png"></p>
 <p>Ya hemos instalado <em>Pico</em> y habríamos terminado con este <em>post</em>.</p>
