@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Control De Acceso, Autenticación Y Autorización | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Control De Acceso, Autenticación Y Autorización" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Control de acceso" />
+<meta property="og:description" content="Control de acceso" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-31T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n" />
+<meta property="twitter:title" content="Control De Acceso, Autenticación Y Autorización" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Control de acceso","@type":"BlogPosting","headline":"Control De Acceso, Autenticación Y Autorización","dateModified":"2020-10-31T00:00:00+01:00","datePublished":"2020-10-31T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n"},"url":"https://www.javierpzh.com/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Control De Acceso, Autenticación Y Autorización</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-10-31T00:00:00+01:00" itemprop="datePublished">
+        Oct 31, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="control-de-acceso">Control de acceso</h2>
+
+<p>El <strong>Control de acceso</strong> en un servidor web nos permite determinar desde donde podemos acceder a los recursos del servidor.</p>
+
+<p>En <strong>apache2.2</strong> se utilizan las siguientes directivas: <a href="http://httpd.apache.org/docs/2.2/mod/mod_authz_host.html#order">order</a>, <a href="http://httpd.apache.org/docs/2.2/mod/mod_authz_host.html#allow">allow</a> y <a href="http://httpd.apache.org/docs/2.2/mod/mod_authz_host.html#deny">deny</a>. Un buen manual para que quede más claro lo puedes encontrar en este <a href="http://systemadmin.es/2011/04/la-directiva-order-de-apache">enlace</a>. La directiva <a href="http://httpd.apache.org/docs/2.2/mod/core.html#satisfy">satisfy</a> controla como se debe comportar el servidor cuando tenemos autorizaciones de control de acceso (allow, deny,…) y tenemos autorizaciones de usuarios (require).</p>
+
+<p>En <strong>apache2.4</strong> se utilizan las siguientes directivas: <a href="https://httpd.apache.org/docs/2.4/es/mod/mod_authz_core.html#require">Require</a>, <a href="https://httpd.apache.org/docs/2.4/es/mod/mod_authz_core.html#requireall">RequireAll</a>, <a href="https://httpd.apache.org/docs/2.4/es/mod/mod_authz_core.html#requireany">RequireAny</a> y <a href="https://httpd.apache.org/docs/2.4/es/mod/mod_authz_core.html#requirenone">RequireNone</a></p>
+
+<p><strong>1. Comprueba el control de acceso por defecto que tiene el virtual host por defecto (000-default).</strong></p>
+
+<p>De manera predeterminada, el fichero de configuración <code class="language-plaintext highlighter-rouge">000-default</code> tiene este control de acceso:</p>
+
+<pre>
+VirtualHost *:80
+</pre>
+
+<p>Vemos que el control de acceso es de cualquier dirección, mientras el puerto establecido sea el 80.</p>
+
+<h2 id="autentificación-básica">Autentificación básica</h2>
+
+<p>El servidor web Apache puede acompañarse de distintos módulos para proporcionar diferentes modelos de autenticación. La primera forma que veremos es la más simple. Usamos para ello el módulo de autenticación básica que viene instalada “de serie” con cualquier Apache: <a href="http://httpd.apache.org/docs/2.4/es/mod/mod_auth_basic.html">mod_auth_basic</a>. La configuración que tenemos que añadir en el fichero de definición del Virtual Host a proteger podría ser algo así:</p>
+
+<pre>
+&lt;\Directory "/var/www/miweb/privado"&gt;
+  AuthUserFile "/etc/apache2/claves/passwd.txt"
+  AuthName "Palabra de paso"
+  AuthType Basic
+  Require valid-user
+&lt;\/Directory&gt;
+</pre>
+
+<p>El método de autentificación básica se indica en la directiva <a href="http://httpd.apache.org/docs/2.4/es/mod/core.html#authtype">AuthType</a>.</p>
+
+<ul>
+  <li>En <code class="language-plaintext highlighter-rouge">Directory</code> escribimos el directorio a proteger, que puede ser el raíz de nuestro Virtual Host o un directorio interior a este.</li>
+  <li>En <a href="http://httpd.apache.org/docs/2.4/es/mod/mod_authn_file.html#authuserfile">AuthUserFile</a> ponemos el fichero que guardará la información de usuarios y contraseñas que debería de estar, como en este ejemplo, en un directorio que no sea visitable desde nuestro Apache. Ahora comentaremos la forma de generarlo.</li>
+  <li>Por último, en <a href="http://httpd.apache.org/docs/2.4/es/mod/core.html#authname">AuthName</a> personalizamos el mensaje que aparecerá en la ventana del navegador que nos pedirá la contraseña.</li>
+  <li>Para controlar el control de acceso, es decir, que usuarios tienen permiso para obtener el recurso utilizamos las siguientes directivas: <a href="http://httpd.apache.org/docs/2.4/es/mod/mod_authz_groupfile.html#authgroupfile">AuthGroupFile</a>, <a href="http://httpd.apache.org/docs/2.4/es/mod/core.html#require">Require user</a>, <a href="http://httpd.apache.org/docs/2.4/es/mod/core.html#require">Require group</a>.</li>
+</ul>
+
+<p>El fichero de contraseñas se genera mediante la utilidad <code class="language-plaintext highlighter-rouge">htpasswd</code>. Su sintaxis es bien sencilla. Para añadir un nuevo usuario al fichero operamos así:</p>
+
+<pre>
+htpasswd /etc/apache2/claves/passwd.txt carolina
+New password:
+Re-type new password:
+Adding password for user carolina
+</pre>
+
+<p>Para crear el fichero de contraseñas con la introducción del primer usuario tenemos que añadir la opción <code class="language-plaintext highlighter-rouge">-c</code> (create) al comando anterior. Si por error la seguimos usando al incorporar nuevos usuarios borraremos todos los anteriores, así que cuidado con esto. Las contraseñas, como podemos ver a continuación, no se guardan en claro. Lo que se almacena es el resultado de aplicar una <a href="https://es.wikipedia.org/wiki/Funci%C3%B3n_hash">función hash</a>:</p>
+
+<pre>
+josemaria:rOUetcAKYaliE
+carolina:hmO6V4bM8KLdw
+alberto:9RjyKKYK.xyhk
+</pre>
+
+<p>Para denegar el acceso a algún usuario basta con que borremos la línea correspondiente al mismo. No es necesario que le pidamos a Apache que vuelva a leer su configuración cada vez que hagamos algún cambio en este fichero de contraseñas.</p>
+
+<p>La principal ventaja de este método es su sencillez. Sus inconvenientes: lo incómodo de delegar la generación de nuevos usuarios en alguien que no sea un administrador de sistemas o de hacer un front-end para que sea el propio usuario quien cambie su contraseña. Y, por supuesto, que dichas contraseñas viajan en claro a través de la red. Si queremos evitar esto último podemos crear una <a href="https://blog.unlugarenelmundo.es/2008/09/23/chuletillas-y-viii-apache-2-con-ssl-en-debian/">instancia Apache con SSL</a>.</p>
+
+<h3 id="cómo-funciona-este-método-de-autentificación">Cómo funciona este método de autentificación</h3>
+
+<p>Cuando desde el cliente intentamos acceder a una URL que esta controlada por el método de autentificación básico:</p>
+
+<p><strong>1. El servidor manda una respuesta del tipo 401 <em>HTTP/1.1 401 Authorization Required</em> con una cabecera <code class="language-plaintext highlighter-rouge">WWW-Authenticate</code> al cliente de la forma:</strong></p>
+
+<pre>
+WWW-Authenticate: Basic realm="Palabra de paso"
+</pre>
+
+<p><strong>2. El navegador del cliente muestra una ventana emergente preguntando por el nombre de usuario y contraseña y cuando se rellena se manda una petición con una cabecera <code class="language-plaintext highlighter-rouge">Authorization</code></strong>:</p>
+
+<pre>
+Authorization: Basic am9zZTpqb3Nl
+</pre>
+
+<p>En realidad la información que se manda es el <strong>nombre de usuario</strong> y la <strong>contraseña en base 64</strong>, que se puede decodificar fácilmente con cualquier <a href="https://www.base64decode.org/">utilidad</a>.</p>
+
+<h2 id="autentificación-tipo-digest">Autentificación tipo digest</h2>
+
+<p>La autentificación tipo <strong>digest</strong> soluciona el problema de la transferencia de contraseñas en claro sin necesidad de usar SSL. El procedimiento, como veréis, es muy similar al tipo básico pero cambiando algunas de las directivas y usando la utilidad <code class="language-plaintext highlighter-rouge">htdigest</code> en lugar de <code class="language-plaintext highlighter-rouge">htpassword</code> para crear el fichero de contraseñas. El módulo de autenticación necesario suele venir con Apache pero no habilitado por defecto. Para activarlo usamos la utilidad <code class="language-plaintext highlighter-rouge">a2enmod</code> y, a continuación reiniciamos el servidor Apache:</p>
+
+<pre>
+a2enmod auth_digest
+/etc/init.d/apache2 restart
+</pre>
+
+<p>Luego incluimos una sección como esta en el fichero de configuración de nuestro Virtual Host:</p>
+
+<pre>
+&lt;\Directory "/var/www/miweb/privado"&gt;
+  AuthType Digest
+  AuthName "dominio"
+  AuthUserFile "/etc/claves/digest.txt"
+  Require valid-user
+&lt;\/Directory&gt;
+</pre>
+
+<p>Como vemos, es muy similar a la configuración necesaria en la autenticación básica. La directiva <code class="language-plaintext highlighter-rouge">AuthName</code> que en la autenticación básica se usaba para mostrar un mensaje en la ventana que pide el usuario y contraseña, ahora se usa también para identificar un nombre de dominio (realm) que debe de coincidir con el que aparezca después en el fichero de contraseñas. Dicho esto, vamos a generar dicho fichero con la utilidad htdigest:</p>
+
+<pre>
+htdigest -c /etc/claves/digest.txt dominio josemaria
+Adding password for josemaria in realm dominio.
+New password:
+Re-type new password:
+</pre>
+
+<p>Al igual que ocurría con <code class="language-plaintext highlighter-rouge">htpassword</code>, la opción <code class="language-plaintext highlighter-rouge">-c</code> (create) sólo debemos de usarla al crear el fichero con el primer usuario. Luego añadiremos los restantes usuarios prescindiendo de ella. A continuación vemos el fichero que se genera después de añadir un segundo usuario:</p>
+
+<pre>
+josemaria:dominio:8d6af4e11e38ee8b51bb775895e11e0f
+gemma:dominio:dbd98f4294e2a49f62a486ec070b9b8c
+</pre>
+
+<h3 id="cómo-funciona-este-método-de-autentificación-1">Cómo funciona este método de autentificación</h3>
+
+<p>Cuando desde el cliente intentamos acceder a una URL que esta controlada por el método de autentificación de tipo digest:</p>
+
+<p><strong>1. El servidor manda una respuesta del tipo 401 <em>HTTP/1.1 401 Authorization Required</em> con una cabecera <code class="language-plaintext highlighter-rouge">WWW-Authenticate</code> al cliente de la forma:</strong></p>
+
+<pre>
+WWW-Authenticate: Digest realm="dominio",
+                  nonce="cIIDldTpBAA=9b0ce6b8eff03f5ef8b59da45a1ddfca0bc0c485",
+                  algorithm=MD5,
+                  qop="auth"
+</pre>
+
+<p><strong>2. El navegador del cliente muestra una ventana emergente preguntando por el nombre de usuario y contraseña y cuando se rellena se manda una petición con una cabecera <code class="language-plaintext highlighter-rouge">Authorization</code></strong></p>
+
+<pre>
+Authorization	Digest username="jose",
+               realm="dominio",
+               nonce="cIIDldTpBAA=9b0ce6b8eff03f5ef8b59da45a1ddfca0bc0c485",
+               uri="/digest/",
+               algorithm=MD5,
+               response="814bc0d6644fa1202650e2c404460a21",
+               qop=auth,
+               nc=00000001,
+               cnonce="3da69c14300e446b"
+</pre>
+
+<p>La información que se manda es responde que en este caso esta cifrada usando md5 y que se calcula de la siguiente manera:</p>
+
+<ul>
+  <li>Se calcula el md5 del nombre de usuario, del dominio (realm) y la contraseña, la llamamos <strong>HA1</strong>.</li>
+  <li>Se calcula el md5 del método de la petición (por ejemplo GET) y de la uri a la que estamos accediendo, la llamamos <strong>HA2</strong>.</li>
+  <li>El reultado que se manda es el md5 de HA1, un número aleatorio (nonce), el contador de peticiones (nc), el qop y el HA2.</li>
+</ul>
+
+<p>Una vez que lo recibe el servidor, puede hacer la misma operación y comprobar si la información que se ha enviado es válida, con lo que se permitiría el acceso.</p>
+
+<h2 id="ejercicios">Ejercicios</h2>
+
+<p><strong>Crea un escenario en Vagrant o reutiliza uno de los que tienes en ejercicios anteriores, que tenga un servidor con una red pública, y una privada y un cliente conectado a la red privada. Crea un host virtual <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org</code>.</strong></p>
+
+<p>He creado este fichero Vagrantfile para definir el escenario:</p>
+
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+ config.vm.define :servidor do |servidor|
+  servidor.vm.box="debian/buster64"
+  servidor.vm.hostname="servidor"
+  servidor.vm.network :public_network, :bridge=&gt;"wlo1"
+  servidor.vm.network :private_network, ip: "192.168.150.1", virtualbox__intnet: "redprivadaApache"
+ end
+
+ config.vm.define :cliente do |cliente|
+  cliente.vm.box="debian/buster64"
+  cliente.vm.hostname="cliente"
+  cliente.vm.network :private_network, ip: "192.168.150.10", virtualbox__intnet: "redprivadaApache"
+ end
+
+end
+</pre>
+
+<p>Confirmamos que en la máquina <strong>servidor</strong> se han creado correctamente las interfaces de red pública y privada:</p>
+
+<pre>
+vagrant@servidor:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 86000sec preferred_lft 86000sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:5b:f1:f9 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.38/24 brd 192.168.0.255 scope global dynamic eth1
+       valid_lft 86009sec preferred_lft 86009sec
+    inet6 fe80::a00:27ff:fe5b:f1f9/64 scope link
+       valid_lft forever preferred_lft forever
+4: eth2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:28:bb:c2 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.150.1/24 brd 192.168.150.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe28:bbc2/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Podemos ver como la IP pública que posee es la <strong>192.168.0.38</strong> y la IP privada la <strong>192.168.150.1</strong>. Pero aún no hemos cambiado la puerta de enlace para que tenga conectividad a internet a través de la máquina anfitriona:</p>
+
+<pre>
+vagrant@servidor:~$ sudo ip r replace default via 192.168.0.1
+
+vagrant@servidor:~$ ip r
+default via 192.168.0.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.0.0/24 dev eth1 proto kernel scope link src 192.168.0.38
+192.168.150.0/24 dev eth2 proto kernel scope link src 192.168.150.1
+</pre>
+
+<p>Ya sí puede acceder a mi router doméstico y por tanto posee conexión.</p>
+
+<p>Vamos a hacer lo mismo para la máquina <strong>cliente</strong>. Vemos las interfaces de red:</p>
+
+<pre>
+vagrant@cliente:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:8d:c0:4d brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.15/24 brd 10.0.2.255 scope global dynamic eth0
+       valid_lft 85783sec preferred_lft 85783sec
+    inet6 fe80::a00:27ff:fe8d:c04d/64 scope link
+       valid_lft forever preferred_lft forever
+3: eth1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:93:04:32 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.150.10/24 brd 192.168.150.255 scope global eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe93:432/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Nos ha creado bien la dirección IP de la red privada, que es la <strong>192.168.150.10</strong>. Cambiamos la puerta de enlace para que tenga conexión a la máquina servidor:</p>
+
+<pre>
+vagrant@cliente:~$ sudo ip r replace default via 192.168.150.1
+
+vagrant@cliente:~$ ip r
+default via 192.168.150.1 dev eth1
+10.0.2.0/24 dev eth0 proto kernel scope link src 10.0.2.15
+192.168.150.0/24 dev eth1 proto kernel scope link src 192.168.150.10
+</pre>
+
+<p>Y ahora sí, tenemos configuradas las dos máquinas correctamente y podemos empezar a realizar los procedimientos.</p>
+
+<p>Vamos a instalar <strong>apache</strong>. Para esto, antes de nada voy a actualizar los paquetes necesarios, y voy a desinstalar los que ya no hagan falta. Esto lo hago porque la box que estoy utilizando es de <strong>Debian 10.4</strong> y a día de hoy la versión estable es la <strong>10.6</strong>:</p>
+
+<pre>
+apt update &amp;&amp; apt upgrade -y &amp;&amp; apt autoremove -y &amp;&amp; apt install apache2 -y
+</pre>
+
+<p>Una vez instalado Apache, podemos empezar a realizar las configuraciones. Lo primero antes de crear el sitio web, es habilitar la ruta donde vamos a crear la estructura de nuestra página. En mi caso la voy a situar en <code class="language-plaintext highlighter-rouge">/srv/departamentos</code>, esta dirección por defecto no viene habilitada para servir los archivos que creemos, por tanto, lo primero sería darle permisos, y para ello vamos a descomentar las siguientes líneas en <code class="language-plaintext highlighter-rouge">/etc/apache2/apache2.conf</code>:</p>
+
+<pre>
+&lt;\Directory /srv/\&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>El siguiente paso sería crear el archivo de configuración del sitio web. Podemos copiar el fichero por defecto, que se encuentra en <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available</code> y a partir de éste, personalizar el nuevo:</p>
+
+<pre>
+root@servidor:/etc/apache2/sites-available# cp 000-default.conf departamentos.conf
+
+root@servidor:/etc/apache2/sites-available# nano departamentos.conf
+</pre>
+
+<p>Editamos las siguientes líneas del fichero <code class="language-plaintext highlighter-rouge">departamentos.conf</code>:</p>
+
+<pre>
+ServerName departamentos.iesgn.org
+DocumentRoot /srv/departamentos
+</pre>
+
+<p>Una vez terminado este fichero, tenemos que activar esta página:</p>
+
+<pre>
+root@servidor:/etc/apache2/sites-available# a2ensite departamentos.conf
+Enabling site departamentos.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+</pre>
+
+<p>Ya solo nos falta crear el <code class="language-plaintext highlighter-rouge">index.html</code> que hemos especificado en la configuración de la página que se iba a encontrar en la ruta <code class="language-plaintext highlighter-rouge">/srv/departamentos</code>:</p>
+
+<pre>
+root@servidor:/srv# mkdir departamentos
+
+root@servidor:/srv# cd departamentos/
+
+root@servidor:/srv/departamentos# nano index.html
+</pre>
+
+<p>Reiniciamos el servicio y ya podemos visualizar la página.</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Ojo, para poder ver esta web, debemos indicar en el archivo <code class="language-plaintext highlighter-rouge">/etc/hosts</code> de nuestra máquina anfitriona esta línea:</p>
+
+<pre>
+192.168.0.38    departamentos.iesgn.org
+</pre>
+
+<p>Y para poder ver esta web en la máquina <strong>cliente</strong>, debemos indicar en su archivo <code class="language-plaintext highlighter-rouge">/etc/hosts</code> esta línea:</p>
+
+<pre>
+192.168.150.1    departamentos.iesgn.org
+</pre>
+
+<p><strong>1. A la URL <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/intranet</code> sólo se debe tener acceso desde el cliente de la red local, y no se pueda acceder desde la anfitriona por la red pública. A la URL <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/internet</code>, sin embargo, sólo se debe tener acceso desde la anfitriona por la red pública, y no desde la red local.</strong></p>
+
+<p>Lo primero sería crear en <code class="language-plaintext highlighter-rouge">/srv/departamentos</code> dos carpetas: una para <strong>intranet</strong> y otra para <strong>internet</strong>, y dentro de ellas crear un fichero <code class="language-plaintext highlighter-rouge">index.html</code>:</p>
+
+<pre>
+root@servidor:srv/departamentos# mkdir intranet
+
+root@servidor:srv/departamentos# cd intranet/
+
+root@servidor:srv/departamentos/intranet# cp ../index.html ./
+
+root@servidor:srv/departamentos/intranet# nano index.html
+
+root@servidor:srv/departamentos/intranet# cd ..
+
+root@servidor:srv/departamentos# mkdir internet
+
+root@servidor:srv/departamentos# cp index.html ./internet/
+
+root@servidor:srv/departamentos# cd internet/
+
+root@servidor:srv/departamentos/internet# nano index.html
+</pre>
+
+<p>Una vez tenemos creados las dos páginas webs, es el momento de establecer el control de acceso.</p>
+
+<p>Las restricciones de acceso se llevan a cabo en el fichero de configuración de la web, es decir, en <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/departamentos.conf</code>. Se nos pide que a la página <code class="language-plaintext highlighter-rouge">Intranet</code> pueda acceder la máquina conectada a la red local <strong>192.168.150.0/24</strong>, es decir nuestra mv, cuya IP es <strong>192.168.150.10</strong>, y a la página <code class="language-plaintext highlighter-rouge">Internet</code> cualquier equipo que no pertenezca a la red local.
+Para ello el fichero debe quedar así:</p>
+
+<pre>
+&lt;\Directory /srv/departamentos/intranet \&gt;
+ Require ip 192.168.150
+&lt;\/Directory\&gt;
+
+&lt;\Directory /srv/departamentos/internet \&gt;
+ &lt;\RequireAll\&gt;
+   Require all granted
+   Require not ip 192.168.150
+ &lt;\/RequireAll\&gt;
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Con esto lo que estamos haciendo es:</p>
+
+<ul>
+  <li>
+    <p><strong>Máquina anfitrión:</strong> permitirle el acceso a la página <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/internet/</code>.</p>
+
+    <ul>
+      <li>Si accedemos a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/internet/</code>:</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/anfitrioninternet.png" /></p>
+
+    <ul>
+      <li>Si accedemos a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/intranet/</code>:</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/anfitrionintranet.png" /></p>
+  </li>
+  <li>
+    <p><strong>Máquina cliente:</strong> permitirle el acceso a la página <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/intranet/</code>.</p>
+
+    <ul>
+      <li>Si accedemos a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/internet/</code>:</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/mvinternet.png" /></p>
+
+    <ul>
+      <li>Si accedemos a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/intranet/</code>:</li>
+    </ul>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/mvintranet.png" /></p>
+  </li>
+</ul>
+
+<p><strong>2. Autentificación básica. Limita el acceso a la URL <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo se manda la contraseña entre el cliente y el servidor?. Entrega una breve explicación del ejercicio.</strong></p>
+
+<p>Lo primero sería crear en <code class="language-plaintext highlighter-rouge">/srv/departamentos</code> la carpeta <strong>secreto</strong> y dentro de ella crear un fichero <code class="language-plaintext highlighter-rouge">index.html</code>:</p>
+
+<pre>
+root@servidor:/srv/departamentos# mkdir secreto
+
+root@servidor:/srv/departamentos# cp index.html ./secreto/
+
+root@servidor:/srv/departamentos# cd secreto/
+
+root@servidor:/srv/departamentos/secreto# nano index.html
+</pre>
+
+<p>Ahora vamos a configurar para que a la página <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code> solo se pueda acceder si la persona está autorizada y posee un usuario y una contraseña.</p>
+
+<p>Para ello, lo primero sería crear el <strong>archivo de contraseñas</strong> de Apache:</p>
+
+<pre>
+root@servidor:/srv/departamentos/secreto# htpasswd -c /srv/departamentos/secreto/.htpasswd javier
+New password:
+Re-type new password:
+Adding password for user javier
+</pre>
+
+<p>Si quisiéramos añadir un nuevo usuario, deberíamos introducir el mismo comando pero sin la opción <code class="language-plaintext highlighter-rouge">-c</code>, ya que sino, nos crearía un nuevo un archivo machacando el ya existente.</p>
+
+<p>Nos quedaría especificar en el <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/departamentos.conf</code> esta configuración de autenticación básica. Debemos añadir algo así:</p>
+
+<pre>
+&lt;\Directory /srv/departamentos/secreto \&gt;
+ AuthType Basic
+ AuthName "Identifiquese para acceder a esta pagina"
+ AuthUserFile /srv/departamentos/secreto/.htpasswd
+ Require valid-user
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si ahora probamos a acceder a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacion.png" /></p>
+
+<p>Vemos que nos pide que iniciemos sesión ya que el contenido está protegido. Vamos a ver que puede pasar:</p>
+
+<ul>
+  <li>Iniciamos sesión correctamente:</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacioncompleta.png" /></p>
+
+<ul>
+  <li>No iniciamos sesión o de manera incorrecta:</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacionfallida.png" /></p>
+
+<p>A primera vista podemos creer que este método de autenticación es segura, pero aún no he comentado el gran fallo que tiene. ¿Qué es lo último que deseamos cuando nos <em>logueamos</em> en una web? Exacto, que nuestras credenciales y nuestros datos no se conozcan y sean seguros, pues la <strong>autenticación básica</strong> no cuida esto, sino que envía nuestras contraseñas sin ningún tipo de cifrado y al descubierto, por lo que estamos totalmente expuestos.</p>
+
+<p>He hecho una prueba capturando el tráfico, en la que podemos ver como cualquiera que esté escuchando el tráfico de la red, podría ver nuestros datos.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticacionbasica.png" /></p>
+
+<p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como nos muestra la contraseña.</p>
+
+<p><strong>3. Cómo hemos visto la autentificación básica no es segura, modifica la autentificación para que sea del tipo <code class="language-plaintext highlighter-rouge">digest</code>, y sólo sea accesible a los usuarios pertenecientes al grupo <code class="language-plaintext highlighter-rouge">directivos</code>. Comprueba las cabeceras de los mensajes HTTP que se intercambian entre el servidor y el cliente. ¿Cómo funciona esta autentificación?</strong></p>
+
+<p>(Me he equivocado y he añadido los usuarios al grupo <strong>gruposecreto</strong> en vez de <strong>directivos</strong>).</p>
+
+<p>Para llevar a cabo una autenticación de tipo <strong>Digest</strong>, antes debemos habilitar su módulo:</p>
+
+<pre>
+a2enmod auth_digest
+</pre>
+
+<p>El proceso es muy parecido al anterior, por tanto lo primero sería crear el <strong>archivo de contraseñas</strong>:</p>
+
+<pre>
+root@servidor:/srv/departamentos/secreto# htdigest -c /srv/departamentos/secreto/.htdigest gruposecreto javier
+Adding password for javier in realm gruposecreto.
+New password:
+Re-type new password:
+</pre>
+
+<p>A diferencia de la autenticación básica, en esta debemos añadir un nombre de domino, es decir, un grupo al que va a pertenecer el usuario.</p>
+
+<p>Si quisiéramos añadir un nuevo usuario, deberíamos introducir el mismo comando pero sin la opción <code class="language-plaintext highlighter-rouge">-c</code>, ya que sino, nos crearía un nuevo un archivo machacando el ya existente.</p>
+
+<p>Nos quedaría especificar en el <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/departamentos.conf</code> esta configuración de autenticación básica. Debemos añadir algo así:</p>
+
+<pre>
+&lt;\Directory /srv/departamentos/secreto \&gt;
+ AuthType Digest
+ AuthName "gruposecreto"
+ AuthUserFile /srv/departamentos/secreto/.htdigest
+ Require valid-user
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si ahora probamos a acceder a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacionhtdigest.png" /></p>
+
+<p>Vemos que nos pide que iniciemos sesión ya que el contenido está protegido. Vamos a ver que puede pasar:</p>
+
+<ul>
+  <li>Iniciamos sesión correctamente:</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacioncompletahtdigest.png" /></p>
+
+<ul>
+  <li>No iniciamos sesión o de manera incorrecta:</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/autenticacionfallida.png" /></p>
+
+<p>Antes vimos que la <strong>autenticación básica</strong> no era segura, vamos a ver si la <strong>autenticación digest</strong> lo es.</p>
+
+<p>He hecho una prueba capturando el tráfico.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/wiresharkautenticaciondigest.png" /></p>
+
+<p>Si nos fijamos en la línea seleccionada, que hace referencia a la petición que hemos hecho con nuestras credenciales, podemos ver como no nos muestra la contraseña como pasaba anteriormente.</p>
+
+<p><strong>4. Vamos a combinar el control de acceso (tarea 6) y la autenticación (tareas 7 y 8), y vamos a configurar el virtual host para que se comporte de la siguiente manera: el acceso a la URL <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code> se hace forma directa desde la intranet, desde la red pública te pide la autenticación. Muestra el resultado al profesor.</strong></p>
+
+<p>Si queremos que los equipos conectados a la red local, es decir, los que posean una IP <strong>192.168.150.X</strong>, accedan de manera directa a la URL <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code>, pero los demás equipos tengan que iniciar sesión y validarse para acceder, debemos editar el fichero <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/departamentos.conf</code> de manera que tenga este aspecto:</p>
+
+<pre>
+&lt;\Directory /srv/departamentos/secreto \&gt;
+ AuthType Digest
+ AuthName "gruposecreto"
+ AuthUserFile /srv/departamentos/secreto/.htpasswd
+ Require valid-user
+ &lt;\RequireAll\&gt;
+  Require all granted
+  Require ip 192.168.150
+ &lt;\/RequireAll\&gt;
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si ahora probamos a acceder a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org/secreto</code>:</p>
+
+<ul>
+  <li>
+    <p><strong>Máquina anfitrión:</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/internetaccesomedianteautentificacion.png" /></p>
+  </li>
+  <li>
+    <p><strong>Máquina cliente:</strong></p>
+
+    <p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_control_de_acceso_autenticacion_y_autorizacion/intranetaccesodirecto.png" /></p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/blog/Control-de-acceso,-autenticaci%C3%B3n-y-autorizaci%C3%B3n" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

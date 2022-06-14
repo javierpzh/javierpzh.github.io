@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Auditorías De Bases De Datos | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Auditorías De Bases De Datos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Oracle" />
+<meta property="og:description" content="Oracle" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-05T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos" />
+<meta property="twitter:title" content="Auditorías De Bases De Datos" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Oracle","@type":"BlogPosting","headline":"Auditorías De Bases De Datos","dateModified":"2021-03-05T00:00:00+01:00","datePublished":"2021-03-05T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos"},"url":"https://www.javierpzh.com/blog/auditor%C3%ADas-de-bases-de-datos","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Auditorías De Bases De Datos</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-03-05T00:00:00+01:00" itemprop="datePublished">
+        Mar 5, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="oracle">Oracle</h2>
+
+<h4 id="vamos-a-activar-las-auditorías-en-nuestro-servidor">Vamos a activar las auditorías en nuestro servidor.</h4>
+
+<p>Por defecto, <em>Oracle</em> incorpora las auditorías activadas, pero aún así, si queremos comprobar dicho funcionamiento por nosotros mismos, podríamos ejecutar la siguiente sentencia:</p>
+
+<pre>
+SQL&gt; SELECT name, value
+  2  FROM v$parameter
+  3  WHERE name like 'audit_trail';
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+--------------------------------------------------------------------------------
+audit_trail
+DB
+</pre>
+
+<p>Podemos ver que efectivamente están activadas, ya que el parámetro <code class="language-plaintext highlighter-rouge">audit_trail</code>, posee el valor <code class="language-plaintext highlighter-rouge">db</code>, lo cual quiere decir que las auditorías se encuentran activadas y que los registros se almacenan en la base de datos.</p>
+
+<p>En caso de que estuviesen desactivadas, es decir, que el parámetro <code class="language-plaintext highlighter-rouge">audit_trail</code>, posea el valor <code class="language-plaintext highlighter-rouge">NONE</code>, podríamos activarlas ejecutando la siguiente sentencia:</p>
+
+<pre>
+ALTER SYSTEM SET audit_trail=db scope=spfile;
+</pre>
+
+<p>Listo.</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-los-intentos-de-acceso-fallidos-al-sistema">Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+
+<p>En este apartado vamos a activar la auditoría que se encarga de detectar los intentos de acceso fallidos:</p>
+
+<pre>
+SQL&gt; AUDIT CREATE SESSION WHENEVER NOT SUCCESSFUL;
+
+Auditoria terminada correctamente.
+</pre>
+
+<p>Una vez habilitada, para comprobar su funcionamiento, realizaremos un inicio de sesión erróneo y posteriormente, visualizaremos como se ha registrado dicho intento de acceso:</p>
+
+<pre>
+SQL&gt; connect usuarioerror/error
+ERROR:
+ORA-01017: nombre de usuario/contrase?a no validos; conexion denegada
+
+SQL&gt; connect sysdba
+Introduzca la contrase?a:
+...
+
+SQL&gt; SELECT os_username, username, extended_timestamp, action_name, returncode
+  2  FROM DBA_AUDIT_SESSION;
+
+OS_USERNAME
+--------------------------------------------------------------------------------
+USERNAME
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+ACTION_NAME		     RETURNCODE
+---------------------------- ----------
+oracle
+USUARIOERROR
+04/03/21 15:38:26,163150 +01:00
+LOGON				   1017
+</pre>
+
+<p>Podemos ver como efectivamente nos muestra el intento de acceso fallido, además del nombre de usuario utilizado, la fecha exacta, …</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-las-operaciones-dml-realizadas-por-scott">Vamos a activar la auditoría de las operaciones DML realizadas por SCOTT.</h4>
+
+<p>En este apartado vamos a activar la auditoría de las operaciones DML realizadas por SCOTT, para ello ejecutamos la siguiente sentencia SQL:</p>
+
+<pre>
+SQL&gt; AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT;
+
+Auditoria terminada correctamente.
+</pre>
+
+<p>Una vez habilitada, para comprobar su funcionamiento, realizaremos un <em>INSERT</em>, un <em>UPDATE</em> y un <em>DELETE</em> y posteriormente, visualizaremos como se han registrado en dicha auditoría:</p>
+
+<pre>
+SQL&gt; INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
+
+1 fila creada.
+
+SQL&gt; UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50;
+
+1 fila actualizada.
+
+SQL&gt; DELETE FROM DEPT WHERE DEPTNO=50;
+
+1 fila suprimida.
+
+SQL&gt; SELECT username, obj_name, action_name, extended_timestamp
+  2  FROM DBA_AUDIT_OBJECT;
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+INSERT
+04/03/21 16:21:19,163150 +01:00
+
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+UPDATE
+04/03/21 16:21:28,264893 +01:00
+
+
+USERNAME
+------------------------------
+OBJ_NAME
+--------------------------------------------------------------------------------
+ACTION_NAME
+----------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+DEPT
+DELETE
+04/03/21 16:21:43,371902 +01:00
+</pre>
+
+<p>Podemos ver como efectivamente nos muestra el usuario que ha realizado la acción, qué acción ha realizado, la fecha exacta, …</p>
+
+<h4 id="auditoría-de-grano-fino">Auditoría de grano fino</h4>
+
+<p>Las auditorías de grano fino son auditorías que almacenan más datos sobre las sentencias que ejecutamos, como la estructura completa de la sentencias.</p>
+
+<p>Es decir, gracias a ellas, podríamos saber qué consulta ha sido ejecutada sobre una tabla o qué datos
+han sido insertados, modificados o borrados.</p>
+
+<h4 id="vamos-a-realizar-una-auditoría-de-grano-fino-para-almacenar-información-sobre-la-inserción-de-empleados-del-departamento-10-de-la-tabla-emp-de-scott">Vamos a realizar una auditoría de grano fino para almacenar información sobre la inserción de empleados del departamento 10 de la tabla EMP de SCOTT.</h4>
+
+<p>Ahora que ya sabemos lo que son las auditorías de grano fino (FGA), vamos a crear una que almacenen información sobre la inserción de empleados del departamento 10 de la tabla <em>EMP</em> de <em>SCOTT</em>.</p>
+
+<p>Vamos a crear la siguiente auditoría de grano fino para ello:</p>
+
+<pre>
+SQL&gt; BEGIN
+  2  DBMS_FGA.ADD_POLICY (
+  3  OBJECT_SCHEMA      =&gt; 'SCOTT',
+  4  OBJECT_NAME        =&gt; 'EMP',
+  5  POLICY_NAME        =&gt; 'audit_fino_javier',
+  6  AUDIT_CONDITION    =&gt; 'DEPTNO = 10',
+  7  STATEMENT_TYPES    =&gt; 'INSERT'
+  8  );
+  9  end;
+ 10  /
+
+Procedimiento PL/SQL terminado correctamente.
+</pre>
+
+<p>Una vez creadas, vamos a realizar una serie de inserciones en el departamento 10, y posteriormente comprobaremos la información almacenada:</p>
+
+<pre>
+SQL&gt; INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (9000, 'Javier', 'Administr', 8500, '19-11-2001', 2000, NULL, 10);
+
+1 fila creada.
+
+SQL&gt; INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (9001, 'Pablo', 'Administr', 8600, '22-01-1997', 2100, NULL, 10);
+
+1 fila creada.
+
+SQL&gt; SELECT DB_USER, OBJECT_NAME, SQL_TEXT, EXTENDED_TIMESTAMP
+  2  FROM DBA_FGA_AUDIT_TRAIL
+  3  WHERE POLICY_NAME='AUDIT_FINO_JAVIER';
+
+DB_USER
+------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+EMP
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (90
+00, 'Javier', 'Administr', 8500, '19-11-2001', 2000, NULL, 10)
+04/03/21 17:30:24,253000 +01:00
+
+DB_USER
+------------------------------
+OBJECT_NAME
+--------------------------------------------------------------------------------
+SQL_TEXT
+--------------------------------------------------------------------------------
+EXTENDED_TIMESTAMP
+---------------------------------------------------------------------------
+SCOTT
+EMP
+INSERT INTO EMP (EMPNO, ENAME, JOB, MGR, HIREDATE, SAL, COMM, DEPTNO) VALUES (90
+01, 'Pablo', 'Administr', 8600, '22-01-1997', 2100, NULL, 10)
+04/03/21 17:31:23,488000 +01:00
+</pre>
+
+<p>Podemos ver como efectivamente nos muestra la información relativa a las acciones realizadas.</p>
+
+<h4 id="diferencias-entre-auditar-una-operación-by-access-o-by-session">Diferencias entre auditar una operación ‘BY ACCESS’ o ‘BY SESSION’.</h4>
+
+<p>La principal diferencia entre ambas operaciones es la siguiente:</p>
+
+<ul>
+  <li><strong>BY ACCESS:</strong> almacena un registro por cada acción realizada independientemente de si es repetida o no.</li>
+  <li><strong>BY SESSION:</strong> almacena un solo registro de una misma acción que hagamos, evitando repetirlas.</li>
+</ul>
+
+<p>Para terminar, hay que saber, que al activar una auditoría, podemos indicar el tipo que deseamos, si <strong>BY ACCESS</strong> o <strong>BY SESSION</strong>. Por ejemplo:</p>
+
+<pre>
+AUDIT INSERT TABLE, UPDATE TABLE, DELETE TABLE BY SCOTT BY {ACCESS/SESSION};
+</pre>
+
+<p>Listo.</p>
+
+<h4 id="diferencias-entre-los-valores-db-y-db-extended-del-parámetro-audit_trail">Diferencias entre los valores ‘DB’ y ‘DB, EXTENDED’ del parámetro audit_trail.</h4>
+
+<p>Ambos valores activan la auditoría y almacenan los datos en la tabla <strong>SYS.AUD$</strong> de <em>Oracle</em>, pero, la principal diferencia que existe entre ellos es que, el valor <strong>DB, EXTENDED</strong>, además almacena los datos correspondientes en las columnas <strong>SQLBIND</strong> y <strong>SQLTEXT</strong> de dicha tabla, <em>SYS.AUD$</em>, mientras que el valor <strong>DB</strong> no lo hace.</p>
+
+<p>Ahora, vamos a ver como podríamos cambiar de un valor a otro.</p>
+
+<p>En primer lugar, para ver cuál de los dos estamos utilizando, ejecutaremos la siguiente sentencia:</p>
+
+<pre>
+SQL&gt; SHOW PARAMETER AUDIT_TRAIL
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+audit_trail                          string      DB
+</pre>
+
+<p>Vemos como actualmente, en mi caso, poseo el valor <strong>DB</strong>. Ahora voy a cambiar al valor <strong>DB, EXTENDED</strong>:</p>
+
+<pre>
+SQL&gt; ALTER SYSTEM SET audit_trail = "DB_EXTENDED" SCOPE=SPFILE;
+
+Sistema modificado.
+</pre>
+
+<p>Parece que ya se ha cambiado, pero no, para que se aplique este cambio, es necesario que reiniciemos la base de datos, por lo que vamos a ello:</p>
+
+<pre>
+SQL&gt; shutdown
+Base de datos cerrada.
+Base de datos desmontada.
+Instancia ORACLE cerrada.
+
+SQL&gt; startup
+Instancia ORACLE iniciada.
+
+Total System Global Area 1720328192 bytes
+Fixed Size                  2176448 bytes
+Variable Size            1073744448 bytes
+Database Buffers          637534208 bytes
+Redo Buffers                6873088 bytes
+Base de datos montada.
+Base de datos abierta.
+</pre>
+
+<p>Comprobamos de nuevo que valor estamos utilizando:</p>
+
+<pre>
+SQL&gt; SHOW PARAMETER AUDIT_TRAIL
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+audit_trail                          string      DB_EXTENDED
+</pre>
+
+<p>Vemos como efectivamente ahora sí, hemos cambiado al nuevo valor.</p>
+
+<h2 id="postgresql">PostgreSQL</h2>
+
+<h4 id="vamos-a-activar-las-auditorías-en-nuestro-servidor-1">Vamos a activar las auditorías en nuestro servidor.</h4>
+
+<p><em>PostgreSQL</em> por defecto no incorpora una herramienta de auditorías, por lo que, si queremos conseguir realizar auditorías, tendremos que descargarnos una herramienta que ha desarrollado la comunidad, llamada <strong>Audit trigger 91plus</strong>.</p>
+
+<p>Esta herramienta consiste en una serie de <em>scripts</em> y <em>triggers</em> que realizan las acciones necesarias para simular las auditorías.</p>
+
+<p>Para descargarnos la herramienta debemos utilizar el siguiente comando:</p>
+
+<pre>
+wget https://raw.githubusercontent.com/2ndQuadrant/audit-trigger/master/audit.sql
+</pre>
+
+<p>Una vez descargada, nos conectaremos a nuestro servidor y ejecutaremos el siguiente comando:</p>
+
+<pre>
+scott=# \i audit.sql
+CREATE EXTENSION
+CREATE SCHEMA
+REVOKE
+COMMENT
+CREATE TABLE
+REVOKE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+COMMENT
+CREATE FUNCTION
+CREATE FUNCTION
+COMMENT
+CREATE VIEW
+COMMENT
+</pre>
+
+<p>Por último, tan sólo nos faltaría activar la recogida de datos en dichas auditorías, para ello ejecutamos la siguiente sentencia:</p>
+
+<pre>
+select audit.audit_table({nombretabla});
+</pre>
+
+<p>Listo.</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-los-intentos-de-acceso-fallidos-al-sistema-1">Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+
+<p>No es posible activar este tipo de auditoría en <em>PostgreSQL</em>.</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-las-operaciones-dml">Vamos a activar la auditoría de las operaciones DML.</h4>
+
+<p>En este apartado vamos a activar la auditoría de las operaciones DML en la tabla <em>DEPT</em>, para ello ejecutamos la siguiente sentencia SQL:</p>
+
+<pre>
+scott=# select audit.audit_table('dept');
+NOTICE:  trigger "audit_trigger_row" for relation "dept" does not exist, skipping
+NOTICE:  trigger "audit_trigger_stm" for relation "dept" does not exist, skipping
+NOTICE:  CREATE TRIGGER audit_trigger_row AFTER INSERT OR UPDATE OR DELETE ON dept FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func('true');
+NOTICE:  CREATE TRIGGER audit_trigger_stm AFTER TRUNCATE ON dept FOR EACH STATEMENT EXECUTE PROCEDURE audit.if_modified_func('true');
+ audit_table
+-------------
+
+(1 row)
+</pre>
+
+<p>Una vez habilitada, para comprobar su funcionamiento, realizaremos un <em>INSERT</em>, un <em>UPDATE</em> y un <em>DELETE</em> y posteriormente, visualizaremos como se han registrado en dicha auditoría:</p>
+
+<pre>
+scott=# INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
+INSERT 0 1
+
+scott=# UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50;
+UPDATE 1
+
+scott=# DELETE FROM DEPT WHERE DEPTNO=50;
+DELETE 1
+
+scott=# select session_user_name, action, table_name, action_tstamp_clk, client_query
+from audit.logged_actions;
+ session_user_name | action | table_name |       action_tstamp_clk       |                              client_query                              
+-------------------+--------+------------+-------------------------------+------------------------------------------------------------------------
+ postgres          | I      | dept       | 2021-03-05 11:58:31.904308+00 | INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
+ postgres          | U      | dept       | 2021-03-05 11:58:31.905631+00 | UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50;
+ postgres          | D      | dept       | 2021-03-05 11:58:32.84674+00  | DELETE FROM DEPT WHERE DEPTNO=50;
+(3 rows)
+</pre>
+
+<p>Podemos ver como efectivamente nos muestra el usuario que ha realizado la acción, qué acción ha realizado, la fecha exacta, … Pero además podemos apreciar como directamente, nos muestra las sentencias introducidas, por lo que esta auditoría sería de <strong>grano fino</strong>.</p>
+
+<h2 id="mysql">MySQL</h2>
+
+<h4 id="vamos-a-activar-las-auditorías-en-nuestro-servidor-2">Vamos a activar las auditorías en nuestro servidor.</h4>
+
+<p>Para activar las auditorías en <em>MySQL</em>, debemos ejecutar la siguiente sentencia:</p>
+
+<pre>
+SET SESSION profiling = 1;
+</pre>
+
+<p>Listo.</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-los-intentos-de-acceso-fallidos-al-sistema-2">Vamos a activar la auditoría de los intentos de acceso fallidos al sistema.</h4>
+
+<p>No es posible activar este tipo de auditoría en <em>MySQL</em>.</p>
+
+<h4 id="vamos-a-activar-la-auditoría-de-las-operaciones-dml-1">Vamos a activar la auditoría de las operaciones DML.</h4>
+
+<p>En este apartado vamos a ver como se auditan las operaciones DML.</p>
+
+<p>Para comprobar su funcionamiento, realizaremos un <em>INSERT</em>, un <em>UPDATE</em> y un <em>DELETE</em> y posteriormente, visualizaremos como se han registrado dichas operaciones:</p>
+
+<pre>
+MariaDB [scott]&gt; INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla');
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [scott]&gt; UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50;
+Query OK, 1 row affected (0.001 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [scott]&gt; DELETE FROM DEPT WHERE DEPTNO=50;
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [scott]&gt; SHOW PROFILES;
++----------+------------+-----------------------------------------------------------------------+
+| Query_ID | Duration   | Query                                                                 |
++----------+------------+-----------------------------------------------------------------------+
+|        1 | 0.00027403 | SELECT DATABASE()                                                     |
+|        2 | 0.00060149 | show databases                                                        |
+|        3 | 0.00044156 | show tables                                                           |
+|        4 | 0.00363078 | INSERT INTO DEPT (DEPTNO, DNAME, LOC) VALUES (50,'Pruebas','Sevilla') |
+|        5 | 0.00136099 | UPDATE DEPT SET LOC='Dos Hermanas' WHERE DEPTNO=50                    |
+|        6 | 0.00401232 | DELETE FROM DEPT WHERE DEPTNO=50                                      |
++----------+------------+-----------------------------------------------------------------------+
+6 rows in set (0.000 sec)
+</pre>
+
+<p>Podemos ver como nos muestra las sentencias introducidas, por lo que esta auditoría sería de <strong>grano fino</strong>.</p>
+
+  </div><a class="u-url" href="/blog/auditor%C3%ADas-de-bases-de-datos" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

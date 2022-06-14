@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Openstack: Cortafuegos | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Openstack: Cortafuegos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Vamos a construir un cortafuegos en Dulcinea que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio." />
+<meta property="og:description" content="Vamos a construir un cortafuegos en Dulcinea que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/OpenStack-cortafuegos" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/OpenStack-cortafuegos" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/OpenStack-cortafuegos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-31T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/OpenStack-cortafuegos" />
+<meta property="twitter:title" content="Openstack: Cortafuegos" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Vamos a construir un cortafuegos en Dulcinea que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio.","@type":"BlogPosting","headline":"Openstack: Cortafuegos","dateModified":"2021-01-31T00:00:00+01:00","datePublished":"2021-01-31T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/OpenStack-cortafuegos"},"url":"https://www.javierpzh.com/blog/OpenStack-cortafuegos","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Openstack: Cortafuegos</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-01-31T00:00:00+01:00" itemprop="datePublished">
+        Jan 31, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p>Vamos a construir un cortafuegos en <strong>Dulcinea</strong> que nos permita controlar el tráfico de nuestra red. El cortafuegos que vamos a construir debe funcionar tras un reinicio.</p>
+
+<p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
+
+<ul>
+  <li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a></li>
+</ul>
+
+<p>Comprendido esto, empezaremos por instalar el paquete <code class="language-plaintext highlighter-rouge">nftables</code>:</p>
+
+<pre>
+apt install nftables -y
+</pre>
+
+<p>Una vez instalado, debemos habilitarlo para que se inicie en cada arranque:</p>
+
+<pre>
+systemctl start nftables.service
+systemctl enable nftables.service
+</pre>
+
+<p>Al igual que pasa con <code class="language-plaintext highlighter-rouge">iptables</code>, <code class="language-plaintext highlighter-rouge">nftables</code> también permite guardar las reglas en un fichero para que así las configuraciones perduren a pesar de los reinicios del sistema. Para hacer esto empleamos el siguiente comando:</p>
+
+<pre>
+nft list ruleset &gt; /etc/nftables.conf
+</pre>
+
+<p>Explicado esto, podemos empezar con las configuraciones de nuestro cortafuegos.</p>
+
+<h2 id="política-por-defecto">Política por defecto</h2>
+
+<p>La política por defecto que vamos a configurar en nuestro cortafuegos será de tipo <strong>DROP</strong>, pero como estoy conectado por SSH, no voy a aplicar esta política de primeras, ya que sino perdería la conexión. Por tanto, empezaremos con añadir la regla para el acceso por el puerto 22, que es el que utiliza SSH:</p>
+
+<p>Añadimos las reglas para SSH para poder acceder a <em>Dulcinea</em>:</p>
+
+<pre>
+nft add rule inet filter input ip saddr 172.22.0.0/15 iifname "eth0" tcp dport 22 ct state new,established counter accept
+nft add rule inet filter output ip daddr 172.22.0.0/15 oifname "eth0" tcp sport 22 ct state established counter accept
+</pre>
+
+<p>En este punto, ya si podemos establecer la política por defecto a <strong>DROP</strong>, ya que poseemos la regla necesaria para tener acceso mediante SSH y no perderemos la conexión:</p>
+
+<pre>
+nft add chain inet filter input { policy drop \;}
+
+nft add chain inet filter output { policy drop \;}
+
+nft add chain inet filter forward { policy drop \;}
+</pre>
+
+<p>Miramos la lista de reglas:</p>
+
+<pre>
+root@dulcinea:~# nft list ruleset
+table inet filter {
+	chain input {
+		type filter hook input priority 0; policy drop;
+		ip saddr 172.22.0.0/15 iifname "eth0" tcp dport ssh ct state established,new counter packets 65 bytes 4664 accept
+	}
+
+	chain forward {
+		type filter hook forward priority 0; policy drop;
+	}
+
+	chain output {
+		type filter hook output priority 0; policy drop;
+		ip daddr 172.22.0.0/15 oifname "eth0" tcp sport ssh ct state established counter packets 37 bytes 8804 accept
+	}
+}
+</pre>
+
+<p>Perfecto, ya poseemos una política por defecto <strong>DROP</strong>.</p>
+
+<h2 id="nat">NAT</h2>
+
+<p>Comenzaremos por crear una tabla llamada <strong>NAT</strong> y añadimos las siguientes cadenas:</p>
+
+<pre>
+nft add table nat
+
+nft add chain nat postrouting { type nat hook postrouting priority 100 \; }
+
+nft add chain nat prerouting { type nat hook prerouting priority 0 \; }
+</pre>
+
+<ul>
+  <li><strong>Configura de manera adecuada las reglas NAT para que todas las máquinas de nuestra red tenga acceso al exterior.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule ip nat postrouting oifname "eth0" ip saddr 10.0.1.0/24 counter snat to 10.0.0.8
+
+nft add rule ip nat postrouting oifname "eth0" ip saddr 10.0.2.0/24 counter snat to 10.0.0.8
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Configura de manera adecuada todas las reglas NAT necesarias para que los servicios expuestos al exterior sean accesibles.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule ip nat prerouting iifname "eth0" udp dport 53 counter dnat to 10.0.1.6
+
+nft add rule ip nat prerouting iifname "eth0" tcp dport 80 counter dnat to 10.0.2.6
+
+nft add rule ip nat prerouting iifname "eth0" tcp dport 443 counter dnat to 10.0.2.6
+</pre>
+
+<p>La primera hace referencia al servidor DNS ubicado en <em>Freston</em>, y las dos siguientes al servidor web ubicado en <em>Quijote</em>.</p>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h2 id="reglas">Reglas</h2>
+
+<p>Para cada configuración, hay que mostrar las reglas que se han configurado y una prueba de funcionamiento de la misma.</p>
+
+<h4 id="ssh">SSH</h4>
+
+<ul>
+  <li><strong>Podemos acceder por SSH a todas las máquinas.</strong></li>
+</ul>
+
+<p>Parte de este apartado lo vimos al principio del artículo, al crear las reglas necesarias para permitir el acceso por SSH a <em>Dulcinea</em>. Ahora haremos lo mismo pero para permitir el acceso mediante SSH a las máquinas de la red interna y de la DMZ.</p>
+
+<p>Reglas para las máquinas de la red interna:</p>
+
+<pre>
+nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" tcp sport 22 ct state established counter accept
+nft add rule inet filter output ip daddr 10.0.1.0/24 oifname "eth1" tcp dport 22 ct state new, established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red DMZ:</p>
+
+<pre>
+nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" tcp dport 22 ct state new,established counter accept
+nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" tcp sport 22 ct state established counter accept
+</pre>
+
+<p>Vamos a probar su funcionamiento:</p>
+
+<pre>
+debian@dulcinea:~$ ssh freston
+Linux freston 4.19.0-13-cloud-amd64 #1 SMP Debian 4.19.160-2 (2020-11-28) x86_64
+...
+Last login: Sun Jan 31 19:12:18 2021 from 10.0.1.11
+debian@freston:~$
+
+--------------------------------------------------------------------------------
+
+debian@dulcinea:~$ ssh ubuntu@sancho
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-64-generic x86_64)
+...
+Last login: Fri Jan 29 08:45:37 2021 from 10.0.1.11
+ubuntu@sancho:~$
+
+--------------------------------------------------------------------------------
+
+debian@dulcinea:~$ ssh centos@quijote
+Last login: Fri Jan 29 10:08:13 2021 from 10.0.2.10
+[centos@quijote ~]$
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Todas las máquinas pueden hacer SSH a máquinas del exterior.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas.</p>
+
+<p>Reglas para <em>Dulcinea</em>:</p>
+
+<pre>
+nft add rule inet filter output oifname "eth0" tcp dport 22 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 22 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red interna:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 22 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 22 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red DMZ:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 22 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 22 ct state established counter accept
+</pre>
+
+<p>Vamos a probar su funcionamiento intentando acceder mediante SSH a la máquina de <em>OVH</em>, ya que aunque no poseamos acceso mediante el par de clave pública-privada, dicha máquina tiene habilitado el acceso mediante contraseña:</p>
+
+<pre>
+root@dulcinea:~# ssh debian@51.210.105.17
+The authenticity of host '51.210.105.17 (51.210.105.17)' can't be established.
+ECDSA key fingerprint is SHA256:LDFXW0tFS0C4p8BBQTjDdyObkSnQmMTUZgfiVnCn9zk.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '51.210.105.17' (ECDSA) to the list of known hosts.
+debian@51.210.105.17's password:
+...
+Last login: Sun Jan 31 20:32:56 2021 from 217.216.68.244
+debian@vpsjavierpzh:~$
+
+--------------------------------------------------------------------------------
+
+debian@freston:~$ ssh debian@51.210.105.17
+The authenticity of host '51.210.105.17 (51.210.105.17)' can't be established.
+ECDSA key fingerprint is SHA256:LDFXW0tFS0C4p8BBQTjDdyObkSnQmMTUZgfiVnCn9zk.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '51.210.105.17' (ECDSA) to the list of known hosts.
+debian@51.210.105.17's password:
+...
+Last login: Sun Jan 31 20:33:39 2021 from 80.59.1.152
+debian@vpsjavierpzh:~$
+
+--------------------------------------------------------------------------------
+
+[centos@quijote ~]$ ssh debian@51.210.105.17
+The authenticity of host '51.210.105.17 (51.210.105.17)' can't be established.
+ECDSA key fingerprint is SHA256:LDFXW0tFS0C4p8BBQTjDdyObkSnQmMTUZgfiVnCn9zk.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '51.210.105.17' (ECDSA) to the list of known hosts.
+debian@51.210.105.17's password:
+...
+Last login: Sun Jan 31 20:34:48 2021 from 80.59.1.152
+debian@vpsjavierpzh:~$
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="ping">ping</h4>
+
+<ul>
+  <li><strong>Todas las máquinas de las dos redes pueden hacer <em>ping</em> entre ellas.</strong></li>
+</ul>
+
+<p>Para permitir que todas las máquinas puedan hacer <em>ping</em> entre sí, debemos añadir las siguientes reglas que he ordenado de la siguiente manera para que quede más claro. En todos los bloques el orden es el siguiente, la primera regla permite el inicio de la conexión, es decir la petición, y la segunda la respuesta por parte del otro cliente.</p>
+
+<p><em>Dulcinea</em> a la red interna:</p>
+
+<pre>
+nft add rule inet filter output ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
+nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p><em>Dulcinea</em> a la red DMZ:</p>
+
+<pre>
+nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
+nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red interna a la red DMZ:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-request counter accept
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red DMZ a la red interna:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.0/24 oifname "eth1" icmp type echo-request counter accept
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>En teoría ya tendríamos que poder hacer <em>ping</em> entre las diferentes máquinas, pero vamos a comprobarlo:</p>
+
+<pre>
+debian@dulcinea:~$ ping 10.0.1.8
+PING 10.0.1.8 (10.0.1.8) 56(84) bytes of data.
+64 bytes from 10.0.1.8: icmp_seq=1 ttl=64 time=1.31 ms
+64 bytes from 10.0.1.8: icmp_seq=2 ttl=64 time=1.20 ms
+64 bytes from 10.0.1.8: icmp_seq=3 ttl=64 time=1.18 ms
+^C
+--- 10.0.1.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 1.181/1.232/1.314/0.070 ms
+
+debian@dulcinea:~$ ping 10.0.2.6
+PING 10.0.2.6 (10.0.2.6) 56(84) bytes of data.
+64 bytes from 10.0.2.6: icmp_seq=1 ttl=64 time=1.18 ms
+64 bytes from 10.0.2.6: icmp_seq=2 ttl=64 time=0.815 ms
+64 bytes from 10.0.2.6: icmp_seq=3 ttl=64 time=0.671 ms
+^C
+--- 10.0.2.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 0.671/0.889/1.183/0.218 ms
+debian@dulcinea:~$
+
+--------------------------------------------------------------------------------
+
+ubuntu@sancho:~$ ping 10.0.2.6
+PING 10.0.2.6 (10.0.2.6) 56(84) bytes of data.
+64 bytes from 10.0.2.6: icmp_seq=1 ttl=63 time=2.18 ms
+64 bytes from 10.0.2.6: icmp_seq=2 ttl=63 time=1.87 ms
+64 bytes from 10.0.2.6: icmp_seq=3 ttl=63 time=2.28 ms
+^C
+--- 10.0.2.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 1.870/2.109/2.278/0.173 ms
+
+--------------------------------------------------------------------------------
+
+[centos@quijote ~]$ ping 10.0.1.6
+PING 10.0.1.6 (10.0.1.6) 56(84) bytes of data.
+64 bytes from 10.0.1.6: icmp_seq=1 ttl=63 time=2.96 ms
+64 bytes from 10.0.1.6: icmp_seq=2 ttl=63 time=2.04 ms
+64 bytes from 10.0.1.6: icmp_seq=3 ttl=63 time=1.80 ms
+^C
+--- 10.0.1.6 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 4ms
+rtt min/avg/max/mdev = 1.796/2.266/2.963/0.502 ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Todas las máquinas pueden hacer <em>ping</em> a una máquina del exterior.</strong></li>
+</ul>
+
+<p><em>Dulcinea</em>:</p>
+
+<pre>
+nft add rule inet filter output oifname "eth0" icmp type echo-request counter accept
+nft add rule inet filter input iifname "eth0" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red interna:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" icmp type echo-request counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" icmp type echo-reply counter accept
+</pre>
+
+<p>Máquinas de la red DMZ:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" icmp type echo-request counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>Pruebas de funcionamiento:</p>
+
+<pre>
+root@dulcinea:~# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=112 time=309 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=112 time=803 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=112 time=198 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 3ms
+rtt min/avg/max/mdev = 198.008/436.717/803.381/263.184 ms
+
+--------------------------------------------------------------------------------
+
+[centos@quijote ~]$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=42.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=42.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=102 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 42.648/62.541/102.104/27.975 ms
+
+--------------------------------------------------------------------------------
+
+debian@freston:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=43.2 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=43.5 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=43.0 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 43.019/43.247/43.492/0.193 ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Desde el exterior se puede hacer <em>ping</em> a <em>Dulcinea</em>.</strong></li>
+</ul>
+
+<p>Reglas a añadir:</p>
+
+<pre>
+nft add rule inet filter input iifname "eth0" icmp type echo-request counter accept
+nft add rule inet filter output oifname "eth0" icmp type echo-reply counter accept
+</pre>
+
+<p>Prueba de funcionamiento:</p>
+
+<pre>
+javier@debian:~$ ping dulcinea
+PING dulcinea (172.22.200.183) 56(84) bytes of data.
+64 bytes from dulcinea (172.22.200.183): icmp_seq=1 ttl=61 time=88.3 ms
+64 bytes from dulcinea (172.22.200.183): icmp_seq=2 ttl=61 time=87.8 ms
+64 bytes from dulcinea (172.22.200.183): icmp_seq=3 ttl=61 time=88.2 ms
+^C
+--- dulcinea ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 3ms
+rtt min/avg/max/mdev = 87.803/88.115/88.308/0.222 ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>A <em>Dulcinea</em> se le puede hacer <em>ping</em> desde la DMZ, pero desde la LAN se le debe rechazar la conexión (REJECT).</strong></li>
+</ul>
+
+<p>Reglas para las máquinas de la red DMZ:</p>
+
+<pre>
+nft add rule inet filter input ip saddr 10.0.2.0/24 iifname "eth2" icmp type echo-request counter accept
+nft add rule inet filter output ip daddr 10.0.2.0/24 oifname "eth2" icmp type echo-reply counter accept
+</pre>
+
+<p>Regla para las máquinas de la red interna:</p>
+
+<pre>
+nft add rule inet filter input ip saddr 10.0.1.0/24 iifname "eth1" icmp type echo-request counter reject
+</pre>
+
+<p>Pruebas de funcionamiento:</p>
+
+<pre>
+[centos@quijote ~]$ ping 10.0.2.10
+PING 10.0.2.10 (10.0.2.10) 56(84) bytes of data.
+64 bytes from 10.0.2.10: icmp_seq=1 ttl=64 time=0.530 ms
+64 bytes from 10.0.2.10: icmp_seq=2 ttl=64 time=0.687 ms
+64 bytes from 10.0.2.10: icmp_seq=3 ttl=64 time=0.568 ms
+^C
+--- 10.0.2.10 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 39ms
+rtt min/avg/max/mdev = 0.530/0.595/0.687/0.066 ms
+
+--------------------------------------------------------------------------------
+
+ubuntu@sancho:~$ ping 10.0.1.11
+PING 10.0.1.11 (10.0.1.11) 56(84) bytes of data.
+^C
+--- 10.0.1.11 ping statistics ---
+4 packets transmitted, 0 received, 100% packet loss, time 3064ms
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="dns">DNS</h4>
+
+<ul>
+  <li><strong>El único DNS que pueden usar los equipos de las dos redes es <em>Freston</em>, no pueden utilizar un DNS externo.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas para que el servidor DNS de <em>Freston</em> pueda hacer las preguntas recursivas en el caso de que sea necesario, es decir, pueda consultar a un DNS externo:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" udp dport 53 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" udp sport 53 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" tcp dport 53 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" tcp sport 53 ct state established counter accept
+</pre>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.6 oifname "eth1" udp dport 53 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10.0.1.6 oifname "eth2" udp sport 53 ct state established counter accept
+</pre>
+
+<p>Pruebas de funcionamiento:</p>
+
+<pre>
+ubuntu@sancho:~$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN	NS	freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.1.6
+
+;; Query time: 4 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:05:59 CET 2021
+;; MSG SIZE  rcvd: 166
+
+--------------------------------------------------------------------------------
+
+debian@freston:~$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN	NS	freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.1.6
+
+;; Query time: 0 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:05:13 CET 2021
+;; MSG SIZE  rcvd: 166
+
+--------------------------------------------------------------------------------
+
+[centos@quijote ~]$ dig www.javierpzh.gonzalonazareno.org
+
+...
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME quijote.javierpzh.gonzalonazareno.org.
+quijote.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.2.6
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN	NS	freston.javierpzh.gonzalonazareno.org.
+
+;; ADDITIONAL SECTION:
+freston.javierpzh.gonzalonazareno.org. 86400 IN	A 10.0.1.6
+
+;; Query time: 2 msec
+;; SERVER: 10.0.1.6#53(10.0.1.6)
+;; WHEN: Mon Feb 01 21:06:46 CET 2021
+;; MSG SIZE  rcvd: 166
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Dulcinea puede usar cualquier servidor DNS.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule inet filter output udp dport 53 ct state new,established counter accept
+nft add rule inet filter input udp sport 53 ct state established counter accept
+</pre>
+
+<p>Prueba de funcionamiento:</p>
+
+<pre>
+debian@dulcinea:~$ dig @8.8.8.8 www.google.es
+
+...
+
+;; ANSWER SECTION:
+www.google.es.		53	IN	A	216.58.201.131
+
+;; Query time: 65 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8)
+;; WHEN: Mon Feb 01 21:07:44 CET 2021
+;; MSG SIZE  rcvd: 58
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<ul>
+  <li><strong>Tenemos que permitir consultas DNS desde el exterior a <em>Freston</em>, para que, por ejemplo, papion-dns pueda preguntar.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule inet filter forward ip daddr 10.0.1.6 iifname "eth0" oifname "eth1" udp dport 53 ct state new,established counter accept
+nft add rule inet filter forward ip saddr 10.0.1.6 iifname "eth1" oifname "eth0" udp sport 53 ct state established counter accept
+</pre>
+
+<p>Prueba de funcionamiento:</p>
+
+<pre>
+javier@debian:~$ dig www.javierpzh.gonzalonazareno.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.javierpzh.gonzalonazareno.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 2373
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 0730df91c1792814964dae846018fef15b7db48cb2c29bbf (good)
+;; QUESTION SECTION:
+;www.javierpzh.gonzalonazareno.org. IN	A
+
+;; ANSWER SECTION:
+www.javierpzh.gonzalonazareno.org. 86400 IN CNAME dulcinea.javierpzh.gonzalonazareno.org.
+dulcinea.javierpzh.gonzalonazareno.org.	86400 IN A 172.22.200.183
+
+;; AUTHORITY SECTION:
+javierpzh.gonzalonazareno.org. 86400 IN	NS	dulcinea.javierpzh.gonzalonazareno.org.
+
+;; Query time: 10 msec
+;; SERVER: 192.168.202.2#53(192.168.202.2)
+;; WHEN: mar feb 02 08:27:45 CET 2021
+;; MSG SIZE  rcvd: 143
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="base-de-datos">Base de datos</h4>
+
+<ul>
+  <li><strong>A la base de datos de sancho sólo pueden acceder las máquinas de la DMZ.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" ip daddr 10.0.1.8 oifname "eth1" tcp dport 3306 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth1" ip saddr 10.0.1.8 oifname "eth2" tcp sport 3306 ct state established counter accept
+</pre>
+
+<p>Prueba de funcionamiento:</p>
+
+<pre>
+[centos@quijote ~]$ mysql -h sancho -u javierquijote -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 36
+Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1 Ubuntu 20.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt;
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="web">Web</h4>
+
+<ul>
+  <li><strong>Las páginas web de <em>Quijote</em> (80, 443) pueden ser accedidas desde todas las máquinas de nuestra red y desde el exterior.</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas para <em>Dulcinea</em>:</p>
+
+<pre>
+nft add rule inet filter output ip daddr 10.0.2.6 oifname "eth2" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter input ip saddr 10.0.2.6 iifname "eth2" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter output ip daddr 10.0.2.6 oifname "eth2" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter input ip saddr 10.0.2.6 iifname "eth2" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Creamos las siguientes reglas para las demás máquinas:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.6 oifname "eth2" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10.0.2.6 oifname "eth1" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" ip daddr 10.0.2.6 oifname "eth2" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth2" ip saddr 10.0.2.6 oifname "eth1" tcp sport 443 ct state established counter accept
+
+--------------------------------------------------------------------------------
+
+nft add rule inet filter forward ip daddr 10.0.2.6 iifname "eth0" oifname "eth2" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip daddr 10.0.2.6 iifname "eth0" oifname "eth2" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip saddr 10.0.2.6 iifname "eth2" oifname "eth0" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="más-servicios">Más servicios</h4>
+
+<ul>
+  <li><strong>Webs exteriores</strong></li>
+</ul>
+
+<p>Al terminar el cortafuegos me dí cuenta que no podía conectar con ninguna web del exterior, ya que no poseía ninguna regla con la que pudiera conectar con ellas, ni por el puerto 80, ni por el 443, por tanto vamos a crearlas:</p>
+
+<p>Reglas para <em>Dulcinea</em>:</p>
+
+<pre>
+nft add rule inet filter output oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter output oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red interna:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.1.0/24 iifname "eth1" oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.1.0/24 iifname "eth0" oifname "eth1" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Reglas para las máquinas de la red DMZ:</p>
+
+<pre>
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 80 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 80 ct state established counter accept
+
+nft add rule inet filter forward ip saddr 10.0.2.0/24 iifname "eth2" oifname "eth0" tcp dport 443 ct state new,established counter accept
+nft add rule inet filter forward ip daddr 10.0.2.0/24 iifname "eth0" oifname "eth2" tcp sport 443 ct state established counter accept
+</pre>
+
+<p>Listo, ya las tendríamos.</p>
+
+<h4 id="zona-en-pruebas">Zona en pruebas</h4>
+
+<ul>
+  <li><strong>Bacula</strong></li>
+</ul>
+
+<p>Creamos las siguientes reglas para <em>Bacula</em>.</p>
+
+<hr />
+
+<p>Para conectar con la máquina de OVH:</p>
+
+<pre>
+nft add rule inet filter output oifname "eth0" tcp dport 9101 ct state new,established counter accept
+nft add rule inet filter input iifname "eth0" tcp sport 9101 ct state established counter accept
+</pre>
+
+<p>nft add chain inet filter input { policy accept \;}</p>
+
+<p>nft add chain inet filter output { policy accept \;}</p>
+
+<p>nft add chain inet filter forward { policy accept \;}</p>
+
+<p>-A INPUT -i eth1 -s 0.0.0.0/0 -p tcp –dport 9101 –ctstate new,established
+-A OUTPUT -o eth0 -d 0.0.0.0/0 -p tcp –sport 9101 state established</p>
+
+<p>-A OUTPUT -o eth0 -d 0.0.0.0/0 –dport 9102 new,established
+-A INPUT -i eth0 -s 0.0.0.0/0 –sport 9102 established</p>
+
+<p>nft add rule inet filter input ip saddr 0.0.0.0/0 iifname “eth1” tcp dport 9101 ct state new,established counter accept
+nft add rule inet filter output ip daddr 0.0.0.0/0 oifname “eth0” tcp sport 9101 ct state established counter accept</p>
+
+<p>nft add rule inet filter output ip daddr 0.0.0.0/0 oifname “eth0” tcp dport 9102 ct state new,established counter accept
+nft add rule inet filter input ip saddr 0.0.0.0/0 iifname “eth0” tcp sport 9102 ct state established counter accept</p>
+
+<hr />
+
+<p>Listo, ya las tendríamos, y ahora sí, habríamos terminado con este <em>firewall</em>.</p>
+
+  </div><a class="u-url" href="/blog/OpenStack-cortafuegos" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

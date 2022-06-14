@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Instalación De Un Servidor Lemp | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Instalación De Un Servidor Lemp" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Instalación de un servidor LEMP" />
+<meta property="og:description" content="Instalación de un servidor LEMP" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-09T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="twitter:title" content="Instalación De Un Servidor Lemp" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Instalación de un servidor LEMP","@type":"BlogPosting","headline":"Instalación De Un Servidor Lemp","dateModified":"2020-11-09T00:00:00+01:00","datePublished":"2020-11-09T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP"},"url":"https://www.javierpzh.com/blog/Instalaci%C3%B3n-de-un-servidor-LEMP","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Instalación De Un Servidor Lemp</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-11-09T00:00:00+01:00" itemprop="datePublished">
+        Nov 9, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="instalación-de-un-servidor-lemp">Instalación de un servidor LEMP</h2>
+
+<p><strong>Esta tarea la vamos a realizar sobre el servidor OVH</strong></p>
+
+<p>En esta práctica vamos a montar un <strong>servidor LEMP</strong>, que hace referencia a:</p>
+
+<ul>
+  <li>
+    <p><strong>L</strong>inux, el sistema operativo</p>
+  </li>
+  <li>
+    <p><strong>(E)</strong> Nginx, el servidor web</p>
+  </li>
+  <li>
+    <p><strong>M</strong>ySQL/MariaDB, el gestor de bases de datos</p>
+  </li>
+  <li>
+    <p><strong>P</strong>HP, el lenguaje de programación</p>
+  </li>
+</ul>
+
+<p><strong>1. Instala un servidor web nginx</strong></p>
+
+<p>Antes de proceder a instalar algún paquete cuando creamos una nueva máquina, en este caso una instancia, es muy recomendable actualizar el estado de la máquina, ya que generalmente estamos utilizando imágenes que puede que estén desactualizadas, por tanto, vamos a realizar una actualización de nuestros repositorios y paquetes, y vamos a deshacernos de todo aquello que ya no nos sea necesario:</p>
+
+<pre>
+apt update &amp;&amp; apt upgrade -y &amp;&amp; apt autoremove -y &amp;&amp; apt autoclean
+</pre>
+
+<p>Ahora sí podemos instalar el paquete de <em>Nginx</em>:</p>
+
+<pre>
+apt update &amp;&amp; apt install nginx -y
+</pre>
+
+<p><strong>2. Instala un servidor de base de datos MariaDB. Ejecuta el programa necesario para asegurar el servicio, ya que lo vamos a tener corriendo en el entorno de producción.</strong></p>
+
+<p>Para instalar un servidor de base de datos <strong>MySQL</strong> o <strong>MariaDB</strong>, debemos instalar los siguientes paquetes:</p>
+
+<pre>
+apt install mariadb-server mariadb-client -y
+</pre>
+
+<p>Una vez lo hemos instalado, vamos a configurar una serie de opciones con el comando <code class="language-plaintext highlighter-rouge">mysql_secure_installation</code>. Vamos a especificarle una <strong>contraseña de root</strong>, vamos a <strong>eliminar los usuarios anónimos</strong>, vamos a <strong>desactivar el acceso remoto</strong> a la base de datos, en resumen, vamos a restablecer la base de datos, con nuestras preferencias. Esta es una manera de asegurar el servicio. Aquí muestro el proceso:</p>
+
+<pre>
+root@vpsjavierpzh:~# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MariaDB
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MariaDB to secure it, we'll need the current
+password for the root user.  If you've just installed MariaDB, and
+you haven't set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none):
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MariaDB
+root user without the proper authorisation.
+
+You already have a root password set, so you can safely answer 'n'.
+
+Change the root password? [Y/n] Y
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MariaDB installation has an anonymous user, allowing anyone
+to log into MariaDB without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] Y
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] Y
+ ... Success!
+
+By default, MariaDB comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] Y
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] Y
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MariaDB
+installation should now be secure.
+
+Thanks for using MariaDB!
+</pre>
+
+<p>Ya tendríamos instalado nuestro servidor de base de datos <em>MySQL</em> y asegurado correctamente.</p>
+
+<p><strong>3. Instala un servidor de aplicaciones <code class="language-plaintext highlighter-rouge">php</code> <code class="language-plaintext highlighter-rouge">php-fpm</code>.</strong></p>
+
+<p>Para instalar un servidor de aplicaciones <strong>PHP</strong>, debemos instalar los siguientes paquetes:</p>
+
+<pre>
+apt install php php-fpm -y
+</pre>
+
+<p>Ya tendríamos instalado nuestro servidor de aplicaciones <em>PHP</em>.</p>
+
+<p><strong>4. Crea un virtualhost al que vamos acceder con el nombre <code class="language-plaintext highlighter-rouge">www.iesgnXX.es</code>. Recuerda que tendrás que crear un registro <code class="language-plaintext highlighter-rouge">CNAME</code> en la zona DNS.</strong></p>
+
+<p>Vamos a crear un nuevo sitio web al que se accederá mediante la dirección <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>. Antes de empezar la configuración de <em>Nginx</em>, vamos a añadir un registro <strong>CNAME</strong> en nuestra <strong>nuestra zona DNS de OVH</strong>.
+Para realizar este paso, nos dirigimos a nuestra zona DNS de OVH:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/zonadnsovh.png" /></p>
+
+<p>Una vez aquí, antes de crear el nuevo registro tenemos que eliminar el registro existente que hace uso del subdominio <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>. Este registro no lo he creado yo, sino que venía por defecto, y además es un registro de tipo <strong>TXT</strong>, es decir que no es importante y no afectará a ningún servicio, por tanto lo eliminamos:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/borrartxtpordefecto.png" /></p>
+
+<p>Una vez tenemos el subdominio que queremos libre y utilizable, procedemos a crear el nuevo registro como se puede ver en la siguiente imagen:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnameconfiguracion.png" /></p>
+
+<p>Vemos como nos avisa que vamos a crear un registro de tipo <strong>CNAME</strong>, cuyo dominio será <strong>www.iesgn15.es</strong> y su destino va a ser <strong>vpsjavierpzh.iesgn15.es.</strong> . Es importante no olvidar este último punto final si queremos utilizar la notación absoluta. Este destino que hemos añadido, correspondería a la dirección IP del servidor, lo que pasa es que en mi servidor tengo creado un registro de tipo <strong>A</strong> que apunta a esta dirección IP, por tanto hago uso de este registro. Por último, podemos apreciar que nos advierte que este cambio puede tardar en ser efectivo hasta 24 horas, así que no debemos preocuparnos si al instante no obtenemos el resultado obtenido.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecrear.png" /></p>
+
+<p>Ya hemos creado el nuevo registro:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecreado.png" /></p>
+
+<p>Una vez hemos realizado las modificaciones necesarias en la configuración del servidor, podemos pasar a configurar <em>Nginx</em>.</p>
+
+<p>Lo primero sería crear el nuevo virtualhost, en mi caso lo voy a crear en la ruta <code class="language-plaintext highlighter-rouge">/srv/www/aplicacionesiesgn</code>:</p>
+
+<pre>
+root@vpsjavierpzh:/srv# mkdir www
+
+root@vpsjavierpzh:/srv# cd www/
+
+root@vpsjavierpzh:/srv/www# mkdir aplicacionesiesgn
+
+root@vpsjavierpzh:/srv/www# cd aplicacionesiesgn/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mkdir principal
+</pre>
+
+<p>Creamos el fichero de configuración de la nueva web que vamos a crear, lo he llamado <code class="language-plaintext highlighter-rouge">aplicacionesiesgn.conf</code>. Recodemos que todos los ficheros de configuración deben estar en la ruta <code class="language-plaintext highlighter-rouge">/etc/nginx/sites-available</code>.</p>
+
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# nano aplicacionesiesgn.conf
+</pre>
+
+<p>Y dentro de este archivo escribimos las siguientes líneas:</p>
+
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+}
+</pre>
+
+<p>Creamos un enlace simbólico de este fichero a la ruta <code class="language-plaintext highlighter-rouge">sites-enabled</code> para que nos sirva la nueva web.</p>
+
+<pre>
+ln -s /etc/nginx/sites-available/aplicacionesiesgn.conf /etc/nginx/sites-enabled/
+</pre>
+
+<p>Comprobamos que lo hemos creado bien:</p>
+
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# ls -l /etc/nginx/sites-enabled/
+total 0
+lrwxrwxrwx 1 root root 49 Nov  9 18:44 aplicacionesiesgn.conf -&gt; /etc/nginx/sites-available/aplicacionesiesgn.conf
+lrwxrwxrwx 1 root root 34 Nov  9 12:09 default -&gt; /etc/nginx/sites-available/default
+</pre>
+
+<p>Con estos pasos ya habríamos creado el nuevo virtualhost.</p>
+
+<p><strong>5. Cuando se acceda al virtualhost por defecto <code class="language-plaintext highlighter-rouge">default</code> nos tiene que redirigir al virtualhost que hemos creado en el punto anterior.</strong></p>
+
+<p>Recordemos que el fichero de configuración del virtualhost por defecto, se encuentra en <code class="language-plaintext highlighter-rouge">/etc/nginx/sites-available</code> con el nombre <code class="language-plaintext highlighter-rouge">default</code>.</p>
+
+<p>En este archivo crearemos la redirección permanente del virtualhost por defecto a este nuevo virtualhost. Para ello añadimos la siguiente línea:</p>
+
+<pre>
+rewrite ^/$ "http://www.iesgn15.es" permanent;
+</pre>
+
+<p><strong>6. Cuando se acceda a <code class="language-plaintext highlighter-rouge">www.iesgnXX.es</code> se nos redigirá a la página <code class="language-plaintext highlighter-rouge">www.iesgnXX.es/principal</code></strong></p>
+
+<p>Creamos la redirección permanente de <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code> a <code class="language-plaintext highlighter-rouge">www.iesgn15.es/principal</code>. Para hacer este cambio, debemos editar el fichero de configuración <code class="language-plaintext highlighter-rouge">/etc/nginx/sites-available/aplicacionesiesgn.conf</code> y añadimos la siguiente línea:</p>
+
+<pre>
+rewrite ^/$ /principal permanent;
+</pre>
+
+<p>Quedaría así:</p>
+
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        rewrite ^/$ /principal permanent;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+}
+</pre>
+
+<p>Reiniciamos el servicio para aplicar todos los cambios realizados en los ficheros de configuración:</p>
+
+<pre>
+systemctl restart nginx
+</pre>
+
+<p><strong>7. En la página <code class="language-plaintext highlighter-rouge">www.iesgnXX.es/principal</code> se debe mostrar una página web estática (utiliza alguna plantilla para que tenga hoja de estilo). En esta página debe aparecer tu nombre, y una lista de enlaces a las aplicaciones que vamos a ir desplegando posteriormente.</strong></p>
+
+<p>Hay muchas webs que nos ofrecen plantillas html5 para descargarnos. Yo he utilizado <a href="http://www.mashup-template.com/">mashup-template</a>. He decido descargarme <a href="http://www.mashup-template.com/preview.html?template=energy">esta plantilla</a> en concreto. Vamos a realizar la descarga en nuestro directorio creado para la web:</p>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# wget http://www.mashup-template.com/assets/energy/energy-html.zip
+--2020-11-09 19:15:32--  http://www.mashup-template.com/assets/energy/energy-html.zip
+Resolving www.mashup-template.com (www.mashup-template.com)... 54.229.8.122, 34.253.22.180, 52.208.164.194, ...
+Connecting to www.mashup-template.com (www.mashup-template.com)|54.229.8.122|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 838261 (819K) [application/zip]
+Saving to: ‘energy-html.zip’
+
+energy-html.zip           100%[=====================================&gt;] 818.61K  --.-KB/s    in 0.1s    
+
+2020-11-09 19:15:33 (7.50 MB/s) - ‘energy-html.zip’ saved [838261/838261]
+</pre>
+
+<p>Nos ha descargado un archivo comprimido de tipo <em>.zip</em>, lo que significa que necesitamos una herramienta capaz de descomprimir este archivo. Para ello instalo la utilidad <em>zip</em>, que también incluye la utilidad <em>unzip</em>:</p>
+
+<pre>
+apt install zip -y
+</pre>
+
+<p>Hacemos uso de la utilidad <em>unzip</em> para descomprimir el fichero descargado:</p>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# unzip energy-html.zip
+Archive:  energy-html.zip
+   creating: energy/
+   creating: energy/assets/
+  inflating: energy/assets/apple-icon-180x180.png  
+   creating: energy/assets/images/
+  inflating: energy/assets/images/img-01.jpg  
+  inflating: energy/assets/images/img-02.jpg  
+  inflating: energy/assets/images/img-03.jpg  
+  inflating: energy/assets/images/img-04.jpg  
+  inflating: energy/assets/images/img-05.jpg  
+  inflating: energy/assets/images/img-06.jpg  
+  inflating: energy/assets/images/img-08.jpg  
+  inflating: energy/assets/images/mashup-icon.svg  
+  inflating: energy/components.html  
+  inflating: energy/index.html       
+  inflating: energy/main.bc58148c.js  
+  inflating: energy/main.bc58148c.js.gz  
+  inflating: energy/main.bc58148c.map  
+  inflating: energy/main.d8e0d294.css  
+  inflating: energy/main.d8e0d294.css.gz  
+   creating: energy/sample/
+  inflating: energy/sample/sample-page.html  
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# ls
+energy	energy-html.zip  principal
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# rm energy-html.zip
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# mv energy/* principal/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# cd principal/
+
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn/principal# ls
+assets		 energy      main.bc58148c.js	  main.bc58148c.map  main.d8e0d294.css.gz
+components.html  index.html  main.bc58148c.js.gz  main.d8e0d294.css  sample
+</pre>
+
+<p>Ya tenemos en nuestro directorio <code class="language-plaintext highlighter-rouge">principal</code> el contenido de esta nueva web estática.</p>
+
+<p>Voy a proceder a editar el <code class="language-plaintext highlighter-rouge">index.html</code> y adecuarlo a mis intereses:</p>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn# nano index.html
+</pre>
+
+<p>Una vez lo tenemos todo listo, debemos cambiar el propietario de todos estos nuevos archivos a <code class="language-plaintext highlighter-rouge">www:data</code>, que es el usuario que posee los permisos de lectura y escritura en <em>Nginx</em>.</p>
+
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
+<p>Accedemos a la <a href="http://www.iesgn15.es">página</a>.</p>
+
+<p>&lt;img src=”https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/wwwiesgn15es.png)</p>
+
+<p>Además de visualizar la nueva web, es importante fijarse en la URL y apreciar que nos ha realizado la redirección a la página <code class="language-plaintext highlighter-rouge">/principal</code>, como configuramos en el paso anterior.</p>
+
+<p><strong>8. Configura el nuevo virtualhost, para que pueda ejecutar PHP. Determina que configuración tiene por defecto <code class="language-plaintext highlighter-rouge">php-fpm</code> (socket unix o socket TCP) para configurar nginx de forma adecuada.</strong></p>
+
+<p>Si queremos configurar este virtualhost para que ejecute <em>PHP</em>, debemos antes nada, instalar el paquete que se me ha olvidado instalar antes, y no es menos, que el paquete que nos permite que <em>PHP</em> funcione con <em>MySQL</em>:</p>
+
+<pre>
+apt install php-mysql -y
+</pre>
+
+<p>Ahora sí, debemos dirigirnos a la configuración de este virtualhost de <em>Nginx</em>, es decir, al fichero <code class="language-plaintext highlighter-rouge">/etc/nginx/sites-available/aplicacionesiesgn.conf</code>, y añadirle las siguientes líneas para que ejecute PHP.</p>
+
+<p>De manera que el fichero de configuración quedaría con este aspecto:</p>
+
+<pre>
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /srv/www/aplicacionesiesgn;
+
+        index index.php index.html index.htm index.nginx-debian.html;
+
+        server_name www.iesgn15.es;
+
+        rewrite ^/$ /principal permanent;
+
+        location / {
+                 try_files $uri $uri/ =404;
+        }
+
+        location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        }
+}
+</pre>
+
+<p>Vemos los cambios que hemos introducido:</p>
+
+<ul>
+  <li>
+    <p>Agregamos <code class="language-plaintext highlighter-rouge">index.php</code> como primer valor de nuestra directiva índice.</p>
+  </li>
+  <li>
+    <p>Agregamos un bloque que se va a encargar de descomentar las líneas <strong>include</strong> y <strong>fastcgi_pass</strong> de todos los ficheros <strong>.php</strong>. Esto es necesario para llevar a cabo el procesamiento real de PHP, ya que estas líneas son las que manejan las solicitudes PHP.</p>
+  </li>
+</ul>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart nginx
+</pre>
+
+<p>Ya hemos configurado nuestro virtualhost para que funcione con <em>PHP</em>.</p>
+
+<p><strong>9. Crea un fichero <code class="language-plaintext highlighter-rouge">info.php</code> que demuestre que está funcionando el servidor LEMP.</strong></p>
+
+<p>Para ver que como efectivamente hemos configurado <em>PHP</em> en nuestra web servida por <em>Nginx</em>, vamos a crear un archivo llamado <code class="language-plaintext highlighter-rouge">info.php</code>:</p>
+
+<pre>
+root@vpsjavierpzh:/srv/www/aplicacionesiesgn/principal# nano info.php
+</pre>
+
+<p>Dentro de este archivo vamos a introducir la siguiente línea: <code class="language-plaintext highlighter-rouge">&lt;?php phpinfo(); ?&gt;</code>.</p>
+
+<p>Cambiamos de nuevo el propietario de este fichero y de todos los demás archivos y directorios que se encuentran dentro de <code class="language-plaintext highlighter-rouge">/srv</code> al usuario <code class="language-plaintext highlighter-rouge">www:data</code>.</p>
+
+<pre>
+chown -R www-data:www-data /srv/
+</pre>
+
+<p>Si nos dirigimos a la página <code class="language-plaintext highlighter-rouge">www.iesgn15.es/principal/info.php</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/infophp.png" /></p>
+
+<p>Esto significa que hemos configurado correctamente <em>PHP</em>.</p>
+
+  </div><a class="u-url" href="/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

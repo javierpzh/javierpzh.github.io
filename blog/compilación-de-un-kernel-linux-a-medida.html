@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Compilación De Un Kernel Linux A Medida | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Compilación De Un Kernel Linux A Medida" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Compilación de un kérnel linux a medida" />
+<meta property="og:description" content="Compilación de un kérnel linux a medida" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-14T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida" />
+<meta property="twitter:title" content="Compilación De Un Kernel Linux A Medida" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Compilación de un kérnel linux a medida","@type":"BlogPosting","headline":"Compilación De Un Kernel Linux A Medida","dateModified":"2020-11-14T00:00:00+01:00","datePublished":"2020-11-14T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida"},"url":"https://www.javierpzh.com/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Compilación De Un Kernel Linux A Medida</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-11-14T00:00:00+01:00" itemprop="datePublished">
+        Nov 14, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="compilación-de-un-kérnel-linux-a-medida">Compilación de un kérnel linux a medida</h2>
+
+<p>Al ser <em>Linux</em> un <em>kérnel</em> libre, es posible descargar el código fuente, configurarlo y comprimirlo. Además, esta tarea a <em>priori</em> compleja, es más sencilla de lo que parece gracias a las herramientas disponibles.</p>
+
+<p>En esta entrada voy a tratar de compilar un kérnel completamente funcional que reconozca todo el hardware básico de mi equipo y que sea a la vez lo más pequeño posible, es decir que incluya un <em>vmlinuz</em> lo más pequeño posible y que incorpore sólo los módulos imprescindibles.</p>
+
+<p>El hardware básico incluye como mínimo el teclado, la interfaz de red y la consola gráfica en modo texto.</p>
+
+<h3 id="procedimiento-a-seguir">Procedimiento a seguir</h3>
+
+<p><strong>1. Instalo el paquete <code class="language-plaintext highlighter-rouge">linux-source</code> correspondiente al núcleo que estoy usando en mi máquina.</strong></p>
+
+<p>Voy a instalar el paquete <code class="language-plaintext highlighter-rouge">linux-source-4.19 (4.19.152-1)</code> que corresponde al <em>kérnel</em> <strong>4.19</strong>.</p>
+
+<p>Lo he descargado desde la <a href="https://packages.debian.org/buster/linux-source-4.19">página oficial de Debian</a>, desde este <a href="http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz">enlace</a>.</p>
+
+<p><strong>2. Creo un directorio de trabajo.</strong></p>
+
+<p>Creamos el directorio de trabajo.</p>
+
+<p><strong>Importante:</strong> hay que crear el directorio con nuestro usuario personal, es decir, no como <em>root</em>.</p>
+
+<pre>
+mkdir ~/kernelLinux/
+</pre>
+
+<p><strong>3. Descomprimo el código fuente del <em>kérnel</em> dentro del directorio de trabajo.</strong></p>
+
+<p>Descargo y descomprimo el <em>kérnel</em> en el directorio de trabajo que he creado previamente:</p>
+
+<pre>
+javier@debian:/usr/src# wget http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
+--2020-11-06 10:26:31--  http://security.debian.org/debian-security/pool/updates/main/l/linux/linux_4.19.152.orig.tar.xz
+Resolviendo security.debian.org (security.debian.org)... 151.101.128.204, 151.101.0.204, 151.101.64.204, ...
+Conectando con security.debian.org (security.debian.org)[151.101.128.204]:80... conectado.
+Petición HTTP enviada, esperando respuesta... 200 OK
+Longitud: 107539124 (103M) [application/x-xz]
+Grabando a: “linux_4.19.152.orig.tar.xz”
+
+linux_4.19.152.orig.tar.x 100%[=====================================&gt;] 102,56M  3,67MB/s    en 12s     
+
+2020-11-06 10:26:44 (8,41 MB/s) - “linux_4.19.152.orig.tar.xz” guardado [107539124/107539124]
+
+javier@debian:/usr/src# ls
+linux_4.19.152.orig.tar.xz	linux-headers-4.19.0-12-amd64	vboxhost-6.0.24
+linux-headers-4.19.0-11-amd64	linux-headers-4.19.0-12-common
+linux-headers-4.19.0-11-common	linux-kbuild-4.19
+
+javier@debian:/usr/src# tar xf /usr/src/linux_4.19.152.orig.tar.xz --directory ~/kernelLinux/
+</pre>
+
+<p>Me muevo al directorio <code class="language-plaintext highlighter-rouge">~/kernelLinux</code>, que va a ser mi área de trabajo:</p>
+
+<pre>
+javier@debian:/usr/src# cd ~/kernelLinux/
+
+javier@debian:~/kernelLinux# ls
+linux-4.19.152
+
+javier@debian:~/kernelLinux# cd linux-4.19.152/
+
+javier@debian:~/kernelLinux/linux-4.19.152# ls
+arch   COPYING	Documentation  fs	ipc	 kernel    MAINTAINERS	net	 scripts   tools
+block  CREDITS	drivers        include	Kbuild	 lib	   Makefile	README	 security  usr
+certs  crypto	firmware       init	Kconfig  LICENSES  mm		samples  sound	   virt
+</pre>
+
+<p><strong>4. Utilizo como punto de partida la configuración actual del núcleo.</strong></p>
+
+<p>Para esto, es necesario revisar que tenemos instalado el paquete <code class="language-plaintext highlighter-rouge">build-essential</code> y todas sus dependencias. Este paquete incluye todo lo necesario a la hora de compilar. Para instalarlo:</p>
+
+<pre>
+apt install build-essential -y
+</pre>
+
+<p>Si ejecutamos este comando:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+  YACC    scripts/kconfig/zconf.tab.c
+/bin/sh: 1: bison: not found
+make[1]: *** [scripts/Makefile.lib:196: scripts/kconfig/zconf.tab.c] Error 127
+make: *** [Makefile:554: oldconfig] Error 2
+</pre>
+
+<p>Observamos como no nos realiza el <code class="language-plaintext highlighter-rouge">make oldconfig</code> deseado. Esto es debido a que el paquete <code class="language-plaintext highlighter-rouge">build-essential</code> en <em>Debian</em>, no incluye <code class="language-plaintext highlighter-rouge">bison</code> ni <code class="language-plaintext highlighter-rouge">flex</code>, que son necesarios para la compilación del <em>kérnel</em>. Por tanto, los instalamos:</p>
+
+<pre>
+apt install bison flex -y
+</pre>
+
+<p>Probamos de nuevo a ejecutar el comando <code class="language-plaintext highlighter-rouge">make oldconfig</code> y ahora sí realiza el proceso correctamente.</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make oldconfig
+  YACC    scripts/kconfig/zconf.tab.c
+  LEX     scripts/kconfig/zconf.lex.c
+  HOSTCC  scripts/kconfig/zconf.tab.o
+  HOSTLD  scripts/kconfig/conf
+scripts/kconfig/conf  --oldconfig Kconfig
+#
+# using defaults found in /boot/config-4.19.0-12-amd64
+#
+/boot/config-4.19.0-12-amd64:6949:warning: symbol value 'm' invalid for ASHMEM
+/boot/config-4.19.0-12-amd64:7577:warning: symbol value 'm' invalid for ANDROID_BINDER_IPC
+*
+* Restart config...
+*
+*
+* Support for frame buffer devices
+*
+Support for frame buffer devices (FB) [Y/m/?] y
+  Enable firmware EDID (FIRMWARE_EDID) [Y/n/?] y
+  Enable Video Mode Handling Helpers (FB_MODE_HELPERS) [Y/?] y
+  Enable Tile Blitting Support (FB_TILEBLITTING) [Y/?] y
+  *
+  * Frame buffer hardware drivers
+  *
+  Cirrus Logic support (FB_CIRRUS) [M/n/y/?] m
+  Permedia2 support (FB_PM2) [M/n/y/?] m
+    enable FIFO disconnect feature (FB_PM2_FIFO_DISCONNECT) [Y/n/?] y
+  CyberPro 2000/2010/5000 support (FB_CYBER2000) [M/n/y/?] m
+    DDC for CyberPro support (FB_CYBER2000_DDC) [Y/n/?] y
+  Arc Monochrome LCD board support (FB_ARC) [M/n/y/?] m
+  Asiliant (Chips) 69000 display support (FB_ASILIANT) [N/y/?] n
+  IMS Twin Turbo display support (FB_IMSTT) [N/y/?] n
+  VGA 16-color graphics support (FB_VGA16) [M/n/y/?] m
+  Userspace VESA VGA graphics support (FB_UVESA) [M/n/y/?] m
+  VESA VGA graphics support (FB_VESA) [Y/n/?] y
+  EFI-based Framebuffer Support (FB_EFI) [Y/n/?] y
+  N411 Apollo/Hecuba devkit support (FB_N411) [M/n/y/?] m
+  Hercules mono graphics support (FB_HGA) [M/n/y/?] m
+  OpenCores VGA/LCD core 2.0 framebuffer support (FB_OPENCORES) [N/m/y/?] n
+  Epson S1D13XXX framebuffer support (FB_S1D13XXX) [N/m/y/?] n
+  nVidia Framebuffer Support (FB_NVIDIA) [N/m/y/?] (NEW) n
+  nVidia Riva support (FB_RIVA) [N/m/y/?] (NEW) n
+  Intel740 support (FB_I740) [N/m/y/?] n
+  Intel LE80578 (Vermilion) support (FB_LE80578) [M/n/y/?] m
+    Intel Carillo Ranch support (FB_CARILLO_RANCH) [M/n/?] m
+  Intel 830M/845G/852GM/855GM/865G/915G/945G/945GM/965G/965GM support (FB_INTEL) [N/m/?] n
+  Matrox acceleration (FB_MATROX) [M/n/y/?] m
+    Millennium I/II support (FB_MATROX_MILLENIUM) [Y/n/?] y
+    Mystique support (FB_MATROX_MYSTIQUE) [Y/n/?] y
+    G100/G200/G400/G450/G550 support (FB_MATROX_G) [Y/n/?] y
+    Matrox I2C support (FB_MATROX_I2C) [M/n/?] m
+      G400 second head support (FB_MATROX_MAVEN) [M/n/?] m
+  ATI Radeon display support (FB_RADEON) [M/n/y/?] m
+    DDC/I2C for ATI Radeon support (FB_RADEON_I2C) [Y/n/?] y
+    Support for backlight control (FB_RADEON_BACKLIGHT) [Y/n/?] y
+    Lots of debug output from Radeon driver (FB_RADEON_DEBUG) [N/y/?] n
+  ATI Rage128 display support (FB_ATY128) [M/n/y/?] m
+    Support for backlight control (FB_ATY128_BACKLIGHT) [Y/n/?] y
+  ATI Mach64 display support (FB_ATY) [M/n/y/?] m
+    Mach64 CT/VT/GT/LT (incl. 3D RAGE) support (FB_ATY_CT) [Y/n/?] y
+      Mach64 generic LCD support (FB_ATY_GENERIC_LCD) [N/y/?] n
+    Mach64 GX support (FB_ATY_GX) [Y/n/?] y
+    Support for backlight control (FB_ATY_BACKLIGHT) [Y/n/?] y
+  S3 Trio/Virge support (FB_S3) [M/n/y/?] m
+    DDC for S3 support (FB_S3_DDC) [Y/n/?] y
+  S3 Savage support (FB_SAVAGE) [M/n/y/?] m
+    Enable DDC2 Support (FB_SAVAGE_I2C) [N/y/?] n
+    Enable Console Acceleration (FB_SAVAGE_ACCEL) [N/y/?] n
+  SiS/XGI display support (FB_SIS) [M/n/y/?] m
+    SiS 300 series support (FB_SIS_300) [Y/n/?] y
+    SiS 315/330/340 series and XGI support (FB_SIS_315) [Y/n/?] y
+  VIA UniChrome (Pro) and Chrome9 display support (FB_VIA) [M/n/y/?] m
+    direct hardware access via procfs (DEPRECATED)(DANGEROUS) (FB_VIA_DIRECT_PROCFS) [N/y/?] n
+    X server compatibility (FB_VIA_X_COMPATIBILITY) [Y/n/?] y
+  NeoMagic display support (FB_NEOMAGIC) [M/n/y/?] m
+  IMG Kyro support (FB_KYRO) [M/n/y/?] m
+  3Dfx Banshee/Voodoo3/Voodoo5 display support (FB_3DFX) [M/n/y/?] m
+    3Dfx Acceleration functions (FB_3DFX_ACCEL) [N/y/?] n
+    Enable DDC/I2C support (FB_3DFX_I2C) [Y/n/?] y
+  3Dfx Voodoo Graphics (sst1) support (FB_VOODOO1) [M/n/y/?] m
+  VIA VT8623 support (FB_VT8623) [M/n/y/?] m
+  Trident/CyberXXX/CyberBlade support (FB_TRIDENT) [M/n/y/?] m
+  ARK 2000PV support (FB_ARK) [M/n/y/?] m
+  Permedia3 support (FB_PM3) [M/n/y/?] m
+  Fujitsu carmine frame buffer support (FB_CARMINE) [N/m/y/?] n
+  SMSC UFX6000/7000 USB Framebuffer support (FB_SMSCUFX) [M/n/?] m
+  Displaylink USB Framebuffer support (FB_UDL) [M/n/?] m
+  Framebuffer support for IBM GXT4000P/4500P/6000P/6500P adaptors (FB_IBM_GXT4500) [N/m/y/?] n
+  Virtual Frame Buffer support (ONLY FOR TESTING!) (FB_VIRTUAL) [M/n/y/?] m
+  Xen virtual frame buffer support (XEN_FBDEV_FRONTEND) [Y/n/m/?] y
+  E-Ink Metronome/8track controller support (FB_METRONOME) [N/m/y/?] n
+  Fujitsu MB862xx GDC support (FB_MB862XX) [M/n/y/?] m
+    GDC variant
+    &gt; 1. Carmine/Coral-P(A) GDC (FB_MB862XX_PCI_GDC)
+    choice[1]: 1
+    Support I2C bus on MB862XX GDC (FB_MB862XX_I2C) [Y/n/?] y
+  E-Ink Broadsheet/Epson S1D13521 controller support (FB_BROADSHEET) [N/m/y/?] n
+  Microsoft Hyper-V Synthetic Video support (FB_HYPERV) [M/n/?] m
+  Simple framebuffer support (FB_SIMPLE) [N/y/?] n
+  Silicon Motion SM712 framebuffer support (FB_SM712) [N/m/y/?] n
+*
+* Android
+*
+Enable the Anonymous Shared Memory Subsystem (ASHMEM) [N/y/?] (NEW) n
+Android Virtual SoC support (ANDROID_VSOC) [N/m/y/?] n
+*
+* Android
+*
+Android Drivers (ANDROID) [Y/n/?] y
+  Android Binder IPC Driver (ANDROID_BINDER_IPC) [N/y/?] (NEW) n
+*
+* DOS/FAT/NT Filesystems
+*
+MSDOS fs support (MSDOS_FS) [M/n/y/?] m
+VFAT (Windows-95) fs support (VFAT_FS) [M/n/y/?] m
+  Default codepage for FAT (FAT_DEFAULT_CODEPAGE) [437] 437
+  Default iocharset for FAT (FAT_DEFAULT_IOCHARSET) [ascii] ascii
+  Enable FAT UTF-8 option by default (FAT_DEFAULT_UTF8) [Y/n/?] y
+NTFS file system support (NTFS_FS) [N/m/y/?] (NEW) n
+#
+# configuration written to .config
+#
+</pre>
+
+<p><strong>5. Cuento el número de componentes que se han configurado para incluir en <em>vmlinuz</em> o como módulos.</strong></p>
+
+<p>Voy a contar el número de componentes que se van a incluir como módulos en el proceso de compilación y el número de componentes que se van a incluir en la parte estática:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+3378
+
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+2008
+</pre>
+
+<p>Vemos que si realizara la compilación, incluiría 3378 módulos, y 2008 componentes enlazados estáticamente.</p>
+
+<p>Son muchísimos componentes, por tanto voy a reducir el número de éstos al máximo, intentando dejar los imprescindibles para el arranque de mi máquina y la conexión a internet, esto es algo que lógicamente variará dependiendo del equipo y de los componentes del mismo.</p>
+
+<p><strong>6. Configuro el núcleo en función de los módulos que está utilizando actualmente el equipo.</strong></p>
+
+<p>Voy a realizar el primer proceso de eliminación de componentes, que me va a reducir en una enorme cantidad el número de componentes que se van a incluir en mi fichero <code class="language-plaintext highlighter-rouge">.config</code>, que es el fichero que luego voy a utilizar para realizar la compilación, ya que en él se indican todos los componentes que se van a incluir a la hora de compilar el núcleo.</p>
+
+<p>Esta primera parte, sí es igual para todos ya que lo que vamos a hacer con este comando, es seleccionar la configuración que estamos utilizando actualmente en el equipo y copiarla al fichero <code class="language-plaintext highlighter-rouge">.config</code>, es decir vamos a copiar todos los módulos y enlaces estáticos que tengamos activos en el sistema, descartando los demás, pues se entiende que no están activos porque son prescindibles para nosotros. Esto lo realizaremos con el comando siguiente:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make localmodconfig
+using config: '.config'
+vboxnetadp config not found!!
+vboxdrv config not found!!
+vboxnetflt config not found!!
+System keyring enabled but keys "debian/certs/debian-uefi-certs.pem" not found. Resetting keys to default value.
+*
+* Restart config...
+*
+*
+* PCI GPIO expanders
+*
+AMD 8111 GPIO driver (GPIO_AMD8111) [N/m/y/?] n
+BT8XX GPIO abuser (GPIO_BT8XX) [N/m/y/?] (NEW) n
+OKI SEMICONDUCTOR ML7213 IOH GPIO support (GPIO_ML_IOH) [N/m/y/?] n
+ACCES PCI-IDIO-16 GPIO support (GPIO_PCI_IDIO_16) [N/m/y/?] n
+ACCES PCIe-IDIO-24 GPIO support (GPIO_PCIE_IDIO_24) [N/m/y/?] n
+RDC R-321x GPIO support (GPIO_RDC321X) [N/m/y/?] n
+*
+* PCI sound devices
+*
+PCI sound devices (SND_PCI) [Y/n/?] y
+  Analog Devices AD1889 (SND_AD1889) [N/m/?] n
+  Avance Logic ALS300/ALS300+ (SND_ALS300) [N/m/?] n
+  Avance Logic ALS4000 (SND_ALS4000) [N/m/?] n
+  ALi M5451 PCI Audio Controller (SND_ALI5451) [N/m/?] n
+  AudioScience ASIxxxx (SND_ASIHPI) [N/m/?] n
+  ATI IXP AC97 Controller (SND_ATIIXP) [N/m/?] n
+  ATI IXP Modem (SND_ATIIXP_MODEM) [N/m/?] n
+  Aureal Advantage (SND_AU8810) [N/m/?] n
+  Aureal Vortex (SND_AU8820) [N/m/?] n
+  Aureal Vortex 2 (SND_AU8830) [N/m/?] n
+  Emagic Audiowerk 2 (SND_AW2) [N/m/?] n
+  Aztech AZF3328 / PCI168 (SND_AZT3328) [N/m/?] n
+  Bt87x Audio Capture (SND_BT87X) [N/m/?] n
+  SB Audigy LS / Live 24bit (SND_CA0106) [N/m/?] n
+  C-Media 8338, 8738, 8768, 8770 (SND_CMIPCI) [N/m/?] n
+  C-Media 8786, 8787, 8788 (Oxygen) (SND_OXYGEN) [N/m/?] n
+  Cirrus Logic (Sound Fusion) CS4281 (SND_CS4281) [N/m/?] n
+  Cirrus Logic (Sound Fusion) CS4280/CS461x/CS462x/CS463x (SND_CS46XX) [N/m/?] n
+  Creative Sound Blaster X-Fi (SND_CTXFI) [N/m/?] n
+  (Echoaudio) Darla20 (SND_DARLA20) [N/m/?] n
+  (Echoaudio) Gina20 (SND_GINA20) [N/m/?] n
+  (Echoaudio) Layla20 (SND_LAYLA20) [N/m/?] n
+  (Echoaudio) Darla24 (SND_DARLA24) [N/m/?] n
+  (Echoaudio) Gina24 (SND_GINA24) [N/m/?] n
+  (Echoaudio) Layla24 (SND_LAYLA24) [N/m/?] n
+  (Echoaudio) Mona (SND_MONA) [N/m/?] n
+  (Echoaudio) Mia (SND_MIA) [N/m/?] n
+  (Echoaudio) 3G cards (SND_ECHO3G) [N/m/?] n
+  (Echoaudio) Indigo (SND_INDIGO) [N/m/?] n
+  (Echoaudio) Indigo IO (SND_INDIGOIO) [N/m/?] n
+  (Echoaudio) Indigo DJ (SND_INDIGODJ) [N/m/?] n
+  (Echoaudio) Indigo IOx (SND_INDIGOIOX) [N/m/?] n
+  (Echoaudio) Indigo DJx (SND_INDIGODJX) [N/m/?] n
+  Emu10k1 (SB Live!, Audigy, E-mu APS) (SND_EMU10K1) [N/m/?] n
+  Emu10k1X (Dell OEM Version) (SND_EMU10K1X) [N/m/?] n
+  (Creative) Ensoniq AudioPCI 1370 (SND_ENS1370) [N/m/?] n
+  (Creative) Ensoniq AudioPCI 1371/1373 (SND_ENS1371) [N/m/?] n
+  ESS ES1938/1946/1969 (Solo-1) (SND_ES1938) [N/m/?] n
+  ESS ES1968/1978 (Maestro-1/2/2E) (SND_ES1968) [N/m/?] n
+  ForteMedia FM801 (SND_FM801) [N/m/?] n
+  RME Hammerfall DSP Audio (SND_HDSP) [N/m/?] n
+  RME Hammerfall DSP MADI/RayDAT/AIO (SND_HDSPM) [N/m/?] n
+  ICEnsemble ICE1712 (Envy24) (SND_ICE1712) [N/m/?] n
+  ICE/VT1724/1720 (Envy24HT/PT) (SND_ICE1724) [N/m/?] n
+  Intel/SiS/nVidia/AMD/ALi AC97 Controller (SND_INTEL8X0) [N/m/?] n
+  Intel/SiS/nVidia/AMD MC97 Modem (SND_INTEL8X0M) [N/m/?] n
+  Korg 1212 IO (SND_KORG1212) [N/m/?] n
+  Digigram Lola (SND_LOLA) [N/m/?] n
+  Digigram LX6464ES (SND_LX6464ES) [N/m/?] n
+  ESS Allegro/Maestro3 (SND_MAESTRO3) [N/m/?] n
+  Digigram miXart (SND_MIXART) [N/m/?] n
+  NeoMagic NM256AV/ZX (SND_NM256) [N/m/?] n
+  Digigram PCXHR (SND_PCXHR) [N/m/?] n
+  Conexant Riptide (SND_RIPTIDE) [N/m/?] n
+  RME Digi32, 32/8, 32 PRO (SND_RME32) [N/m/?] n
+  RME Digi96, 96/8, 96/8 PRO (SND_RME96) [N/m/?] n
+  RME Digi9652 (Hammerfall) (SND_RME9652) [N/m/?] n
+  Studio Evolution SE6X (SND_SE6X) [N/m/?] (NEW) n
+  S3 SonicVibes (SND_SONICVIBES) [N/m/?] n
+  Trident 4D-Wave DX/NX; SiS 7018 (SND_TRIDENT) [N/m/?] n
+  VIA 82C686A/B, 8233/8235 AC97 Controller (SND_VIA82XX) [N/m/?] n
+  VIA 82C686A/B, 8233 based Modems (SND_VIA82XX_MODEM) [N/m/?] n
+  Asus Virtuoso 66/100/200 (Xonar) (SND_VIRTUOSO) [N/m/?] n
+  Digigram VX222 (SND_VX222) [N/m/?] n
+  Yamaha YMF724/740/744/754 (SND_YMFPCI) [N/m/?] n
+#
+# configuration written to .config
+#
+</pre>
+
+<p><strong>7. Vuelvo a contar el número de componentes que se han configurado para incluir en <em>vmlinuz</em> o como módulos.</strong></p>
+
+<p>Si miro de nuevo cuantos módulos y componentes de <em>vmlinuz</em> se incluirían ahora en el fichero <code class="language-plaintext highlighter-rouge">.config</code>:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=m" .config | wc -l
+170
+
+javier@debian:~/kernelLinux/linux-4.19.152# grep "=y" .config | wc -l
+1423
+</pre>
+
+<p>Observamos que he eliminado 3200 módulos y casi 600 componentes enlazados estáticamente.</p>
+
+<p><strong>8. Realizo la primera compilación.</strong></p>
+
+<p>Una vez tenemos el fichero <code class="language-plaintext highlighter-rouge">.config</code> reducido, vamos a realizar la compilación generando un paquete Debian (<code class="language-plaintext highlighter-rouge">.deb</code>), el cuál podremos instalar con la herramienta <code class="language-plaintext highlighter-rouge">dpkg -i</code>.</p>
+
+<p>El comando para realizar esta compilación es <code class="language-plaintext highlighter-rouge">make bindep-pkg</code>, pero esto nos realizaría la compilación con un solo hilo. Es decir, utilizaría un hilo en vez de todos los posibles que podría utilizar en función de cada procesador. En mi caso poseo un <strong>i7-9750H</strong> que posee 6 núcleos y 12 hilos, por lo que estaría compilando con un solo hilo pudiendo realizar el proceso con 12 hilos, lo que disminuiría en una barbaridad el tiempo de compilación. Para establecer el número de hilos que van a llevar a cabo el proceso, introducimos la opción <code class="language-plaintext highlighter-rouge">-j</code> y el número de hilos.</p>
+
+<p>Al final, introduzco <em>bindeb-pkg</em>, esto se encargará de, al terminar el proceso, generar un archivo <code class="language-plaintext highlighter-rouge">.deb</code> que posteriormente instalaremos con la utilidad <code class="language-plaintext highlighter-rouge">dpkg -i</code>.</p>
+
+<p>Voy a realizar el primer intento de compilación con 11 hilos:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+  UPD     include/config/kernel.release
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root &lt;root@debian&gt;
+dpkg-buildpackage: información: arquitectura del sistema amd64
+dpkg-buildpackage: aviso: «debian/rules» no es un fichero ejecutable, reparando
+ dpkg-source --before-build .
+dpkg-checkbuilddeps: fallo: Unmet build dependencies: bc
+dpkg-buildpackage: aviso: Las dependencias y conflictos de construcción no están satisfechas, interrumpiendo
+dpkg-buildpackage: aviso: (Use la opción «-d» para anularlo.)
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 3
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<p>Me ha devuelto un mensaje de error que indica que me falta una dependencia llamada <code class="language-plaintext highlighter-rouge">bc</code>. La instalo y realizo el segundo intento:</p>
+
+<pre>
+apt install bc -y
+</pre>
+
+<p>Segundo intento de compilación:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root &lt;root@debian&gt;
+dpkg-buildpackage: información: arquitectura del sistema amd64
+ dpkg-source --before-build .
+ debian/rules build
+make KERNELRELEASE=4.19.152 ARCH=x86 	KBUILD_BUILD_VERSION=1 KBUILD_SRC=
+  SYSTBL  arch/x86/include/generated/asm/syscalls_32.h
+  WRAP    arch/x86/include/generated/uapi/asm/bpf_perf_event.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_32_ia32.h
+  UPD     include/generated/uapi/linux/version.h
+  WRAP    arch/x86/include/generated/uapi/asm/poll.h
+  SYSHDR  arch/x86/include/generated/asm/unistd_64_x32.h
+error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
+  SYSTBL  arch/x86/include/generated/asm/syscalls_64.h
+  HYPERCALLS arch/x86/include/generated/asm/xen-hypercalls.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_32.h
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_64.h
+make[3]: *** [Makefile:1142: prepare-objtool] Error 1
+make[3]: *** Se espera a que terminen otras tareas....
+  SYSHDR  arch/x86/include/generated/uapi/asm/unistd_x32.h
+make[2]: *** [debian/rules:4: build] Error 2
+dpkg-buildpackage: fallo: debian/rules build subprocess returned exit status 2
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 2
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<p>Me vuelve a reportar un fallo debido a falta de dependencias. Lo solucionaría instalando el paquete <code class="language-plaintext highlighter-rouge">libelf-dev</code>.</p>
+
+<pre>
+apt install libelf-dev -y
+</pre>
+
+<p>Tercer intento de compilación:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152# make -j 11 bindeb-pkg
+/bin/bash ./scripts/package/mkdebian
+dpkg-buildpackage -r"fakeroot -u" -a$(cat debian/arch) -b -nc -uc
+dpkg-buildpackage: información: paquete fuente linux-4.19.152
+dpkg-buildpackage: información: versión de las fuentes 4.19.152-1
+dpkg-buildpackage: información: distribución de las fuentes buster
+dpkg-buildpackage: información: fuentes modificadas por root &lt;root@debian&gt;
+dpkg-buildpackage: información: arquitectura del sistema amd64
+ dpkg-source --before-build .
+ debian/rules build
+make KERNELRELEASE=4.19.152 ARCH=x86 	KBUILD_BUILD_VERSION=1 KBUILD_SRC=
+  DESCEND  objtool
+  HOSTCC   /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep.o
+  HOSTCC  arch/x86/tools/relocs_32.o
+  WRAP    arch/x86/include/generated/asm/dma-contiguous.h
+  WRAP    arch/x86/include/generated/asm/early_ioremap.h
+  WRAP    arch/x86/include/generated/asm/export.h
+  UPD     include/generated/utsrelease.h
+  WRAP    arch/x86/include/generated/asm/mcs_spinlock.h
+  WRAP    arch/x86/include/generated/asm/mm-arch-hooks.h
+  HOSTCC  arch/x86/tools/relocs_64.o
+  HOSTCC  arch/x86/tools/relocs_common.o
+  HOSTLD   /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep-in.o
+  HOSTCC  scripts/genksyms/genksyms.o
+  LINK     /root/kernelLinux/linux-4.19.152/tools/objtool/fixdep
+  CC      scripts/mod/empty.o
+  HOSTCC  scripts/mod/mk_elfconfig
+  YACC    scripts/genksyms/parse.tab.c
+  LEX     scripts/genksyms/lex.lex.c
+  YACC    scripts/genksyms/parse.tab.h
+  HOSTCC  scripts/selinux/genheaders/genheaders
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/exec-cmd.o
+  CC      scripts/mod/devicetable-offsets.s
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/help.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/pager.o
+  MKELF   scripts/mod/elfconfig.h
+  UPD     scripts/mod/devicetable-offsets.h
+  HOSTCC  scripts/mod/sumversion.o
+  HOSTCC  scripts/genksyms/parse.tab.o
+  HOSTCC  scripts/genksyms/lex.lex.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/parse-options.o
+  HOSTLD  arch/x86/tools/relocs
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/run-command.o
+  HOSTCC  scripts/selinux/mdp/mdp
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/sigchain.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/subcmd-config.o
+  CC      kernel/bounds.s
+  UPD     include/generated/timeconst.h
+  HOSTCC  scripts/bin2c
+  HOSTCC  scripts/mod/modpost.o
+  HOSTCC  scripts/mod/file2alias.o
+  UPD     include/generated/bounds.h
+  CC      arch/x86/kernel/asm-offsets.s
+  GEN      /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/lib/inat-tables.c
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/builtin-check.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/decode.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/builtin-orc.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/check.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/orc_gen.o
+  HOSTCC  scripts/kallsyms
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/orc_dump.o
+  HOSTCC  scripts/conmakehash
+  HOSTCC  scripts/recordmcount
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/libsubcmd-in.o
+  AR       /root/kernelLinux/linux-4.19.152/tools/objtool/libsubcmd.a
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/elf.o
+  HOSTLD  scripts/genksyms/genksyms
+  UPD     include/generated/asm-offsets.h
+  CALL    scripts/checksyscalls.sh
+  HOSTCC  scripts/sortextable
+  HOSTCC  scripts/asn1_compiler
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/arch/x86/objtool-in.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/special.o
+  HOSTCC  scripts/sign-file
+scripts/sign-file.c:25:10: fatal error: openssl/opensslv.h: No existe el fichero o el directorio
+ #include &lt;openssl/opensslv.h&gt;
+          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[4]: *** [scripts/Makefile.host:90: scripts/sign-file] Error 1
+make[4]: *** Se espera a que terminen otras tareas....
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/objtool.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/libstring.o
+  CC       /root/kernelLinux/linux-4.19.152/tools/objtool/str_error_r.o
+  HOSTLD  scripts/mod/modpost
+make[3]: *** [Makefile:1089: scripts] Error 2
+make[3]: *** Se espera a que terminen otras tareas....
+  LD       /root/kernelLinux/linux-4.19.152/tools/objtool/objtool-in.o
+  LINK     /root/kernelLinux/linux-4.19.152/tools/objtool/objtool
+make[2]: *** [debian/rules:4: build] Error 2
+dpkg-buildpackage: fallo: debian/rules build subprocess returned exit status 2
+make[1]: *** [scripts/package/Makefile:80: bindeb-pkg] Error 2
+make: *** [Makefile:1393: bindeb-pkg] Error 2
+</pre>
+
+<p>¿Pensabais que iba a completar la compilación?</p>
+
+<p>Pues no, me reportaría por tercera vez un error de dependencias, por lo tanto, voy a llevar a cabo la instalación del paquete necesario:</p>
+
+<pre>
+apt install libssl-dev -y
+</pre>
+
+<p>Esta vez ya sí completaría el proceso de compilación de los componentes que están incluidos en el fichero <code class="language-plaintext highlighter-rouge">.config</code>. Las últimas líneas tendrían este aspecto:</p>
+
+<pre>
+dpkg-deb: construyendo el paquete `linux-headers-4.19.152' en `../linux-headers-4.19.152_4.19.152-1_amd64.deb'.
+dpkg-deb: construyendo el paquete `linux-libc-dev' en `../linux-libc-dev_4.19.152-1_amd64.deb'.
+dpkg-deb: construyendo el paquete `linux-image-4.19.152' en `../linux-image-4.19.152_4.19.152-1_amd64.deb'.
+dpkg-deb: construyendo el paquete `linux-image-4.19.152-dbg' en `../linux-image-4.19.152-dbg_4.19.152-1_amd64.deb'.
+ dpkg-genbuildinfo --build=binary
+ dpkg-genchanges --build=binary &gt;../linux-4.19.152_4.19.152-1_amd64.changes
+dpkg-genchanges: información: binary-only upload (no source code included)
+ dpkg-source --after-build .
+dpkg-buildpackage: información: subida sólo de binarios (no se incluye ninguna fuente)
+</pre>
+
+<p>Vemos como me ha creado correctamente una serie de archivos <code class="language-plaintext highlighter-rouge">.deb</code>, entre los cuáles se encuentra el llamado <code class="language-plaintext highlighter-rouge">linux-image-4.19.152_4.19.152-1_amd64.deb</code>, que es el que posteriormente voy a instalar con <code class="language-plaintext highlighter-rouge">dpkg -i</code>.</p>
+
+<p><strong>9. Instalo el núcleo resultante de la compilación, reinicio el equipo y compruebo que funciona adecuadamente.</strong></p>
+
+<p>Instalo el nuevo <em>kérnel</em>:</p>
+
+<pre>
+dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
+</pre>
+
+<p>Reinicio el sistema arrancando con este nuevo <em>kérnel</em> y efectivamente, como era de esperar, el sistema corre perfectamente.</p>
+
+<p><strong>10. Si ha funcionado adecuadamente, utilizamos la configuración del paso anterior como punto de partida y vamos a reducir de nuevo el tamaño del mismo, para ello vamos a seleccionar elemento a elemento.</strong></p>
+
+<p>Copiamos la configuración del <em>kérnel</em> reducido ya una vez, de esta manera estaremos generando una copia de seguridad por si durante las pruebas tocamos algún módulo imprescindible y deseamos volver un paso atrás, ya que vamos a seguir reduciendo su tamaño. En mi caso simplemente cuando compruebo que he conseguido reducir un poco más el <em>kérnel</em>, copio el archivo <code class="language-plaintext highlighter-rouge">.config</code> a un directorio cualquiera, y si me es necesario, luego lo vuelvo a trasladar al área de trabajo.</p>
+
+<pre>
+cp .config /home/javier/Documentos
+</pre>
+
+<p>Instalamos los paquetes <code class="language-plaintext highlighter-rouge">pkg-config</code> y <code class="language-plaintext highlighter-rouge">qt4-dev-tools</code>, que son necesarios para ejecutar la herramienta gráfica (la cual utiliza las bibliotecas gráficas <em>Qt</em>) que vamos a utilizar para seguir con la configuración de nuestro núcleo. <code class="language-plaintext highlighter-rouge">pkg-config</code> es un sistema para gestionar las opciones de compilación y enlazado de las bibliotecas, funciona con <em>automake</em> y <em>autoconf</em>.</p>
+
+<pre>
+apt install pkg-config qt4-dev-tools -y
+</pre>
+
+<p>Cada vez que queramos realizar una nueva compilación, debemos limpiar el rastro del proceso anterior, para ello empleamos el comando:</p>
+
+<pre>
+make clean
+</pre>
+
+<p>Esta es una salida de un <code class="language-plaintext highlighter-rouge">make clean</code>:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152$ make clean
+  CLEAN   .
+  CLEAN   arch/x86/entry/vdso
+  CLEAN   arch/x86/kernel/cpu
+  CLEAN   arch/x86/kernel
+  CLEAN   arch/x86/purgatory
+  CLEAN   arch/x86/realmode/rm
+  CLEAN   arch/x86/lib
+  CLEAN   certs
+  CLEAN   drivers/scsi
+  CLEAN   drivers/tty/vt
+  CLEAN   lib/raid6
+  CLEAN   lib
+  CLEAN   security/apparmor
+  CLEAN   security/tomoyo
+  CLEAN   usr
+  CLEAN   arch/x86/boot/compressed
+  CLEAN   arch/x86/boot
+  CLEAN   arch/x86/tools
+  CLEAN   .tmp_versions
+</pre>
+
+<p>Ahora sí, podemos volver a iniciar el proceso de reducción del núcleo, y por tanto, abrimos la herramienta gráfica con el comando:</p>
+
+<pre>
+make xconfig
+</pre>
+
+<p>Para empezar el proceso de compilación, ejecutamos el siguiente comando:</p>
+
+<pre>
+make -j 12 bindeb-pkg
+</pre>
+
+<p>Para instalar el paquete resultante <code class="language-plaintext highlighter-rouge">.deb</code>:</p>
+
+<pre>
+sudo dpkg -i linux-image-4.19.152_4.19.152-1_amd64.deb
+</pre>
+
+<p>En mi caso, esto es lo máximo que he podido reducir el <em>kérnel</em>. A continuación dejo una lista de todos los componentes eliminados. Si empieza por <em>m_</em> indica que se trata de un módulo:</p>
+
+<h5 id="general-setup">General setup</h5>
+<ul>
+  <li>Support for paging of anonymous memory (swap)</li>
+  <li>POSIX Message Queues</li>
+  <li>Auditing support</li>
+  <li>CPU isolation</li>
+  <li>Kernel-&gt;user space relay support (formerly relayfs)</li>
+  <li>m_Kernel .config support</li>
+  <li>Automatic process group scheduling</li>
+  <li>memory placement aware NUMA scheduler</li>
+  <li>Checkpoint/restore support</li>
+  <li>Enable bpf() system call</li>
+  <li>Enable rseq() system call</li>
+  <li>Enable VM event counters for /proc/vmstat</li>
+  <li>Allow slab caches to be merged</li>
+  <li>SLAB freelist randomization</li>
+  <li>Harden slab freelist metadata</li>
+  <li>profiling support</li>
+  <li><strong>Timers subsystem</strong></li>
+  <li>high resolution timer support</li>
+  <li><strong>CPU/Task time and stats accounting</strong></li>
+  <li>BSD process accounting</li>
+  <li>export task/process statistics through netlink</li>
+  <li><strong>Control Group support</strong>
+    <ul>
+      <li>Swap controller</li>
+      <li>RDMA controller</li>
+      <li>Freezer controller</li>
+      <li>Cpuset controller</li>
+      <li>Support for eBPF programs attached to cgroups</li>
+    </ul>
+  </li>
+  <li><strong>Namespaces support</strong> entero</li>
+  <li><strong>Configure standard kernel features (expert users)</strong>
+    <ul>
+      <li>BUG() support</li>
+      <li>Enable PC-Speaker suport
+        <h5 id="processor-type-and-features">Processor type and features</h5>
+      </li>
+    </ul>
+  </li>
+  <li>DMA memory allocation support</li>
+  <li>Symmetric multi-processing support</li>
+  <li>Avoid speculative indirect branches in kernel</li>
+  <li>AMD ACPI2Platform devices support</li>
+  <li>Intel SoC IOSF Sideband support for SoC platforms</li>
+  <li>Single-depth WCHAN output</li>
+  <li>Enable DMI scannning</li>
+  <li><strong>Multi-core scheduler support</strong> entero</li>
+  <li>Reroute for broken boot IRQs</li>
+  <li>Machine Check / overheating reporting</li>
+  <li>old AMD GART IOMMU support</li>
+  <li>IBM Calgary IOMMU support</li>
+  <li><strong>Machine Check/overheating reporting</strong>
+    <ul>
+      <li>AMD MCE features</li>
+    </ul>
+  </li>
+  <li>Enable vsyscall emulation</li>
+  <li><strong>CPU microcode loading support</strong> entero</li>
+  <li><strong>Numa Memory Allocation and Scheduler Support</strong></li>
+  <li>x86 architectural random number generator</li>
+  <li>Supervisor Mode Access Prevention</li>
+  <li>Intel User Mode Instruction Prevention</li>
+  <li>Intel MPX (Memory Protection Extensions)</li>
+  <li>Intel Memory Protection Keys</li>
+  <li>Enable seccomp to safely compute untrusted bytecode</li>
+  <li>kexec system call</li>
+  <li>kexec file based system call</li>
+  <li>Verify kernel signature during kexec_file_load() syscall</li>
+  <li>kernel crash dumps</li>
+  <li><strong>Build a relocatable kernel</strong></li>
+  <li>Enable the LDT (local descriptor table)
+    <ul>
+      <li><strong>Linux guest support</strong> entero</li>
+      <li><strong>Performance monitoring</strong>
+        <ul>
+          <li>m_Intel uncore performance events</li>
+          <li>m_Intel rapl performance events</li>
+          <li>m_Intel cstate performance events
+            <h5 id="power-management-and-acpi-options">Power management and ACPI options</h5>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>suspend to RAM and standby</li>
+  <li>hibernation</li>
+  <li>device power management core functionality</li>
+  <li>power management timer support</li>
+  <li><strong>ACPI (Advanced Configuration and Power Interface) Support</strong> entero</li>
+  <li><strong>SFI (Simple Firmware Interface) Support</strong></li>
+  <li><strong>CPU Frequency scaling</strong>
+    <ul>
+      <li><strong>CPU Frequency scaling</strong> entero</li>
+      <li>‘schedutil’ cpufreq policy governor</li>
+      <li>Intel P state control</li>
+    </ul>
+  </li>
+  <li><strong>CPU Idle</strong>
+    <ul>
+      <li><strong>CPU idle PM support</strong> entero
+        <h5 id="bus-options-pci-etc">Bus Options (PCI etc.)</h5>
+      </li>
+    </ul>
+  </li>
+  <li><strong>PCI Express Port Bus support</strong> entero</li>
+  <li>Message Signaled Interrupts (MSI and MSI-X)</li>
+  <li>Enable PCI quirk workarounds</li>
+  <li>PCI IOV support</li>
+  <li>PCI PRI support</li>
+  <li>PCI PASID support</li>
+  <li>ISA-style DMA support
+    <ul>
+      <li><strong>Support for PCI Hotplug</strong></li>
+      <li><strong>Binary Emulations</strong>
+        <ul>
+          <li><strong>IA32 Emulation</strong></li>
+          <li>x32 ABI for 64-bit mode
+            <h5 id="firmware-drivers">Firmware Drivers</h5>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Apple device properties</li>
+  <li>virtualization
+    <h5 id="general-architecture-dependent-options">General architecture-dependent options</h5>
+  </li>
+  <li>kprobes</li>
+  <li>optimize very unlikely/likely branches</li>
+  <li>stack protector buffer overflow detection</li>
+  <li>use a virtually-mapped stack</li>
+  <li>perform full reference count validation at the expense of speed</li>
+  <li><strong>Enable loadable modulo support</strong>
+    <ul>
+      <li>Module versioning support
+        <h5 id="enable-the-block-layer">Enable the block layer</h5>
+      </li>
+    </ul>
+  </li>
+  <li>Block layer SG support v4</li>
+  <li>Block layer SG support v4 helper lib</li>
+  <li>Block layer data integrity support</li>
+  <li>Zoned block device support</li>
+  <li>Block layer bio throttling support</li>
+  <li>Enable support for block device writeback throttling</li>
+  <li>Logic for interfacing with Opal enabled SEDs</li>
+  <li><strong>Partition Types</strong></li>
+  <li>acorn partition support</li>
+  <li>alpha OSF partition support</li>
+  <li>amiga partition table support</li>
+  <li>atari partition table support</li>
+  <li>macintosh partition map support
+    <ul>
+      <li><strong>PC BIOS (MSDOS partition tables) support</strong></li>
+      <li>Minix subpartition support</li>
+      <li>Solarix (x86) partition table support</li>
+      <li>Unixware slices support</li>
+      <li><strong>Windows Logical Disk Manager (Dynamic Disk) support</strong></li>
+    </ul>
+  </li>
+  <li>SGI partition support</li>
+  <li>Ultrix partition table support</li>
+  <li>sun partition tables support</li>
+  <li>karma partition support</li>
+  <li><strong>IO Schedulers</strong></li>
+  <li>MQ deadline I/O scheduler</li>
+  <li><strong>Executable file formats</strong></li>
+  <li>Enable core dump support</li>
+  <li><strong>Memory Management options</strong></li>
+  <li>Sparse Memory virtual memmap</li>
+  <li>Allow for memory hot-add</li>
+  <li>Allow for memory compaction
+    <ul>
+      <li><strong>Transparent Hugepage Support</strong> entero</li>
+    </ul>
+  </li>
+  <li>Low (Up to 2x) density storage for compressed pages</li>
+  <li>Enable frontswap to cache swap pages if tmem is present
+    <h5 id="networking-support">Networking support</h5>
+  </li>
+  <li><strong>Networking options</strong>
+    <ul>
+      <li>Transformation sub policy support</li>
+      <li>Transformation migrate database</li>
+      <li>Security Marking</li>
+      <li>Data Center Bridging support</li>
+      <li>L3 Master device support</li>
+      <li>Network packet filtering framework</li>
+      <li>QoS and/or fair queueing</li>
+      <li>MultiProtocol Label Switching</li>
+      <li>Network priority cgroup</li>
+      <li>Network classid cgroup</li>
+      <li>enable BPF Just In Time compiler</li>
+      <li>enable BPF STREAM_PARSER</li>
+    </ul>
+  </li>
+  <li>Amateur Radio support</li>
+  <li>Wireless</li>
+  <li>m_Bluetooth subsystem support</li>
+  <li>RF switch subsystem support
+    <h5 id="device-drivers">Device Drivers</h5>
+  </li>
+  <li><strong>Generic Driver Options</strong>
+    <ul>
+      <li>Connector - unified userspace &lt;-&gt; kernelspace linker</li>
+      <li><strong>NVME Support</strong></li>
+      <li>NVMe multipath support</li>
+    </ul>
+  </li>
+  <li><strong>Misc devices</strong></li>
+  <li>m_Intel Management Engine Interface</li>
+  <li>m_ME Enabled Intel Chipsets</li>
+  <li><strong>SCSI device support</strong>
+    <ul>
+      <li>SCSI device support</li>
+      <li>Verbose SCSI error reporting (kernel size += 36K)</li>
+      <li>SCSI logging facility</li>
+      <li>Asynchronous SCSI sacnning
+        <ul>
+          <li><strong>SCSI Transports</strong></li>
+          <li><strong>SCSI low-level drivers</strong></li>
+          <li><strong>SCSI Device Handlers</strong></li>
+        </ul>
+      </li>
+      <li><strong>Serial ATA and Parallel ATA drivers (libata)</strong> entero
+        <ul>
+          <li>Verbose ATA error reporting</li>
+          <li><strong>ATA SFF support (for legacy IDE and PATA)</strong></li>
+        </ul>
+      </li>
+      <li><strong>Multiple devices driver support (RAID and LVM)</strong></li>
+      <li>m_RAID support</li>
+      <li>Fusion MPT device support</li>
+      <li>Macintosh device drivers</li>
+    </ul>
+  </li>
+  <li><strong>Network device support</strong>
+    <ul>
+      <li><strong>Network core driver support</strong> entero</li>
+      <li><strong>FDDI driver support</strong> entero</li>
+      <li><strong>HIPPI driver support</strong> entero</li>
+      <li><strong>m_MDIO bus device drivers</strong> entero</li>
+      <li><strong>m_PHY Device support and infrastructure</strong> entero</li>
+      <li>Wireless LAN</li>
+      <li>Wan interfaces support</li>
+      <li>ISDN support</li>
+    </ul>
+  </li>
+  <li><strong>Input device support</strong></li>
+  <li>m_Sparse keymap support library</li>
+  <li>m_Mouse interface</li>
+  <li>m_Joystick interface</li>
+  <li>Joysticks/Gamepads</li>
+  <li>Tablets</li>
+  <li>Touchscreens
+    <ul>
+      <li><strong>Hardware I/O ports</strong></li>
+      <li>m_Raw accedd to serio ports</li>
+    </ul>
+  </li>
+  <li><strong>Character devices</strong>
+    <ul>
+      <li><strong>Enable TTY</strong>
+        <ul>
+          <li><strong>Virtual terminal</strong>
+            <ul>
+              <li>Support for console on virtual terminal</li>
+              <li>Support for binding and unbinding console drivers</li>
+            </ul>
+          </li>
+          <li><strong>Non-standard serial port support</strong></li>
+          <li>Automatically load TTY Line Disciplines</li>
+        </ul>
+      </li>
+      <li><strong>I2C support</strong> entero</li>
+      <li><strong>Serial drivers</strong></li>
+      <li>Support for sharing serial interrupts</li>
+      <li>Support RSA serial ports</li>
+      <li>Support for Synopsys DesignWare 8250 quirks</li>
+      <li>Support for serial ports in Intel MID platforms</li>
+      <li>m_Hardware Random Number Generator Core support</li>
+      <li><strong>m_IPMI top-level message handler</strong> entero</li>
+      <li><strong>m_TPM Hardware Support</strong> entero</li>
+    </ul>
+  </li>
+  <li>SPI support</li>
+  <li>PPS support
+    <ul>
+      <li><strong>PTP clock support</strong></li>
+      <li>PTP clock support</li>
+    </ul>
+  </li>
+  <li>m_Hardware Monitoring support</li>
+  <li>Generic Thermal sysfs driver</li>
+  <li>Watchdog Timer Support</li>
+  <li>Voltage and Current Regulator Support</li>
+  <li><strong>GPIO Support</strong>
+    <ul>
+      <li><strong>Multifunction device drivers</strong>
+        <ul>
+          <li>m_Intel Low Power Subsystem support in PCI mode</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>Graphics support</strong></li>
+  <li>VGA Arbitration</li>
+  <li>Laptop Hybrid Graphics - GPU switching support</li>
+  <li>Enable DisplayPort CEC-Tunneling-over-AUX- HDMI support</li>
+  <li>/dev/agpgart (AGP support)</li>
+  <li>m_Nouveau  (NVIDIA) cards
+    <ul>
+      <li><strong>Graphics support (Intel 8xx/9xx/G3x/G4x/HD Graphics)</strong></li>
+      <li>Enable capturing GPU state following a hang</li>
+      <li>Always enable userptr support</li>
+    </ul>
+  </li>
+  <li>m_Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)
+    <ul>
+      <li><strong>Frame buffer Devices</strong></li>
+      <li>Support for frame buffer devices</li>
+    </ul>
+  </li>
+  <li>Backlight &amp; LCD device support
+    <ul>
+      <li><strong>Console display driver support</strong></li>
+    </ul>
+  </li>
+  <li>VGA text console</li>
+  <li>m_Sound card support</li>
+  <li><strong>HID Support</strong>
+    <ul>
+      <li><strong>HID bus support</strong> entero</li>
+      <li><strong>USB support</strong> entero</li>
+      <li><strong>DMABUF options</strong>
+        <ul>
+          <li>Explicit Syncrhonization Framework</li>
+        </ul>
+      </li>
+      <li>X86 Platform Specific Device Drivers</li>
+    </ul>
+  </li>
+  <li>LED Support</li>
+  <li>Accessibility support</li>
+  <li>EDAC (Error Detection And Correction) reporting</li>
+  <li>Real Time Clock</li>
+  <li>DMA Engine support</li>
+  <li>Virtualization drivers</li>
+  <li>Virtio drivers</li>
+  <li>Staging Drivers</li>
+  <li>Platform support for Chrome hardware</li>
+  <li>Mailbox Hardware Support</li>
+  <li>IOMMU Hardware Support</li>
+  <li><strong>SOC (System On Chip) specific Drivers</strong>
+    <ul>
+      <li><strong>Generic Dynamic Voltage and Frequency Scaling (DVFS)</strong>
+        <ul>
+          <li>Pulse-Width Modulation (PWM) Support</li>
+          <li>Generic powercap sysfs driver</li>
+        </ul>
+      </li>
+      <li><strong>PHY Subsystem</strong>
+        <ul>
+          <li>PHY Core</li>
+        </ul>
+      </li>
+      <li><strong>Android</strong>
+        <ul>
+          <li><strong>Android Drivers</strong>
+            <h5 id="file-systems">File systems</h5>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>m_Btrfs filesystems support</li>
+  <li>Quota support</li>
+  <li>Report quota messages through netlink interface</li>
+  <li>m_Kernel automonter support (supports v3, v4 and v5)</li>
+  <li>m_FUSE (Filesystem in Userspace) support</li>
+  <li><strong>Pseudo filesystems</strong>
+    <ul>
+      <li>Include /proc/<pid>/task/<tid>/children file</tid></pid></li>
+      <li>HugeTLB file system support</li>
+    </ul>
+  </li>
+  <li><strong>Miscellaneius filesystems</strong></li>
+  <li><strong>Network File Systems</strong></li>
+  <li><strong>Security options</strong></li>
+  <li>Restrict unprivileged access to the kernel syslog</li>
+  <li>Enable different security models</li>
+  <li>NSA SELinux Support
+    <ul>
+      <li><strong>TOMOYO Linux Support</strong></li>
+      <li><strong>AppArmor support</strong></li>
+      <li><strong>Yama support</strong>
+        <h5 id="cryptographic-api">Cryptographic API</h5>
+      </li>
+    </ul>
+  </li>
+  <li>FIPS 200 compilance</li>
+  <li>m_ECDH algorithm</li>
+  <li>m_GF(2^128) multiplication functions</li>
+  <li>m_Null algorithms</li>
+  <li>m_Software async crypto daemon</li>
+  <li>m_CCM support</li>
+  <li>m_GCM/GMAC support</li>
+  <li>m_Sequence Number IV Generator</li>
+  <li>m_CTR support</li>
+  <li>m_ECB support</li>
+  <li>m_CMAC support</li>
+  <li>m_CRC32 INTEL hardware acceleration</li>
+  <li>m_CRC32 PCLMULQDQ hardware acceleration</li>
+  <li>m_CRCT10DIF PCLMULQDQ hardware acceleration</li>
+  <li>m_GHASH digest algorithm</li>
+  <li>m_GHASH digest algorithm (CLMNUL-NI accelerated)</li>
+  <li>m_GHASH digest algorithm</li>
+  <li>m_AES cipher algorithms (x86_64)</li>
+  <li>m_AES cipher algorithms (AES-NI)</li>
+  <li>m_ARC4 cipher algorithm</li>
+  <li>Deflate compression algorithm</li>
+  <li>LZO compression algorithm</li>
+  <li>m_Pseudo Random Number Generation for Cryptographic modules</li>
+  <li>Jitterentropy Non-Deterministic Random Number Generator</li>
+  <li>m_NIST SP800-90A DRBG</li>
+  <li>Hardware crypto devices (Support for AMD secure processor)</li>
+  <li><strong>Asymmetric</strong></li>
+  <li>Support for PE file signature verification</li>
+  <li><strong>Certificates for signature checking</strong></li>
+  <li>Provide a keyring to which extra trustable keys may be added</li>
+  <li>Provide system-wide ring of blacklisted keys</li>
+  <li><strong>Library routines</strong></li>
+  <li>m_CRC16 functions</li>
+  <li>m_CRC32c (Castagnoli, et al) Cyclic Redundancy-Check
+    <ul>
+      <li><strong>XZ decompression support</strong></li>
+      <li>x86 BCJ filter decoder</li>
+    </ul>
+  </li>
+  <li>IRQ polling library
+    <h5 id="kernel-hacking">Kernel hacking</h5>
+  </li>
+  <li>Collect scheduler debbuging info</li>
+  <li>Collect scheduler statistics</li>
+  <li>Detect stack corruption on calls to schedule</li>
+  <li>Stack backtrace support</li>
+  <li>Verbose BUG() reporting (addds 70K)</li>
+  <li>Debug linked list manipulation</li>
+  <li>Memtest</li>
+  <li>Tigger a BUG when data corruption is detected</li>
+  <li><strong>Early printk</strong></li>
+  <li>Warn on W+X mappings at boot</li>
+  <li>Enable doublefault exception handler</li>
+  <li>Allow gcc to uninline functions marked ‘inline’</li>
+  <li>Debug the x86 FPU code</li>
+  <li><strong>printk and dmesg options</strong>
+    <ul>
+      <li>Show timing information on printks</li>
+      <li>Delay each boot printk message by N milliseconds</li>
+      <li>Enable dynamic printk() support</li>
+    </ul>
+  </li>
+  <li><strong>Compile-time checks and compiler options</strong>
+    <ul>
+      <li>Compile the kernel with debug info</li>
+      <li>Enable __must_check logic</li>
+      <li>Strip assembler-generated symbols during link</li>
+      <li>Debug Filesystems</li>
+      <li>Make section mismatch errors non-fatal</li>
+    </ul>
+  </li>
+  <li><strong>Memory Debugging</strong>
+    <ul>
+      <li>Extend memmap on extra space for more information on page</li>
+      <li>Poison pages after freeing</li>
+      <li>Debug memory initialisation</li>
+    </ul>
+  </li>
+  <li><strong>Debug Lockups and Hangs</strong>
+    <ul>
+      <li>Detect Soft Lockups</li>
+      <li>Detect Hard Lockups</li>
+      <li>Detect Hung Tasks</li>
+    </ul>
+  </li>
+  <li>Tracers</li>
+  <li>Runtime Testing</li>
+</ul>
+
+<p>Si cuento cuántos módulos y cuántos enlaces estáticos forman ahora el núcleo:</p>
+
+<pre>
+javier@debian:~/kernelLinux/linux-4.19.152$ grep "=m" .config | wc -l
+16
+
+javier@debian:~/kernelLinux/linux-4.19.152$ grep "=y" .config | wc -l
+615
+</pre>
+
+<p>Si observamos cuanto ocupa ahora el paquete <em>.deb</em>:</p>
+
+<pre>
+javier@debian:~/kernelLinux$ du -hs * | grep 'linux-image'
+3,0M	linux-image-4.19.152_4.19.152-103_amd64.deb
+</pre>
+
+<p>Podemos observar que he conseguido reducir el número de componentes en una gran cantidad. Los módulos se han reducido de 170 hasta 16, es decir, más de 10 veces menos y he eliminado más de 800 enlaces que se incluirán en <em>vmlinuz</em>. A consecuencia de esto, el peso del paquete <em>.deb</em> resultante es de 3.0 MB.</p>
+
+<p>Puedes descargar el paquete <em>.deb</em> <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_compilacion_de_un_kernel_linux_a_medida/linux-image-4.19.152_4.19.152-103_amd64.deb">aquí</a>.</p>
+
+  </div><a class="u-url" href="/blog/compilaci%C3%B3n-de-un-kernel-linux-a-medida" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

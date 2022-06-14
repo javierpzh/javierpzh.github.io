@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Despliegue De Cms Java | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Despliegue De Cms Java" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En esta práctica vamos a desplegar un CMS escrito en Java. Puedes escoger la aplicación que vas a desplegar de CMS escritos en Java o de Aplicaciones Java en Bitnami." />
+<meta property="og:description" content="En esta práctica vamos a desplegar un CMS escrito en Java. Puedes escoger la aplicación que vas a desplegar de CMS escritos en Java o de Aplicaciones Java en Bitnami." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/despliegue-de-CMS-Java" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/despliegue-de-CMS-Java" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/despliegue-de-CMS-Java" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-28T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/despliegue-de-CMS-Java" />
+<meta property="twitter:title" content="Despliegue De Cms Java" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En esta práctica vamos a desplegar un CMS escrito en Java. Puedes escoger la aplicación que vas a desplegar de CMS escritos en Java o de Aplicaciones Java en Bitnami.","@type":"BlogPosting","headline":"Despliegue De Cms Java","dateModified":"2020-12-28T00:00:00+01:00","datePublished":"2020-12-28T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/despliegue-de-CMS-Java"},"url":"https://www.javierpzh.com/blog/despliegue-de-CMS-Java","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Despliegue De Cms Java</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-28T00:00:00+01:00" itemprop="datePublished">
+        Dec 28, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>En esta práctica vamos a desplegar un <a href="https://java-source.net/open-source/content-managment-systems">CMS escrito en Java</a>. Puedes escoger la aplicación que vas a desplegar de CMS escritos en Java o de <a href="https://bitnami.com/tag/java">Aplicaciones Java en Bitnami</a>.</strong></p>
+
+<h4 id="aplicación-escogida-y-su-funcionalidad">Aplicación escogida y su funcionalidad</h4>
+
+<p>He decidido escoger el <strong>CMS escrito en Java</strong>, llamado <strong>Guacamole</strong>.</p>
+
+<p><em>Apache Guacamole</em> es una herramienta libre que nos permite conectarnos remotamente a un servidor mediante el navegador web sin necesidad de usar un cliente.</p>
+
+<p>Gracias a HTML5, una vez tengamos instalado y configurado <em>Apache Guacamole</em>, tan solo tenemos que conectarnos mediante el navegador web para empezar a trabajar remotamente.</p>
+
+<h4 id="guía-de-los-pasos-fundamentales-para-realizar-la-instalación">Guía de los pasos fundamentales para realizar la instalación</h4>
+
+<ol>
+  <li>
+    <p>Instalar <em>tomcat 9</em>.</p>
+  </li>
+  <li>
+    <p>Comprobar el acceso al puerto 8080.</p>
+  </li>
+  <li>
+    <p>Buscar un archivo <code class="language-plaintext highlighter-rouge">.war</code> y almacenarlo en la ruta <code class="language-plaintext highlighter-rouge">/var/lib/tomcat9/webapps</code>.</p>
+  </li>
+  <li>
+    <p>Acceder a la aplicación.</p>
+  </li>
+  <li>
+    <p>Realizar un <strong>proxy inverso</strong> en <strong>Apache2</strong> y realizar la configuración necesaria.</p>
+  </li>
+</ol>
+
+<p>A continuación vamos a realizar la instalación de <em>tomcat 9</em> y de la aplicación en sí.</p>
+
+<p>Antes de nada, necesitaremos un equipo donde trabajar. Yo voy a instalar una máquina virtual, y para ello, voy a utilizar <em>Vagrant</em>. He creado este <em>Vagrantfile</em>:</p>
+
+<pre>
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "debian/buster64"
+
+  config.vm.network "private_network", ip: "192.168.200.20"
+
+end
+</pre>
+
+<p>Una vez estamos en nuestro equipo de trabajo, en primer lugar, debemos instalar <strong>Tomcat</strong>, en mi caso, voy a instalar la versión <em>9</em>.</p>
+
+<p><em>Tomcat</em> requiere que <strong>Java</strong> esté instalado para poder ejecutar cualquier código de aplicación web <em>Java</em>.</p>
+
+<pre>
+apt install default-jdk -y
+</pre>
+
+<p>Instalado <em>Java</em>, ya podemos proceder a instalar <em>Tomcat</em>. Para ello:</p>
+
+<pre>
+apt install tomcat9 -y
+</pre>
+
+<p>Para comprobar el funcionamiento de una forma más visual, podemos conectarnos desde un navegador web mediante la dirección IP de la máquina especificando el puerto <strong>8080</strong>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_despliegue_de_CMS_Java/tomcat8080.png" /></p>
+
+<p>Vemos que está funcionando correctamente.</p>
+
+<p>En este punto, ya podemos descargar el fichero <code class="language-plaintext highlighter-rouge">.war</code>.</p>
+
+<p>¿Alguien se pregunta qué es un fichero <code class="language-plaintext highlighter-rouge">.war</code>?</p>
+
+<p>Un fichero <code class="language-plaintext highlighter-rouge">.war</code> es una aplicación web que permite a <em>Tomcat</em> acceder a su utilización. El fichero <code class="language-plaintext highlighter-rouge">.war</code> tiene que ser descomprimido para ser leído.</p>
+
+<p>Nos descargamos el fichero <code class="language-plaintext highlighter-rouge">.war</code> de la <a href="https://guacamole.apache.org/releases/">página oficial de Apache Guacamole</a>. En mi caso, descargo la última versión, que en este momento es la <strong>1.2.0</strong>. La he descargado desde mi máquina y la he pasado mediante <code class="language-plaintext highlighter-rouge">scp</code> a la máquina virtual <em>Vagrant</em>, aquí podemos ver que ya lo tenemos:</p>
+
+<pre>
+root@buster:~# ls
+guacamole-1.2.0.war
+</pre>
+
+<p>Una vez la hemos descargado, tenemos que mover el archivo <code class="language-plaintext highlighter-rouge">.war</code> al directorio <code class="language-plaintext highlighter-rouge">/var/lib/tomcat9/webapps</code>, y podremos apreciar como automáticamente, al almacenar el fichero en esta ruta, se descomprime generando una carpeta llamada <code class="language-plaintext highlighter-rouge">guacamole-1.2.0</code> que es la que contiene la aplicación:</p>
+
+<pre>
+root@buster:~# mv guacamole-1.2.0.war /var/lib/tomcat9/webapps
+
+root@buster:~# ls /var/lib/tomcat9/webapps/
+guacamole-1.2.0  guacamole-1.2.0.war  ROOT
+
+root@buster:~# ls /var/lib/tomcat9/webapps/guacamole-1.2.0
+app	   guacamole-common-js	guacamole.min.css  index.html	META-INF	       WEB-INF
+fonts	   guacamole.css	guacamole.min.js   layouts	relocateParameters.js
+generated  guacamole.js		images		   license.txt	translations
+</pre>
+
+<p>Antes de probar a acceder desde el navegador, en mi caso, prefiero cambiarle el nombre a este nuevo directorio, para así no tener que escribir también la versión en cada acceso a la web:</p>
+
+<pre>
+root@buster:/var/lib/tomcat9/webapps# mv guacamole-1.2.0 guacamole
+
+root@buster:/var/lib/tomcat9/webapps# ls
+guacamole  guacamole-1.2.0.war	ROOT
+</pre>
+
+<p>Me he dado cuenta, que al cambiarle el nombre, el fichero <code class="language-plaintext highlighter-rouge">.war</code> vuelve a generar otra vez la carpeta <code class="language-plaintext highlighter-rouge">guacamole-1.2.0</code>. Parece ser que al cambiarle el nombre, este fichero detecta que la carpeta no está creada y la vuelve a originar de manera automática. Para solucionar esto, he eliminado el fichero <code class="language-plaintext highlighter-rouge">.war</code> y el nuevo directorio, de manera que ahora solo poseo el directorio <code class="language-plaintext highlighter-rouge">guacamole</code>.</p>
+
+<p>Hecho esto, vamos a probar a acceder a la dirección <code class="language-plaintext highlighter-rouge">192.168.200.20:8080/guacamole</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_despliegue_de_CMS_Java/guacamole8080.png" /></p>
+
+<p>Vemos que podemos acceder a la aplicación.</p>
+
+<p>Hecho esto, vamos a llevar a cabo el último paso, que sería el de configurar nuestro servidor web <strong>Apache</strong> para que nos sirva nuestro CMS <em>Guacamole</em>, para lo que debemos realizar un <strong>proxy inverso</strong>.</p>
+
+<p>Procedemos a instalar nuestro servidor web, para ello utilizamos el siguiente comando:</p>
+
+<pre>
+apt install apache2 apache2-utils -y
+</pre>
+
+<p>Ahora, necesitamos instalar el paquete que contiene los módulos fundamentales para conectar <em>Apache</em> con <em>tomcat9</em>:</p>
+
+<pre>
+apt install libapache2-mod-jk -y
+</pre>
+
+<p>Habilitamos los siguiente módulos:</p>
+
+<pre>
+a2enmod proxy proxy_http
+</pre>
+
+<p>Instalado y habilitado, vamos a crear un nuevo <em>virtualhost</em>. He copiado el fichero <code class="language-plaintext highlighter-rouge">000-default.conf</code> para que me sirva de plantilla para el <em>virtualhost</em> que verdaderamente voy a configurar, que es el llamado <code class="language-plaintext highlighter-rouge">guacamole.conf</code>:</p>
+
+<pre>
+root@buster:/etc/apache2/sites-available# cp 000-default.conf guacamole.conf
+
+root@buster:/etc/apache2/sites-available# nano guacamole.conf
+</pre>
+
+<p>Editamos el nuevo <em>virtualhost</em> y queda con este aspecto:</p>
+
+<pre>
+&lt;\VirtualHost *:80\&gt;
+
+        ServerName www.guacamole-javierpzh.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /srv/www/guacamole
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        &lt;\Location /guacamole/\&gt;
+          Order allow,deny
+          Allow from all
+          ProxyPass http://localhost:8080/guacamole/ flushpackets=on
+          ProxyPassReverse http://localhost:8080/guacamole/
+        &lt;\/Location\&gt;
+
+&lt;\/VirtualHost\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>El último bloque, hace referencia y sirve para configurar el <em>proxy inverso</em>.</p>
+
+<p>También podemos ver, como he especificado que el contenido de esta web, estará en <code class="language-plaintext highlighter-rouge">/srv/www/guacamole</code>, pues bien, para que <em>Apache</em> sea capaz de buscar en dicho directorio, debemos dirigirnos al fichero <code class="language-plaintext highlighter-rouge">/etc/apache2/apache2.conf</code>, y descomentar o añadir el siguiente bloque, ya que por defecto, solo nos proporciona el contenido almacenado en <code class="language-plaintext highlighter-rouge">/var/</code>:</p>
+
+<pre>
+&lt;\Directory /srv/\&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;\/Directory\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a esta configuración hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiar la configuración, debemos tener en cuenta esto.</p>
+
+<p>En este punto, solo nos quedaría crear un fichero <code class="language-plaintext highlighter-rouge">index.html</code> en la ruta <code class="language-plaintext highlighter-rouge">/srv/www/guacamole</code>. En mi caso el contenido de este fichero es el siguiente:</p>
+
+<pre>
+&lt;\h1\&gt;Si quieres ir a Guacamole,haz click &lt;\a href=http://www.guacamole-javierpzh.com/guacamole/#/\&gt; aqui&lt;\/a\&gt;&lt;\/h1\&gt;
+</pre>
+
+<p><strong>Atención:</strong> a estas líneas hay que eliminarle los carácteres <code class="language-plaintext highlighter-rouge">\</code>, que he tenido que introducir para escapar los carácteres siguientes, así que en caso de querer copiarlas, debemos tener en cuenta esto.</p>
+
+<p>Por último, vamos a reiniciar nuestro servidor web:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Voy a añadir a mi máquina anfitriona la siguiente línea en el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> para poder utilzar la
+resolución estática:</p>
+
+<pre>
+192.168.200.20  www.guacamole-javierpzh.com
+</pre>
+
+<p>Nos dirigimos a nuestro navegador e introducimos la dirección <code class="language-plaintext highlighter-rouge">www.guacamole-javierpzh.com</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_despliegue_de_CMS_Java/proxyinverso.png" /></p>
+
+<p>Hacemos <em>click</em> para dirigirnos al enlace:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_despliegue_de_CMS_Java/guacamoleapache.png" /></p>
+
+<p>Ya estaríamos viendo nuestra aplicación servida por nuestro servidor web <em>Apache</em>, por lo que habríamos terminado con el <em>post</em>.</p>
+
+  </div><a class="u-url" href="/blog/despliegue-de-CMS-Java" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

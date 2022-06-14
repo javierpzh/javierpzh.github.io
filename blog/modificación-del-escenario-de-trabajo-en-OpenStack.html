@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Modificación Del Escenario De Trabajo En Openstack | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Modificación Del Escenario De Trabajo En Openstack" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto." />
+<meta property="og:description" content="En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-12T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="twitter:title" content="Modificación Del Escenario De Trabajo En Openstack" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto.","@type":"BlogPosting","headline":"Modificación Del Escenario De Trabajo En Openstack","dateModified":"2020-12-12T00:00:00+01:00","datePublished":"2020-12-12T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack"},"url":"https://www.javierpzh.com/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Modificación Del Escenario De Trabajo En Openstack</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-12T00:00:00+01:00" itemprop="datePublished">
+        Dec 12, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>En este <em>post</em> voy a realizar modificaciones sobre un escenario de <em>OpenStack</em> que fue creado anteriormente y cuya explicación se encuentra en <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">este post</a>, por si quieres saber más al respecto.</strong></p>
+
+<p><strong>Vamos a modificar el escenario que tenemos actualmente en OpenStack para que se adecúe a la realización de todas las prácticas en todos los módulos de 2º, en particular para que tenga una estructura más real a la de varios equipos detrás de un cortafuegos, separando los servidores en dos redes: red interna y DMZ. Para ello vamos a reutilizar todo lo hecho hasta ahora y añadiremos una máquina más: Frestón</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/escenario2.png" /></p>
+
+<h4 id="1-creación-de-la-red-dmz">1. Creación de la red DMZ:</h4>
+
+<ul>
+  <li><strong>Nombre: DMZ de (nombre de usuario)</strong></li>
+  <li><strong>10.0.2.0/24</strong></li>
+</ul>
+
+<p>Vamos a crear una nueva red, en esta caso, una <strong>red DMZ</strong>, que se situará entre la red interna y la externa.</p>
+
+<p>Para crearla, nos dirigimos a nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Redes</strong>. Una vez aquí, <em>clickamos</em> en el botón llamado <strong>+ Crear red</strong>, y se nos abrirá un menú, donde debemos indicar las características de la red que queremos crear:</p>
+
+<p>En el primer apartado de este asistente, indicamos el nombre que poseerá nuestra nueva red:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ1.png" /></p>
+
+<p>En segundo lugar, indicamos las direcciones de red que abarcará, y deshabilitaremos la puerta de enlace ya que no nos va hacer falta debido a que vamos a poner a <em>Dulcinea</em> como <em>gateway</em>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ2.png" /></p>
+
+<p>Por último, vamos a dejar marcada la opción de <strong>Habilitar DHCP</strong> que viene de manera predeterminada, para que de esta forma, nos dé una dirección IP de manera automática cuando conectemos una instancia.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ3.png" /></p>
+
+<p>Hecho esto, ya tendríamos nuestra red DMZ creada, como podemos observar:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ4.png" /></p>
+
+<p>Hemos finalizado este primer ejercicio.</p>
+
+<h4 id="2-creación-de-las-instancias">2. Creación de las instancias:</h4>
+
+<ul>
+  <li>
+    <p><strong>Freston:</strong></p>
+
+    <ul>
+      <li><strong>Debian Buster sobre volumen de 10GB con sabor m1.mini</strong></li>
+      <li><strong>Conectada a la red interna</strong></li>
+      <li><strong>Accesible indirectamente a través de dulcinea</strong></li>
+      <li><strong>IP estática</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>Freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png" /></p>
+
+<p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png" /></p>
+
+<p>Y ahora, un detalle importante que hay que tener en cuenta antes de realizar el lanzamiento de la nueva instancia es, que si recordamos, a la <strong>red interna</strong>, le deshabilitamos el <strong>servidor DHCP</strong>, por lo que si ahora generamos esta nueva instancia perteneciente a esta red, no adquirirá ninguna dirección mediante <em>DHCP</em>, por lo que será inaccesible, porque recordemos que a esta máquina también se accederá a través de <em>Dulcinea</em>. Por tanto, vamos a habilitar el servidor <em>DHCP</em> de la red interna.</p>
+
+<p>Ahora sí, es momento de crear la nueva instancia.</p>
+
+<p>Para crearla, nos dirigimos hacia nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Instancias</strong>. Una vez aquí, <em>clickamos</em> en el botón llamado <strong>+ Lanzar instancia</strong>, y se nos abrirá un menú, donde debemos indicar las características de la instancia que queremos crear:</p>
+
+<p>En el primer apartado de este asistente, indicamos el nombre que poseerá nuestra nueva instancia:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston1.png" /></p>
+
+<p>Ahora establecemos que el origen de arranque sea el volumen creado previamente:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston2.png" /></p>
+
+<p>Como <strong>Sabor</strong> indicamos que tenga un <strong>m1.mini</strong>.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston3.png" /></p>
+
+<p>Y por último, le asignamos la red a la que va a pertenecer esta máquina.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston4.png" /></p>
+
+<p>Aquí podemos ver como hemos creado esta instancia correctamente y que pertenece a la red interna, ya que posee una dirección <strong>10.0.1.6</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfrestonfin.png" /></p>
+
+<p>Vamos a probar a acceder a <strong>Freston</strong> a través de <em>Dulcinea</em>:</p>
+
+<pre>
+debian@dulcinea:~$ ssh debian@10.0.1.6
+The authenticity of host '10.0.1.6 (10.0.1.6)' can't be established.
+ECDSA key fingerprint is SHA256:uR1IwMruxlhVJzsAB7UuqHlyR7r+6xqyVhwFXxvX6PM.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.1.6' (ECDSA) to the list of known hosts.
+Linux freston 4.19.0-11-cloud-amd64 #1 SMP Debian 4.19.146-1 (2020-09-17) x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+
+debian@freston:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:4a:d0:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.1.6/24 brd 10.0.1.255 scope global dynamic eth0
+       valid_lft 86277sec preferred_lft 86277sec
+    inet6 fe80::f816:3eff:fe4a:d053/64 scope link
+       valid_lft forever preferred_lft forever
+debian@freston:~$
+</pre>
+
+<p>Vemos como efectivamente hemos accedido a <strong>Freston</strong>.</p>
+
+<p>Es el momento de realizar las configuraciones necesarias en esta nueva máquina.</p>
+
+<p>En primer lugar vamos a asignarle una <strong>dirección IP estática</strong>. Para ello editamos el fichero <code class="language-plaintext highlighter-rouge">/etc/network/interfaces</code>:</p>
+
+<pre>
+nano /etc/network/interfaces
+</pre>
+
+<p>En él, establecemos un bloque como este, en el que indicamos que la interfaz <strong>eth0</strong> (la que está conectada a la red interna), posea una dirección IP estática, cuya dirección es la <strong>10.0.1.6</strong>, cuya máscara de red es una 255.255.255.0, es decir, una <strong>/24</strong>, que la puerta de enlace es la <strong>10.0.1.11</strong>, es decir, la IP de <em>Dulcinea</em>, y que utilice esos DNS indicados.</p>
+
+<pre>
+allow-hotplug eth0
+iface eth0 inet static
+address 10.0.1.6
+netmask 255.255.255.0
+gateway 10.0.1.11
+</pre>
+
+<p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
+
+<pre>
+systemctl restart networking
+</pre>
+
+<p>Vamos a ver si se ha aplicado correctamente la configuración deseada:</p>
+
+<pre>
+debian@freston:~$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:4a:d0:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.1.6/24 brd 10.0.1.255 scope global eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe4a:d053/64 scope link
+       valid_lft forever preferred_lft forever
+
+debian@freston:~$ ip r
+default via 10.0.1.11 dev eth0 onlink
+10.0.1.0/24 dev eth0 proto kernel scope link src 10.0.1.6
+169.254.169.254 via 10.0.1.1 dev eth0
+
+debian@freston:~$ ping 10.0.0.1
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+64 bytes from 10.0.0.1: icmp_seq=1 ttl=63 time=1.63 ms
+64 bytes from 10.0.0.1: icmp_seq=2 ttl=63 time=1.60 ms
+64 bytes from 10.0.0.1: icmp_seq=3 ttl=63 time=1.50 ms
+^C
+--- 10.0.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 6ms
+rtt min/avg/max/mdev = 1.499/1.575/1.628/0.071 ms
+
+debian@freston:~$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=111 time=43.3 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=111 time=42.8 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=111 time=43.8 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 42.825/43.297/43.751/0.448 ms
+
+debian@freston:~$ ping www.google.es
+ping: www.google.es: Temporary failure in name resolution
+</pre>
+
+<p>Podemos observar como todos los cambios se han aplicado, como además ya poseemos conexión a internet, pero aún no podemos hacer uso de la resolución de nombres.</p>
+
+<p>Esto se debe a que, esta instancia, posee un fichero <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> que se genera de manera dinámica, por lo que debemos buscar alguna forma de indicarle a ese fichero que utilice los servidores DNS de los que queremos hacer uso.</p>
+
+<p>Para hacer esto, tendemos que modificar el fichero <code class="language-plaintext highlighter-rouge">/etc/resolvconf/resolv.conf.d/base</code> e indicar ahí las direcciones de los servidores DNS, y así incluirá a estos en cada arranque/reinicio.</p>
+
+<pre>
+nano /etc/resolvconf/resolv.conf.d/base
+</pre>
+
+<p>En mi caso, he añadido el <strong>10.0.1.11</strong>, es decir, <em>Dulcinea</em>, y el <strong>8.8.8.8</strong>, que pertenece a <em>Google</em>, por lo que el fichero quedaría así:</p>
+
+<pre>
+nameserver 10.0.1.11
+nameserver 8.8.8.8
+</pre>
+
+<p>Reiniciamos de nuevo y aplicamos los cambios:</p>
+
+<pre>
+systemctl restart networking
+</pre>
+
+<p>Y volvemos a intentar hacer uso de la resolución de nombres:</p>
+
+<pre>
+debian@freston:~$ ping www.google.es
+PING www.google.es (216.58.211.35) 56(84) bytes of data.
+64 bytes from muc03s14-in-f3.1e100.net (216.58.211.35): icmp_seq=1 ttl=112 time=128 ms
+64 bytes from muc03s14-in-f3.1e100.net (216.58.211.35): icmp_seq=2 ttl=112 time=52.9 ms
+64 bytes from muc03s14-in-f3.1e100.net (216.58.211.35): icmp_seq=3 ttl=112 time=45.6 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 45.578/75.632/128.400/37.432 ms
+</pre>
+
+<p>Ahora sí resuelve por nombres, por lo que ya habríamos terminado las configuraciones de red.</p>
+
+<p>Vamos a pasar ahora a configurar la resolución estática, para ello editamos el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code>:</p>
+
+<pre>
+nano /etc/hosts
+</pre>
+
+<p>La resolución estática lo que hace, es que cuando intentemos resolver un nombre, busca en este fichero si tiene su dirección IP guardada, por lo que nos facilita y nos acomoda mucho el trabajo.</p>
+
+<p>Añadimos estas líneas:</p>
+
+<pre>
+127.0.1.1 freston.javierpzh.gonzalonazareno.org freston freston.novalocal
+127.0.0.1 localhost
+
+10.0.1.11 dulcinea.javierpzh.gonzalonazareno.org dulcinea
+10.0.1.8 sancho.javierpzh.gonzalonazareno.org sancho
+10.0.1.13 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>Me he dado cuenta de una cosa al reiniciar la máquina <em>Freston</em>, y es que en cada inicio se restablece el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code class="language-plaintext highlighter-rouge">/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
+
+<pre>
+manage_etc_hosts: true
+</pre>
+
+<p>Le cambiamos el valor a <em>false</em>:</p>
+
+<pre>
+manage_etc_hosts: false
+</pre>
+
+<p>Y ya habríamos configurado la resolución estática en <em>Freston</em>.</p>
+
+<p>También he añadido la línea correspondiente a las máquinas <em>Dulcinea</em>, <em>Sancho</em> y <em>Quijote</em>, para que ellas también puedan hacer uso de la resolución estática con <em>Freston</em>. Les he añadido esta línea:</p>
+
+<pre>
+10.0.1.6 freston.javierpzh.gonzalonazareno.org freston
+</pre>
+
+<p>Por último, vamos a configurar nuestro reloj utilizando un servidor <strong>NTP</strong> externo, pero nos encontraremos con que tendremos conflictos entre los servicios <code class="language-plaintext highlighter-rouge">systemd-timesyncd</code> y <code class="language-plaintext highlighter-rouge">ntpd</code>. En mi caso voy a desinstalar el paquete <code class="language-plaintext highlighter-rouge">ntp</code> para solucionar el problema:</p>
+
+<pre>
+apt remove --purge ntp -y
+</pre>
+
+<p>Hecho esto, introducimos el siguiente comando y seleccionamos la configuración que nos interese:</p>
+
+<pre>
+dpkg-reconfigure tzdata
+</pre>
+
+<p>Comprobamos que tenemos la hora correcta y el servidor <strong>NTP</strong> activo y sincronizado:</p>
+
+<pre>
+root@freston:~# timedatectl
+               Local time: Sat 2020-12-12 23:36:24 CET
+           Universal time: Sat 2020-12-12 22:36:24 UTC
+                 RTC time: Sat 2020-12-12 22:36:25
+                Time zone: Europe/Madrid (CET, +0100)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+</pre>
+
+<p>Ahora sí, hemos terminado todas las configuraciones en <em>Freston</em>.</p>
+
+<p>Aunque antes de salir de esta máquina, aún me quedaría algo por hacer, y no es más que llevar a cabo la creación del usuario <strong>profesor</strong>, usuario que puede utilizar <code class="language-plaintext highlighter-rouge">sudo</code> sin contraseña.</p>
+
+<p>Para crear un usuario en <em>Debian</em>, tenemos que hacer uso del comando <code class="language-plaintext highlighter-rouge">useradd</code>, pero bien, si queremos que en el nuevo usuario se creen las carpetas automáticamente en el directorio <code class="language-plaintext highlighter-rouge">/home</code> debemos introducir la opción <code class="language-plaintext highlighter-rouge">-m</code>:</p>
+
+<pre>
+root@freston:~# useradd profesor -m -s /bin/bash
+
+root@freston:~# passwd profesor
+New password:
+Retype new password:
+passwd: password updated successfully
+
+root@freston:~# ls /home/
+debian	profesor
+</pre>
+
+<p>También le he asignando una contraseña que es <strong>profesor</strong>, por si alguna vez nos es necesaria, aunque normalmente no nos hará falta ya que accederemos mediante claves públicas-privadas.</p>
+
+<p>He copiado todas las claves públicas de los profesores al fichero <code class="language-plaintext highlighter-rouge">.ssh/authorized_keys</code> del usuario <em>profesor</em>.</p>
+
+<pre>
+mkdir .ssh
+
+nano .ssh/authorized_keys
+
+chmod 700 .ssh/
+
+chmod 600 .ssh/authorized_keys
+</pre>
+
+<p><strong>Importante:</strong> hay que cambiar los permisos de la carpeta <code class="language-plaintext highlighter-rouge">.ssh</code> a <em>700</em>, y del fichero <code class="language-plaintext highlighter-rouge">authorized_keys</code> a <em>600</em>.</p>
+
+<h4 id="3-modificación-de-la-ubicación-de-quijote">3. Modificación de la ubicación de quijote</h4>
+
+<ul>
+  <li><strong>Pasa de la red interna a la DMZ y su direccionamiento tiene que modificarse apropiadamente</strong></li>
+</ul>
+
+<p>Es hora de realizar el último cambio del ejercicio, y no es más que cambiar la ubicación de la máquina <strong>Quijote</strong> a la nueva <strong>red DMZ</strong>, ya que actualmente pertenece a la red interna.</p>
+
+<p>Para llevar a cabo esta modificación, nos dirigimos a nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Instancias</strong>. Una vez aquí, <em>clickamos</em> en la pequeña flecha del final, y se nos desplegará este menú de opciones, donde debemos seleccionar <strong>Desconectar interfaz</strong>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/menu.png" /></p>
+
+<p>Seleccionamos la interfaz a desconectar, en este caso la interfaz conectada a la red interna:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/desconectarredinterna.png" /></p>
+
+<p>Y una vez hecho esto, en el mismo menú de opciones, debemos seleccionar <strong>Conectar interfaz</strong>,  y seleccionar la <strong>red DMZ</strong>. Vemos como ahora <em>Quijote</em>, posee una dirección IP <strong>10.0.2.6</strong>.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/quijoteredDMZ.png" /></p>
+
+<p>Recordemos, que a las instancias <em>Sancho</em>, <em>Quijote</em> y <em>Freston</em>, accedemos mediante <em>Dulcinea</em>, por lo que, si queremos acceder a <em>Quijote</em>, debe tener conexión con <em>Dulcinea</em>, y esto solo es posible si añadimos una nueva interfaz a <em>Dulcinea</em> para que también pertenezca a la <strong>red DMZ</strong>, por lo que también la vamos a añadir.</p>
+
+<p>Aquí podemos ver el resultado:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/dulcinearedDMZ.png" /></p>
+
+<p>Vamos a comprobar que realmente podemos acceder a <em>Quijote</em> a través de <em>Dulcinea</em>:</p>
+
+<pre>
+debian@dulcinea:~$ ssh centos@10.0.2.6
+The authenticity of host '10.0.2.6 (10.0.2.6)' can't be established.
+ECDSA key fingerprint is SHA256:E66o30JGSL5dZglKXltZaOAzuVHOWZUqdopacdi72m8.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.0.2.6' (ECDSA) to the list of known hosts.
+Last login: Sat Dec 12 23:33:20 2020 from 10.0.1.11
+
+[centos@quijote ~]$
+</pre>
+
+<p>Efectivamente la respuesta es positiva.</p>
+
+<p>Por último, vamos a establecer estas nuevas direcciones que han obtenido <em>Dulcinea</em> y <em>Quijote</em> como estáticas.</p>
+
+<p>En el caso de <strong>Dulcinea</strong>:</p>
+
+<pre>
+debian@dulcinea:~# ip a
+
+...
+
+4: eth2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:8d:98:da brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.10/24 brd 10.0.2.255 scope global dynamic eth2
+       valid_lft 85985sec preferred_lft 85985sec
+    inet6 fe80::f816:3eff:fe8d:98da/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Vemos que ha obtenido por <em>DHCP</em> la dirección <strong>10.0.2.10</strong> en la interfaz <strong>eth2</strong>, por lo tanto esta le vamos a asignar de manera estática.</p>
+
+<p>Editamos el fichero <code class="language-plaintext highlighter-rouge">/etc/network/interfaces</code>:</p>
+
+<pre>
+nano /etc/network/interfaces
+</pre>
+
+<p>Quedaría de tal forma el bloque de la interfaz <em>eth2</em>:</p>
+
+<pre>
+allow-hotplug eth2
+iface eth2 inet static
+address 10.0.2.10
+netmask 255.255.255.0
+</pre>
+
+<p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
+
+<pre>
+systemctl restart networking
+</pre>
+
+<p>Vamos a comprobar las direcciones:</p>
+
+<pre>
+root@dulcinea:~# ip a
+
+...
+
+4: eth2: &lt;BROADCAST,MULTICAST&gt; mtu 8950 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether fa:16:3e:8d:98:da brd ff:ff:ff:ff:ff:ff
+</pre>
+
+<p>Anda, la interfaz <em>eth2</em>, se encuentra en estado <strong>DOWN</strong>, es decir, apagada. Por defecto esta interfaz no se va a levantar en cada arranque, por lo que tendríamos que hacer uso del comando <code class="language-plaintext highlighter-rouge">ifup eth2</code> cada vez que quisiéramos hacer uso de esta interfaz. Esto no es lo que estamos buscando, por tanto, vamos a encontrar una solución.</p>
+
+<p>Vamos a editar el fichero <code class="language-plaintext highlighter-rouge">/etc/network/interfaces.d/*</code>:</p>
+
+<pre>
+nano /etc/network/interfaces.d/*
+</pre>
+
+<p>En él nos vamos a encontrar:</p>
+
+<pre>
+auto lo
+iface lo inet loopback
+    dns-nameservers 192.168.202.2
+
+auto eth0
+iface eth0 inet dhcp
+    mtu 8950
+
+auto eth1
+iface eth1 inet dhcp
+    mtu 8950
+</pre>
+
+<p>Vemos como no apreciamos ninguna referencia sobre la interfaz <em>eth2</em>, por lo que vamos a añadir este bloque:</p>
+
+<pre>
+auto eth2
+iface eth2 inet dhcp
+    mtu 8950
+</pre>
+
+<p>En este punto, reiniciamos de nuevo:</p>
+
+<pre>
+systemctl restart networking
+</pre>
+
+<p>Y comprobamos de nuevo las direcciones:</p>
+
+<pre>
+root@dulcinea:~# ip a
+
+...
+
+4: eth2: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether fa:16:3e:8d:98:da brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.10/24 brd 10.0.2.255 scope global eth2
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:fe8d:98da/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Ahora sí nos encontramos con la interfaz en estado <strong>UP</strong> y con la configuración correcta.</p>
+
+<p>Recordemos que <em>Dulcinea</em> es la máquina que hace de <em>router</em>, por lo que todas las conexiones pasan por ella, y es la que se encarga de redirigir las peticiones.</p>
+
+<p>En el primer <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">post</a>, configuramos una regla de <em>iptables</em> para que recondujera las peticiones provenientes de la red <em>10.0.1.0/24</em> hacia la interfaz <strong>eth0</strong> que es mediante la que está conectada al exterior. Pero esta regla obviamente no nos sirve para que <em>Quijote</em> que ahora pertenece a la red <em>10.0.2.0/24</em>, posea conexión a internet, por lo que tenemos que crear una nueva regla para esta red.</p>
+
+<p>Si lo recordamos, para hacer <strong>NAT</strong> en <strong>Dulcinea</strong> y que así <strong>Quijote</strong> tenga acceso a internet, tenemos que modificar el grupo de seguridad de <em>Dulcinea</em> y deshabilitar la seguridad de todos sus puertos, es decir, quitarle las reglas de cortafuegos, para luego añadirle nuestra propia regla de <code class="language-plaintext highlighter-rouge">iptables</code>.</p>
+
+<p>Para ello tenemos que configurar <em>OpenStack</em> para administrar nuestro proyecto desde la línea de comandos, que es desde donde vamos a realizar este proceso.</p>
+
+<p>Primeramente. vamos a ver los detalles de esta instancia:</p>
+
+<pre>
+(openstack) javier@debian:~/entornos_virtuales/openstack$ openstack server show Dulcinea
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Field                       | Value                                                                                                                 |
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| OS-DCF:diskConfig           | AUTO                                                                                                                  |
+| OS-EXT-AZ:availability_zone | nova                                                                                                                  |
+| OS-EXT-STS:power_state      | Running                                                                                                               |
+| OS-EXT-STS:task_state       | None                                                                                                                  |
+| OS-EXT-STS:vm_state         | active                                                                                                                |
+| OS-SRV-USG:launched_at      | 2020-11-14T17:44:11.000000                                                                                            |
+| OS-SRV-USG:terminated_at    | None                                                                                                                  |
+| accessIPv4                  |                                                                                                                       |
+| accessIPv6                  |                                                                                                                       |
+| addresses                   | red de javier.perezh=10.0.0.8, 172.22.200.183; red interna de javier.perezh=10.0.1.11; DMZ de javier.perezh=10.0.2.10 |
+| config_drive                |                                                                                                                       |
+| created                     | 2020-11-14T17:43:42Z                                                                                                  |
+| flavor                      | m1.mini (12)                                                                                                          |
+| hostId                      | 1cd650c7bff842c92682e8bc3d0d184f4ddcc2e41fc41ae8487eeb6a                                                              |
+| id                          | 73f609c8-9724-4e54-818d-a9bdf0cb43fe                                                                                  |
+| image                       |                                                                                                                       |
+| key_name                    | msi_debian_clave_publica                                                                                              |
+| name                        | Dulcinea                                                                                                              |
+| progress                    | 0                                                                                                                     |
+| project_id                  | 678e0304a62c445ba78d3b825cb4f1ab                                                                                      |
+| properties                  |                                                                                                                       |
+| security_groups             | name='default'                                                                                                        |
+| status                      | ACTIVE                                                                                                                |
+| updated                     | 2020-11-22T11:38:44Z                                                                                                  |
+| user_id                     | fc6228f3de9b2e4abfc00a526192e37c323cde31412ffd98d1bf7c584915f35a                                                      |
+| volumes_attached            | id='dab6f14b-ec83-4d5a-9940-0f4bb35f864a'                                                                             |
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+</pre>
+
+<p>Vemos como efectivamente posee el grupo de seguridad <code class="language-plaintext highlighter-rouge">default</code> comentando anteriormente.</p>
+
+<p>Procedemos a eliminar este grupo de seguridad:</p>
+
+<pre>
+(openstack) javier@debian:~/entornos_virtuales/openstack$ openstack server remove security group Dulcinea default
+</pre>
+
+<p>Si vemos de nuevo los detalles de <strong>Dulcinea</strong>:</p>
+
+<pre>
+(openstack) javier@debian:~/entornos_virtuales/openstack$ openstack server show Dulcinea
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| Field                       | Value                                                                                                                 |
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+| OS-DCF:diskConfig           | AUTO                                                                                                                  |
+| OS-EXT-AZ:availability_zone | nova                                                                                                                  |
+| OS-EXT-STS:power_state      | Running                                                                                                               |
+| OS-EXT-STS:task_state       | None                                                                                                                  |
+| OS-EXT-STS:vm_state         | active                                                                                                                |
+| OS-SRV-USG:launched_at      | 2020-11-14T17:44:11.000000                                                                                            |
+| OS-SRV-USG:terminated_at    | None                                                                                                                  |
+| accessIPv4                  |                                                                                                                       |
+| accessIPv6                  |                                                                                                                       |
+| addresses                   | red de javier.perezh=10.0.0.8, 172.22.200.183; red interna de javier.perezh=10.0.1.11; DMZ de javier.perezh=10.0.2.10 |
+| config_drive                |                                                                                                                       |
+| created                     | 2020-11-14T17:43:42Z                                                                                                  |
+| flavor                      | m1.mini (12)                                                                                                          |
+| hostId                      | 1cd650c7bff842c92682e8bc3d0d184f4ddcc2e41fc41ae8487eeb6a                                                              |
+| id                          | 73f609c8-9724-4e54-818d-a9bdf0cb43fe                                                                                  |
+| image                       |                                                                                                                       |
+| key_name                    | msi_debian_clave_publica                                                                                              |
+| name                        | Dulcinea                                                                                                              |
+| progress                    | 0                                                                                                                     |
+| project_id                  | 678e0304a62c445ba78d3b825cb4f1ab                                                                                      |
+| properties                  |                                                                                                                       |
+| status                      | ACTIVE                                                                                                                |
+| updated                     | 2020-11-22T11:38:44Z                                                                                                  |
+| user_id                     | fc6228f3de9b2e4abfc00a526192e37c323cde31412ffd98d1bf7c584915f35a                                                      |
+| volumes_attached            | id='dab6f14b-ec83-4d5a-9940-0f4bb35f864a'                                                                             |
++-----------------------------+-----------------------------------------------------------------------------------------------------------------------+
+</pre>
+
+<p>Podemos apreciar como ya no nos muestra el apartado <strong>security_groups</strong> ya que no posee ningún grupo de seguridad, lo que significa por tanto, que lo hemos eliminado.</p>
+
+<p>Al eliminar el grupo de seguridad, se habilita un cortafuegos por defecto de <em>OpenStack</em>, que es la seguridad del puerto, que no permite el tráfico.</p>
+
+<p>Tenemos que deshabilitar la seguridad del puerto mediante el cual <em>Dulcinea</em> está conectada a la red <strong>10.0.2.0/24</strong>, recordemos que está conectada mediante la dirección <strong>10.0.2.10</strong>. Si miramos la lista de los puertos:</p>
+
+<pre>
+(openstack) javier@debian:~/entornos_virtuales/openstack$ openstack port list
++--------------------------------------+------------------------------------------------+-------------------+--------------------------------------------------------------------------+--------+
+| ID                                   | Name                                           | MAC Address       | Fixed IP Addresses                                                       | Status |
++--------------------------------------+------------------------------------------------+-------------------+--------------------------------------------------------------------------+--------+
+| 07c0dbe5-af6c-4be4-9087-7525d0fe4edf |                                                | fa:16:3e:79:62:a5 | ip_address='10.0.2.1', subnet_id='a3961a3c-d8bf-40c8-a1d9-0939bd2e01fd'  | ACTIVE |
+| 0f26b5cf-2d67-49bc-bdd4-b2fd6d2910e4 |                                                | fa:16:3e:8c:8f:15 | ip_address='10.0.1.1', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
+| 2531063e-74f3-44d3-a268-0d2868599eee |                                                | fa:16:3e:2b:1c:c7 | ip_address='10.0.0.8', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| 2a4cd134-aad2-4d5d-9a22-8cdcdc745d52 |                                                | fa:16:3e:7c:f2:76 | ip_address='10.0.0.3', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| 338db52a-895b-4dcd-a85f-ad1706b26beb | prueba_cortafuegos-r1_network_ext-27wokbxnx23j | fa:16:3e:2b:d4:7e | ip_address='10.0.0.16', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3' | DOWN   |
+| 382e2ad1-1645-4963-a913-68c82e260662 |                                                | fa:16:3e:f3:86:31 | ip_address='10.0.0.9', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| 4552e4e4-b593-47b2-8d7f-ea1d0b503d7d |                                                | fa:16:3e:b6:48:45 | ip_address='10.0.2.6', subnet_id='a3961a3c-d8bf-40c8-a1d9-0939bd2e01fd'  | ACTIVE |
+| 4b74d3ee-c877-4c20-820d-69e502c51034 |                                                | fa:16:3e:28:24:d0 | ip_address='10.0.0.2', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| 50c06762-bfce-499f-95b3-ef3a3708f906 |                                                | fa:16:3e:4b:ab:f9 | ip_address='10.0.0.1', subnet_id='98c0ae2f-d2ee-48a3-9122-f1369a6e99b3'  | ACTIVE |
+| a0ea0fd0-91a9-4727-ba3f-b0e764dc0e23 |                                                | fa:16:3e:8d:98:da | ip_address='10.0.2.10', subnet_id='a3961a3c-d8bf-40c8-a1d9-0939bd2e01fd' | ACTIVE |
+| e1517753-2766-4856-a1aa-9f6df4e70d8d |                                                | fa:16:3e:24:f3:f9 | ip_address='10.0.1.11', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748' | ACTIVE |
+| e225a306-9713-4e4a-bd14-888c01479784 |                                                | fa:16:3e:84:9b:94 | ip_address='10.0.1.8', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
+| f1b3ec4a-e9fb-4d4a-9b6f-276dbb460786 |                                                | fa:16:3e:4a:d0:53 | ip_address='10.0.1.6', subnet_id='87427d1a-bd9d-400a-935b-02c56aaf7748'  | ACTIVE |
++--------------------------------------+------------------------------------------------+-------------------+--------------------------------------------------------------------------+--------+
+</pre>
+
+<p>Nos interesa el ID del puerto, ya que necesitamos utilizar el siguiente comando para deshabilitar la seguridad de este puerto:</p>
+
+<pre>
+(openstack) javier@debian:~/entornos_virtuales/openstack$ openstack port set --disable-port-security a0ea0fd0-91a9-4727-ba3f-b0e764dc0e23
+</pre>
+
+<p>Una vez hemos deshabilitado el cortafuegos que establece la seguridad del puerto, la máquina vuelve a estar accesible, ya que ahora la máquina tiene abiertos todo el rango de puertos completo, porque ahora no posee ningún cortafuegos.</p>
+
+<p>Obviamente esto, no es recomendable en situaciones donde la máquina no se encuentre en un entorno que tengamos controlado, yo lo hago porque <em>Dulcinea</em> se encuentra en una nube privada, además de que vamos a establecer un cortafuegos desde dentro de la instancia.</p>
+
+<p>Ahora volvemos a <em>Dulcinea</em> y creamos la regla de <code class="language-plaintext highlighter-rouge">iptables</code> necesaria:</p>
+
+<pre>
+iptables -t nat -A POSTROUTING -s 10.0.2.0/24 -o eth0 -j MASQUERADE
+</pre>
+
+<p><strong>Importante:</strong> es muy recomendable instalar el paquete <code class="language-plaintext highlighter-rouge">iptables-persistent</code>, ya que esto hará que en cada arranque del sistema las reglas que hemos configurado se levanten automáticamente, siempre y cuando las guardemos en el fichero <code class="language-plaintext highlighter-rouge">/etc/iptables/rules.v4</code>. Por tanto vamos a guardar esta regla para que se levente en cada inicio:</p>
+
+<pre>
+iptables-save &gt; /etc/iptables/rules.v4
+</pre>
+
+<p>Lógicamente tenemos habilitado el <strong>bit de forward</strong>, ya que en el primer <em>post</em> lo establecimos a <em>1</em> de manera permanente.</p>
+
+<p>Para terminar de trabajar en <em>Dulcinea</em>, vamos a corregir la resolución estática de nombres, ya que la IP de <em>Quijote</em> ha cambiado. En el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> sustituimos la antigua línea que hacía referencia a <em>Quijote</em> por esta:</p>
+
+<pre>
+10.0.2.6 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>En este punto, vamos a pasar a la máquina <strong>Quijote</strong>:</p>
+
+<pre>
+[centos@quijote ~]$ ip a
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+3: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc fq_codel state UP group default qlen 1000
+    link/ether fa:16:3e:b6:48:45 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.6/24 brd 10.0.2.255 scope global dynamic noprefixroute eth0
+       valid_lft 84200sec preferred_lft 84200sec
+    inet6 fe80::275d:a225:a9a0:a43f/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Para establecer el direccionamiento estático en <em>CentOS 8</em>, debemos editar el fichero <code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code>:</p>
+
+<pre>
+nano /etc/sysconfig/network-scripts/ifcfg-eth0
+</pre>
+
+<p>En él, vamos a sustituir el bloque existente por este, en el que indicamos que la IP estática que le estamos asignando es la <strong>10.0.2.6</strong>, cuya máscara de red es una <strong>255.255.255.0</strong>, que la puerta de enlace es la <strong>10.0.2.10</strong>, es decir, la IP de <em>Dulcinea</em> en esta red, y que utilice esos <strong>DNS</strong> indicados. Parece que ya hemos terminado toda la configuración necesaria pero no, ya que si nos fijamos bien, la <strong>dirección de hardware</strong> de la interfaz, ha cambiado también, por lo que también debemos modificar el valor del apartado <strong>HWADDR</strong> por el nuevo valor <em>fa:16:3e:b6:48:45</em>. Es importante establecer en el apartado <strong>ONBOOT</strong> el valor <em>yes</em>, ya que esto hará que esta configuración se active en cada inicio del sistema.</p>
+
+<pre>
+BOOTPROTO=static
+DEVICE=eth0
+MTU=8950
+HWADDR=fa:16:3e:b6:48:45
+ONBOOT=yes
+TYPE=Ethernet
+USERCTL=no
+IPADDR=10.0.2.6
+NETMASK=255.255.255.0
+GATEWAY=10.0.2.10
+DNS1=10.0.2.10
+DNS2=8.8.8.8
+</pre>
+
+<p>Reiniciamos y aplicamos los cambios en las interfaces de red:</p>
+
+<pre>
+systemctl restart network.service
+</pre>
+
+<p>Vamos a comprobar las direcciones:</p>
+
+<pre>
+[root@quijote ~]# ip a
+
+...
+
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 8950 qdisc fq_codel state UP group default qlen 1000
+    link/ether fa:16:3e:b6:48:45 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.2.6/24 brd 10.0.2.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::f816:3eff:feb6:4845/64 scope link
+       valid_lft forever preferred_lft forever
+</pre>
+
+<p>Nos encontramos la interfaz con la configuración correcta.</p>
+
+<p>Vamos a probar la conexión al exterior realizando un <em>ping</em> a <code class="language-plaintext highlighter-rouge">www.google.es</code>:</p>
+
+<pre>
+[centos@quijote ~]$ ping www.google.es
+PING www.google.es (216.58.215.131) 56(84) bytes of data.
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=1 ttl=112 time=42.9 ms
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=2 ttl=112 time=42.9 ms
+64 bytes from mad41s04-in-f3.1e100.net (216.58.215.131): icmp_seq=3 ttl=112 time=42.7 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 42.734/42.857/42.939/0.088 ms
+</pre>
+
+<p>Poseemos conectividad al exterior.</p>
+
+<p>Para terminar la tarea, vamos a modificar el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> de esta máquina <em>Quijote</em> para corregir la resolución estática de <em>Dulcinea</em> que ahora ha cambiado de IP para esta red. Sustituimos la antigua línea que hacía referencia a <em>Dulcinea</em> por esta:</p>
+
+<pre>
+10.0.2.10 dulcinea.javierpzh.gonzalonazareno.org dulcinea
+</pre>
+
+<p>Con esto, habríamos terminado todo el proceso de modificaciones.</p>
+
+<p>Vamos a probar la resolución estática:</p>
+
+<pre>
+[centos@quijote ~]$ ping dulcinea
+PING dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10) 56(84) bytes of data.
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=1 ttl=64 time=0.547 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=2 ttl=64 time=0.802 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.2.10): icmp_seq=3 ttl=64 time=0.810 ms
+^C
+--- dulcinea.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 32ms
+rtt min/avg/max/mdev = 0.547/0.719/0.810/0.126 ms
+
+[centos@quijote ~]$ ping sancho
+PING sancho.javierpzh.gonzalonazareno.org (10.0.1.8) 56(84) bytes of data.
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=1 ttl=63 time=2.98 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=2 ttl=63 time=1.44 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=3 ttl=63 time=1.95 ms
+^C
+--- sancho.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 1.442/2.123/2.979/0.641 ms
+
+[centos@quijote ~]$ ping freston
+PING freston.javierpzh.gonzalonazareno.org (10.0.1.6) 56(84) bytes of data.
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=1 ttl=63 time=2.75 ms
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=2 ttl=63 time=1.93 ms
+64 bytes from freston.javierpzh.gonzalonazareno.org (10.0.1.6): icmp_seq=3 ttl=63 time=1.73 ms
+^C
+--- freston.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 1.727/2.135/2.748/0.441 ms
+</pre>
+
+<p>Antes de finalizar el <em>post</em>, me gustaría aclarar que aunque no haya comentado nada de cambiar los ficheros <code class="language-plaintext highlighter-rouge">/etc/hosts</code> de las máquinas <em>Sancho</em> y <em>Freston</em>, si queremos seguir utilizando la resolución estática en estas máquinas a la hora de hacer referencia a <em>Quijote</em>, debemos modificar la línea que hace referencia a <em>Quijote</em>, por esta otra:</p>
+
+<pre>
+10.0.2.6 quijote.javierpzh.gonzalonazareno.org quijote
+</pre>
+
+<p>Y a lo mejor alguien se pregunta, como se conectarían estas máquinas con <em>Quijote</em> si no se encuentran en la misma red, pues bien, al estar todas conectadas a <em>Dulcinea</em>, realizan una conexión hacia esta, y la propia <em>Dulcinea</em> las hace conectar con <em>Quijote</em>. El mismo proceso se llevaría a cabo en el caso de que fuese <em>Quijote</em> el que quisiese conectar con <em>Sancho</em> o <em>Freston</em>.</p>
+
+<p>Se me ha olvidado comentarlo, pero como tenemos configuradas de manera estáticas, todas las direcciones IP de las distintas máquinas, podemos deshabilitar los servidores <em>DHCP</em> de las distintas redes, tanto de la red interna, como de la red <em>DMZ</em>.</p>
+
+  </div><a class="u-url" href="/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

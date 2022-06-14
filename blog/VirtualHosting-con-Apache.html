@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Virtualhosting Con Apache | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Virtualhosting Con Apache" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configuración de VirtualHosting" />
+<meta property="og:description" content="Configuración de VirtualHosting" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/VirtualHosting-con-Apache" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/VirtualHosting-con-Apache" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/VirtualHosting-con-Apache" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-14T00:00:00+02:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/VirtualHosting-con-Apache" />
+<meta property="twitter:title" content="Virtualhosting Con Apache" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Configuración de VirtualHosting","@type":"BlogPosting","headline":"Virtualhosting Con Apache","dateModified":"2020-10-14T00:00:00+02:00","datePublished":"2020-10-14T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/VirtualHosting-con-Apache"},"url":"https://www.javierpzh.com/blog/VirtualHosting-con-Apache","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Virtualhosting Con Apache</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-10-14T00:00:00+02:00" itemprop="datePublished">
+        Oct 14, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="configuración-de-virtualhosting">Configuración de VirtualHosting</h2>
+
+<p>Antes de nada voy a decir que en mi caso voy a utilizar <a href="https://www.vagrantup.com/">Vagrant</a> y como software de virtualización <a href="https://www.virtualbox.org/">VirtualBox</a>.</p>
+
+<p>El objetivo de esta práctica es la puesta en marcha de dos sitios web utilizando el mismo servidor web apache. Hay que tener en cuenta lo siguiente:</p>
+
+<ul>
+  <li>Cada sitio web tendrá nombres distintos.</li>
+  <li>Cada sitio web compartirán la misma dirección IP y el mismo puerto (80).</li>
+</ul>
+
+<p>Queremos construir en nuestro servidor web apache dos sitios web con las siguientes características:</p>
+
+<ul>
+  <li>El nombre de dominio del primero será <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>, su directorio base será <code class="language-plaintext highlighter-rouge">/var/www/iesgn</code> y contendrá una página llamada <code class="language-plaintext highlighter-rouge">index.html</code>, donde sólo se verá una bienvenida a la página del Instituto Gonzalo Nazareno.</li>
+  <li>En el segundo sitio vamos a crear una página donde se pondrán noticias por parte de los departamento, el nombre de este sitio será <code class="language-plaintext highlighter-rouge">www.departamentosgn.org</code>, y su directorio base será <code class="language-plaintext highlighter-rouge">/var/www/departamentos</code>. En este sitio sólo tendremos una página inicial <code class="language-plaintext highlighter-rouge">index.html</code>, dando la bienvenida a la página de los departamentos del instituto.</li>
+</ul>
+
+<p>Para conseguir estos dos sitios virtuales debes seguir los siguientes pasos:</p>
+
+<p><strong>1. Los ficheros de configuración de los sitios webs se encuentran en el directorio <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available</code>, por defecto hay dos ficheros, uno se llama <code class="language-plaintext highlighter-rouge">000-default.conf</code> que es la configuración del sitio web por defecto. Necesitamos tener dos ficheros para realizar la configuración de los dos sitios virtuales, para ello vamos a copiar el fichero <code class="language-plaintext highlighter-rouge">000-default.conf</code>:</strong></p>
+
+<pre>
+cd /etc/apache2/sites-available
+cp 000-default.conf iesgn.conf
+cp 000-default.conf departamentos.conf
+</pre>
+
+<p>De esta manera tendremos un fichero llamado <code class="language-plaintext highlighter-rouge">iesgn.conf</code> para realizar la configuración del sitio web <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>, y otro llamado <code class="language-plaintext highlighter-rouge">departamentos.conf</code> para el sitio web <code class="language-plaintext highlighter-rouge">www.departamentosgn.org</code>.</p>
+
+<p><strong>2. Modificamos los ficheros <code class="language-plaintext highlighter-rouge">iesgn.conf</code> y <code class="language-plaintext highlighter-rouge">departamentos.conf</code>, para indicar el nombre que vamos a usar para acceder al host virtual <code class="language-plaintext highlighter-rouge">(ServerName)</code> y el directorio de trabajo (<code class="language-plaintext highlighter-rouge">DocumentRoot</code>).</strong></p>
+
+<p>Cambiamos las líneas de ServerName y DocumentRoot de forma que queden así:</p>
+
+<p>Para la página <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>:</p>
+
+<pre>
+ServerName www.iesgn.org
+DocumentRoot /var/www/iesgn
+</pre>
+
+<p>Para <code class="language-plaintext highlighter-rouge">www.departamentosgn.org</code>:</p>
+
+<pre>
+ServerName www.departamentosgn.org
+DocumentRoot /var/www/departamentos
+</pre>
+
+<p><strong>3. No es suficiente crear los ficheros de configuración de cada sitio web, es necesario crear un enlace simbólico a estos ficheros dentro del directorio <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-enabled</code>, para ello:</strong></p>
+
+<pre>
+a2ensite iesgn
+a2ensite departamentos
+</pre>
+
+<p><strong>La creación de los enlaces simbólicos se puede hacer con la instrucción <code class="language-plaintext highlighter-rouge">a2ensite nombre_fichero_configuracion</code>, para deshabilitar el sitio tenemos que borrar el enlace simbólico o usar la instrucción <code class="language-plaintext highlighter-rouge">a2dissite nombre_fichero_configuracion</code>.</strong></p>
+
+<pre>
+a2ensite iesgn.conf
+a2ensite departamentos.conf
+</pre>
+
+<p><strong>4. Crea los directorios y los ficheros ‘index.html’ necesarios en <code class="language-plaintext highlighter-rouge">/var/www</code> y reiniciamos el servicio.</strong></p>
+
+<pre>
+root@buster:/var/www# cat iesgn/index.html
+&lt;\html&gt;
+	&lt;\head&gt;
+		&lt;\title&gt;INICIO IESGN&lt;\/title&gt;
+        &lt;\/head&gt;
+        &lt;\body&gt;
+	           &lt;\h1&gt;Inicio&lt;\/h1&gt;
+             &lt;\p&gt;Pagina del Gonzalo Nazareno.&lt;\/p&gt;
+	&lt;\/body&gt;
+&lt;\/html&gt;
+
+root@buster:/var/www# cat departamentos/index.html
+&lt;\html&gt;
+	&lt;\head&gt;
+		&lt;\title&gt;DEPARTAMENTOS IESGN&lt;\/title&gt;
+        &lt;\/head&gt;
+        &lt;\body&gt;
+	           &lt;\h1&gt;Departamentos&lt;\/h1&gt;
+             &lt;\p&gt;Departamentos del Gonzalo Nazareno.&lt;\/p&gt;
+	     &lt;\ul&gt;Seguridad&lt;\/ul&gt;
+	     &lt;\ul&gt;Servicios&lt;\/ul&gt;
+	&lt;\/body&gt;
+&lt;\/html&gt;
+</pre>
+
+<p>Para reiniciar el servicio:</p>
+
+<pre>
+systemctl restart apache2.service
+</pre>
+
+<p><strong>5. Para terminar lo único que tendremos que hacer es cambiar el fichero hosts en los clientes y poner dos nuevas líneas donde se haga la conversión entre los dos nombre de dominio y la dirección IP del servidor.</strong></p>
+
+<p>Hay que decir que si queremos visualizar las dos páginas webs en nuestro cliente, debemos configurar una red privada.</p>
+
+<p>Para crear una red <code class="language-plaintext highlighter-rouge">hostonly</code>, podemos simplemente descomentar la siguiente línea que viene comentada por defecto en el fichero ‘Vagrantfile’. Esto asignará un IP privada fija a nuestra mv.</p>
+
+<pre>
+config.vm.network "private_network", ip: "192.168.33.10"
+</pre>
+
+<p>Luego en el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> del cliente, añadir estas dos líneas:</p>
+
+<pre>
+192.168.33.10    www.iesgn.org
+192.168.33.10    www.departamentosgn.org
+</pre>
+
+<p>La IP obviamente depende de la cual tengamos asignada a la mv.</p>
+
+<p>Voy a abrir las páginas desde el cliente.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_virtualhosting_apache/iesgn_web.png" /></p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_virtualhosting_apache/departamentos_web.png" /></p>
+
+<p><strong>Repite el ejercicio cambiando los directorios de trabajo a <code class="language-plaintext highlighter-rouge">/srv/www</code>. ¿Qué modificación debes hacer en el fichero <code class="language-plaintext highlighter-rouge">/etc/apache2/apache2.conf</code>?</strong></p>
+
+<p>Lo primero que debemos hacer es modificar el fichero <code class="language-plaintext highlighter-rouge">apache2.conf</code>, que actualmente posee esta configuración:</p>
+
+<pre>
+&lt;\Directory /var/www/&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;\/Directory&gt;
+
+#&lt;\Directory /srv/&gt;
+#       Options Indexes FollowSymLinks
+#       AllowOverride None
+#       Require all granted
+#&lt;\/Directory&gt;
+</pre>
+
+<p>Esto indica que mostrará todos los ficheros de las páginas alojadas en la ruta <code class="language-plaintext highlighter-rouge">/var/www/</code>. Lo que debemos hacer es comentar estas líneas y descomentar las de abajo que hacen referencia a la ruta <code class="language-plaintext highlighter-rouge">/srv/</code> y todos sus hijos:</p>
+
+<pre>
+#&lt;\Directory /var/www/&gt;
+#        Options Indexes FollowSymLinks
+#        AllowOverride None
+#        Require all granted
+#&lt;\/Directory&gt;
+
+&lt;\Directory /srv/&gt;
+       Options Indexes FollowSymLinks
+       AllowOverride None
+       Require all granted
+&lt;\/Directory&gt;
+</pre>
+
+<p>Ahora creamos la estructura de directorios que queremos y copiamos los mismos ‘index.html’ que hemos utilizado antes:</p>
+<pre>
+cd /var/www/iesgn
+cp index.html /srv/www/iesgn/
+cd ../departamentos/
+cp index.html /srv/www/departamentos/
+</pre>
+
+<p>Ahora ya solo nos quedaría modificar los archivos <code class="language-plaintext highlighter-rouge">iesgn.conf</code> y <code class="language-plaintext highlighter-rouge">departamentos.conf</code> que se encuentran en el directorio <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available</code>. En mi caso he utilizado los mismos ficheros de configuración que había generado antes, por tanto solo tendría que cambiar la ruta del ‘DocumentRoot’, pero también se podrían generar otros archivos de configuración, si deseamos conservar estos:</p>
+
+<p>La línea del fichero <code class="language-plaintext highlighter-rouge">iesgn.conf</code> quedaría:</p>
+
+<pre>
+DocumentRoot /srv/www/iesgn
+</pre>
+
+<p>Y la del <code class="language-plaintext highlighter-rouge">departamentos.conf</code>:</p>
+
+<pre>
+DocumentRoot /srv/www/departamentos
+</pre>
+
+<p>Ahora reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2.service
+</pre>
+
+<p>Y ya podríamos ver las páginas alojadas en nuestro directorio <code class="language-plaintext highlighter-rouge">/srv/</code>.</p>
+
+  </div><a class="u-url" href="/blog/VirtualHosting-con-Apache" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

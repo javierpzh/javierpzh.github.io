@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Servidor Dns | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Servidor Dns" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Escenario" />
+<meta property="og:description" content="Escenario" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Servidor-DNS" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Servidor-DNS" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Servidor-DNS" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-11T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Servidor-DNS" />
+<meta property="twitter:title" content="Servidor Dns" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Escenario","@type":"BlogPosting","headline":"Servidor Dns","dateModified":"2020-12-11T00:00:00+01:00","datePublished":"2020-12-11T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Servidor-DNS"},"url":"https://www.javierpzh.com/blog/Servidor-DNS","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Servidor Dns</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-11T00:00:00+01:00" itemprop="datePublished">
+        Dec 11, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h3 id="escenario">Escenario</h3>
+
+<ol>
+  <li>
+    <p><strong>En nuestra red local tenemos un servidor Web que sirve dos páginas web: <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>, <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong>Vamos a instalar en nuestra red local un servidor DNS (lo puedes instalar en el mismo equipo que tiene el servidor web).</strong></p>
+  </li>
+  <li>
+    <p><strong>Voy a suponer en este documento que el nombre del servidor DNS va a ser <code class="language-plaintext highlighter-rouge">pandora.iesgn.org</code>. El nombre del servidor de tu prácticas será <code class="language-plaintext highlighter-rouge">tunombre.iesgn.org</code>.</strong></p>
+  </li>
+</ol>
+
+<h3 id="servidor-dnsmasq">Servidor DNSmasq</h3>
+
+<p><strong>Instala el servidor DNS <em>dnsmasq</em> en <code class="language-plaintext highlighter-rouge">pandora.iesgn.org</code> y configúralo para que los clientes puedan conocer los nombres necesarios.</strong></p>
+
+<p>He creado una instancia en el <em>cloud</em> de <strong>OpenStack</strong> que será la máquina que actuará como <strong>servidor</strong>, posee una dirección IP <strong>172.22.200.174</strong>.</p>
+
+<p>Las dos páginas servidas por <em>Apache2</em> las he creado pero voy a omitir su explicación, pues ya tengo otras entradas en las que hablo expresamente de esto. Te dejo este enlace por si quieres saber algo más de <a href="https://javierpzh.github.io/tag/apache.html">Apache2</a>.</p>
+
+<p><strong>Importante:</strong> como estamos trabajando en el <em>cloud</em>, he tenido que abrir el puerto <strong>53/UDP</strong>, ya que es el puerto que se utiliza para recibir las peticiones de parte de los clientes.</p>
+
+<p>Una vez en ella, lo primero que debemos hacer es instalar el siguiente paquete:</p>
+
+<pre>
+apt install dnsmasq -y
+</pre>
+
+<p>Para comenzar a configurar el servidor <em>dnsmasq</em>, empezaremos por descomentar la siguiente línea en el fichero <code class="language-plaintext highlighter-rouge">/etc/dnsmasq.conf</code> para que el servidor <em>dnsmasq</em> pueda leer en caso de que sea necesario, es decir, cuando él mismo no pueda resolver una petición, la configuración del fichero <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>:</p>
+
+<pre>
+strict-order
+</pre>
+
+<p>En este fichero, también debemos buscar la directiva <strong>interface</strong>, descomentarla y establecerle como valor, la interfaz de red de nuestra máquina, en mi caso es la <strong>eth0</strong>, de manera que el resultado sería este:</p>
+
+<pre>
+interface=eth0
+</pre>
+
+<p>Con esto, ya habríamos terminado la configuración del servicio <code class="language-plaintext highlighter-rouge">dnsmasq</code>.</p>
+
+<p>Vamos a cambiar el nombre de la máquina, para ello, editamos el fichero <code class="language-plaintext highlighter-rouge">/etc/hostname</code>. En mi caso la máquina se llamará <code class="language-plaintext highlighter-rouge">javierpzh</code> por lo que el contenido del fichero es:</p>
+
+<pre>
+javierpzh
+</pre>
+
+<p>Si vemos, actualmente el <em>prompt</em> de la máquina posee este aspecto:</p>
+
+<pre>
+root@servidor-dns:~#
+</pre>
+
+<p>Debemos reiniciar la máquina para que este cambio se aplique, pero antes, vamos a modificar el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> para cambiar el <strong>hostname</strong> y el <strong>FQDN</strong> de la máquina.</p>
+
+<p>Antes de hacer esto, por experiencia, ya sé, que al reiniciar la máquina se restablecerá el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code>. Para cambiar este funcionamiento, tenemos que dirigirnos al fichero <code class="language-plaintext highlighter-rouge">/etc/cloud/cloud.cfg</code> y buscar esta línea:</p>
+
+<pre>
+manage_etc_hosts: true
+</pre>
+
+<p>Le cambiamos el valor a <em>false</em>:</p>
+
+<pre>
+manage_etc_hosts: false
+</pre>
+
+<p>Ahora sí, vamos a cambiar el fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code>. Nos interesa cambiar la línea con la dirección <strong>127.0.1.1</strong> que es la que hace referencia a la propia máquina. Establezco como <strong>FQDN</strong> <code class="language-plaintext highlighter-rouge">javierpzh.iesgn.org</code> y como <strong>hostname</strong>, <code class="language-plaintext highlighter-rouge">javierpzh</code>:</p>
+
+<pre>
+127.0.1.1 javierpzh.iesgn.org javierpzh
+</pre>
+
+<p>Hecho esto, vamos a reiniciar la máquina con el comando <code class="language-plaintext highlighter-rouge">reboot</code>.</p>
+
+<p>Si después del reinicio volvemos a mirar el <em>prompt</em>:</p>
+
+<pre>
+root@javierpzh:~#
+</pre>
+
+<p>Vemos como hemos modificado correctamente el <em>hostname</em> de la máquina.</p>
+
+<p>Vamos a mirar también el <em>FQDN</em>:</p>
+
+<pre>
+root@javierpzh:~# hostname
+javierpzh
+
+root@javierpzh:~# hostname -f
+javierpzh.iesgn.org
+</pre>
+
+<p>También lo hemos modificado. Con esto, habríamos terminado todo el trabajo en la máquina <em>servidor</em>.</p>
+
+<h4 id="tarea-1-modifica-los-clientes-para-que-utilicen-el-nuevo-servidor-dns-realiza-una-consulta-a-wwwiesgnorg-y-a-wwwjosedomingoorg-realiza-una-prueba-de-funcionamiento-para-comprobar-que-el-servidor-dnsmasq-funciona-como-caché-dns-muestra-el-fichero-hosts-del-cliente-para-demostrar-que-no-estás-utilizando-resolución-estática-realiza-una-consulta-directa-al-servidor-dnsmasq-se-puede-realizar-resolución-inversa">Tarea 1: Modifica los clientes para que utilicen el nuevo servidor DNS. Realiza una consulta a <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>, y a <code class="language-plaintext highlighter-rouge">www.josedomingo.org</code>. Realiza una prueba de funcionamiento para comprobar que el servidor <em>dnsmasq</em> funciona como caché DNS. Muestra el fichero hosts del cliente para demostrar que no estás utilizando resolución estática. Realiza una consulta directa al servidor <em>dnsmasq</em>. ¿Se puede realizar resolución inversa?</h4>
+
+<p>La máquina que actuará como <strong>cliente</strong>, será mi máquina anfitriona.</p>
+
+<p>Una vez en el <em>cliente</em>, vamos a instalar el paquete <code class="language-plaintext highlighter-rouge">dnsutils</code>, para poder hacer uso de la herramienta <code class="language-plaintext highlighter-rouge">dig</code>:</p>
+
+<pre>
+apt install dnsutils -y
+</pre>
+
+<p>Una vez instalado este paquete, vamos a añadir en el fichero <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code>, que contiene los servidores DNS que va a utilizar esta máquina, esta línea para indicar que haga uso del servidor DNS que hemos creado:</p>
+
+<pre>
+nameserver 172.22.200.174
+</pre>
+
+<p>Añadimos la línea <code class="language-plaintext highlighter-rouge">nameserver 172.22.200.174</code>, cuya dirección corresponde a la IP de la máquina servidor.</p>
+
+<p>Hecho esto, podemos realizar una consulta a <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 30160
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.iesgn.org.			IN	A
+
+;; ANSWER SECTION:
+www.iesgn.org.		0	IN	A	172.22.200.174
+
+;; Query time: 97 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 13:56:32 CET 2020
+;; MSG SIZE  rcvd: 58
+</pre>
+
+<p>Vemos como nos está respondiendo nuestro servidor DNS, ya que nos indica que la respuesta viene de la IP <strong>172.22.200.174</strong>.</p>
+
+<p>Realizo una consulta a <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig departamentos.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; departamentos.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 32409
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;departamentos.iesgn.org.	IN	A
+
+;; ANSWER SECTION:
+departamentos.iesgn.org. 0	IN	A	172.22.200.174
+
+;; Query time: 242 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 13:57:36 CET 2020
+;; MSG SIZE  rcvd: 68
+</pre>
+
+<p>Vemos como de nuevo nos está respondiendo nuestro servidor DNS.</p>
+
+<p>Hago una consulta a <code class="language-plaintext highlighter-rouge">www.josedomingo.org</code>, la cual me debería responder ya que en el servidor hemos realizado la configuración adecuada para que pueda utilizar DNS externos en caso de que sea necesario:</p>
+
+<pre>
+javier@debian:~$ dig www.josedomingo.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.josedomingo.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 18210
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 5, ADDITIONAL: 6
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: cd4b754d056f0763b14e40b65fd8b2fa0fe587d46fbb0cd0 (good)
+;; QUESTION SECTION:
+;www.josedomingo.org.		IN	A
+
+;; ANSWER SECTION:
+www.josedomingo.org.	900	IN	CNAME	endor.josedomingo.org.
+endor.josedomingo.org.	365	IN	A	37.187.119.60
+
+;; AUTHORITY SECTION:
+josedomingo.org.	82635	IN	NS	ns1.cdmon.net.
+josedomingo.org.	82635	IN	NS	ns5.cdmondns-01.com.
+josedomingo.org.	82635	IN	NS	ns4.cdmondns-01.org.
+josedomingo.org.	82635	IN	NS	ns2.cdmon.net.
+josedomingo.org.	82635	IN	NS	ns3.cdmon.net.
+
+;; ADDITIONAL SECTION:
+ns1.cdmon.net.		160610	IN	A	35.189.106.232
+ns2.cdmon.net.		160610	IN	A	35.195.57.29
+ns3.cdmon.net.		160610	IN	A	35.157.47.125
+ns4.cdmondns-01.org.	82635	IN	A	52.58.66.183
+ns5.cdmondns-01.com.	160610	IN	A	52.59.146.62
+
+;; Query time: 700 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 13:58:34 CET 2020
+;; MSG SIZE  rcvd: 318
+</pre>
+
+<p>Vemos que el tiempo de respuesta ha sido de <strong>700 msec</strong>, algo bastante elevado, aunque supongo que es porque estoy trabajando desde casa a través de la VPN.</p>
+
+<p>Vamos a realizar de nuevo una consulta a <code class="language-plaintext highlighter-rouge">www.josedomingo.org</code>, la cual me debería responder más rápida que la anterior ya que este servidor funciona como <strong>caché DNS</strong>:</p>
+
+<pre>
+javier@debian:~$ dig www.josedomingo.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.josedomingo.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 64502
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.josedomingo.org.		IN	A
+
+;; ANSWER SECTION:
+www.josedomingo.org.	846	IN	CNAME	endor.josedomingo.org.
+endor.josedomingo.org.	311	IN	A	37.187.119.60
+
+;; Query time: 81 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 13:59:27 CET 2020
+;; MSG SIZE  rcvd: 99
+</pre>
+
+<p>Vemos que esta vez el tiempo de respuesta ha sido de <strong>81 msec</strong>, muchísimo más reducido que la primera vez, lo que demuestra que este servidor funciona como <em>caché DNS</em>. Además, vuelvo a decir que estoy en casa, si estuviera en clase, seguramente el tiempo de respuesta hubiera sido de unos pocos <em>msec</em>.</p>
+
+<p>Por último, vamos a comprobar la resolución inversa haciendo una consulta a la IP de la dirección <code class="language-plaintext highlighter-rouge">endor.josedomingo.org</code> que es la <em>37.187.119.60</em>:</p>
+
+<pre>
+javier@debian:~$ dig -x 37.187.119.60
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; -x 37.187.119.60
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 60847
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: ab7414b8c67b8dae299df1475fd8b528f0540c2f00c10f05 (good)
+;; QUESTION SECTION:
+;60.119.187.37.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+60.119.187.37.in-addr.arpa. 86370 IN	PTR	ns330309.ip-37-187-119.eu.
+
+;; AUTHORITY SECTION:
+119.187.37.in-addr.arpa. 172763	IN	NS	ns104.ovh.net.
+119.187.37.in-addr.arpa. 172763	IN	NS	dns104.ovh.net.
+
+;; Query time: 230 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:07:52 CET 2020
+;; MSG SIZE  rcvd: 170
+</pre>
+
+<p>Vemos que nos ha respondido de nuevo nuestro servidor DNS, por lo que también podríamos realizar resoluciones inversas.</p>
+
+<h3 id="servidor-bind9">Servidor bind9</h3>
+
+<p><strong>Desinstala el servidor <em>dnsmasq</em> del ejercicio anterior e instala un servidor DNS <em>bind9</em>. Las características del servidor DNS que queremos instalar son las siguientes:</strong></p>
+
+<ul>
+  <li>
+    <p><strong>El servidor DNS se llama <code class="language-plaintext highlighter-rouge">pandora.iesgn.org</code> y por supuesto, va a ser el servidor con autoridad para la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code class="language-plaintext highlighter-rouge">correo.iesgn.org</code> y que está en la dirección x.x.x.200 (esto es ficticio).</strong></p>
+  </li>
+  <li>
+    <p><strong>Vamos a suponer que tenemos un servidor FTP que se llame <code class="language-plaintext highlighter-rouge">ftp.iesgn.org</code> y que está en x.x.x.201 (esto es ficticio).</strong></p>
+  </li>
+  <li>
+    <p><strong>Además queremos nombrar a los clientes.</strong></p>
+  </li>
+  <li>
+    <p><strong>También hay que nombrar a los <em>virtualhosts</em> de apache: <code class="language-plaintext highlighter-rouge">www.iesgn.org</code> y <code class="language-plaintext highlighter-rouge">departementos.iesgn.org</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong>Se tienen que configurar la zona de resolución inversa.</strong></p>
+  </li>
+</ul>
+
+<h4 id="tarea-2-realiza-la-instalación-y-configuración-del-servidor-bind9-con-las-características-anteriormente-señaladas-entrega-las-zonas-que-has-definido">Tarea 2: Realiza la instalación y configuración del servidor <em>bind9</em> con las características anteriormente señaladas. Entrega las zonas que has definido.</h4>
+
+<p>Una vez hemos desinstalado el servidor <strong>dnsmasq</strong>, antes de instalar el servidor DNS <strong>bind9</strong>, vamos a realizar de nuevo una consulta a <code class="language-plaintext highlighter-rouge">www.josedomingo.org</code> para ver que servidor DNS nos responde ahora:</p>
+
+<pre>
+javier@debian:~$ dig www.josedomingo.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.josedomingo.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 54806
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+;; QUESTION SECTION:
+;www.josedomingo.org.		IN	A
+
+;; ANSWER SECTION:
+www.josedomingo.org.	900	IN	CNAME	endor.josedomingo.org.
+endor.josedomingo.org.	900	IN	A	37.187.119.60
+
+;; Query time: 76 msec
+;; SERVER: 212.166.132.110#53(212.166.132.110)
+;; WHEN: mar dic 15 14:13:01 CET 2020
+;; MSG SIZE  rcvd: 84
+</pre>
+
+<p>Vemos que ahora nos ha respondido un servidor DNS que ha obtenido por DHCP, cuya dirección es <em>212.166.132.110</em>, y que ya lógicamente no responde el que habíamos creado nosotros.</p>
+
+<p>Realizada esta comprobación, sí vamos a instalar el servidor <strong>bind9</strong>:</p>
+
+<pre>
+apt install bind9 -y
+</pre>
+
+<p>Una vez instalado, debemos modificar su fichero de configuración, para ello nos dirigimos a <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code> y añadimos el siguiente bloque:</p>
+
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type master;
+        file "/var/cache/bind/db.iesgn.org";
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type master;
+        file "/var/cache/bind/db.200.22.172";
+};
+</pre>
+
+<p>Vamos a explicar las líneas que acabamos de añadir.</p>
+
+<p>En primer lugar, hemos escrito una línea que hacer referencia a un archivo llamado <code class="language-plaintext highlighter-rouge">zones.rfc1918</code>, que es un fichero de configuración de las zonas privadas que queremos definir.</p>
+
+<p>Los bloques definen las zonas de las que el servidor tiene autoridad, la <strong>zona de resolución directa</strong> <code class="language-plaintext highlighter-rouge">iesgn.org</code> con su correspondiente <strong>zona de resolución inversa</strong> <code class="language-plaintext highlighter-rouge">200.22.172.in-addr.arpa</code>, además vemos como hemos especificado que actúen como <strong>maestro</strong>.</p>
+
+<p>Una vez explicado, tenemos que dirigirnos al fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.options</code>, y aquí debemos introducir las siguientes líneas:</p>
+
+<pre>
+recursion yes;
+allow-recursion { any; };
+listen-on { any; };
+allow-transfer { none; };
+</pre>
+
+<p>De manera, que el fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.options</code> quedaría así:</p>
+
+<pre>
+options {
+        directory "/var/cache/bind";
+
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+
+        recursion yes;
+
+        allow-recursion { any; };
+
+        listen-on { any; };
+
+        allow-transfer { none; };
+
+};
+</pre>
+
+<p>Ahora, vamos a configurar las zonas que definimos en el paso anterior. En mi caso copio el fichero <code class="language-plaintext highlighter-rouge">/etc/bind/db.empty</code> para utilizarlo como plantilla del nuevo archivo de configuración de esta <strong>zona de resolución directa</strong> <code class="language-plaintext highlighter-rouge">iesgn.org</code>.</p>
+
+<pre>
+root@javierpzh:~# cp /etc/bind/db.empty /var/cache/bind/db.iesgn.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code class="language-plaintext highlighter-rouge">db.iesgn.org</code>:</p>
+
+<pre>
+$TTL    86400
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                        20121501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+javierpzh       IN      A       172.22.200.174
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
+</pre>
+
+<p>Voy a explicar el bloque añadido.</p>
+
+<p>Vemos que hay un apartado llamado <strong>Serial</strong>, este apartado es muy importante, ya que es el identificador de la zona, que debemos incrementar cada vez que hagamos un cambio. Se recomienda que el valor sea de este formato <strong>YYMMDDNN</strong>, es decir, la fecha de modificación y el número de la modificación. En mi caso he establecido <strong>20121501</strong> pues estoy realizando esta práctica el <em>15 de diciembre de 2020</em> y es la primera modificación que hago.</p>
+
+<p>Los registros de tipo <strong>SOA</strong> representan las autoridad sobre las zonas.</p>
+
+<p>El registro de tipo <strong>NS</strong> define el servidor con privilegios sobre la zona.</p>
+
+<p>El registro de tipo <strong>MX</strong> indica que hacemos referencia a un servidor de correos.</p>
+
+<p>El registro <strong>$ORIGIN</strong> se usa para que las líneas que se especifiquen debajo de él, sean autocompletadas con el dominio especificado en dicho registro. Esto nos sirve para evitar poner en cada registro que creemos, la zona, es decir, a los próximos registros que creemos, se les añadirá automáticamente la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>.</p>
+
+<p>Los registros de tipo <strong>A</strong> especifican la direcciones IP correspondientes al dominio.</p>
+
+<p>Los registros de tipo <strong>CNAME</strong> sirven para apuntar hacia otro de los registros de tipo <strong>A</strong> ya existentes. De manera que es mucho más fácil y cómodo hacer referencia a una dirección a través de un nombre en vez de con la propia dirección en sí.</p>
+
+<p>Explicado estos detalles, reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Vamos a añadir al fichero <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> de la máquina cliente la siguiente línea con la IP del servidor DNS (si ya la hemos añadido en la tarea 1, no hace falta obviamente):</p>
+
+<pre>
+nameserver 172.22.200.174
+</pre>
+
+<p>Hecho esto, ahora nuestro cliente utilizará nuestro servidor DNS <em>bind9</em>.</p>
+
+<p>Antes hemos definido un registro <strong>SOA</strong> para definir la autoridad sobre la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>, que en teoría debería ser <code class="language-plaintext highlighter-rouge">javierpzh</code>. ¿Lo comprobamos? Vamos a asegurarnos. Para verificar la autoridad de una zona, hacemos uso del comando <code class="language-plaintext highlighter-rouge">dig ns (zona)</code>:</p>
+
+<pre>
+javier@debian:~$ dig ns iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; ns iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 32712
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 7b0f823027cdfdfb67ddfadd5fd8bdf3915ecc13d47da118 (good)
+;; QUESTION SECTION:
+;iesgn.org.			IN	NS
+
+;; ANSWER SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 81 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:45:22 CET 2020
+;; MSG SIZE  rcvd: 106
+</pre>
+
+<p>Efectivamente, la autoridad sobre esta zona es <code class="language-plaintext highlighter-rouge">javierpzh</code>.</p>
+
+<p>Hacemos una consulta al servidor DNS y preguntamos por la dirección <code class="language-plaintext highlighter-rouge">javierpzh.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig javierpzh.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; javierpzh.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 65344
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 3dcc5f35481cc4c49e80ce955fd8e176f2da3aa5d4f91551 (good)
+;; QUESTION SECTION:
+;javierpzh.iesgn.org.		IN	A
+
+;; ANSWER SECTION:
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; Query time: 86 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:45:44 CET 2020
+;; MSG SIZE  rcvd: 106
+</pre>
+
+<p>Ahora, haremos una consulta al servidor DNS y preguntaremos por el <strong>servidor de correos</strong> que hemos especificado, es decir, <code class="language-plaintext highlighter-rouge">correo.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig mx iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; mx iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 64754
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 0aca65684d6e77395f68519c5fd8be1045e75fe0b0b94080 (good)
+;; QUESTION SECTION:
+;iesgn.org.			IN	MX
+
+;; ANSWER SECTION:
+iesgn.org.		86400	IN	MX	10 correo.iesgn.org.
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+correo.iesgn.org.	86400	IN	A	172.22.200.200
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:45:52 CET 2020
+;; MSG SIZE  rcvd: 145
+</pre>
+
+<p>Vemos como nos responde con la información de este servidor de correos ficticio.</p>
+
+<p>Ahora, haremos una consulta al servidor DNS y preguntaremos por el <strong>servidor FTP</strong> que hemos especificado, es decir, <code class="language-plaintext highlighter-rouge">ftp.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig ftp.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; ftp.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 5805
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: b890f6dcd25d80c0dc4ea1085fd8be2f91ea9ad925c3fdb5 (good)
+;; QUESTION SECTION:
+;ftp.iesgn.org.			IN	A
+
+;; ANSWER SECTION:
+ftp.iesgn.org.		86400	IN	A	172.22.200.201
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 84 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:46:23 CET 2020
+;; MSG SIZE  rcvd: 126
+</pre>
+
+<p>Vemos como nos responde con la información de este servidor FTP ficticio.</p>
+
+<p>Vamos a probar si funcionan como deberían los registros <em>CNAME</em> haciendo una consulta a las direcciones <code class="language-plaintext highlighter-rouge">www.iesgn.org</code> y <code class="language-plaintext highlighter-rouge">departamentos.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 31627
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 294d876823b5bdd01a9627555fd8be65f78ac8bcb0b12c73 (good)
+;; QUESTION SECTION:
+;www.iesgn.org.			IN	A
+
+;; ANSWER SECTION:
+www.iesgn.org.		86400	IN	CNAME	javierpzh.iesgn.org.
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; Query time: 84 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:47:17 CET 2020
+;; MSG SIZE  rcvd: 124
+
+------------------------------------------------------------------------
+
+javier@debian:~$ dig departamentos.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; departamentos.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 65267
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 6966c6cb36feec24d45b37dd5fd8be7de106924826689110 (good)
+;; QUESTION SECTION:
+;departamentos.iesgn.org.	IN	A
+
+;; ANSWER SECTION:
+departamentos.iesgn.org. 86400	IN	CNAME	javierpzh.iesgn.org.
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; Query time: 203 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:47:41 CET 2020
+;; MSG SIZE  rcvd: 134
+</pre>
+
+<p>Lógicamente como he comentado antes, funciona.</p>
+
+<p>Por último, vamos a realizar una consulta a <code class="language-plaintext highlighter-rouge">www.josedomingo.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig www.josedomingo.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.josedomingo.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 46237
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 5, ADDITIONAL: 6
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 2d75623a8efbcd2bb12aaea35fd8e32de5465209b63c40be (good)
+;; QUESTION SECTION:
+;www.josedomingo.org.		IN	A
+
+;; ANSWER SECTION:
+www.josedomingo.org.	386	IN	CNAME	endor.josedomingo.org.
+endor.josedomingo.org.	386	IN	A	37.187.119.60
+
+;; AUTHORITY SECTION:
+josedomingo.org.	85885	IN	NS	ns5.cdmondns-01.com.
+josedomingo.org.	85885	IN	NS	ns1.cdmon.net.
+josedomingo.org.	85885	IN	NS	ns4.cdmondns-01.org.
+josedomingo.org.	85885	IN	NS	ns2.cdmon.net.
+josedomingo.org.	85885	IN	NS	ns3.cdmon.net.
+
+;; ADDITIONAL SECTION:
+ns1.cdmon.net.		172285	IN	A	35.189.106.232
+ns2.cdmon.net.		172285	IN	A	35.195.57.29
+ns3.cdmon.net.		172285	IN	A	35.157.47.125
+ns4.cdmondns-01.org.	85885	IN	A	52.58.66.183
+ns5.cdmondns-01.com.	172285	IN	A	52.59.146.62
+
+;; Query time: 99 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:48:02 CET 2020
+;; MSG SIZE  rcvd: 318
+</pre>
+
+<p>Para terminar esta tarea, vamos a configurar la zona inversa de nuestra servidor DNS <em>bind9</em>.</p>
+
+<p>Al igual que hicimos al principio del ejercicio, vamos a tomar como plantilla un archivo, pero esta vez será el <code class="language-plaintext highlighter-rouge">/etc/bind/db.127</code> y lo guardaremos de nuevo en <code class="language-plaintext highlighter-rouge">/var/cache/bind</code> con el nombre <code class="language-plaintext highlighter-rouge">db.200.22.172</code>.</p>
+
+<pre>
+cp /etc/bind/db.127 /var/cache/bind/db.200.22.172
+</pre>
+
+<p>Antes de mostrar como quedaría este fichero, hay que decir que por cada registro de tipo <strong>A</strong> que tengamos en nuestro archivo que contiene la zona directa, sin incluir las páginas webs, tenemos que añadir un registro de tipo <strong>PTR</strong>.</p>
+
+<p>En mi caso, el fichero <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.200.22.172</code> tendría este aspecto:</p>
+
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                        20121501        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+
+$ORIGIN 200.22.172.in-addr.arpa.
+
+174     IN      PTR     javierpzh.iesgn.org.
+200     IN      PTR     correo.iesgn.org.
+201     IN      PTR     ftp.iesgn.org.
+</pre>
+
+<p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Para comprobar que funciona la resolución inversa, vamos a hacer una consulta inversa. Para hacer esto utilizamos el comando <code class="language-plaintext highlighter-rouge">dig -x (IP)</code>:</p>
+
+<pre>
+javier@debian:~$ dig -x 172.22.200.174
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; -x 172.22.200.174
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 21938
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 7d3b873b603a177806bc97575fd8c12a2de7c483ab5f1672 (good)
+;; QUESTION SECTION:
+;174.200.22.172.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+174.200.22.172.in-addr.arpa. 604800 IN	PTR	javierpzh.iesgn.org.
+
+;; AUTHORITY SECTION:
+200.22.172.in-addr.arpa. 604800	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 79 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:59:06 CET 2020
+;; MSG SIZE  rcvd: 147
+</pre>
+
+<p>Parece que el servidor resuelve consultas inversas, pero vamos a hacer una prueba más realizando otra consulta inversa, esta vez al servidor de correos.</p>
+
+<pre>
+javier@debian:~$ dig -x 172.22.200.200
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; -x 172.22.200.200
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 61164
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 8551cca364e2557b2396263f5fd8c14e6b958e7180155dcf (good)
+;; QUESTION SECTION:
+;200.200.22.172.in-addr.arpa.	IN	PTR
+
+;; ANSWER SECTION:
+200.200.22.172.in-addr.arpa. 604800 IN	PTR	correo.iesgn.org.
+
+;; AUTHORITY SECTION:
+200.22.172.in-addr.arpa. 604800	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 81 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: mar dic 15 14:59:42 CET 2020
+;; MSG SIZE  rcvd: 154
+</pre>
+
+<p>Vemos que también funciona correctamente, por lo que este ejercicio estaría terminado.</p>
+
+<h3 id="servidor-dns-esclavo">Servidor DNS esclavo</h3>
+
+<h5 id="el-servidor-dns-actual-funciona-como-dns-maestro-vamos-a-instalar-un-nuevo-servidor-dns-que-va-a-estar-configurado-como-dns-esclavo-del-anterior-donde-se-van-a-ir-copiando-periódicamente-las-zonas-del-dns-maestro-suponemos-que-el-nombre-del-servidor-dns-esclavo-se-va-llamar-afroditaiesgnorg">El servidor DNS actual funciona como <em>DNS maestro</em>. Vamos a instalar un nuevo servidor DNS que va a estar configurado como <em>DNS esclavo</em> del anterior, donde se van a ir copiando periódicamente las zonas del <em>DNS maestro</em>. Suponemos que el nombre del servidor <em>DNS esclavo</em> se va llamar <code class="language-plaintext highlighter-rouge">afrodita.iesgn.org</code>.</h5>
+
+<h4 id="tarea-3-realiza-la-instalación-del-servidor-dns-esclavo-documenta-los-siguientes-apartados">Tarea 3: Realiza la instalación del servidor <em>DNS esclavo</em>. Documenta los siguientes apartados:</h4>
+
+<ul>
+  <li>
+    <p><strong>Entrega la configuración de las zonas del maestro y del esclavo.</strong></p>
+  </li>
+  <li>
+    <p><strong>Comprueba si las zonas definidas en el maestro tienen algún error con el comando adecuado.</strong></p>
+  </li>
+  <li>
+    <p><strong>Comprueba si la configuración de <code class="language-plaintext highlighter-rouge">named.conf</code> tiene algún error con el comando adecuado.</strong></p>
+  </li>
+  <li>
+    <p><strong>Reinicia los servidores y comprueba en los <em>logs</em> si hay algún error. No olvides incrementar el número de serie en el registro SOA si has modificado la zona en el maestro.</strong></p>
+  </li>
+  <li>
+    <p><strong>Muestra la salida del log donde se demuestra que se ha realizado la transferencia de zona.</strong></p>
+  </li>
+</ul>
+
+<p>Antes de nada, me gustaría explicar por encima para que servirá este <strong>servidor esclavo</strong>. Este nuevo servidor DNS, estará de alguna forma sincronizado con el <strong>maestro</strong> y nos ayudará en caso de que el <em>servidor maestro</em> no pueda procesar/responder una petición, de manera, que actuará este <em>servidor esclavo</em> y responderá él la petición. Es muy útil para casos de caídas del primer servidor, para casos donde queramos utilizar estos servidores en alta disponibilidad, …</p>
+
+<p>He creado una segunda instancia en el <em>cloud</em>, también con un sistema <em>Debian Buster</em>, para que actúe como <strong>esclavo</strong>. Posee la dirección <strong>172.22.200.253</strong>.</p>
+
+<p><strong>Importante:</strong> como estamos trabajando en el <em>cloud</em>, he tenido que abrir el puerto <strong>53/TCP</strong>, ya que es el puerto que se utiliza para la transferencia de archivos, de manera que si no lo tenemos abierto, el <em>esclavo</em> no recibirá las zonas del <em>maestro</em>.</p>
+
+<p>Pero antes de empezar a trabajar con esta máquina, debemos configurar el servidor <strong>maestro</strong>, que será el que hemos estado utilizando antes, para que permita que las zonas se puedan transferir a este servidor <strong>esclavo</strong>. Para ello nos dirigimos al fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code>, en el que si recordamos, antes añadimos dos bloques que hacían referencia a ambas zonas (directa e inversa). Bien, pues tenemos que introducir dos nuevas directivas en cada uno de los bloques, estas directivas son las llamadas <strong>allow-transfer</strong> y <strong>notify yes</strong>. El resultado final del contenido del fichero sería:</p>
+
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type master;
+        file "/var/cache/bind/db.iesgn.org";
+	allow-transfer { 172.22.200.253; };
+	notify yes;
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type master;
+        file "/var/cache/bind/db.200.22.172";
+	allow-transfer { 172.22.200.253; };
+	notify yes;
+};
+</pre>
+
+<p>Vamos a comprobar que este fichero posee una sintaxis correcta:</p>
+
+<pre>
+root@javierpzh:~# named-checkconf
+
+root@javierpzh:~#
+</pre>
+
+<p>Si no nos devuelve ninguna salida, significa que la sintaxis es correcta.</p>
+
+<p>Hecho esto, tendremos que editar los ficheros <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.iesgn.org</code> y <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.200.22.172</code> y añadir un registro de tipo <strong>NS</strong> y de tipo <strong>A</strong> o de tipo <strong>PTR</strong>, según el fichero, haciendo referencia a <strong>afrodita</strong>.</p>
+
+<p>El resultado final del fichero <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.iesgn.org</code> sería:</p>
+
+<pre>
+$TTL    86400
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                         86400         ; Retry
+                         2419200         ; Expire
+                         86400 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+javierpzh       IN      A       172.22.200.174
+afrodita        IN      A       172.22.200.253
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
+</pre>
+
+<p>El resultado final del fichero <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.200.22.172</code> sería:</p>
+
+<pre>
+$TTL    604800
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+
+$ORIGIN 200.22.172.in-addr.arpa.
+
+174     IN      PTR     javierpzh.iesgn.org.
+253     IN      PTR     afrodita.iesgn.org.
+200     IN      PTR     correo.iesgn.org.
+201     IN      PTR     ftp.iesgn.org.
+</pre>
+
+<p>Vamos a comprobar que este fichero posee una sintaxis correcta:</p>
+
+<pre>
+root@javierpzh:~# named-checkzone iesgn.org /var/cache/bind/db.iesgn.org
+zone iesgn.org/IN: loaded serial 20121801
+OK
+
+root@javierpzh:~# named-checkzone 200.22.172.in-addr.arpa /var/cache/bind/db.200.22.172
+zone 200.22.172.in-addr.arpa/IN: loaded serial 20121502
+OK
+</pre>
+
+<p>Vemos que la sintaxis es correcta.</p>
+
+<p>Reiniciamos el servidor DNS para que se apliquen los nuevos cambios:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Ahora sí, nos dirigimos a esta nueva máquina, en la que he vuelto a realizar los mismos pasos previos que llevé a cabo con la primera instancia. Su <strong>hostname</strong> será <strong>afrodita</strong> y su <strong>FQDN</strong>, <strong>afrodita.iesgn.org</strong>.</p>
+
+<p>Instalamos el servidor DNS:</p>
+
+<pre>
+apt install bind9 -y
+</pre>
+
+<p>Como hicimos anteriormente al instalar el servidor DNS <strong>bind9</strong>, vamos a configurar el fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.local</code> añadiendo el siguiente bloque que define las dos zonas sobre las que este servidor <em>esclavo</em> tendrá autoridad. El contenido del fichero quedaría así:</p>
+
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type slave;
+        file "db.iesgn.org";
+        masters { 172.22.200.174; };
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type slave;
+        file "db.200.22.172";
+        masters { 172.22.200.174; };
+};
+</pre>
+
+<p>Podemos observar, como en el tipo hemos indicado <strong>slave</strong>, es decir, <strong>esclavo</strong>, y también hemos añadido una directiva <strong>masters</strong> que sirve para indicar cuál es la IP del servidor <strong>maestro</strong>.</p>
+
+<p>También tenemos que dirigirnos al fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.options</code>, y aquí, al igual que antes, debemos introducir las siguientes líneas:</p>
+
+<pre>
+recursion yes;
+allow-recursion { any; };
+listen-on { any; };
+allow-transfer { none; };
+</pre>
+
+<p>De manera, que el fichero <code class="language-plaintext highlighter-rouge">/etc/bind/named.conf.options</code> quedaría así:</p>
+
+<pre>
+options {
+        directory "/var/cache/bind";
+
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+
+        recursion yes;
+
+        allow-recursion { any; };
+
+        listen-on { any; };
+
+        allow-transfer { none; };
+
+};
+</pre>
+
+<p>Tras editar ambos ficheros, ya habríamos terminado la configuración de este nuevo servidor <em>esclavo</em>, por tanto vamos a reiniciar el servicio para aplicar los nuevos cambios:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>Tras unos segundos, nuestro nuevo servidor habría obtenido la transferencia de las zonas desde el servidor <em>maestro</em> por lo que ya tendríamos trabajando ambos servidores conjuntamente. Si visualizamos el estado del servidor:</p>
+
+<pre>
+root@afrodita:~# systemctl status bind9
+● bind9.service - BIND Domain Name Server
+   Loaded: loaded (/lib/systemd/system/bind9.service; enabled; vendor preset: enabled)
+   Active: active (running) since Fri 2020-12-18 11:45:33 UTC; 4h 40min ago
+     Docs: man:named(8)
+  Process: 768 ExecStart=/usr/sbin/named $OPTIONS (code=exited, status=0/SUCCESS)
+ Main PID: 771 (named)
+    Tasks: 4 (limit: 562)
+   Memory: 11.9M
+   CGroup: /system.slice/bind9.service
+           └─771 /usr/sbin/named -u bind
+
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: Transfer started.
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: connected using 10.0.0.5#45093
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: transferred serial 20121502
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: Transfer status: success
+Dec 18 11:45:34 afrodita named[771]: transfer of '200.22.172.in-addr.arpa/IN' from 172.22.200.174#53: Transfer completed: 1 messages, 8 records, 266 bytes, 0.003 secs (88666 bytes/sec)
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: sending notifies (serial 20121502)
+Dec 18 11:45:34 afrodita named[771]: client @0x7fc9140c72c0 172.22.200.253#56966: received notify for zone '200.22.172.in-addr.arpa'
+Dec 18 11:45:34 afrodita named[771]: zone 200.22.172.in-addr.arpa/IN: refused notify from non-master: 172.22.200.253#56966
+Dec 18 11:45:34 afrodita named[771]: managed-keys-zone: Key 20326 for zone . acceptance timer complete: key now trusted
+Dec 18 11:45:34 afrodita named[771]: resolver priming query complete
+</pre>
+
+<p>A través de los mensajes podemos ver como se han llevado a cabo la transferencia de las zonas, por lo que si ahora visualizamos los archivos que hay en la ruta <code class="language-plaintext highlighter-rouge">/var/cache/bind/</code>:</p>
+
+<pre>
+root@afrodita:~# ls /var/cache/bind/
+db.200.22.172  db.iesgn.org  managed-keys.bind	managed-keys.bind.jnl
+</pre>
+
+<p>Efectivamente, podemos ver como se han copiado las zonas a este servidor <em>esclavo</em>.</p>
+
+<h4 id="tarea-4-documenta-los-siguientes-apartados">Tarea 4: Documenta los siguientes apartados:</h4>
+
+<ul>
+  <li>
+    <p><strong>Configura un cliente para que utilice los dos servidores como servidores DNS.</strong></p>
+  </li>
+  <li>
+    <p><strong>Realiza una consulta con <code class="language-plaintext highlighter-rouge">dig</code> tanto al maestro como al esclavo para comprobar que las respuestas son autorizadas. ¿En qué te tienes que fijar?</strong></p>
+  </li>
+  <li>
+    <p><strong>Solicita una copia completa de la zona desde el cliente. ¿Qué tiene que ocurrir? Solicita una copia completa desde el esclavo. ¿Qué tiene que ocurrir?</strong></p>
+  </li>
+</ul>
+
+<p>Hecho esto, nos dirigimos a nuestro equipo anfitrión y añadimos al fichero <code class="language-plaintext highlighter-rouge">resolv.conf</code> la siguiente línea:</p>
+
+<pre>
+nameserver 172.22.200.253
+</pre>
+
+<p>Esta línea hace referencia a la de <strong>afrodita</strong>, es decir, la IP del servidor <em>esclavo</em>.</p>
+
+<p>Vamos a hacer una consulta al <em>maestro</em> y otra al <em>esclavo</em> para ver las diferencias:</p>
+
+<pre>
+javier@debian:~$ dig +norec @172.22.200.174 iesgn.org. soa
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; +norec @172.22.200.174 iesgn.org. soa
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 18061
+;; flags: qr aa ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 87db148fead0ec5efc52e7c75fdcdbf65feade950b86e84e (good)
+;; QUESTION SECTION:
+;iesgn.org.			IN	SOA
+
+;; ANSWER SECTION:
+iesgn.org.		86400	IN	SOA	javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	afrodita.iesgn.org.
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org.	86400	IN	A	172.22.200.253
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 84 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 17:42:30 CET 2020
+;; MSG SIZE  rcvd: 195
+
+javier@debian:~$ dig +norec @172.22.200.253 iesgn.org. soa
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; +norec @172.22.200.253 iesgn.org. soa
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 52681
+;; flags: qr aa ra; QUERY: 1, ANSWER: 1, AUTHORITY: 2, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 708e697a25ccee2e550d50375fdcdbfe545d6d60af91c97c (good)
+;; QUESTION SECTION:
+;iesgn.org.			IN	SOA
+
+;; ANSWER SECTION:
+iesgn.org.		86400	IN	SOA	javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+iesgn.org.		86400	IN	NS	afrodita.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org.	86400	IN	A	172.22.200.253
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; Query time: 82 msec
+;; SERVER: 172.22.200.253#53(172.22.200.253)
+;; WHEN: vie dic 18 17:42:38 CET 2020
+;; MSG SIZE  rcvd: 195
+</pre>
+
+<p>A la primera consulta nos ha respondido el <em>maestro</em> y a la segunda el <em>esclavo</em> como podemos ver. Vemos que ambas, los dos servidores aparecen autorizados.</p>
+
+<p>Ahora vamos a solicitar una copia de la zona desde el cliente.</p>
+
+<pre>
+javier@debian:~$ dig @172.22.200.174 iesgn.org. axfr
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; @172.22.200.174 iesgn.org. axfr
+; (1 server found)
+;; global options: +cmd
+; Transfer failed.
+</pre>
+
+<p>Vemos que no nos deja. Vamos a probar desde el <em>esclavo</em>:</p>
+
+<pre>
+root@afrodita:~# dig @172.22.200.174 iesgn.org. axfr
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; @172.22.200.174 iesgn.org. axfr
+; (1 server found)
+;; global options: +cmd
+iesgn.org.		86400	IN	SOA	javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+iesgn.org.		86400	IN	NS	afrodita.iesgn.org.
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+iesgn.org.		86400	IN	MX	10 correo.iesgn.org.
+afrodita.iesgn.org.	86400	IN	A	172.22.200.253
+correo.iesgn.org.	86400	IN	A	172.22.200.200
+departamentos.iesgn.org. 86400	IN	CNAME	javierpzh.iesgn.org.
+ftp.iesgn.org.		86400	IN	A	172.22.200.201
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+www.iesgn.org.		86400	IN	CNAME	javierpzh.iesgn.org.
+iesgn.org.		86400	IN	SOA	javierpzh.iesgn.org. root.localhost. 20121801 604800 86400 2419200 86400
+;; Query time: 2 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: Fri Dec 18 16:49:46 UTC 2020
+;; XFR size: 11 records (messages 1, bytes 336)
+</pre>
+
+<p>Desde <em>afrodita</em> sí nos deja. Obviamente, esto se debe a que anteriormente configuramos el servidor <em>maestro</em> para que únicamente copiara las zonas a la dirección IP de <em>afrodita</em> y denegamos las transferencias por defecto a los clientes.</p>
+
+<h4 id="tarea-5-funcionamiento-del-dns-esclavo">Tarea 5: Funcionamiento del DNS esclavo:</h4>
+
+<ul>
+  <li>
+    <p><strong>Realiza una consulta desde el cliente y comprueba que servidor está respondiendo.</strong></p>
+  </li>
+  <li>
+    <p><strong>Posteriormente apaga el servidor maestro y vuelve a realizar una consulta desde el cliente ¿quién responde?</strong></p>
+  </li>
+</ul>
+
+<p>Bien, voy a realizar una consulta desde el cliente a la dirección <code class="language-plaintext highlighter-rouge">www.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 55227
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 2ff9d322943323d91597cd795fdcde7dba3b3d77ee6e0e3a (good)
+;; QUESTION SECTION:
+;www.iesgn.org.			IN	A
+
+;; ANSWER SECTION:
+www.iesgn.org.		86400	IN	CNAME	javierpzh.iesgn.org.
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	afrodita.iesgn.org.
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org.	86400	IN	A	172.22.200.253
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 17:53:17 CET 2020
+;; MSG SIZE  rcvd: 163
+</pre>
+
+<p>Nos ha respondido el servidor <em>maestro</em> como era de esperar, pero, ¿qué pasaría si el servidor <em>maestro</em> fallase? Para responder esta pregunta vamos a apagar el servidor <em>maestro</em> y vamos a volver a realizar la consulta.</p>
+
+<pre>
+root@javierpzh:~# systemctl stop bind9
+</pre>
+
+<p>Hacemos de nuevo la consulta:</p>
+
+<pre>
+javier@debian:~$ dig www.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; www.iesgn.org
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 35402
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 2, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: fb9bc1e0d4727820581d4c515fdcdee93cdb5125eb5afc07 (good)
+;; QUESTION SECTION:
+;www.iesgn.org.			IN	A
+
+;; ANSWER SECTION:
+www.iesgn.org.		86400	IN	CNAME	javierpzh.iesgn.org.
+javierpzh.iesgn.org.	86400	IN	A	172.22.200.174
+
+;; AUTHORITY SECTION:
+iesgn.org.		86400	IN	NS	afrodita.iesgn.org.
+iesgn.org.		86400	IN	NS	javierpzh.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.iesgn.org.	86400	IN	A	172.22.200.253
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.253#53(172.22.200.253)
+;; WHEN: vie dic 18 17:55:05 CET 2020
+;; MSG SIZE  rcvd: 163
+</pre>
+
+<p>Vemos como ahora la respuesta viene de parte de la dirección <strong>172.22.200.253</strong>, es decir, la IP de <strong>afrodita</strong> que es el servidor <strong>esclavo</strong>. Esto significa que obviamente hemos realizado correctamente la configuración y en caso de que nuestro servidor <em>maestro</em> dejara de funcionar, comenzaríamos a utilizar nuestro servidor <em>esclavo</em>.</p>
+
+<h3 id="delegación-de-dominios">Delegación de dominios</h3>
+
+<p><strong>Tenemos un servidor DNS que gestiona la zona correspondiente al nombre de dominio <code class="language-plaintext highlighter-rouge">iesgn.org</code>, en esta ocasión queremos delegar el subdominio <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code> para que lo gestione otro servidor DNS. Por lo tanto tenemos un escenario con dos servidores DNS:</strong></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">pandora.iesgn.org</code>, es servidor DNS autorizado para la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">ns.informatica.iesgn.org</code>, es el servidor DNS para la zona <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code> y, está instalado en otra máquina.</strong></p>
+  </li>
+</ul>
+
+<p><strong>Los nombres que vamos a tener en ese subdominio son los siguientes:</strong></p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">www.informatica.iesgn.org</code> corresponde a un sitio web que está alojado en el servidor web del departamento de informática.</strong></p>
+  </li>
+  <li>
+    <p><strong>Vamos a suponer que tenemos un servidor FTP que se llame <code class="language-plaintext highlighter-rouge">ftp.informatica.iesgn.org</code> y que está en la misma máquina.</strong></p>
+  </li>
+  <li>
+    <p><strong>Vamos a suponer que tenemos un servidor para recibir los correos que se llame <code class="language-plaintext highlighter-rouge">correo.informatica.iesgn.org</code>.</strong></p>
+  </li>
+</ul>
+
+<h4 id="tarea-6-realiza-la-instalación-y-configuración-del-nuevo-servidor-dns-con-las-características-anteriormente-señaladas">Tarea 6: Realiza la instalación y configuración del nuevo servidor DNS con las características anteriormente señaladas.</h4>
+
+<p>Utilizaré la máquina <strong>afrodita</strong> para realizar la delegación del dominio.</p>
+
+<p>Vamos a ponernos en situación, tenemos la primera máquina, es decir, el servidor <strong>maestro</strong> como servidor con autoridad sobre la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>. Bien, pues desde este servidor vamos a configurar la delegación del subdominio <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code> al servidor <strong>esclavo</strong>, es decir, a <strong>afrodita</strong>.</p>
+
+<p>Para realizar esta delegación, debemos editar el fichero <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.iesgn.org</code> y añadir el siguiente bloque:</p>
+
+<pre>
+$ORIGIN informatica.iesgn.org.
+
+@       IN      NS      afrodita
+
+afrodita        IN      A       172.22.200.253
+</pre>
+
+<p>Vemos como hemos creado un nuevo registro <strong>$ORIGIN</strong> para el subdominio <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code>, al que le hemos asignado un registro <strong>NS</strong> con <em>afrodita</em>, lo que indica que ésta será el servidor con autoridad sobre este subdominio. Luego, creamos un registro de tipo <strong>A</strong> con la IP de <em>afrodita</em>.</p>
+
+<p>De manera que el contenido final del fichero <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.iesgn.org</code> sería este:</p>
+
+<pre>
+$TTL    86400
+@       IN      SOA     javierpzh.iesgn.org. root.localhost. (
+                        20121801        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      javierpzh.iesgn.org.
+@       IN      NS      afrodita.iesgn.org.
+@       IN      MX      10      correo.iesgn.org.
+
+$ORIGIN iesgn.org.
+
+javierpzh       IN      A       172.22.200.174
+afrodita        IN      A       172.22.200.253
+correo          IN      A       172.22.200.200
+ftp             IN      A       172.22.200.201
+www             IN      CNAME   javierpzh
+departamentos   IN      CNAME   javierpzh
+
+
+$ORIGIN informatica.iesgn.org.
+
+@       IN      NS      afrodita
+
+afrodita        IN      A       172.22.200.253
+</pre>
+
+<p>Es muy importante aumentar el valor del campo <strong>serial</strong>, que hemos comentado su funcionamiento.</p>
+
+<p>Ahora tendríamos que reiniciar el servidor:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<p>En este punto, debemos dirigirnos al servidor <em>esclavo</em> sobre el que hemos realizado la delegación, y en él, configurar esta nueva zona sobre la que tenemos autoridad.</p>
+
+<p>Editamos el fichero <code class="language-plaintext highlighter-rouge">etc/bind/named.conf.local</code> y añadimos el siguiente bloque:</p>
+
+<pre>
+zone "informatica.iesgn.org" {
+        type master;
+        file "db.informatica.iesgn.org";
+};
+</pre>
+
+<p>De manera que el contenido final del fichero <code class="language-plaintext highlighter-rouge">etc/bind/named.conf.local</code> sería este:</p>
+
+<pre>
+include "/etc/bind/zones.rfc1918";
+
+zone "iesgn.org" {
+        type slave;
+        file "db.iesgn.org";
+        masters { 172.22.200.174; };
+};
+
+zone "200.22.172.in-addr.arpa" {
+        type slave;
+        file "db.200.22.172";
+        masters { 172.22.200.174; };
+};
+
+zone "informatica.iesgn.org" {
+        type master;
+        file "db.informatica.iesgn.org";
+};
+</pre>
+
+<p>Solo nos quedaría crear el nuevo fichero <code class="language-plaintext highlighter-rouge">db.informatica.iesgn.org</code>, que lógicamente se encontrará en <code class="language-plaintext highlighter-rouge">/var/cache/bind/</code>. Para ello vamos a copiar de nuevo el archivo <code class="language-plaintext highlighter-rouge">/etc/bind/db.empty</code> para tomarlo como referencia:</p>
+
+<pre>
+root@afrodita:~# cp /etc/bind/db.empty /var/cache/bind/db.informatica.iesgn.org
+</pre>
+
+<p>Hecho esto, empezamos a editar nuestro archivo <code class="language-plaintext highlighter-rouge">/var/cache/bind/db.informatica.iesgn.org</code> que quedará así:</p>
+
+<pre>
+$TTL    86400
+@       IN      SOA     afrodita.informatica.iesgn.org. root.localhost. (
+                        20121802        ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                          86400 )       ; Negative Cache TTL
+;
+@       IN      NS      afrodita.informatica.iesgn.org.
+@       IN      MX      10      correo.informatica.iesgn.org.
+
+$ORIGIN informatica.iesgn.org.
+
+afrodita        IN      A       172.22.200.253
+correo          IN      A       172.22.200.200
+www             IN      A       172.22.200.210
+ftp             IN      CNAME   afrodita
+</pre>
+
+<p>Reiniciamos el servidor:</p>
+
+<pre>
+systemctl restart bind9
+</pre>
+
+<h4 id="tarea-7-realiza-las-consultas-dignslookup-desde-los-clientes-preguntando-por-los-siguientes">Tarea 7: Realiza las consultas dig/nslookup desde los clientes preguntando por los siguientes:</h4>
+
+<ul>
+  <li>
+    <p><strong>Dirección de <code class="language-plaintext highlighter-rouge">www.informatica.iesgn.org</code>, <code class="language-plaintext highlighter-rouge">ftp.informatica.iesgn.org</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong>El servidor DNS que tiene configurado la zona del dominio <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code>. ¿Es el mismo que el servidor DNS con autoridad para la zona <code class="language-plaintext highlighter-rouge">iesgn.org</code>?</strong></p>
+  </li>
+  <li>
+    <p><strong>El servidor de correo configurado para <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code>.</strong></p>
+  </li>
+</ul>
+
+<p>Vamos a realizar todas las consultas, pero vamos a especificar que las haga al servidor <strong>maestro</strong>, para así ver que realmente se ha llevado a cabo la delegación.</p>
+
+<p>Consulta a <code class="language-plaintext highlighter-rouge">www.informatica.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig @172.22.200.174 www.informatica.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; @172.22.200.174 www.informatica.iesgn.org
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 35861
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: df597e5fc5042a3d1b834c045fdcec456c2f5ebc5f532415 (good)
+;; QUESTION SECTION:
+;www.informatica.iesgn.org.	IN	A
+
+;; ANSWER SECTION:
+www.informatica.iesgn.org. 86315 IN	CNAME	afrodita.informatica.iesgn.org.
+afrodita.informatica.iesgn.org.	86315 IN A	172.22.200.253
+
+;; AUTHORITY SECTION:
+informatica.iesgn.org.	86400	IN	NS	afrodita.informatica.iesgn.org.
+
+;; Query time: 103 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 18:52:05 CET 2020
+;; MSG SIZE  rcvd: 135
+</pre>
+
+<p>Consulta a <code class="language-plaintext highlighter-rouge">ftp.informatica.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig @172.22.200.174 ftp.informatica.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; @172.22.200.174 ftp.informatica.iesgn.org
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 18527
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 16942171957d80ca85c43c805fdcec68f1630535c8a99fd0 (good)
+;; QUESTION SECTION:
+;ftp.informatica.iesgn.org.	IN	A
+
+;; ANSWER SECTION:
+ftp.informatica.iesgn.org. 86400 IN	CNAME	afrodita.informatica.iesgn.org.
+afrodita.informatica.iesgn.org.	86280 IN A	172.22.200.253
+
+;; AUTHORITY SECTION:
+informatica.iesgn.org.	86400	IN	NS	afrodita.informatica.iesgn.org.
+
+;; Query time: 88 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 18:52:40 CET 2020
+;; MSG SIZE  rcvd: 135
+</pre>
+
+<p>Consulta al servidor de correos de <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig @172.22.200.174 mx informatica.iesgn.org
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; @172.22.200.174 mx informatica.iesgn.org
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 28235
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 40dae1383db02b79b8b07f425fdcec8626ce79eeca478866 (good)
+;; QUESTION SECTION:
+;informatica.iesgn.org.		IN	MX
+
+;; ANSWER SECTION:
+informatica.iesgn.org.	86400	IN	MX	10 correo.informatica.iesgn.org.
+
+;; AUTHORITY SECTION:
+informatica.iesgn.org.	86400	IN	NS	afrodita.informatica.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.informatica.iesgn.org.	86250 IN A	172.22.200.253
+
+;; Query time: 88 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 18:53:10 CET 2020
+;; MSG SIZE  rcvd: 140
+</pre>
+
+<p>Consulta al servidor DNS que tiene autoridad sobre la zona <code class="language-plaintext highlighter-rouge">informatica.iesgn.org</code>:</p>
+
+<pre>
+javier@debian:~$ dig +norec @172.22.200.174 informatica.iesgn.org. soa
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+deb10u2-Debian &lt;&lt;&gt;&gt; +norec @172.22.200.174 informatica.iesgn.org. soa
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 30757
+;; flags: qr ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 4096
+; COOKIE: 78b294bb2b52138b040de9255fdceca9a949decb712417aa (good)
+;; QUESTION SECTION:
+;informatica.iesgn.org.		IN	SOA
+
+;; AUTHORITY SECTION:
+informatica.iesgn.org.	86400	IN	NS	afrodita.informatica.iesgn.org.
+
+;; ADDITIONAL SECTION:
+afrodita.informatica.iesgn.org.	86215 IN A	172.22.200.253
+
+;; Query time: 83 msec
+;; SERVER: 172.22.200.174#53(172.22.200.174)
+;; WHEN: vie dic 18 18:53:45 CET 2020
+;; MSG SIZE  rcvd: 117
+</pre>
+
+<p>Todas las consultas nos devuelven los resultados que esperábamos, por lo que con esto, habríamos terminado el contenido de este <em>post</em>.</p>
+
+  </div><a class="u-url" href="/blog/Servidor-DNS" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

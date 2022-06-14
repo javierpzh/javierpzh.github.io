@@ -1,0 +1,1766 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Sistema De Copias De Seguridad | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Sistema De Copias De Seguridad" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de OpenStack y la máquina de OVH." />
+<meta property="og:description" content="En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de OpenStack y la máquina de OVH." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-26T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad" />
+<meta property="twitter:title" content="Sistema De Copias De Seguridad" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de OpenStack y la máquina de OVH.","@type":"BlogPosting","headline":"Sistema De Copias De Seguridad","dateModified":"2021-01-26T00:00:00+01:00","datePublished":"2021-01-26T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad"},"url":"https://www.javierpzh.com/blog/sistema-de-copias-de-seguridad","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Sistema De Copias De Seguridad</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-01-26T00:00:00+01:00" itemprop="datePublished">
+        Jan 26, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>En este artículo vamos a implementar un sistema de copias de seguridad para las máquinas del escenario de <em>OpenStack</em> y la máquina de <em>OVH</em>.</strong></p>
+
+<p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
+
+<ul>
+  <li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a></li>
+</ul>
+
+<p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
+
+<p>Respecto al equipo de <strong>OVH</strong>, se trata de un <em>VPS</em> con un sistema <em>Debian</em>.</p>
+
+<p>Explicado esto, vamos a pasar con el contenido del <em>post</em> en cuestión, no sin antes explicar un poco la aplicación que vamos a utilizar y sus componentes.</p>
+
+<h2 id="bacula">Bacula</h2>
+
+<p>He decidido escoger <strong>Bacula</strong> como aplicación para llevar a cabo este sistema de <em>backups</em>.</p>
+
+<p><em>Bacula</em> es una colección de herramientas de respaldo capaz de cubrir las necesidades de respaldo de equipos bajo redes IP. Se basa en una arquitectura cliente-servidor que resulta eficaz y fácil de manejar, dada la amplia gama de funciones y características que brinda. Además, debido a su desarrollo y estructura modular, <em>Bacula</em> se adapta tanto al uso personal como profesional, desde un equipo hasta grandes parques de servidores. Todo el conjunto de elementos que forman <em>Bacula</em> trabajan en sincronía y son totalmente compatibles con bases de datos como <strong>MySQL</strong>, <strong>SQLite</strong> y <strong>PostgreSQL</strong>.</p>
+
+<h4 id="componentes-de-bacula">Componentes de <em>Bacula</em></h4>
+
+<ul>
+  <li>
+    <p><strong>Director <em>(DIR, bacula-director)</em>:</strong> es el programa servidor que supervisa todas las funciones necesarias para las operaciones de copia de seguridad y restauración. Es el eje central de <em>Bacula</em> y en él se declaran todos los parámetros necesarios. Se ejecuta como un <em>demonio</em> en el servidor.</p>
+  </li>
+  <li>
+    <p><strong>Storage <em>(SD, bacula-sd)</em>:</strong> es el programa que gestiona las unidades de almacenamiento donde se almacenarán los datos. Es el responsable de escribir y leer en los medios que utilizaremos para nuestras copias de seguridad. Se ejecuta como un <em>demonio</em> en la máquina propietaria de los medios utilizados. En muchos casos será en el propio servidor, pero también puede ser otro equipo independiente.</p>
+  </li>
+  <li>
+    <p><strong>Catalog</strong>: es la base de datos (<em>MySQL</em> en mi caso) que almacena la información necesaria para localizar donde se encuentran los datos salvaguardados de cada archivo, de cada cliente, … En muchos casos será en el propio servidor, pero también puede ser otro equipo independiente.</p>
+  </li>
+  <li>
+    <p><strong>Console <em>(bconsole)</em>:</strong> es el programa que permite la interacción con el <em>Director</em> para todas las funciones del servidor. La versión original es una aplicación en modo texto <em>(bconsole)</em>. Existen igualmente aplicaciones GUI para Windows y Linux <em>(Webmin, Bacula Admin Tool, Bacuview, Webacula, Reportula, Bacula-Web, …)</em>.</p>
+  </li>
+  <li>
+    <p><strong>File <em>(FD)</em>:</strong> este servicio, conocido como <em>cliente</em> o servidor de ficheros está instalado en cada máquina a salvaguardar y es específico al sistema operativo donde se ejecuta. Responsable para enviar al <em>Director</em> los datos cuando este lo requiera.</p>
+  </li>
+</ul>
+
+<h4 id="conceptos-importantes">Conceptos importantes</h4>
+
+<p>Para manejar mejor <em>Bacula</em> es importante conocer ciertos conceptos:</p>
+
+<ul>
+  <li>
+    <p>Un <strong>backup</strong> consiste en una tarea <em>(JOB)</em>, un conjunto de directorios/archivos <em>(FILESET)</em>, un cliente <em>(CLIENT)</em>, un horario <em>(SCHEDULE)</em> y unos recursos <em>(POOL)</em>.</p>
+  </li>
+  <li>
+    <p>El <strong>FILESET</strong> es lo que vamos a guardar, el <em>CLIENT</em> es la proveniencia de los datos, el <em>SCHEDULE</em> determina cuando lo vamos a ejecutar y el <em>POOL</em> es el destino de la copia de seguridad.</p>
+  </li>
+  <li>
+    <p>Normalmente, una combinación <strong>CLIENT/FILESET</strong> generará un determinado <em>JOB</em>. Además de los <em>JOB</em> de <em>backup</em>, existirán también <em>JOB</em> de <em>restore</em> y otros de control y administración.</p>
+  </li>
+  <li>
+    <p>Los medios de almacenamiento se definen como <strong>POOL</strong>. El <em>POOL</em> es un conjunto de volúmenes, son ficheros que actúan como un disco duro, y dentro de ellos están las copias de seguridad.</p>
+  </li>
+</ul>
+
+<h2 id="sistema-de-copias-de-seguridad">Sistema de copias de seguridad</h2>
+
+<p>En mi caso, he decidido escoger como servidor (también conocido como <strong>director</strong>) de copias de seguridad a <strong>Dulcinea</strong> (máquina que también actuará como cliente). Le he añadido un nuevo volumen de 10 GB de espacio, donde se irán almacenando las copias de las distintas máquinas.</p>
+
+<p>Empezaremos por instalar el <em>software</em> de <em>Bacula</em> y <em>MySQL</em>.</p>
+
+<pre>
+apt install mariadb-server mariadb-client bacula bacula-common-mysql bacula-director-mysql -y
+</pre>
+
+<p>Durante la instalación de <em>Bacula</em>, nos saldrá este mensaje emergente, en el que seleccionaremos <strong>Yes</strong>, para especificarle a la aplicación que deseamos configurarla con la base de datos <em>MySQL</em>:</p>
+
+<pre>
+┌───────────────────────────────┤ Configuring bacula-director-mysql ├───────────────────────────────┐
+│                                                                                                   │
+│ The bacula-director-mysql package must have a database installed and configured before it can be  │
+│ used. This can be optionally handled with dbconfig-common.                                        │
+│                                                                                                   │
+│ If you are an advanced database administrator and know that you want to perform this              │
+│ configuration manually, or if your database has already been installed and configured, you        │
+│ should refuse this option. Details on what needs to be done should most likely be provided in     │
+│ /usr/share/doc/bacula-director-mysql.                                                             │
+│                                                                                                   │
+│ Otherwise, you should probably choose this option.                                                │
+│                                                                                                   │
+│ Configure database for bacula-director-mysql with dbconfig-common?                                │
+│                                                                                                   │
+│                            &lt;\Yes\&gt;                               &lt;\No\&gt;                           │
+│                                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>A continuación, nos pedirá que introduzcamos una contraseña y habremos finalizado el proceso de instalación.</p>
+
+<p>Vamos a pasar directamente con el fichero de configuración del director <em>Bacula</em>, que se encuentra en <code class="language-plaintext highlighter-rouge">/etc/bacula/bacula-dir.conf</code>. En este archivo nos encontraremos diferentes secciones, que tenemos que diferenciar, veamos la primera, que se trata de la configuración del <strong>director</strong> de copias de seguridad:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  DIRport = 9101
+  QueryFile = "/etc/bacula/scripts/query.sql"
+  WorkingDirectory = "/var/lib/bacula"
+  PidDirectory = "/run/bacula"
+  Maximum Concurrent Jobs = 20
+  Password = "bacula"
+  Messages = Daemon
+  DirAddress = 10.0.1.11
+}
+</pre>
+
+<p>La siguiente sección trata de las tareas que se van a realizar, es decir, los procesos encargados de hacer las copias de seguridad.</p>
+
+<p>En este apartado tendremos bloques como el siguiente:</p>
+
+<pre>
+JobDefs {
+  Name =
+  Type =
+  Level =
+  Client =
+  FileSet =
+  Schedule =
+  Storage =
+  Messages =
+  Pool =
+  SpoolAttributes =
+  Priority =
+  Write Bootstrap =
+}
+</pre>
+
+<p>Os preguntaréis qué es cada apartado, pues vamos a verlos uno a uno:</p>
+
+<ul>
+  <li>
+    <p><strong>Name:</strong> nombre de la tarea</p>
+  </li>
+  <li>
+    <p><strong>Type:</strong> tipo de tarea (<em>backup</em>)</p>
+  </li>
+  <li>
+    <p><strong>Level:</strong> nivel de la tarea</p>
+  </li>
+  <li>
+    <p><strong>Client:</strong> nombre del cliente en el que se va a ejecutar esta tarea</p>
+  </li>
+  <li>
+    <p><strong>FileSet:</strong> información que va a copiar. Será definida más adelante en el apartado <em>FileSet</em></p>
+  </li>
+  <li>
+    <p><strong>Schedule:</strong> programación que tendrá dicha tarea</p>
+  </li>
+  <li>
+    <p><strong>Storage:</strong> nombre del cargador virtual automático que cargará el recurso de almacenamiento</p>
+  </li>
+  <li>
+    <p><strong>Messages:</strong> tipo de mensaje, indica como mandará los mensajes de sucesos</p>
+  </li>
+  <li>
+    <p><strong>Pool:</strong> indicaremos el nombre del apartado <em>Pool</em> que se configurará mas adelante y en él estamos indicando el volumen de almacenamiento donde se creará y almacenará las copias</p>
+  </li>
+  <li>
+    <p><strong>SpoolAttributes:</strong> esta opción permite trabajar con los atributos del <em>Spool</em> en un fichero temporal</p>
+  </li>
+  <li>
+    <p><strong>Priority:</strong> indica el nivel de prioridad</p>
+  </li>
+  <li>
+    <p><strong>Write Bootstrap:</strong> este apartado indica donde esta el fichero <em>bacula</em></p>
+  </li>
+</ul>
+
+<p>En mi caso, introduciré tres tipos de tareas distintas, una para las copias diarias, otra para las copias semanales y otra para las copias mensuales, de manera que me queda un bloque como el siguiente:</p>
+
+<pre>
+JobDefs {
+  Name = "BackupDiario"
+  Type = Backup
+  Level = Incremental
+  Client = dulcinea-fd
+  FileSet = "Full Set"
+  Schedule = "Daily"
+  Storage = volcopias
+  Messages = Standard
+  Pool = Daily
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+}
+
+JobDefs {
+  Name = "BackupSemanal"
+  Type = Backup
+  Level = Incremental
+  Client = dulcinea-fd
+  FileSet = "Full Set"
+  Schedule = "Weekly"
+  Storage = volcopias
+  Messages = Standard
+  Pool = Weekly
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+}
+
+JobDefs {
+  Name = "BackupMensual"
+  Type = Backup
+  Level = Incremental
+  Client = dulcinea-fd
+  FileSet = "Full Set"
+  Schedule = "Monthly"
+  Storage = volcopias
+  Messages = Standard
+  Pool = Monthly
+  SpoolAttributes = yes
+  Priority = 10
+  Write Bootstrap = "/var/lib/bacula/%c.bsr"
+}
+</pre>
+
+<p>A continuación nos encontramos con la sección donde definiremos las tareas de los clientes a los que vamos a realizar las copias de seguridad. Dentro de los siguientes bloques, indicamos el nombre de la tarea con la que va a ir relacionado y el nombre del cliente (se definirá más adelante). Introduciremos tantos bloques <strong>Job</strong> como tareas tengamos que asignar a los clientes. En mi caso:</p>
+
+<pre>
+# Dulcinea
+Job {
+  Name = "Dulcinea-Diario"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "Dulcinea-Datos"
+}
+
+Job {
+  Name = "Dulcinea-Semanal"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "Dulcinea-Datos"
+}
+
+Job {
+  Name = "Dulcinea-Mensual"
+  Client = "dulcinea-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "Dulcinea-Datos"
+}
+
+# Sancho
+Job {
+  Name = "Sancho-Diario"
+  Client = "sancho-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "Sancho-Datos"
+}
+
+Job {
+  Name = "Sancho-Semanal"
+  Client = "sancho-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "Sancho-Datos"
+}
+
+Job {
+  Name = "Sancho-Mensual"
+  Client = "sancho-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "Sancho-Datos"
+}
+
+# Freston
+Job {
+  Name = "Freston-Diario"
+  Client = "freston-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "Freston-Datos"
+}
+
+Job {
+  Name = "Freston-Semanal"
+  Client = "freston-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "Freston-Datos"
+}
+
+Job {
+  Name = "Freston-Mensual"
+  Client = "freston-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "Freston-Datos"
+}
+
+# Quijote
+Job {
+  Name = "Quijote-Diario"
+  Client = "quijote-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "Quijote-Datos"
+}
+
+Job {
+  Name = "Quijote-Semanal"
+  Client = "quijote-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "Quijote-Datos"
+}
+
+Job {
+  Name = "Quijote-Mensual"
+  Client = "quijote-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "Quijote-Datos"
+}
+
+# vpsjavierpzh
+Job {
+  Name = "vpsjavierpzh-Diario"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupDiario"
+  FileSet= "vpsjavierpzh-Datos"
+}
+
+Job {
+  Name = "vpsjavierpzh-Semanal"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupSemanal"
+  FileSet= "vpsjavierpzh-Datos"
+}
+
+Job {
+  Name = "vpsjavierpzh-Mensual"
+  Client = "vpsjavierpzh-fd"
+  JobDefs = "BackupMensual"
+  FileSet= "vpsjavierpzh-Datos"
+}
+</pre>
+
+<p>Igualmente que hemos definido en los clientes las tareas de <em>backups</em>, debemos definir las tareas de restauración (<em>restore</em>), para poder restaurar las copias de seguridad. En esta sección, tendremos bloques con el siguiente aspecto:</p>
+
+<ul>
+  <li>
+    <p><strong>Name:</strong> nombre de la tarea</p>
+  </li>
+  <li>
+    <p><strong>Type:</strong> tipo que de la tarea (<em>restore</em>)</p>
+  </li>
+  <li>
+    <p><strong>Client:</strong> cliente al que le vamos a poder realizar la restauración de la copia</p>
+  </li>
+  <li>
+    <p><strong>Storage:</strong> nombre del cargador virtual automático que cargará el recurso de almacenamiento</p>
+  </li>
+  <li>
+    <p><strong>FileSet:</strong> tipo de tarea al que hace referencia la copia de la que queremos realizar la restauración</p>
+  </li>
+  <li>
+    <p><strong>Pool:</strong> indicaremos el nombre del apartado <em>Pool</em> que se configurará mas adelante y en él estamos indicando el volumen de almacenamiento donde se creará y almacenará las copias</p>
+  </li>
+  <li>
+    <p><strong>Messages:</strong> tipo de mensaje, indica como mandará los mensajes de sucesos</p>
+  </li>
+</ul>
+
+<p>En mi caso, introduzco los siguientes bloques:</p>
+
+<pre>
+# Dulcinea
+Job {
+  Name = "DulcineaRestore"
+  Type = Restore
+  Client=dulcinea-fd
+  Storage = volcopias
+  FileSet="Dulcinea-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Sancho
+Job {
+  Name = "SanchoRestore"
+  Type = Restore
+  Client=sancho-fd
+  Storage = volcopias
+  FileSet="Sancho-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Freston
+Job {
+  Name = "FrestonRestore"
+  Type = Restore
+  Client=freston-fd
+  Storage = volcopias
+  FileSet="Freston-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# Quijote
+Job {
+  Name = "QuijoteRestore"
+  Type = Restore
+  Client=quijote-fd
+  Storage = volcopias
+  FileSet="Quijote-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+
+# vpsjavierpzh
+Job {
+  Name = "vpsjavierpzhRestore"
+  Type = Restore
+  Client=vpsjavierpzh-fd
+  Storage = volcopias
+  FileSet="vpsjavierpzh-Datos"
+  Pool = Backup-Restore
+  Messages = Standard
+}
+</pre>
+
+<p>Seguimos con la sección donde indicaremos, que tipo de información se almacenarán en los <em>backups</em>, indicando que directorios se copiarán y cuáles no, y el tipo de almacenamiento, que en mi caso se tratará de un almacenamiento comprimido para así ahorrar espacio.</p>
+
+<pre>
+# Full Set
+FileSet {
+ Name = "Full Set"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/cache
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Dulcinea
+FileSet {
+ Name = "Dulcinea-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/cache
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Sancho
+FileSet {
+ Name = "Sancho-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/cache
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Freston
+FileSet {
+ Name = "Freston-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# Quijote
+FileSet {
+ Name = "Quijote-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+
+# vpsjavierpzh
+FileSet {
+ Name = "vpsjavierpzh-Datos"
+ Include {
+   Options {
+     signature = MD5
+     compression = GZIP
+   }
+   File = /home
+   File = /etc
+   File = /var
+ }
+ Exclude {
+   File = /var/lib/bacula
+   File = /nonexistant/path/to/file/archive/dir
+   File = /proc
+   File = /var/tmp
+   File = /tmp
+   File = /sys
+   File = /.journal
+   File = /.fsck
+ }
+}
+</pre>
+
+<p>Llegamos a la sección de los bloques de tipo <strong>SCHEDULE</strong>, en éstos definiremos la programación de estas tareas, es decir, cuando se llevarán a cabo cada una. En mi caso:</p>
+
+<pre>
+Schedule {
+ Name = "Daily"
+ Run = Level=Incremental Pool=Daily daily at 02:00
+}
+
+Schedule {
+ Name = "Weekly"
+ Run = Level=Full Pool=Weekly sun at 02:00
+}
+
+Schedule {
+ Name = "Monthly"
+ Run = Level=Full Pool=Monthly 1st sun at 02:00
+}
+</pre>
+
+<p>Estamos llegando al final de la configuración de este fichero, en este caso nos encontramos con los equipos clientes, cuyos bloques incluirán las siguientes opciones:</p>
+
+<ul>
+  <li>
+    <p><strong>Name:</strong> Nombre distintivo del cliente</p>
+  </li>
+  <li>
+    <p><strong>Address:</strong> Direccion ip del cliente</p>
+  </li>
+  <li>
+    <p><strong>FDPort:</strong> el puerto, dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Catalog:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Password:</strong> contraseña del cliente</p>
+  </li>
+  <li>
+    <p><strong>File Retention:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Job Retention:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>AutoPrune:</strong> dejamos el valor por defecto</p>
+  </li>
+</ul>
+
+<p>Añado mis clientes:</p>
+
+<pre>
+# Dulcinea
+Client {
+ Name = dulcinea-fd
+ Address = 10.0.1.11
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Sancho
+Client {
+ Name = sancho-fd
+ Address = 10.0.1.8
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Freston
+Client {
+ Name = freston-fd
+ Address = 10.0.1.6
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# Quijote
+Client {
+ Name = quijote-fd
+ Address = 10.0.2.6
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+
+# vpsjavierpzh
+Client {
+ Name = vpsjavierpzh-fd
+ Address = 51.210.105.17
+ FDPort = 9102
+ Catalog = MyCatalog
+ Password = "bacula"
+ File Retention = 60 days
+ Job Retention = 6 months
+ AutoPrune = yes
+}
+</pre>
+
+<p>Una vez definidos los clientes, lo que tendremos que definir es que tipo de almacenamiento vamos a tener, en mi caso, los parámetros a modificar son:</p>
+
+<ul>
+  <li>
+    <p><strong>Name:</strong> para que concuerde con el que hacemos referencia al principio del fichero en el segundo apartado</p>
+  </li>
+  <li>
+    <p><strong>Address:</strong> dirección IP, indicaremos la de nuestro propio servidor para así indicar donde almacenar la información</p>
+  </li>
+  <li>
+    <p><strong>SDPort:</strong> el puerto, dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Password:</strong> para que sea la misma que hemos indicado anteriormente</p>
+  </li>
+  <li>
+    <p><strong>Device:</strong> tipo de dispositivo que en nuestro caso es <em>File</em></p>
+  </li>
+  <li>
+    <p><strong>Media Type:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Maximum Concurrent Jobs:</strong> dejamos el valor por defecto</p>
+  </li>
+</ul>
+
+<p>Nos quedaría un bloque como este:</p>
+
+<pre>
+Storage {
+ Name = volcopias
+ Address = 10.0.1.11
+ SDPort = 9103
+ Password = "bacula"
+ Device = FileChgr1
+ Media Type = File
+ Maximum Concurrent Jobs = 10
+}
+</pre>
+
+<p>En la sección <strong>Catalog</strong>, nos encontraremos con la configuración relativa a la base de datos:</p>
+
+<pre>
+Catalog {
+  Name = MyCatalog
+  dbname = "bacula"; DB Address = "localhost"; DB Port= "3306"; dbuser = "bacula"; dbpassword = "bacula"
+}
+</pre>
+
+<p>Nos encontramos frente a la última sección a editar, que no es otra que dónde se encuentran los bloques <strong>Pool</strong>. En ellos nos encontramos con estos parámetros:</p>
+
+<ul>
+  <li>
+    <p><strong>Name:</strong> nombre del <em>pool</em></p>
+  </li>
+  <li>
+    <p><strong>Pool type:</strong> tipo de <em>pool</em></p>
+  </li>
+  <li>
+    <p><strong>Recycle:</strong> reciclado automático de los volúmenes, está activado por defecto</p>
+  </li>
+  <li>
+    <p><strong>AutoPrune:</strong> expirador automáticos de los volúmenes, está activado por defecto</p>
+  </li>
+  <li>
+    <p><strong>Volume Retention:</strong> tiempo de retención que deseamos almacenar los <em>backups</em> realizados</p>
+  </li>
+  <li>
+    <p><strong>Maximum Volume Bytes:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Maximum Volumes:</strong> dejamos el valor por defecto</p>
+  </li>
+  <li>
+    <p><strong>Label Format:</strong> dejamos el valor por defecto</p>
+  </li>
+</ul>
+
+<p>Introduzco los siguientes bloques:</p>
+
+<pre>
+Pool {
+ Name = Daily
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 8d
+}
+
+Pool {
+ Name = Weekly
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 32d
+}
+
+Pool {
+ Name = Monthly
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ VolumeRetention = 365d
+}
+
+Pool {
+ Name = Backup-Restore
+ Pool Type = Backup
+ Recycle = yes
+ AutoPrune = yes
+ Volume Retention = 366 days
+ Maximum Volume Bytes = 50G
+ Maximum Volumes = 100
+ Label Format = "Remoto"
+}
+</pre>
+
+<p>En este punto, ya habríamos terminado de modificar el fichero <code class="language-plaintext highlighter-rouge">/etc/bacula/bacula-dir.conf</code>, ya que los apartados siguientes los dejaríamos como vienen por defecto.</p>
+
+<p>Para comprobar que no hay ningún error en nuestra configuración anterior, podemos emplear el siguiente comando:</p>
+
+<pre>
+bacula-dir -tc /etc/bacula/bacula-dir.conf
+</pre>
+
+<p>¿No nos reporta ningún error? Perfecto, podemos seguir con el siguiente punto.</p>
+
+<p>Al principio comenté que había añadido un nuevo volumen en el que iría almacenando las distintas copias, pero ese nuevo disco aún no se encuentra montado en el sistema, por tanto vamos a proceder a prepararlo para su correcto funcionamiento.</p>
+
+<p>Vamos a crear en él una partición nueva:</p>
+
+<pre>
+root@dulcinea:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    254:0    0  10G  0 disk
+└─vda1 254:1    0  10G  0 part /
+vdb    254:16   0  10G  0 disk
+
+root@dulcinea:~# gdisk /dev/vdb
+GPT fdisk (gdisk) version 1.0.3
+
+Partition table scan:
+  MBR: not present
+  BSD: not present
+  APM: not present
+  GPT: not present
+
+Creating new GPT entries.
+
+Command (? for help): n
+Partition number (1-128, default 1):
+First sector (34-20971486, default = 2048) or {+-}size{KMGTP}:
+Last sector (2048-20971486, default = 20971486) or {+-}size{KMGTP}:
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300):
+Changed type of partition to 'Linux filesystem'
+
+Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/vdb.
+The operation has completed successfully.
+
+root@dulcinea:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda    254:0    0  10G  0 disk
+└─vda1 254:1    0  10G  0 part /
+vdb    254:16   0  10G  0 disk
+└─vdb1 254:17   0  10G  0 part
+</pre>
+
+<p>Bien, ahora nos quedaría asignarle un sistema de ficheros (en mi caso, <em>ext4</em>) y montarlo en nuestro sistema, pero además me interesa que se monte automáticamente en cada arranque del sistema, por tanto, también lo añadiré al fichero <code class="language-plaintext highlighter-rouge">/etc/fstab</code>. Crearé un directorio <code class="language-plaintext highlighter-rouge">/bacula</code>, ruta donde se montará este nuevo dispositivo y además se almacenarán las distintas copias:</p>
+
+<pre>
+root@dulcinea:~# mkfs.ext4 /dev/vdb1
+mke2fs 1.44.5 (15-Dec-2018)
+Creating filesystem with 2621179 4k blocks and 655360 inodes
+Filesystem UUID: 436fe1ec-96a3-4531-9815-74254d6a730d
+Superblock backups stored on blocks:
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocating group tables: done                            
+Writing inode tables: done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+root@dulcinea:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b    7.7G    17% /
+vdb                                                                     
+└─vdb1 ext4         436fe1ec-96a3-4531-9815-74254d6a730d
+
+root@dulcinea:~# mkdir -p /bacula/backup
+
+root@dulcinea:~# chown -R bacula:bacula /bacula/
+
+root@dulcinea:~# chmod 755 -R /bacula/backup/
+
+root@dulcinea:~# cd ../
+
+root@dulcinea:/# ls -l
+...
+drwxr-xr-x  3 bacula bacula  4096 Jan 28 12:05 bacula
+...
+
+root@dulcinea:/# ls -l /bacula/
+total 4
+drwxr-xr-x 2 bacula bacula 4096 Jan 28 12:05 backup
+</pre>
+
+<p>Lo último que nos quedaría por realizar es la configuración del <code class="language-plaintext highlighter-rouge">/etc/fstab</code>, para lo que añadimos la siguiente línea:</p>
+
+<pre>
+UUID=436fe1ec-96a3-4531-9815-74254d6a730d       /bacula ext4    defaults        0       0
+</pre>
+
+<p>Hecho esto, vamos a indicarle a nuestro sistema que vuelve a leer este fichero de configuración (lo que sería lo mismo que un reinicio), con el siguiente comando:</p>
+
+<pre>
+root@dulcinea:~# mount -a
+
+root@dulcinea:~# lsblk -f
+NAME   FSTYPE LABEL UUID                                 FSAVAIL FSUSE% MOUNTPOINT
+vda                                                                     
+└─vda1 ext4         9659e5d4-dd87-42af-bf70-0bb6f7b2e31b    7.7G    17% /
+vdb                                                                     
+└─vdb1 ext4         436fe1ec-96a3-4531-9815-74254d6a730d    9.2G     0% /bacula
+</pre>
+
+<p>Pasamos con el fichero <code class="language-plaintext highlighter-rouge">/etc/bacula/bacula-sd.conf</code>. En él se encuentran los paŕametros del director, que, al fin y al cabo, será el encargado de utilizar el nuevo volumen.</p>
+
+<p>Haré igual que con el primer fichero, y lo he ordenado por secciones. En ésta primera, nos encontramos con la definición del nombre del director, además de su dirección IP:</p>
+
+<pre>
+Storage {                             # definition of myself
+  Name = dulcinea-sd
+  SDPort = 9103                  # Director's port
+  WorkingDirectory = "/var/lib/bacula"
+  Pid Directory = "/run/bacula"
+  Plugin Directory = "/usr/lib/bacula"
+  Maximum Concurrent Jobs = 20
+  SDAddress = 10.0.1.11
+}
+</pre>
+
+<p>La siguiente sección define el director encargado de conectar con el <em>demonio</em> <strong>Storage</strong>, que acabamos de definir anteriormente. Como en mi caso, es el mismo director, los diferencio con las terminaciones (“<em>-sd</em>” y “<em>-dir</em>”). También indicamos la contraseña que estamos utilizando:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+</pre>
+
+<p>Este apartado se encargará de proporcionarle al director los permisos adecuados para que pueda ver el estado del proceso de almacenamiento de las copias. Se le añade la terminación “<em>-mon</em>”:</p>
+
+<pre>
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+</pre>
+
+<p>Nos encontramos ante la última sección del fichero, en ella se define el cargador automático virtual, que si recordamos hicimos mención a él en el primer fichero. En el primer bloque hacemos referencia al dispositivo que se configura en el segundo bloque:</p>
+
+<pre>
+Autochanger {
+  Name = FileChgr1
+  Device = FileStorage
+  Changer Command = ""
+  Changer Device = /dev/null
+}
+
+Device {
+  Name = FileStorage
+  Media Type = File
+  Archive Device = /bacula/backup
+  LabelMedia = yes;                   # lets Bacula label unlabeled media
+  Random Access = Yes;
+  AutomaticMount = yes;               # when device opened, read it
+  RemovableMedia = no;
+  AlwaysOpen = no;
+  Maximum Concurrent Jobs = 5
+}
+</pre>
+
+<p>Al igual que con el primer fichero, para comprobar que no hay ningún error en nuestra configuración, vamos a emplear el siguiente comando:</p>
+
+<pre>
+bacula-sd -tc /etc/bacula/bacula-sd.conf
+</pre>
+
+<p>¿No nos reporta ningún error? Perfecto, podemos seguir con el siguiente y último fichero por parte del servidor.</p>
+
+<p>Vamos a reiniciar los servicios que hacen uso de los ficheros modificados hasta este punto para que las nuevas configuraciones sean cargadas, y además los habilitaremos para que se inicien en cada arranque:</p>
+
+<pre>
+systemctl restart bacula-sd.service
+systemctl enable bacula-sd.service
+systemctl restart bacula-director.service
+systemctl enable bacula-director.service
+</pre>
+
+<p>Estamos a punto de terminar las configuraciones del servidor, de hecho nos falta tan sólo un fichero, y es el <code class="language-plaintext highlighter-rouge">/etc/bacula/bconsole.conf</code>. Este fichero contiene la configuración que nos permite acceder a la consola, y dentro de él tendremos que asegurarnos que los apartados de nombre, dirección y contraseña se encuentran correctamente.</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  DIRport = 9101
+  address = 10.0.1.11
+  Password = "bacula"
+}
+</pre>
+
+<p>Hecho esto, habremos terminado la configuración en la parte del director.</p>
+
+<p>Pasamos a la parte de los <strong>clientes</strong>.</p>
+
+<p>Aunque hayamos terminado de configurar el servidor, aún no hemos terminado nuestro trabajo en <strong>Dulcinea</strong>, ya que esta máquina también va a formar parte de los clientes como hemos visto antes. Hay que decir que las configuraciones de los clientes se realizan todas de la misma forma, por lo que, explicaré ésta primera con más detalle y las siguientes obviando los hechos.</p>
+
+<p>El primer paso sería instalar el <em>software</em> necesario, que en <em>Dulcinea</em> ya se encuentra instalado, y además habilitar su funcionamiento en cada inicio:</p>
+
+<pre>
+apt install bacula-client -y
+systemctl enable bacula-fd.service
+</pre>
+
+<p>En <em>CentOS</em> (<em>Quijote</em>) se instala con el comando:</p>
+
+<pre>
+dnf install bacula-client -y
+</pre>
+
+<p>El fichero que debemos modificar es el que se encuentra en la ruta <code class="language-plaintext highlighter-rouge">/etc/bacula/bacula-fd.conf</code>.</p>
+
+<p>En dicho archivo indicaremos los parámetros del director, que en este primer caso, es el propio equipo. Además, indicaremos el director que gestionará el <em>demonio</em>. También tendremos que definir el cliente, del que debemos indicar el nombre y la dirección IP. Por último, en el bloque llamado <em>Messages</em>, indicaremos el nombre del director, esto nos permitirá realizar un <em>restore</em> cuando nos sea necesario.</p>
+
+<p>En mi caso, el fichero <code class="language-plaintext highlighter-rouge">/etc/bacula/bacula-fd.conf</code> de la máquina <em>Dulcinea</em> queda de esta forma:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = dulcinea-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.11
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>Una vez terminada la configuración, reiniciamos el servicio y aplicaremos los cambios:</p>
+
+<pre>
+systemctl restart bacula-fd.service
+</pre>
+
+<p>Llegó el turno de <strong>Sancho</strong>. Su configuración queda de la siguiente forma:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = sancho-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.8
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>Es el turno de <strong>Freston</strong>. Su configuración queda de la siguiente forma:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = freston-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 10.0.1.6
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>En <strong>Quijote</strong> el contenido del fichero sería:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = quijote-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/spool/bacula
+  Pid Directory = /var/run
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib64/bacula
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>En la máquina de <strong>OVH</strong> el fichero tendría este aspecto:</p>
+
+<pre>
+Director {
+  Name = dulcinea-dir
+  Password = "bacula"
+}
+
+Director {
+  Name = dulcinea-mon
+  Password = "bacula"
+  Monitor = yes
+}
+
+FileDaemon {                          # this is me
+  Name = vpsjavierpzh-fd
+  FDport = 9102                  # where we listen for the director
+  WorkingDirectory = /var/lib/bacula
+  Pid Directory = /run/bacula
+  Maximum Concurrent Jobs = 20
+  Plugin Directory = /usr/lib/bacula
+  FDAddress = 51.210.105.17
+}
+
+Messages {
+  Name = Standard
+  director = dulcinea-dir = all, !skipped, !restored
+}
+</pre>
+
+<p>En teoría, ya tendríamos configurados todos los clientes, por lo que supuestamente ya podrían conectar con nuestro director ubicado en <em>Dulcinea</em>. Vamos a ver si es así, pero antes, debemos reiniciar los servicios del director:</p>
+
+<pre>
+root@dulcinea:~# systemctl restart bacula-fd.service
+
+root@dulcinea:~# systemctl restart bacula-sd.service
+
+root@dulcinea:~# systemctl restart bacula-director.service
+
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 1
+Connecting to Client dulcinea-fd at 10.0.1.11:9102
+
+dulcinea-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 14:11. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=23,250 max_bytes=23,267 bufs=70 max_bufs=70
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 2
+Connecting to Client sancho-fd at 10.0.1.8:9102
+
+sancho-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu ubuntu 20.04
+Daemon started 28-Jan-21 13:27. Jobs: run=0 running=0.
+ Heap: heap=110,592 smbytes=22,002 max_bytes=22,019 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+
+*status client
+The defined Client resources are:
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 3
+Connecting to Client freston-fd at 10.0.1.6:9102
+
+freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 13:29. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=23,242 max_bytes=23,260 bufs=70 max_bufs=70
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:25
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 4
+Connecting to Client quijote-fd at 10.0.2.6:9102
+Failed to connect to Client quijote-fd.
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 5
+Connecting to Client vpsjavierpzh-fd at 51.210.105.17:9102
+
+vpsjavierpzh-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 28-Jan-21 14:52. Jobs: run=0 running=0.
+ Heap: heap=114,688 smbytes=22,016 max_bytes=22,033 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:58
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+</pre>
+
+<p>Vaya, parece que con <em>Quijote</em> no llega a conectar, pero con los otros equipos sí. La cuestión es que hay que recordar que <em>CentOS</em> incorpora un <em>firewall</em> por defecto bastante restrictivo, por lo que debemos abrir los puertos que utiliza <em>Bacula</em>:</p>
+
+<pre>
+[root@quijote ~]# firewall-cmd --permanent --add-port=9101/tcp
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-port=9102/tcp
+success
+
+[root@quijote ~]# firewall-cmd --permanent --add-port=9103/tcp
+success
+
+[root@quijote ~]# firewall-cmd --reload
+success
+</pre>
+
+<p>Vamos a probar de nuevo a ver si ahora se produce la conexión con <em>Quijote</em>:</p>
+
+<pre>
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+
+*status client
+The defined Client resources are:
+     1: dulcinea-fd
+     2: sancho-fd
+     3: freston-fd
+     4: quijote-fd
+     5: vpsjavierpzh-fd
+Select Client (File daemon) resource (1-5): 4
+Connecting to Client quijote-fd at 10.0.2.6:9102
+
+quijote-fd Version: 9.0.6 (20 November 2017) x86_64-redhat-linux-gnu redhat (Core)
+Daemon started 28-Jan-21 13:43. Jobs: run=0 running=0.
+ Heap: heap=102,400 smbytes=21,976 max_bytes=21,993 bufs=68 max_bufs=68
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 28-Jan-21 14:28
+No Jobs running.
+====
+
+Terminated Jobs:
+====
+</pre>
+
+<p>Ahora sí se conecta, problema resuelto.</p>
+
+<p>Una vez hemos comprobado que las conexiones se realizan, debemos crear los nodos de almacenamiento, donde se irán guardando las diferentes copias.</p>
+
+<pre>
+root@dulcinea:~# bconsole
+Connecting to Director 10.0.1.11:9101
+1000 OK: 103 dulcinea-dir Version: 9.4.2 (04 February 2019)
+Enter a period to cancel a command.
+
+*label
+Automatically selected Catalog: MyCatalog
+Using Catalog "MyCatalog"
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-diario
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 2
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-diario" Slot 0 ...
+3000 OK label. VolBytes=255 VolABytes=0 VolType=1 Volume="backup-diario" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-diario", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+
+*label
+Automatically selected Catalog: MyCatalog
+Using Catalog "MyCatalog"
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-semanal
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 7
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-semanal" Slot 0 ...
+3000 OK label. VolBytes=257 VolABytes=0 VolType=1 Volume="backup-semanal" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-semanal", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+
+*label
+Automatically selected Storage: volcopias
+Enter new Volume name: backup-mensual
+Defined Pools:
+     1: Backup-Restore
+     2: Daily
+     3: Default
+     4: File
+     5: Monthly
+     6: Scratch
+     7: Weekly
+Select the Pool (1-7): 5
+Connecting to Storage daemon volcopias at 10.0.1.11:9103 ...
+Sending label command for Volume "backup-mensual" Slot 0 ...
+3000 OK label. VolBytes=258 VolABytes=0 VolType=1 Volume="backup-mensual" Device="FileStorage" (/bacula/backup)
+Catalog record for Volume "backup-mensual", Slot 0  successfully created.
+Requesting to mount FileChgr1 ...
+3906 File device ""FileStorage" (/bacula/backup)" is always mounted.
+</pre>
+
+<p>Para terminar, y escribiendo esto varias semanas más tarde, vamos a comprobar que las copias se están realizando de manera correcta y por supuesto, automática.</p>
+
+<pre>
+*status client=dulcinea-fd
+Connecting to Client dulcinea-fd at 10.0.1.11:9102
+
+dulcinea-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 09-Feb-21 12:34. Jobs: run=4 running=0.
+ Heap: heap=126,976 smbytes=23,327 max_bytes=681,576 bufs=77 max_bufs=161
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level    Files      Bytes   Status   Finished        Name
+===================================================================
+    47  Incr        101    18.23 M  OK       06-Feb-21 02:00 Dulcinea-Diario
+    52  Incr        126    18.70 M  OK       07-Feb-21 02:00 Dulcinea-Diario
+    53  Full      4,952    47.55 M  OK       07-Feb-21 02:31 Dulcinea-Semanal
+    54  Full      4,953    53.34 M  OK       07-Feb-21 03:01 Dulcinea-Mensual
+    67  Incr        100    29.05 M  OK       08-Feb-21 02:00 Dulcinea-Diario
+    72  Incr        580    51.11 M  OK       09-Feb-21 02:00 Dulcinea-Diario
+    77  Incr        560    31.45 M  OK       10-Feb-21 02:00 Dulcinea-Diario
+    82  Incr        141    29.21 M  OK       11-Feb-21 02:00 Dulcinea-Diario
+    87  Incr        103    30.76 M  OK       12-Feb-21 02:00 Dulcinea-Diario
+    92  Incr        103    30.89 M  OK       13-Feb-21 02:00 Dulcinea-Diario
+====
+
+*status client=freston-fd
+Connecting to Client freston-fd at 10.0.1.6:9102
+
+freston-fd Version: 9.4.2 (04 February 2019)  x86_64-pc-linux-gnu debian 10.5
+Daemon started 09-Feb-21 12:33. Jobs: run=4 running=0.
+ Heap: heap=126,976 smbytes=23,325 max_bytes=679,213 bufs=77 max_bufs=155
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level    Files      Bytes   Status   Finished        Name
+===================================================================
+    49  Incr         48    2.348 M  OK       06-Feb-21 02:00 Freston-Diario
+    58  Incr         60    2.920 M  OK       07-Feb-21 02:00 Freston-Diario
+    59  Full      3,277    53.23 M  OK       07-Feb-21 02:30 Freston-Semanal
+    60  Full      3,277    53.24 M  OK       07-Feb-21 03:01 Freston-Mensual
+    69  Incr         48    1.487 M  OK       08-Feb-21 02:00 Freston-Diario
+    74  Incr        482    84.39 M  OK       09-Feb-21 02:00 Freston-Diario
+    79  Incr        642    29.99 M  OK       10-Feb-21 02:00 Freston-Diario
+    84  Incr         94    27.96 M  OK       11-Feb-21 02:00 Freston-Diario
+    89  Incr         50    963.8 K  OK       12-Feb-21 02:00 Freston-Diario
+    94  Incr         50    1.001 M  OK       13-Feb-21 02:00 Freston-Diario
+====
+
+*status client=quijote-fd
+Connecting to Client quijote-fd at 10.0.2.6:9102
+
+quijote-fd Version: 9.0.6 (20 November 2017) x86_64-redhat-linux-gnu redhat (Core)
+Daemon started 02-Feb-21 12:54. Jobs: run=11 running=0.
+ Heap: heap=8,192 smbytes=23,297 max_bytes=1,139,409 bufs=77 max_bufs=281
+ Sizes: boffset_t=8 size_t=8 debug=0 trace=0 mode=0,0 bwlimit=0kB/s
+ Plugin: bpipe-fd.so
+
+Running Jobs:
+Director connected at: 13-Feb-21 12:43
+No Jobs running.
+====
+
+Terminated Jobs:
+ JobId  Level      Files    Bytes   Status   Finished        Name
+===================================================================
+    50  Incr          49    21.17 M  OK       06-Feb-21 02:00 Quijote-Diario
+    61  Incr          49    21.17 M  OK       07-Feb-21 02:00 Quijote-Diario
+    62  Full      21,048    209.2 M  OK       07-Feb-21 02:31 Quijote-Semanal
+    63  Full      21,048    209.2 M  OK       07-Feb-21 03:02 Quijote-Mensual
+    70  Incr          78    21.20 M  OK       08-Feb-21 02:00 Quijote-Diario
+    75  Incr       1,977    75.43 M  OK       09-Feb-21 02:00 Quijote-Diario
+    80  Incr         245    51.14 M  OK       10-Feb-21 02:00 Quijote-Diario
+    85  Incr      14,058    101.5 M  OK       11-Feb-21 02:01 Quijote-Diario
+    90  Incr          52    21.32 M  OK       12-Feb-21 02:00 Quijote-Diario
+    95  Incr          62    22.35 M  OK       13-Feb-21 02:00 Quijote-Diario
+====
+</pre>
+
+<p>Podemos ver, como he puesto de ejemplo a las máquinas <strong>Dulcinea</strong>, <strong>Freston</strong> y <strong>Quijote</strong>, y en todas ellas se están realizando correctamente todas las copias, lo que significa que el sistema de copias de seguridad se encuentra funcionando correctamente, y el contenido del <em>post</em> habría finalizado.</p>
+
+  </div><a class="u-url" href="/blog/sistema-de-copias-de-seguridad" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

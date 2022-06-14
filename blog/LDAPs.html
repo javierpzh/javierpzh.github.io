@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Ldaps | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Ldaps" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://" />
+<meta property="og:description" content="Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/LDAPs" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/LDAPs" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/LDAPs" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-21T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/LDAPs" />
+<meta property="twitter:title" content="Ldaps" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://","@type":"BlogPosting","headline":"Ldaps","dateModified":"2020-12-21T00:00:00+01:00","datePublished":"2020-12-21T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/LDAPs"},"url":"https://www.javierpzh.com/blog/LDAPs","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Ldaps</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-21T00:00:00+01:00" itemprop="datePublished">
+        Dec 21, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h4 id="configura-el-servidor-ldap-de-freston-para-que-utilice-el-protocolo-ldaps-a-la-vez-que-el-ldap-utilizando-el-certificado-x509-de-la-práctica-de-https-o-solicitando-el-correspondiente-a-través-de-gestiona-realiza-las-modificaciones-adecuadas-en-el-cliente-ldap-de-freston-para-que-todas-las-consultas-se-realicen-por-defecto-utilizando-ldaps">Configura el servidor LDAP de Freston para que utilice el protocolo ldaps:// a la vez que el ldap:// utilizando el certificado x509 de la práctica de HTTPS o solicitando el correspondiente a través de gestiona. Realiza las modificaciones adecuadas en el cliente LDAP de Freston para que todas las consultas se realicen por defecto utilizando ldaps://</h4>
+
+<p>Si quieres saber como instalar un servidor <strong>LDAP</strong>, puedes consultar <a href="https://javierpzh.github.io/instalacion-y-configuracion-inicial-de-openldap.html">este post</a>.</p>
+
+<p>Si queremos configurar <strong>Freston</strong> para que utilice el protocolo <code class="language-plaintext highlighter-rouge">ldaps://</code> y que así la información viaje cifrada y de manera segura, lo primero que debemos hacer es solicitar el certificado. En mi caso, voy a solicitar un certificado <strong>wildcard</strong> ya que posteriormente voy a necesitar utilizarlo en otras máquinas que se encuentran bajo el mismo dominio que <em>Freston</em> (<code class="language-plaintext highlighter-rouge">xxxxx.javierpzh.gonzalonazareno.org</code>).</p>
+
+<p>Para crear este certificado, vamos a crear una clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <code class="language-plaintext highlighter-rouge">openssl</code>. Vamos a guardar esta clave en el directorio <code class="language-plaintext highlighter-rouge">/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
+
+<pre>
+root@freston:~# openssl genrsa 4096 &gt; /etc/ssl/private/freston.key
+Generating RSA private key, 4096 bit long modulus (2 primes)
+.........................................++++
+...........................................................................................................................++++
+e is 65537 (0x010001)
+</pre>
+
+<p>Debemos cambiarle los permisos a la clave privada a <strong>400</strong>, así únicamente el propietario podrá leer el contenido. Para ello, haremos uso de la herramienta <code class="language-plaintext highlighter-rouge">chmod</code>:</p>
+
+<pre>
+root@freston:/etc/ssl/private# ls -l
+total 4
+-rw-r--r-- 1 root root 3243 Dec 18 08:59 freston.key
+
+root@freston:/etc/ssl/private# chmod 400 /etc/ssl/private/freston.key
+
+root@freston:/etc/ssl/private# ls -l
+total 4
+-r-------- 1 root root 3243 Dec 18 08:59 freston.key
+</pre>
+
+<p>Pero claro, también hay que pensar que el usuario de <strong>LDAP</strong> debe poder leer esta clave, así que, para ello, he decidido crear una <strong>ACL</strong> para que únicamente este usuario, llamado <strong>openldap</strong> tenga acceso a la clave privada. Para ello instalamos el paquete <code class="language-plaintext highlighter-rouge">acl</code>:</p>
+
+<pre>
+apt install acl -y
+</pre>
+
+<p>Y creamos la <em>ACL</em> adecuada:</p>
+
+<pre>
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/
+
+root@freston:# setfacl -m u:openldap:r-x /etc/ssl/private/freston.key
+</pre>
+
+<p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>.csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
+
+<p>Para generar nuestro archivo <em>.csr</em>:</p>
+
+<pre>
+root@freston:~# openssl req -new -key /etc/ssl/private/freston.key -out /root/wildcard.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Sevilla
+Locality Name (eg, city) []:Dos Hermanas
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES Gonzalo Nazareno
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (e.g. server FQDN or YOUR name) []:*.javierpzh.gonzalonazareno.org
+Email Address []:javierperezhidalgo01@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+root@freston:~# ls
+wildcard.csr
+</pre>
+
+<p>Como <strong>Freston</strong> es una instancia del <em>cloud</em>, voy a pasarme este fichero <code class="language-plaintext highlighter-rouge">wildcard.csr</code> a mi máquina anfitriona para enviárselo a la entidad certificadora, que en este caso es el <strong>Gonzalo Nazareno</strong>.
+Si quieres entender mejor la estructura del escenario donde estamos trabajando puedes echarle un vistazo a este <em>post</em>, <a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a>.</p>
+
+<p>Por tanto, pasaré este archivo a mi equipo mediante <code class="language-plaintext highlighter-rouge">scp</code>.</p>
+
+<p>Una vez tenemos el certificado firmado por la entidad certificadora, lo pasamos a <em>Freston</em>. También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover también a <em>Freston</em>.</p>
+
+<pre>
+root@freston:~# ls
+gonzalonazareno.crt  wildcard.crt  wildcard.csr
+</pre>
+
+<p>Lógicamente, estos certificados no debemos dejarlos en este directorio, por lo que, los vamos a mover a la ruta <code class="language-plaintext highlighter-rouge">/etc/ssl/certs</code>:</p>
+
+<pre>
+root@freston:~# mv gonzalonazareno.crt /etc/ssl/certs/
+
+root@freston:~# mv wildcard.crt /etc/ssl/certs/
+</pre>
+
+<p>Es importante que ambos archivos, posean a <strong>root</strong> como usuario y grupo propietario, por tanto le cambio el propietario y el grupo:</p>
+
+<pre>
+root@freston:/etc/ssl/certs# chown -R root:root wildcard.crt
+
+root@freston:/etc/ssl/certs# chown -R root:root gonzalonazareno.crt
+</pre>
+
+<p>Aquí podemos ver el resultado:</p>
+
+<pre>
+root@freston:~# ls -l /etc/ssl/certs/ | grep gonzalo
+-rw-r--r-- 1 root root   3634 Dec 18 09:34 gonzalonazareno.crt
+
+root@freston:~# ls -l /etc/ssl/certs/ | grep wildcard
+-rw-r--r-- 1 root root  10119 Dec 18 09:29 wildcard.crt
+</pre>
+
+<p>Vamos a crear de nuevo las <em>ACL</em> adecuadas para que el usuario <strong>openldap</strong> pueda leer estos archivos:</p>
+
+<pre>
+root@freston:~# setfacl -m u:openldap:r-x /etc/ssl/certs/gonzalonazareno.crt
+
+root@freston:~# setfacl -m u:openldap:r-x /etc/ssl/certs/wildcard.crt
+</pre>
+
+<p>Ya tenemos todos los certificados almacenados correctamente y con los usuarios/grupos/permisos adecuados.</p>
+
+<p>Es la primera vez que estoy utilizando <em>LDAP</em>, y me ha sorprendido mucho la manera en la que se realiza su configuración, ya que no vamos a llevar a cabo las modificaciones en unos ficheros de configuración como es lo habitual, sino que vamos a crear un fichero <code class="language-plaintext highlighter-rouge">.ldif</code>, como los que creamos para introducir objetos. Esto se debe a que, de esta manera, podremos manipular la configuración sin tener que reiniciar el servicio, por tanto, nunca dejaría de funcionar.</p>
+
+<p>Creamos el fichero <code class="language-plaintext highlighter-rouge">.ldif</code> e introducimos las siguientes líneas:</p>
+
+<pre>
+dn: cn=config
+changetype: modify
+replace: olcTLSCACertificateFile
+olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+-
+replace: olcTLSCertificateKeyFile
+olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
+-
+replace: olcTLSCertificateFile
+olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+</pre>
+
+<p>Una vez creado, vamos a hacer uso del siguiente comando para aplicar los cambios y modificar la configuración:</p>
+
+<pre>
+root@freston:~# ldapmodify -Y EXTERNAL -H ldapi:/// -f configuracion.ldif
+
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "cn=config"
+</pre>
+
+<p>Para ver si hemos introducido y se han aplicado correctamente los cambios, vamos a introducir el siguiente comando:</p>
+
+<pre>
+root@freston:~# slapcat -b "cn=config" | grep -E "olcTLS"
+
+olcTLSCACertificateFile: /etc/ssl/certs/gonzalonazareno.crt
+olcTLSCertificateKeyFile: /etc/ssl/private/freston.key
+olcTLSCertificateFile: /etc/ssl/certs/wildcard.crt
+</pre>
+
+<p>Vemos que nos muestra las tres líneas que hemos añadido con nuestro fichero <code class="language-plaintext highlighter-rouge">.ldif</code>. En el caso de que la salida no nos mostrara nada, significaría que no se han llevado a cabo los cambios.</p>
+
+<p>Vale, una vez hemos importado el fichero <em>.ldif</em> destinado a la configuración, nos quedaría hacer una modificación en el fichero <code class="language-plaintext highlighter-rouge">/etc/default/slapd</code>, ya que por defecto, el protocolo <code class="language-plaintext highlighter-rouge">ldaps://</code> no viene habilitado. Para habilitarlo, debemos buscar la línea <strong>SLAPD_SERVICES</strong> y añadir el valor <strong>ldaps://</strong>, de manera que quedaría así:</p>
+
+<pre>
+SLAPD_SERVICES="ldap:/// ldapi:/// ldaps:///"
+</pre>
+
+<p>Reiniciamos el servidor <em>LDAP</em> para aplicar los cambios:</p>
+
+<pre>
+systemctl restart slapd.service
+</pre>
+
+<p>Por último, en la parte del <strong>cliente</strong> (en mi caso, se trata de la misma máquina), debemos realizar una modificación en el fichero de configuración <code class="language-plaintext highlighter-rouge">/etc/ldap/ldap.conf</code>. Hay que descomentar el apartado llamado <strong>URI</strong>. Quedaría así:</p>
+
+<pre>
+URI     ldaps://localhost
+</pre>
+
+<p>Esto hará, que el cliente utilice de manera predeterminada el protocolo <strong>ldaps://</strong>.</p>
+
+<p>Debemos copiar el certificado de la entidad certificadora a la ruta <code class="language-plaintext highlighter-rouge">/usr/local/share/ca-certificates</code>, y luego ejecutar el comando <code class="language-plaintext highlighter-rouge">update-ca-certificates</code>. Esta herramienta, lo que hará, es que, sobre los certificados almacenados, se cree un enlace simbólico a la ruta <code class="language-plaintext highlighter-rouge">/etc/ssl/certs/</code>.</p>
+
+<pre>
+root@freston:~# cp /etc/ssl/certs/gonzalonazareno.crt /usr/local/share/ca-certificates/
+</pre>
+
+<p>Ejecutamos el siguiente comando:</p>
+
+<pre>
+root@freston:~# update-ca-certificates
+
+Updating certificates in /etc/ssl/certs...
+rehash: warning: skipping duplicate certificate in gonzalonazareno.crt
+1 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+</pre>
+
+<p>Para finalizar, vamos a realizar una consulta. Para realizar consultas en <em>LDAP</em> se utiliza la herramienta <code class="language-plaintext highlighter-rouge">ldapsearch</code>:</p>
+
+<pre>
+root@freston:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
+# extended LDIF
+#
+# LDAPv3
+# base &lt;dc=javierpzh,dc=gonzalonazareno,dc=org&gt; with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# javierpzh.gonzalonazareno.org
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+
+# admin, javierpzh.gonzalonazareno.org
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# Personas, javierpzh.gonzalonazareno.org
+dn: ou=Personas,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Personas
+
+# Grupos, javierpzh.gonzalonazareno.org
+dn: ou=Grupos,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Grupos
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 5
+# numEntries: 4
+</pre>
+
+<p>La salida es correcta y por tanto ya habríamos configurado <strong>LDAPs</strong>.</p>
+
+  </div><a class="u-url" href="/blog/LDAPs" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

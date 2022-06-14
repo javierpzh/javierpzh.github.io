@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Aumento De Rendimiento De Servidores Web Con Varnish | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Aumento De Rendimiento De Servidores Web Con Varnish" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con Varnish." />
+<meta property="og:description" content="En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con Varnish." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-26T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" />
+<meta property="twitter:title" content="Aumento De Rendimiento De Servidores Web Con Varnish" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con Varnish.","@type":"BlogPosting","headline":"Aumento De Rendimiento De Servidores Web Con Varnish","dateModified":"2021-02-26T00:00:00+01:00","datePublished":"2021-02-26T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish"},"url":"https://www.javierpzh.com/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Aumento De Rendimiento De Servidores Web Con Varnish</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-02-26T00:00:00+01:00" itemprop="datePublished">
+        Feb 26, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p>En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con <strong>Varnish</strong>.</p>
+
+<p>Para ello, antes, vamos a comparar el rendimiento de distintas configuraciones de servidores web sirviendo páginas dinámicas programadas con <em>PHP</em>, en concreto, vamos a servir un <em>CMS Wordpress</em>.</p>
+
+<p>Las configuraciones que vamos a realizar son las siguientes:</p>
+
+<ul>
+  <li>Módulo Apache2-PHP5</li>
+  <li>Apache2 + PHP-FPM (socket unix)</li>
+  <li>Apache2 + PHP-FPM (socket TCP)</li>
+  <li>Nginx + PHP-FPM (socket unix)</li>
+  <li>Nginx + PHP-FPM (socket TCP)</li>
+</ul>
+
+<p>Para cada una de las configuraciones he hecho una prueba de rendimiento con el comando <code class="language-plaintext highlighter-rouge">ab</code>, por ejemplo, durante 10 segundos, he hecho 200 peticiones concurrentes.</p>
+
+<pre>
+ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
+</pre>
+
+<p>Después de hacer muchas pruebas de rendimiento con un número variable de peticiones concurrentes (1, 10, 25, 50, 75, 100, 250, 500, 1000) y distintas direcciones del <em>Wordpress</em>, los resultados obtenidos son los siguientes:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/grafica.png" /></p>
+
+<p><strong>NOTA:</strong> No es importante el número concreto de peticiones/segundo. Puede variar por muchas razones, como pueden ser:</p>
+
+<ul>
+  <li>Desde donde haga las pruebas (no es lo mismo hacerlas desde <em>localhost</em>, o desde una máquina en la misma red, o desde internet).</li>
+  <li>El estado del servidor, que recursos tenga libre,…</li>
+</ul>
+
+<p>Lo importante es calcular una media intentando hacer las pruebas en un escenario lo más similar posible (por eso después de realizar cada prueba es recomendable reiniciar los servicios).</p>
+
+<p>Podemos determinar que la opción que nos ofrece más rendimiento es <strong>Nginx + PHP-FPM (socket unix)</strong>, cuyo resultado es aproximadamente unas 600 peticiones/segundo (parámetro <em>Requests per second</em> de <code class="language-plaintext highlighter-rouge">ab</code>).</p>
+
+<p>A partir de esa configuración vamos a intentar aumentar el rendimiento de nuestro servidor.</p>
+
+<p>Para ello vamos a llevar a cabo los siguientes apartados:</p>
+
+<p><strong>1. Vamos a configurar una máquina con la configuración ganadora: Nginx + PHP-FPM (socket unix). Para ello ejecutaremos la receta <em>Ansible</em> que se encuentra en <a href="https://github.com/josedom24/ansible_nginx_fpm_php">este repositorio</a>.</strong></p>
+
+<p>Comenzaremos clonando el repositorio en nuestro sistema:</p>
+
+<pre>
+javier@debian:~/Ansible$ git clone https://github.com/josedom24/ansible_nginx_fpm_php.git
+Clonando en 'ansible_nginx_fpm_php'...
+remote: Enumerating objects: 40, done.
+remote: Counting objects: 100% (40/40), done.
+remote: Compressing objects: 100% (27/27), done.
+remote: Total 40 (delta 0), reused 36 (delta 0), pack-reused 0
+Desempaquetando objetos: 100% (40/40), listo.
+
+javier@debian:~/Ansible$ cd ansible_nginx_fpm_php/
+
+javier@debian:~/Ansible/ansible_nginx_fpm_php$ ls
+ansible.cfg  group_vars  hosts  LICENSE  README.md  roles  site.retry  site.yaml
+</pre>
+
+<p>En mi caso, he tenido que modificar el fichero <code class="language-plaintext highlighter-rouge">ansible.cfg</code> ya que voy a utilizar como equipo auxiliar una máquina construida en <em>Vagrant</em> y dichas máquinas no se crean con un usuario llamado <em>debian</em>, sino <em>vagrant</em>. Además de esta modificación, he editado el fichero <code class="language-plaintext highlighter-rouge">hosts</code> y en él he indicado la dirección IP correcta, es decir, la IP de dicha máquina <em>Vagrant</em>. Realizados estos cambios, vamos a ejecutar la receta de <em>Ansible</em>:</p>
+
+<pre>
+javier@debian:~/Ansible/ansible_nginx_fpm_php$ ansible-playbook site.yaml
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [nginx : install nginx, php-fpm] ******************************************************************
+changed: [nodo1]
+
+TASK [nginx : Copy info.php] ***************************************************************************
+changed: [nodo1]
+
+TASK [nginx : Copy virtualhost default] ****************************************************************
+changed: [nodo1]
+
+RUNNING HANDLER [nginx : restart nginx] ****************************************************************
+changed: [nodo1]
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [mariadb : ensure mariadb is installed] ***********************************************************
+changed: [nodo1]
+
+TASK [mariadb : ensure mariadb binds to internal interface] ********************************************
+changed: [nodo1]
+
+RUNNING HANDLER [mariadb : restart mariadb] ************************************************************
+changed: [nodo1]
+
+PLAY [servidores_web] **********************************************************************************
+
+TASK [Gathering Facts] *********************************************************************************
+ok: [nodo1]
+
+TASK [wordpress : install unzip] ***********************************************************************
+changed: [nodo1]
+
+TASK [wordpress : download wordpress] ******************************************************************
+changed: [nodo1]
+
+TASK [wordpress : unzip wordpress] *********************************************************************
+changed: [nodo1]
+
+TASK [wordpress : create database wordpress] ***********************************************************
+changed: [nodo1]
+
+TASK [wordpress : create user mysql wordpress] *********************************************************
+changed: [nodo1] =&gt; (item=localhost)
+
+TASK [wordpress : copy wp-config.php] ******************************************************************
+changed: [nodo1]
+
+RUNNING HANDLER [wordpress : restart nginx] ************************************************************
+changed: [nodo1]
+
+PLAY RECAP *********************************************************************************************
+nodo1                      : ok=17   changed=14   unreachable=0    failed=0
+</pre>
+
+<p>Terminado el proceso, automáticamente tendremos listo nuestro servidor web, en la dirección IP especificada. En mi caso es la <em>192.168.0.35</em>, por lo que si me dirijo al navegador e introduzco dicha dirección me aparece la siguiente web:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/nginx.png" /></p>
+
+<p>Podemos ver como efectivamente se encuentra ejecutándose el servidor <em>Nginx</em>, pero, ¿se estará ejecutando el proceso adecuado para <em>Wordpress</em>? Para comprobarlo, vamos a añadir a nuestra dirección <code class="language-plaintext highlighter-rouge">/wordpress</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/wordpress.png" /></p>
+
+<p>Parece ser que también disponemos de nuestro <em>Wordpress</em>, así que vamos a terminar la instalación de esta nueva web y acceder a su panel de administración:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/panelwordpress.png" /></p>
+
+<p><strong>2. Vamos a hacer las pruebas de rendimiento desde la misma máquina. Para ello, vamos a ejecutar instrucciones similares a esta:</strong></p>
+
+<pre>
+ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+</pre>
+
+<p>Hay que decir, que el comando <code class="language-plaintext highlighter-rouge">ab</code> se encuentra en el paquete <code class="language-plaintext highlighter-rouge">apache2-utils</code>, por lo que debemos instalarlo:</p>
+
+<pre>
+apt install apache2-utils -y
+</pre>
+
+<p>Procedo a realizar las pruebas de rendimiento con valores distintos para comprobar el nivel de concurrencia, para ello, nos centraremos en los resultados de <strong>peticiones/segundo</strong>. Hay que decir, que entre cada prueba, he reiniciado tanto el servidor <em>Nginx</em> y el como el servidor <em>PHP-FPM</em>, para que los resultados sean los más reales posibles.</p>
+
+<p>Veamos los resultados:</p>
+
+<pre>
+root@varnish:~# ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    163.73 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    169.80 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    13030.18 [#/sec] (mean)
+
+root@varnish:~# ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    16449.18 [#/sec] (mean)
+</pre>
+
+<p><strong>3. Vistos los resultados, vamos a configurar un <em>proxy inverso - caché Varnish</em> escuchando en el puerto 80, que se comunicará con el servidor web por el puerto 8080. Posteriormente, volveremos a realizar varias pruebas de rendimiento.</strong></p>
+
+<p>Instalamos el <em>software</em> de <em>Varnish</em> mediante el siguiente comando:</p>
+
+<pre>
+apt install varnish -y
+</pre>
+
+<p>Una vez instalado, debemos tener en cuenta que, por defecto, <em>Varnish</em> escucha las peticiones en el puerto 6081, y en el 6082 para la interfaz de administración. En nuestro caso, queremos modificar este comportamiento de manera que <em>Varnish</em> escuche las peticiones en el puerto 80.</p>
+
+<p>Para cambiar esto, en primer lugar, nos dirigiremos a nuestro <em>virtualhost</em> del servidor <em>Nginx</em>, y en él, cambiaremos el puerto predeterminado (80) por el 8080. El resultado final de este <em>virtualhost</em> sería el siguiente:</p>
+
+<pre>
+server {
+        listen 8080 default_server;
+        listen [::]:8080 default_server;
+...
+</pre>
+
+<p>Obviamente, tras editar esto, debemos reiniciar nuestro servidor web para aplicar los nuevos cambios:</p>
+
+<pre>
+systemctl restart nginx.service
+</pre>
+
+<p>Hecho esto, aún nos quedaría la parte en que modificamos la configuración de <em>Varnish</em> para que escuche las peticiones en el puerto 80 y las redirija al 8080 que es donde tenemos nuestro servidor web.</p>
+
+<p>En primer lugar, empezaremos por redirigir el tráfico al puerto 8080. Para hacer esto, nos dirigimos al fichero <code class="language-plaintext highlighter-rouge">/etc/varnish/default.vcl</code> y debemos asegurarnos de que el bloque <strong>backend_default</strong> se encuentra con este aspecto:</p>
+
+<pre>
+backend default {
+    .host = "127.0.0.1";
+    .port = "8080";
+}
+</pre>
+
+<p>Bien, <em>Varnish</em> ya nos redirigirá el tráfico al puerto deseado, pero aún no está escuchando en el puerto 80, por lo que vamos a hacer que escuche en él. En el fichero <code class="language-plaintext highlighter-rouge">/etc/default/varnish</code>, tenemos que modificar el bloque <strong>DAEMON_OPTS</strong> y dejarlo como el siguiente:</p>
+
+<pre>
+DAEMON_OPTS="-a :80 \
+             -T localhost:6082 \
+             -f /etc/varnish/default.vcl \
+             -S /etc/varnish/secret \
+             -s malloc,256m"
+</pre>
+
+<p>En este punto, tan solo nos faltaría indicar en el demonio <em>systemd</em> que debe escuchar en el puerto 80. Este fichero se encuentra en la ruta <code class="language-plaintext highlighter-rouge">/lib/systemd/system/varnish.service</code>, y en él debemos modificar la siguiente línea hasta que posea este aspecto:</p>
+
+<pre>
+...
+ExecStart=/usr/sbin/varnishd -j unix,user=vcache -F -a :80 -T localhost:6082 -f /etc/varnish/default.vc$
+...
+</pre>
+
+<p>Ya hemos terminado todas las modificaciones necesarias, por lo que tan sólo nos faltaría reiniciar los servicios:</p>
+
+<pre>
+systemctl restart varnish
+systemctl daemon-reload
+</pre>
+
+<p>Por fin podemos realizar de nuevo las pruebas de funcionamiento y comparar los resultados con los anteriores. De nuevo, los servidores han sido reiniciados entre cada una de las pruebas:</p>
+
+<pre>
+root@varnish:~# ab -t 10 -c 50 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    38760.20 [#/sec] (mean)
+...
+
+root@varnish:~# ab -t 10 -c 100 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    43572.91 [#/sec] (mean)
+...
+
+root@varnish:~# ab -t 10 -c 250 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    42457.51 [#/sec] (mean)
+...
+
+root@varnish:~# ab -t 10 -c 500 -k http://127.0.0.1/wordpress/index.php
+...
+Requests per second:    34078.54 [#/sec] (mean)
+...
+</pre>
+
+<p>Podemos apreciar que los resultados son muy significativos y que la mejora de rendimiento es bastante abultada. Esto es debido a que nuestro <em>proxy inverso - caché</em>, a la hora de redirigir el trafico, lo hace tan sólo una vez, ya que para las próximas, ya lo tiene en <em>caché</em>, lo que hace que la respuesta sea mucho más rápida.</p>
+
+<p>Para demostrar que el <em>proxy Varnish</em> tan sólo ha realizado una petición a nuestro servidor web, vamos a consultar los <em>logs</em> de acceso de <em>Nginx</em>:</p>
+
+<pre>
+root@varnish:~# tail -f /var/log/nginx/access.log
+127.0.0.1 - - [26/Feb/2021:19:22:36 +0000] "GET /wordpress/index.php HTTP/1.1" 301 5 "-" "ApacheBench/2.3"
+</pre>
+
+<p>Como podemos apreciar tenemos una sola petición, lo que significa que habríamos terminado este pequeño ejercicio en el que se demuestra el aumento de rendimiento con <em>Varnish</em>, por lo que este <em>post</em> finalizaría aquí.</p>
+
+  </div><a class="u-url" href="/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

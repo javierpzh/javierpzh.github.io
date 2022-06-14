@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Instalación Y Configuración Inicial De Openldap | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Instalación Y Configuración Inicial De Openldap" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En este artículo vamos a realizar la instalación y configuración básica de OpenLDAP en Freston utilizando como base el nombre DNS asignado." />
+<meta property="og:description" content="En este artículo vamos a realizar la instalación y configuración básica de OpenLDAP en Freston utilizando como base el nombre DNS asignado." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-14T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP" />
+<meta property="twitter:title" content="Instalación Y Configuración Inicial De Openldap" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En este artículo vamos a realizar la instalación y configuración básica de OpenLDAP en Freston utilizando como base el nombre DNS asignado.","@type":"BlogPosting","headline":"Instalación Y Configuración Inicial De Openldap","dateModified":"2020-12-14T00:00:00+01:00","datePublished":"2020-12-14T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP"},"url":"https://www.javierpzh.com/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Instalación Y Configuración Inicial De Openldap</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-14T00:00:00+01:00" itemprop="datePublished">
+        Dec 14, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>En este artículo vamos a realizar la instalación y configuración básica de <em>OpenLDAP</em> en <em>Freston</em> utilizando como base el nombre DNS asignado.</strong></p>
+
+<p>Vamos a proceder con la instalación de <strong>LDAP</strong>.</p>
+
+<p>El servidor <strong>OpenLDAP</strong> está disponible en el paquete <code class="language-plaintext highlighter-rouge">slapd</code>. También nos conviene instalar el paquete <code class="language-plaintext highlighter-rouge">ldap-utils</code> que contiene utilidades adicionales:</p>
+
+<pre>
+apt install slapd ldap-utils -y
+</pre>
+
+<p>Durante la instalación, se nos abrirá esta ventana emergente donde nos pedirá que introduzcamos la contraseña de administrador de este nuevo <strong>LDAP</strong>:</p>
+
+<pre>
+┌─────────────────────────┤ Configuring slapd ├──────────────────────────┐
+│ Please enter the password for the admin entry in your LDAP directory.  │
+│                                                                        │
+│ Administrator password:                                                │
+│                                                                        │
+│ ______________________________________________________________________ │
+│                                                                        │
+│                                 &lt;\Ok\&gt;                                 │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Una vez hemos instalado estos paquetes, podemos pasar a llevar a cabo la configuración inicial del servidor.</p>
+
+<p>Los archivos de configuración del servidor <strong>LDAP</strong> se almacenan en la carpeta <code class="language-plaintext highlighter-rouge">/etc/ldap/</code>. Pero en lugar de editar manualmente dichos archivos, es mejor ejecutar el asistente de configuración de <code class="language-plaintext highlighter-rouge">slapd</code>. Para ello debemos ejecutar el siguiente comando:</p>
+
+<pre>
+dpkg-reconfigure slapd
+</pre>
+
+<p>Se nos abrirá un asistente y en primer lugar nos preguntara si deseamos omitir la configuración del <em>servidor LDAP</em>:</p>
+
+<pre>
+┌───────────────────────────────────┤ Configuring slapd ├───────────────────────────────────┐
+│                                                                                           │
+│ If you enable this option, no initial configuration or database will be created for you.  │
+│                                                                                           │
+│ Omit OpenLDAP server configuration?                                                       │
+│                                                                                           │
+│                          &lt;\Yes\&gt;                             &lt;\No\&gt;                       │
+│                                                                                           │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Respondemos que no, ya que precisamente lo que queremos es configurar el <em>servidor LDAP</em>.</p>
+
+<p>Ahora, es el momento de especificar el nombre de dominio <strong>DNS</strong>:</p>
+
+<pre>
+┌───────────────────────────────────┤ Configuring slapd ├────────────────────────────────────┐
+│ The DNS domain name is used to construct the base DN of the LDAP directory. For example,   │
+│ 'foo.example.org' will create the directory with 'dc=foo, dc=example, dc=org' as base DN.  │
+│                                                                                            │
+│ DNS domain name:                                                                           │
+│                                                                                            │
+│ javierpzh.gonzalonazareno.org_____________________________________________________________ │
+│                                                                                            │
+│                                           &lt;\Ok\&gt;                                           │
+│                                                                                            │
+└────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Nombre de la Organización. En mi caso, establezco el mismo:</p>
+
+<pre>
+┌──────────────────────────────────┤ Configuring slapd ├───────────────────────────────────┐
+│ Please enter the name of the organization to use in the base DN of your LDAP directory.  │
+│                                                                                          │
+│ Organization name:                                                                       │
+│                                                                                          │
+│ javierpzh.gonzalonazareno.org___________________________________________________________ │
+│                                                                                          │
+│                                          &lt;\Ok\&gt;                                          │
+│                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>En este punto, nos pedirá que introduzcamos una contraseña.</p>
+
+<p>Acto seguido, tendremos que indicar que tipo de motor de base de datos vamos a utilizar. Yo selecciono el valor por defecto <strong>MDB</strong>:</p>
+
+<pre>
+┌───────────────────────────────────────┤ Configuring slapd ├───────────────────────────────────────┐
+│ HDB and BDB use similar storage formats, but HDB adds support for subtree renames. Both support   │
+│ the same configuration options.                                                                   │
+│                                                                                                   │
+│ The MDB backend is recommended. MDB uses a new storage format and requires less configuration     │
+│ than BDB or HDB.                                                                                  │
+│                                                                                                   │
+│ In any case, you should review the resulting database configuration for your needs. See           │
+│ /usr/share/doc/slapd/README.Debian.gz for more details.                                           │
+│                                                                                                   │
+│ Database backend to use:                                                                          │
+│                                                                                                   │
+│                                               BDB                                                 │
+│                                               HDB                                                 │
+│                                               MDB                                                 │
+│                                                                                                   │
+│                                                                                                   │
+│                                              &lt;\Ok\&gt;                                               │
+│                                                                                                   │
+└───────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>La respuesta de este apartado afectará cuando desinstalemos el paquete <code class="language-plaintext highlighter-rouge">slapd</code>, ya que si marcamos que sí, al hacer un <code class="language-plaintext highlighter-rouge">apt remove --purge slapd</code> se eliminará también la base de datos asociada al <em>servidor LDAP</em>.</p>
+
+<pre>
+┌─────────────────────┤ Configuring slapd ├─────────────────────┐
+│                                                               │
+│                                                               │
+│                                                               │
+│ Do you want the database to be removed when slapd is purged?  │
+│                                                               │
+│                &lt;\Yes\&gt;                   &lt;\No\&gt;               │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>Yo respondo que sí.</p>
+
+<p>Vamos con la última pregunta. Nos informa que en el directorio <code class="language-plaintext highlighter-rouge">/var/lib/ldap</code> existe la configuración previa de la que se ha creado anteriormente, y nos da la opción de remover esa configuración y sustituirla por esta nueva.</p>
+
+<pre>
+┌──────────────────────────────────────┤ Configuring slapd ├───────────────────────────────────────┐
+│                                                                                                  │
+│ There are still files in /var/lib/ldap which will probably break the configuration process. If   │
+│ you enable this option, the maintainer scripts will move the old database files out of the way   │
+│ before creating a new database.                                                                  │
+│                                                                                                  │
+│ Move old database?                                                                               │
+│                                                                                                  │
+│                            &lt;\Yes\&gt;                               &lt;\No\&gt;                          │
+│                                                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+</pre>
+
+<p>En mi caso, respondo que sí.</p>
+
+<p>Y ya, vemos como se cierra el asistente y habría terminado el proceso de configuración inicial de <em>LDAP</em>:</p>
+
+<pre>
+root@freston:~# dpkg-reconfigure slapd
+  Backing up /etc/ldap/slapd.d in /var/backups/slapd-2.4.47+dfsg-3+deb10u4... done.
+  Moving old database directory to /var/backups:
+  - directory unknown... done.
+  Creating initial configuration... done.
+  Creating LDAP directory... done.
+
+root@freston:~#
+</pre>
+
+<p>Si hacemos uso del comando <code class="language-plaintext highlighter-rouge">slapcat</code> nos mostraría, en formato <strong>LDIF</strong>, un volcado en bruto de los objetos que tiene ahora mismo el <em>servidor LDAP</em>:</p>
+
+<pre>
+root@freston:~# slapcat
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+structuralObjectClass: organization
+entryUUID: 138073ec-d23b-103a-9a84-cf984c8cb121
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214093249Z
+entryCSN: 20201214093249.630601Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214093249Z
+
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9NVFZcjVrK25sMFlEWVhmbHB1MEhETG9YRTVVZEhpU0U=
+structuralObjectClass: organizationalRole
+entryUUID: 138393ce-d23b-103a-9a85-cf984c8cb121
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214093249Z
+entryCSN: 20201214093249.651148Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214093249Z
+</pre>
+
+<p>Por último, vamos a crear dos unidades organizativas, una destinada a las <strong>Personas</strong> y otra para <strong>Grupos</strong>.</p>
+
+<p>Para esto, he creado un fichero <code class="language-plaintext highlighter-rouge">.ldif</code> llamado <code class="language-plaintext highlighter-rouge">unidadesorganizativas.ldif</code> que posee este aspecto:</p>
+
+<pre>
+dn: ou=Personas,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Personas
+
+dn: ou=Grupos,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Grupos
+</pre>
+
+<p>Para cargar la configuración de este nuevo fichero, debemos hacer uso del siguiente comando:</p>
+
+<pre>
+ldapadd -x -D 'cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org' -W -f unidadesorganizativas.ldif
+</pre>
+
+<p>Aquí vemos el proceso:</p>
+
+<pre>
+root@freston:~# ldapadd -x -D 'cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org' -W -f unidadesorganizativas.ldif
+Enter LDAP Password:
+adding new entry "ou=Personas,dc=javierpzh,dc=gonzalonazareno,dc=org"
+
+adding new entry "ou=Grupos,dc=javierpzh,dc=gonzalonazareno,dc=org"
+</pre>
+
+<p>Podemos ver como nos pide introducir la contraseña del administrador, y una vez la hayamos introducido, veremos dos líneas como mensaje de la creación de estas nuevas unidades organizativas.</p>
+
+<p>Si ahora volvemos a hacer uso del comando <code class="language-plaintext highlighter-rouge">slapcat</code>:</p>
+
+<pre>
+root@freston:~# slapcat
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+structuralObjectClass: organization
+entryUUID: 138073ec-d23b-103a-9a84-cf984c8cb121
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214093249Z
+entryCSN: 20201214093249.630601Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214093249Z
+
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9NVFZcjVrK25sMFlEWVhmbHB1MEhETG9YRTVVZEhpU0U=
+structuralObjectClass: organizationalRole
+entryUUID: 138393ce-d23b-103a-9a85-cf984c8cb121
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214093249Z
+entryCSN: 20201214093249.651148Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214093249Z
+
+dn: ou=Personas,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Personas
+structuralObjectClass: organizationalUnit
+entryUUID: 3d9e1f28-d23e-103a-83fb-cbbecae82d26
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214095528Z
+entryCSN: 20201214095528.779588Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214095528Z
+
+dn: ou=Grupos,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Grupos
+structuralObjectClass: organizationalUnit
+entryUUID: 3da4c88c-d23e-103a-83fc-cbbecae82d26
+creatorsName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+createTimestamp: 20201214095528Z
+entryCSN: 20201214095528.823265Z#000000#000#000000
+modifiersName: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+modifyTimestamp: 20201214095528Z
+</pre>
+
+<p>En la salida del comando, podemos apreciar como se han creado estos dos nuevos objetos <strong>Personas</strong> y <strong>Grupos</strong>, por lo que este <em>post</em> terminaría aquí.</p>
+
+  </div><a class="u-url" href="/blog/instalaci%C3%B3n-y-configuraci%C3%B3n-inicial-de-OpenLDAP" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

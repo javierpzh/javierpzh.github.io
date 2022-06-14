@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Mapear Url A Ubicaciones De Un Sistema De Ficheros | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Mapear Url A Ubicaciones De Un Sistema De Ficheros" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Alias: Un alias me permite servir ficheros que no se encuentran en el DocumentRoot." />
+<meta property="og:description" content="Alias: Un alias me permite servir ficheros que no se encuentran en el DocumentRoot." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-20T00:00:00+02:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros" />
+<meta property="twitter:title" content="Mapear Url A Ubicaciones De Un Sistema De Ficheros" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Alias: Un alias me permite servir ficheros que no se encuentran en el DocumentRoot.","@type":"BlogPosting","headline":"Mapear Url A Ubicaciones De Un Sistema De Ficheros","dateModified":"2020-10-20T00:00:00+02:00","datePublished":"2020-10-20T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros"},"url":"https://www.javierpzh.com/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Mapear Url A Ubicaciones De Un Sistema De Ficheros</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-10-20T00:00:00+02:00" itemprop="datePublished">
+        Oct 20, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <ul>
+  <li>
+    <p><strong><a href="http://httpd.apache.org/docs/2.4/mod/mod_alias.html#alias">Alias</a>: Un alias me permite servir ficheros que no se encuentran en el <code class="language-plaintext highlighter-rouge">DocumentRoot</code>.</strong></p>
+  </li>
+  <li>
+    <p><strong><a href="http://httpd.apache.org/docs/2.4/mod/core.html#options">Options</a>: Determina para que sirven las siguientes opciones de funcionamiento:</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>All:</strong> habilita todas las opciones, menos <code class="language-plaintext highlighter-rouge">MultiViews</code>. Es la opción por defecto si no se indica ninguna opción.</p>
+      </li>
+      <li>
+        <p><strong>FollowSymLinks:</strong> sirve para seguir los enlaces simbólicos de un directorio.</p>
+      </li>
+      <li>
+        <p><strong>Indexes:</strong> sirve por si el cliente solicita un directorio en el que no exista ninguno de los ficheros especificados en <code class="language-plaintext highlighter-rouge">DirectoryIndex</code>, el servidor ofrecerá un listado de los archivos del directorio.</p>
+      </li>
+      <li>
+        <p><strong>MultiViews:</strong> permite mostrar una página distinta en función del idioma del navegador.</p>
+      </li>
+      <li>
+        <p><strong>SymLinksIfOwnerMatch:</strong> sirve para que el servidor siga los enlaces simbólicos en los que el fichero o directorio final pertenezca al mismo usuario que el propio enlace.</p>
+      </li>
+      <li>
+        <p><strong>ExecCGI:</strong> permite la ejecución de aplicaciones CGI en el directorio.</p>
+
+        <p><strong>Determina como funciona si delante de las opciones pongo el signo + o -.</strong></p>
+
+        <p>Si pones el signo <strong>+</strong> delante de una opción, habilitas su funcionamiento, pero ojo, estás añadiendo esta opción a las demás opciones que haya configuradas antes. Si pones el signo <strong>-</strong> deshabilitas una opción de las que en un principio estaban habilitadas.</p>
+
+        <p>Es decir, esto es interesante a la hora de establecer, por ejemplo, que opciones tiene un directorio hijo a diferencia de su padre.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>La directiva <a href="http://httpd.apache.org/docs/2.4/mod/mod_alias.html#redirect">Redirect</a> nos permite crear redirecciones temporaless o permanentes.</strong></p>
+  </li>
+  <li>
+    <p><strong>Con la directiva <code class="language-plaintext highlighter-rouge">ErrorDocument</code> se pueden crear <a href="http://httpd.apache.org/docs/2.4/custom-error.html">Respuestas de error personalizadas</a>. Todo esto se puede llevar a cabo en el fichero <code class="language-plaintext highlighter-rouge">/etc/apache2/conf-available/localized-error-pages.conf</code>.</strong></p>
+  </li>
+</ul>
+
+<h2 id="ejercicios">Ejercicios</h2>
+
+<p><strong>Crea un nuevo host virtual que es accedido con el nombre <code class="language-plaintext highlighter-rouge">www.mapeo.com</code>, cuyo <code class="language-plaintext highlighter-rouge">DocumentRoot</code> sea <code class="language-plaintext highlighter-rouge">/srv/mapeo</code>.</strong></p>
+
+<p>Antes de nada voy a decir que en mi caso voy a utilizar <a href="https://www.vagrantup.com/">Vagrant</a> y como software de virtualización <a href="https://www.virtualbox.org/">VirtualBox</a>.</p>
+
+<p>En el archivo <strong>VagrantFile</strong>, debemos realizar una configuración para crear una red privada, mediante la cuál poder visualizar los sitios webs fuera de la máquina virtual. Yo he utilizado esta configuración:</p>
+
+<pre>
+config.vm.network "private_network", ip: "192.168.33.10"
+</pre>
+
+<p>En esta máquina virtual, nos dirigimos al fichero de configuración de apache, <code class="language-plaintext highlighter-rouge">/etc/apache2/apache2.conf</code>, y debemos asegurarnos que tenemos descomentadas las siguientes líneas, que por defecto vienen comentadas:</p>
+
+<pre>
+&lt;\Directory /srv/&gt;
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+&lt;\/Directory&gt;
+</pre>
+
+<p>Esto indica que mostrará todos los ficheros de las páginas alojadas en la ruta <code class="language-plaintext highlighter-rouge">/srv/</code> y sus hijos.</p>
+
+<p>En la ruta <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/</code> creamos un fichero de configuración para esta página. Podemos copiar el fichero llamado <code class="language-plaintext highlighter-rouge">000-default.conf</code> para tener la estructura y luego lo modificamos:</p>
+
+<pre>
+cp 000-default.conf mapeo.conf
+nano mapeo.conf
+</pre>
+
+<p>Y dentro de este fichero, establecemos la url de la web en el apartado <strong>ServerName</strong>, e indicamos en la línea <strong>DocumentRoot</strong>, que se encuentra en <code class="language-plaintext highlighter-rouge">/srv/mapeo</code>. Tiene que quedar así:</p>
+
+<pre>
+ServerName www.mapeo.com
+DocumentRoot /svr/mapeo
+</pre>
+
+<p>Y creamos el enlace simbólico para activar el sitio web:</p>
+
+<pre>
+a2ensite mapeo.conf
+</pre>
+
+<p>Por último para visualizar este sitio web, en nuestro ordenador principal, deberíamos añadir a nuestro <code class="language-plaintext highlighter-rouge">/etc/hosts</code> la siguiente línea:</p>
+
+<pre>
+192.168.33.10   www.mapeo.com
+</pre>
+
+<p>Y ya podríamos ver la página web.</p>
+
+<p><strong>1. Cuando se entre a la dirección <code class="language-plaintext highlighter-rouge">www.mapeo.com</code>, se redireccionará automáticamente a <code class="language-plaintext highlighter-rouge">www.mapeo.com/principal</code>, donde se mostrará el mensaje de bienvenida.</strong></p>
+
+<p>Para automatizar una redirección, debemos configurarla en el archivo de configuración de la página, en este caso, se encuentra en <code class="language-plaintext highlighter-rouge">/etc/apache2/sites-available/mapeo.conf</code>.</p>
+
+<p>Debemos introducir la siguiente línea:</p>
+
+<pre>
+Redirect /index.html /principal
+</pre>
+
+<p>Lo que indicamos con esta opción es que al introducir la ruta <code class="language-plaintext highlighter-rouge">/index.html</code> que es la que se introduce por defecto cuando accedemos a <code class="language-plaintext highlighter-rouge">www.mapeo.com</code>, nos salte a la ruta <code class="language-plaintext highlighter-rouge">/principal</code>, que contendrá otro <code class="language-plaintext highlighter-rouge">index.html</code>.</p>
+
+<p>¿Te preguntarás porque he especificado <code class="language-plaintext highlighter-rouge">/index.html</code> en vez de <code class="language-plaintext highlighter-rouge">/</code> que suele ser lo más habitual, no? Pues bien, si pruebas esta opción introduciendo como url de origen <code class="language-plaintext highlighter-rouge">/</code> verás que te redirige a un bucle infinito que tendría como resultado una ruta como esta <code class="language-plaintext highlighter-rouge">www.mapeo.com/principalprincipalprincipal ...</code>.</p>
+
+<p>Después reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si ahora, accedemos a <code class="language-plaintext highlighter-rouge">www.mapeo.com</code>, automáticamente nos redirige y nos muestra la página <code class="language-plaintext highlighter-rouge">www.mapeo.com/principal</code>.</p>
+
+<p><strong>2. En el directorio <code class="language-plaintext highlighter-rouge">principal</code> no se permite ver la lista de los ficheros, no se permite que se siga los enlaces simbólicos y no se permite negociación de contenido. Muestra al profesor el funcionamiento. ¿Qué configuración tienes que poner?</strong></p>
+
+<p>Para ver la lista de ficheros de una dirección, cuando no se encuentre una archivo <code class="language-plaintext highlighter-rouge">index.html</code>, hay que añadir la opción <strong>Indexes</strong> al fichero de configuración de la página.</p>
+
+<p>Antes vamos a renombrar el <code class="language-plaintext highlighter-rouge">index.html</code> para que no lo encuentre y nos muestre esta lista. Además voy a crear unos ficheros para que nos los muestre:</p>
+
+<pre>
+root@buster:/srv/mapeo/principal# mv index.html index.old
+
+root@buster:/srv/mapeo/principal# touch 1 2 3
+
+root@buster:/srv/mapeo/principal# ls
+1  2  3  index.old
+</pre>
+
+<p>Ya podemos añadir la opción <strong>Indexes</strong> a nuestro <code class="language-plaintext highlighter-rouge">mapeo.conf</code>. Tenemos que añadir un bloque como el siguiente:</p>
+
+<pre>
+&lt;\Directory /srv/mapeo&gt;
+  Options Indexes
+  AllowOverride None
+  Require all granted
+&lt;\/Directory&gt;
+</pre>
+
+<p>Lo que estamos configurando aquí es que el directorio <code class="language-plaintext highlighter-rouge">/srv/mapeo</code> y sus hijos, si no encuentran el <code class="language-plaintext highlighter-rouge">index.html</code>, muestren la lista de archivos del directorio en el que se encuentre.</p>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si accedemos a <code class="language-plaintext highlighter-rouge">www.mapeo.com</code> (que nos redirige a <code class="language-plaintext highlighter-rouge">www.mapeo.com/principal</code>), nos muestra esta salida del sitio web.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/indexes.png" /></p>
+
+<p>Podemos acceder e inspeccionar el contenido de los archivos:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/fichero1.png" /></p>
+
+<p><strong>3. Si accedes a la página <code class="language-plaintext highlighter-rouge">www.mapeo.com/principal/documentos</code> se visualizarán los documentos que hay en <code class="language-plaintext highlighter-rouge">/home/usuario/doc</code>. Por lo tanto se permitirá el listado de fichero y el seguimiento de enlaces simbólicos siempre que el propietario del enlace y del fichero al que apunta sean el mismo usuario. Explica bien y pon una prueba de funcionamiento donde se vea bien el seguimiento de los enlaces simbólicos.</strong></p>
+
+<p>Lo primero que debemos hacer es crear un enlace simbólico a la carpeta <code class="language-plaintext highlighter-rouge">Documents</code> con el nombre <strong>documentos</strong>. Para ello:</p>
+
+<pre>
+root@buster:/srv/mapeo/principal# ln -s /home/vagrant/Documents/ documentos
+
+root@buster:/srv/mapeo/principal# ls -l
+total 8
+-rw-r--r-- 1 root root  19 Oct 21 15:41 1
+-rw-r--r-- 1 root root   0 Oct 21 15:15 2
+-rw-r--r-- 1 root root   0 Oct 21 15:15 3
+lrwxrwxrwx 1 root root  32 Oct 21 16:13 documentos -&gt; /home/vagrant/Documents/
+-rw-r--r-- 1 root root 159 Oct 21 14:39 index.old
+</pre>
+
+<p>Vemos como nos ha creado el enlace simbólico, que apunta a la carpeta <code class="language-plaintext highlighter-rouge">/home/vagrant/Documents/</code>, cuyo propietario es <strong>root</strong>, que esto es muy importante, ya que el propietario del enlace simbólico y del archivo/directorio al que haga referencia tienen que ser el mismo.</p>
+
+<p>Ahora creo un par de ficheros y una carpeta dentro de <code class="language-plaintext highlighter-rouge">Documents</code>:</p>
+
+<pre>
+root@buster:/home/vagrant/Documents# touch ejemplo1 ejemplo2
+
+root@buster:/home/vagrant/Documents# mkdir ejemplo
+
+root@buster:/home/vagrant/Documents# ls
+ejemplo  ejemplo1  ejemplo2
+</pre>
+
+<p>El propietario de la carpeta <code class="language-plaintext highlighter-rouge">Documents</code> es <strong>vagrant</strong>, y como he comentado antes, tiene que ser el mismo propietario que el enlace simbólico, por tanto, voy a cambiar el propietario de este directorio:</p>
+
+<pre>
+vagrant@buster:~$ sudo chown root:root Documents/
+
+vagrant@buster:~$ ls -l
+total 32
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Desktop
+drwxr-xr-x 3 root    root    4096 Oct 21 16:05 Documents
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Downloads
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Music
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Pictures
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Public
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Templates
+drwxr-xr-x 2 vagrant vagrant 4096 Oct 13 12:31 Videos
+</pre>
+
+<p>Vemos como hemos cambiado el propietario de la carpeta, y en este punto solo nos quedaría añadir la opción <strong>SymLinksIfOwnerMatch</strong> al fichero de configuración de la web:</p>
+
+<pre>
+&lt;\Directory /srv/mapeo&gt;
+  Options Indexes SymLinksIfOwnerMatch
+  AllowOverride None
+  Require all granted
+&lt;\/Directory&gt;
+</pre>
+
+<p>Si accedemos a <code class="language-plaintext highlighter-rouge">www.mapeo.com</code> (que nos redirige a <code class="language-plaintext highlighter-rouge">www.mapeo.com/principal</code>), nos muestra esta salida del sitio web.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/ejercicio3.png" /></p>
+
+<p>Vemos que nos muestra un directorio <code class="language-plaintext highlighter-rouge">documentos</code>, y si accedemos a él:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/documentos.png" /></p>
+
+<p>Observamos que tenemos acceso a él y a sus archivos.</p>
+
+<p><strong>4. En todo el host virtual se debe redefinir los mensajes de error de objeto no encontrado y no permitido. Para ello se crearán dos ficheros html dentro del directorio error. Entrega las modificaciones necesarias en la configuración y una comprobación del buen funcionamiento.</strong></p>
+
+<p>Creamos la carpeta <code class="language-plaintext highlighter-rouge">error</code> dentro del directorio <code class="language-plaintext highlighter-rouge">mapeo</code>, y creamos los archivos html, en este caso <code class="language-plaintext highlighter-rouge">403.html</code> y <code class="language-plaintext highlighter-rouge">404.html</code>.</p>
+
+<pre>
+root@buster:/srv/mapeo# mkdir error
+
+root@buster:/srv/mapeo# cd error/
+
+root@buster:/srv/mapeo/error# nano 403.html
+
+root@buster:/srv/mapeo/error# nano 404.html
+
+root@buster:/srv/mapeo/error# ls
+403.html  404.html
+</pre>
+
+<p>Nos movemos al fichero de configuración de la web y añadimos las siguientes líneas:</p>
+
+<pre>
+ErrorDocument 404 /error/404.html
+ErrorDocument 403 /error/403.html
+</pre>
+
+<p>Reiniciamos el servicio:</p>
+
+<pre>
+systemctl restart apache2
+</pre>
+
+<p>Si introducimos una ruta que no existe, nos sale este error 404:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/noexiste.png" /></p>
+
+<p>Vemos que sale el archivo html que hemos configurado para este error. Para el error 403, es decir, cuando intentamos acceder a una ruta a la que no tenemos permisos suficientes:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_mapear_url_a_ubicaciones_de_un_sistema_de_ficheros/sinpermiso.png" /></p>
+
+<p>Nos muestra este error.</p>
+
+  </div><a class="u-url" href="/blog/Mapear-URL-a-ubicaciones-de-un-sistema-de-ficheros" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Gestión De Usuarios De Bases De Datos | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Gestión De Usuarios De Bases De Datos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Oracle" />
+<meta property="og:description" content="Oracle" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-25T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos" />
+<meta property="twitter:title" content="Gestión De Usuarios De Bases De Datos" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Oracle","@type":"BlogPosting","headline":"Gestión De Usuarios De Bases De Datos","dateModified":"2021-01-25T00:00:00+01:00","datePublished":"2021-01-25T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos"},"url":"https://www.javierpzh.com/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Gestión De Usuarios De Bases De Datos</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-01-25T00:00:00+01:00" itemprop="datePublished">
+        Jan 25, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="oracle">Oracle</h2>
+
+<p><strong>1. Realiza un procedimiento llamado <code class="language-plaintext highlighter-rouge">MostrarObjetosAccesibles</code> que reciba un nombre de usuario y muestre todos los objetos a los que tiene acceso. (20)</strong></p>
+
+<p><strong>2. Realiza un procedimiento que reciba un nombre de usuario, un privilegio y un objeto y nos muestre el mensaje ‘SI, DIRECTO’ si el usuario tiene ese privilegio sobre objeto concedido directamente, ‘SI, POR ROL’ si el usuario lo tiene en alguno de los roles que tiene concedidos y un ‘NO’ si el usuario no tiene dicho privilegio. (25)</strong></p>
+
+<p><strong>3. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
+
+<p><strong>4. Crea un <em>tablespace</em> TS2 con tamaño de extensión de 256K. Realiza una consulta que genere un <em>script</em> que asigne ese <em>tablespace</em> como <em>tablespace</em> por defecto a los usuarios que no tienen privilegios para consultar ninguna tabla de <em>SCOTT</em>, excepto a <em>SYSTEM</em>. (10)</strong></p>
+
+<p><strong>5. La vida de un <em>DBA</em> es dura. Tras pedirlo insistentemente, en tu empresa han contratado una persona para ayudarte. Decides que se encargará de las siguientes tareas:</strong></p>
+
+<ul>
+  <li>
+    <p><strong>Resetear los archivos de <em>log</em> en caso de necesidad.</strong></p>
+  </li>
+  <li>
+    <p><strong>Crear funciones de complejidad de contraseña y asignárselas a usuarios.</strong></p>
+  </li>
+  <li>
+    <p><strong>Eliminar la información de <em>rollback</em>. (este privilegio podrá pasarlo a quien quiera).</strong></p>
+  </li>
+  <li>
+    <p><strong>Modificar información existente en la tabla dept del usuario scott. (este privilegio podrá pasarlo a quien quiera).</strong></p>
+  </li>
+  <li>
+    <p><strong>Realizar pruebas de todos los procedimientos existentes en la base de datos.</strong></p>
+  </li>
+  <li>
+    <p><strong>Poner un <em>tablespace</em> fuera de línea.</strong></p>
+  </li>
+</ul>
+
+<p><strong>Crea un usuario llamado <code class="language-plaintext highlighter-rouge">Ayudante</code> y, sin usar los roles predefinidos de <em>Oracle</em>, dale los privilegios mínimos para que pueda resolver dichas tareas. (18)</strong></p>
+
+<p>Pista: Si no recuerdas el nombre de un privilegio, puedes buscarlo en el diccionario de datos.</p>
+
+<p><strong>6. Muestra el texto de la última sentencia <em>SQL</em> que se ejecuto en el servidor, junto con el número de veces que se ha ejecutado desde que se cargó en el <em>Shared Pool</em> y el tiempo de CPU empleado en su ejecución. (10)</strong></p>
+
+<pre>
+select distinct sql_text, executions, CPU_TIME
+from v$sqlarea
+order by first_load_TIME desc
+fetch first 1 rows only;
+</pre>
+
+<p><strong>7. Realiza un procedimiento que genere un <em>script</em> que cree un rol conteniendo todos los permisos que tenga el usuario cuyo nombre reciba como parámetro, le hayan sido asignados a aquel directamente o a través de roles. El nuevo rol deberá llamarse <code class="language-plaintext highlighter-rouge">BackupPrivsNombreUsuario</code>. (25)</strong></p>
+
+<h2 id="mysql">MySQL</h2>
+
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
+
+<p>Creamos las tablas e insertamos los registros en la base de datos <strong>Scott</strong> mediante el siguiente <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/abd_gestion_de_usuarios_de_bases_de_datos/scriptcreacionscottmysql.txt">script</a>.</p>
+
+<p>Comprobamos que se han creado correctamente:</p>
+
+<pre>
+MariaDB [scott]&gt; show tables;
++-----------------+
+| Tables_in_scott |
++-----------------+
+| DEPT            |
+| EMP             |
++-----------------+
+2 rows in set (0.001 sec)
+
+MariaDB [scott]&gt; select * from DEPT;
++--------+------------+----------+
+| DEPTNO | DNAME      | LOC      |
++--------+------------+----------+
+|     10 | ACCOUNTING | NEW YORK |
+|     20 | RESEARCH   | DALLAS   |
+|     30 | SALES      | CHICAGO  |
+|     40 | OPERATIONS | BOSTON   |
++--------+------------+----------+
+4 rows in set (0.001 sec)
+</pre>
+
+<p>Ahora vamos a crear el <strong>script</strong>, para el que realizamos la consulta de la siguiente manera:</p>
+
+<pre>
+Select concat('Revoke Delete on ',table_schema,'.',table_name,' from ',grantee,';') as script
+from information_schema.table_privileges
+where table_schema='scott'
+and privilege_type='DELETE';
+</pre>
+
+<p>Da como resultado:</p>
+
+<pre>
++-----------------------------------------------+
+| script                                        |
++-----------------------------------------------+
+| Revoke Delete on scott.DEPT from 'SCOTT'@'%'; |
+| Revoke Delete on scott.EMP from 'SCOTT'@'%';  |
++-----------------------------------------------+
+2 rows in set (0.00 sec)
+</pre>
+
+<h2 id="postgresql">PostgreSQL</h2>
+
+<p><strong>1. Escribe una consulta que obtenga un <em>script</em> para quitar el privilegio de borrar registros en alguna tabla de <em>SCOTT</em> a los usuarios que lo tengan. (6)</strong></p>
+
+<p>Creamos las tablas e insertamos los registros en la base de datos <strong>Scott</strong> mediante el siguiente <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/abd_gestion_de_usuarios_de_bases_de_datos/scriptcreacionscottpostgres.txt">script</a>.</p>
+
+<p>Comprobamos que se han creado correctamente:</p>
+
+<pre>
+scott=&gt; \d
+       List of relations
+ Schema | Name | Type  | Owner
+--------+------+-------+-------
+ scott  | dept | table | scott
+ scott  | emp  | table | scott
+(2 rows)
+
+scott=&gt; select * from dept;
+ deptno |   dname    |   loc    
+--------+------------+----------
+     10 | ACCOUNTING | NEW YORK
+     20 | RESEARCH   | DALLAS
+     30 | SALES      | CHICAGO
+     40 | OPERATIONS | BOSTON
+(4 rows)
+</pre>
+
+<p>Ahora vamos a crear el <strong>script</strong>, para el que realizamos la consulta de la siguiente manera:</p>
+
+<pre>
+select 'Revoke Delete on '||table_catalog||'.'||table_name||' from '||grantee||';'
+from information_schema.role_table_grants
+where table_catalog='scott'
+and privilege_type='DELETE'
+and table_schema='scott';
+</pre>
+
+<p>Da como resultado:</p>
+
+<pre>
+?column?                  
+-------------------------------------------
+Revoke Delete on scott.dept from scott;
+Revoke Delete on scott.emp from scott;
+</pre>
+
+<h2 id="mongodb">MongoDB</h2>
+
+<p><strong>1. Averigua si existe la posibilidad en <em>MongoDB</em> de limitar el acceso de un usuario a los datos de una colección determinada. (6)</strong></p>
+
+<p>Antes de empezar, me gustaría aclarar el escenario sobre el que estoy trabajando, y se trata del que fue creado en el <em>post</em> acerca de la <a href="https://javierpzh.github.io/instalacion-de-servidores-y-clientes-de-bases-de-datos.html">Instalación de Servidores y Clientes de bases de datos</a>, en el apartado de <strong>MongoDB</strong>.</p>
+
+<p>En primer lugar, vamos a crear un usuario llamado <strong>javier_trabajador</strong> que tenga acceso sobre la base de datos <strong>empresa_mongodb</strong>. Para ello, le asignaré un rol <code class="language-plaintext highlighter-rouge">readWrite</code>.</p>
+
+<pre>
+\&gt; db.createUser({user: "javier_trabajador", pwd: "contraseña", roles: ["readWrite"]})
+Successfully added user: { "user" : "javier_trabajador", "roles" : [ "readWrite" ] }
+
+\&gt; db.getUser("javier_trabajador")
+{
+	"_id" : "empresa_mongodb.javier_trabajador",
+	"userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+	"user" : "javier_trabajador",
+	"db" : "empresa_mongodb",
+	"roles" : [
+		{
+			"role" : "readWrite",
+			"db" : "empresa_mongodb"
+		}
+	],
+	"mechanisms" : [
+		"SCRAM-SHA-1",
+		"SCRAM-SHA-256"
+	]
+}
+
+\&gt;
+</pre>
+
+<p>Podemos ver como he creado el nuevo usuario y que efectivamente se le ha asignado el rol que pretendíamos.</p>
+
+<p>Ahora, vamos a comprobar como el usuario <strong>javier_trabajador</strong>, posee acceso a los datos de la base de datos <strong>empresa_mongodb</strong>, en concreto, de la colección <strong>Productos</strong>.</p>
+
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&amp;compressors=disabled&amp;gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("b5895a01-a384-4a58-8003-6530fa3ac687") }
+MongoDB server version: 4.4.2
+
+\&gt; use empresa_mongodb
+switched to db empresa_mongodb
+
+\&gt; show collections
+Empleados
+Estudios
+Productos
+
+\&gt; db.Productos.find().pretty()
+{
+	"_id" : ObjectId("5fd10b94364af274079c314b"),
+	"Nombre" : "Javi s Phone 1",
+	"Tipo" : "Telefono",
+	"Descripcion" : "4,7 Pulgadas, Procesador 4 nucleos, 2 GB RAM",
+	"Precio" : 175
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314c"),
+	"Nombre" : "Javi s Phone 2",
+	"Tipo" : "Telefono",
+	"Descripcion" : "5,8 Pulgadas, Procesador 6 nucleos, 4 GB RAM",
+	"Precio" : 390
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314d"),
+	"Nombre" : "Javi s Phone 3",
+	"Tipo" : "Telefono",
+	"Descripcion" : "6,1 Pulgadas, Procesador 8 nucleos, 6 GB RAM",
+	"Precio" : 600
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314e"),
+	"Nombre" : "Javi s PC 1",
+	"Tipo" : "Ordenador",
+	"Descripcion" : "15,7 Pulgadas, Procesador 6 nucleos 12 hilos, 16 GB RAM",
+	"Precio" : 950
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314f"),
+	"Nombre" : "Javi s PC 2",
+	"Tipo" : "Ordenador",
+	"Descripcion" : "13,7 Pulgadas, Procesador 4 nucleos 8 hilos, 8 GB RAM",
+	"Precio" : 450
+}
+
+\&gt;
+</pre>
+
+<p>Como esperábamos, así es.</p>
+
+<p>Podemos apreciar como esta base de datos incluye tres colecciones (<em>Empleados</em>, <em>Estudios</em> y <em>Productos</em>), pero, ¿qué pasa si deseamos que este usuario pueda acceder a los datos de la colección <em>Productos</em>, pero que no tenga acceso a las colecciones <em>Empleados</em> y <em>Estudios</em>?</p>
+
+<p>En este caso, deberíamos revocarle al usuario, el rol de leer y escribir en esta base de datos, es decir, el rol <code class="language-plaintext highlighter-rouge">readWrite</code>, ya que éste se asigna a todas las colecciones de la propia base de datos.</p>
+
+<pre>
+\&gt; use empresa_mongodb
+
+\&gt; db.revokeRolesFromUser(
+   "javier_trabajador",
+   [ { "role" : "readWrite", db : "empresa_mongodb" } ]
+)
+
+\&gt; db.getUser("javier_trabajador")
+{
+	"_id" : "empresa_mongodb.javier_trabajador",
+	"userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+	"user" : "javier_trabajador",
+	"db" : "empresa_mongodb",
+	"roles" : [ ],
+	"mechanisms" : [
+		"SCRAM-SHA-1",
+		"SCRAM-SHA-256"
+	]
+}
+
+\&gt;
+</pre>
+
+<p>Si ahora intentáramos acceder a los datos de <strong>empresa_mongodb</strong>:</p>
+
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&amp;compressors=disabled&amp;gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("ec7905cb-bf1d-49d3-b13f-9169ee5b59db") }
+MongoDB server version: 4.4.2
+
+\&gt; use empresa_mongodb
+switched to db empresa_mongodb
+
+\&gt; show collections
+Warning: unable to run listCollections, attempting to approximate collection names by parsing connectionStatus
+
+\&gt; db.Productos.find().pretty()
+Error: error: {
+	"ok" : 0,
+	"errmsg" : "not authorized on empresa_mongodb to execute command { find: \"Productos\", filter: {}, lsid: { id: UUID(\"ec7905cb-bf1d-49d3-b13f-9169ee5b59db\") }, $db: \"empresa_mongodb\" }",
+	"code" : 13,
+	"codeName" : "Unauthorized"
+}
+
+\&gt;
+</pre>
+
+<p>Lógicamente no tenemos acceso a ninguna de las colecciones.</p>
+
+<p>Para asignarle <strong>privilegios sobre una determinada colección</strong>, podemos crear un <strong>rol definido por el usuario</strong>, es decir, por nosotros mismos.</p>
+
+<p>Esto es lo que vamos a hacer. Como podemos ver a continuación, he creado el rol llamado <strong>rol_acceso_coleccion</strong>, que otorga privilegios de lectura y escritura sobre la colección <strong>Productos</strong> de la base de datos <strong>empresa_mongodb</strong>.</p>
+
+<p>Posteriormente se lo asignamos al usuario <strong>javier_trabajador</strong>.</p>
+
+<pre>
+\&gt; db.createRole({role:"rol_acceso_coleccion", privileges:[{resource:{db:"empresa_mongodb", collection: "Productos"}, actions: ["find","remove","insert","update"]}], roles: []})
+{
+	"role" : "rol_acceso_coleccion",
+	"privileges" : [
+		{
+			"resource" : {
+				"db" : "empresa_mongodb",
+				"collection" : "Productos"
+			},
+			"actions" : [
+				"find",
+				"remove",
+				"insert",
+				"update"
+			]
+		}
+	],
+	"roles" : [ ]
+}
+
+\&gt; db.grantRolesToUser(
+   "javier_trabajador",
+   [ { role : "rol_acceso_coleccion", db : "empresa_mongodb" } ]
+)
+
+\&gt; db.getUser("javier_trabajador")
+{
+	"_id" : "empresa_mongodb.javier_trabajador",
+	"userId" : UUID("71963567-1b0d-469c-9278-a73e2ddc9dd2"),
+	"user" : "javier_trabajador",
+	"db" : "empresa_mongodb",
+	"roles" : [
+		{
+			"role" : "rol_acceso_coleccion",
+			"db" : "empresa_mongodb"
+		}
+	],
+	"mechanisms" : [
+		"SCRAM-SHA-1",
+		"SCRAM-SHA-256"
+	]
+}
+
+\&gt;
+</pre>
+
+<p>Hecho esto, supuestamente, tendríamos acceso a los datos de la colección <em>Productos</em>. Vamos a comprobarlo:</p>
+
+<pre>
+vagrant@cliente:~$ mongo --host 192.168.0.39 --authenticationDatabase "empresa_mongodb" -u javier_trabajador -p
+MongoDB shell version v4.4.2
+Enter password:
+connecting to: mongodb://192.168.0.39:27017/?authSource=empresa_mongodb&amp;compressors=disabled&amp;gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("3507c66f-5b8e-47a2-b9c1-47af2739b991") }
+MongoDB server version: 4.4.2
+
+\&gt; use empresa_mongodb
+switched to db empresa_mongodb
+
+\&gt; show collections
+Productos
+
+\&gt; db.Productos.find().pretty()
+{
+	"_id" : ObjectId("5fd10b94364af274079c314b"),
+	"Nombre" : "Javi s Phone 1",
+	"Tipo" : "Telefono",
+	"Descripcion" : "4,7 Pulgadas, Procesador 4 nucleos, 2 GB RAM",
+	"Precio" : 175
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314c"),
+	"Nombre" : "Javi s Phone 2",
+	"Tipo" : "Telefono",
+	"Descripcion" : "5,8 Pulgadas, Procesador 6 nucleos, 4 GB RAM",
+	"Precio" : 390
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314d"),
+	"Nombre" : "Javi s Phone 3",
+	"Tipo" : "Telefono",
+	"Descripcion" : "6,1 Pulgadas, Procesador 8 nucleos, 6 GB RAM",
+	"Precio" : 600
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314e"),
+	"Nombre" : "Javi s PC 1",
+	"Tipo" : "Ordenador",
+	"Descripcion" : "15,7 Pulgadas, Procesador 6 nucleos 12 hilos, 16 GB RAM",
+	"Precio" : 950
+}
+{
+	"_id" : ObjectId("5fd10b95364af274079c314f"),
+	"Nombre" : "Javi s PC 2",
+	"Tipo" : "Ordenador",
+	"Descripcion" : "13,7 Pulgadas, Procesador 4 nucleos 8 hilos, 8 GB RAM",
+	"Precio" : 450
+}
+
+\&gt; db.Estudios.find().pretty()
+Error: error: {
+	"ok" : 0,
+	"errmsg" : "not authorized on empresa_mongodb to execute command { find: \"Estudios\", filter: {}, lsid: { id: UUID(\"3507c66f-5b8e-47a2-b9c1-47af2739b991\") }, $db: \"empresa_mongodb\" }",
+	"code" : 13,
+	"codeName" : "Unauthorized"
+}
+
+\&gt;
+</pre>
+
+<p>Genial, podemos ver como únicamente nos muestra la colección sobre la que poseemos privilegios, por tanto, ya habríamos terminado este apartado.</p>
+
+<p><strong>2. Averigua si en <em>MongoDB</em> existe el concepto de privilegio del sistema y muestra las diferencias más importantes con <em>Oracle</em>. (6)</strong></p>
+
+<p>En <strong>Oracle</strong> existen dos tipos de privilegios de usuario:</p>
+
+<ul>
+  <li>
+    <p><em>System</em></p>
+  </li>
+  <li>
+    <p><em>Object</em></p>
+  </li>
+</ul>
+
+<p><strong>System</strong></p>
+
+<p>Permite al usuario hacer ciertas tareas sobre la base de datos, como por ejemplo crear un <em>tablespace</em>. Estos permisos son otorgados por el administrador o por alguien que haya recibido el permiso para administrar ese tipo de privilegio. Existen como 100 tipos distintos de privilegios de este tipo.</p>
+
+<p>En general los permisos de sistema, permiten ejecutar comandos del tipo <strong>DDL</strong>, como <em>CREATE</em>, <em>ALTER</em> y <em>DROP</em> o del tipo <strong>DML</strong>.</p>
+
+<p>Los privilegios de sistema más importantes son: <strong>SYSDBA</strong> y <strong>SYSOPER</strong>, que son dados a usuarios que serán administradores de base de datos.</p>
+
+<p><strong>Object</strong></p>
+
+<p>Permite al usuario realizar ciertas acciones en objetos de la base de datos, como una tabla, una vista, un procedimiento, una función, … Si a un usuario no se le dan estos permisos sólo puede acceder a sus propios objetos.</p>
+
+<p>Este tipo de permisos los da el dueño del objeto, el administrador o alguien que haya recibido este permiso explícitamente.</p>
+
+<p>Por el contrario, en <strong>MongoDB</strong>, no existe el concepto de privilegio como tal, sino que nos encontramos con los determinados <strong>roles</strong>.</p>
+
+<p>¿Y qué son los <em>roles</em>?</p>
+
+<p>Un <em>rol</em> se define como un conjunto de privilegios. Cuando a un usuario se le asigna un rol, los privilegios de ese rol son accesibles por el usuario.</p>
+
+<p>Un privilegio define una acción o acciones que se pueden efectuar sobre un recurso. Los recursos pueden ser de varios tipos:</p>
+
+<ul>
+  <li>Una base de datos</li>
+  <li>Una colección</li>
+  <li>Un conjunto de colecciones</li>
+  <li>A nivel de <em>cluster</em>: representa operaciones sobre el conjunto de réplicas o el <em>cluster</em> de <em>shards</em></li>
+</ul>
+
+<p>Un rol puede además heredar privilegios de uno o varios roles.</p>
+
+<p><em>MongoDB</em> dispone de dos tipos de roles:</p>
+
+<ul>
+  <li>
+    <p><strong>Roles predefinidos en el sistema:</strong> son los que ya se encuentran creados de manera predeterminada y listos para utilizarse.</p>
+  </li>
+  <li>
+    <p><strong>Roles definidos por el usuario:</strong> son los creados por el administrador del sistema.</p>
+  </li>
+</ul>
+
+<p>Una vez explicado como funcionan los privilegios en un gestor y otro, creo que se pueden ver las diferencias más importantes con bastante facilidad, pero por si acaso, voy a poner un ejemplo práctico.</p>
+
+<p>Supongamos que quisiéramos que un usuario pudiera acceder a una tabla, o una colección, de la cuál no es dueño. Por un lado, en <em>Oracle</em> nos bastaría con ejecutar una sentencia (<em>GRANT</em>) que le permitiera al usuario acceder a ese recurso, y por otro lado, en <em>MongoDB</em>, al usuario deberíamos asignarle el rol que poseiera el privilegio adecuado que le permitiera realizar dicha acción en el recurso.</p>
+
+<p><strong>3. Explica los roles por defecto que incorpora <em>MongoDB</em> y como se asignan a los usuarios. (6)</strong></p>
+
+<p>Como ya sabemos lo qué es un <strong>rol</strong> gracias al apartado anterior, vamos a pasar, en este caso, con los que nos interesan, los <strong>roles predefinidos</strong>.</p>
+
+<p>Dentro de éstos, podemos clasificar los distintos roles en varias categorías.</p>
+
+<ul>
+  <li>
+    <p>Roles de usuarios de bases de datos</p>
+  </li>
+  <li>
+    <p>Roles de administradores de base de datos</p>
+  </li>
+  <li>
+    <p>Roles de administradores de <em>cluster</em></p>
+  </li>
+  <li>
+    <p>Roles de copias de seguridad/restauración</p>
+  </li>
+  <li>
+    <p>Roles de superusuarios</p>
+  </li>
+</ul>
+
+<p>Ahora sí, vamos a ver cada uno de los roles que existen en <em>MongoDB</em>.</p>
+
+<h5 id="roles-de-usuarios-de-bases-de-datos">Roles de usuarios de bases de datos</h5>
+
+<ul>
+  <li>
+    <p>Roles que actúan a nivel de base de datos</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">read</code>: permite leer datos de todas las colecciones.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">readWrite</code>: permite leer y escribir datos de todas las colecciones.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="roles-de-administradores-de-bases-de-datos">Roles de administradores de bases de datos</h5>
+
+<ul>
+  <li>
+    <p>Roles que actúan a nivel de base de datos</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">dbAdmin</code>: permite realizar tareas administrativas.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">userAdmin</code>: permite crear y modificar usuarios y roles en la base de datos actual</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">dbOwner</code>: puede efectuar cualquier operación administrativa en la base de datos. Por lo tanto, junta los privilegios de <code class="language-plaintext highlighter-rouge">readWrite</code>, <code class="language-plaintext highlighter-rouge">dbAdmin</code> y <code class="language-plaintext highlighter-rouge">userAdmin</code>.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="roles-de-administradores-de-cluster">Roles de administradores de <em>cluster</em></h5>
+
+<ul>
+  <li>
+    <p>Roles que actúan a nivel de todo el sistema</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">clusterMonitor</code>: permite acceso de solo lectura a las herramientas de supervisión.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">clusterManager</code>: permite realizar acciones de administración y monitorización en el <em>cluster</em>.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">hostManager</code>: permite monitorizar y administrar servidores.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">clusterAdmin</code>: combina los tres roles anteriores, añadiendo además el rol <code class="language-plaintext highlighter-rouge">dropDatabase</code>.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="roles-de-copias-de-seguridadrestauración">Roles de copias de seguridad/restauración</h5>
+
+<ul>
+  <li>
+    <p>Roles que actúan a nivel de base de datos</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">backup</code>: permite realizar copias de seguridad de los datos.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">restore</code>: permite restaurar los datos de las copias de seguridad.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="roles-de-todas-las-bases-de-datos">Roles de todas las bases de datos</h5>
+
+<ul>
+  <li>
+    <p>Roles que actúan a nivel de todas las bases de datos</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">readAnyDatabase</code>: es el mismo rol que <code class="language-plaintext highlighter-rouge">read</code> pero se aplica a todas las bases de datos.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">readWriteAnyDatabase</code>: es el mismo rol que <code class="language-plaintext highlighter-rouge">readWrite</code> pero se aplica a todas las bases de datos.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">userAdminAnyDatabase</code>: es el mismo rol que <code class="language-plaintext highlighter-rouge">userAdmin</code> pero se aplica a todas las bases de datos.</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">dbAdminAnyDatabase</code>: es el mismo rol que <code class="language-plaintext highlighter-rouge">dbAdmin</code> pero se aplica a todas las bases de datos.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h5 id="roles-de-superusuarios">Roles de superusuarios</h5>
+
+<ul>
+  <li>
+    <p>No son roles de superusuario directamente, pero pueden asignar a cualquier usuario cualquier privilegio en cualquier base de datos, también ellos mismos.</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">userAdmin</code></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">dbOwner</code></p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">userAdminAnyDatabase</code></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Roles que actúan a nivel de todo el sistema</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">root</code>: asigna privilegios completos sobre todos los recursos del sistema.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Una vez explicados todos los roles que vienen definidos por defecto en <em>MongoDB</em>, vamos a ver como se asignan sobre los usuarios.</p>
+
+<p>Hay que decir que podemos <strong>asignar un rol</strong>, tanto a la hora de crear el usuario, como, con el usuario ya creado con anterioridad.</p>
+
+<ul>
+  <li><strong>En el momento de crear el usuario</strong></li>
+</ul>
+
+<pre>
+\&gt; use nombrebd
+
+\&gt; db.createUser(
+{
+   user: "nombreusuario",
+   pwd: "contraseña",
+   roles: [ { role: "nombredelrol", db: "nombrebd" } ]
+})
+</pre>
+
+<ul>
+  <li><strong>Después de haber creado el usuario</strong></li>
+</ul>
+
+<pre>
+\&gt; use nombrebd
+
+\&gt; db.grantRolesToUser(
+   "nombreusuario",
+   [ { role : "nombredelrol", db : "nombrebd" }, "nombredelrol", … ]
+)
+</pre>
+
+<p>Bien, ¿y qué pasa si queremos <strong>remover un rol</strong> de un usuario?</p>
+
+<p>Pues para ello, debemos emplear el siguiente comando:</p>
+
+<pre>
+\&gt; use nombrebd
+
+\&gt; db.revokeRolesFromUser(
+   "nombreusuario",
+   [ { role : "nombredelrol", db : "nombrebd" } | "nombredelrol" ]
+)
+</pre>
+
+<p>Listo.</p>
+
+<p><strong>4. Explica como puede consultarse el diccionario de datos de <em>MongoDB</em> para saber que roles han sido concedidos a un usuario y qué privilegios incluyen. (6)</strong></p>
+
+<p>Si queremos saber que roles posee un usuario en concreto, podemos hacer uso del siguiente comando:</p>
+
+<pre>
+db.getUser("nombreusuario")
+</pre>
+
+<p>Por ejemplo, vamos a comprobar que roles se le han concedido al usuario <strong>javier</strong> de mi sistema:</p>
+
+<pre>
+\&gt; use admin
+switched to db admin
+
+\&gt; db.getUser("javier")
+{
+	"_id" : "admin.javier",
+	"userId" : UUID("3da264ea-1f70-4fdc-8231-82bdc6d70cce"),
+	"user" : "javier",
+	"db" : "admin",
+	"roles" : [
+		{
+			"role" : "root",
+			"db" : "admin"
+		}
+	],
+	"mechanisms" : [
+		"SCRAM-SHA-1",
+		"SCRAM-SHA-256"
+	]
+}
+
+\&gt;
+</pre>
+
+<p>Podemos ver como nos muestra que el usuario <strong>javier</strong>, posee el rol de <code class="language-plaintext highlighter-rouge">root</code> para la base de datos <strong>admin</strong>.</p>
+
+<p>Bien, ¿y si queremos saber qué privilegios incluye un determinado rol?</p>
+
+<p>Para ello, podemos utilizar el comando:</p>
+
+<pre>
+db.system.roles.find("nombredelrol").pretty()
+</pre>
+
+<p>Por ejemplo, vamos a comprobar que privilegios incluye el rol <strong>rol_acceso_coleccion</strong> de mi sistema:</p>
+
+<pre>
+\&gt; use admin
+switched to db admin
+
+\&gt; db.system.roles.find().pretty("rol_acceso_coleccion")
+{
+	"_id" : "empresa_mongodb.rol_acceso_coleccion",
+	"role" : "rol_acceso_coleccion",
+	"db" : "empresa_mongodb",
+	"privileges" : [
+		{
+			"resource" : {
+				"db" : "empresa_mongodb",
+				"collection" : "Productos"
+			},
+			"actions" : [
+				"find",
+				"insert",
+				"remove",
+				"update"
+			]
+		}
+	],
+	"roles" : [ ]
+}
+
+\&gt;
+</pre>
+
+<p>Vemos que incluye privilegios sobre las acciones <code class="language-plaintext highlighter-rouge">find</code>, <code class="language-plaintext highlighter-rouge">insert</code>, <code class="language-plaintext highlighter-rouge">remove</code> y <code class="language-plaintext highlighter-rouge">update</code>.</p>
+
+  </div><a class="u-url" href="/blog/gesti%C3%B3n-de-usuarios-de-bases-de-datos" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

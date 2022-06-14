@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Actualización De Centos7 A Centos8 | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Actualización De Centos7 A Centos8" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee un sistema CentOS 7. Mostraré como actualizar a CentOS 8, garantizando que todos los servicios previos continúen funcionando." />
+<meta property="og:description" content="Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee un sistema CentOS 7. Mostraré como actualizar a CentOS 8, garantizando que todos los servicios previos continúen funcionando." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-22T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8" />
+<meta property="twitter:title" content="Actualización De Centos7 A Centos8" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Vamos a realizar la actualización de la instancia Quijote, que creamos en este post la cuál posee un sistema CentOS 7. Mostraré como actualizar a CentOS 8, garantizando que todos los servicios previos continúen funcionando.","@type":"BlogPosting","headline":"Actualización De Centos7 A Centos8","dateModified":"2020-11-22T00:00:00+01:00","datePublished":"2020-11-22T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8"},"url":"https://www.javierpzh.com/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Actualización De Centos7 A Centos8</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-11-22T00:00:00+01:00" itemprop="datePublished">
+        Nov 22, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p>Vamos a realizar la actualización de la instancia <strong>Quijote</strong>, que creamos en este <a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">post</a> la cuál posee un sistema <strong>CentOS 7</strong>. Mostraré como actualizar a <strong>CentOS 8</strong>, garantizando que todos los servicios previos continúen funcionando.</p>
+
+<p>Para comprobar la versión de <em>CentOS</em> que tenemos instalada en este momento:</p>
+
+<pre>
+[root@quijote ~]# cat /etc/redhat-release
+CentOS Linux release 7.8.2003 (Core)
+</pre>
+
+<p>Lo primero que tenemos que realizar si queremos subir de <em>CentOS 7</em> a <em>CentOS 8</em>, sería instalar el repositorio <strong>EPEL</strong> (Extra Packages Enterprise Linux). Recordemos que el gestor de paquetes predeterminado es <em>CentOS 7</em> es <code class="language-plaintext highlighter-rouge">yum</code>.</p>
+
+<pre>
+yum install epel-release -y
+</pre>
+
+<p>Debemos tener instaladas las herramientas para el gestor de paquetes <code class="language-plaintext highlighter-rouge">yum</code> y la herramienta <code class="language-plaintext highlighter-rouge">rpmconf</code>, para resolver los posibles conflictos en las configuraciones de paquetes <em>rpm</em>. Para instalar ambos paquetes:</p>
+
+<pre>
+yum install yum-utils rpmconf -y
+</pre>
+
+<p>Ejecutamos el siguiente comando, para comprobar si existen conflictos como acabamos de comentar.</p>
+
+<pre>
+rpmconf -a
+</pre>
+
+<p>Cuando hemos verificado que no hay ningún problema, vamos a eliminar los paquetes huérfanos y que nos resultan innecesarios:</p>
+
+<pre>
+package-cleanup --orphans
+
+package-cleanup --leaves
+</pre>
+
+<p>En <em>CentOS 8</em>, el gestor de paquetes predeterminado no es <code class="language-plaintext highlighter-rouge">yum</code>, sino que se utiliza <code class="language-plaintext highlighter-rouge">dnf</code>, por tanto vamos a instalarlo, aunque realmente podemos seguir utilizando <code class="language-plaintext highlighter-rouge">yum</code> sin problemas, o conviviendo con los dos:</p>
+
+<pre>
+yum install dnf -y
+</pre>
+
+<p>Como ya hemos instalado y tenemos disponible el nuevo gestor de paquetes, podemos prescindir de <code class="language-plaintext highlighter-rouge">yum</code>. En mi caso ya no me interesa, por eso me deshago de él, pero si lo queremos conservar podemos saltarnos este paso.</p>
+
+<pre>
+dnf remove yum yum-metadata-parser -y
+
+rm -rf /etc/yum
+</pre>
+
+<p>Vamos a llevar a cabo una actualización de todos los paquetes del sistema:</p>
+
+<pre>
+dnf upgrade -y
+</pre>
+
+<p>Ha llegado el momento de iniciar la actualización y de instalar los paquetes necesarios para <em>CentOS 8</em> que encontramos en los repositorios oficiales. Los instalamos:</p>
+
+<pre>
+dnf install \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-repos-8.2-2.2004.0.2.el8.x86_64.rpm \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-release-8.2-2.2004.0.2.el8.x86_64.rpm \http://mirror.centos.org/centos/8/BaseOS/x86_64/os/Packages/centos-gpg-keys-8.2-2.2004.0.2.el8.noarch.rpm
+</pre>
+
+<p>Toca actualizar de nuevo el repositorio <em>EPEL</em>:</p>
+
+<pre>
+dnf upgrade epel-release -y
+</pre>
+
+<p>Eliminamos los archivos temporales innecesarios.</p>
+
+<pre>
+dnf clean all
+</pre>
+
+<p>Ahora es el paso de eliminar el kérnel de <em>CentOS 7</em>, que lógicamente no vamos a utilizar más ya que luego vamos a instalar el nuevo kérnel:</p>
+
+<pre>
+rpm -e `rpm -q kernel`
+</pre>
+
+<p>Se nos van a presentar varios conflictos, para resolverlos también nos deshacemos de este paquete:</p>
+
+<pre>
+rpm -e --nodeps sysvinit-tools
+</pre>
+
+<p>Y por fin, empezamos la actualización a <em>CentOS 8</em>:</p>
+
+<pre>
+dnf --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
+</pre>
+
+<p>Puede que varios paquetes relacionados con <strong>Python</strong>, nos produzcan conflictos, así que para resolverlo, desinstalamos el paquete con este comando:</p>
+
+<pre>
+dnf remove python36-rpmconf-1.0.22-1.el7.noarch
+</pre>
+
+<p>Ejecutamos de nuevo el comando para iniciar la actualización y ahora sí debe terminar de manera correcta:</p>
+
+<pre>
+dnf -y --releasever=8 --allowerasing --setopt=deltarpm=false distro-sync
+</pre>
+
+<p>Una vez finalizada exitosamente la actualización, para terminar, nos quedaría instalar el kérnel del nuevo <em>CentOS 8</em>:</p>
+
+<pre>
+dnf install kernel-core -y
+</pre>
+
+<p>Y por último, vamos a instalar los paquetes mínimos del sistema:</p>
+
+<pre>
+dnf groupupdate "Core" "Minimal Install" -y
+</pre>
+
+<p>Reiniciamos el sistema:</p>
+
+<pre>
+reboot
+</pre>
+
+<p>Al intentar conectarme de nuevo a la máquina mediante <em>SSH</em> no me dejaba, y dirigiéndome a la consola de <em>OpenStack</em>, porque recordemos que <em>Quijote</em> es una instancia de mi proyecto, pude comprobar como el fichero de configuración que establecía la IP de la interfaz <em>eth0</em> estática, se había reiniciado. Volví a configurar el fichero <code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code>:</p>
+
+<pre>
+BOOTPROTO=static
+DEVICE=eth0
+HWADDR=fa:16:3e:5c:3d:c5
+MTU=8950
+ONBOOT=yes
+TYPE=Ethernet
+USERCTL=no
+IPADDR=10.0.1.13
+NETMASK=255.255.255.0
+GATEWAY=10.0.1.3
+DNS1=10.0.1.3
+DNS2=8.8.8.8
+</pre>
+
+<p>Reinicié el servicio:</p>
+
+<pre>
+systemctl restart network.service
+</pre>
+
+<p>Y probé a acceder de nuevo, ahora lógicamente sí accedí mediante <em>SSH</em> a través de <em>Dulcinea</em>.</p>
+
+<p>Reinicié la máquina y comprobé como volvía a perder la configuración como yo suponía que iba a pasar. Configuré de nuevo el fichero <code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code> y procedí a crear el siguiente fichero para evitar que los cambios se perdieran en cada inicio del sistema:</p>
+
+<pre>
+touch /etc/cloud/cloud-init.disabled
+</pre>
+
+<p>Con esto solucioné mi principal problema.</p>
+
+<p>Ahora, si miramos de nuevo la versión de <em>CentOS</em> y la versión de kérnel que estamos utilizando:</p>
+
+<pre>
+[root@quijote ~]# cat /etc/redhat-release
+CentOS Linux release 8.2.2004 (Core)
+
+[root@quijote ~]# uname -r
+4.18.0-193.28.1.el8_2.x86_64
+</pre>
+
+<p>Vemos como hemos actualizado nuestro sistema y nuestro kérnel y ahora está corriendo <em>CentOS 8</em>.</p>
+
+<p>Para finalizar, vamos a probar a hacer un ping a <em>Dulcinea</em>, <em>Sancho</em> y <code class="language-plaintext highlighter-rouge">www.google.es</code>, para asegurarnos que funciona correctamente la resolución estática y tiene conexión a internet, además de hacer uso de la resolución de nombres:</p>
+
+<pre>
+[root@quijote ~]# ping dulcinea
+PING dulcinea.javierpzh.gonzalonazareno.org (10.0.1.3) 56(84) bytes of data.
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.1.3): icmp_seq=1 ttl=64 time=0.712 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.1.3): icmp_seq=2 ttl=64 time=0.693 ms
+64 bytes from dulcinea.javierpzh.gonzalonazareno.org (10.0.1.3): icmp_seq=3 ttl=64 time=0.685 ms
+^C
+--- dulcinea.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 37ms
+rtt min/avg/max/mdev = 0.685/0.696/0.712/0.032 ms
+
+[root@quijote ~]# ping sancho
+PING sancho.javierpzh.gonzalonazareno.org (10.0.1.8) 56(84) bytes of data.
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=1 ttl=64 time=2.13 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=2 ttl=64 time=1.20 ms
+64 bytes from sancho.javierpzh.gonzalonazareno.org (10.0.1.8): icmp_seq=3 ttl=64 time=0.743 ms
+^C
+--- sancho.javierpzh.gonzalonazareno.org ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 5ms
+rtt min/avg/max/mdev = 0.743/1.357/2.132/0.578 ms
+
+[root@quijote ~]# ping www.google.es
+PING www.google.es (172.217.17.3) 56(84) bytes of data.
+64 bytes from mad07s09-in-f3.1e100.net (172.217.17.3): icmp_seq=1 ttl=112 time=43.7 ms
+64 bytes from mad07s09-in-f3.1e100.net (172.217.17.3): icmp_seq=2 ttl=112 time=64.5 ms
+64 bytes from mad07s09-in-f3.1e100.net (172.217.17.3): icmp_seq=3 ttl=112 time=44.0 ms
+^C
+--- www.google.es ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 43.773/50.790/64.546/9.727 ms
+</pre>
+
+<p>Efectivamente, obtenemos la respuesta esperada. Antes de terminar, quise comprobar si el reloj se encontraba sincronizado, ya que esto también lo configuré en <em>CentOS 7</em>:</p>
+
+<pre>
+[root@quijote ~]# timedatectl
+               Local time: Wed 2020-11-25 19:05:32 UTC
+           Universal time: Wed 2020-11-25 19:05:32 UTC
+                 RTC time: Wed 2020-11-25 19:05:31
+                Time zone: UTC (UTC, +0000)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+</pre>
+
+<p>Vemos como nos muestra que el reloj se encuentra sincronizado, pero si nos fijamos la zona horaria que está utilizando no es la que yo quisiera, ya que me interesa que se sincronice con la zona <code class="language-plaintext highlighter-rouge">Europe/Madrid (CET, +0100)</code>. Para realizar este cambio vamos a utilizar el siguiente comando:</p>
+
+<pre>
+[root@quijote ~]# timedatectl set-timezone Europe/Madrid
+</pre>
+
+<p>Si miramos de nuevo el reloj:</p>
+
+<pre>
+[root@quijote ~]# timedatectl status
+               Local time: Wed 2020-11-25 20:08:49 CET
+           Universal time: Wed 2020-11-25 19:08:49 UTC
+                 RTC time: Wed 2020-11-25 19:08:48
+                Time zone: Europe/Madrid (CET, +0100)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+</pre>
+
+<p>Ahora sí, vamos que la respuesta es la correcta, así que hemos terminado la actualización a <em>CentOS 8</em> de manera satisfactoria.</p>
+
+  </div><a class="u-url" href="/blog/actualizaci%C3%B3n-de-CentOS7-a-CentOS8" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

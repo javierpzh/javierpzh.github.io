@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Servidor De Correos | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Servidor De Correos" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="En este post vamos a instalar y configurar de manera adecuada un servidor de correos en una VPS alojada en OVH. Mi dominio es iesgn15.es. El nombre del servidor de correo será mail.iesgn15.es (este es el nombre que deberá aparecer en el registro MX)." />
+<meta property="og:description" content="En este post vamos a instalar y configurar de manera adecuada un servidor de correos en una VPS alojada en OVH. Mi dominio es iesgn15.es. El nombre del servidor de correo será mail.iesgn15.es (este es el nombre que deberá aparecer en el registro MX)." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/Servidor-de-correos" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/Servidor-de-correos" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Servidor-de-correos" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-21T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/Servidor-de-correos" />
+<meta property="twitter:title" content="Servidor De Correos" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"En este post vamos a instalar y configurar de manera adecuada un servidor de correos en una VPS alojada en OVH. Mi dominio es iesgn15.es. El nombre del servidor de correo será mail.iesgn15.es (este es el nombre que deberá aparecer en el registro MX).","@type":"BlogPosting","headline":"Servidor De Correos","dateModified":"2021-02-21T00:00:00+01:00","datePublished":"2021-02-21T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/Servidor-de-correos"},"url":"https://www.javierpzh.com/blog/Servidor-de-correos","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Servidor De Correos</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-02-21T00:00:00+01:00" itemprop="datePublished">
+        Feb 21, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p>En este <em>post</em> vamos a instalar y configurar de manera adecuada un servidor de correos en una <strong>VPS</strong> alojada en <strong>OVH</strong>. Mi dominio es <code class="language-plaintext highlighter-rouge">iesgn15.es</code>. El nombre del servidor de correo será <code class="language-plaintext highlighter-rouge">mail.iesgn15.es</code> (este es el nombre que deberá aparecer en el registro MX).</p>
+
+<h4 id="instalación">Instalación</h4>
+
+<p>Para comenzar el artículo vamos a instalar las utilidades principales que necesitamos para crear nuestro servidor de correos. Empezaremos por instalar los paquetes <code class="language-plaintext highlighter-rouge">postfix</code> y <code class="language-plaintext highlighter-rouge">bsd-mailx</code> que corresponden al servidor y a las utilidades del cliente respectivamente.</p>
+
+<pre>
+apt install postfix bsd-mailx -y
+</pre>
+
+<p>Comencemos.</p>
+
+<h4 id="gestión-de-correos-desde-el-servidor">Gestión de correos desde el servidor</h4>
+
+<p><strong>1. Vamos a enviar un correo desde nuestro servidor local al exterior (Gmail).</strong></p>
+
+<p>Antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>SPF</strong> en nuestro DNS de OVH, esto le servirá a <strong>Gmail</strong> para identificar que nuestro correo no es <strong>Spam</strong>. He creado el siguiente registro:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/registrospf.png" /></p>
+
+<p>Ahora vamos a probar a enviar un correo electrónico desde nuestro servidor local, para ello haremos uso de la herramienta <code class="language-plaintext highlighter-rouge">mail</code>:</p>
+
+<pre>
+debian@vpsjavierpzh:~$ mail javierperezhidalgo01@gmail.com
+Subject: Correo de prueba       
+Este es el correo de prueba enviado desde mi servidor local
+Cc:
+</pre>
+
+<p>Parece que ya hemos enviado el correo, pero para asegurarnos vamos a visualizar los <em>logs</em> de nuestro servidor, que se encuentran en el fichero <code class="language-plaintext highlighter-rouge">/var/log/mail.log</code>:</p>
+
+<pre>
+...
+Jan 21 10:24:22 vpsjavierpzh postfix/pickup[24623]: A492F101017: uid=1000 from=&lt;\debian\&gt;
+Jan 21 10:24:22 vpsjavierpzh postfix/cleanup[25286]: A492F101017: message-id=&lt;\20210121092422.A492F101017@vpsjavierpzh.iesgn15.es\&gt;
+Jan 21 10:24:22 vpsjavierpzh postfix/qmgr[9341]: A492F101017: from=&lt;\debian@iesgn15.es\&gt;, size=488, nrcpt=1 (queue active)
+Jan 21 10:24:30 vpsjavierpzh postfix/smtp[25289]: A492F101017: to=&lt;\javierperezhidalgo01@gmail.com\&gt;, relay=gmail-smtp-in.l.google.com[173.194.76.26]:25, delay=7.8, delays=0.05/0.01/0.26/7.5, dsn=2.0.0, status=sent (250 2.0.0 OK  1611221070 h17si4006834wmq.57 - gsmtp)
+Jan 21 10:24:30 vpsjavierpzh postfix/qmgr[9341]: A492F101017: removed
+...
+</pre>
+
+<p>Podemos observar que nos muestra una serie de mensajes de los que podemos sacar que hemos enviado un correo desde <code class="language-plaintext highlighter-rouge">debian@iesgn15.es</code> hacia <code class="language-plaintext highlighter-rouge">javierperezhidalgo01@gmail.com</code> y que el estado es <em>sent</em>, por lo que en teoría el correo debería haber llegado correctamente. Si nos dirigimos a la bandeja de entrada del correo <code class="language-plaintext highlighter-rouge">javierperezhidalgo01@gmail.com</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correorecibidogmail.png" /></p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correorecibidogmailinfo.png" /></p>
+
+<p>Vemos que efectivamente hemos recibido el correo procedente de <code class="language-plaintext highlighter-rouge">debian@iesgn15.es</code>.</p>
+
+<p>Antes de terminar, vamos a analizar más a fondo el código del correo, para ello hacemos <em>click</em> en <em>Mostrar original</em>:</p>
+
+<pre>
+...
+Received-SPF: pass (google.com: domain of debian@iesgn15.es designates 51.210.105.17 as permitted sender) client-ip=51.210.105.17;
+...
+</pre>
+
+<p>En estas líneas se aprecia como ha pasado correctamente y ha hecho uso del registro <strong>SPF</strong> y por tanto no nos muestra este mensaje como <em>Spam</em>.</p>
+
+<p><strong>2. Vamos a enviar un correo desde el exterior (Gmail) a nuestro servidor local.</strong></p>
+
+<p>Al igual que en la tarea anterior, antes de realizar este ejercicio, vamos a crear un registro de tipo <strong>MX</strong> en nuestro DNS de OVH. He creado el siguiente registro que apunta a su vez a un registro tipo <em>A</em>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/registromx.png" /></p>
+
+<p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code class="language-plaintext highlighter-rouge">debian@iesgn15.es</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correoenviadogmail.png" /></p>
+
+<p>Una vez enviado, vamos a comprobar que lo hayamos recibido en nuestro servidor local, para ello vamos a visualizar de nuevo los <em>logs</em> del fichero <code class="language-plaintext highlighter-rouge">/var/log/mail.log</code>:</p>
+
+<pre>
+Jan 21 10:45:32 vpsjavierpzh postfix/smtpd[25717]: connect from mail-io1-f43.google.com[209.85.166.43]
+Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: 35244101016: client=mail-io1-f43.google.com[209.85.166.43]
+Jan 21 10:45:33 vpsjavierpzh postfix/cleanup[25726]: 35244101016: message-id=&lt;CAMu5ax_BkYemDjV=A1yf1wrDBZ6w_tHZ0Ws+tnPX+3k2TF5ghw@mail.gmail.com&gt;
+Jan 21 10:45:33 vpsjavierpzh postfix/qmgr[9341]: 35244101016: from=&lt;javierperezhidalgo01@gmail.com&gt;, size=2643, nrcpt=1 (queue active)
+Jan 21 10:45:33 vpsjavierpzh postfix/local[25727]: 35244101016: to=&lt;debian@iesgn15.es&gt;, relay=local, delay=0.02, delays=0.01/0.01/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Jan 21 10:45:33 vpsjavierpzh postfix/qmgr[9341]: 35244101016: removed
+Jan 21 10:45:33 vpsjavierpzh postfix/smtpd[25717]: disconnect from mail-io1-f43.google.com[209.85.166.43] ehlo=2 starttls=1 mail=1 rcpt=1 bdat=1 quit=1 commands=7
+You have mail in /var/mail/debian
+</pre>
+
+<p>Vaya, parece que tenemos un nuevo correo procedente de la dirección <code class="language-plaintext highlighter-rouge">javierperezhidalgo01@gmail.com</code> y lo ha almacenado en la ruta <code class="language-plaintext highlighter-rouge">/var/mail/debian</code>, así que vamos a verificarlo.</p>
+
+<p>Para leer los nuevos correos, haremos uso de la herramienta <code class="language-plaintext highlighter-rouge">mail</code>.</p>
+
+<pre>
+debian@vpsjavierpzh:~$ mail
+Mail version 8.1.2 01/15/2001.  Type ? for help.
+"/var/mail/debian": 1 message 1 new
+\&gt;N  1 javierperezhidalg  Thu Jan 21 10:45   54/2768  Correo de prueba
+&amp; 1
+</pre>
+
+<p>Vemos que nos indica que tenemos un correo sin leer, si indicamos su número y lo leemos:</p>
+
+<pre>
+Message 1:
+From javierperezhidalgo01@gmail.com  Thu Jan 21 10:45:33 2021
+X-Original-To: debian@iesgn15.es
+
+...
+
+Subject: Correo de prueba
+To: debian@iesgn15.es
+Content-Type:
+
+...
+
+Este es el correo de prueba enviado desde Gmail
+
+...
+</pre>
+
+<p>Efectivamente hemos recibido el correo.</p>
+
+<p>Una vez leído, salimos del programa y vemos que guarda el correo en la dirección <code class="language-plaintext highlighter-rouge">/home/debian/mbox</code>:</p>
+
+<pre>
+&amp; q
+Saved 1 message in /home/debian/mbox
+</pre>
+
+<p>Explicado esto, vamos a pasar con el siguiente ejercicio.</p>
+
+<h4 id="uso-de-alias-y-redirecciones">Uso de alias y redirecciones</h4>
+
+<p><strong>3. Uso de alias y redirecciones.</strong></p>
+
+<p>Vamos a comprobar como los procesos del servidor pueden mandar correos para informar sobre su estado. Por ejemplo cada vez que se ejecuta una tarea <code class="language-plaintext highlighter-rouge">cron</code> podemos enviar un correo informando del resultado. Normalmente estos correos se mandan al usuario <strong>root</strong> del servidor, para ello:</p>
+
+<pre>
+crontab -e
+</pre>
+
+<p>E indico donde se envía el correo:</p>
+
+<pre>
+MAILTO = root
+</pre>
+
+<p>Voy a añadir una nueva tarea en el <em>cron</em> para ver como se manda el correo cuando se lleve dicha tarea. Añado la siguiente línea a mi <em>crontab</em>:</p>
+
+<pre>
+40 18 * * * apt update &amp;&amp; apt upgrade -y
+</pre>
+
+<p>Esta tarea lo que hará básicamente es una actualización de todos los paquetes que haya instalados en el sistema, y se llevará a cabo todos los días a las 18:40.</p>
+
+<p>Al cerrar y guardar nuestro <em>crontab</em> apreciaremos la siguiente salida que indica que hemos realizado cambios en él:</p>
+
+<pre>
+root@vpsjavierpzh:~# crontab -e
+crontab: installing new crontab
+</pre>
+
+<p>Aún queda algo de tiempo hasta las 18:40, lo que me da margen para configurar una serie de <strong>alias</strong> y <strong>redirecciones</strong> para hacer llegar esos correos a nuestro correo personal.</p>
+
+<p>En primer lugar vamos a configurar un nuevo <strong>alias</strong>, para que los correos que tengan como destinatario al usuario <strong>root</strong>, también lleguen al buzón del usuario <strong>debian</strong>. Para ello vamos a editar el fichero <code class="language-plaintext highlighter-rouge">/etc/aliases</code> y añadiremos la siguiente línea:</p>
+
+<pre>
+root: debian
+</pre>
+
+<p>De manera que el contenido total del fichero <code class="language-plaintext highlighter-rouge">/etc/aliases</code> sería:</p>
+
+<pre>
+# See man 5 aliases for format
+postmaster:    root
+root: debian
+</pre>
+
+<p>Cuando se modifica este fichero, debemos ejecutar el siguiente comando para aplicar los cambios:</p>
+
+<pre>
+newaliases
+</pre>
+
+<p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code class="language-plaintext highlighter-rouge">root@iesgn15.es</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correoenviadogmailparareenvioadebian.png" /></p>
+
+<p>Una vez enviado, vamos a comprobar que lo hayamos recibido en nuestro servidor local, en el usuario <strong>debian</strong>. Para leer los nuevos correos, haremos uso de la herramienta <code class="language-plaintext highlighter-rouge">mail</code> en el usuario <em>debian</em>.</p>
+
+<pre>
+debian@vpsjavierpzh:~$ mail
+Mail version 8.1.2 01/15/2001.  Type ? for help.
+"/var/mail/debian": 2 messages 2 new
+...
+\&gt;N  2 javierperezhidalg  Tue Feb  2 13:53   54/2752  =?UTF-8?Q?prueba_de_reenv=C3=ADo?=
+ &amp; 2
+</pre>
+
+<p>Vemos que nos indica que tenemos dos correos sin leer (el primero es una prueba), si indicamos su número, en este caso el 2, y lo leemos:</p>
+
+<pre>
+Message 2:
+From javierperezhidalgo01@gmail.com  Tue Feb  2 13:53:29 2021
+X-Original-To: root@iesgn15.es
+
+...
+
+Subject: =?UTF-8?Q?prueba_de_reenv=C3=ADo?=
+To: root@iesgn15.es
+Content-Type:
+
+...
+
+hola, llega al usuario debian?
+
+...
+</pre>
+
+<p>Efectivamente hemos recibido el correo en el usuario <em>debian</em> y podemos apreciar que el destinatario del correo es <strong>root</strong>, por tanto el alias está bien configurado.</p>
+
+<p>Pasamos a realizar una redirección. Las redirecciones se utilizan para enviar los correos que lleguen a un usuario, a una cuenta de correo externa. Para usuarios reales, las redirecciones se definen en el fichero <code class="language-plaintext highlighter-rouge">~/.forward</code> y el formato de este fichero es simplemente un listado de cuentas de correo a las que se quiere redirigir el correo.</p>
+
+<p>En mi caso, creo dicho fichero en el usuario <strong>debian</strong> e introduzco una dirección de correo externa distinta de la que va a enviar el correo:</p>
+
+<pre>
+reyole111@gmail.com
+</pre>
+
+<p>Hecho esto, vamos a enviar un correo desde <strong>Gmail</strong> hacia <code class="language-plaintext highlighter-rouge">root@iesgn15.es</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correoenviadogmailparareenvioadebianygmail.png" /></p>
+
+<p>Supuestamente, lo que ahora debería ocurrir es lo siguiente. El correo cuyo destinatario es <strong>root</strong>, debe llegar a <strong>debian</strong>, lo cuál es señal de que el alias está actuando correctamente, y automáticamente después, el correo debe ser reenviado a la dirección <strong>reyole111@gmail.com</strong>.</p>
+
+<p>Vamos a ver si hemos recibido el correo en la bandeja de entrada de <strong>reyole111@gmail.com</strong>.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correorecibidogmailreyole.png" /></p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correorecibidogmailreyoleinfo.png" /></p>
+
+<p>Efectivamente, también hemos recibido el correo en la dirección <em>reyole111@gmail.com</em>, por tanto la redirección está bien configurada.</p>
+
+<p>¿Recordáis que teníamos programada una tarea en el <em>cron</em> para las 18:40? Bien, pues resulta que acabo de recibir en <code class="language-plaintext highlighter-rouge">reyole111@gmail.com</code> el siguiente correo:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correocron.png" /></p>
+
+<p>Se puede apreciar la salida de los comandos que indiqué en la tarea del <em>cron</em>, por lo que, además de ver como nuestro <em>cron</em> nos ha notificado por correo, podemos ver que una vez más han actuado tanto el alias como la redirección configurada.</p>
+
+<h4 id="para-luchar-contra-el-spam">Para luchar contra el SPAM</h4>
+
+<p><strong>4. Vamos a configurar <code class="language-plaintext highlighter-rouge">Postfix</code> para que tenga en cuenta el registro <em>SPF</em> de los correos que recibe.</strong></p>
+
+<p>En primer lugar, necesitaremos instalar el paquete <code class="language-plaintext highlighter-rouge">postfix-policyd-spf-python</code>:</p>
+
+<pre>
+apt install postfix-policyd-spf-python -y
+</pre>
+
+<p>Una vez instalado, en el fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/master.cf</code> debemos crear un <em>socket UNIX</em> que será el encargado de realizar la comprobación. Para ello introduciremos la siguiente línea:</p>
+
+<pre>
+policyd-spf  unix  -       n       n       -       0       spawn     user=policyd-spf argv=/usr/bin/policyd-spf
+</pre>
+
+<p>Para terminar, debemos editar el fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/main.cf</code> y en él, indicaremos que haga uso de dicho <em>socket UNIX</em>. Añadimos esta línea:</p>
+
+<pre>
+policyd-spf_time_limit = 3600
+smtpd_recipient_restrictions = check_policy_service unix:private/policyd-spf
+</pre>
+
+<p>Hecho esto, aplicaremos los cambios reiniciando el servicio:</p>
+
+<pre>
+systemctl restart postfix
+</pre>
+
+<p>Vamos a hacer la prueba visualizando los <em>logs</em> y enviando un nuevo correo desde <em>Gmail</em>:</p>
+
+<pre>
+root@vpsjavierpzh:~# tail -f /var/log/mail.log
+Feb 19 19:14:21 vpsjavierpzh postfix/smtpd[19227]: connect from mail-io1-f42.google.com[209.85.166.42]
+Feb 19 19:14:22 vpsjavierpzh policyd-spf[19234]: prepend Received-SPF: Pass (mailfrom) identity=mailfrom; client-ip=209.85.166.42; helo=mail-io1-f42.google.com; envelope-from=javierperezhidalgo01@gmail.com; receiver=\&lt;UNKNOWN\&gt;
+Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: 7ED0310115E: client=mail-io1-f42.google.com[209.85.166.42]
+Feb 19 19:14:22 vpsjavierpzh postfix/cleanup[19237]: 7ED0310115E: message-id=&lt;CAMu5ax89DXzEtwWTeLm-OmDK18zXgXDocqiuk0XLn+9OnAu3cA@mail.gmail.com&gt;
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 7ED0310115E: from=&lt;javierperezhidalgo01@gmail.com&gt;, size=2710, nrcpt=1 (queue active)
+Feb 19 19:14:22 vpsjavierpzh postfix/cleanup[19237]: 81C7710115F: message-id=&lt;CAMu5ax89DXzEtwWTeLm-OmDK18zXgXDocqiuk0XLn+9OnAu3cA@mail.gmail.com&gt;
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 81C7710115F: from=&lt;javierperezhidalgo01@gmail.com&gt;, size=2845, nrcpt=1 (queue active)
+Feb 19 19:14:22 vpsjavierpzh postfix/local[19238]: 7ED0310115E: to=&lt;root@iesgn15.es&gt;, relay=local, delay=0.36, delays=0.35/0.01/0/0, dsn=2.0.0, status=sent (forwarded as 81C7710115F)
+Feb 19 19:14:22 vpsjavierpzh postfix/qmgr[19197]: 7ED0310115E: removed
+Feb 19 19:14:22 vpsjavierpzh postfix/smtpd[19227]: disconnect from mail-io1-f42.google.com[209.85.166.42] ehlo=2 starttls=1 mail=1 rcpt=1 bdat=1 quit=1 commands=7
+</pre>
+
+<p>Podemos ver como ahora si está llevando a cabo la comprobación del registro <em>SPF</em>.</p>
+
+<p><strong>5. Vamos a configurar un sistema <em>antispam</em>.</strong></p>
+
+<p>En este apartado vamos a ver como instalar un sistema <em>antispam</em> en nuestro servidor de correos. Para ello necesitaremos instalar los siguientes paquetes:</p>
+
+<pre>
+apt install spamc spamassassin -y
+</pre>
+
+<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
+
+<pre>
+systemctl enable spamassassin &amp;&amp; systemctl start spamassassin
+</pre>
+
+<p>Posteriormente, nos dirigiremos al fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/master.cf</code> y veremos que nos encontramos con las siguientes líneas:</p>
+
+<pre>
+smtp      inet  n       -       y       -       -       smtpd
+...
+#submission inet n       -       y       -       -       smtpd
+</pre>
+
+<p>Una vez localizadas, tendremos que hacer unas modificaciones en ellas para que <em>Postfix</em> tenga en cuenta el sistema <em>antispam</em>, además de añadir una nueva directiva. Realizadas las modificaciones, las líneas tendrían el siguiente aspecto:</p>
+
+<pre>
+smtp      inet  n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+...
+submission inet n       -       y       -       -       smtpd
+  -o content_filter=spamassassin
+...
+spamassassin unix -     n       n       -       -       pipe
+  user=debian-spamd argv=/usr/bin/spamc -f -e /usr/sbin/sendmail -oi -f ${sender} ${recipient}
+</pre>
+
+<p>Por último, tendremos que configurar <strong>Spamassassin</strong>. Su configuración es bastante simple y se llevará a cabo en el fichero <code class="language-plaintext highlighter-rouge">/etc/spamassassin/local.cf</code>. En él necesitaremos descomentar la siguiente línea, ya que por defecto aparece comentada:</p>
+
+<pre>
+rewrite_header Subject *****SPAM*****
+</pre>
+
+<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando ambos servicios:</p>
+
+<pre>
+systemctl restart postfix
+systemctl restart spamassassin
+</pre>
+
+<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em>, y en el mensaje del correo, introduciré un mensaje de <em>spam</em>, que puedes encontrar <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correospam.txt">aquí</a>.</p>
+
+<p>Vamos a hacer la prueba visualizando los <em>logs</em>:</p>
+
+<pre>
+Feb 19 19:43:56 vpsjavierpzh spamd[24888]: spamd: identified spam (999.9/5.0) for debian-spamd:112 in 0.2 seconds, 3818 bytes.
+Feb 19 19:43:56 vpsjavierpzh spamd[24888]: spamd: result: Y 999 - DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,GTUBE,HTML_MESSAGE,RCVD_IN_MSPIKE_H2,SPF_PASS,URIBL_BLOCKED scantime=0.2,size=3818,user=debian-spamd,uid=112,required_score=5.0,rhost=::1,raddr=::1,rport=38494,mid=&lt;CA+kZvsg23JEMj32M6Frs1bc1UZ_2kSNeEpGKzP+wQ5wcdkQN-A@mail.gmail.com&gt;,autolearn=no autolearn_force=no
+Feb 19 19:43:56 vpsjavierpzh postfix/pipe[25543]: B6A05826C7: to=&lt;debian@iesgn15.es&gt;, relay=spamassassin, delay=0.61, delays=0.32/0.01/0/0.29, dsn=2.0.0, status=sent (delivered via spamassassin service)
+</pre>
+
+<p>Vemos como nos muestra un mensaje <strong>identified spam</strong>.</p>
+
+<p><strong>6. Vamos a configurar un sistema antivirus.</strong></p>
+
+<p>En este apartado vamos a ver como instalar un sistema antivirus en nuestro servidor de correos. En mi caso, voy a utilizar un antivirus llamado <strong>clamAV</strong>, que se instala mediante los siguientes paquetes:</p>
+
+<pre>
+apt install clamsmtp clamav-daemon arc arj bzip2 cabextract lzop nomarch p7zip pax tnef unrar-free unzip -y
+</pre>
+
+<p>Una vez instalados, habilitaremos e iniciaremos el servicio:</p>
+
+<pre>
+systemctl enable clamav-daemon &amp;&amp; systemctl start clamav-daemon
+</pre>
+
+<p>Posteriormente, nos dirigiremos al fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/main.cf</code> y añadiremos las siguientes líneas:</p>
+
+<pre>
+content_filter = scan:127.0.0.1:10026
+</pre>
+
+<p>También tendremos que editar el fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/master.cf</code> y añadir las líneas siguientes. Estas líneas nos servirán para indicarle a nuestro servidor de correos, donde debe llevar a cabo las consultas referentes sobre si los diferentes correos llevan algún virus o no.</p>
+
+<pre>
+scan unix -       -       n       -       16       smtp
+  -o smtp_data_done_timeout=1200
+  -o smtp_send_xforward_command=yes
+  -o disable_dns_lookups=yes
+
+127.0.0.1:10025 inet n       -       n       -       16       smtpd
+  -o content_filter=
+  -o local_recipient_maps=
+  -o relay_recipient_maps=
+  -o smtpd_restriction_classes=
+  -o smtpd_client_restrictions=
+  -o smtpd_helo_restrictions=
+  -o smtpd_sender_restrictions=
+  -o smtpd_recipient_restrictions=permit_mynetworks,reject
+  -o mynetworks_style=host
+  -o smtpd_authorized_xforward_hosts=127.0.0.0/8
+</pre>
+
+<p>Realizados todas las modificaciones, aplicaremos los cambios reiniciando el servicio:</p>
+
+<pre>
+systemctl restart postfix
+</pre>
+
+<p>Llegó el momento de realizar la prueba, enviaremos un correo desde <em>Gmail</em>, y en el mensaje del correo, introduciré un mensaje que es detectado como <em>virus</em>. El mensaje de virus es el siguiente: <code class="language-plaintext highlighter-rouge">X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*</code>.</p>
+
+<p>Vamos a hacer la prueba visualizando los <em>logs</em>:</p>
+
+<pre>
+Feb 19 19:43:56 vpsjavierpzh spamd[24888]: spamd: clean message (-0.1/5.0) for debian-spamd:112 in 0.2 seconds, 2794 bytes.
+Feb 19 19:43:56 vpsjavierpzha spamd[24888]: spamd: result: . 0 - DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_MSPIKE_H2,SPF_PASS,TVD_SPACE_RATIO scantime=0.2,size=2794,user=debian-spamd,uid=112,required_score=5.0,rhost=::1,raddr=::1,rport=38584,mid=&lt;CA+kZvsjbkMPbcUYhSfzzbGYCtVTZ07bVNT1+YvB=Ce2Ln9J_fQ@mail.gmail.com&gt;,autolearn=ham autolearn_force=no
+Feb 19 19:43:56 vpsjavierpzh postfix/pipe[17795]: 9C5A0826CE: to=&lt;debian@iesgn15.es&gt;, relay=spamassassin, delay=0.51, delays=0.27/0.01/0/0.23, dsn=2.0.0, status=sent (delivered via spamassassin service)
+Feb 19 19:43:56 vpsjavierpzh postfix/qmgr[17773]: 9C5A0826CE: removed
+...
+Feb 19 20:32:15 vpsjavierpzh clamsmtpd: 100002: accepted connection from: 127.0.0.1
+Feb 19 19:32:15 vpsjavierpzh spamd[24887]: prefork: child states: II
+Feb 19 19:32:15 vpsjavierpzh postfix/smtpd[17803]: connect from localhost[127.0.0.1]
+Feb 19 19:32:15 vpsjavierpzh postfix/smtpd[17803]: ECB66826CE: client=localhost[127.0.0.1]
+Feb 19 19:32:15 vpsjavierpzh postfix/smtp[17801]: D79E0826D0: to=&lt;debian@iesgn15.es&gt;, relay=127.0.0.1[127.0.0.1]:10025, delay=0.09, delays=0.01/0.02/0.07/0.01, dsn=2.0.0, status=sent (250 Virus Detected; Discarded Email)
+Feb 19 19:32:15 vpsjavierpzh postfix/qmgr[17773]: D79E0826D0: removed
+</pre>
+
+<p>Vemos como nos muestra un mensaje <strong>250 Virus Detected</strong>.</p>
+
+<h4 id="gestión-de-correos-desde-un-cliente">Gestión de correos desde un cliente</h4>
+
+<p><strong>7. Vamos a configurar el buzón de los usuarios de tipo <code class="language-plaintext highlighter-rouge">Maildir</code>. Envía un correo a tu usuario y comprueba que el correo se ha guardado en el buzón <code class="language-plaintext highlighter-rouge">Maildir</code> del usuario del sistema correspondiente. Recuerda que ese tipo de buzón no se puede leer con la utilidad <code class="language-plaintext highlighter-rouge">mail</code>.</strong></p>
+
+<p>Como ya sabemos, por defecto al instalar <em>Postfix</em>, estaremos utilizando el formato <strong>mbox</strong> para almacenar los correos electrónicos, pero, ¿cómo hacemos para cambiar al formato <strong>Maildir</strong>?</p>
+
+<p>Primeramente vamos a ver que diferencias encontramos entre los dos.</p>
+
+<ul>
+  <li>
+    <p><strong>mbox:</strong> guarda todos los mensajes en un solo archivo.</p>
+  </li>
+  <li>
+    <p><strong>Maildir:</strong> utiliza un directorio, con subdirectorios, para guardar los mensajes en ficheros individuales.</p>
+  </li>
+</ul>
+
+<p>Explicado esto, vamos a proceder a configurar <em>Postfix</em> para que empiece a utilizar el formato <em>Maildir</em>.</p>
+
+<p>En primer lugar, nos dirigimos al fichero <code class="language-plaintext highlighter-rouge">/etc/postfix/main.cf</code> e introduciremos la siguiente línea en él:</p>
+
+<pre>
+home_mailbox = Maildir/
+</pre>
+
+<p>(Es importante la <code class="language-plaintext highlighter-rouge">/</code> final.)</p>
+
+<p>Hecho esto, ya habremos configurado <em>Postfix</em> para que utilice <em>Maildir</em>, por tanto vamos a reiniciar el servicio y a hacer una prueba para comprobar el cambio.</p>
+
+<pre>
+systemctl restart postfix
+</pre>
+
+<p>Desde este momento, no podremos ver los correos con la herramienta <code class="language-plaintext highlighter-rouge">mail</code>. Para solucionarlo, instalaremos un nuevo cliente llamado <code class="language-plaintext highlighter-rouge">mutt</code>:</p>
+
+<pre>
+apt install mutt -y
+</pre>
+
+<p>Instalado, debemos crear en el directorio del usuario un fichero <code class="language-plaintext highlighter-rouge">.muttrc</code> que posea el siguiente contenido:</p>
+
+<pre>
+set mbox_type=Maildir
+set folder="/Maildir"
+set mask="!^\.[^.]"
+set mbox="/Maildir"
+set record="+.Sent"
+set postponed="+.Drafts"
+set spoolfile="~/Maildir"
+</pre>
+
+<p>Hecho esto, voy a enviar un correo desde <em>Gmail</em> y posteriormente utilizaré el comando <code class="language-plaintext highlighter-rouge">mutt</code> para abrir el nuevo cliente.</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/mutt1.png" /></p>
+
+<p>Abrimos el nuevo correo:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/mutt2.png" /></p>
+
+<p>Podemos ver como ya estamos utilizando un nuevo cliente de correos.</p>
+
+<p><strong>8. Vamos a instalar y configurar <code class="language-plaintext highlighter-rouge">dovecot</code> para ofrecer el protocolo <code class="language-plaintext highlighter-rouge">IMAP</code>. También vamos a configurar <code class="language-plaintext highlighter-rouge">dovecot</code> para ofrecer autentificación y cifrado.</strong></p>
+
+<p>En primer lugar, para realizar el cifrado de la comunicación tendremos que crear un certificado en <em>LetsEncrypt</em> para el dominio <code class="language-plaintext highlighter-rouge">mail.iesgn15.es</code>. Recordemos que para el ofrecer el cifrado poseemos varias opciones:</p>
+
+<ul>
+  <li>
+    <p><strong>IMAP con STARTTLS:</strong> <em>STARTTLS</em> transforma una conexión insegura en una segura mediante el uso de <em>SSL/TLS</em>. Por lo tanto usando el mismo puerto, <em>143/tcp</em>, tenemos cifrada la comunicación.</p>
+  </li>
+  <li>
+    <p><strong>IMAPS:</strong> Versión segura del protocolo <em>IMAP</em> que usa el puerto <em>993/tcp</em>.</p>
+  </li>
+</ul>
+
+<p>En mi caso, voy a utilzar el protocolo <strong>IMAPS</strong>, por lo que me será necesario solicitar un certificado, lo haré a través de <em>LetsEncrypt</em>.</p>
+
+<p>Para generar este certificado, voy a utilizar <strong>Certbot</strong>.</p>
+
+<pre>
+apt install certbot -y
+</pre>
+
+<p>Una vez instalado, procederemos a generar el certificado necesario.</p>
+
+<p>Es importante parar el servicio en caso de que dispongamos de algún servidor web, para que <em>Certbot</em> pueda realizar el <em>challenge</em>. Utilizaremos el siguiente comando para generar el certificado:</p>
+
+<pre>
+certbot certonly --standalone -d mail.iesgn15.es
+</pre>
+
+<p>Veamos el proceso:</p>
+
+<pre>
+root@vpsjavierpzh:~# certbot certonly --standalone -d mail.iesgn15.es
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator standalone, Installer None
+Obtaining a new certificate
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/mail.iesgn15.es/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/mail.iesgn15.es/privkey.pem
+   Your cert will expire on 2021-05-22. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot
+   again. To non-interactively renew *all* of your certificates, run
+   "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+</pre>
+
+<p>Una vez hemos generado y poseemos nuestro certificado, vamos a seguir con la instalación de <em>dovecot</em>. Para ello instalaremos los siguientes paquetes:</p>
+
+<pre>
+apt install dovecot-imapd dovecot-pop3d dovecot-common -y
+</pre>
+
+<p>Ahora vamos a proceder a configurar <em>dovecot</em> para que haga uso del protocolo <em>IMAPS</em>.</p>
+
+<p>Empezaremos modificando el fichero <code class="language-plaintext highlighter-rouge">/etc/dovecot/conf.d/10-auth.conf</code>, y en él, debemos buscar la siguiente línea:</p>
+
+<pre>
+#disable_plaintext_auth = yes
+</pre>
+
+<p>Encontrada, vamos a descomentarla y a cambiarle su valor a <strong>no</strong>, de manera que quedaría de esta forma:</p>
+
+<pre>
+disable_plaintext_auth = no
+</pre>
+
+<p>Bien, seguiremos configurando <em>dovecot</em> editando el fichero <code class="language-plaintext highlighter-rouge">/etc/dovecot/conf.d/10-ssl.conf</code>. Dentro de él, buscaremos las siguientes directivas, en las que tendremos que indicar las rutas en las que se encuentran tanto el certificado firmado por <em>LetsEncrypt</em>, como la clave privada asociada al certificado.</p>
+
+<pre>
+ssl = yes
+...
+ssl_cert = /etc/letsencrypt/live/mail.iesgn15.es/fullchain.pem
+ssl_key = /etc/letsencrypt/live/mail.iesgn15.es/privkey.pem
+</pre>
+
+<p><strong>Atención:</strong> al principio de los valores de los parámetros <strong>ssl_cert</strong> y <strong>ssl_key</strong>, debemos introducir el carácter <code class="language-plaintext highlighter-rouge">&lt;</code>. Yo lo he omitido por una cuestión de formato. Ejemplo: <code class="language-plaintext highlighter-rouge">ssl_cert = &lt;/etc/letsencrypt/live/mail.iesgn15.es/fullchain.pem</code>.</p>
+
+<p>Hecho esto, debemos comprobar que en el fichero <code class="language-plaintext highlighter-rouge">/etc/dovecot/conf.d/10-mail.conf</code>, el siguiente parámetro posea el siguiente valor:</p>
+
+<pre>
+mail_location = maildir:~/Maildir
+</pre>
+
+<p>Por último, para terminar de configurar <em>dovecot</em>, nos situamos en el archivo <code class="language-plaintext highlighter-rouge">/etc/dovecot/conf.d/10-master.conf</code>. Buscaremos el siguiente bloque que se encuentra por defecto:</p>
+
+<pre>
+service imap-login {
+  inet_listener imap {
+    #port = 143
+  }
+  inet_listener imaps {
+    #port = 993
+    #ssl = yes
+</pre>
+
+<p>En él, debemos descomentar todas las líneas para que <em>dovecot</em> pueda hacer uso del protocolo <em>IMAPS</em>, quedando el bloque así:</p>
+
+<pre>
+service imap-login {
+  inet_listener imap {
+    port = 143
+  }
+  inet_listener imaps {
+    port = 993
+    ssl = yes
+  }
+</pre>
+
+<p>Si nos desplazamos un poco más abajo, nos encontraremos con el siguiente bloque totalmente comentado:</p>
+
+<pre>
+#unix_listener /var/spool/postfix/private/auth {
+  #  mode = 0666
+  #}
+</pre>
+
+<p>Debemos modificarlo para que quede igual que éste:</p>
+
+<pre>
+unix_listener /var/spool/postfix/private/auth {
+  mode = 0666
+  user = postfix
+  group = postfix
+}
+</pre>
+
+<p>Nuestra configuración de <em>dovecot</em> para que haga uso del protocolo <em>IMAPS</em> ha finalizado, de manera que es momento de reiniciar dicho servicio:</p>
+
+<pre>
+systemctl restart dovecot
+</pre>
+
+<p>Ya podríamos entrar a nuestro cliente de correos. Para ello he instalado en mi máquina anfitriona el cliente <strong>Thunderbird</strong>.</p>
+
+<pre>
+apt install thunderbird -y
+</pre>
+
+<p>Inicio sesión:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/thunderbird.png" /></p>
+
+<p>Abrimos el nuevo correo:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/correothunderbird.png" /></p>
+
+<p>Podemos apreciar como el correo ha sido recibido correctamente en nuestro cliente <em>Thunderbird</em>.</p>
+
+<p><strong>9. Vamos a configurar <code class="language-plaintext highlighter-rouge">postfix</code> para que podamos mandar un correo desde un cliente remoto. La conexión entre cliente y servidor estará autentificada con <em>SASL</em> usando <code class="language-plaintext highlighter-rouge">dovecot</code> y además estará cifrada.</strong></p>
+
+<p>No he conseguido configurarlo.</p>
+
+<h4 id="comprobación-final">Comprobación final</h4>
+
+<p><strong>En <a href="https://www.mail-tester.com/">www.mail-tester.com/</a> tenemos una herramienta completa y fácil de usar a la que podemos enviar un correo para que verifique y puntúe el correo que enviamos.</strong></p>
+
+<p>Voy a enviar un correo como el siguiente para que esta herramienta me lo examine.</p>
+
+<pre>
+echo "Esto es una prueba" | mutt  -s 'Test' test-6noihtep7@srv1.mail-tester.com
+</pre>
+
+<p>Veamos el resultado:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_servidor_de_correos/puntos.png" /></p>
+
+<p>¡Genial, me ha dado un <strong>9/10</strong>!</p>
+
+  </div><a class="u-url" href="/blog/Servidor-de-correos" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

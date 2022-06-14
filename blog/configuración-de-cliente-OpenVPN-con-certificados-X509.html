@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Configuración De Cliente Openvpn Con Certificados X509 | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Configuración De Cliente Openvpn Con Certificados X509" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Configuración de cliente OpenVPN con certificados X.509" />
+<meta property="og:description" content="Configuración de cliente OpenVPN con certificados X.509" />
+<link rel="canonical" href="https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-30T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509" />
+<meta property="twitter:title" content="Configuración De Cliente Openvpn Con Certificados X509" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Configuración de cliente OpenVPN con certificados X.509","@type":"BlogPosting","headline":"Configuración De Cliente Openvpn Con Certificados X509","dateModified":"2020-10-30T00:00:00+01:00","datePublished":"2020-10-30T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509"},"url":"https://www.javierpzh.com/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Configuración De Cliente Openvpn Con Certificados X509</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-10-30T00:00:00+01:00" itemprop="datePublished">
+        Oct 30, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h2 id="configuración-de-cliente-openvpn-con-certificados-x509">Configuración de cliente OpenVPN con certificados X.509</h2>
+
+<h3 id="descripción">Descripción</h3>
+
+<p><strong>Para poder acceder a la red local desde el exterior, existe una red privada configurada con OpenVPN que utiliza certificados x509 para autenticar los usuarios y el servidor.</strong></p>
+
+<ul>
+  <li><strong>Genera una clave privada RSA 4096</strong></li>
+  <li><strong>Genera una solicitud de firma de certificado (fichero CSR) y súbelo a gestiona</strong></li>
+  <li><strong>Descarga el certificado firmado cuando esté disponible</strong></li>
+  <li><strong>Instala y configura apropiadamente el cliente openvpn y muestra los registros (logs) del sistema que demuestren que se ha establecido una conexión.</strong></li>
+  <li><strong>Cuando hayas establecido la conexión VPN tendrás acceso a la red 172.22.0.0/16 a través de un túnel SSL. Compruébalo haciendo ping a 172.22.0.1</strong></li>
+</ul>
+
+<p>En este post voy a tratar el tema de como crear una <strong>VPN</strong> utilizando <strong>OpenVPN</strong> con certificados <strong>X.509</strong>.</p>
+
+<p>Lo primero sería crear nuestra clave privada de <strong>4096 bits</strong>, para ello vamos a utilizar <strong>openssl</strong>. Vamos a guardar esta clave en el directorio <code class="language-plaintext highlighter-rouge">/etc/ssl/private/</code>. Para crear esta clave privada empleamos el siguiente comando:</p>
+
+<pre>
+root@debian:~# openssl genrsa 4096 &gt; /etc/ssl/private/msi-debian-javierperezhidalgo.key
+Generating RSA private key, 4096 bit long modulus (2 primes)
+................................................................................++++
+.................++++
+e is 65537 (0x010001)
+</pre>
+
+<p>Lo siguiente sería generar una solicitud de firma de certificado, es decir, un fichero <strong>csr</strong>, que posteriormente enviaremos a la entidad del <a href="https://blogsaverroes.juntadeandalucia.es/iesgonzalonazareno/">Gonzalo Nazareno</a> para que nos lo firmen.</p>
+
+<p>Para generar nuestro archivo <em>.csr</em>:</p>
+
+<pre>
+root@debian:~# openssl req -new -key /etc/ssl/private/msi-debian-javierperezhidalgo.key -out /root/msi-debian-javierperezhidalgo.csr
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:ES
+State or Province Name (full name) [Some-State]:Sevilla
+Locality Name (eg, city) []:Dos Hermanas
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:IES Gonzalo Nazareno
+Organizational Unit Name (eg, section) []:Informatica
+Common Name (e.g. server FQDN or YOUR name) []:msi-debian-javierperezhidalgo
+Email Address []:javierperezhidalgo01@gmail.com
+
+Please enter the following 'extra' attributes
+to be sent with your certificate request
+A challenge password []:
+An optional company name []:
+
+root@debian:~# ls
+msi-debian-javierperezhidalgo.csr
+</pre>
+
+<p>Vemos que ya hemos generado nuestro certificado, así que ahora tenemos que enviárselo al <em>Gonzalo Nazareno</em> para que nos lo firme. Lo enviamos desde este <a href="https://dit.gonzalonazareno.org/gestiona/cert/">enlace</a>.</p>
+
+<p>Una vez tenemos descargado el certificado firmado, normalmente lo habremos descargado en <em>Descargas</em>, por tanto lo vamos a mover a la carpeta <code class="language-plaintext highlighter-rouge">/etc/openvpn</code> de nuestro usuario <em>root</em>.</p>
+
+<pre>
+root@debian:~# mv ../home/javier/Descargas/msi-debian-javierperezhidalgo.crt /etc/openvpn/
+</pre>
+
+<p>También hemos tenido que descargar el certificado de la entidad <em>Gonzalo Nazareno</em>. Por tanto lo vamos a mover a la ruta <code class="language-plaintext highlighter-rouge">/etc/ssl/certs/</code>:</p>
+
+<pre>
+root@debian:~# mv ../home/javier/Descargas/gonzalonazareno.csr /etc/ssl/certs/
+</pre>
+
+<p>Solo nos quedaría crear un fichero que configure <strong>OpenVPN</strong>. Este fichero tiene que tener una extensión <code class="language-plaintext highlighter-rouge">.conf</code>, y tiene que encontrarse en el directorio <code class="language-plaintext highlighter-rouge">/etc/openvpn</code>.</p>
+
+<pre>
+root@debian:/etc/openvpn# nano vpniesgn.conf
+</pre>
+
+<p>Dentro de él copiamos y pegamos las siguientes líneas:</p>
+
+<pre>
+dev tun
+remote sputnik.gonzalonazareno.org
+ifconfig 172.23.0.0 255.255.255.0
+pull
+proto tcp-client
+tls-client
+remote-cert-tls server
+ca /etc/ssl/certs/gonzalonazareno.crt &lt;- Cambiar por la ruta al certificado de la CA Gonzalo Nazareno (el mismo que utilizamos para la moodle, redmine, etc.)
+cert /etc/openvpn/msi-debian-javierperezhidalgo.crt &lt;- Cambiar por la ruta al certificado CRT firmado que nos han devuelto
+key /etc/ssl/private/msi-debian-javierperezhidalgo.key &lt;- Cambiar por la ruta a la clave privada, aunque en ese directorio es donde debe estar y con permisos 600
+comp-lzo
+keepalive 10 60
+log /var/log/openvpn-sputnik.log
+verb 1
+</pre>
+
+<p>Reiniciamos el servicio y lo iniciamos:</p>
+
+<pre>
+systemctl restart openvpn.service
+systemctl start openvpn.service
+</pre>
+
+<p>Comprobamos que nos ha creado el túnel y que se nos ha añadido una IP y una regla de encaminamiento para acceder a la red <code class="language-plaintext highlighter-rouge">172.22.0.0/16</code>:</p>
+
+<pre>
+root@debian:~# ip a show tun0
+10: tun0: &lt;POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UNKNOWN group default qlen 100
+    link/none
+    inet 172.23.0.46 peer 172.23.0.45/32 scope global tun0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::3ed2:aec4:b737:ab2c/64 scope link stable-privacy
+       valid_lft forever preferred_lft forever
+
+root@debian:/etc/ssl/certs# ip r
+...
+172.22.0.0/16 via 172.23.0.45 dev tun0
+...
+</pre>
+
+<p>Comprobamos los mensajes del fichero <code class="language-plaintext highlighter-rouge">/var/log/openvpn-sputnik.log</code>:</p>
+
+<pre>
+root@debian:/etc/ssl/certs# cat /var/log/openvpn-sputnik.log
+Fri Oct 30 17:14:33 2020 OpenVPN 2.4.7 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Feb 20 2019
+Fri Oct 30 17:14:33 2020 library versions: OpenSSL 1.1.1d  10 Sep 2019, LZO 2.10
+Fri Oct 30 17:14:33 2020 WARNING: using --pull/--client and --ifconfig together is probably not what you want
+Fri Oct 30 17:14:33 2020 TCP/UDP: Preserving recently used remote address: [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:33 2020 Attempting to establish TCP connection with [AF_INET]92.222.86.77:1194 [nonblock]
+Fri Oct 30 17:14:34 2020 TCP connection established with [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:34 2020 TCP_CLIENT link local: (not bound)
+Fri Oct 30 17:14:34 2020 TCP_CLIENT link remote: [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:34 2020 [sputnik.gonzalonazareno.org] Peer Connection Initiated with [AF_INET]92.222.86.77:1194
+Fri Oct 30 17:14:36 2020 TUN/TAP device tun0 opened
+Fri Oct 30 17:14:36 2020 /sbin/ip link set dev tun0 up mtu 1500
+Fri Oct 30 17:14:36 2020 /sbin/ip addr add dev tun0 local 172.23.0.46 peer 172.23.0.45
+Fri Oct 30 17:14:36 2020 WARNING: this configuration may cache passwords in memory -- use the auth-nocache option to prevent this
+Fri Oct 30 17:14:36 2020 Initialization Sequence Completed
+</pre>
+
+<p><strong>Importante:</strong> Si no queremos que se levante el túnel VPN cada vez que encendemos el ordenador deshabilitamos el servicio:</p>
+
+<pre>
+systemctl disable openvpn.service
+</pre>
+
+<p>Para habilitar el túnel VPN cuando lo necesitemos:</p>
+
+<pre>
+systemctl start openvpn.service
+</pre>
+
+<p>Si queremos utilizar resolución estática de nombres de las máquinas del centro, <strong>jupiter</strong> y <strong>macaco</strong>, añadimos en nuestro fichero <code class="language-plaintext highlighter-rouge">/etc/hosts</code> las siguientes líneas:</p>
+
+<pre>
+172.22.222.1    jupiter
+172.22.0.1      macaco
+</pre>
+
+<p>Ya hemos terminado la configuración de nuestra VPN.</p>
+
+  </div><a class="u-url" href="/blog/configuraci%C3%B3n-de-cliente-OpenVPN-con-certificados-X509" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

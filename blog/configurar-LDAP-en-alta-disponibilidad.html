@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Configurar Ldap En Alta Disponibilidad | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Configurar Ldap En Alta Disponibilidad" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Vamos a instalar un servidor LDAP en Sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en Freston, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro." />
+<meta property="og:description" content="Vamos a instalar un servidor LDAP en Sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en Freston, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-22T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad" />
+<meta property="twitter:title" content="Configurar Ldap En Alta Disponibilidad" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Vamos a instalar un servidor LDAP en Sancho que va a actuar como servidor secundario o de respaldo del servidor LDAP instalado en Freston, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.","@type":"BlogPosting","headline":"Configurar Ldap En Alta Disponibilidad","dateModified":"2020-12-22T00:00:00+01:00","datePublished":"2020-12-22T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad"},"url":"https://www.javierpzh.com/blog/configurar-LDAP-en-alta-disponibilidad","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Configurar Ldap En Alta Disponibilidad</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-12-22T00:00:00+01:00" itemprop="datePublished">
+        Dec 22, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>Vamos a instalar un servidor <em>LDAP</em> en <em>Sancho</em> que va a actuar como servidor secundario o de respaldo del servidor <em>LDAP</em> instalado en <em>Freston</em>, para ello habrá que seleccionar un modo de funcionamiento y configurar la sincronización entre ambos directorios, para que los cambios que se realicen en uno de ellos se reflejen en el otro.</strong></p>
+
+<p>Si quieres saber como instalar un servidor <strong>LDAP</strong>, puedes consultar <a href="https://javierpzh.github.io/instalacion-y-configuracion-inicial-de-openldap.html">este post</a>.</p>
+
+<p>Si quieres saber como configurar un servidor <strong>LDAPs</strong>, puedes consultar <a href="https://javierpzh.github.io/ldaps.html">este post</a>.</p>
+
+<p>Vamos a configurar <strong>Sancho</strong> como servidor <strong>LDAP</strong> secundario de <strong>Freston</strong>, pero antes de realizar la configuración, voy a explicar brevemente los tipos de métodos que podemos elegir para configurar un servidor <em>LDAP</em> de respaldo, y por qué el que he seleccionado es el más adecuado para este caso.</p>
+
+<p>Bien, primeramente, si ya tenemos instalado un servidor <em>LDAP</em> que nos ofrece servicio, ¿para qué instalar otro? Pues es muy sencillo, esto nos hará tener una segunda máquina que nos siga ofreciendo el servicio de <em>LDAP</em> en caso de que en la primera máquina ocurriera algún fallo, evitando así perder el servicio durante el tiempo que nos lleve arreglar este fallo. Esto obviamente, en un caso de alta disponibilidad, es muy importante como ya os podéis imaginar.</p>
+
+<p>¿Y como trabajarán estos dos servidores conjuntamente? Pues también es muy simple. Se trata de ir replicando los datos y las informaciones del servidor principal, al secundario, de manera que siempre estén sincronizados.</p>
+
+<p><strong>Importante:</strong> en algunos momentos del <em>post</em> haremos uso de las palabras <strong>proveedor</strong> y <strong>consumidor</strong>. Éstas, harán referencia, respectivamente, a <em>servidor principal</em> y <em>servidor secundario</em>.</p>
+
+<p>Una vez tenemos la idea de para que nos serviría este servidor de respaldo, voy a pasar a explicar los distintos métodos de los que disponemos a la hora de realizar esta configuración. La herramienta encargada de llevar a cabo estas sincronizaciones recibe el nombre de <strong>LDAP Sync Replication engine</strong>, aunque es más conocido como <strong>syncrepl</strong>. Es un motor de replicación que permite que un servidor <em>LDAP</em> mantenga una “copia de seguridad”. Utiliza el protocolo <strong>LDAP Content Synchronization</strong>, que soporta dos tipos de sincronización:</p>
+
+<ul>
+  <li>
+    <p><strong>pull-based:</strong> el cliente consulta periódicamente al servidor para actualizaciones.</p>
+  </li>
+  <li>
+    <p><strong>push-based:</strong> el cliente queda esperando que el servidor le envíe actualizaciones en tiempo real.</p>
+  </li>
+</ul>
+
+<p>Tenemos diferentes opciones de implementación:</p>
+
+<ul>
+  <li>
+    <p><strong>Master-slave</strong></p>
+
+    <p>Existe un sólo servidor principal <em>(master)</em> capaz de realizar actualizaciones, estas se replican a uno o más servidores secundarios <em>(slaves)</em>.</p>
+  </li>
+  <li>
+    <p><strong>Delta-syncrepl</strong></p>
+
+    <p>Cada vez que se realiza un cambio en un atributo de un objeto, <em>syncrepl</em> copia todo el objeto al servidor de respaldo.</p>
+
+    <p>Este método, es una variante de <em>syncrepl</em> que busca hacer más eficiente la transferencia de información enviando solamente los datos modificados. Es utilizado en casos donde se realiza gran cantidad de modificaciones, por ejemplo, en casos donde se tiene una rutina periódica que modifica gran cantidad de atributos.</p>
+  </li>
+  <li>
+    <p><strong>N-Way Multi-master</strong></p>
+
+    <p>Utiliza <em>syncrepl</em> para replicar los datos a múltiples proveedores.</p>
+
+    <p>Evita tener un punto único de falla, ya que si un proveedor falla otro continuará aceptando cambios.</p>
+
+    <p>Puede causar inconsistencias, ya que, por ejemplo, si hay al menos dos proveedores activos pero debido a problemas de red unos clientes ven uno y otros clientes ven al otro. En este caso, puede ser difícil llegar a unificar luego la información de ambos proveedores.</p>
+  </li>
+  <li>
+    <p><strong>MirrorMode</strong></p>
+
+    <p>Es una configuración híbrida que garantiza la consistencia de la replicación <em>single-master</em>, mientras provee alta disponibilidad como las soluciones <em>multi-master</em>.</p>
+
+    <p>Dos proveedores se configuran para replicarse mutuamente (como en <em>multi-master</em>) pero un <em>front-end</em> externo dirige las escrituras solamente a uno de los dos servidores. El servidor secundario sólo se usará para escrituras si el primario no funciona, caso en el que el <em>frontend</em> <em>(single point of failure?)</em> dirigirá las escrituras a al secundario.</p>
+
+    <p>Cuando el servidor primario es reparado y reiniciado, automáticamente se actualizarán sus datos a partir del servidor secundario.</p>
+  </li>
+  <li>
+    <p><strong>Syncrepl Proxy Mode</strong></p>
+
+    <p>Se utiliza en algunas configuraciones donde el consumidor no puede iniciar la comunicación con el proveedor por restricciones del <em>firewall</em>.</p>
+
+    <p>En este caso, <em>syncrepl</em> se debe ejecutar desde un tercer equipo, que sí llegara al proveedor y así sí sería posible iniciar la comunicación del proveedor con el consumidor real.</p>
+  </li>
+</ul>
+
+<p>Ya conocemos todas las opciones que disponemos para elegir. En mi caso, pienso que la más adecuada para lo que estoy buscando, sería el método <strong>MirrorMode</strong>, ya que garantiza la sincronización de todos los datos incluso cuando falla el servidor principal y nos aporta unas desventajas mínimas y que prácticamente no me afectan, como es, el uso de un dispositivo externo que se encargue de comprobar qué proveedor se encuentra actualmente activo.</p>
+
+<p>Por fin, llegó el momento de empezar a realizar las configuraciones en sí, para ello, antes, he tenido que realizar en <strong>Sancho</strong>, la instalación de <em>LDAP</em> y asegurarme que haga uso del protocolo <em>ldaps://</em>. Me he ayudado, de los <em>posts</em> que cité al principio de este artículo.</p>
+
+<p>Hecho esto, en la máquina que actuará como servidor principal, es decir, <strong>Freston</strong>, empezaremos con la configuración.</p>
+
+<p>Como sabemos, ya que lo hemos visto en los <em>posts</em> anteriores acerca de <em>LDAP</em>, la mayoría de configuraciones se llevan a cabo a partir de ficheros con extensión <code class="language-plaintext highlighter-rouge">.ldif</code> que insertaremos. Para llevar a cabo este proceso, necesitaremos crear seis ficheros distintos.</p>
+
+<p>Creamos el primer fichero <code class="language-plaintext highlighter-rouge">.ldif</code> que definirá el usuario <strong>mirrormode</strong> y lo creará. En mi caso, se llamará <code class="language-plaintext highlighter-rouge">mirrormode1.ldif</code> y tendrá el siguiente aspecto:</p>
+
+<pre>
+dn: uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+description: usuario LDAP
+userPassword: {SSHA}Sgk2gyc+tAc3P2dQ+lKphIikCZOWsuGp
+</pre>
+
+<p>Habéis podido notar que la contraseña que he introducido se encuentra encriptada, y esto es porque la he cifrado previamente con la herramienta <code class="language-plaintext highlighter-rouge">slappasswd</code>, ya que sino la contraseña quedaría en texto plano al público.</p>
+
+<pre>
+root@freston:~# slappasswd
+New password:
+Re-enter new password:
+{SSHA}Sgk2gyc+tAc3P2dQ+lKphIikCZOWsuGp
+</pre>
+
+<p>Una vez tenemos ese archivo listo, lo insertamos mediante el siguiente comando:</p>
+
+<pre>
+root@freston:~# ldapadd -x -D "cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org" -W -f mirrormode1.ldif
+Enter LDAP Password:
+adding new entry "uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org"
+</pre>
+
+<p>Debemos asignarle permisos de lectura y escritura al nuevo usuario, por tanto, creamos un nuevo fichero, que recibirá el nombre <code class="language-plaintext highlighter-rouge">mirrormode2.ldif</code>:</p>
+
+<pre>
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcAccess
+olcAccess: to attrs=userPassword
+  by self =xw
+  by dn.exact="cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org" =xw
+  by dn.exact="uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org" read
+  by anonymous auth
+  by * none
+olcAccess: to *
+  by anonymous auth
+  by self write
+  by dn.exact="uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org" read
+  by users read
+  by * none
+</pre>
+
+<p>De nuevo, añadimos y asignamos los cambios con este comando:</p>
+
+<pre>
+root@freston:~# ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode2.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "olcDatabase={1}mdb,cn=config"
+</pre>
+
+<p>Pasamos con el tercer archivo, <code class="language-plaintext highlighter-rouge">mirrormode3.ldif</code>, este será el encargado de cargar el módulo <strong>syncprov</strong> que es necesario para que se lleve a cabo la sincronización. El resultado del contenido de este fichero sería:</p>
+
+<pre>
+dn: cn=module{0},cn=config
+changetype: modify
+add: olcModuleLoad
+olcModuleLoad: syncprov
+</pre>
+
+<p>Lo importamos con el comando:</p>
+
+<pre>
+root@freston:~# ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode3.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "cn=module{0},cn=config"
+</pre>
+
+<p>El cuarto archivo sería <code class="language-plaintext highlighter-rouge">mirrormode4.ldif</code>, y este se encargará de establecer la configuración del módulo que hemos cargado en el paso anterior:</p>
+
+<pre>
+dn: olcOverlay=syncprov,olcDatabase={1}mdb,cn=config
+changetype: add
+objectClass: olcSyncProvConfig
+olcOverlay: syncprov
+olcSpCheckpoint: 100 10
+</pre>
+
+<p>Añadimos la nueva configuración:</p>
+
+<pre>
+root@freston:~# ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode4.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+adding new entry "olcOverlay=syncprov,olcDatabase={1}mdb,cn=config"
+</pre>
+
+<p>Es el turno de asignarle un número identificativo al servidor, para ello creamos el archivo <code class="language-plaintext highlighter-rouge">mirrormode5.ldif</code>:</p>
+
+<pre>
+dn: cn=config
+changetype: modify
+add: olcServerId
+olcServerId: 1
+</pre>
+
+<p>Añadimos los cambios del nuevo archivo:</p>
+
+<pre>
+root@freston:~# ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode5.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "cn=config"
+</pre>
+
+<p>Llegamos al sexto y último fichero necesario, <code class="language-plaintext highlighter-rouge">mirrormode6.ldif</code>, que será el encargado de habilitar la propia sincronización:</p>
+
+<pre>
+dn: olcDatabase={1}mdb,cn=config
+changetype: modify
+add: olcSyncrepl
+olcsyncrepl: rid=000
+  provider=ldaps://sancho.javierpzh.gonzalonazareno.org
+  type=refreshAndPersist
+  retry="5 5 300 +"
+  searchbase="dc=javierpzh,dc=gonzalonazareno,dc=org"
+  attrs="*,+"
+  bindmethod=simple
+  binddn="uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org"
+  credentials=[contraseña]
+-
+add: olcDbIndex
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+-
+replace: olcMirrorMode
+olcMirrorMode: TRUE
+</pre>
+
+<p>Importamos el último fichero de configuración:</p>
+
+<pre>
+root@freston:~# ldapmodify -H ldapi:/// -Y EXTERNAL -f mirrormode6.ldif
+SASL/EXTERNAL authentication started
+SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
+SASL SSF: 0
+modifying entry "olcDatabase={1}mdb,cn=config"
+</pre>
+
+<p>Hecho esto, ya habríamos terminado de configurar el servidor principal de <em>LDAP</em>, así que vamos a pasar con el servidor secundario. En éste, tendremos que realizar exactamente la misma configuración cambiando dos pequeños detalles.</p>
+
+<p>El primero de ellos es que debemos cambiar en el llamado <code class="language-plaintext highlighter-rouge">mirrormode5.ldif</code> el valor del campo <strong>olcServerId</strong>, ya que esto indica el número identificativo del servidor, en mi caso le he asignado el valor <strong>2</strong>.</p>
+
+<p>Y por último, debemos cambiar en el fichero <code class="language-plaintext highlighter-rouge">mirrormode6.ldif</code> la línea <strong>provider</strong> y asignarle como valor la dirección del servidor principal, para que haga referencia a éste. En mi caso <strong>ldaps://freston.javierpzh.gonzalonazareno.org</strong>.</p>
+
+<p>Terminada la configuración en ambas máquinas, vamos a proceder a realizar una serie de pruebas para comprobar que el funcionamiento es el correcto.</p>
+
+<p><strong>Zona de pruebas</strong></p>
+
+<p>En este punto, ya tendríamos ambos servidores replicados, por lo que vamos a pasar a hacer una prueba y a consultar en el servidor secundario los elementos, de manera que deben aparecer los datos que fueron creados en el principal.</p>
+
+<p>Realizamos la consulta:</p>
+
+<pre>
+root@sancho:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
+...
+
+# javierpzh.gonzalonazareno.org
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+
+# admin, javierpzh.gonzalonazareno.org
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# mirrormode, javierpzh.gonzalonazareno.org
+dn: uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+description: usuario LDAP
+uid: mirrormode
+
+# search result
+search: 2
+result: 0 Success
+...
+</pre>
+
+<p>Podemos apreciar que nos muestra todos los datos que fueron creados en el primer servidor.</p>
+
+<p>Como última prueba, he preparado un fichero <code class="language-plaintext highlighter-rouge">.ldif</code> que insertará en el servidor principal, es decir, en <em>Freston</em>, una nueva unidad organizativa: <strong>Prueba</strong>.</p>
+
+<p>El contenido de este fichero <code class="language-plaintext highlighter-rouge">prueba.ldif</code> es el siguiente. Podemos descargar el fichero <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_configurar_LDAP_en_alta_disponibilidad/prueba.ldif">aquí</a>:</p>
+
+<pre>
+dn: ou=Prueba,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Prueba
+</pre>
+
+<p>Para cargar la configuración de este nuevo fichero, debemos hacer uso del siguiente comando:</p>
+
+<pre>
+root@freston:~# ldapadd -x -D "cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org" -f prueba.ldif -W
+Enter LDAP Password:
+adding new entry "ou=Prueba,dc=javierpzh,dc=gonzalonazareno,dc=org"
+</pre>
+
+<p>Si ahora hacemos una nueva consulta desde el servidor de respaldo, es decir, <em>Sancho</em>:</p>
+
+<pre>
+root@sancho:~# ldapsearch -x -b "dc=javierpzh,dc=gonzalonazareno,dc=org"
+...
+
+# javierpzh.gonzalonazareno.org
+dn: dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: javierpzh.gonzalonazareno.org
+dc: javierpzh
+
+# admin, javierpzh.gonzalonazareno.org
+dn: cn=admin,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+
+# mirrormode, javierpzh.gonzalonazareno.org
+dn: uid=mirrormode,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: account
+objectClass: simpleSecurityObject
+description: usuario LDAP
+uid: mirrormode
+
+# Prueba, javierpzh.gonzalonazareno.org
+dn: ou=Prueba,dc=javierpzh,dc=gonzalonazareno,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: Prueba
+
+# search result
+search: 2
+result: 0 Success
+...
+</pre>
+
+<p>De nuevo vemos que los datos se encuentran sincronizados, por tanto este <em>post</em> habría terminado.</p>
+
+  </div><a class="u-url" href="/blog/configurar-LDAP-en-alta-disponibilidad" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

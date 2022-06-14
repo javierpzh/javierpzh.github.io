@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Monitorización Con Nagios | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Monitorización Con Nagios" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Nagios es un sistema de monitorización de redes ampliamente utilizado, que vigila los equipos y los servicios que se especifiquen, alertando cuando el comportamiento de los mismos no sea el deseado." />
+<meta property="og:description" content="Nagios es un sistema de monitorización de redes ampliamente utilizado, que vigila los equipos y los servicios que se especifiquen, alertando cuando el comportamiento de los mismos no sea el deseado." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-08T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios" />
+<meta property="twitter:title" content="Monitorización Con Nagios" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Nagios es un sistema de monitorización de redes ampliamente utilizado, que vigila los equipos y los servicios que se especifiquen, alertando cuando el comportamiento de los mismos no sea el deseado.","@type":"BlogPosting","headline":"Monitorización Con Nagios","dateModified":"2021-02-08T00:00:00+01:00","datePublished":"2021-02-08T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios"},"url":"https://www.javierpzh.com/blog/monitorizaci%C3%B3n-con-Nagios","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Monitorización Con Nagios</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2021-02-08T00:00:00+01:00" itemprop="datePublished">
+        Feb 8, 2021
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <p><strong>Nagios</strong> es un sistema de monitorización de redes ampliamente utilizado, que vigila los equipos y los servicios que se especifiquen, alertando cuando el comportamiento de los mismos no sea el deseado.</p>
+
+<p>Cuenta con una extensa, sólida y organizada comunidad de soporte que ofrece de modo gratuito <em>addons</em> y <em>plugins</em> para extender sus funcionalidades a través de <strong>Nagios Exchange</strong>, información de fondo y ayuda a través de <strong>Nagios Community</strong> e información técnica a través de <strong>Nagios Wiki</strong>.</p>
+
+<h2 id="características-principales">Características principales</h2>
+
+<ul>
+  <li>
+    <p>Monitorización de servicios de red como: SMTP, POP3, HTTP, SNMP, …</p>
+  </li>
+  <li>
+    <p>Monitorización de los recursos del sistema hardware como: carga de CPU, uso de los discos, RAM, estado de los puertos, …</p>
+  </li>
+  <li>
+    <p>Independencia de sistemas operativos</p>
+  </li>
+  <li>
+    <p>Posibilidad de monitorización remota mediante túneles SSL cifrados o SSH</p>
+  </li>
+  <li>
+    <p>Posibilidad de programar <em>plugins</em> específicos para nuevos sistemas</p>
+  </li>
+  <li>
+    <p>Chequeo de servicios paralizados</p>
+  </li>
+  <li>
+    <p>Notificaciones cuando ocurren problemas en servicios o <em>hosts</em>, así como cuando son resueltos</p>
+  </li>
+  <li>
+    <p>Posibilidad de definir manejadores de eventos que se ejecuten al ocurrir un evento de un servicio o <em>host</em> (acciones pro-activas)</p>
+  </li>
+  <li>
+    <p>Soporte para implementar <em>hosts</em> de monitores redundantes</p>
+  </li>
+  <li>
+    <p>Visualización del estado de la red en tiempo real a través de su interfaz web, con la posibilidad de generar informes y gráficas de comportamiento de los sistemas monitorizados, y visualización del listado de notificaciones enviadas, historial de problemas, archivos de registros, …</p>
+  </li>
+</ul>
+
+<p>Las alertas que genera pueden ser recibidas por correo electrónico y mensajes SMS, entre otros.</p>
+
+<p>Así luce el panel web de <em>Nagios</em>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagios.png" /></p>
+
+<h2 id="instalación-del-servidor">Instalación del servidor</h2>
+
+<p>En primer lugar, me gustaría aclarar un poco cuál va a ser el entorno de trabajo, y es que el escenario sobre el que vamos a trabajar, ha sido construido en diferentes <em>posts</em> previamente elaborados. Los dejo ordenados a continuación por si te interesa:</p>
+
+<ul>
+  <li><a href="https://javierpzh.github.io/creacion-del-escenario-de-trabajo-en-openstack.html">Creación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/modificacion-del-escenario-de-trabajo-en-openstack.html">Modificación del escenario de trabajo en OpenStack</a></li>
+  <li><a href="https://javierpzh.github.io/servidores-openstack-dns-web-y-base-de-datos.html">Servidores OpenStack: DNS, Web y Base de Datos</a></li>
+</ul>
+
+<p>He hecho más tareas sobre este escenario, las puedes encontrar todas <a href="https://javierpzh.github.io/tag/openstack.html">aquí</a>.</p>
+
+<p>Explicado esto, vamos a proceder con la instalación de nuestro sistema de monitorización.</p>
+
+<p>En mi caso, voy a llevar a cabo la instalación de <strong>Nagios Core</strong> en la máquina <strong>Quijote</strong>, es decir, que ésta será el servidor principal. Hay que recordar que <em>Quijote</em> consta de un sistemas <em>CentOS 8</em>.</p>
+
+<p>He decidido escoger como servidor este equipo principalmente porque <em>Nagios</em> necesita un servidor web para poder acceder a su panel de administración web, y esto es algo que me interesa ya que, es en esta máquina donde se encuentra instalado el servidor web de mi escenario. No queda solo ahí, ya que nuestro servidor web, en mi caso, <em>Apache</em>, tiene que ser capaz de ejecutar código PHP. Si no dispones de estos requisitos, puedes visitar el tercer artículo <em>indexado</em> anteriormente, donde llevo a cabo la instalación de estos requisitos.</p>
+
+<p>Hecha la introducción, es el momento de empezar con la propia instalación en sí.</p>
+
+<p>Para descargar <em>Nagios Core</em> tenemos dos opciones, o bien descargar los paquetes desde los repositorios oficiales, o, como prefiero hacer en mi caso, ya que con los paquetes oficiales he tenido problemas, nos dirigimos a su <a href="https://github.com/NagiosEnterprises/nagioscore/releases">sitio web</a> y descargamos directamente el archivo <code class="language-plaintext highlighter-rouge">.tar.gz</code>. A día de hoy, la versión más reciente disponible es la 2.3.3, la dejo <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagios-4.4.6.zip">aquí</a>.</p>
+
+<p>Pero antes de ello, debemos descargar los <em>plugins</em> de <em>Nagios</em>. Esto es algo que se debe hacer tanto en la máquina servidor como en cada cliente que queramos supervisar.</p>
+
+<p>Para descargar estos <em>plugins</em>, nos dirigimos a su <a href="https://nagios-plugins.org/">sitio web</a> y descargamos directamente el archivo <code class="language-plaintext highlighter-rouge">.tar.gz</code>. A día de hoy, la versión más reciente disponible es la 2.3.3, la dejo <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagios-plugins-2.3.3.zip">aquí</a>.</p>
+
+<p>Una vez descargado y descomprimido el archivo, antes de llevar a cabo la instalación, debemos instalar algunos paquetes y dependencias que nos harán falta durante todo el proceso de instalación.</p>
+
+<pre>
+dnf install bind-utils libpq-devel gcc make unzip -y
+</pre>
+
+<p>Accedemos a la carpeta resultante de la descompresión y pasamos a configurar la compilación:</p>
+
+<pre>
+./configure
+</pre>
+
+<p>Compilamos los <em>plugins</em>:</p>
+
+<pre>
+make
+</pre>
+
+<p>Finalizada la compilación, instalamos los <em>plugins</em>:</p>
+
+<pre>
+make install
+</pre>
+
+<p>Una vez instalados los <em>plugins</em> de <em>Nagios</em>, quedan instalados como comandos ejecutables en la ruta <code class="language-plaintext highlighter-rouge">/usr/local/nagios/libexec/</code>, y pueden ser utilizados directamente desde consola.</p>
+
+<p>Una vez instalados los <em>plugins</em> es el momento de instalar <strong>Nagios Core</strong>. Para ello, descomprimimos el archivo descargado anteriormente, accedemos al directorio resultante y configuramos su compilación:</p>
+
+<pre>
+./configure
+</pre>
+
+<p>Y procedemos con el proceso de compilación:</p>
+
+<pre>
+make all
+</pre>
+
+<p>Llegó la hora de la instalación, que consta de varios pasos, aunque lo resumiremos en el siguiente comando:</p>
+
+<pre>
+make install-groups-users install install-webconf install-config install-init install-daemoninit install-commandmode
+</pre>
+
+<p>Para concluir y poder acceder a nuestro panel web, vamos a crear el usuario <strong>nagiosadmin</strong>:</p>
+
+<pre>
+htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+</pre>
+
+<p>Terminada la instalación, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
+
+<pre>
+systemctl start nagios &amp;&amp; systemctl enable nagios
+</pre>
+
+<p>Listo. Ahora podremos acceder al panel web de <em>Nagios</em>, por tanto, si nos dirigimos a nuestra dirección web <em>/nagios</em>, según esté configurado en nuestro servidor web, en mi caso <code class="language-plaintext highlighter-rouge">www.javierpzh.gonzalonazareno.org/nagios</code> nos aparecerá esta ventana:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagiosautentificacion.png" /></p>
+
+<p>Si introducimos el usuario y la contraseña que hemos creado anteriormente:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagiospanel.png" /></p>
+
+<p>Vemos como podemos acceder al panel de administración de <em>Nagios</em>. Si accedemos al apartado <strong>Hosts</strong>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagioshosts.png" /></p>
+
+<p>Vemos que actualmente nos muestra nuestro equipo local. Si accedemos al apartado <strong>Services</strong>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagiosservicios.png" /></p>
+
+<p>Vemos que actualmente nos muestra los servicios de nuestro equipo local, por lo que habríamos finalizado la instalación de <em>Nagios Core</em> en nuestro sistema.</p>
+
+<h2 id="instalación-en-los-clientes">Instalación en los clientes</h2>
+
+<p>Ya tenemos instalado <em>Nagios Core</em> en el servidor y ya estamos monitorizando los servicios que se encuentran en él, pero además de los servicios de esa máquina, queremos monitorizar los servicios de las máquinas <strong>Dulcinea</strong>, <strong>Sancho</strong>, <strong>Freston</strong> y nuestra <em>VPS</em>, la máquina de <strong>OVH</strong>.</p>
+
+<p>Para ello debemos llevar a cabo la instalación de <strong>Nagios NRPE</strong>. Descargaremos <em>Nagios NRPE</em> tanto en la parte del servidor, como en los clientes, ya que ambos lo necesitan. En la parte del cliente el propio paquete <em>Nagios NRPE</em>, y en el servidor el <em>plugin NRPE</em> para <em>Nagios Core</em>. En mi caso, mostraré tan solo la instalación en <em>Dulcinea</em>, ya que en las demás máquinas el proceso es idéntico.</p>
+
+<p>La descarga, al igual que antes, la podremos llevar a cabo desde su <a href="https://github.com/NagiosEnterprises/nrpe/releases">sitio web</a>, o desde repositorios, y en este caso, sí realizaré la descarga desde los repositorios oficiales.</p>
+
+<pre>
+apt install nagios-nrpe-server nagios-plugins-basic nagios-plugins -y
+</pre>
+
+<p>Terminada la instalación de <em>Nagios NRPE</em>, iniciaremos su servicio y lo habilitaremos en cada arranque:</p>
+
+<pre>
+systemctl start nagios-nrpe-server &amp;&amp; systemctl enable nagios-nrpe-server
+</pre>
+
+<p>Listo.</p>
+
+<h2 id="configuración-en-los-clientes">Configuración en los clientes</h2>
+
+<p>Es el momento de llevar a cabo la configuración en la parte de los clientes.</p>
+
+<p>Para configurar el servicio <em>Nagios NRPE</em> editaremos su archivo de configuración principal, el llamado <code class="language-plaintext highlighter-rouge">nrpe.cfg</code>, que se encuentra en la ruta <code class="language-plaintext highlighter-rouge">/etc/nagios/nrpe.cfg</code>. En él, buscaremos la directiva <code class="language-plaintext highlighter-rouge">allowed_hosts</code>, que indica los servidores <em>Nagios Core</em> que podrán conectarse con el servicio, y añadiremos la dirección IP de nuestro servidor <em>Quijote</em>. De manera que quedaría de la siguiente manera:</p>
+
+<p>En <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>:</p>
+
+<pre>
+allowed_hosts=127.0.0.1,::1,10.0.2.6
+</pre>
+
+<p>En la máquina de <em>OVH</em>:</p>
+
+<pre>
+allowed_hosts=127.0.0.1,::1,172.22.200.183
+</pre>
+
+<p>También debemos buscar la siguiente línea, y habilitar los permisos para que el servidor <em>Nagios Core</em> pueda obtener los datos necesarios. Para ello, debemos asegurarnos que el valor de la directiva <code class="language-plaintext highlighter-rouge">dont_blame_nrpe</code> sea <strong>1</strong>, es decir, esté habilitado:</p>
+
+<pre>
+dont_blame_nrpe=1
+</pre>
+
+<p>Por último, este archivo contiene también varias definiciones de muestra de comandos que pueden ser admitidos en las peticiones desde el servidor <em>Nagios Core</em>, y en una de ellas, se hace referencia a un dispositivo <code class="language-plaintext highlighter-rouge">/dev/hda1</code> que en mi caso, no existe, sino que debería tratarse de <code class="language-plaintext highlighter-rouge">/dev/vda1</code>, para las máquinas del <em>cloud</em>, y de <code class="language-plaintext highlighter-rouge">/dev/sda1</code>, para la máquina de <em>OVH</em>, así que modificamos el comando <code class="language-plaintext highlighter-rouge">check_hda1</code> de forma adecuada. Por defecto posee este aspecto:</p>
+
+<pre>
+command[check_hda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/hda1
+</pre>
+
+<p>En mi caso, en las máquinas <em>Dulcinea</em>, <em>Sancho</em> y <em>Freston</em>, queda con el siguiente aspecto:</p>
+
+<pre>
+command[check_vda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/vda1
+</pre>
+
+<p>Y en la máquina de <em>OVH</em>, con el siguiente aspecto:</p>
+
+<pre>
+command[check_sda1]=/usr/lib/nagios/plugins/check_disk -w 20% -c 10% -p /dev/sda1
+</pre>
+
+<p>Hechas estas modificaciones, tendremos que reiniciar el servicio para que se apliquen los cambios:</p>
+
+<pre>
+systemctl restart nagios-nrpe-server
+</pre>
+
+<p>Listo.</p>
+
+<h2 id="configuración-en-el-servidor-del-plugin-nrpe">Configuración en el servidor del plugin NRPE</h2>
+
+<p>Es el momento de instalar el <em>plugin NRPE</em> en nuestro servidor <em>Quijote</em>, por lo que empezaremos descargando el paquete que comentamos anteriormente.</p>
+
+<pre>
+dnf install nagios-plugins-nrpe -y
+</pre>
+
+<p>Una vez terminada la instalación, probamos que nuestro servidor puede comunicarse con los clientes:</p>
+
+<pre>
+[root@quijote ~]# cd /usr/lib64/nagios/plugins
+
+# Dulcinea
+[root@quijote plugins]# ./check_nrpe -H 10.0.2.10
+NRPE v3.2.1
+
+# Sancho
+[root@quijote plugins]# ./check_nrpe -H 10.0.1.8
+NRPE v4.0.0
+
+# Freston
+[root@quijote plugins]# ./check_nrpe -H 10.0.1.6
+NRPE v3.2.1
+
+# OVH
+[root@quijote plugins]# ./check_nrpe -H 51.210.105.17
+^C
+</pre>
+
+<p>(falta ovh)</p>
+
+<p>Podemos observar como la versión de la dirección <code class="language-plaintext highlighter-rouge">10.0.1.8</code>, que corresponde a <em>Sancho</em>, es distinta a las demás versiones. Esto seguramente sea, porque todos los equipos menos <em>Sancho</em>, poseen <em>Debian 10</em>, y <em>Sancho</em> un sistema <em>Ubuntu</em>, por lo que seguramente en <em>Ubuntu</em>, han desarrollado una versión más reciente de este paquete, que aún en <em>Debian</em> no se encuentra.</p>
+
+<p>Para seguir con el proceso de configuración, vamos a añadir una serie de líneas en el fichero <code class="language-plaintext highlighter-rouge">commands.cfg</code>, que se encuentra en la ruta <code class="language-plaintext highlighter-rouge">/usr/local/nagios/etc/objects/commands.cfg</code>. Añadimos el siguiente bloque al final del fichero, para definir el comando para el <em>plugin NRPE</em>:</p>
+
+<pre>
+define command {
+        command_name    check_nrpe
+        command_line    $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+</pre>
+
+<p>Hecho esto, nos toca configurar el fichero <code class="language-plaintext highlighter-rouge">nagios.cfg</code>, que se encuentra en la ruta <code class="language-plaintext highlighter-rouge">/usr/local/nagios/etc/nagios.cfg</code>, para que incluya las de configuraciones de los clientes. Para hacer esto, debemos buscar la siguiente línea y descomentarla, ya que inicialmente se encuentra comentada:</p>
+
+<pre>
+cfg_dir=/usr/local/nagios/etc/servers
+</pre>
+
+<p>El subdirectorio <code class="language-plaintext highlighter-rouge">servers/</code> que acabamos de habilitar en la configuración no existe, así que lo creamos antes de continuar:</p>
+
+<pre>
+mkdir /usr/local/nagios/etc/servers
+</pre>
+
+<p>Dentro de éste, crearemos un archivo de configuración en el que definiremos a cada cliente que deseemos monitorizar, en mi caso creo el siguiente fichero:</p>
+
+<pre>
+nano /etc/nagios/servers/config.cfg
+</pre>
+
+<p>En este fichero de configuración, vamos a definir al respectivo cliente y posteriormente, los servicios que queremos supervisar, obviamente el cliente nos lo debe permitir en su configuración.</p>
+
+<p>El contenido de este fichero será el siguiente:</p>
+
+<pre>
+# HOSTS
+
+# Dulcinea
+define host {
+        use                     linux-server
+        host_name               dulcinea
+        alias                   Dulcinea
+        address                 10.0.2.10
+}
+
+# Sancho
+define host {
+        use                     linux-server
+        host_name               sancho
+        alias                   Sancho
+        address                 10.0.1.8
+}
+
+# Freston
+define host {
+        use                     linux-server
+        host_name               freston
+        alias                   Freston
+        address                 10.0.1.6
+}
+
+# OVH
+define host {
+        use                     linux-server
+        host_name               ovh
+        alias                   OVH
+        address                 51.210.105.17
+}
+
+
+# SERVICIOS
+
+# Dulcinea
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               dulcinea
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+
+# Sancho
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               sancho
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+
+# Freston
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               freston
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+
+# OVH
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Numero usuarios
+        check_command           check_nrpe!check_users
+}
+
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     SSH
+        check_command           check_ssh
+}
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Carga CPU
+        check_command           check_nrpe!check_load
+}
+
+define service{
+        use                     generic-service
+        host_name               ovh
+        service_description     Total Procesos
+        check_command           check_nrpe!check_total_procs
+}
+</pre>
+
+<p>Por último, como nuestro servidor <em>Nagios Core</em> se encuentra en un sistema <em>CentOS</em>, recordaremos que nos encontramos con su <em>firewall</em> por defecto. Por tanto, tendremos que añadir una regla para que el servidor <em>Nagios Core</em> pueda conectar al servicio <em>Nagios NRPE</em>:</p>
+
+<pre>
+firewall-cmd --permanent --add-service=nrpe
+</pre>
+
+<p>Recargamos la configuración del <em>firewall</em> para aplicar los cambios:</p>
+
+<pre>
+firewall-cmd --reload
+</pre>
+
+<p>Para terminar, reiniciamos el servidor <em>Nagios Core</em>:</p>
+
+<pre>
+systemctl restart nagios
+</pre>
+
+<p>Si nos dirigimos a nuestro panel web, en la sección <strong>Hosts</strong>, ahora además de <em>Quijote</em>, nos aparecen los nuevos clientes:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/aso_monitorización_con_Nagios/nagioshostsfinal.png" /></p>
+
+<p>Perfecto, ya habríamos añadido y estaríamos monitorizando todos los clientes deseados, por lo que es hora de finalizar el artículo.</p>
+
+  </div><a class="u-url" href="/blog/monitorizaci%C3%B3n-con-Nagios" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>

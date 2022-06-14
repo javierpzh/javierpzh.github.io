@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.7.3 -->
+<title>Lets Encrypt Https | javierpzh</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Lets Encrypt Https" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente." />
+<meta property="og:description" content="Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente." />
+<link rel="canonical" href="https://www.javierpzh.com/blog/lets-encrypt-HTTPS" />
+<meta property="og:url" content="https://www.javierpzh.com/blog/lets-encrypt-HTTPS" />
+<meta property="og:site_name" content="javierpzh" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/lets-encrypt-HTTPS" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-30T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.com/blog/lets-encrypt-HTTPS" />
+<meta property="twitter:title" content="Lets Encrypt Https" />
+<meta name="twitter:site" content="@" />
+<script type="application/ld+json">
+{"description":"Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente.","@type":"BlogPosting","headline":"Lets Encrypt Https","dateModified":"2020-11-30T00:00:00+01:00","datePublished":"2020-11-30T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.com/blog/lets-encrypt-HTTPS"},"url":"https://www.javierpzh.com/blog/lets-encrypt-HTTPS","@context":"https://schema.org"}</script>
+<script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/style.css">
+    <link
+      rel="stylesheet"
+      href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.com/feed.xml" title="javierpzh" />
+
+<link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+<link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+<link rel="mask-icon" href="/assets/img/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+<body class='h-full'><nav
+      class="top-0 absolute z-50 w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-gray-800"
+    >
+      <div
+        class="container px-4 mx-auto flex flex-wrap items-center justify-between"
+      >
+        <div
+          class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start"
+        >
+          <a
+            class="text-sm font-bold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white"
+            href="/"
+            >javierpzh</a
+          ><button
+            class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
+            type="button"
+            onclick="toggleNavbar('example-collapse-navbar')"
+          >
+            <i class="text-white fas fa-bars"></i>
+          </button>
+        </div>
+        <div
+          class="lg:flex flex-grow items-center bg-white lg:bg-transparent lg:shadow-none hidden"
+          id="example-collapse-navbar"
+        >
+          <ul class="flex flex-col lg:flex-row list-none mr-auto">
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/blog"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 far fa-file-alt text-lg leading-lg mr-2"
+                ></i>
+                Blog
+              </a>
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="/about"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-child text-lg leading-lg mr-2"
+                ></i>
+                Sobre mí
+              </a>
+            </li>
+          </ul>
+          <ul class="flex flex-col lg:flex-row list-none lg:ml-auto">
+	    <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-linkedin-in text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">LinkedIn</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="https://github.com/javierpzh"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fab fa-github text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">GitHub</span></a
+              >
+            </li>
+            <li class="flex items-center">
+              <a
+                class="lg:text-white lg:hover:text-gray-300 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold"
+                href="mailto:javieperezhidalgo01@gmail.com"
+                ><i
+                  class="lg:text-gray-300 text-gray-500 fas fa-envelope text-lg leading-lg "
+                ></i
+                ><span class="lg:hidden inline-block ml-2">Correo</span></a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+<article class="font-sans relative py-24 md:py-28 bg-white overflow-hidden" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="relative px-4 sm:px-6 lg:px-8">
+    <div class="text-lg max-w-prose mx-auto mb-4">
+      <h1
+        class="mt-2 mb-2 text-3xl text-center-DIS leading-8 font-extrabold tracking-tight-DIS text-gray-800 sm:text-4xl sm:leading-10"
+        itemprop="name headline">
+        Lets Encrypt Https</h1>
+    </div>
+    <p class="max-w-prose mx-auto mb-2 text-lg uppercase text-gray-500"><span class="font-bold tracking-wide"><time class="dt-published text-xs" datetime="2020-11-30T00:00:00+01:00" itemprop="datePublished">
+        Nov 30, 2020
+      </time></span></p>
+    <!-- 
+      Please sign up at https://www.soopr.co to personalize share and reaction buttons
+    -->
+    <div class="max-w-prose text-lg mx-auto mt-4 mb-8 soopr-btn soopr-btn-def" style="min-height: 36px;"></div>
+  </header>
+
+  <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
+    <h4 id="vamos-a-configurar-el-protocolo-https-para-el-acceso-a-nuestras-aplicaciones-para-ello-tienes-que-tener-en-cuenta-los-siguiente">Vamos a configurar el protocolo HTTPS para el acceso a nuestras aplicaciones, para ello tienes que tener en cuenta los siguiente.</h4>
+
+<p><strong>1. Vamos a utilizar el servicio <code class="language-plaintext highlighter-rouge">https://letsencrypt.org</code> para solicitar los certificados de nuestras páginas.</strong></p>
+
+<p>Si queremos llevar a cabo la solicitud de los certificados para nuestras páginas dispongan de <em>HTTPS</em> verificado por <em>Let’s Encrypt</em>, tenemos que instalar el siguiente paquete:</p>
+
+<pre>
+apt install certbot
+</pre>
+
+<p>Como además, yo voy a hacer uso del <em>plugin</em> de <em>Nginx</em> para que <strong>Certbot</strong> además de solicitarnos, nos configure los ficheros de configuración de los distintos <em>virtualhost</em>, instalo este paquete:</p>
+
+<pre>
+apt install python3-certbot-nginx
+</pre>
+
+<p>Para solicitar el certificado y que lo instale el propio <em>Certbot</em>:</p>
+
+<pre>
+certbot --nginx
+</pre>
+
+<p><strong>2. Explica detenidamente cómo se solicita un certificado en <em>Let’s Encrypt</em>. En tu explicación deberás responder a estas preguntas:</strong></p>
+
+<p><strong>¿Qué función tiene el cliente ACME?</strong></p>
+
+<p><strong>ACME</strong>, siglas de <em>Automatic Certificate Management Environment</em>, es un protocolo que lleva a cabo el agente <em>Certbot</em> y consiste en dos pasos:</p>
+
+<ul>
+  <li>
+    <p>Primero, se lleva a cabo la <strong>validación del dominio</strong>, hay que decir antes que nada, que al instalar <em>Certbot</em>, éste generará un par de claves para comunicarse con la CA. Este primer paso, no es más sino que demostrar a la autoridad certificadora que la página que estamos intentando validar es nuestra o somos los administradores de ella. Para este proceso, <em>Let’s Encrypt</em> nos posibilita dos retos a realizar, el llamado <em>HTTP-01 Challenger</em>, consiste en colocar un archivo con un determinado contenido en una ruta específica que nos indique <em>Let’s Encrypt</em>, si verifican que dicho archivo es correcto, la validación se lleva a cabo, y también disponemos del llamado <em>DNS-01 Challenger</em>, que consiste en crear un registro en la zona DNS con una determinada información.</p>
+  </li>
+  <li>
+    <p>En segundo lugar, se lleva a cabo la <strong>solicitud del certificado</strong>. Cuando hemos realizado el paso anterior, <em>Certbot</em> envía una solcitud de firma, es decir, un fichero <em>.csr</em>, a <em>Let’s Encrypt</em>, y este verifica la firma mediante las claves públicas-privadas generadas al inicio y si es correcta firma el certificado y se lo envía a <em>Certbot</em>.</p>
+  </li>
+</ul>
+
+<p><strong>¿Qué configuración se realiza en el servidor web?</strong></p>
+
+<p>En el servidor web tenemos que configurar el fichero de configuración del <em>virtualhost</em> a validar y especificarle las rutas donde se encontrarán tanto el certificado, como la clave privada mediante el cuál se generó el fichero <em>.csr</em>.</p>
+
+<p><strong>¿Qué pruebas realiza <em>Let’s Encrypt</em> para asegurar que somos los administradores del sitio web?</strong></p>
+
+<p>Comentado anteriormente.</p>
+
+<p><strong>¿Se puede usar el DNS para verificar que somos administradores del sitio?</strong></p>
+
+<p>Como he comentado anteriormente, sí, y de hecho es un método que nos permitirá al validar un dominio, que todos sus subdominios estén validados también, ya que mediante DNS habrá podido comprobar que somos realmente los administradores del sitio.</p>
+
+<p><strong>3. Utiliza dos ficheros de configuración de <em>Nginx</em>: uno para la configuración del <em>virtualhost</em> <em>HTTP</em> y otro para la configuración del <em>virtualhost</em> <em>HTTPS</em>.</strong></p>
+
+<p>Yo he utilizado solo un fichero de configuración para cada <em>virtualhost</em>, ya que <em>Nginx</em> te permite establecer en el mismo fichero, las configuraciones de <em>http</em> y <em>https</em>, por lo que, es una tontería crear dos ficheros si podemos utilizar uno.</p>
+
+<p>Nos disponemos a pedir los certificados y a ver el proceso que nos enseña <em>Certbot</em>.</p>
+
+<p>En primer lugar, voy a solicitar el certificado para la web <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>:</p>
+
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# certbot --nginx
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator nginx, Installer nginx
+
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: portal.iesgn15.es
+2: www.iesgn15.es
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel): 2
+Cert not yet due for renewal
+
+You have an existing certificate that has exactly the same domains or certificate name you requested and isn't close to expiry.
+(ref: /etc/letsencrypt/renewal/www.iesgn15.es.conf)
+
+What would you like to do?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: Attempt to reinstall this existing certificate
+2: Renew &amp; replace the cert (limit ~5 per 7 days)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 1
+Keeping the existing certificate
+Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/aplicacionesiesgn.conf
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/aplicacionesiesgn.conf
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations! You have successfully enabled https://www.iesgn15.es
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=www.iesgn15.es
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/www.iesgn15.es/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/www.iesgn15.es/privkey.pem
+   Your cert will expire on 2021-02-23. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+root@vpsjavierpzh:/etc/nginx/sites-available#
+</pre>
+
+<p>Vemos que a la hora de ejecutar el comando, nos identifica todos los <em>virtualhost</em> que poseemos, y tan solo tenemos que seleccionar para cual queremos el certificado. Acto seguido, nos pregunta si queremos que el certificado se renueve de manera automática, también nos pregunta si queremos que el propio <em>Certbot</em> nos realice toda la configuración en el fichero de configuración del <em>virtualhost</em>.</p>
+
+<p>De nuevo realizo el mismo proceso, esta vez para el <em>virtualhost</em> <code class="language-plaintext highlighter-rouge">portal.iesgn15.es</code>:</p>
+
+<pre>
+root@vpsjavierpzh:/etc/nginx/sites-available# certbot --nginx
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Plugins selected: Authenticator nginx, Installer nginx
+
+Which names would you like to activate HTTPS for?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: portal.iesgn15.es
+2: www.iesgn15.es
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate numbers separated by commas and/or spaces, or leave input
+blank to select all options shown (Enter 'c' to cancel): 1
+Obtaining a new certificate
+Performing the following challenges:
+http-01 challenge for portal.iesgn15.es
+Waiting for verification...
+Cleaning up challenges
+Deploying Certificate to VirtualHost /etc/nginx/sites-enabled/drupal.conf
+
+Please choose whether or not to redirect HTTP traffic to HTTPS, removing HTTP access.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: No redirect - Make no further changes to the webserver configuration.
+2: Redirect - Make all requests redirect to secure HTTPS access. Choose this for
+new sites, or if you're confident your site works on HTTPS. You can undo this
+change by editing your web server's configuration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Redirecting all traffic on port 80 to ssl in /etc/nginx/sites-enabled/drupal.conf
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Congratulations! You have successfully enabled https://portal.iesgn15.es
+
+You should test your configuration at:
+https://www.ssllabs.com/ssltest/analyze.html?d=portal.iesgn15.es
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+IMPORTANT NOTES:
+ - Congratulations! Your certificate and chain have been saved at:
+   /etc/letsencrypt/live/portal.iesgn15.es/fullchain.pem
+   Your key file has been saved at:
+   /etc/letsencrypt/live/portal.iesgn15.es/privkey.pem
+   Your cert will expire on 2021-02-23. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot again
+   with the "certonly" option. To non-interactively renew *all* of
+   your certificates, run "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+
+root@vpsjavierpzh:/etc/nginx/sites-available#
+</pre>
+
+<p><strong>4. Realiza una redirección o una reescritura para que cuando accedas a <em>HTTP</em> te redirija al sitio <em>HTTPS</em>.</strong></p>
+
+<p>Al escoger el <em>plugin</em> de <em>Nginx</em>, el propio <strong>Certbot</strong> te pregunta si quieres que también te cree la redirección permanente para que siempre se acceda a la página por <em>HTTPS</em>. Vamos a echarle un vistazo a las líneas que configura. Al final de nuestro fichero de configuración del <em>virtualhost</em> ha añadido:</p>
+
+<pre>
+...
+
+listen [::]:443 ssl ipv6only=on; # managed by Certbot
+listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/www.iesgn15.es/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/www.iesgn15.es/privkey.pem; # managed by Certbot
+include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+server {
+  if ($host = www.iesgn15.es) {
+      return 301 https://$host$request_uri;
+  } # managed by Certbot
+
+
+      listen 80;
+      listen [::]:80;
+
+    server_name www.iesgn15.es;
+  return 404; # managed by Certbot
+
+
+}
+</pre>
+
+<p>Podemos ver como automáticamente, nos ha añadido las líneas que nos establecen la configuración de los certificados y nos ha creado la redirección hacia <em>HTTPS</em>.</p>
+
+<p><strong>5. Comprueba que se ha creado una tarea <em>cron</em> que renueva el certificado cada 3 meses.</strong></p>
+
+<p>Vamos a comprobar que <em>Certbot</em> también nos ha creado una tarea <em>cron</em> que renovará los certificados de manera automática cada 3 meses. Para ello visualizamos el fichero <code class="language-plaintext highlighter-rouge">/etc/cron.d/certbot</code>:</p>
+
+<pre>
+root@vpsjavierpzh:~# cat /etc/cron.d/certbot
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 */12 * * * root test -x /usr/bin/certbot -a \! -d /run/systemd/system &amp;&amp; perl -e 'sleep int(rand(43200))' &amp;&amp; certbot -q renew
+</pre>
+
+<p>Estas líneas lo que hacen es comprobar cada 12 horas como indica ahí, (12 horas = 43200 segundos), si al certificado le quedan menos de 30 días de validez, y si es así, lo renueva.</p>
+
+<p><strong>6. Comprueba que las páginas son accesible por <em>HTTPS</em> y visualiza los detalles del certificado que has creado.</strong></p>
+
+<p>Accedemos a <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_lets_encrypt_HTTPS/www.iesgn15.es.png" /></p>
+
+<p>Accedemos a <code class="language-plaintext highlighter-rouge">portal.iesgn15.es</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_lets_encrypt_HTTPS/portal.iesgn15.es.png" /></p>
+
+<p>Accedemos a <code class="language-plaintext highlighter-rouge">www.iesgn15.es/cloud</code>, que es la dirección de la aplicación <em>Nextcloud</em>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_lets_encrypt_HTTPS/nextcloud.png" /></p>
+
+<p>Si vemos los detalles del certificado:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_lets_encrypt_HTTPS/certificado.png" /></p>
+
+<p><strong>7. Modifica la configuración del cliente de <em>Nextcloud</em> para comprobar que sigue en funcionamiento con <em>HTTPS</em>.</strong></p>
+
+<p>Nos dirigimos ahora a nuestro cliente de <em>Nextcloud</em>, que recordemos que está configurado para la dirección <code class="language-plaintext highlighter-rouge">http://www.iesgn15.es/cloud</code>:</p>
+
+<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_lets_encrypt_HTTPS/nextcloudcliente.png" /></p>
+
+<p>Vemos como a pesar de no estar configurado para que use <em>HTTPS</em>, nos redirige automáticamente gracias a la redirección permanente que hemos creado, por tanto no haría falta volver a configurarlo.</p>
+
+<h4 id="recursos-interesantes">Recursos interesantes</h4>
+
+<ul>
+  <li>
+    <p><a href="https://medium.com/@alonsus91/que-es-lets-encrypt-y-como-configurarlo-dae155f62a57">¿Qué es Let’s Encrypt y como configurarlo?</a></p>
+  </li>
+  <li>
+    <p><a href="https://letsencrypt.org/es/how-it-works/">¿Cómo funciona Let’s Encrypt?</a></p>
+  </li>
+</ul>
+
+  </div><a class="u-url" href="/blog/lets-encrypt-HTTPS" hidden></a>
+</article>
+<footer class="relative bg-gray-300 pt-8 pb-6">
+
+  <div class="container mx-auto px-4">
+    <div class="flex flex-wrap">
+      <div class="w-full lg:w-5/12 px-4">
+        <h4 class="text-3xl font-semibold">
+          ¡Más sobre mí!
+        </h4>
+        <h5 class="text-lg mt-0 mb-2 text-gray-700">
+	        Puedes encontrarme en cualquiera de estas plataformas, ¡agradeceré que te pases!
+	      </h5>
+        <div class="mt-6">
+          <button
+            class="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/';">
+            <i class="flex fab fa-linkedin"></i>
+          </button>
+          <button
+            class="bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2 p-3"
+            type="button"
+            onclick="location.href='https://github.com/javierpzh';">
+	          <i class="flex fab fa-github"></i>
+          </button>
+        </div>
+        <div class="text-gray-600 text-sm py-1 mt-4">
+	        </a
+	          class="text-gray-600 hover:text-gray-900"
+          > &nbsp;<a target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+      <div class="w-full lg:w-6/12 px-4">
+        <div class="flex flex-wrap items-top mb-6 mt-4">
+          <div class="w-full lg:w-4/12 md:w-6/12 px-0 ml-auto">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Enlaces de ayuda
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/about">
+                  Sobre mí
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/blog">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.linkedin.com/in/javier-p%C3%A9rez-hidalgo/">
+                  LinkedIn
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="https://www.github.com/javierpzh">
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- <div class="w-full lg:w-4/12 md:w-6/12 mt-4 sm:mt-0 md:px-4">
+            <span
+              class="block uppercase text-gray-600 text-sm font-semibold mb-2">
+              Otros recursos
+            </span>
+            <ul class="list-unstyled">
+              <li>
+                <a
+                  class="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                  href="/privacy-policy">
+                  Privacy Policy
+                </a>
+              </li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <hr class="my-6 border-gray-400" />
+    <div
+      class="flex flex-wrap items-center md:justify-between justify-center"
+    >
+      <div class="w-full px-4 mx-auto text-center">
+        <div class="text-sm text-gray-600">
+            Designed by <a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer">Javier Pérez Hidalgo</a>
+            &nbsp;
+            •
+            &nbsp;
+            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer><script async defer src="https://sdk.soopr.co/soopr.js"></script></body>
+
+</html>
