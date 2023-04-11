@@ -16,7 +16,7 @@
 <meta property="twitter:title" content="javierpzh" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"headline":"javierpzh","@type":"WebPage","url":"https://www.javierpzh.com/index.html.backup","@context":"https://schema.org"}</script>
+{"@type":"WebPage","headline":"javierpzh","url":"https://www.javierpzh.com/index.html.backup","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -784,7 +784,7 @@
             &nbsp;
             •
             &nbsp;
-            Copyright © 2022&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
+            Copyright © 2023&nbsp;<a class="hover:text-indigo-600 font-semibold" href="" target="_blank" rel="noreferrer"></a>
         </div>
       </div>
     </div>
