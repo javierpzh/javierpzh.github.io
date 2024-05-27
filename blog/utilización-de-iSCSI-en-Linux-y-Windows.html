@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un servidor iSCSI y dos clientes, uno Linux y otro Windows." />
 <meta property="og:description" content="En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un servidor iSCSI y dos clientes, uno Linux y otro Windows." />
-<link rel="canonical" href="http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
-<meta property="og:url" content="http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
+<link rel="canonical" href="https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
+<meta property="og:url" content="https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
 <meta property="og:site_name" content="javierpzh" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-02-10T00:00:00+01:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows" />
 <meta property="twitter:title" content="Utilización De Iscsi En Linux Y Windows" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows"},"description":"En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un servidor iSCSI y dos clientes, uno Linux y otro Windows.","@type":"BlogPosting","headline":"Utilización De Iscsi En Linux Y Windows","dateModified":"2021-02-10T00:00:00+01:00","datePublished":"2021-02-10T00:00:00+01:00","url":"http://localhost:8000/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows"},"description":"En este artículo vamos a configurar un escenario con Vagrant que incluirá varias máquinas, y permitirá realizar la configuración de un servidor iSCSI y dos clientes, uno Linux y otro Windows.","@type":"BlogPosting","headline":"Utilización De Iscsi En Linux Y Windows","dateModified":"2021-02-10T00:00:00+01:00","datePublished":"2021-02-10T00:00:00+01:00","url":"https://www.javierpzh.es/blog/utilizaci%C3%B3n-de-iSCSI-en-Linux-y-Windows","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -29,7 +29,7 @@
     <link
       rel="stylesheet"
       href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-    /><link type="application/atom+xml" rel="alternate" href="http://localhost:8000/feed.xml" title="javierpzh" />
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.es/feed.xml" title="javierpzh" />
 
 <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
@@ -133,7 +133,7 @@
 
 <p>Es una gran alternativa económica a <em>FiberChannel</em>.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi.png" /></p>
 
 <p>Y respecto a la <strong>velocidad</strong>, ¿es rápido, es lento? Un requisito indispensable de un buen disco es que sea rápido. Los discos <em>SCSI</em> suelen entregar excelentes tasas de transferencia. Pero recordemos que <em>iSCSI</em> se lleva sobre la red, por eso mismo, <em>iSCSI</em> es recomendado solo para redes conmutadas de alta velocidad.</p>
 
@@ -156,13 +156,13 @@
 
 <p>Y por el otro lado, nos encontramos con el <strong>iniciador iSCSI</strong>. El iniciador es el cliente de <em>iSCSI</em>. Generalmente el iniciador consta de dos partes: los módulos o <em>drivers</em> que proveen soporte para que el sistema operativo pueda reconocer discos de tipo <em>iSCSI</em> y un programa que gestiona las conexiones a dichos discos. En <em>Linux</em> hay varias opciones, y en las últimas versiones de <em>Windows</em> nos encontramos con un iniciador instalado por defecto.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi2.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/iscsi2.png" /></p>
 
 <p>Creo que no hace falta decirlo, pero por si acaso, imaginemos tener un <em>target</em> montado en <em>Linux</em>, obviamente podremos utilizar los discos de dicho servidor en sistemas <em>Windows</em>, <em>MacOSX</em> o incluso <em>Solaris</em>.</p>
 
 <h2 id="configuración-de-target-iscsi-y-conexión-con-iniciador-iscsi">Configuración de target iSCSI y conexión con iniciador iSCSI</h2>
 
-<p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el cliente, en este caso, el cliente <em>Linux</em>.</p>
+<p>En primer lugar, vamos a crear el escenario <em>Vagrant</em> que comentamos anteriormente. Para ello, he creado este fichero <a href="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/Vagrantfile.txt">Vagrantfile</a>, en el que defino el servidor <em>iSCSI</em> y el cliente, en este caso, el cliente <em>Linux</em>.</p>
 
 <p>Explicado esto, vamos a empezar con la instalación del siguiente paquete en la parte del <strong>servidor</strong>.</p>
 
@@ -586,35 +586,35 @@ Target 2: iqn.iscsi2.com:target2
 
 <p>Una vez estamos en la ventana de propiedades del <em>iniciador iSCSI</em>, nos situamos en la pestaña <strong>Detección</strong>, y <em>clickamos</em> en el botón llamado <strong>Detectar portal</strong>, hecho esto, se nos abrirá una ventana como la siguiente, en la que indicaremos la dirección IP del <em>target</em> y el puerto:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows1.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows1.png" /></p>
 
 <p>Añadido nuestro servidor, si nos dirigimos en la pestaña <strong>Destinos</strong>, podremos apreciar como se han añadido a nuestra lista los dos <em>targets</em>, aunque actualmente se encuentran en un estado inactivo. Para activar la conexión al segundo <em>target</em>, <em>clickamos</em> en <strong>Conectar</strong>. Acto seguido nos aparecerá una ventana emergente, en la que tendremos que abrir las opciones avanzadas, y en ellas, activaremos la opción llamada <strong>Habilitar inicio de sesión CHAP</strong>, e introduciremos nuestras credenciales.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows2.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows2.png" /></p>
 
 <p>Tras ello, podremos disfrutar de nuestro cliente <em>Windows</em> conectado a nuestro <em>target</em>.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows3.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows3.png" /></p>
 
 <p>Una vez conectado, si nos dirigimos a <strong>Crear y formatear particiones del disco duro</strong>, podremos visualizar como se han añadido los dos nuevos discos a nuestro sistema:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows4.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows4.png" /></p>
 
 <p>Hecho esto, debemos inicializar ambos discos en nuestro sistema, para ello simplemente hacemos <em>click</em> derecho sobre el apartado de la izquierda y seleccionamos <strong>Inicializar disco</strong>. Nos aparecerá la siguiente ventana:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows5.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows5.png" /></p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows6.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows6.png" /></p>
 
 <p>Una vez los tengamos inicializados en nuestro sistema ya tendrán una tabla de particiones en su interior, de forma que tan sólo nos quedaría establecer un sistema de ficheros NTFS en ellos. Para ello, haremos <em>click</em> derecho sobre cada uno de ellos y seleccionaremos la opción llamada <strong>Nuevo volumen simple</strong>.</p>
 
 <p>Se nos abrirá una nueva ventana emergente que nos guiará mediante el proceso, el cuál consiste en pulsar <strong>Siguiente</strong> en repetidas ocasiones. El resultado final sería el siguiente:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows7.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows7.png" /></p>
 
 <p>Podemos ver como efectivamente ya poseen un sistema de ficheros NTFS, de manera que ya se encontrarían totalmente operativos en el sistema.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows8.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_utilización_de_iSCSI_en_Linux_y_Windows/windows8.png" /></p>
 
 <p>Con esto, ya hemos visto todo el contenido referente a este <em>post</em>, por lo que finalizaría aquí.</p>
 

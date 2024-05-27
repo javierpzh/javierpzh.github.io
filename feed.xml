@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:8000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:8000/" rel="alternate" type="text/html" /><updated>2023-06-17T19:34:45+02:00</updated><id>http://localhost:8000/feed.xml</id><title type="html">javierpzh</title><subtitle></subtitle><entry><title type="html">Como Actualizar Addons Del Repositorio Luar En Kodi</title><link href="http://localhost:8000/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi" rel="alternate" type="text/html" title="Como Actualizar Addons Del Repositorio Luar En Kodi" /><published>2022-10-15T00:00:00+02:00</published><updated>2022-10-15T00:00:00+02:00</updated><id>http://localhost:8000/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi</id><content type="html" xml:base="http://localhost:8000/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi">&lt;p&gt;En este breve artículo, vamos a ver como actualizar de manera sencilla los &lt;em&gt;AddOns&lt;/em&gt; del repositorio &lt;strong&gt;Luar&lt;/strong&gt; en &lt;strong&gt;Kodi&lt;/strong&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://www.javierpzh.es/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.javierpzh.es/" rel="alternate" type="text/html" /><updated>2024-05-27T21:37:58+02:00</updated><id>https://www.javierpzh.es/feed.xml</id><title type="html">javierpzh</title><subtitle></subtitle><entry><title type="html">Como Actualizar Addons Del Repositorio Luar En Kodi</title><link href="https://www.javierpzh.es/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi" rel="alternate" type="text/html" title="Como Actualizar Addons Del Repositorio Luar En Kodi" /><published>2022-10-15T00:00:00+02:00</published><updated>2022-10-15T00:00:00+02:00</updated><id>https://www.javierpzh.es/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi</id><content type="html" xml:base="https://www.javierpzh.es/blog/Como-actualizar-AddOns-del-repositorio-Luar-en-Kodi">&lt;p&gt;En este breve artículo, vamos a ver como actualizar de manera sencilla los &lt;em&gt;AddOns&lt;/em&gt; del repositorio &lt;strong&gt;Luar&lt;/strong&gt; en &lt;strong&gt;Kodi&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;En este blog no encontráreis ningún tipo de tutorial sobre como añadir este repositorio a &lt;em&gt;Kodi&lt;/em&gt;, ya que hay cientos de tutoriales en internet de cómo hacerlo, por lo que no aportaría nada relevante, simplemente voy a explicar como actualizar cualquier &lt;em&gt;AddOn&lt;/em&gt; de &lt;em&gt;Luar&lt;/em&gt;.&lt;/p&gt;
 
@@ -8,21 +8,21 @@
 
 &lt;p&gt;Una vez dentro, tendremos que descender hasta el apartado &lt;strong&gt;Herramientas&lt;/strong&gt;, donde aparece la opción &lt;strong&gt;Buscar Actualizaciones&lt;/strong&gt;. Esta funcionalidad lo que hace es, a raíz de los &lt;em&gt;AddOns&lt;/em&gt; de &lt;em&gt;Luar&lt;/em&gt; instalados en nuestro equipo, revisar de cada uno de ellos, cuál es la versión más reciente, y en caso de no coincidir con la versión instalada, nos facilita la actualización, de modo que podamos obtener las novedades de manera muy sencilla.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/repositorio_luar.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/repositorio_luar.jpeg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;En mi caso, al acceder a dicha funcionalidad, me indica y recomienda actualizar el &lt;em&gt;AddOn Winner 2&lt;/em&gt;. Si estamos de acuerdo en instalar la actualización, debemos hacer &lt;em&gt;click&lt;/em&gt; en ella.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/actualizaciones_luar.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/actualizaciones_luar.jpeg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Como último paso, nos abre una ventana en la que nos indica algunos detalles de la nueva versión del &lt;em&gt;AddOn&lt;/em&gt; en cuestión, y es en ésta, donde daremos la última orden de actualizar.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/actualización_luar.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/como_actualizar_addons_del_repositorio_luar_en_kodi/actualización_luar.jpeg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Tras esto, comenzará el proceso de actualización, que normalmente no llevará mucho tiempo. Al finalizar nos indicará en un &lt;em&gt;banner&lt;/em&gt; un mensaje informativo en el que nos informará que el proceso ha terminado de manera exitosa.&lt;/p&gt;
 
 &lt;p&gt;Como recomendación personal, tras llevar a cabo una actualización, reiniciar el programa para que el propio se inicie con las últimas configuraciones.&lt;/p&gt;
 
-&lt;p&gt;Con estos breves y simples pasos ya podremos actualizar cualquier &lt;em&gt;AddOn&lt;/em&gt; del repositorio &lt;em&gt;Luar&lt;/em&gt; que nos interese.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este breve artículo, vamos a ver como actualizar de manera sencilla los AddOns del repositorio Luar en Kodi.</summary></entry><entry><title type="html">Introducción Y Desarrollo De Vpn Con Wireguard</title><link href="http://localhost:8000/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard" rel="alternate" type="text/html" title="Introducción Y Desarrollo De Vpn Con Wireguard" /><published>2021-07-01T00:00:00+02:00</published><updated>2021-07-01T00:00:00+02:00</updated><id>http://localhost:8000/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard</id><content type="html" xml:base="http://localhost:8000/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard">&lt;p&gt;A día de hoy, nos encontramos con una situación de monopolio absoluto en el mundo de las VPN, liderado por &lt;strong&gt;OpenVPN&lt;/strong&gt;, que ya todos conoceréis, o incluso habréis trabajado con él.
+&lt;p&gt;Con estos breves y simples pasos ya podremos actualizar cualquier &lt;em&gt;AddOn&lt;/em&gt; del repositorio &lt;em&gt;Luar&lt;/em&gt; que nos interese.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este breve artículo, vamos a ver como actualizar de manera sencilla los AddOns del repositorio Luar en Kodi.</summary></entry><entry><title type="html">Introducción Y Desarrollo De Vpn Con Wireguard</title><link href="https://www.javierpzh.es/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard" rel="alternate" type="text/html" title="Introducción Y Desarrollo De Vpn Con Wireguard" /><published>2021-07-01T00:00:00+02:00</published><updated>2021-07-01T00:00:00+02:00</updated><id>https://www.javierpzh.es/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard</id><content type="html" xml:base="https://www.javierpzh.es/blog/introducci%C3%B3n-y-desarrollo-de-VPN-con-WireGuard">&lt;p&gt;A día de hoy, nos encontramos con una situación de monopolio absoluto en el mundo de las VPN, liderado por &lt;strong&gt;OpenVPN&lt;/strong&gt;, que ya todos conoceréis, o incluso habréis trabajado con él.
 He mencionado el término VPN, pero ¿qué es una VPN?&lt;/p&gt;
 
 &lt;h2 id=&quot;-qué-es-una-vpn-&quot;&gt;¿ Qué es una VPN ?&lt;/h2&gt;
@@ -37,7 +37,7 @@ He mencionado el término VPN, pero ¿qué es una VPN?&lt;/p&gt;
 
 &lt;p&gt;Bien, una vez conocemos lo que es una VPN y las ventajas que nos ofrece, es el momento de preguntarnos, ¿necesitamos las VPNs?&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficoVPN.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficoVPN.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;-son-necesarias-las-vpns-&quot;&gt;¿ Son necesarias las VPNs ?&lt;/h2&gt;
 
@@ -62,7 +62,7 @@ Como he dicho al principio, hoy en día nos encontramos con una gran monopolizac
 
 &lt;p&gt;Es una aplicación &lt;strong&gt;multiplataforma&lt;/strong&gt; (Linux, Windows, macOS, Android e iOS). Se presenta como una solución más rápida y sencilla que las existentes hasta la fecha, para aquellos usuarios que necesiten o deseen hacer uso de una VPN.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/wireguard.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/wireguard.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Nació en el año 2016, por lo que es una tecnología muy reciente, aún en desarrollo y no conocida por muchos. Está escrita por Jason A. Donenfeld en &lt;strong&gt;C++&lt;/strong&gt; y en &lt;strong&gt;Go&lt;/strong&gt;, y publicada bajo GPL.&lt;/p&gt;
 
@@ -91,7 +91,7 @@ Como he dicho al principio, hoy en día nos encontramos con una gran monopolizac
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficospinglatencia.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/gráficospinglatencia.png&quot; /&gt;&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
@@ -431,7 +431,7 @@ rtt min/avg/max/mdev = 18.946/20.402/21.957/1.231 ms
 
 &lt;p&gt;A continuación, voy a mostrar una captura de pantalla en la que visualizaremos la configuración de este nuevo cliente:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/1-W10-config.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/1-W10-config.jpeg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Antes de activar la conexión, añadiremos a nuestro servidor esta nueva sección &lt;em&gt;Peer&lt;/em&gt; y lo reiniciaremos para aplicar cambios:&lt;/p&gt;
 
@@ -445,11 +445,11 @@ PersistentKeepAlive = 25
 
 &lt;p&gt;Con el servidor listo, podremos activar el túnel desde nuestro cliente y automáticamente podremos visualizar la nueva interfaz con nuestra IP dentro de la red privada, además de poseer conexión a internet:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/2-W10-activate.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/2-W10-activate.jpeg&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/3-W10-direcciónIP.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/3-W10-direcciónIP.jpeg&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/4-W10-ping.jpeg&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/introducción_y_desarrollo_de_VPN_con_WireGuard/4-W10-ping.jpeg&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Además de esto, he preparado una pequeña demo en la que podremos ver en tiempo real tanto el servidor como el cliente, cuando estamos navegando y realizando transmisiones de datos.&lt;/p&gt;
 
@@ -532,7 +532,7 @@ PersistentKeepAlive = 25
 
 &lt;p&gt;También comentar que no hay que olvidar que se trata de una tecnología aún en desarrollo y que no posee todas las funcionalidades que seguramente incorporará más adelante.&lt;/p&gt;
 
-&lt;p&gt;Por mi parte, no tengo ninguna duda de que en el futuro se convertirá en una gran alternativa y un software utilizado por muchos usuarios.&lt;/p&gt;</content><author><name></name></author><summary type="html">A día de hoy, nos encontramos con una situación de monopolio absoluto en el mundo de las VPN, liderado por OpenVPN, que ya todos conoceréis, o incluso habréis trabajado con él. He mencionado el término VPN, pero ¿qué es una VPN?</summary></entry><entry><title type="html">Implantación De Aplicaciones Web Php En Docker</title><link href="http://localhost:8000/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker" rel="alternate" type="text/html" title="Implantación De Aplicaciones Web Php En Docker" /><published>2021-03-07T00:00:00+01:00</published><updated>2021-03-07T00:00:00+01:00</updated><id>http://localhost:8000/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker</id><content type="html" xml:base="http://localhost:8000/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker">&lt;p&gt;En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en &lt;strong&gt;PHP&lt;/strong&gt; en contenedores &lt;strong&gt;Docker&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Por mi parte, no tengo ninguna duda de que en el futuro se convertirá en una gran alternativa y un software utilizado por muchos usuarios.&lt;/p&gt;</content><author><name></name></author><summary type="html">A día de hoy, nos encontramos con una situación de monopolio absoluto en el mundo de las VPN, liderado por OpenVPN, que ya todos conoceréis, o incluso habréis trabajado con él. He mencionado el término VPN, pero ¿qué es una VPN?</summary></entry><entry><title type="html">Implantación De Aplicaciones Web Php En Docker</title><link href="https://www.javierpzh.es/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker" rel="alternate" type="text/html" title="Implantación De Aplicaciones Web Php En Docker" /><published>2021-03-07T00:00:00+01:00</published><updated>2021-03-07T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker</id><content type="html" xml:base="https://www.javierpzh.es/blog/implantaci%C3%B3n-de-aplicaciones-web-PHP-en-Docker">&lt;p&gt;En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en &lt;strong&gt;PHP&lt;/strong&gt; en contenedores &lt;strong&gt;Docker&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;Todos los ficheros necesarios y utilizados, se pueden encontrar en &lt;a href=&quot;https://github.com/javierpzh/Implantacion-de-aplicaciones-web-PHP-en-Docker&quot;&gt;este repositorio&lt;/a&gt; de &lt;em&gt;GitHub&lt;/em&gt;.&lt;/p&gt;
 
@@ -710,11 +710,11 @@ aef84a1160f0        mariadb                  &quot;docker-entrypoint.s…&quot; 
 
 &lt;p&gt;Efectivamente se están ejecutando los dos contenedores, por lo que es el momento de a acceder a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik1.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Vamos a &lt;em&gt;loguearnos&lt;/em&gt; mediante las credenciales por defecto: &lt;strong&gt;admin/admin&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/bookmedik2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;¡Bien! Vemos como nos muestra la aplicación &lt;em&gt;BookMedik&lt;/em&gt; por lo que habríamos finalizado este apartado.&lt;/p&gt;
 
@@ -865,11 +865,11 @@ aef84a1160f0        mariadb                  &quot;docker-entrypoint.s…&quot; 
 
 &lt;p&gt;Es el momento de a acceder a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/phpbookmedik1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/phpbookmedik1.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Vamos a &lt;em&gt;loguearnos&lt;/em&gt; mediante las credenciales por defecto: &lt;strong&gt;admin/admin&lt;/strong&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/phpbookmedik2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/phpbookmedik2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;¡Bien! Vemos como nos sigue mostrando la aplicación &lt;em&gt;BookMedik&lt;/em&gt;, pero ahora está ejecutándose en un contenedor creado a partir de una imagen distinta, en esta caso, la oficial de PHP.&lt;/p&gt;
 
@@ -1077,7 +1077,7 @@ Creating bookmedik-php ... done
 
 &lt;p&gt;Es el momento de a acceder a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/403.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/403.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Aún no he conseguido solventar este problema.&lt;/p&gt;
 
@@ -1201,19 +1201,19 @@ Creating prestashop       ... done
 
 &lt;p&gt;Es el momento de a acceder a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop1.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Podemos ver como nos muestra el instalador de &lt;em&gt;Prestashop&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;Conectamos la aplicación al contenedor que se encuentra ejecutando la base de datos:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Y terminada la instalación, podremos ver nuestro CMS listo:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop3.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop3.png&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop4.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop4.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Para finalizar, vamos a destruir los contenedores y los volveremos a generar, para ver como seguimos poseyendo la información:&lt;/p&gt;
 
@@ -1229,9 +1229,9 @@ Creating prestashop       ... done
 
 &lt;p&gt;Accedemos de nuevo a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop5.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop5.png&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop4.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/prestashop4.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;¡Bien! Podemos ver como nuestra aplicación sigue manteniendo los datos de nuestra tienda, por lo que habría terminado el proceso.&lt;/p&gt;
 
@@ -1305,21 +1305,21 @@ Creating drupal-mysql ... done
 
 &lt;p&gt;Es el momento de a acceder a la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;127.0.0.1:8080&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal1.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Podemos ver como nos muestra el instalador de &lt;em&gt;Drupal&lt;/em&gt;, por lo que continuamos el proceso indicando las credenciales de nuestra base de datos:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Esperamos que terminen de instalarse los distintos componentes de &lt;em&gt;Drupal&lt;/em&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal3.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal3.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Y terminada la instalación, ya podríamos disfruta de nuestro CMS:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal4.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_implantación_de_aplicaciones_web_PHP_en_Docker/drupal4.png&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;¡Bien! Ya habríamos terminado de desplegar &lt;em&gt;Drupal&lt;/em&gt; en contenedores &lt;em&gt;Docker&lt;/em&gt;, y con ello este apartado y también el &lt;em&gt;post&lt;/em&gt; en sí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en PHP en contenedores Docker.</summary></entry><entry><title type="html">Despliegue De Un Cluster De Kubernetes</title><link href="http://localhost:8000/blog/despliegue-de-un-cluster-de-kubernetes" rel="alternate" type="text/html" title="Despliegue De Un Cluster De Kubernetes" /><published>2021-03-06T00:00:00+01:00</published><updated>2021-03-06T00:00:00+01:00</updated><id>http://localhost:8000/blog/despliegue-de-un-cluster-de-kubernetes</id><content type="html" xml:base="http://localhost:8000/blog/despliegue-de-un-cluster-de-kubernetes">&lt;p&gt;En este artículo vamos a crear un &lt;strong&gt;cluster de Kubernetes (k8s)&lt;/strong&gt; y para ello he decidido utilizar la distribución &lt;strong&gt;k3s&lt;/strong&gt;. Posteriormente, desplegaremos la aplicación &lt;strong&gt;Let’s Chat&lt;/strong&gt; en él.&lt;/p&gt;
+&lt;p&gt;¡Bien! Ya habríamos terminado de desplegar &lt;em&gt;Drupal&lt;/em&gt; en contenedores &lt;em&gt;Docker&lt;/em&gt;, y con ello este apartado y también el &lt;em&gt;post&lt;/em&gt; en sí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo voy a realizar el despliegue de varias aplicaciones web escritas en PHP en contenedores Docker.</summary></entry><entry><title type="html">Despliegue De Un Cluster De Kubernetes</title><link href="https://www.javierpzh.es/blog/despliegue-de-un-cluster-de-kubernetes" rel="alternate" type="text/html" title="Despliegue De Un Cluster De Kubernetes" /><published>2021-03-06T00:00:00+01:00</published><updated>2021-03-06T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/despliegue-de-un-cluster-de-kubernetes</id><content type="html" xml:base="https://www.javierpzh.es/blog/despliegue-de-un-cluster-de-kubernetes">&lt;p&gt;En este artículo vamos a crear un &lt;strong&gt;cluster de Kubernetes (k8s)&lt;/strong&gt; y para ello he decidido utilizar la distribución &lt;strong&gt;k3s&lt;/strong&gt;. Posteriormente, desplegaremos la aplicación &lt;strong&gt;Let’s Chat&lt;/strong&gt; en él.&lt;/p&gt;
 
 &lt;p&gt;Todo el proceso se llevará a cabo en varias instancias de &lt;em&gt;OpenStack&lt;/em&gt;:&lt;/p&gt;
 
@@ -1339,7 +1339,7 @@ Creating drupal-mysql ... done
 
 &lt;p&gt;A continuación podemos ver un diagrama acerca de la estructura interna de &lt;em&gt;k3s&lt;/em&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/estructurainterna.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/estructurainterna.png&quot; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;instalación-de-k3s-en-el-controlador&quot;&gt;Instalación de k3s en el controlador&lt;/h2&gt;
 
@@ -1655,7 +1655,7 @@ NodePort:                 http  32094/TCP
 
 &lt;p&gt;Podemos ver como, en mi caso, está utilizando el puerto 32094, por tanto yo introduciré en mi navegador la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;172.22.201.59:32094&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;¡Vaya! Aquí podemos ver como efectivamente poseemos nuestra aplicación.&lt;/p&gt;
 
@@ -1691,7 +1691,7 @@ ingress-letschat    none    www.letschat.com   10.0.0.13   80      30s
 
 &lt;p&gt;Hecho esto, nos dirigimos a nuestro navegador e introducimos la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.letschat.com&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat80.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_despliegue_de_un_cluster_de_kubernetes/letschat80.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;¡Bien! Ahora podremos acceder a &lt;em&gt;Let’s Chat&lt;/em&gt; siempre que queramos en la dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.letschat.com&lt;/code&gt;.&lt;/p&gt;
 
@@ -1726,7 +1726,7 @@ letschat-7c66bd64f5-pl4gx   1/1     Running   0          4s     10.42.2.8    wor
 
 &lt;p&gt;Podemos apreciar, como efectivamente el número de &lt;em&gt;pods&lt;/em&gt; de &lt;em&gt;Let’s Chat&lt;/em&gt; se ha escalado a 4, donde uno de ellos se está ejecutando en el nodo maestro, dos de ellos en el &lt;em&gt;worker2&lt;/em&gt;, y el último en el &lt;em&gt;worker1&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;Visto esto, habremos terminado con el contenido de este &lt;em&gt;post&lt;/em&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a crear un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Posteriormente, desplegaremos la aplicación Let’s Chat en él.</summary></entry><entry><title type="html">Auditorías De Bases De Datos</title><link href="http://localhost:8000/blog/auditor%C3%ADas-de-bases-de-datos" rel="alternate" type="text/html" title="Auditorías De Bases De Datos" /><published>2021-03-05T00:00:00+01:00</published><updated>2021-03-05T00:00:00+01:00</updated><id>http://localhost:8000/blog/auditor%C3%ADas-de-bases-de-datos</id><content type="html" xml:base="http://localhost:8000/blog/auditor%C3%ADas-de-bases-de-datos">&lt;h2 id=&quot;oracle&quot;&gt;Oracle&lt;/h2&gt;
+&lt;p&gt;Visto esto, habremos terminado con el contenido de este &lt;em&gt;post&lt;/em&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a crear un cluster de Kubernetes (k8s) y para ello he decidido utilizar la distribución k3s. Posteriormente, desplegaremos la aplicación Let’s Chat en él.</summary></entry><entry><title type="html">Auditorías De Bases De Datos</title><link href="https://www.javierpzh.es/blog/auditor%C3%ADas-de-bases-de-datos" rel="alternate" type="text/html" title="Auditorías De Bases De Datos" /><published>2021-03-05T00:00:00+01:00</published><updated>2021-03-05T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/auditor%C3%ADas-de-bases-de-datos</id><content type="html" xml:base="https://www.javierpzh.es/blog/auditor%C3%ADas-de-bases-de-datos">&lt;h2 id=&quot;oracle&quot;&gt;Oracle&lt;/h2&gt;
 
 &lt;h4 id=&quot;vamos-a-activar-las-auditorías-en-nuestro-servidor&quot;&gt;Vamos a activar las auditorías en nuestro servidor.&lt;/h4&gt;
 
@@ -2169,9 +2169,9 @@ MariaDB [scott]&amp;gt; SHOW PROFILES;
 6 rows in set (0.000 sec)
 &lt;/pre&gt;
 
-&lt;p&gt;Podemos ver como nos muestra las sentencias introducidas, por lo que esta auditoría sería de &lt;strong&gt;grano fino&lt;/strong&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">Oracle</summary></entry><entry><title type="html">Configuración De Un Proxy Inverso Con Apache</title><link href="http://localhost:8000/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache" rel="alternate" type="text/html" title="Configuración De Un Proxy Inverso Con Apache" /><published>2021-03-03T00:00:00+01:00</published><updated>2021-03-03T00:00:00+01:00</updated><id>http://localhost:8000/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache</id><content type="html" xml:base="http://localhost:8000/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache">&lt;p&gt;En este artículo vamos a instalar un &lt;strong&gt;proxy inverso&lt;/strong&gt; con &lt;em&gt;Apache&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Podemos ver como nos muestra las sentencias introducidas, por lo que esta auditoría sería de &lt;strong&gt;grano fino&lt;/strong&gt;.&lt;/p&gt;</content><author><name></name></author><summary type="html">Oracle</summary></entry><entry><title type="html">Configuración De Un Proxy Inverso Con Apache</title><link href="https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache" rel="alternate" type="text/html" title="Configuración De Un Proxy Inverso Con Apache" /><published>2021-03-03T00:00:00+01:00</published><updated>2021-03-03T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache</id><content type="html" xml:base="https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-Proxy-Inverso-con-Apache">&lt;p&gt;En este artículo vamos a instalar un &lt;strong&gt;proxy inverso&lt;/strong&gt; con &lt;em&gt;Apache&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;El escenario en el que vamos a trabajar, está definido en este &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/Vagrantfile.txt&quot;&gt;Vagrantfile&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;El escenario en el que vamos a trabajar, está definido en este &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/Vagrantfile.txt&quot;&gt;Vagrantfile&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Tendremos una máquina llamada &lt;strong&gt;balanceador&lt;/strong&gt; que estará conectada a nuestra red doméstica, de manera que podremos acceder a ella, además de estar conectada a una red privada, a la que también pertenecerán dos máquinas, cada una con un servidor &lt;em&gt;Apache&lt;/em&gt; y que servirán webs distintas.&lt;/p&gt;
 
@@ -2301,11 +2301,11 @@ systemctl restart apache2
 
 &lt;p&gt;Si accedemos desde nuestro navegador a la web &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.app1.org&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Y si accedemos desde nuestro navegador a la web &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.app2.org&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Podemos ver como efectivamente, el funcionamiento es el correcto y estamos accediendo a las distintas webs diferenciando mediante nombres de dominio.&lt;/p&gt;
 
@@ -2361,17 +2361,17 @@ systemctl restart apache2
 
 &lt;p&gt;Si accedemos desde nuestro navegador a la URL &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.proxyinverso.org/app1/&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web1.2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Y si accedemos desde nuestro navegador a la URL &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;www.proxyinverso.org/app2/&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_ProxyInverso_con_Apache/web2.2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Podemos ver como efectivamente, el funcionamiento es el correcto y ahora estamos accediendo a las distintas webs diferenciando mediante las URLs.&lt;/p&gt;
 
-&lt;p&gt;Ya hemos visto todo lo relativo a esta entrada, por lo que este &lt;em&gt;post&lt;/em&gt; finalizaría aquí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a instalar un proxy inverso con Apache.</summary></entry><entry><title type="html">Configuración De Un Proxy Squid</title><link href="http://localhost:8000/blog/Configuraci%C3%B3n-de-un-proxy-Squid" rel="alternate" type="text/html" title="Configuración De Un Proxy Squid" /><published>2021-03-03T00:00:00+01:00</published><updated>2021-03-03T00:00:00+01:00</updated><id>http://localhost:8000/blog/Configuraci%C3%B3n-de-un-proxy-Squid</id><content type="html" xml:base="http://localhost:8000/blog/Configuraci%C3%B3n-de-un-proxy-Squid">&lt;p&gt;En este artículo vamos a instalar un &lt;em&gt;proxy&lt;/em&gt; &lt;strong&gt;Squid&lt;/strong&gt; para configurar nuestro cliente para que acceda a internet por medio de este &lt;em&gt;proxy&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Ya hemos visto todo lo relativo a esta entrada, por lo que este &lt;em&gt;post&lt;/em&gt; finalizaría aquí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a instalar un proxy inverso con Apache.</summary></entry><entry><title type="html">Configuración De Un Proxy Squid</title><link href="https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-proxy-Squid" rel="alternate" type="text/html" title="Configuración De Un Proxy Squid" /><published>2021-03-03T00:00:00+01:00</published><updated>2021-03-03T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-proxy-Squid</id><content type="html" xml:base="https://www.javierpzh.es/blog/Configuraci%C3%B3n-de-un-proxy-Squid">&lt;p&gt;En este artículo vamos a instalar un &lt;em&gt;proxy&lt;/em&gt; &lt;strong&gt;Squid&lt;/strong&gt; para configurar nuestro cliente para que acceda a internet por medio de este &lt;em&gt;proxy&lt;/em&gt;.&lt;/p&gt;
 
-&lt;p&gt;El escenario en el que vamos a trabajar, está definido en este &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/Vagrantfile.txt&quot;&gt;Vagrantfile&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;El escenario en el que vamos a trabajar, está definido en este &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/Vagrantfile.txt&quot;&gt;Vagrantfile&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h4 id=&quot;instalación&quot;&gt;Instalación&lt;/h4&gt;
 
@@ -2466,7 +2466,7 @@ tail -f /var/log/squid/access.log
 
 &lt;p&gt;Para configurar el &lt;em&gt;proxy&lt;/em&gt; en nuestro navegador, en mi caso, explicaré como es el proceso en &lt;strong&gt;Firefox&lt;/strong&gt;, nos dirigimos a &lt;strong&gt;Preferencias&lt;/strong&gt;, y en el apartado &lt;strong&gt;General&lt;/strong&gt;, al final nos aparece una sección llamada &lt;strong&gt;Configuración de red&lt;/strong&gt;, dentro de su configuración podremos establecer manualmente nuestro &lt;em&gt;proxy&lt;/em&gt;.ç&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/proxyfirefox.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/proxyfirefox.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Establecido el &lt;em&gt;proxy&lt;/em&gt; vamos a probar a acceder a diferentes webs como pueden ser &lt;a href=&quot;https://javierpzh.github.io/&quot;&gt;javierpzh.github.io&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com&quot;&gt;www.youtube.com&lt;/a&gt; y &lt;a href=&quot;https://www.google.com/&quot;&gt;www.google.com&lt;/a&gt;.&lt;/p&gt;
 
@@ -2496,15 +2496,15 @@ root@proxy:~# tail -f /var/log/squid/access.log
 
 &lt;p&gt;Para ello, antes, vamos a dirigirnos de nuevo a la configuración del navegador, a la parte de la configuración del &lt;em&gt;proxy&lt;/em&gt; e indicaremos que use la configuración &lt;em&gt;proxy&lt;/em&gt; del sistema.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/proxyfirefox2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/proxyfirefox2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Hecho esto, tendremos que configurar el sistema para que por defecto utilice nuestro &lt;em&gt;proxy&lt;/em&gt;. Este proceso lo realizaremos en el apartado &lt;strong&gt;Configuración del sistema&lt;/strong&gt;, en la sección de &lt;strong&gt;Red&lt;/strong&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/configuracionred.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/configuracionred.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Configuraremos el &lt;em&gt;proxy&lt;/em&gt; de manera manual de la siguiente manera:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/configuracionredproxy.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/configuracionredproxy.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Con esto habríamos terminado de configurar nuestro sistema para que utilice el &lt;em&gt;proxy Squid&lt;/em&gt;.&lt;/p&gt;
 
@@ -2689,11 +2689,11 @@ tail -f /var/log/squid/access.log
 
 &lt;p&gt;En mi caso, sigo teniendo establecida la configuración del &lt;em&gt;proxy&lt;/em&gt;, de manera que vamos a probar a acceder a &lt;a href=&quot;https://www.facebook.com/&quot;&gt;www.facebook.com&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/facebook.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/facebook.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Vemos que no nos permite acceder a la web, por lo que, parece que el funcionamiento es el correcto, pero ahora, voy a probar a acceder a cualquier otra web, para asegurarme que el &lt;em&gt;proxy&lt;/em&gt; solo esté bloqueando la conexión a &lt;em&gt;Facebook&lt;/em&gt; y no a todas las webs. Intento acceder a &lt;a href=&quot;https://www.amazon.es/&quot;&gt;www.amazon.es&lt;/a&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/amazon.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/amazon.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Una vez comprobamos que a ésta sí nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:&lt;/p&gt;
 
@@ -2802,11 +2802,11 @@ tail -f /var/log/squid/access.log
 
 &lt;p&gt;En mi caso, sigo teniendo establecida la configuración del &lt;em&gt;proxy&lt;/em&gt;, de manera que vamos a probar a acceder a &lt;a href=&quot;https://javierpzh.github.io/&quot;&gt;javierpzh.github.io&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/mipagina.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/mipagina.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Vemos que nos permite acceder a la web, por lo que, de momento el funcionamiento es el correcto, pero ahora, para terminar de comprobarlo, voy a probar a acceder a cualquier otra web, para asegurarme que el &lt;em&gt;proxy&lt;/em&gt; esté bloqueando cualquier tipo de conexión que no sea a mi web. Intento acceder a &lt;a href=&quot;https://www.amazon.es/&quot;&gt;www.amazon.es&lt;/a&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_Configuración_de_un_proxy_Squid/amazon2.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_Configuración_de_un_proxy_Squid/amazon2.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Una vez comprobamos que a ésta web no nos permite acceder, vamos a revisar el proceso que dejamos en ejecución en nuestra terminal:&lt;/p&gt;
 
@@ -2816,7 +2816,7 @@ root@proxy:~# tail -f /var/log/squid/access.log
 1614082237.344      0 192.168.200.1 TCP_DENIED/403 3959 CONNECT www.amazon.es:443 - HIER_NONE/- text/html
 &lt;/pre&gt;
 
-&lt;p&gt;¡Perfecto! Ya tendríamos funcionando nuestra lista blanca.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este proxy.</summary></entry><entry><title type="html">Vpn Con Openvpn Y Certificados X509</title><link href="http://localhost:8000/blog/VPN-con-OpenVPN-y-certificados-x509" rel="alternate" type="text/html" title="Vpn Con Openvpn Y Certificados X509" /><published>2021-03-02T00:00:00+01:00</published><updated>2021-03-02T00:00:00+01:00</updated><id>http://localhost:8000/blog/VPN-con-OpenVPN-y-certificados-x509</id><content type="html" xml:base="http://localhost:8000/blog/VPN-con-OpenVPN-y-certificados-x509">&lt;h2 id=&quot;qué-es-una-vpn&quot;&gt;¿Qué es una VPN?&lt;/h2&gt;
+&lt;p&gt;¡Perfecto! Ya tendríamos funcionando nuestra lista blanca.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a instalar un proxy Squid para configurar nuestro cliente para que acceda a internet por medio de este proxy.</summary></entry><entry><title type="html">Vpn Con Openvpn Y Certificados X509</title><link href="https://www.javierpzh.es/blog/VPN-con-OpenVPN-y-certificados-x509" rel="alternate" type="text/html" title="Vpn Con Openvpn Y Certificados X509" /><published>2021-03-02T00:00:00+01:00</published><updated>2021-03-02T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/VPN-con-OpenVPN-y-certificados-x509</id><content type="html" xml:base="https://www.javierpzh.es/blog/VPN-con-OpenVPN-y-certificados-x509">&lt;h2 id=&quot;qué-es-una-vpn&quot;&gt;¿Qué es una VPN?&lt;/h2&gt;
 
 &lt;p&gt;Una &lt;strong&gt;VPN (Virtual Private Network)&lt;/strong&gt; es una tecnología que permite una conexión segura a otra red mediante una red pública. Permite, además, enviar y recibir datos como si se formase parte de la red local o privada, obteniendo así las funcionalidades que dicha red ofrece.&lt;/p&gt;
 
@@ -2838,8 +2838,8 @@ root@proxy:~# tail -f /var/log/squid/access.log
 &lt;p&gt;He creado los siguientes escenarios:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;Fichero Vagrantfile Servidor:&lt;/strong&gt; &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_VPN_con_OpenVPN_y_certificados_x509/Vagrantfileservidor.txt&quot;&gt;Vagrantfile&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Fichero Vagrantfile Cliente:&lt;/strong&gt; &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sad_VPN_con_OpenVPN_y_certificados_x509/Vagrantfilecliente.txt&quot;&gt;Vagrantfile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Fichero Vagrantfile Servidor:&lt;/strong&gt; &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sad_VPN_con_OpenVPN_y_certificados_x509/Vagrantfileservidor.txt&quot;&gt;Vagrantfile&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Fichero Vagrantfile Cliente:&lt;/strong&gt; &lt;a href=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sad_VPN_con_OpenVPN_y_certificados_x509/Vagrantfilecliente.txt&quot;&gt;Vagrantfile&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h5 id=&quot;escenario-servidor&quot;&gt;Escenario Servidor&lt;/h5&gt;
@@ -3808,7 +3808,7 @@ rtt min/avg/max/mdev = 2.574/2.757/2.956/0.162 ms
 
 &lt;p&gt;Vemos como puedo hacer &lt;em&gt;ping&lt;/em&gt; a la máquina servidor de Álvaro, y también a su máquina cliente que únicamente está conectada a su red privada. Mi compañero también tiene accesible mis dos máquinas, por lo que, el proceso habría terminado correctamente.&lt;/p&gt;
 
-&lt;p&gt;Con esto, el contenido del &lt;em&gt;post&lt;/em&gt; habría finalizado.&lt;/p&gt;</content><author><name></name></author><summary type="html">¿Qué es una VPN?</summary></entry><entry><title type="html">Aumento De Rendimiento De Servidores Web Con Varnish</title><link href="http://localhost:8000/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" rel="alternate" type="text/html" title="Aumento De Rendimiento De Servidores Web Con Varnish" /><published>2021-02-26T00:00:00+01:00</published><updated>2021-02-26T00:00:00+01:00</updated><id>http://localhost:8000/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish</id><content type="html" xml:base="http://localhost:8000/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish">&lt;p&gt;En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con &lt;strong&gt;Varnish&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Con esto, el contenido del &lt;em&gt;post&lt;/em&gt; habría finalizado.&lt;/p&gt;</content><author><name></name></author><summary type="html">¿Qué es una VPN?</summary></entry><entry><title type="html">Aumento De Rendimiento De Servidores Web Con Varnish</title><link href="https://www.javierpzh.es/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish" rel="alternate" type="text/html" title="Aumento De Rendimiento De Servidores Web Con Varnish" /><published>2021-02-26T00:00:00+01:00</published><updated>2021-02-26T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish</id><content type="html" xml:base="https://www.javierpzh.es/blog/Aumento-de-rendimiento-de-servidores-web-con-Varnish">&lt;p&gt;En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con &lt;strong&gt;Varnish&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;p&gt;Para ello, antes, vamos a comparar el rendimiento de distintas configuraciones de servidores web sirviendo páginas dinámicas programadas con &lt;em&gt;PHP&lt;/em&gt;, en concreto, vamos a servir un &lt;em&gt;CMS Wordpress&lt;/em&gt;.&lt;/p&gt;
 
@@ -3830,7 +3830,7 @@ ab -t 10 -c 200 -k http://172.22.x.x/wordpress/index.php
 
 &lt;p&gt;Después de hacer muchas pruebas de rendimiento con un número variable de peticiones concurrentes (1, 10, 25, 50, 75, 100, 250, 500, 1000) y distintas direcciones del &lt;em&gt;Wordpress&lt;/em&gt;, los resultados obtenidos son los siguientes:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/grafica.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/grafica.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;NOTA:&lt;/strong&gt; No es importante el número concreto de peticiones/segundo. Puede variar por muchas razones, como pueden ser:&lt;/p&gt;
 
@@ -3934,15 +3934,15 @@ nodo1                      : ok=17   changed=14   unreachable=0    failed=0
 
 &lt;p&gt;Terminado el proceso, automáticamente tendremos listo nuestro servidor web, en la dirección IP especificada. En mi caso es la &lt;em&gt;192.168.0.35&lt;/em&gt;, por lo que si me dirijo al navegador e introduzco dicha dirección me aparece la siguiente web:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/nginx.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/nginx.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Podemos ver como efectivamente se encuentra ejecutándose el servidor &lt;em&gt;Nginx&lt;/em&gt;, pero, ¿se estará ejecutando el proceso adecuado para &lt;em&gt;Wordpress&lt;/em&gt;? Para comprobarlo, vamos a añadir a nuestra dirección &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/wordpress&lt;/code&gt;:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/wordpress.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/wordpress.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Parece ser que también disponemos de nuestro &lt;em&gt;Wordpress&lt;/em&gt;, así que vamos a terminar la instalación de esta nueva web y acceder a su panel de administración:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/panelwordpress.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_aumento_de_rendimiento_de_servidores_web_con_Varnish/panelwordpress.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;2. Vamos a hacer las pruebas de rendimiento desde la misma máquina. Para ello, vamos a ejecutar instrucciones similares a esta:&lt;/strong&gt;&lt;/p&gt;
 
@@ -4072,7 +4072,7 @@ root@varnish:~# tail -f /var/log/nginx/access.log
 127.0.0.1 - - [26/Feb/2021:19:22:36 +0000] &quot;GET /wordpress/index.php HTTP/1.1&quot; 301 5 &quot;-&quot; &quot;ApacheBench/2.3&quot;
 &lt;/pre&gt;
 
-&lt;p&gt;Como podemos apreciar tenemos una sola petición, lo que significa que habríamos terminado este pequeño ejercicio en el que se demuestra el aumento de rendimiento con &lt;em&gt;Varnish&lt;/em&gt;, por lo que este &lt;em&gt;post&lt;/em&gt; finalizaría aquí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con Varnish.</summary></entry><entry><title type="html">Almacenamiento De Bases De Datos</title><link href="http://localhost:8000/blog/almacenamiento-de-bases-de-datos" rel="alternate" type="text/html" title="Almacenamiento De Bases De Datos" /><published>2021-02-25T00:00:00+01:00</published><updated>2021-02-25T00:00:00+01:00</updated><id>http://localhost:8000/blog/almacenamiento-de-bases-de-datos</id><content type="html" xml:base="http://localhost:8000/blog/almacenamiento-de-bases-de-datos">&lt;h2 id=&quot;oracle&quot;&gt;Oracle&lt;/h2&gt;
+&lt;p&gt;Como podemos apreciar tenemos una sola petición, lo que significa que habríamos terminado este pequeño ejercicio en el que se demuestra el aumento de rendimiento con &lt;em&gt;Varnish&lt;/em&gt;, por lo que este &lt;em&gt;post&lt;/em&gt; finalizaría aquí.&lt;/p&gt;</content><author><name></name></author><summary type="html">En este artículo vamos a ver como podemos aumentar el rendimiento de nuestro servidor web con Varnish.</summary></entry><entry><title type="html">Almacenamiento De Bases De Datos</title><link href="https://www.javierpzh.es/blog/almacenamiento-de-bases-de-datos" rel="alternate" type="text/html" title="Almacenamiento De Bases De Datos" /><published>2021-02-25T00:00:00+01:00</published><updated>2021-02-25T00:00:00+01:00</updated><id>https://www.javierpzh.es/blog/almacenamiento-de-bases-de-datos</id><content type="html" xml:base="https://www.javierpzh.es/blog/almacenamiento-de-bases-de-datos">&lt;h2 id=&quot;oracle&quot;&gt;Oracle&lt;/h2&gt;
 
 &lt;h4 id=&quot;vamos-a-establecer-que-los-objetos-que-se-creen-en-el-ts1-tengan-un-tamaño-inicial-de-200k-y-que-cada-extensión-sea-del-doble-del-tamaño-que-la-anterior-el-número-máximo-de-extensiones-será-de-3&quot;&gt;Vamos a establecer que los objetos que se creen en el ‘TS1’ tengan un tamaño inicial de 200K, y que cada extensión sea del doble del tamaño que la anterior. El número máximo de extensiones será de 3.&lt;/h4&gt;
 
@@ -4360,7 +4360,7 @@ C:\APP\JAVIER\ORADATA\ORCL\USERS01.DBF
 
 &lt;p&gt;Este gráfico resume lo explicado:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/abd_almacenamiento_de_bases_de_datos/grafico.ej.postgresql.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/abd_almacenamiento_de_bases_de_datos/grafico.ej.postgresql.png&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Entendido lo que son los &lt;em&gt;segmentos&lt;/em&gt; y las &lt;em&gt;extensiones&lt;/em&gt; en &lt;em&gt;Oracle&lt;/em&gt;, vamos a ver su comportamiento en &lt;strong&gt;PostgreSQL&lt;/strong&gt;.&lt;/p&gt;
 

@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Instalación de un servidor LEMP" />
 <meta property="og:description" content="Instalación de un servidor LEMP" />
-<link rel="canonical" href="http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
-<meta property="og:url" content="http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<link rel="canonical" href="https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:url" content="https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
 <meta property="og:site_name" content="javierpzh" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-11-09T00:00:00+01:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP" />
 <meta property="twitter:title" content="Instalación De Un Servidor Lemp" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP"},"description":"Instalación de un servidor LEMP","@type":"BlogPosting","headline":"Instalación De Un Servidor Lemp","dateModified":"2020-11-09T00:00:00+01:00","datePublished":"2020-11-09T00:00:00+01:00","url":"http://localhost:8000/blog/Instalaci%C3%B3n-de-un-servidor-LEMP","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP"},"description":"Instalación de un servidor LEMP","@type":"BlogPosting","headline":"Instalación De Un Servidor Lemp","dateModified":"2020-11-09T00:00:00+01:00","datePublished":"2020-11-09T00:00:00+01:00","url":"https://www.javierpzh.es/blog/Instalaci%C3%B3n-de-un-servidor-LEMP","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -29,7 +29,7 @@
     <link
       rel="stylesheet"
       href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-    /><link type="application/atom+xml" rel="alternate" href="http://localhost:8000/feed.xml" title="javierpzh" />
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.es/feed.xml" title="javierpzh" />
 
 <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
@@ -251,23 +251,23 @@ apt install php php-fpm -y
 <p>Vamos a crear un nuevo sitio web al que se accederá mediante la dirección <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>. Antes de empezar la configuración de <em>Nginx</em>, vamos a añadir un registro <strong>CNAME</strong> en nuestra <strong>nuestra zona DNS de OVH</strong>.
 Para realizar este paso, nos dirigimos a nuestra zona DNS de OVH:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/zonadnsovh.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/zonadnsovh.png" /></p>
 
 <p>Una vez aquí, antes de crear el nuevo registro tenemos que eliminar el registro existente que hace uso del subdominio <code class="language-plaintext highlighter-rouge">www.iesgn15.es</code>. Este registro no lo he creado yo, sino que venía por defecto, y además es un registro de tipo <strong>TXT</strong>, es decir que no es importante y no afectará a ningún servicio, por tanto lo eliminamos:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/borrartxtpordefecto.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/borrartxtpordefecto.png" /></p>
 
 <p>Una vez tenemos el subdominio que queremos libre y utilizable, procedemos a crear el nuevo registro como se puede ver en la siguiente imagen:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnameconfiguracion.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnameconfiguracion.png" /></p>
 
 <p>Vemos como nos avisa que vamos a crear un registro de tipo <strong>CNAME</strong>, cuyo dominio será <strong>www.iesgn15.es</strong> y su destino va a ser <strong>vpsjavierpzh.iesgn15.es.</strong> . Es importante no olvidar este último punto final si queremos utilizar la notación absoluta. Este destino que hemos añadido, correspondería a la dirección IP del servidor, lo que pasa es que en mi servidor tengo creado un registro de tipo <strong>A</strong> que apunta a esta dirección IP, por tanto hago uso de este registro. Por último, podemos apreciar que nos advierte que este cambio puede tardar en ser efectivo hasta 24 horas, así que no debemos preocuparnos si al instante no obtenemos el resultado obtenido.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecrear.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecrear.png" /></p>
 
 <p>Ya hemos creado el nuevo registro:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecreado.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/cnamecreado.png" /></p>
 
 <p>Una vez hemos realizado las modificaciones necesarias en la configuración del servidor, podemos pasar a configurar <em>Nginx</em>.</p>
 
@@ -453,7 +453,7 @@ chown -R www-data:www-data /srv/
 
 <p>Accedemos a la <a href="http://www.iesgn15.es">página</a>.</p>
 
-<p>&lt;img src=”https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/wwwiesgn15es.png)</p>
+<p>&lt;img src=”https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/wwwiesgn15es.png)</p>
 
 <p>Además de visualizar la nueva web, es importante fijarse en la URL y apreciar que nos ha realizado la redirección a la página <code class="language-plaintext highlighter-rouge">/principal</code>, como configuramos en el paso anterior.</p>
 
@@ -530,7 +530,7 @@ chown -R www-data:www-data /srv/
 
 <p>Si nos dirigimos a la página <code class="language-plaintext highlighter-rouge">www.iesgn15.es/principal/info.php</code>:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/sri_instalacion_de_un_servidor_LEMP/infophp.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/sri_instalacion_de_un_servidor_LEMP/infophp.png" /></p>
 
 <p>Esto significa que hemos configurado correctamente <em>PHP</em>.</p>
 

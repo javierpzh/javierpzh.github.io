@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Ejercicios" />
 <meta property="og:description" content="Ejercicios" />
-<link rel="canonical" href="http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
-<meta property="og:url" content="http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
+<link rel="canonical" href="https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
+<meta property="og:url" content="https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
 <meta property="og:site_name" content="javierpzh" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-10-11T00:00:00+02:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica" />
 <meta property="twitter:title" content="Implantación Y Despliegue De Una Aplicación Web Estática" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica"},"description":"Ejercicios","@type":"BlogPosting","headline":"Implantación Y Despliegue De Una Aplicación Web Estática","dateModified":"2020-10-11T00:00:00+02:00","datePublished":"2020-10-11T00:00:00+02:00","url":"http://localhost:8000/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica"},"description":"Ejercicios","@type":"BlogPosting","headline":"Implantación Y Despliegue De Una Aplicación Web Estática","dateModified":"2020-10-11T00:00:00+02:00","datePublished":"2020-10-11T00:00:00+02:00","url":"https://www.javierpzh.es/blog/implantaci%C3%B3n-y-despliegue-de-una-aplicaci%C3%B3n-web-est%C3%A1tica","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -29,7 +29,7 @@
     <link
       rel="stylesheet"
       href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-    /><link type="application/atom+xml" rel="alternate" href="http://localhost:8000/feed.xml" title="javierpzh" />
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.es/feed.xml" title="javierpzh" />
 
 <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
@@ -276,12 +276,12 @@ git push --set-upstream javierpzh.github.io master
 <p>Como he comentado antes, voy a utilizar GitHub Pages como servicio donde voy a desplegar mi web.
 Nos dirigimos al repositorio que contiene el código generado.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_generacion_despliegue_web_estatica/repositorioweb.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_generacion_despliegue_web_estatica/repositorioweb.png" /></p>
 
 <p>Nos vamos a los ajustes(settings), y aquí buscamos la sección llamada GitHub Pages, y en ella, nos dirigimos al apartado de fuente(source) y seleccionamos la rama master de nuestro repositorio.
 Guardamos los cambios y en unos minutos tendremos generada nuestra página estática con Pelican y GitHub Pages.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/iaw_generacion_despliegue_web_estatica/confgithubpages.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/iaw_generacion_despliegue_web_estatica/confgithubpages.png" /></p>
 
 <p><strong>6. Piensa algún método (script, scp, rsync, git,…) que te permita automatizar la generación de la página (integración continua) y el despliegue automático de la página en el entorno de producción, después de realizar un cambio de la página en el entorno de desarrollo. Muestra al profesor un ejemplo de como al modificar la página se realiza la puesta en producción de forma automática.</strong></p>
 

@@ -9,18 +9,18 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto." />
 <meta property="og:description" content="En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto." />
-<link rel="canonical" href="http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
-<meta property="og:url" content="http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<link rel="canonical" href="https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:url" content="https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
 <meta property="og:site_name" content="javierpzh" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-12-12T00:00:00+01:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="og:image" content="https://soopr.xyz/images/card?url=http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
+<meta property="og:image" content="https://soopr.xyz/images/card?url=https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack" />
 <meta property="twitter:title" content="Modificación Del Escenario De Trabajo En Openstack" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack"},"description":"En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto.","@type":"BlogPosting","headline":"Modificación Del Escenario De Trabajo En Openstack","dateModified":"2020-12-12T00:00:00+01:00","datePublished":"2020-12-12T00:00:00+01:00","url":"http://localhost:8000/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack"},"description":"En este post voy a realizar modificaciones sobre un escenario de OpenStack que fue creado anteriormente y cuya explicación se encuentra en este post, por si quieres saber más al respecto.","@type":"BlogPosting","headline":"Modificación Del Escenario De Trabajo En Openstack","dateModified":"2020-12-12T00:00:00+01:00","datePublished":"2020-12-12T00:00:00+01:00","url":"https://www.javierpzh.es/blog/modificaci%C3%B3n-del-escenario-de-trabajo-en-OpenStack","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -29,7 +29,7 @@
     <link
       rel="stylesheet"
       href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css"
-    /><link type="application/atom+xml" rel="alternate" href="http://localhost:8000/feed.xml" title="javierpzh" />
+    /><link type="application/atom+xml" rel="alternate" href="https://www.javierpzh.es/feed.xml" title="javierpzh" />
 
 <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
@@ -127,7 +127,7 @@
 
 <p><strong>Vamos a modificar el escenario que tenemos actualmente en OpenStack para que se adecúe a la realización de todas las prácticas en todos los módulos de 2º, en particular para que tenga una estructura más real a la de varios equipos detrás de un cortafuegos, separando los servidores en dos redes: red interna y DMZ. Para ello vamos a reutilizar todo lo hecho hasta ahora y añadiremos una máquina más: Frestón</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/escenario2.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/escenario2.png" /></p>
 
 <h4 id="1-creación-de-la-red-dmz">1. Creación de la red DMZ:</h4>
 
@@ -142,19 +142,19 @@
 
 <p>En el primer apartado de este asistente, indicamos el nombre que poseerá nuestra nueva red:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ1.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ1.png" /></p>
 
 <p>En segundo lugar, indicamos las direcciones de red que abarcará, y deshabilitaremos la puerta de enlace ya que no nos va hacer falta debido a que vamos a poner a <em>Dulcinea</em> como <em>gateway</em>:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ2.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ2.png" /></p>
 
 <p>Por último, vamos a dejar marcada la opción de <strong>Habilitar DHCP</strong> que viene de manera predeterminada, para que de esta forma, nos dé una dirección IP de manera automática cuando conectemos una instancia.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ3.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ3.png" /></p>
 
 <p>Hecho esto, ya tendríamos nuestra red DMZ creada, como podemos observar:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ4.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearDMZ4.png" /></p>
 
 <p>Hemos finalizado este primer ejercicio.</p>
 
@@ -175,11 +175,11 @@
 
 <p>Antes de crear la propia instancia en sí, vamos a crear el volumen sobre el que posteriormente generaremos la instancia <strong>Freston</strong>. Para ello he creado un volumen con estas preferencias:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfreston.png" /></p>
 
 <p>Una vez ha terminado el proceso de creación del nuevo volumen, obtenemos como resultado:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearvolumenfrestonfin.png" /></p>
 
 <p>Y ahora, un detalle importante que hay que tener en cuenta antes de realizar el lanzamiento de la nueva instancia es, que si recordamos, a la <strong>red interna</strong>, le deshabilitamos el <strong>servidor DHCP</strong>, por lo que si ahora generamos esta nueva instancia perteneciente a esta red, no adquirirá ninguna dirección mediante <em>DHCP</em>, por lo que será inaccesible, porque recordemos que a esta máquina también se accederá a través de <em>Dulcinea</em>. Por tanto, vamos a habilitar el servidor <em>DHCP</em> de la red interna.</p>
 
@@ -189,23 +189,23 @@
 
 <p>En el primer apartado de este asistente, indicamos el nombre que poseerá nuestra nueva instancia:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston1.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston1.png" /></p>
 
 <p>Ahora establecemos que el origen de arranque sea el volumen creado previamente:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston2.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston2.png" /></p>
 
 <p>Como <strong>Sabor</strong> indicamos que tenga un <strong>m1.mini</strong>.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston3.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston3.png" /></p>
 
 <p>Y por último, le asignamos la red a la que va a pertenecer esta máquina.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston4.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfreston4.png" /></p>
 
 <p>Aquí podemos ver como hemos creado esta instancia correctamente y que pertenece a la red interna, ya que posee una dirección <strong>10.0.1.6</strong></p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfrestonfin.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/crearfrestonfin.png" /></p>
 
 <p>Vamos a probar a acceder a <strong>Freston</strong> a través de <em>Dulcinea</em>:</p>
 
@@ -459,21 +459,21 @@ chmod 600 .ssh/authorized_keys
 
 <p>Para llevar a cabo esta modificación, nos dirigimos a nuestro panel de administración de <em>OpenStack</em> y nos situamos en la sección de <strong>Instancias</strong>. Una vez aquí, <em>clickamos</em> en la pequeña flecha del final, y se nos desplegará este menú de opciones, donde debemos seleccionar <strong>Desconectar interfaz</strong>:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/menu.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/menu.png" /></p>
 
 <p>Seleccionamos la interfaz a desconectar, en este caso la interfaz conectada a la red interna:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/desconectarredinterna.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/desconectarredinterna.png" /></p>
 
 <p>Y una vez hecho esto, en el mismo menú de opciones, debemos seleccionar <strong>Conectar interfaz</strong>,  y seleccionar la <strong>red DMZ</strong>. Vemos como ahora <em>Quijote</em>, posee una dirección IP <strong>10.0.2.6</strong>.</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/quijoteredDMZ.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/quijoteredDMZ.png" /></p>
 
 <p>Recordemos, que a las instancias <em>Sancho</em>, <em>Quijote</em> y <em>Freston</em>, accedemos mediante <em>Dulcinea</em>, por lo que, si queremos acceder a <em>Quijote</em>, debe tener conexión con <em>Dulcinea</em>, y esto solo es posible si añadimos una nueva interfaz a <em>Dulcinea</em> para que también pertenezca a la <strong>red DMZ</strong>, por lo que también la vamos a añadir.</p>
 
 <p>Aquí podemos ver el resultado:</p>
 
-<p><img src="https://raw.githubusercontent.com/javierpzh/webjavierpzh/master/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/dulcinearedDMZ.png" /></p>
+<p><img src="https://raw.githubusercontent.com/javierpzh/javierpzh.github.io/new_web/assets/img/images/hlc_modificacion_del_escenario_de_trabajo_en_OpenStack/dulcinearedDMZ.png" /></p>
 
 <p>Vamos a comprobar que realmente podemos acceder a <em>Quijote</em> a través de <em>Dulcinea</em>:</p>
 
