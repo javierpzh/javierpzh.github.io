@@ -28,7 +28,7 @@ echo "     UPGRADING THE WEB"
 echo "-------------------------------------------------"
 cd _site/
 git checkout new_web
-echo "www.javierpzh.es" > CNAME
+echo "www.javierpzh.com" > CNAME
 git add .
 git commit -am "$nameCommit"
 git push
