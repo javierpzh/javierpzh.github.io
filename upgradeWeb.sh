@@ -30,6 +30,6 @@ cd _site/
 git checkout new_web
 echo "www.javierpzh.es" > CNAME
 git add .
-git commit -am "cambiosweb"
+git commit -am "$nameCommit"
 git push
 cd ..
