@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://www.javierpzh.es/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.javierpzh.es/" rel="alternate" type="text/html" /><updated>2024-08-05T21:44:43+02:00</updated><id>https://www.javierpzh.es/feed.xml</id><title type="html">javierpzh</title><subtitle></subtitle><entry><title type="html">Programar Encendido Y Apagado En Linux</title><link href="https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux" rel="alternate" type="text/html" title="Programar Encendido Y Apagado En Linux" /><published>2024-08-05T00:00:00+02:00</published><updated>2024-08-05T00:00:00+02:00</updated><id>https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux</id><content type="html" xml:base="https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux">&lt;p&gt;En este artículo, vamos a ver como podemos programar el encendido y apagado de nuestro sistema Linux de manera sencilla y automática.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://www.javierpzh.es/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.javierpzh.es/" rel="alternate" type="text/html" /><updated>2024-08-05T21:51:49+02:00</updated><id>https://www.javierpzh.es/feed.xml</id><title type="html">javierpzh</title><subtitle></subtitle><entry><title type="html">Programar Encendido Y Apagado En Linux</title><link href="https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux" rel="alternate" type="text/html" title="Programar Encendido Y Apagado En Linux" /><published>2024-08-05T00:00:00+02:00</published><updated>2024-08-05T00:00:00+02:00</updated><id>https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux</id><content type="html" xml:base="https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux">&lt;p&gt;En este artículo, vamos a ver como podemos programar el encendido y apagado de nuestro sistema Linux de manera sencilla y automática.&lt;/p&gt;
 
-&lt;p&gt;Esto es algo que podríamos realizar desde la BIOS, ya que por lo general y sobre todo en las BIOS más recientes, nos permite programar el encendido del equipo ajustándolo a nuestras necesidades, pero en este caso, prefiero no utilizar la BIOS y gestionarlo todo desde el sistema operativo, me parece una función más cómoda.&lt;/p&gt;
+&lt;p&gt;Esto es algo que podríamos realizar desde la BIOS, ya que por lo general y sobre todo las BIOS más recientes, nos permiten programar el encendido del equipo ajustándolo a nuestras necesidades, pero en este caso, prefiero no utilizar la BIOS y gestionarlo todo desde el sistema operativo, ya que me parece más cómodo.&lt;/p&gt;
 
-&lt;p&gt;Para ello, vamos a combinar dos funcionalidades: &lt;a href=&quot;https://en.wikipedia.org/wiki/Real-time_clock_alarm&quot;&gt;Real time clock alarm&lt;/a&gt; y &lt;strong&gt;Cron&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Para ello, vamos a combinar dos funcionalidades: &lt;strong&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Real-time_clock_alarm&quot;&gt;Real time clock alarm&lt;/a&gt;&lt;/strong&gt; y &lt;strong&gt;Cron&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;programar-encendido-y-apagado-en-linux&quot;&gt;Programar Encendido y Apagado en Linux&lt;/h2&gt;
 
-&lt;p&gt;Antes de ver los pasos necesarios, vamos a explicar el funcionamiento del sistema de encedido/apagado.&lt;/p&gt;
+&lt;p&gt;Antes de ver los pasos necesarios, vamos a explicar el funcionamiento del sistema de encendido/apagado.&lt;/p&gt;
 
-&lt;p&gt;Por un lado, tendremos un &lt;strong&gt;script bash&lt;/strong&gt; que se ejecutará en función de una tarea de &lt;strong&gt;cron&lt;/strong&gt;. El script se encargará de programar la hora de encendido del sistema y también lo apagará al finalizar su ejecución. La ejecucción del script se gestionará desde la tarea &lt;em&gt;cron&lt;/em&gt; que definiremos.&lt;/p&gt;
+&lt;p&gt;Por un lado, tendremos un &lt;strong&gt;script bash&lt;/strong&gt; que se ejecutará a raíz de una tarea de &lt;strong&gt;cron&lt;/strong&gt;. El script se encargará de programar la hora de encendido del sistema y también lo apagará al finalizar su ejecución. La ejecucción del script se gestionará desde la tarea &lt;em&gt;cron&lt;/em&gt; que definiremos.&lt;/p&gt;
 
 &lt;p&gt;Primero de todo, vamos a ver el contenido del script, al que he llamado &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;programar_encendido_apagado.sh&lt;/code&gt;:&lt;/p&gt;
 
@@ -35,7 +35,7 @@ Y con la tercera línea apagaremos el sistema.&lt;/p&gt;
 sh -c &quot;echo `date '+%s' -d '+ 15 minutes'` &amp;gt; /sys/class/rtc/rtc0/wakealarm&quot;
 &lt;/pre&gt;
 
-&lt;p&gt;Y lo mismo ocurre con la hora de apagado, también podemos establecer la hora a la que se apagaría el sistema si no queremos que se haga cuando se ejecute el script.&lt;/p&gt;
+&lt;p&gt;Y lo mismo ocurre con la hora de apagado, también podemos establecer la hora a la que se apagaría el sistema si así lo deseamos.&lt;/p&gt;
 
 &lt;pre&gt;
 # System will shut down at 06:00
@@ -44,7 +44,7 @@ shutdown -h 06:00
 
 &lt;p&gt;En mi caso, prefiero que el sistema se apague con la ejecución del script, ya que así, definiré la hora de apagado directamente en la tarea de &lt;strong&gt;Cron&lt;/strong&gt;, que es el siguiente paso que vamos a ver.&lt;/p&gt;
 
-&lt;p&gt;Hay que saber que podemos definir diferentes tareas de &lt;em&gt;cron&lt;/em&gt; por usuario en el sistema, por esto mismo, es necesario utilizar &lt;em&gt;sudo&lt;/em&gt;, para que así editemos el &lt;em&gt;cron&lt;/em&gt; del usuario &lt;em&gt;root&lt;/em&gt;, ya que necesitamos de sus permisos para llevar a cabo las acciones del script.&lt;/p&gt;
+&lt;p&gt;Hay que saber que podemos definir diferentes tareas de &lt;em&gt;cron&lt;/em&gt; por usuario en el sistema, por esto mismo, es necesario utilizar &lt;em&gt;sudo&lt;/em&gt;, para así editar el &lt;em&gt;cron&lt;/em&gt; del usuario &lt;em&gt;root&lt;/em&gt;, ya que necesitamos de sus permisos para llevar a cabo las acciones del script.&lt;/p&gt;
 
 &lt;p&gt;Para definir una tarea en &lt;em&gt;cron&lt;/em&gt; (con el usuario &lt;em&gt;root&lt;/em&gt;), lo haremos con el siguiente comando:&lt;/p&gt;
 

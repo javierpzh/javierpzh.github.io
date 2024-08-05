@@ -20,7 +20,7 @@
 <meta property="twitter:title" content="Programar Encendido Y Apagado En Linux" />
 <meta name="twitter:site" content="@" />
 <script type="application/ld+json">
-{"description":"En este artículo, vamos a ver como podemos programar el encendido y apagado de nuestro sistema Linux de manera sencilla y automática.","@type":"BlogPosting","headline":"Programar Encendido Y Apagado En Linux","dateModified":"2024-08-05T00:00:00+02:00","datePublished":"2024-08-05T00:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux"},"url":"https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux"},"description":"En este artículo, vamos a ver como podemos programar el encendido y apagado de nuestro sistema Linux de manera sencilla y automática.","@type":"BlogPosting","headline":"Programar Encendido Y Apagado En Linux","dateModified":"2024-08-05T00:00:00+02:00","datePublished":"2024-08-05T00:00:00+02:00","url":"https://www.javierpzh.es/blog/Programar-encendido-y-apagado-en-Linux","@context":"https://schema.org"}</script>
 <script async defer data-soopr-token="" src="https://sdk.soopr.co/soopr.js"  ></script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -125,15 +125,15 @@
   <div class="prose prose-lg px-4 md:px-0 text-gray-700 mx-auto" itemprop="articleBody">
     <p>En este artículo, vamos a ver como podemos programar el encendido y apagado de nuestro sistema Linux de manera sencilla y automática.</p>
 
-<p>Esto es algo que podríamos realizar desde la BIOS, ya que por lo general y sobre todo en las BIOS más recientes, nos permite programar el encendido del equipo ajustándolo a nuestras necesidades, pero en este caso, prefiero no utilizar la BIOS y gestionarlo todo desde el sistema operativo, me parece una función más cómoda.</p>
+<p>Esto es algo que podríamos realizar desde la BIOS, ya que por lo general y sobre todo las BIOS más recientes, nos permiten programar el encendido del equipo ajustándolo a nuestras necesidades, pero en este caso, prefiero no utilizar la BIOS y gestionarlo todo desde el sistema operativo, ya que me parece más cómodo.</p>
 
-<p>Para ello, vamos a combinar dos funcionalidades: <a href="https://en.wikipedia.org/wiki/Real-time_clock_alarm">Real time clock alarm</a> y <strong>Cron</strong>.</p>
+<p>Para ello, vamos a combinar dos funcionalidades: <strong><a href="https://en.wikipedia.org/wiki/Real-time_clock_alarm">Real time clock alarm</a></strong> y <strong>Cron</strong>.</p>
 
 <h2 id="programar-encendido-y-apagado-en-linux">Programar Encendido y Apagado en Linux</h2>
 
-<p>Antes de ver los pasos necesarios, vamos a explicar el funcionamiento del sistema de encedido/apagado.</p>
+<p>Antes de ver los pasos necesarios, vamos a explicar el funcionamiento del sistema de encendido/apagado.</p>
 
-<p>Por un lado, tendremos un <strong>script bash</strong> que se ejecutará en función de una tarea de <strong>cron</strong>. El script se encargará de programar la hora de encendido del sistema y también lo apagará al finalizar su ejecución. La ejecucción del script se gestionará desde la tarea <em>cron</em> que definiremos.</p>
+<p>Por un lado, tendremos un <strong>script bash</strong> que se ejecutará a raíz de una tarea de <strong>cron</strong>. El script se encargará de programar la hora de encendido del sistema y también lo apagará al finalizar su ejecución. La ejecucción del script se gestionará desde la tarea <em>cron</em> que definiremos.</p>
 
 <p>Primero de todo, vamos a ver el contenido del script, al que he llamado <code class="language-plaintext highlighter-rouge">programar_encendido_apagado.sh</code>:</p>
 
@@ -160,7 +160,7 @@ Y con la tercera línea apagaremos el sistema.</p>
 sh -c "echo `date '+%s' -d '+ 15 minutes'` &gt; /sys/class/rtc/rtc0/wakealarm"
 </pre>
 
-<p>Y lo mismo ocurre con la hora de apagado, también podemos establecer la hora a la que se apagaría el sistema si no queremos que se haga cuando se ejecute el script.</p>
+<p>Y lo mismo ocurre con la hora de apagado, también podemos establecer la hora a la que se apagaría el sistema si así lo deseamos.</p>
 
 <pre>
 # System will shut down at 06:00
@@ -169,7 +169,7 @@ shutdown -h 06:00
 
 <p>En mi caso, prefiero que el sistema se apague con la ejecución del script, ya que así, definiré la hora de apagado directamente en la tarea de <strong>Cron</strong>, que es el siguiente paso que vamos a ver.</p>
 
-<p>Hay que saber que podemos definir diferentes tareas de <em>cron</em> por usuario en el sistema, por esto mismo, es necesario utilizar <em>sudo</em>, para que así editemos el <em>cron</em> del usuario <em>root</em>, ya que necesitamos de sus permisos para llevar a cabo las acciones del script.</p>
+<p>Hay que saber que podemos definir diferentes tareas de <em>cron</em> por usuario en el sistema, por esto mismo, es necesario utilizar <em>sudo</em>, para así editar el <em>cron</em> del usuario <em>root</em>, ya que necesitamos de sus permisos para llevar a cabo las acciones del script.</p>
 
 <p>Para definir una tarea en <em>cron</em> (con el usuario <em>root</em>), lo haremos con el siguiente comando:</p>
 
